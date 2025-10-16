@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  Runnr
 //
-//  Created by SDC-USER on 16/10/25.
+//  Created by Pranjal Shinde on 16/10/25.
 //
 
 import UIKit
