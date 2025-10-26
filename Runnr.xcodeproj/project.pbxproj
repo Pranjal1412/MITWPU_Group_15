@@ -10,9 +10,22 @@
 		19217CC52EA0E064009AFC93 /* Runnr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Runnr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		F98894D12EAE5CE000DA7055 /* Exceptions for "Runnr" folder in "Runnr" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 19217CC42EA0E064009AFC93 /* Runnr */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		19217CC72EA0E064009AFC93 /* Runnr */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				F98894D12EAE5CE000DA7055 /* Exceptions for "Runnr" folder in "Runnr" target */,
+			);
 			path = Runnr;
 			sourceTree = "<group>";
 		};
