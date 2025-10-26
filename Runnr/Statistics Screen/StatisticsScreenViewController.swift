@@ -1,5 +1,5 @@
 //
-//  ActivityScreenViewController.swift
+//  StatisticsScreenViewController.swift
 //  Runnr
 //
 //  Created by Pranjal Shinde on 26/10/25.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ActivityScreenViewController: UIViewController {
+class StatisticsScreenViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
