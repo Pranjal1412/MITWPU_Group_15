@@ -8,22 +8,33 @@
 import UIKit
 
 class TrackScreenViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.hidesBackButton = true
-        // Do any additional setup after loading the view.
+    
+        createStartButton()
     }
 
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func createStartButton() {
+        let startButton = UIButton()
+        
+        startButton.frame = CGRect(x: (UIScreen.main.bounds.width - 150)/2.0,
+                                   y: (UIScreen.main.bounds.height - 150)/2.0,
+                                   width: 150, height: 150)
+        startButton.backgroundColor = .accent
+        
+        startButton.setTitle(NSLocalizedString("START", comment: ""), for: .normal)
+        startButton.setTitleColor(.black, for: .normal)
+        startButton.titleLabel?.font = UIFont.systemFont(ofSize: 30, weight: .heavy)
+        startButton.layer.cornerRadius = startButton.bounds.height / 2.0
+        
+        startButton.addTarget(self, action: #selector(startButtonPressed), for: .touchUpInside)
+        view.addSubview(startButton)
     }
-    */
-
+    
+    @objc func startButtonPressed() {
+        print("Start Pressed!")
+    }
 }
+
+
