@@ -6,13 +6,24 @@
 //
 
 import UIKit
+import MapKit
 
 class TrackScreenViewController: UIViewController {
+    
+    @IBOutlet weak var mapView: MKMapView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
     
         createStartButton()
+        
+        let initialLocation = CLLocationCoordinate2D(latitude: 34.011_286, longitude: -116.166_868)
+        let span = MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2)
+        let region = MKCoordinateRegion(center: initialLocation, span: span)
+        mapView.setRegion(region, animated: true)
+        
+        mapView.mapType = .mutedStandard
+
     }
 
     func createStartButton() {
