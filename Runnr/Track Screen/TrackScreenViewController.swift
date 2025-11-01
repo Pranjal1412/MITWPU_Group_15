@@ -6,26 +6,27 @@
 //
 
 import UIKit
-import MapKit
+import GoogleMaps
 
 class TrackScreenViewController: UIViewController {
     
-    @IBOutlet weak var mapView: MKMapView!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
+        initializeMaps()
         createStartButton()
-        
-        let initialLocation = CLLocationCoordinate2D(latitude: 34.011_286, longitude: -116.166_868)
-        let span = MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2)
-        let region = MKCoordinateRegion(center: initialLocation, span: span)
-        mapView.setRegion(region, animated: true)
-        
-        mapView.mapType = .mutedStandard
+        view.overrideUserInterfaceStyle = .dark
 
     }
 
+    func initializeMaps() {
+        let camera = GMSCameraPosition.camera(withLatitude: 18.52, longitude: 73.81, zoom: 15.0)
+        let mapView = GMSMapView.map(withFrame: CGRect(x: 0, y: 140, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 140), camera: camera)
+        mapView.mapType = .normal
+        
+        view.addSubview(mapView)
+    }
+    
     func createStartButton() {
         let startButton = UIButton()
         
