@@ -22,7 +22,22 @@ class TrackScreenViewController: UIViewController {
     func initializeMaps() {
         let camera = GMSCameraPosition.camera(withLatitude: 18.52, longitude: 73.81, zoom: 15.0)
         let mapView = GMSMapView.map(withFrame: CGRect(x: 0, y: 140, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 140), camera: camera)
+        
+        do {
+           if let MapstyleURL = Bundle.main.url(forResource: "GoogleMapStyle", withExtension: "json") {
+               mapView.mapStyle = try GMSMapStyle(contentsOfFileURL: MapstyleURL)
+           } else {
+               NSLog("Unable to find GoogleMapStyle.json")
+           }
+       } catch {
+           NSLog("One or more of the map styles failed to load. \(error)")
+       }
+        
         mapView.mapType = .normal
+        
+        mapView.settings.rotateGestures = false
+        mapView.settings.scrollGestures = false
+        mapView.settings.zoomGestures = false
         
         view.addSubview(mapView)
     }
