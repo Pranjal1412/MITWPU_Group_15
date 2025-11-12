@@ -36,7 +36,7 @@ class TrackScreenViewController: UIViewController {
         mapView.mapType = .normal
         
         mapView.settings.rotateGestures = false
-        mapView.settings.scrollGestures = false
+        mapView.settings.scrollGestures = true
         mapView.settings.zoomGestures = false
         
         view.addSubview(mapView)
@@ -63,5 +63,3 @@ class TrackScreenViewController: UIViewController {
         print("Start Pressed!")
     }
 }
-
-
