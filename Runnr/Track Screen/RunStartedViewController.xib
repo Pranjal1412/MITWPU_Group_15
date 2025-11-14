@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24412" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_3" orientation="portrait" appearance="dark"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24405"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="SF-Pro.ttf">
+            <string>SFPro-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RunStartedViewController" customModule="Runnr" customModuleProvider="target">
+            <connections>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HTK-sZ-fO6">
+                    <rect key="frame" x="25" y="130" width="352" height="285"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="YCl-BK-8nh" userLabel="AllDataStack">
+                            <rect key="frame" x="20" y="20" width="312" height="245"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SYc-Gu-7vm" userLabel="Time">
+                                    <rect key="frame" x="0.0" y="0.0" width="312" height="125"/>
+                                    <color key="backgroundColor" name="CardLightBlack"/>
+                                </view>
+                                <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="ZH9-po-nK4" userLabel="SubStack">
+                                    <rect key="frame" x="0.0" y="145" width="312" height="100"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RSC-db-BhL" userLabel="Pace">
+                                            <rect key="frame" x="0.0" y="0.0" width="146" height="100"/>
+                                            <color key="backgroundColor" name="CardLightBlack"/>
+                                        </view>
+                                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ubZ-94-qJC" userLabel="HeartRate">
+                                            <rect key="frame" x="166" y="0.0" width="146" height="100"/>
+                                            <color key="backgroundColor" name="CardLightBlack"/>
+                                        </view>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="ubZ-94-qJC" secondAttribute="trailing" id="2hU-6U-l5F"/>
+                                        <constraint firstAttribute="bottom" secondItem="ubZ-94-qJC" secondAttribute="bottom" id="EhI-Ya-LBM"/>
+                                        <constraint firstItem="RSC-db-BhL" firstAttribute="leading" secondItem="ZH9-po-nK4" secondAttribute="leading" id="GLh-cx-6Re"/>
+                                        <constraint firstAttribute="bottom" secondItem="RSC-db-BhL" secondAttribute="bottom" id="Gg8-47-wUu"/>
+                                        <constraint firstItem="RSC-db-BhL" firstAttribute="top" secondItem="ZH9-po-nK4" secondAttribute="top" id="S4g-1c-cki"/>
+                                        <constraint firstItem="ubZ-94-qJC" firstAttribute="leading" secondItem="RSC-db-BhL" secondAttribute="trailing" constant="20" id="cNC-hM-1QI"/>
+                                        <constraint firstItem="ubZ-94-qJC" firstAttribute="leading" secondItem="RSC-db-BhL" secondAttribute="trailing" constant="20" id="gP1-ST-exa"/>
+                                        <constraint firstItem="ubZ-94-qJC" firstAttribute="top" secondItem="ZH9-po-nK4" secondAttribute="top" id="iJC-uI-vdG"/>
+                                    </constraints>
+                                </stackView>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="ZH9-po-nK4" firstAttribute="top" secondItem="SYc-Gu-7vm" secondAttribute="bottom" constant="20" id="1dJ-al-lfy"/>
+                                <constraint firstAttribute="bottom" secondItem="ZH9-po-nK4" secondAttribute="bottom" id="Aby-WF-6ru"/>
+                                <constraint firstItem="ZH9-po-nK4" firstAttribute="leading" secondItem="YCl-BK-8nh" secondAttribute="leading" id="WgG-CF-WMD"/>
+                                <constraint firstAttribute="trailing" secondItem="SYc-Gu-7vm" secondAttribute="trailing" id="b9e-aL-24Y"/>
+                                <constraint firstItem="ZH9-po-nK4" firstAttribute="top" secondItem="SYc-Gu-7vm" secondAttribute="bottom" constant="20" id="fHT-KU-1FN"/>
+                                <constraint firstItem="SYc-Gu-7vm" firstAttribute="top" secondItem="YCl-BK-8nh" secondAttribute="top" id="hcu-e8-JcS"/>
+                                <constraint firstItem="SYc-Gu-7vm" firstAttribute="leading" secondItem="YCl-BK-8nh" secondAttribute="leading" id="lf4-a4-ara"/>
+                                <constraint firstAttribute="trailing" secondItem="ZH9-po-nK4" secondAttribute="trailing" id="qmi-w4-ZjA"/>
+                            </constraints>
+                        </stackView>
+                    </subviews>
+                    <color key="backgroundColor" name="CardDarkBlack"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="YCl-BK-8nh" secondAttribute="bottom" constant="20" id="Zmu-AK-HzZ"/>
+                        <constraint firstItem="YCl-BK-8nh" firstAttribute="top" secondItem="HTK-sZ-fO6" secondAttribute="top" constant="20" id="cZ8-BL-vI1"/>
+                        <constraint firstAttribute="trailing" secondItem="YCl-BK-8nh" secondAttribute="trailing" constant="20" id="fyZ-uc-Qsi"/>
+                        <constraint firstItem="YCl-BK-8nh" firstAttribute="leading" secondItem="HTK-sZ-fO6" secondAttribute="leading" constant="20" id="zYD-tk-P1M"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9TQ-Ut-hG5">
+                    <rect key="frame" x="25" y="435" width="352" height="153"/>
+                    <fontDescription key="fontDescription" name="SFPro-Regular" family="SF Pro" pointSize="128"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="9TQ-Ut-hG5" secondAttribute="bottom" constant="218" id="FYQ-VD-Cv4"/>
+                <constraint firstItem="9TQ-Ut-hG5" firstAttribute="top" secondItem="HTK-sZ-fO6" secondAttribute="bottom" constant="20" id="J4Z-uR-UBH"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="HTK-sZ-fO6" secondAttribute="trailing" constant="25" id="RdQ-qZ-3v0"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="9TQ-Ut-hG5" secondAttribute="trailing" constant="25" id="Soo-wt-ME4"/>
+                <constraint firstItem="HTK-sZ-fO6" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="130" id="eje-4A-Rdk"/>
+                <constraint firstItem="9TQ-Ut-hG5" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="gBZ-Lg-NXr"/>
+                <constraint firstItem="HTK-sZ-fO6" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="qXm-Is-eCV"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="137.31343283582089" y="149.65675057208236"/>
+        </view>
+    </objects>
+    <resources>
+        <namedColor name="CardDarkBlack">
+            <color red="0.99999994039535522" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="CardLightBlack">
+            <color red="0.99999994039535522" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

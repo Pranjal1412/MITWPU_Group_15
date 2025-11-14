@@ -21,7 +21,7 @@ class ViewController: UIViewController {
         itemOne.tabBarItem = iconOne
         
         let itemTwo = ClubScreenViewController()
-        let iconTwo = UITabBarItem(title:NSLocalizedString("Club", comment: ""), image: UIImage(systemName: "person.2.fill"), selectedImage: UIImage(systemName: "person.2.fill"))
+        let iconTwo = UITabBarItem(title:NSLocalizedString("Clubs", comment: ""), image: UIImage(systemName: "person.2.fill"), selectedImage: UIImage(systemName: "person.2.fill"))
         itemTwo.tabBarItem = iconTwo
 
         let itemThree = TrackScreenViewController()
@@ -32,8 +32,8 @@ class ViewController: UIViewController {
         let iconFour = UITabBarItem(title:NSLocalizedString("Game", comment: ""), image: UIImage(systemName: "gamecontroller.fill"), selectedImage: UIImage(systemName: "gamecontroller.fill"))
         itemFour.tabBarItem = iconFour
 
-        let itemFive = StatisticsScreenViewController()
-        let iconFive = UITabBarItem(title:NSLocalizedString("Statistics", comment: ""), image: UIImage(systemName: "chart.bar.fill"), selectedImage: UIImage(systemName: "chart.bar.fill"))
+        let itemFive = InsightsScreenViewController()
+        let iconFive = UITabBarItem(title:NSLocalizedString("Insights", comment: ""), image: UIImage(systemName: "chart.bar.fill"), selectedImage: UIImage(systemName: "chart.bar.fill"))
         itemFive.tabBarItem = iconFive
         
         let tabBarControllerArray = [itemOne, itemTwo, itemThree, itemFour, itemFive]

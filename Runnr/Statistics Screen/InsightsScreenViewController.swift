@@ -7,7 +7,7 @@
 
 import UIKit
 
-class StatisticsScreenViewController: UIViewController {
+class InsightsScreenViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

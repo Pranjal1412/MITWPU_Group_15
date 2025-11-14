@@ -39,6 +39,11 @@ class TrackScreenViewController: UIViewController {
         mapView.settings.scrollGestures = true
         mapView.settings.zoomGestures = false
         
+//        mapView.layer.shadowColor = UIColor.black.cgColor
+//        mapView.layer.shadowRadius = 20.0
+//        mapView.layer.shadowOpacity = 0.5
+//        mapView.layer.shadowOffset = CGSize(width: 4, height: -1)
+        
         view.addSubview(mapView)
     }
     
@@ -61,5 +66,9 @@ class TrackScreenViewController: UIViewController {
     
     @objc func startButtonPressed() {
         print("Start Pressed!")
+        
+        let RunStartedVC = RunStartedViewController(nibName: "RunStartedViewController", bundle: nil)
+        RunStartedVC.modalPresentationStyle = .fullScreen
+        self.present(RunStartedVC, animated: true, completion: nil)
     }
 }
