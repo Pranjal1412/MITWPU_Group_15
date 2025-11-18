@@ -9,9 +9,21 @@ import UIKit
 
 class ClubScreenViewController: UIViewController {
 
+    @IBOutlet weak var segmentControlClubScreen: UISegmentedControl!
+    
+    @IBOutlet weak var searchBarFriendsScreen: UISearchBar!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        view.overrideUserInterfaceStyle = .dark
+        
+        //segment edits
+        segmentControlClubScreen.layer.borderWidth = 0.5
+        
+        segmentControlClubScreen.layer.borderColor = UIColor.accent.cgColor
+        segmentControlClubScreen.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
+        
+        
         // Do any additional setup after loading the view.
     }
 
