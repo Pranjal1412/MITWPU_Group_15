@@ -32,6 +32,7 @@ class RunStartedViewController: UIViewController {
 
         view.overrideUserInterfaceStyle = .dark
         settingCornerRadius()
+        navigationItem.hidesBackButton = true
     }
 
     func settingCornerRadius() {
@@ -61,8 +62,10 @@ class RunStartedViewController: UIViewController {
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-//        buttonPause.layer.cornerRadius = 50
+    @IBAction func pauseButtonPressed(_ sender: UIButton) {
+        
+        let nextVC = RunPausedViewController()
+        self.navigationController?.pushViewController(nextVC, animated: true)
     }
     
 }
