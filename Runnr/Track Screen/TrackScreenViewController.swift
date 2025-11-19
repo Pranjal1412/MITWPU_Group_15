@@ -10,6 +10,9 @@ import GoogleMaps
 
 class TrackScreenViewController: UIViewController {
     
+    let mainVC = ViewController()
+    @IBOutlet weak var labelScreenTitle: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -17,13 +20,28 @@ class TrackScreenViewController: UIViewController {
         createStartButton()
         view.overrideUserInterfaceStyle = .dark
         
-//        let navigationController = UINavigationController(rootViewController: self)
-//        self.present(navigationController, animated: false)
     }
 
     func initializeMaps() {
         let camera = GMSCameraPosition.camera(withLatitude: 18.52, longitude: 73.81, zoom: 15.0)
-        let mapView = GMSMapView.map(withFrame: CGRect(x: 0, y: 140, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 140), camera: camera)
+        
+        let mapView : GMSMapView!
+        let systemOS = UIDevice.current.systemVersion
+        
+//        print(mainVC.getTabbarHeight())
+//        print(UIScreen.main.bounds.height)
+//
+        let topOffset = labelScreenTitle.frame.height + labelScreenTitle.frame.origin.y
+        let tabBarHeight = UIScreen.main.bounds.height - mainVC.getTabbarHeight()
+        
+        if systemOS < "26" {
+            mapView = GMSMapView.map(withFrame: CGRect(x: 0, y: 140, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - topOffset - (tabBarHeight*2)) , camera: camera)
+        }
+        
+        else {
+            mapView = GMSMapView.map(withFrame: CGRect(x: 0, y: 140, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 140), camera: camera)
+        }
+
         
         do {
            if let MapstyleURL = Bundle.main.url(forResource: "GoogleMapStyle", withExtension: "json") {
@@ -38,15 +56,14 @@ class TrackScreenViewController: UIViewController {
         mapView.mapType = .normal
         
         mapView.settings.rotateGestures = false
-        mapView.settings.scrollGestures = true
+        mapView.settings.scrollGestures = false
         mapView.settings.zoomGestures = false
         
 //        mapView.layer.shadowColor = UIColor.black.cgColor
 //        mapView.layer.shadowRadius = 20.0
 //        mapView.layer.shadowOpacity = 0.5
 //        mapView.layer.shadowOffset = CGSize(width: 4, height: -1)
-        
-        view.addSubview(mapView)
+
     }
     
     func createStartButton() {
@@ -67,11 +84,10 @@ class TrackScreenViewController: UIViewController {
     }
     
     @objc func startButtonPressed() {
-        print("Start Pressed!")
-        
-        let RunStartedVC = RunStartedViewController(nibName: "RunStartedViewController", bundle: nil)
-        RunStartedVC.modalPresentationStyle = .fullScreen
-        self.present(RunStartedVC, animated: true, completion: nil)
-//        navigationController?.pushViewController(nextVC, animated: true)
+        let rootController = RunStartedViewController(nibName: "RunStartedViewController", bundle: nil)
+        let navigationController = UINavigationController(rootViewController: rootController)
+        navigationController.modalPresentationStyle = .fullScreen
+        navigationController.navigationBar.isHidden = true
+        self.present(navigationController, animated: true, completion: nil)
     }
 }

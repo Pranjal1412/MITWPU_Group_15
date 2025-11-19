@@ -44,6 +44,10 @@ class ViewController: UIViewController {
         self.present(tabBar, animated: false)
         
     }
+    
+    func getTabbarHeight() -> CGFloat {
+        return tabBar.tabBar.frame.origin.y
+    }
 
 }
 

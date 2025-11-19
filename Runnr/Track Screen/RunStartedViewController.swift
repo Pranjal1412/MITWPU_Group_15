@@ -34,12 +34,6 @@ class RunStartedViewController: UIViewController {
         
         settingCornerRadius()
         settingPauseButtonImg()
-        
-        let rootController = RunStartedViewController()
-        let navigationController = UINavigationController(rootViewController: rootController)
-        navigationController.navigationBar.backgroundColor = .accent
-        
-        self.present(navigationController, animated: true, completion: nil)
     }
 
     func settingCornerRadius() {
