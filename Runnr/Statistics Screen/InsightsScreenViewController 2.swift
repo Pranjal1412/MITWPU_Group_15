@@ -9,10 +9,12 @@ import UIKit
 
 class InsightsScreenViewController: UIViewController {
 
+    @IBOutlet weak var labelToday: UILabel!
     @IBOutlet weak var labelStreak: UILabel!
     @IBOutlet weak var collectionViewInsightsCards: UICollectionView!
 
-    private var calendarView: UICalendarView!   // ← ADDED
+    private var calendarView: UICalendarView!
+//    let scrollView = UIScrollView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +40,16 @@ class InsightsScreenViewController: UIViewController {
             calendarView.heightAnchor.constraint(equalToConstant: 350)
         ])
     }
+//    func setScrollView() {
+//        scrollView.frame.origin.x = 0
+//        scrollView.frame.origin.y = 155
+//        scrollView.backgroundColor = .clear
+//        view.addSubview(scrollView)
+//        
+//        labelToday.frame.origin.x = scrollView.frame.origin.x + 25
+//        labelToday.frame.origin.y = scrollView.frame.origin.y
+//        labelToday.frame.width
+//    }
 }
 
 extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

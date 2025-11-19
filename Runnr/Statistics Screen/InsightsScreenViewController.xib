@@ -18,6 +18,7 @@
             <connections>
                 <outlet property="collectionViewInsightsCards" destination="HsR-u3-jH3" id="Kaa-A0-iij"/>
                 <outlet property="labelStreak" destination="gyo-4r-eNz" id="AOF-gO-hrA"/>
+                <outlet property="labelToday" destination="W5H-N5-r12" id="Oye-Z1-M3O"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
