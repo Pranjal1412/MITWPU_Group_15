@@ -16,14 +16,14 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="InsightsScreenViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
-                <outlet property="collectionViewInsightsCards" destination="HsR-u3-jH3" id="WHy-qj-uhf"/>
-                <outlet property="labelStreak" destination="gyo-4r-eNz" id="evv-cB-kM3"/>
+                <outlet property="collectionViewInsightsCards" destination="HsR-u3-jH3" id="Kaa-A0-iij"/>
+                <outlet property="labelStreak" destination="gyo-4r-eNz" id="AOF-gO-hrA"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
+            <rect key="frame" x="0.0" y="0.0" width="402" height="1108"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Insights" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="trA-5I-xIc">
@@ -52,7 +52,7 @@
                     </collectionViewFlowLayout>
                 </collectionView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Streak" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gyo-4r-eNz">
-                    <rect key="frame" x="25" y="575" width="69" height="29"/>
+                    <rect key="frame" x="25" y="575" width="352" height="29"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="24"/>
                     <nil key="textColor"/>
@@ -62,7 +62,7 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="138" y="154"/>
+            <point key="canvasLocation" x="134.35114503816794" y="342.25352112676057"/>
         </view>
     </objects>
     <resources>
