@@ -16,7 +16,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="InsightCardCell" id="gTV-IL-0wX" customClass="InsightsScreenCollectionViewCell" customModule="Runnr" customModuleProvider="target">
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="gTV-IL-0wX" customClass="InsightsScreenCollectionViewCell" customModule="Runnr" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="165" height="165"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -72,20 +72,15 @@
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <connections>
-                <outlet property="imageViewChevron" destination="6Ej-Ui-9tN" id="hAh-Bb-fTH"/>
-                <outlet property="imageViewTrendChevron" destination="wFP-QW-pnT" id="mXM-dS-5pt"/>
-                <outlet property="labelCardTitle" destination="5m5-kz-9Cp" id="Shj-Pe-KUM"/>
-                <outlet property="labelNumber" destination="OdG-uM-Z1S" id="NAC-Hn-36C"/>
-                <outlet property="labelTrend" destination="2pH-JP-9aD" id="wWq-Au-i62"/>
-                <outlet property="labelUnits" destination="S5z-ea-RcU" id="vBm-iY-OAU"/>
+                <outlet property="imageViewChevron" destination="wFP-QW-pnT" id="GRc-6v-Ej7"/>
+                <outlet property="labelCardTitle" destination="5m5-kz-9Cp" id="6WY-v5-EkV"/>
+                <outlet property="labelNumber" destination="OdG-uM-Z1S" id="dSu-7o-Ftm"/>
+                <outlet property="labelTrend" destination="2pH-JP-9aD" id="Eks-aN-NFe"/>
+                <outlet property="labelUnits" destination="S5z-ea-RcU" id="bsr-JF-g1l"/>
+                <outlet property="viewBackground" destination="Zvu-kx-BQk" id="vwf-YG-qm5"/>
             </connections>
             <point key="canvasLocation" x="138.1679389312977" y="153.16901408450704"/>
         </collectionViewCell>
-        <colorWell contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="9X6-IU-n36">
-            <rect key="frame" x="0.0" y="0.0" width="28" height="28"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <point key="canvasLocation" x="-8" y="66"/>
-        </colorWell>
     </objects>
     <resources>
         <image name="chevron.right.circle.fill" catalog="system" width="128" height="123"/>

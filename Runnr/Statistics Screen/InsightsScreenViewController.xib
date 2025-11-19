@@ -16,8 +16,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="InsightsScreenViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
-                <outlet property="collectionViewInsightsCards" destination="HsR-u3-jH3" id="DnE-Zg-T5L"/>
-                <outlet property="labelStreak" destination="gyo-4r-eNz" id="C1z-9s-vhf"/>
+                <outlet property="collectionViewInsightsCards" destination="HsR-u3-jH3" id="WHy-qj-uhf"/>
+                <outlet property="labelStreak" destination="gyo-4r-eNz" id="evv-cB-kM3"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
