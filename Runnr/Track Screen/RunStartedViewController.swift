@@ -26,13 +26,20 @@ class RunStartedViewController: UIViewController {
     @IBOutlet weak var labelHeartRateCounter: UILabel!
     @IBOutlet weak var labelDistanceCounter: UILabel!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.overrideUserInterfaceStyle = .dark
-        settingCornerRadius()
         navigationItem.hidesBackButton = true
+        view.overrideUserInterfaceStyle = .dark
+        
+        settingCornerRadius()
+        settingPauseButtonImg()
+        
+        let rootController = RunStartedViewController()
+        let navigationController = UINavigationController(rootViewController: rootController)
+        navigationController.navigationBar.backgroundColor = .accent
+        
+        self.present(navigationController, animated: true, completion: nil)
     }
 
     func settingCornerRadius() {
@@ -62,10 +69,17 @@ class RunStartedViewController: UIViewController {
         
     }
     
+    func settingPauseButtonImg() {
+        buttonPause.contentVerticalAlignment = .fill
+        buttonPause.contentHorizontalAlignment = .fill
+        buttonPause.imageEdgeInsets = UIEdgeInsets(top: 32, left: 35, bottom: 32, right: 35)
+    }
+    
     @IBAction func pauseButtonPressed(_ sender: UIButton) {
         
-        let nextVC = RunPausedViewController()
+        print("pause button pressed")
+        let nextVC = RunPausedViewController(nibName: "RunPausedViewController", bundle: nil)
         self.navigationController?.pushViewController(nextVC, animated: true)
-    }
+    } 
     
 }

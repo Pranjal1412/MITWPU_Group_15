@@ -16,6 +16,9 @@ class TrackScreenViewController: UIViewController {
         initializeMaps()
         createStartButton()
         view.overrideUserInterfaceStyle = .dark
+        
+//        let navigationController = UINavigationController(rootViewController: self)
+//        self.present(navigationController, animated: false)
     }
 
     func initializeMaps() {
@@ -66,7 +69,9 @@ class TrackScreenViewController: UIViewController {
     @objc func startButtonPressed() {
         print("Start Pressed!")
         
-        let nextVC = RunStartedViewController()
-        navigationController?.pushViewController(nextVC, animated: true)
+        let RunStartedVC = RunStartedViewController(nibName: "RunStartedViewController", bundle: nil)
+        RunStartedVC.modalPresentationStyle = .fullScreen
+        self.present(RunStartedVC, animated: true, completion: nil)
+//        navigationController?.pushViewController(nextVC, animated: true)
     }
 }
