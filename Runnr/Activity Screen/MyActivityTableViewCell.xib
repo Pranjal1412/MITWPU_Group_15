@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24412" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24127" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24405"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -169,7 +169,7 @@
                         <rect key="frame" x="20" y="176" width="342" height="191"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="First run in a while, tough, but refreshing excited to rebuild step-by-step." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v3S-PE-n7B">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First run in a while, tough, but refreshing excited to rebuild step-by-step." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v3S-PE-n7B">
                         <rect key="frame" x="20" y="382" width="342" height="55"/>
                         <fontDescription key="fontDescription" name="SFPro-Light" family="SF Pro" pointSize="14"/>
                         <nil key="textColor"/>
@@ -178,8 +178,10 @@
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
-                    <constraint firstItem="v3S-PE-n7B" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="IAU-QH-AUc"/>
-                    <constraint firstAttribute="trailing" secondItem="v3S-PE-n7B" secondAttribute="trailing" constant="20" id="zI9-pd-GI3"/>
+                    <constraint firstItem="v3S-PE-n7B" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="JQx-8N-nQo"/>
+                    <constraint firstAttribute="bottom" secondItem="v3S-PE-n7B" secondAttribute="bottom" constant="15" id="apM-qH-3js"/>
+                    <constraint firstAttribute="trailing" secondItem="v3S-PE-n7B" secondAttribute="trailing" constant="20" id="m6i-hh-5Jk"/>
+                    <constraint firstItem="v3S-PE-n7B" firstAttribute="top" secondItem="eo4-xy-YgV" secondAttribute="bottom" constant="15" id="oiX-1K-JWK"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
