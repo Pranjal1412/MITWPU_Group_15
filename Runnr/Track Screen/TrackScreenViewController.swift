@@ -16,13 +16,23 @@ class TrackScreenViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        initializeMaps()
-        createStartButton()
+//        initializeMaps()
+//        createStartButton()
         view.overrideUserInterfaceStyle = .dark
+        
+        labelScreenTitle.sizeToFit()
+        labelScreenTitle.text! = NSLocalizedString("Runnr", comment: "")
+        labelScreenTitle.textColor = .accent
         
     }
 
-    func initializeMaps() {
+    override func viewDidLayoutSubviews() {
+        let height = view.safeAreaInsets.bottom
+        initializeMaps(with : height)
+        createStartButton()
+    }
+    
+    func initializeMaps(with bottomInset: CGFloat) {
         let camera = GMSCameraPosition.camera(withLatitude: 18.52, longitude: 73.81, zoom: 15.0)
         
         let mapView : GMSMapView!
@@ -31,15 +41,16 @@ class TrackScreenViewController: UIViewController {
 //        print(mainVC.getTabbarHeight())
 //        print(UIScreen.main.bounds.height)
 //
-        let topOffset = labelScreenTitle.frame.height + labelScreenTitle.frame.origin.y
-        let tabBarHeight = UIScreen.main.bounds.height - mainVC.getTabbarHeight()
+        let topOffset = labelScreenTitle.frame.height + labelScreenTitle.frame.origin.y + 20.0
         
         if systemOS < "26" {
-            mapView = GMSMapView.map(withFrame: CGRect(x: 0, y: 140, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - topOffset - (tabBarHeight*2)) , camera: camera)
+            mapView = GMSMapView.map(withFrame: CGRect(x: 0, y: 140, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - topOffset - bottomInset) , camera: camera)
         }
         
         else {
-            mapView = GMSMapView.map(withFrame: CGRect(x: 0, y: 140, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 140), camera: camera)
+            mapView = GMSMapView.map(withFrame: CGRect(x: 0, y: 140, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - topOffset), camera: camera)
+            
+            print(bottomInset)
         }
 
         
@@ -63,6 +74,8 @@ class TrackScreenViewController: UIViewController {
 //        mapView.layer.shadowRadius = 20.0
 //        mapView.layer.shadowOpacity = 0.5
 //        mapView.layer.shadowOffset = CGSize(width: 4, height: -1)
+        
+        view.addSubview(mapView)
 
     }
     
