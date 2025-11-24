@@ -46,15 +46,19 @@ class RunStartedViewController: UIViewController {
         
         labelDistance.font = UIFont(name: "SF Pro Medium", size: 18.0)
         labelDistance.text = NSLocalizedString("Distance (Km)", comment: "")
+        labelDistance.sizeToFit()
         
         labelTime.font = UIFont(name: "SF Pro Medium", size: 18.0)
         labelTime.text = NSLocalizedString("Time", comment: "")
+        labelTime.sizeToFit()
         
         labelPace.font = UIFont(name: "SF Pro Medium", size: 18.0)
         labelPace.text = NSLocalizedString("Pace", comment: "")
+        labelPace.sizeToFit()
         
         labelHeartRate.font = UIFont(name: "SF Pro Medium", size: 18.0)
         labelHeartRate.text = NSLocalizedString("Heart Rate", comment: "")
+        labelHeartRate.sizeToFit()
         
         labelPaceCounter.font = UIFont(name: "SF Pro Regular", size: 20)
         labelTimeCounter.font = UIFont(name: "SF Pro Regular", size: 55)

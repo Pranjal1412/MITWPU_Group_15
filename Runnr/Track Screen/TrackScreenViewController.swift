@@ -8,16 +8,16 @@
 import UIKit
 import GoogleMaps
 
+
 class TrackScreenViewController: UIViewController {
     
-    let mainVC = ViewController()
     @IBOutlet weak var labelScreenTitle: UILabel!
+    
+    let userLocation = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        initializeMaps()
-//        createStartButton()
         view.overrideUserInterfaceStyle = .dark
         
         labelScreenTitle.sizeToFit()
@@ -97,10 +97,13 @@ class TrackScreenViewController: UIViewController {
     }
     
     @objc func startButtonPressed() {
+        
         let rootController = RunStartedViewController(nibName: "RunStartedViewController", bundle: nil)
         let navigationController = UINavigationController(rootViewController: rootController)
+        
         navigationController.modalPresentationStyle = .fullScreen
         navigationController.navigationBar.isHidden = true
+        
         self.present(navigationController, animated: true, completion: nil)
     }
 }
