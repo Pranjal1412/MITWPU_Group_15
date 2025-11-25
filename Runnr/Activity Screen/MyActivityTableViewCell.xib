@@ -18,7 +18,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MyActivityTableViewCell" customModule="Runnr" customModuleProvider="target"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="MyActivityTableViewCell" customModule="Runnr" customModuleProvider="target">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="KGk-i7-Jjw" customClass="MyActivityTableViewCell" customModule="Runnr" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="382" height="452"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
@@ -83,67 +83,89 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="7.2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QeA-Mv-zRn">
-                        <rect key="frame" x="20" y="145" width="31" height="16"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QeA-Mv-zRn">
+                        <rect key="frame" x="20" y="145" width="66" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="20"/>
-                        <color key="textColor" name="AccentColor"/>
+                        <attributedString key="attributedText">
+                            <fragment content="7.2 ">
+                                <attributes>
+                                    <color key="NSColor" red="0.67843137254901964" green="0.97254901960784312" blue="0.27058823529411763" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <font key="NSFont" size="20" name="SFPro-Medium"/>
+                                </attributes>
+                            </fragment>
+                            <fragment content="Km">
+                                <attributes>
+                                    <color key="NSColor" red="0.67843137254901964" green="0.97254901960784312" blue="0.27058823529411763" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <font key="NSFont" size="11" name="SFProDisplay-Light"/>
+                                    <font key="NSOriginalFont" size="11" name="SFProDisplay-Light"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="7:45" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zrp-Px-9ZF">
-                        <rect key="frame" x="127" y="145" width="46" height="16"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zrp-Px-9ZF">
+                        <rect key="frame" x="127" y="145" width="77" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="20"/>
-                        <color key="textColor" name="AccentColor"/>
+                        <attributedString key="attributedText">
+                            <fragment content="7:45 ">
+                                <attributes>
+                                    <color key="NSColor" name="AccentColor"/>
+                                    <font key="NSFont" size="20" name="SFPro-Medium"/>
+                                </attributes>
+                            </fragment>
+                            <fragment content="/Km">
+                                <attributes>
+                                    <color key="NSColor" name="AccentColor"/>
+                                    <font key="NSFont" size="11" name="SFProDisplay-Regular"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="01" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4H1-2D-Kej">
-                        <rect key="frame" x="236" y="145" width="25" height="16"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4H1-2D-Kej">
+                        <rect key="frame" x="236" y="145" width="137" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="20"/>
-                        <color key="textColor" name="AccentColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="39" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LEZ-Qv-TQX">
-                        <rect key="frame" x="270" y="145" width="25" height="16"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="20"/>
-                        <color key="textColor" name="AccentColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="34" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="whA-ao-Lbg">
-                        <rect key="frame" x="317" y="145" width="25" height="16"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="20"/>
-                        <color key="textColor" name="AccentColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Km" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2kc-Op-h6i">
-                        <rect key="frame" x="50" y="148" width="26" height="16"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" name="SFPro-Light" family="SF Pro" pointSize="11"/>
-                        <color key="textColor" name="AccentColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="hr" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vCZ-TO-IjZ">
-                        <rect key="frame" x="258" y="148" width="15" height="16"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" name="SFPro-Light" family="SF Pro" pointSize="11"/>
-                        <color key="textColor" name="AccentColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="min" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uOk-xp-rIb">
-                        <rect key="frame" x="296" y="148" width="20" height="16"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" name="SFPro-Light" family="SF Pro" pointSize="11"/>
-                        <color key="textColor" name="AccentColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="/Km" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k8g-6g-PEi">
-                        <rect key="frame" x="170" y="148" width="26" height="16"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" name="SFPro-Light" family="SF Pro" pointSize="11"/>
-                        <color key="textColor" name="AccentColor"/>
+                        <attributedString key="attributedText">
+                            <fragment content="01 ">
+                                <attributes>
+                                    <color key="NSColor" name="AccentColor"/>
+                                    <font key="NSFont" size="20" name="SFPro-Medium"/>
+                                </attributes>
+                            </fragment>
+                            <fragment content="hr">
+                                <attributes>
+                                    <color key="NSColor" name="AccentColor"/>
+                                    <font key="NSFont" size="11" name="SFProDisplay-Light"/>
+                                    <font key="NSOriginalFont" size="11" name="SFProDisplay-Light"/>
+                                </attributes>
+                            </fragment>
+                            <fragment content=" 34 ">
+                                <attributes>
+                                    <color key="NSColor" name="AccentColor"/>
+                                    <font key="NSFont" size="20" name="SFPro-Medium"/>
+                                </attributes>
+                            </fragment>
+                            <fragment content="min">
+                                <attributes>
+                                    <color key="NSColor" name="AccentColor"/>
+                                    <font key="NSFont" size="11" name="SFProDisplay-Light"/>
+                                    <font key="NSOriginalFont" size="11" name="SFProDisplay-Light"/>
+                                </attributes>
+                            </fragment>
+                            <fragment content=" 50 ">
+                                <attributes>
+                                    <color key="NSColor" name="AccentColor"/>
+                                    <font key="NSFont" size="20" name="SFPro-Medium"/>
+                                </attributes>
+                            </fragment>
+                            <fragment content="sec">
+                                <attributes>
+                                    <color key="NSColor" name="AccentColor"/>
+                                    <font key="NSFont" size="11" name="SFProDisplay-Light"/>
+                                    <font key="NSOriginalFont" size="11" name="SFProDisplay-Light"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Pace" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qxX-8P-sde">
@@ -151,13 +173,6 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" name="SFPro-Thin" family="SF Pro" pointSize="12"/>
                         <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="sec" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0FF-Ua-r44">
-                        <rect key="frame" x="342" y="148" width="20" height="16"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" name="SFPro-Light" family="SF Pro" pointSize="11"/>
-                        <color key="textColor" name="AccentColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vmm-F7-qJw">
@@ -176,7 +191,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
-                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <color key="backgroundColor" name="CardLightBlack"/>
                 <constraints>
                     <constraint firstItem="v3S-PE-n7B" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="JQx-8N-nQo"/>
                     <constraint firstAttribute="bottom" secondItem="v3S-PE-n7B" secondAttribute="bottom" constant="15" id="apM-qH-3js"/>
@@ -185,12 +200,29 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="labelDate" destination="K3K-VJ-Z6W" id="9gT-M8-o7w"/>
+                <outlet property="labelDistance" destination="Hjf-mX-wy5" id="4h0-9u-ssx"/>
+                <outlet property="labelDistanceContent" destination="QeA-Mv-zRn" id="L0j-Be-jmg"/>
+                <outlet property="labelName" destination="r0P-ip-VoO" id="MXg-wC-JRu"/>
+                <outlet property="labelNote" destination="v3S-PE-n7B" id="YQq-yP-o2T"/>
+                <outlet property="labelPace" destination="qxX-8P-sde" id="xc3-KA-BFk"/>
+                <outlet property="labelPaceContent" destination="Zrp-Px-9ZF" id="fOo-9W-8s6"/>
+                <outlet property="labelProfileImage" destination="jHp-ba-1y2" id="HTU-6h-zeP"/>
+                <outlet property="labelRunImage" destination="eo4-xy-YgV" id="AZH-S3-LP7"/>
+                <outlet property="labelRunTitle" destination="fhr-56-rOO" id="KQQ-as-wTO"/>
+                <outlet property="labelTime" destination="r85-HY-uNU" id="Bkm-Nz-j6W"/>
+                <outlet property="labelTimeContent" destination="4H1-2D-Kej" id="MSZ-Ru-Pfe"/>
+            </connections>
             <point key="canvasLocation" x="137.31343283582089" y="117.39130434782608"/>
         </tableViewCell>
     </objects>
     <resources>
         <namedColor name="AccentColor">
-            <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.67843137254901964" green="0.97254901960784312" blue="0.27058823529411763" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="CardLightBlack">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>
