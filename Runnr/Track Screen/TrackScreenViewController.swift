@@ -13,7 +13,7 @@ class TrackScreenViewController: UIViewController {
     
     @IBOutlet weak var labelScreenTitle: UILabel!
     
-    let userLocation = CLLocationManager()
+    let userLocation = UserLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,17 +23,24 @@ class TrackScreenViewController: UIViewController {
         labelScreenTitle.sizeToFit()
         labelScreenTitle.text! = NSLocalizedString("Runnr", comment: "")
         labelScreenTitle.textColor = .accent
+
+        userLocation.requestLocation()
         
     }
 
     override func viewDidLayoutSubviews() {
         let height = view.safeAreaInsets.bottom
-        initializeMaps(with : height)
+        
+        userLocation.onLocationUpdate = { coordinate in
+            self.initializeMaps(with : height, location : coordinate)
+        }
+        
         createStartButton()
     }
     
-    func initializeMaps(with bottomInset: CGFloat) {
-        let camera = GMSCameraPosition.camera(withLatitude: 18.52, longitude: 73.81, zoom: 15.0)
+    func initializeMaps(with bottomInset: CGFloat, location coordinate: CLLocationCoordinate2D) {
+        
+        let camera = GMSCameraPosition.camera(withLatitude: coordinate.latitude, longitude: coordinate.longitude, zoom: 15.0)
         
         let mapView : GMSMapView!
         let systemOS = UIDevice.current.systemVersion
