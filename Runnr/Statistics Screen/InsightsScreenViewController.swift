@@ -22,7 +22,7 @@ class InsightsScreenViewController: UIViewController {
         collectionViewInsightsCards.dataSource = self
         collectionViewInsightsCards.delegate = self
 
-        let nib = UINib(nibName: "InsightsCollectionViewCell", bundle: nil)
+        let nib = UINib(nibName: "InsightsScreenCollectionViewCell", bundle: nil)
         collectionViewInsightsCards.register(nib, forCellWithReuseIdentifier: "cell")
         
         calendarView = UICalendarView()
@@ -52,7 +52,7 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! InsightsCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! InsightsScreenCollectionViewCell
 
         let data = cardDataArray[indexPath.row]
 

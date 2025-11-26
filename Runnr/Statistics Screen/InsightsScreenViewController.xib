@@ -43,9 +43,6 @@
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="6A4-Va-OoK">
                             <rect key="frame" x="25" y="45" width="352" height="352"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="352" id="MEi-y7-lys"/>
-                            </constraints>
                             <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="KJr-iu-vI4">
                                 <size key="itemSize" width="128" height="128"/>
                                 <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -75,11 +72,13 @@
                     <constraints>
                         <constraint firstItem="baY-ae-sga" firstAttribute="trailing" secondItem="ktC-FD-5zp" secondAttribute="trailing" constant="25" id="0nL-Zp-TUM"/>
                         <constraint firstItem="6A4-Va-OoK" firstAttribute="top" secondItem="ktC-FD-5zp" secondAttribute="bottom" constant="10" id="1Pw-xb-1Gt"/>
+                        <constraint firstAttribute="bottom" secondItem="rbJ-Vz-FHC" secondAttribute="bottom" constant="272" id="7Uv-Ad-mTb"/>
                         <constraint firstItem="baY-ae-sga" firstAttribute="trailing" secondItem="rbJ-Vz-FHC" secondAttribute="trailing" constant="25" id="96n-AX-lLT"/>
                         <constraint firstItem="rbJ-Vz-FHC" firstAttribute="leading" secondItem="prg-hr-dxM" secondAttribute="leading" constant="25" id="B7G-tZ-UPw"/>
+                        <constraint firstItem="baY-ae-sga" firstAttribute="bottom" secondItem="rbJ-Vz-FHC" secondAttribute="bottom" constant="272" id="FUC-p2-Sis"/>
                         <constraint firstItem="rbJ-Vz-FHC" firstAttribute="top" secondItem="6A4-Va-OoK" secondAttribute="bottom" constant="30" id="LPm-xV-Pfq"/>
+                        <constraint firstItem="baY-ae-sga" firstAttribute="trailing" secondItem="6A4-Va-OoK" secondAttribute="trailing" constant="25" id="Mrr-f2-kIQ"/>
                         <constraint firstItem="ktC-FD-5zp" firstAttribute="top" secondItem="prg-hr-dxM" secondAttribute="top" constant="5" id="Ova-Kz-XUM"/>
-                        <constraint firstItem="baY-ae-sga" firstAttribute="trailing" secondItem="6A4-Va-OoK" secondAttribute="trailing" constant="25" id="Um0-OA-qDL"/>
                         <constraint firstItem="6A4-Va-OoK" firstAttribute="leading" secondItem="prg-hr-dxM" secondAttribute="leading" constant="25" id="Ydl-hs-q3T"/>
                         <constraint firstItem="ktC-FD-5zp" firstAttribute="leading" secondItem="prg-hr-dxM" secondAttribute="leading" constant="25" id="eKr-5I-VWp"/>
                     </constraints>

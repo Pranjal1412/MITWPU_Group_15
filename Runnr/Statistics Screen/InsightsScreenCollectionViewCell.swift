@@ -7,17 +7,18 @@
 
 import UIKit
 
-class InsightsCollectionViewCell: UICollectionViewCell {
+class InsightsScreenCollectionViewCell: UICollectionViewCell {
+    
     @IBOutlet weak var labelNumber: UILabel!
     @IBOutlet weak var labelUnits: UILabel!
     @IBOutlet weak var labelCardTitle: UILabel!
     @IBOutlet weak var labelTrend: UILabel!
     @IBOutlet weak var imageViewChevron: UIImageView!
-
-
+    @IBOutlet weak var viewCellBackground: UIView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.layer.cornerRadius = 20
+        viewCellBackground.layer.cornerRadius = 20
         
     }
 
