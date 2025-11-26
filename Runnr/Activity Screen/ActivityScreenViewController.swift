@@ -35,6 +35,7 @@ class ActivityScreenViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "MyActivityTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
+        tableView.showsVerticalScrollIndicator = false
     }
 
     func settingSegmentedControl() {
