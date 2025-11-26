@@ -25,10 +25,10 @@
                 <rect key="frame" x="0.0" y="0.0" width="382" height="452"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="4Wp-Bi-iK1">
+                    <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="4Wp-Bi-iK1">
                         <rect key="frame" x="25" y="20" width="255" height="45"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jHp-ba-1y2">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile photo" translatesAutoresizingMaskIntoConstraints="NO" id="jHp-ba-1y2">
                                 <rect key="frame" x="0.0" y="0.0" width="45" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="45" id="MCP-Gp-acg"/>
@@ -61,131 +61,209 @@
                                 </subviews>
                             </stackView>
                         </subviews>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="45" id="Mny-Cl-BqY"/>
+                        </constraints>
                     </stackView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Morning Run!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fhr-56-rOO">
-                        <rect key="frame" x="20" y="94" width="342" height="24"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Morning Run!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fhr-56-rOO">
+                        <rect key="frame" x="20" y="96" width="338" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="24" id="xqH-KS-Y1y"/>
+                        </constraints>
                         <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="20"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Distance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hjf-mX-wy5">
-                        <rect key="frame" x="20" y="130" width="76" height="15"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" name="SFPro-Thin" family="SF Pro" pointSize="12"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r85-HY-uNU">
-                        <rect key="frame" x="236" y="130" width="76" height="15"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" name="SFPro-Thin" family="SF Pro" pointSize="12"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QeA-Mv-zRn">
-                        <rect key="frame" x="20" y="145" width="66" height="16"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <attributedString key="attributedText">
-                            <fragment content="7.2 ">
-                                <attributes>
-                                    <color key="NSColor" red="0.67843137254901964" green="0.97254901960784312" blue="0.27058823529411763" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <font key="NSFont" size="20" name="SFPro-Medium"/>
-                                </attributes>
-                            </fragment>
-                            <fragment content="Km">
-                                <attributes>
-                                    <color key="NSColor" red="0.67843137254901964" green="0.97254901960784312" blue="0.27058823529411763" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <font key="NSFont" size="11" name="SFProDisplay-Light"/>
-                                    <font key="NSOriginalFont" size="11" name="SFProDisplay-Light"/>
-                                </attributes>
-                            </fragment>
-                        </attributedString>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zrp-Px-9ZF">
-                        <rect key="frame" x="127" y="145" width="77" height="16"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <attributedString key="attributedText">
-                            <fragment content="7:45 ">
-                                <attributes>
-                                    <color key="NSColor" name="AccentColor"/>
-                                    <font key="NSFont" size="20" name="SFPro-Medium"/>
-                                </attributes>
-                            </fragment>
-                            <fragment content="/Km">
-                                <attributes>
-                                    <color key="NSColor" name="AccentColor"/>
-                                    <font key="NSFont" size="11" name="SFProDisplay-Regular"/>
-                                </attributes>
-                            </fragment>
-                        </attributedString>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4H1-2D-Kej">
-                        <rect key="frame" x="236" y="145" width="137" height="16"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <attributedString key="attributedText">
-                            <fragment content="01 ">
-                                <attributes>
-                                    <color key="NSColor" name="AccentColor"/>
-                                    <font key="NSFont" size="20" name="SFPro-Medium"/>
-                                </attributes>
-                            </fragment>
-                            <fragment content="hr">
-                                <attributes>
-                                    <color key="NSColor" name="AccentColor"/>
-                                    <font key="NSFont" size="11" name="SFProDisplay-Light"/>
-                                    <font key="NSOriginalFont" size="11" name="SFProDisplay-Light"/>
-                                </attributes>
-                            </fragment>
-                            <fragment content=" 34 ">
-                                <attributes>
-                                    <color key="NSColor" name="AccentColor"/>
-                                    <font key="NSFont" size="20" name="SFPro-Medium"/>
-                                </attributes>
-                            </fragment>
-                            <fragment content="min">
-                                <attributes>
-                                    <color key="NSColor" name="AccentColor"/>
-                                    <font key="NSFont" size="11" name="SFProDisplay-Light"/>
-                                    <font key="NSOriginalFont" size="11" name="SFProDisplay-Light"/>
-                                </attributes>
-                            </fragment>
-                            <fragment content=" 50 ">
-                                <attributes>
-                                    <color key="NSColor" name="AccentColor"/>
-                                    <font key="NSFont" size="20" name="SFPro-Medium"/>
-                                </attributes>
-                            </fragment>
-                            <fragment content="sec">
-                                <attributes>
-                                    <color key="NSColor" name="AccentColor"/>
-                                    <font key="NSFont" size="11" name="SFProDisplay-Light"/>
-                                    <font key="NSOriginalFont" size="11" name="SFProDisplay-Light"/>
-                                </attributes>
-                            </fragment>
-                        </attributedString>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Pace" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qxX-8P-sde">
-                        <rect key="frame" x="128" y="130" width="76" height="15"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" name="SFPro-Thin" family="SF Pro" pointSize="12"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vmm-F7-qJw">
-                        <rect key="frame" x="20" y="80" width="342" height="1"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <stackView opaque="NO" contentMode="scaleToFill" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="SyU-LO-bu7" userLabel="Main Stack View">
+                        <rect key="frame" x="20" y="130" width="338" height="40"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Jcs-X1-qZP" userLabel="Distance Stack View">
+                                <rect key="frame" x="0.0" y="0.0" width="75" height="40"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hjf-mX-wy5">
+                                        <rect key="frame" x="0.0" y="0.0" width="75" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="75" id="gIp-TM-E4p"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="SFPro-Thin" family="SF Pro" pointSize="12"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QeA-Mv-zRn">
+                                        <rect key="frame" x="0.0" y="20" width="75" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="75" id="s7T-7L-el8"/>
+                                        </constraints>
+                                        <attributedString key="attributedText">
+                                            <fragment content="7.2 ">
+                                                <attributes>
+                                                    <color key="NSColor" red="0.67843137254901964" green="0.97254901960784312" blue="0.27058823529411763" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <font key="NSFont" size="20" name="SFPro-Medium"/>
+                                                </attributes>
+                                            </fragment>
+                                            <fragment content="Km">
+                                                <attributes>
+                                                    <color key="NSColor" red="0.67843137254901964" green="0.97254901960784312" blue="0.27058823529411763" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <font key="NSFont" size="11" name="SFProDisplay-Light"/>
+                                                    <font key="NSOriginalFont" size="11" name="SFProDisplay-Light"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="QeA-Mv-zRn" secondAttribute="trailing" id="0KA-W8-Usl"/>
+                                    <constraint firstAttribute="bottom" secondItem="QeA-Mv-zRn" secondAttribute="bottom" id="2Fy-cI-5dN"/>
+                                    <constraint firstItem="QeA-Mv-zRn" firstAttribute="top" secondItem="Hjf-mX-wy5" secondAttribute="bottom" id="2zE-3V-zU4"/>
+                                    <constraint firstAttribute="trailing" secondItem="Hjf-mX-wy5" secondAttribute="trailing" id="GHK-kd-rAo"/>
+                                    <constraint firstItem="Hjf-mX-wy5" firstAttribute="top" secondItem="Jcs-X1-qZP" secondAttribute="top" id="Kyn-tg-odW"/>
+                                    <constraint firstItem="QeA-Mv-zRn" firstAttribute="leading" secondItem="Jcs-X1-qZP" secondAttribute="leading" id="PZC-dN-4HQ"/>
+                                    <constraint firstItem="QeA-Mv-zRn" firstAttribute="top" secondItem="Hjf-mX-wy5" secondAttribute="bottom" id="hvv-iD-3ho"/>
+                                    <constraint firstItem="Hjf-mX-wy5" firstAttribute="leading" secondItem="Jcs-X1-qZP" secondAttribute="leading" id="pDJ-nO-AVT"/>
+                                </constraints>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Zj4-W6-ajy" userLabel="Pace Stack View">
+                                <rect key="frame" x="100" y="0.0" width="70" height="40"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pace" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qxX-8P-sde">
+                                        <rect key="frame" x="0.0" y="0.0" width="70" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="70" id="e9e-xv-orD"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="SFPro-Thin" family="SF Pro" pointSize="12"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zrp-Px-9ZF">
+                                        <rect key="frame" x="0.0" y="20" width="70" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="70" id="u0N-p7-9od"/>
+                                        </constraints>
+                                        <attributedString key="attributedText">
+                                            <fragment content="7:45 ">
+                                                <attributes>
+                                                    <color key="NSColor" name="AccentColor"/>
+                                                    <font key="NSFont" size="20" name="SFPro-Medium"/>
+                                                </attributes>
+                                            </fragment>
+                                            <fragment content="/Km">
+                                                <attributes>
+                                                    <color key="NSColor" name="AccentColor"/>
+                                                    <font key="NSFont" size="11" name="SFProDisplay-Regular"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="Zrp-Px-9ZF" secondAttribute="bottom" id="2S1-i9-GyN"/>
+                                    <constraint firstAttribute="height" constant="40" id="3pi-Vw-kZ7"/>
+                                    <constraint firstAttribute="trailing" secondItem="Zrp-Px-9ZF" secondAttribute="trailing" id="7wO-vt-FH8"/>
+                                    <constraint firstItem="qxX-8P-sde" firstAttribute="leading" secondItem="Zj4-W6-ajy" secondAttribute="leading" id="FzU-fO-pds"/>
+                                    <constraint firstAttribute="trailing" secondItem="qxX-8P-sde" secondAttribute="trailing" id="TcI-rN-XCo"/>
+                                    <constraint firstItem="Zrp-Px-9ZF" firstAttribute="top" secondItem="qxX-8P-sde" secondAttribute="bottom" id="bC7-bZ-SNZ"/>
+                                    <constraint firstItem="Zrp-Px-9ZF" firstAttribute="top" secondItem="qxX-8P-sde" secondAttribute="bottom" id="cIf-Ha-V15"/>
+                                    <constraint firstItem="qxX-8P-sde" firstAttribute="top" secondItem="Zj4-W6-ajy" secondAttribute="top" id="glI-2a-TbV"/>
+                                    <constraint firstItem="Zrp-Px-9ZF" firstAttribute="leading" secondItem="Zj4-W6-ajy" secondAttribute="leading" id="seV-34-vg4"/>
+                                </constraints>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="QOC-ud-CGe" userLabel="Time Stack View">
+                                <rect key="frame" x="195" y="0.0" width="143" height="40"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r85-HY-uNU">
+                                        <rect key="frame" x="0.0" y="0.0" width="140" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="140" id="tn6-TZ-odG"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="SFPro-Thin" family="SF Pro" pointSize="12"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4H1-2D-Kej">
+                                        <rect key="frame" x="0.0" y="20" width="140" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="140" id="xLY-G7-xrb"/>
+                                        </constraints>
+                                        <attributedString key="attributedText">
+                                            <fragment content="01 ">
+                                                <attributes>
+                                                    <color key="NSColor" red="0.67843137254901964" green="0.97254901960784312" blue="0.27058823529411763" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <font key="NSFont" size="20" name="SFPro-Medium"/>
+                                                </attributes>
+                                            </fragment>
+                                            <fragment content="hr">
+                                                <attributes>
+                                                    <color key="NSColor" red="0.67843137254901964" green="0.97254901960784312" blue="0.27058823529411763" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <font key="NSFont" size="11" name="SFProDisplay-Light"/>
+                                                    <font key="NSOriginalFont" size="11" name="SFProDisplay-Light"/>
+                                                </attributes>
+                                            </fragment>
+                                            <fragment content=" 34 ">
+                                                <attributes>
+                                                    <color key="NSColor" red="0.67843137254901964" green="0.97254901960784312" blue="0.27058823529411763" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <font key="NSFont" size="20" name="SFPro-Medium"/>
+                                                </attributes>
+                                            </fragment>
+                                            <fragment content="min">
+                                                <attributes>
+                                                    <color key="NSColor" red="0.67843137254901964" green="0.97254901960784312" blue="0.27058823529411763" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <font key="NSFont" size="11" name="SFProDisplay-Light"/>
+                                                    <font key="NSOriginalFont" size="11" name="SFProDisplay-Light"/>
+                                                </attributes>
+                                            </fragment>
+                                            <fragment content=" 50 ">
+                                                <attributes>
+                                                    <color key="NSColor" red="0.67843137254901964" green="0.97254901960784312" blue="0.27058823529411763" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <font key="NSFont" size="20" name="SFPro-Medium"/>
+                                                </attributes>
+                                            </fragment>
+                                            <fragment content="sec">
+                                                <attributes>
+                                                    <color key="NSColor" red="0.67843137254901964" green="0.97254901960784312" blue="0.27058823529411763" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <font key="NSFont" size="11" name="SFProDisplay-Light"/>
+                                                    <font key="NSOriginalFont" size="11" name="SFProDisplay-Light"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="4H1-2D-Kej" firstAttribute="top" secondItem="r85-HY-uNU" secondAttribute="bottom" id="6st-7a-jKj"/>
+                                    <constraint firstAttribute="height" constant="40" id="E2Q-kz-akH"/>
+                                    <constraint firstItem="r85-HY-uNU" firstAttribute="leading" secondItem="QOC-ud-CGe" secondAttribute="leading" id="R2r-D4-ca8"/>
+                                    <constraint firstAttribute="trailing" secondItem="4H1-2D-Kej" secondAttribute="trailing" constant="3" id="RQq-ZA-pHF"/>
+                                    <constraint firstItem="4H1-2D-Kej" firstAttribute="leading" secondItem="QOC-ud-CGe" secondAttribute="leading" id="YmR-Wf-kek"/>
+                                    <constraint firstItem="4H1-2D-Kej" firstAttribute="top" secondItem="r85-HY-uNU" secondAttribute="bottom" id="dWk-9o-la5"/>
+                                    <constraint firstItem="r85-HY-uNU" firstAttribute="top" secondItem="QOC-ud-CGe" secondAttribute="top" id="lxn-KJ-qdE"/>
+                                    <constraint firstAttribute="bottom" secondItem="4H1-2D-Kej" secondAttribute="bottom" id="mRb-21-FpB"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="QOC-ud-CGe" firstAttribute="leading" secondItem="Zj4-W6-ajy" secondAttribute="trailing" constant="25" id="0I4-Au-oS1"/>
+                            <constraint firstItem="QOC-ud-CGe" firstAttribute="leading" secondItem="Zj4-W6-ajy" secondAttribute="trailing" constant="25" id="314-x3-bf2"/>
+                            <constraint firstItem="Zj4-W6-ajy" firstAttribute="leading" secondItem="Jcs-X1-qZP" secondAttribute="trailing" constant="25" id="53E-dS-deS"/>
+                            <constraint firstItem="QOC-ud-CGe" firstAttribute="top" secondItem="SyU-LO-bu7" secondAttribute="top" id="D1F-fg-xd1"/>
+                            <constraint firstAttribute="bottom" secondItem="QOC-ud-CGe" secondAttribute="bottom" id="Rgd-gO-JpS"/>
+                            <constraint firstAttribute="trailing" secondItem="QOC-ud-CGe" secondAttribute="trailing" id="XIm-3c-PdG"/>
+                        </constraints>
+                    </stackView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vmm-F7-qJw">
+                        <rect key="frame" x="20" y="80" width="338" height="1"/>
                         <color key="backgroundColor" red="0.54509803921568623" green="0.54509803921568623" blue="0.54509803921568623" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="MQb-We-6sk"/>
+                        </constraints>
                     </view>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="eo4-xy-YgV">
-                        <rect key="frame" x="20" y="176" width="342" height="191"/>
+                        <rect key="frame" x="20" y="185" width="342" height="191"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First run in a while, tough, but refreshing excited to rebuild step-by-step." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v3S-PE-n7B">
-                        <rect key="frame" x="20" y="382" width="342" height="55"/>
+                        <rect key="frame" x="20" y="391" width="338" height="46"/>
                         <fontDescription key="fontDescription" name="SFPro-Light" family="SF Pro" pointSize="14"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -193,14 +271,30 @@
                 </subviews>
                 <color key="backgroundColor" name="CardLightBlack"/>
                 <constraints>
-                    <constraint firstItem="v3S-PE-n7B" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="JQx-8N-nQo"/>
-                    <constraint firstAttribute="bottom" secondItem="v3S-PE-n7B" secondAttribute="bottom" constant="15" id="apM-qH-3js"/>
-                    <constraint firstAttribute="trailing" secondItem="v3S-PE-n7B" secondAttribute="trailing" constant="20" id="m6i-hh-5Jk"/>
-                    <constraint firstItem="v3S-PE-n7B" firstAttribute="top" secondItem="eo4-xy-YgV" secondAttribute="bottom" constant="15" id="oiX-1K-JWK"/>
+                    <constraint firstItem="fhr-56-rOO" firstAttribute="top" secondItem="vmm-F7-qJw" secondAttribute="bottom" constant="15" id="345-qV-wxT"/>
+                    <constraint firstAttribute="trailing" secondItem="v3S-PE-n7B" secondAttribute="trailing" constant="20" id="6ZL-Sn-0iF"/>
+                    <constraint firstItem="v3S-PE-n7B" firstAttribute="top" secondItem="eo4-xy-YgV" secondAttribute="bottom" constant="15" id="9C8-w0-Yno"/>
+                    <constraint firstAttribute="trailing" secondItem="SyU-LO-bu7" secondAttribute="trailing" constant="20" id="Dg7-5Z-ocU"/>
+                    <constraint firstAttribute="bottom" secondItem="v3S-PE-n7B" secondAttribute="bottom" constant="15" id="G4a-Td-aJk"/>
+                    <constraint firstItem="vmm-F7-qJw" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="M7t-Xk-W8R"/>
+                    <constraint firstItem="v3S-PE-n7B" firstAttribute="top" secondItem="eo4-xy-YgV" secondAttribute="bottom" constant="15" id="ZtM-U5-dW7"/>
+                    <constraint firstItem="4Wp-Bi-iK1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="ajH-N4-MF2"/>
+                    <constraint firstAttribute="trailing" secondItem="fhr-56-rOO" secondAttribute="trailing" constant="20" id="hVM-8H-oqu"/>
+                    <constraint firstItem="v3S-PE-n7B" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="iZf-M2-tOr"/>
+                    <constraint firstItem="vmm-F7-qJw" firstAttribute="top" secondItem="4Wp-Bi-iK1" secondAttribute="bottom" constant="15" id="lEG-Oa-fsu"/>
+                    <constraint firstItem="fhr-56-rOO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="mxi-NS-o6R"/>
+                    <constraint firstAttribute="trailing" secondItem="vmm-F7-qJw" secondAttribute="trailing" constant="20" id="nim-KA-WMD"/>
+                    <constraint firstItem="vmm-F7-qJw" firstAttribute="top" secondItem="4Wp-Bi-iK1" secondAttribute="bottom" constant="15" id="pWZ-jl-YxD"/>
+                    <constraint firstItem="4Wp-Bi-iK1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="25" id="vYC-CW-h9J"/>
+                    <constraint firstItem="SyU-LO-bu7" firstAttribute="top" secondItem="fhr-56-rOO" secondAttribute="bottom" constant="10" id="wOt-Ol-iCl"/>
+                    <constraint firstItem="SyU-LO-bu7" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="wb2-Zs-S0B"/>
+                    <constraint firstItem="eo4-xy-YgV" firstAttribute="top" secondItem="SyU-LO-bu7" secondAttribute="bottom" constant="15" id="zSV-JR-INU"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="imageProfile" destination="jHp-ba-1y2" id="HTU-6h-zeP"/>
+                <outlet property="imageRun" destination="eo4-xy-YgV" id="AZH-S3-LP7"/>
                 <outlet property="labelDate" destination="K3K-VJ-Z6W" id="9gT-M8-o7w"/>
                 <outlet property="labelDistance" destination="Hjf-mX-wy5" id="4h0-9u-ssx"/>
                 <outlet property="labelDistanceContent" destination="QeA-Mv-zRn" id="L0j-Be-jmg"/>
@@ -208,16 +302,15 @@
                 <outlet property="labelNote" destination="v3S-PE-n7B" id="YQq-yP-o2T"/>
                 <outlet property="labelPace" destination="qxX-8P-sde" id="xc3-KA-BFk"/>
                 <outlet property="labelPaceContent" destination="Zrp-Px-9ZF" id="fOo-9W-8s6"/>
-                <outlet property="labelProfileImage" destination="jHp-ba-1y2" id="HTU-6h-zeP"/>
-                <outlet property="labelRunImage" destination="eo4-xy-YgV" id="AZH-S3-LP7"/>
                 <outlet property="labelRunTitle" destination="fhr-56-rOO" id="KQQ-as-wTO"/>
                 <outlet property="labelTime" destination="r85-HY-uNU" id="Bkm-Nz-j6W"/>
                 <outlet property="labelTimeContent" destination="4H1-2D-Kej" id="MSZ-Ru-Pfe"/>
             </connections>
-            <point key="canvasLocation" x="137.31343283582089" y="117.39130434782608"/>
+            <point key="canvasLocation" x="-558" y="-57"/>
         </tableViewCell>
     </objects>
     <resources>
+        <image name="profile photo" width="1400" height="787"/>
         <namedColor name="AccentColor">
             <color red="0.67843137254901964" green="0.97254901960784312" blue="0.27058823529411763" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

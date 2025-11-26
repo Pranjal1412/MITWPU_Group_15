@@ -10,7 +10,7 @@ import UIKit
 class MyActivityTableViewCell: UITableViewCell {
 
     @IBOutlet weak var labelName: UILabel!
-    @IBOutlet weak var labelProfileImage: UIImageView!
+    @IBOutlet weak var imageProfile: UIImageView!
     @IBOutlet weak var labelDate: UILabel!
     @IBOutlet weak var labelRunTitle: UILabel!
     @IBOutlet weak var labelDistance: UILabel!
@@ -19,26 +19,81 @@ class MyActivityTableViewCell: UITableViewCell {
     @IBOutlet weak var labelDistanceContent: UILabel!
     @IBOutlet weak var labelPaceContent: UILabel!
     @IBOutlet weak var labelTimeContent: UILabel!
-    @IBOutlet weak var labelRunImage: UIImageView!
+    @IBOutlet weak var imageRun: UIImageView!
     @IBOutlet weak var labelNote: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        contentView.layer.cornerRadius = 20
+        //contentView.layer.masksToBounds = true
+        
     }
 
-func configure(with activity: RunActivity) {
-    labelName.text = activity.name
-    labelDate.text = activity.date
-    labelRunTitle.text = activity.runTitle
-    labelDistanceContent.text = activity.distance
-    labelPaceContent.text = activity.pace
-    labelTimeContent.text = activity.time
-    labelRunImage.image = activity.image
-    labelNote.text = activity.note
-//    labelDistance.text = "Distance"
-//    labelPace.text = "Pace"
-//    labelTime.text = "Time"
+    func configure(with activity: RunActivity) {
+        labelName.text = activity.name
+        labelDate.text = activity.date
+        labelRunTitle.text = activity.runTitle
+        imageRun.image = activity.image
+        labelNote.text = activity.note
+        labelDistance.text = "Distance"
+        labelPace.text = "Pace"
+        labelTime.text = "Time"
+        imageProfile.layer.cornerRadius = imageProfile.frame.height / 2
+        // SF Pro fonts
+        let valueFont = UIFont(name: "SFProText-Medium", size: 20) ?? UIFont.systemFont(ofSize: 20, weight: .medium)
+        let unitFont = UIFont(name: "SFProText-Light", size: 11) ?? UIFont.systemFont(ofSize: 11, weight: .light)
+        // Updated color: #ADF845 (RGB 173, 248, 69)
+        let highlightColor = UIColor(red: 173/255, green: 248/255, blue: 69/255, alpha: 1)
+
+        // Distance
+        let distanceValue = String(format: "%.1f", activity.distanceValue)
+        let distanceText = NSMutableAttributedString(
+            string: distanceValue,
+            attributes: [.font: valueFont, .foregroundColor: highlightColor]
+        )
+        distanceText.append(NSAttributedString(
+            string: " " + activity.distanceUnit,
+            attributes: [.font: unitFont, .foregroundColor: highlightColor]
+        ))
+        labelDistanceContent.attributedText = distanceText
+
+        // Pace
+        let paceText = NSMutableAttributedString(
+            string: activity.paceValue,
+            attributes: [.font: valueFont, .foregroundColor: highlightColor]
+        )
+        paceText.append(NSAttributedString(
+            string: " " + activity.paceUnit,
+            attributes: [.font: unitFont, .foregroundColor: highlightColor]
+        ))
+        labelPaceContent.attributedText = paceText
+
+        // Time (all units smaller and #ADF845)
+        let timeText = NSMutableAttributedString()
+        let timeValueComponents = activity.timeValue.components(separatedBy: " ")
+        var i = 0
+        while i < timeValueComponents.count {
+            let part = timeValueComponents[i]
+            if let _ = Int(part) {
+                timeText.append(NSAttributedString(string: part + " ", attributes: [.font: valueFont, .foregroundColor: highlightColor]))
+            } else {
+                timeText.append(NSAttributedString(string: part + " ", attributes: [.font: unitFont, .foregroundColor: highlightColor]))
+            }
+            i += 1
+        }
+        let timeUnitComponents = activity.timeUnit.components(separatedBy: " ")
+        i = 0
+        while i < timeUnitComponents.count {
+            let part = timeUnitComponents[i]
+            if let _ = Int(part) {
+                timeText.append(NSAttributedString(string: part + " ", attributes: [.font: valueFont, .foregroundColor: highlightColor]))
+            } else {
+                timeText.append(NSAttributedString(string: part + " ", attributes: [.font: unitFont, .foregroundColor: highlightColor]))
+            }
+            i += 1
+        }
+        labelTimeContent.attributedText = timeText
+        labelPaceContent.minimumScaleFactor = 0.5 // Optional for font scaling
     }
-    
-}
+
+    }
