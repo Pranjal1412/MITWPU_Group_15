@@ -39,10 +39,10 @@ class MyActivityTableViewCell: UITableViewCell {
         labelPace.text = "Pace"
         labelTime.text = "Time"
         imageProfile.layer.cornerRadius = imageProfile.frame.height / 2
+        
         // SF Pro fonts
         let valueFont = UIFont(name: "SFProText-Medium", size: 20) ?? UIFont.systemFont(ofSize: 20, weight: .medium)
         let unitFont = UIFont(name: "SFProText-Light", size: 11) ?? UIFont.systemFont(ofSize: 11, weight: .light)
-        // Updated color: #ADF845 (RGB 173, 248, 69)
         let highlightColor = UIColor(red: 173/255, green: 248/255, blue: 69/255, alpha: 1)
 
         // Distance
