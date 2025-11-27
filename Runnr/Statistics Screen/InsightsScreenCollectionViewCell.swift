@@ -21,5 +21,20 @@ class InsightsScreenCollectionViewCell: UICollectionViewCell {
         viewCellBackground.layer.cornerRadius = 20
         
     }
+    
+    func configureCell(with data: CardData) {
+        labelNumber.text = data.number
+        labelUnits.text = data.units
+        labelCardTitle.text = data.title
+        labelTrend.text = data.trend
+        imageViewChevron.image = UIImage(systemName: data.trendChevron)
+        
+        if imageViewChevron.image == UIImage(systemName: "chevron.up.2") {
+            imageViewChevron.tintColor = .accent
+        }
+        else {
+            imageViewChevron.tintColor = .blue
+        }
+    }
 
 }

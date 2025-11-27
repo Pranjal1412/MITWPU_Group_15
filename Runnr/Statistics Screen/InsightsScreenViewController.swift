@@ -24,6 +24,9 @@ class InsightsScreenViewController: UIViewController {
 
         let nib = UINib(nibName: "InsightsScreenCollectionViewCell", bundle: nil)
         collectionViewInsightsCards.register(nib, forCellWithReuseIdentifier: "cell")
+        collectionViewInsightsCards.isScrollEnabled = false
+//        collectionViewInsightsCards.bounds.height = collectionViewInsightsCards.contentSize.height + 10
+
         
         calendarView = UICalendarView()
         calendarView.translatesAutoresizingMaskIntoConstraints = false
@@ -41,6 +44,10 @@ class InsightsScreenViewController: UIViewController {
         
         scrollViewInsights.contentSize = CGSize(width: view.frame.width, height: calendarView.frame.origin.y + calendarView.frame.height + 100)
     }
+    
+    override func viewDidLayoutSubviews() {
+        <#code#>
+    }
 }
 
 extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -49,25 +56,13 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
         return cardDataArray.count
     }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! InsightsScreenCollectionViewCell
 
         let data = cardDataArray[indexPath.row]
 
-        cell.labelNumber.text = data.number
-        cell.labelUnits.text = data.units
-        cell.labelCardTitle.text = data.title
-        cell.labelTrend.text = data.trend
-        cell.imageViewChevron.image = UIImage(systemName: data.trendChevron)
-        
-        if cell.imageViewChevron.image == UIImage(systemName: "chevron.up.2") {
-            cell.imageViewChevron.tintColor = .accent
-        }
-        else {
-            cell.imageViewChevron.tintColor = .blue
-        }
+        cell.configureCell(with: data)
 
         return cell
     }
@@ -77,26 +72,23 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
         let finalWidth = (collectionViewInsightsCards.bounds.width - 20.0) / 2.0
         let finalHeight = finalWidth
         
-        let totalRow = CGFloat(cardDataArray.count / 2)
-        collectionViewInsightsCards.frame.size.height = (finalHeight * totalRow) + 20.0
+        let totalRow = ceil(CGFloat(cardDataArray.count) / 2)
+        collectionViewInsightsCards.frame.size.height = (finalHeight * totalRow)
         
         return CGSize(width: finalWidth, height: finalHeight)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 0)
     }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
     }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
+        return 10
     }
 }
 
