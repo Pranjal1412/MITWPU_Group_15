@@ -16,7 +16,6 @@ class RunPausedViewController: UIViewController {
         view.overrideUserInterfaceStyle = .dark
     
         initializeMaps()
-        view.bringSubviewToFront(<#T##view: UIView##UIView#>)
     }
 
     func initializeMaps() {
