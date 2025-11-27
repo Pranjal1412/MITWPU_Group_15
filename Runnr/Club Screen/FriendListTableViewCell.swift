@@ -9,5 +9,8 @@ import UIKit
 
 class FriendListTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var imageProfileFriends: UIImageView!
     
 }
+
+
