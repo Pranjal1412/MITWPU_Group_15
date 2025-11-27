@@ -10,13 +10,19 @@ import GoogleMaps
 
 class RunPausedViewController: UIViewController {
 
+    @IBOutlet weak var viewSummary: UIView!
+    @IBOutlet weak var buttonResume: UIButton!
+    @IBOutlet weak var buttonEndRun: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.hidesBackButton = true
         view.overrideUserInterfaceStyle = .dark
     
         initializeMaps()
-        view.bringSubviewToFront(<#T##view: UIView##UIView#>)
+        settingButtonStyle()
+        view.bringSubviewToFront(viewSummary)
+        
     }
 
     func initializeMaps() {
@@ -37,7 +43,7 @@ class RunPausedViewController: UIViewController {
        }
         
         mapView.mapType = .normal
-        mapView.alpha = 0.5
+        mapView.alpha = 0.3
         
         mapView.settings.rotateGestures = false
         mapView.settings.scrollGestures = false
@@ -51,5 +57,15 @@ class RunPausedViewController: UIViewController {
         view.addSubview(mapView)
 
     }
-    
+ 
+    func settingButtonStyle() {
+        buttonEndRun.layer.cornerRadius = buttonEndRun.frame.height / 2
+        buttonResume.layer.cornerRadius = buttonResume.frame.height / 2
+        
+        buttonEndRun.layer.borderWidth = 0.5
+        buttonEndRun.layer.borderColor = UIColor.accent.cgColor
+        
+        buttonEndRun.imageEdgeInsets = UIEdgeInsets(top: 32, left: 35, bottom: 32, right: 35)
+        buttonResume.imageEdgeInsets = UIEdgeInsets(top: 32, left: 35, bottom: 32, right: 35)
+    }
 }
