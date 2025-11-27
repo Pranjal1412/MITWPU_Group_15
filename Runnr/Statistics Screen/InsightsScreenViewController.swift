@@ -44,10 +44,7 @@ class InsightsScreenViewController: UIViewController {
         
         scrollViewInsights.contentSize = CGSize(width: view.frame.width, height: calendarView.frame.origin.y + calendarView.frame.height + 100)
     }
-    
-    override func viewDidLayoutSubviews() {
-        <#code#>
-    }
+
 }
 
 extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -78,9 +75,9 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
         return CGSize(width: finalWidth, height: finalHeight)
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 0)
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+//        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 0)
+//    }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10
