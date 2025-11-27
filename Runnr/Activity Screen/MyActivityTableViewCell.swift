@@ -26,7 +26,7 @@ class MyActivityTableViewCell: UITableViewCell {
         super.awakeFromNib()
         contentView.layer.cornerRadius = 20
         //contentView.layer.masksToBounds = true
-        
+        selectionStyle = .none
     }
 
     func configure(with activity: RunActivity) {
