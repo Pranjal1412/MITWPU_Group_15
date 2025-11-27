@@ -16,7 +16,8 @@ class ViewController: UIViewController {
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        let itemOne = ActivityScreenViewController()
+        let activitiesVC = ActivityScreenViewController()
+        let itemOne = UINavigationController(rootViewController: activitiesVC)
         let iconOne = UITabBarItem(title:NSLocalizedString("Activities", comment: ""), image: UIImage(systemName: "figure.run.square.stack.fill"), selectedImage: UIImage(systemName: "figure.run.square.stack.fill"))
         itemOne.tabBarItem = iconOne
         
@@ -37,7 +38,7 @@ class ViewController: UIViewController {
         itemFive.tabBarItem = iconFive
         
         let tabBarControllerArray = [itemOne, itemTwo, itemThree, itemFour, itemFive]
-        
+        tabBar.overrideUserInterfaceStyle = .dark
         tabBar.setViewControllers(tabBarControllerArray, animated: false)
         tabBar.selectedIndex = 2
         tabBar.modalPresentationStyle = .fullScreen

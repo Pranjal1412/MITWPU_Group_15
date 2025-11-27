@@ -43,6 +43,11 @@ class ActivityScreenViewController: UIViewController {
         segmentedControlActivityScreen.layer.borderColor = UIColor.accent.cgColor
         segmentedControlActivityScreen.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
     }
+    
+    @IBAction func chevronToAllActivities(_ sender: UIButton) {
+        let vc = AllActivitiesViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 //Table View
@@ -72,6 +77,10 @@ extension ActivityScreenViewController : UITableViewDelegate, UITableViewDataSou
         spacer.backgroundColor = .clear
         return spacer
     }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("selected")
+    }
+
 }
 
 
