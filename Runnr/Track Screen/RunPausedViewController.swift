@@ -68,4 +68,34 @@ class RunPausedViewController: UIViewController {
         buttonEndRun.imageEdgeInsets = UIEdgeInsets(top: 32, left: 35, bottom: 32, right: 35)
         buttonResume.imageEdgeInsets = UIEdgeInsets(top: 32, left: 35, bottom: 32, right: 35)
     }
+    
+    @IBAction func resumeButtonPressed(_ sender: UIButton) {
+        
+        navigationController?.popViewController(animated: true)
+    }
+    
+    
+    @IBAction func EndRunButtonPressed(_ sender: UIButton) {
+    
+        let alert = UIAlertController(title: "End Run", message: "Are you sure you want to end this run?", preferredStyle: .alert)
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alert.addAction(cancel)
+        
+        let end = UIAlertAction(title: "End Anyway", style: .destructive, handler: { _ in
+            print("Settings tapped")
+            
+            let destinationVC = SaveActivityViewController()
+            destinationVC.modalPresentationStyle = .fullScreen
+            
+            self.navigationController?.present(destinationVC, animated: true, completion: nil)
+            
+        })
+        alert.addAction(end)
+        
+        present(alert, animated: true , completion: nil)
+        
+    }
+    
+    
 }
