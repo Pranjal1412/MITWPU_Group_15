@@ -33,7 +33,8 @@ class ViewController: UIViewController {
         let iconFour = UITabBarItem(title:NSLocalizedString("Game", comment: ""), image: UIImage(systemName: "gamecontroller.fill"), selectedImage: UIImage(systemName: "gamecontroller.fill"))
         itemFour.tabBarItem = iconFour
 
-        let itemFive = InsightsScreenViewController()
+        let insightsVC = InsightsScreenViewController()
+        let itemFive = UINavigationController(rootViewController: insightsVC)
         let iconFive = UITabBarItem(title:NSLocalizedString("Insights", comment: ""), image: UIImage(systemName: "chart.bar.fill"), selectedImage: UIImage(systemName: "chart.bar.fill"))
         itemFive.tabBarItem = iconFive
         
