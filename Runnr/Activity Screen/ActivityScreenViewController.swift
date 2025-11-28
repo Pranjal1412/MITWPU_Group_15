@@ -2,10 +2,11 @@ import UIKit
 
 class ActivityScreenViewController: UIViewController {
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableViewMyActivity: UITableView!
     @IBOutlet weak var labelRecentActivities: UILabel!
     @IBOutlet weak var segmentedControlActivityScreen: UISegmentedControl!
     
+    @IBOutlet weak var tableViewFriendsActivity: UITableView!
     
     override func viewDidLoad() {
         
@@ -15,7 +16,8 @@ class ActivityScreenViewController: UIViewController {
         settingSegmentedControl()
         settingLabelStyle()
         settingTableView()
-
+        tableViewMyActivity.isHidden = false
+        tableViewFriendsActivity.isHidden = true
     }
     
     func settingLabelStyle() {
@@ -32,10 +34,13 @@ class ActivityScreenViewController: UIViewController {
     }
     
     func settingTableView() {
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(UINib(nibName: "MyActivityTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
-        tableView.showsVerticalScrollIndicator = false
+        tableViewMyActivity.delegate = self
+        tableViewMyActivity.dataSource = self
+        tableViewFriendsActivity.delegate = self
+        tableViewFriendsActivity.dataSource = self
+        tableViewMyActivity.register(UINib(nibName: "MyActivityTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
+        tableViewMyActivity.showsVerticalScrollIndicator = false
+        tableViewFriendsActivity.register(UINib(nibName: "FriendsActivityTableViewCell", bundle: nil), forCellReuseIdentifier: "cellFriends")
     }
 
     func settingSegmentedControl() {
@@ -48,24 +53,53 @@ class ActivityScreenViewController: UIViewController {
         let vc = AllActivitiesViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    @IBAction func segmentChangeToFriends(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 1 {
+            tableViewMyActivity.isHidden = true
+            tableViewFriendsActivity.isHidden = false
+        }
+        else {
+            tableViewMyActivity.isHidden = false
+            tableViewFriendsActivity.isHidden = true
+        }
+    }
 }
 
 //Table View
-extension ActivityScreenViewController : UITableViewDelegate, UITableViewDataSource {
-    
+extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSource {
+
     func numberOfSections(in tableView: UITableView) -> Int {
-        return activities.count
+        if tableView == tableViewMyActivity {
+            return activities.count
+        } else if tableView == tableViewFriendsActivity {
+            return activitiesFriends.count
+        } else {
+            return 0
+        }
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MyActivityTableViewCell
-        let activity = activities[indexPath.section]
-        cell.configure(with: activity)
-        return cell
+    func tableView(_ tableView: UITableView,
+                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+        if tableView == tableViewMyActivity {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell",
+                                                     for: indexPath) as! MyActivityTableViewCell
+            let activity = activities[indexPath.section]
+            cell.configure(with: activity)
+            return cell
+
+        } else { // tableViewFriendsActivity
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cellFriends",
+                                                     for: indexPath) as! FriendsActivityTableViewCell
+            let activity = activitiesFriends[indexPath.section]
+            cell.configure(with: activity)
+            return cell
+        }
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -77,11 +111,12 @@ extension ActivityScreenViewController : UITableViewDelegate, UITableViewDataSou
         spacer.backgroundColor = .clear
         return spacer
     }
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("selected")
     }
-
 }
+
 
 
 
