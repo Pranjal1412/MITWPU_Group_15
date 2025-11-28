@@ -22,11 +22,13 @@ class InsightsScreenViewController: UIViewController {
         collectionViewInsightsCards.dataSource = self
         collectionViewInsightsCards.delegate = self
 
+        // ❗ Force vertical scrolling only → stops horizontal scroll
+        (collectionViewInsightsCards.collectionViewLayout as? UICollectionViewFlowLayout)?.scrollDirection = .vertical
+
         let nib = UINib(nibName: "InsightsScreenCollectionViewCell", bundle: nil)
         collectionViewInsightsCards.register(nib, forCellWithReuseIdentifier: "cell")
+        
         collectionViewInsightsCards.isScrollEnabled = false
-//        collectionViewInsightsCards.bounds.height = collectionViewInsightsCards.contentSize.height + 10
-
         
         calendarView = UICalendarView()
         calendarView.translatesAutoresizingMaskIntoConstraints = false
@@ -41,8 +43,21 @@ class InsightsScreenViewController: UIViewController {
             calendarView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
             calendarView.heightAnchor.constraint(equalToConstant: 350)
         ])
-        
-        scrollViewInsights.contentSize = CGSize(width: view.frame.width, height: calendarView.frame.origin.y + calendarView.frame.height + 100)
+
+        // --------------------------
+        // REQUIRED CHANGES
+        // --------------------------
+
+        // Disable horizontal scrolling of ScrollView
+        scrollViewInsights.alwaysBounceHorizontal = false
+        scrollViewInsights.showsHorizontalScrollIndicator = false
+        scrollViewInsights.isDirectionalLockEnabled = true
+
+        // Fix content height for ScrollView
+        scrollViewInsights.contentSize = CGSize(
+            width: scrollViewInsights.bounds.width,
+            height: calendarView.frame.maxY + 100
+        )
     }
 
 }
@@ -58,7 +73,6 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! InsightsScreenCollectionViewCell
 
         let data = cardDataArray[indexPath.row]
-
         cell.configureCell(with: data)
 
         return cell
@@ -94,5 +108,19 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        if indexPath.row == 0 {
+            let destinationVC = DistanceViewController()
+            navigationController?.pushViewController(destinationVC, animated: true)
+        }
+        if indexPath.row == 1 {
+            let destinationVC = CaloriesViewController()
+            navigationController?.pushViewController(destinationVC, animated: true)
+        }
+        
+    }
 
 }
+

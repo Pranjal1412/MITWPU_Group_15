@@ -36,7 +36,7 @@ class InsightsScreenCollectionViewCell: UICollectionViewCell {
             imageViewChevron.tintColor = .accent
         }
         else {
-            imageViewChevron.tintColor = .blue
+            imageViewChevron.tintColor = .red
         }
     }
 
