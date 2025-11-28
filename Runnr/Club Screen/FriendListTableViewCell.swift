@@ -11,6 +11,9 @@ class FriendListTableViewCell: UITableViewCell {
 
     @IBOutlet weak var imageProfileFriends: UIImageView!
     
+    @IBOutlet var buttonFollow: UIButton!
+    
+   
 }
 
 

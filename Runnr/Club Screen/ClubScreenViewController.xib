@@ -19,8 +19,10 @@
             <connections>
                 <outlet property="ButtonCreateClub" destination="Kyf-ml-Xlp" id="PxP-bz-qra"/>
                 <outlet property="collectionViewExplore" destination="qb8-Dp-DRw" id="X5Z-75-vFO"/>
+                <outlet property="labelCreateyourOwnClub" destination="znz-7o-Se4" id="bL5-25-3PM"/>
                 <outlet property="searchBarFriendsScreen" destination="RLc-jZ-AhE" id="p7M-pD-jGe"/>
                 <outlet property="segmentControlClubScreen" destination="vyM-ru-Mgt" id="fdt-ld-rU8"/>
+                <outlet property="tableViewFriends" destination="dKE-91-srN" id="lXp-p5-fzt"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -54,6 +56,13 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="dKE-91-srN">
+                    <rect key="frame" x="0.0" y="271" width="402" height="603"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="603" id="B3W-gD-QSZ"/>
+                    </constraints>
+                </tableView>
                 <searchBar contentMode="redraw" text="" translatesAutoresizingMaskIntoConstraints="NO" id="RLc-jZ-AhE">
                     <rect key="frame" x="12" y="206" width="378" height="40"/>
                     <constraints>
@@ -64,29 +73,33 @@
                         <outlet property="delegate" destination="-1" id="01Z-6f-mj5"/>
                     </connections>
                 </searchBar>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kyf-ml-Xlp">
-                    <rect key="frame" x="46" y="436" width="310" height="54"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" name="AccentColor"/>
-                    <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" title="Get Started">
-                        <fontDescription key="titleFontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="20"/>
-                    </buttonConfiguration>
-                </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="znz-7o-Se4">
-                    <rect key="frame" x="120" y="393" width="143" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <attributedString key="attributedText">
-                        <fragment content="Create your own">
-                            <attributes>
-                                <font key="NSFont" size="17" name="SFProDisplay-Ultralight"/>
-                            </attributes>
-                        </fragment>
-                    </attributedString>
-                    <nil key="highlightedColor"/>
-                </label>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="qb8-Dp-DRw">
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="D1J-4K-o7n">
+                    <rect key="frame" x="46" y="385" width="310" height="104"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hey" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="znz-7o-Se4">
+                            <rect key="frame" x="0.0" y="0.0" width="310" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="zc2-U6-0Ce"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kyf-ml-Xlp">
+                            <rect key="frame" x="0.0" y="50" width="310" height="54"/>
+                            <color key="backgroundColor" name="AccentColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="54" id="PYs-Tg-wBC"/>
+                            </constraints>
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Get Started">
+                                <fontDescription key="titleFontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="20"/>
+                            </buttonConfiguration>
+                        </button>
+                    </subviews>
+                </stackView>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="qb8-Dp-DRw">
                     <rect key="frame" x="0.0" y="266" width="402" height="608"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -101,22 +114,23 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
+                <constraint firstItem="D1J-4K-o7n" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="0ab-jR-KGC"/>
                 <constraint firstItem="bDJ-s7-eTs" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="0oz-os-W5V"/>
+                <constraint firstItem="D1J-4K-o7n" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="2N3-lQ-nvx"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="RLc-jZ-AhE" secondAttribute="trailing" constant="12" id="2Oc-fh-dka"/>
                 <constraint firstItem="RLc-jZ-AhE" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="12" id="7UQ-E2-zkm"/>
+                <constraint firstItem="D1J-4K-o7n" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="46" id="8Y8-ko-dJX"/>
+                <constraint firstItem="dKE-91-srN" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="8di-qr-Lit"/>
+                <constraint firstItem="dKE-91-srN" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="B2J-0I-LY1"/>
                 <constraint firstItem="bDJ-s7-eTs" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="90" id="GeY-VO-LyA"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="vyM-ru-Mgt" secondAttribute="trailing" constant="20" id="LEv-vf-Fhr"/>
                 <constraint firstItem="vyM-ru-Mgt" firstAttribute="top" secondItem="bDJ-s7-eTs" secondAttribute="bottom" constant="20" id="TmI-C7-nkh"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="D1J-4K-o7n" secondAttribute="trailing" constant="46" id="Vz0-Nx-O3n"/>
+                <constraint firstItem="dKE-91-srN" firstAttribute="top" secondItem="RLc-jZ-AhE" secondAttribute="bottom" constant="25" id="njd-71-9aX"/>
                 <constraint firstItem="RLc-jZ-AhE" firstAttribute="top" secondItem="vyM-ru-Mgt" secondAttribute="bottom" constant="20" id="vGn-7K-M8h"/>
                 <constraint firstItem="vyM-ru-Mgt" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="yLD-lN-o6m"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <variation key="default">
-                <mask key="subviews">
-                    <exclude reference="RLc-jZ-AhE"/>
-                    <exclude reference="qb8-Dp-DRw"/>
-                </mask>
-            </variation>
             <point key="canvasLocation" x="-160.30534351145039" y="104.92957746478874"/>
         </view>
     </objects>
