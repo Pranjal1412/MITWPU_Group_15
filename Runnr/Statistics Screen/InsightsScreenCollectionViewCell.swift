@@ -19,6 +19,9 @@ class InsightsScreenCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         viewCellBackground.layer.cornerRadius = 20
+        viewCellBackground.layer.masksToBounds = false
+        viewCellBackground.clipsToBounds = false
+        
         
     }
     
