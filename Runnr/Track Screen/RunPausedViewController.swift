@@ -91,6 +91,8 @@ class RunPausedViewController: UIViewController {
             self.navigationController?.present(destinationVC, animated: true, completion: nil)
             
         })
+        
+        alert.overrideUserInterfaceStyle = .dark
         alert.addAction(end)
         
         present(alert, animated: true , completion: nil)

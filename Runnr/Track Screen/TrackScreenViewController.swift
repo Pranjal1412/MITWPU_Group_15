@@ -106,12 +106,10 @@ class TrackScreenViewController: UIViewController {
     
     @objc func startButtonPressed() {
         
-        let rootController = RunStartedViewController(nibName: "RunStartedViewController", bundle: nil)
-        let navigationController = UINavigationController(rootViewController: rootController)
+        let destinationVC = SetGoalViewController()
+//        destinationVC.modalPresentationStyle = .custom
         
-        navigationController.modalPresentationStyle = .fullScreen
-        navigationController.navigationBar.isHidden = true
+        self.present(destinationVC, animated: true, completion: nil)
         
-        self.present(navigationController, animated: true, completion: nil)
     }
 }
