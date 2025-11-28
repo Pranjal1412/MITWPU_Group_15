@@ -55,6 +55,11 @@ class SetGoalViewController: UIViewController {
         buttonSkip.layer.cornerRadius = buttonSkip.frame.height / 2
         
         buttonStart.layer.cornerRadius = buttonStart.frame.height / 2
+        
+        viewBackgroundTime.layer.cornerRadius = 15
+        viewBackgroundAudio.layer.cornerRadius = 15
+        viewBackgroundDistance.layer.cornerRadius = 15
+        viewBackgroungActivity.layer.cornerRadius = 15
     }
     
     @IBAction func buttonStartActivityPressed(_ sender: UIButton) {
