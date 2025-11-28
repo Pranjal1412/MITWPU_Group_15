@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24412" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="dark"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24405"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -14,7 +15,7 @@
         </array>
     </customFonts>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="InsightsScreenCollectionViewCell" customModule="Runnr" customModuleProvider="target"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="gTV-IL-0wX" customClass="InsightsScreenCollectionViewCell" customModule="Runnr" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="165" height="165"/>
@@ -77,7 +78,7 @@
                 <outlet property="labelNumber" destination="OdG-uM-Z1S" id="dSu-7o-Ftm"/>
                 <outlet property="labelTrend" destination="2pH-JP-9aD" id="Eks-aN-NFe"/>
                 <outlet property="labelUnits" destination="S5z-ea-RcU" id="bsr-JF-g1l"/>
-                <outlet property="viewBackground" destination="Zvu-kx-BQk" id="vwf-YG-qm5"/>
+                <outlet property="viewCellBackground" destination="Zvu-kx-BQk" id="sBG-1k-iau"/>
             </connections>
             <point key="canvasLocation" x="138.1679389312977" y="153.16901408450704"/>
         </collectionViewCell>

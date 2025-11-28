@@ -101,6 +101,7 @@ class TrackScreenViewController: UIViewController {
         
         startButton.addTarget(self, action: #selector(startButtonPressed), for: .touchUpInside)
         view.addSubview(startButton)
+        
     }
     
     @objc func startButtonPressed() {
