@@ -17,6 +17,7 @@ class SaveActivityViewController: UIViewController {
     @IBOutlet weak var scrollViewSaveActivity: UIScrollView!
     @IBOutlet weak var labelPhotos: UILabel!
     @IBOutlet weak var imageViewMap: UIImageView!
+    @IBOutlet weak var textViewRemark: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +26,9 @@ class SaveActivityViewController: UIViewController {
         settingCardView()
         scrollViewSaveActivity.contentSize.height = labelPhotos.frame.origin.y + labelPhotos.frame.size.height + 20
 
+        registerNotifications()
+        hideKeyboardWhenTappedAround()
+        textViewRemark.clipsToBounds = true
     }
 
     @IBAction func cancelButtonPressed(_ sender: UIButton) {
@@ -66,4 +70,34 @@ class SaveActivityViewController: UIViewController {
         imageViewMap.layer.cornerRadius = 15
     }
     
+}
+
+extension SaveActivityViewController {
+    
+    func hideKeyboardWhenTappedAround() {
+        let tapGesture = UITapGestureRecognizer(target: self,
+                         action: #selector(hideKeyboard))
+        view.addGestureRecognizer(tapGesture)
+    }
+
+    @objc func hideKeyboard() {
+        view.endEditing(true)
+    }
+    
+    func registerNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
+    @objc private func keyboardWillShow(notification: NSNotification){
+        
+        if let keyboardFrame = notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
+        {
+            scrollViewSaveActivity.contentInset.bottom = view.convert(keyboardFrame.cgRectValue, from: nil).size.height
+        }
+    }
+    
+    @objc private func keyboardWillHide(notification: NSNotification){
+        scrollViewSaveActivity.contentInset.bottom = 0
+    }
 }

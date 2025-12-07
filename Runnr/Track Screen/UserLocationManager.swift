@@ -11,16 +11,13 @@ class UserLocationManager: NSObject, CLLocationManagerDelegate {
     
     let locationManager = CLLocationManager()
     
-//    var latitude: CLLocationDegrees?
-//    var longitude: CLLocationDegrees?
-    
     var onLocationUpdate: ((CLLocationCoordinate2D) -> Void)?
     
     override init() {
         super.init()
         
         locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+//        locationManager.desiredAccuracy = kCLLocationAccuracyBest
     }
     
     func requestLocation() {
@@ -29,11 +26,11 @@ class UserLocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = manager.location {
+        if let location = manager.location?.coordinate {
+            
+            onLocationUpdate?(location)
+
 //            print("Longitude: \(location.longitude), Latitude: \(location.latitude)")
-            
-            onLocationUpdate!(location.coordinate)
-            
 //            latitude = location.latitude
 //            longitude = location.longitude
             

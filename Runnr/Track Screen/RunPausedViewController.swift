@@ -43,18 +43,12 @@ class RunPausedViewController: UIViewController {
        }
         
         mapView.mapType = .normal
-        mapView.alpha = 0.3
-        
+        mapView.alpha = 0.3  
         mapView.settings.rotateGestures = false
         mapView.settings.scrollGestures = false
         mapView.settings.zoomGestures = false
         
-//        mapView.layer.shadowColor = UIColor.black.cgColor
-//        mapView.layer.shadowRadius = 20.0
-//        mapView.layer.shadowOpacity = 0.5
-//        mapView.layer.shadowOffset = CGSize(width: 4, height: -1)
-        
-        view.addSubview(mapView)
+//        view.addSubview(mapView)
 
     }
  
@@ -65,8 +59,13 @@ class RunPausedViewController: UIViewController {
         buttonEndRun.layer.borderWidth = 0.5
         buttonEndRun.layer.borderColor = UIColor.accent.cgColor
         
-        buttonEndRun.imageEdgeInsets = UIEdgeInsets(top: 32, left: 35, bottom: 32, right: 35)
-        buttonResume.imageEdgeInsets = UIEdgeInsets(top: 32, left: 35, bottom: 32, right: 35)
+        buttonResume.contentVerticalAlignment = .fill
+        buttonResume.contentHorizontalAlignment = .fill
+        buttonResume.imageEdgeInsets = UIEdgeInsets(top: 35, left: 37, bottom: 35, right: 33)
+        
+        buttonEndRun.contentVerticalAlignment = .fill
+        buttonEndRun.contentHorizontalAlignment = .fill
+        buttonEndRun.imageEdgeInsets = UIEdgeInsets(top: 38, left: 38, bottom: 38, right: 38)
     }
     
     @IBAction func resumeButtonPressed(_ sender: UIButton) {

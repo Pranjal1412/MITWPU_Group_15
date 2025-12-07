@@ -25,7 +25,6 @@ class SetGoalViewController: UIViewController {
         super.viewDidLoad()
         
         viewBackground.backgroundColor = .clear
-        viewMainBackground.backgroundColor = .black
         viewMainBackground.layer.cornerRadius = 20
         viewSubBackground.layer.cornerRadius = 15
         
@@ -47,8 +46,6 @@ class SetGoalViewController: UIViewController {
         attributedString.append(boldText)
         
         labelScreenTitle.attributedText = attributedString
-        
-//        viewBackground
         
         buttonSkip.layer.borderWidth = 1
         buttonSkip.layer.borderColor = UIColor.accent.cgColor
@@ -75,6 +72,9 @@ class SetGoalViewController: UIViewController {
         self.present(navigationController, animated: true, completion: nil)
     }
     
+    @IBAction func cancelButtonPressed(_ sender: UIButton) {
+        
+        self.dismiss(animated: true)
+    }
     
-//
 }
