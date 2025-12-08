@@ -14,7 +14,8 @@ class TrackScreenViewController: UIViewController {
     @IBOutlet weak var labelScreenTitle: UILabel!
     
     let userLocation = UserLocationManager()
-    
+    var isMapInitialized = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,7 +33,10 @@ class TrackScreenViewController: UIViewController {
         let height = view.safeAreaInsets.bottom
         
         userLocation.onLocationUpdate = { coordinate in
-            self.initializeMaps(with : height, location : coordinate)
+            if self.isMapInitialized == false {
+                self.initializeMaps(with : height, location : coordinate)
+                self.isMapInitialized = true
+            }
         }
         
         createStartButton()
@@ -42,12 +46,9 @@ class TrackScreenViewController: UIViewController {
         
         let camera = GMSCameraPosition.camera(withLatitude: coordinate.latitude, longitude: coordinate.longitude, zoom: 15.0)
         
-        let mapView : GMSMapView!
         let systemOS = UIDevice.current.systemVersion
+        let mapView: GMSMapView!
         
-//        print(mainVC.getTabbarHeight())
-//        print(UIScreen.main.bounds.height)
-//
         let topOffset = labelScreenTitle.frame.height + labelScreenTitle.frame.origin.y + 20.0
         
         if systemOS < "26" {
@@ -77,11 +78,6 @@ class TrackScreenViewController: UIViewController {
         mapView.settings.scrollGestures = false
         mapView.settings.zoomGestures = false
         
-//        mapView.layer.shadowColor = UIColor.black.cgColor
-//        mapView.layer.shadowRadius = 20.0
-//        mapView.layer.shadowOpacity = 0.5
-//        mapView.layer.shadowOffset = CGSize(width: 4, height: -1)
-        
         view.addSubview(mapView)
 
     }
@@ -106,12 +102,10 @@ class TrackScreenViewController: UIViewController {
     
     @objc func startButtonPressed() {
         
-        let rootController = RunStartedViewController(nibName: "RunStartedViewController", bundle: nil)
-        let navigationController = UINavigationController(rootViewController: rootController)
+        let destinationVC = SetGoalViewController()
+//        destinationVC.modalPresentationStyle = .custom
         
-        navigationController.modalPresentationStyle = .fullScreen
-        navigationController.navigationBar.isHidden = true
+        self.present(destinationVC, animated: true, completion: nil)
         
-        self.present(navigationController, animated: true, completion: nil)
     }
 }

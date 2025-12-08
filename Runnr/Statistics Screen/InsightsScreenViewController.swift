@@ -22,8 +22,13 @@ class InsightsScreenViewController: UIViewController {
         collectionViewInsightsCards.dataSource = self
         collectionViewInsightsCards.delegate = self
 
-        let nib = UINib(nibName: "InsightsCollectionViewCell", bundle: nil)
+        // ❗ Force vertical scrolling only → stops horizontal scroll
+        (collectionViewInsightsCards.collectionViewLayout as? UICollectionViewFlowLayout)?.scrollDirection = .vertical
+
+        let nib = UINib(nibName: "InsightsScreenCollectionViewCell", bundle: nil)
         collectionViewInsightsCards.register(nib, forCellWithReuseIdentifier: "cell")
+        
+        collectionViewInsightsCards.isScrollEnabled = false
         
         calendarView = UICalendarView()
         calendarView.translatesAutoresizingMaskIntoConstraints = false
@@ -38,9 +43,23 @@ class InsightsScreenViewController: UIViewController {
             calendarView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
             calendarView.heightAnchor.constraint(equalToConstant: 350)
         ])
-        
-        scrollViewInsights.contentSize = CGSize(width: view.frame.width, height: calendarView.frame.origin.y + calendarView.frame.height + 100)
+
+        // --------------------------
+        // REQUIRED CHANGES
+        // --------------------------
+
+        // Disable horizontal scrolling of ScrollView
+        scrollViewInsights.alwaysBounceHorizontal = false
+        scrollViewInsights.showsHorizontalScrollIndicator = false
+        scrollViewInsights.isDirectionalLockEnabled = true
+
+        // Fix content height for ScrollView
+        scrollViewInsights.contentSize = CGSize(
+            width: scrollViewInsights.bounds.width,
+            height: calendarView.frame.maxY + 100
+        )
     }
+
 }
 
 extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -49,56 +68,59 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
         return cardDataArray.count
     }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! InsightsCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! InsightsScreenCollectionViewCell
 
         let data = cardDataArray[indexPath.row]
-
-        cell.labelNumber.text = data.number
-        cell.labelUnits.text = data.units
-        cell.labelCardTitle.text = data.title
-        cell.labelTrend.text = data.trend
-        cell.imageViewChevron.image = UIImage(systemName: data.trendChevron)
-        
-        if cell.imageViewChevron.image == UIImage(systemName: "chevron.up.2") {
-            cell.imageViewChevron.tintColor = .accent
-        }
-        else {
-            cell.imageViewChevron.tintColor = .blue
-        }
+        cell.configureCell(with: data)
 
         return cell
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-
-        let finalWidth = (collectionViewInsightsCards.bounds.width - 20.0) / 2.0
-        let finalHeight = finalWidth
-        
-        let totalRow = CGFloat(cardDataArray.count / 2)
-        collectionViewInsightsCards.frame.size.height = (finalHeight * totalRow) + 20.0
-        
-        return CGSize(width: finalWidth, height: finalHeight)
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-    }
-
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
-                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+        let inset: CGFloat = 16
+        let interSpacing: CGFloat = 10
+
+        let width = (collectionView.bounds.width - inset - interSpacing) / 2
+
+        return CGSize(width: width, height: width)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
+
+        return UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
+        return 10
     }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        if indexPath.row == 0 {
+            let destinationVC = DistanceViewController()
+            navigationController?.pushViewController(destinationVC, animated: true)
+        }
+        if indexPath.row == 1 {
+            let destinationVC = CaloriesViewController()
+            navigationController?.pushViewController(destinationVC, animated: true)
+        }
+        
+    }
+
 }
-
-
 
