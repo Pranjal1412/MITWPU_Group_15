@@ -11,6 +11,8 @@ class ExploreScreenCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var viewExploreClub: UIView!
     
+    @IBOutlet var buttonJoinClub: UIButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -18,6 +20,8 @@ class ExploreScreenCollectionViewCell: UICollectionViewCell {
         viewExploreClub.layer.cornerRadius = 10
         
         viewExploreClub.clipsToBounds = true
+        
+        buttonJoinClub.titleLabel?.textColor = UIColor.black
         
     }
 

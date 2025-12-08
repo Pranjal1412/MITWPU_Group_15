@@ -52,7 +52,7 @@ class ClubScreenViewController: UIViewController, UITableViewDataSource, UITable
            )
     }
     
-    
+   
     
     @IBAction func segmentShiftAction(_ sender: UISegmentedControl) {
         
@@ -139,6 +139,9 @@ class ClubScreenViewController: UIViewController, UITableViewDataSource, UITable
     
     }
 
+    @IBAction func createClubButtonPressed(_ sender: UIButton) {
+        self.present(CreateClubChooseSportViewController(), animated: true)
+    }
 }
 
 extension ClubScreenViewController : UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
