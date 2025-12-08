@@ -103,8 +103,6 @@ class TrackScreenViewController: UIViewController {
     @objc func startButtonPressed() {
         
         let destinationVC = SetGoalViewController()
-//        destinationVC.modalPresentationStyle = .custom
-        
         self.present(destinationVC, animated: true, completion: nil)
         
     }

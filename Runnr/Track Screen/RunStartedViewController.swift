@@ -129,7 +129,11 @@ class RunStartedViewController: UIViewController {
             let destinationVC = SaveActivityViewController()
             destinationVC.modalPresentationStyle = .fullScreen
             
-            self.navigationController?.present(destinationVC, animated: true, completion: nil)
+//          here self.navigationController?.present(destinationVC, animated: true) doesn't add the screen inside the nav stack
+//          it just presents above the navcontroller, and beacuse of which
+//          self.navigationController?.dismiss(animated: true, completion: nil) was not working in SaveActivityViewController
+            
+            self.navigationController?.pushViewController(destinationVC, animated: true)
             
         })
         

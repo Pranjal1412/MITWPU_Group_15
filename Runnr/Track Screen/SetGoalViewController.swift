@@ -60,16 +60,25 @@ class SetGoalViewController: UIViewController {
     }
     
     @IBAction func buttonStartActivityPressed(_ sender: UIButton) {
+                
+//      Using self.presentingViewController as we need the same object that is been created and hence
+//      let presenter = SetGoalViewController() doesn't work as it creates a brand new onject that is unused
         
-//        self.dismiss(animated: true)
+        if let presenter = self.presentingViewController {
+
+//          now we are writing that upon dimissal of the screen perform the following code
+            self.dismiss(animated: true) {
+
+                let rootController = RunStartedViewController(nibName: "RunStartedViewController", bundle: nil)
+                let navigationController = UINavigationController(rootViewController: rootController)
+
+                navigationController.modalPresentationStyle = .fullScreen
+                navigationController.navigationBar.isHidden = true
+
+                presenter.present(navigationController, animated: true, completion: nil)
+            }
+        }
         
-        let rootController = RunStartedViewController(nibName: "RunStartedViewController", bundle: nil)
-        let navigationController = UINavigationController(rootViewController: rootController)
-    
-        navigationController.modalPresentationStyle = .fullScreen
-        navigationController.navigationBar.isHidden = true
-    
-        self.present(navigationController, animated: true, completion: nil)
     }
     
     @IBAction func cancelButtonPressed(_ sender: UIButton) {

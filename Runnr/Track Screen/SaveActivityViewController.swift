@@ -34,27 +34,19 @@ class SaveActivityViewController: UIViewController {
     @IBAction func cancelButtonPressed(_ sender: UIButton) {
         
         let alert = UIAlertController(title: "Delete Activity", message: "Are you sure you want to Delete this Activity?", preferredStyle: .alert)
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: {_ in
-            
-//            self.navigationController?.popToRootViewController(animated: true)
-//            self.navigationController?.dismiss(animated: true, completion: nil)
-            
+            self.navigationController?.dismiss(animated: true, completion: nil)
         })
         
-//        alert.addAction(cancelAction)
         alert.addAction(deleteAction)
-        
         alert.overrideUserInterfaceStyle = .dark
         present(alert, animated: true, completion: nil)
         
     }
     
     @IBAction func SaveButtonPressed(_ sender: UIButton) {
-        
-        navigationController?.popToRootViewController(animated: false)
-        
+        self.navigationController?.dismiss(animated: true, completion: nil)
     }
     
     func settingCardView() {

@@ -11,7 +11,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		19217CC52EA0E064009AFC93 /* Runnr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Runnr.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		19217CC52EA0E064009AFC93 /* Runnr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Runnr.app; path = "/Users/sdc_user/Desktop/Project/Runnr/build/Debug-iphoneos/Runnr.app"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -51,16 +51,7 @@
 			isa = PBXGroup;
 			children = (
 				19217CC72EA0E064009AFC93 /* Runnr */,
-				19217CC62EA0E064009AFC93 /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		19217CC62EA0E064009AFC93 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				19217CC52EA0E064009AFC93 /* Runnr.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -118,7 +109,7 @@
 				F903F4552EB653FC0066B9A1 /* XCRemoteSwiftPackageReference "ios-maps-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 19217CC62EA0E064009AFC93 /* Products */;
+			productRefGroup = 19217CBC2EA0E064009AFC93;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
