@@ -19,10 +19,19 @@ class SaveActivityViewController: UIViewController {
     @IBOutlet weak var imageViewMap: UIImageView!
     @IBOutlet weak var textViewRemark: UITextView!
     
+    @IBOutlet weak var labelRunSummary: UILabel!
+    @IBOutlet weak var labelPublicActivity: UILabel!
+    @IBOutlet weak var labelDescription: UILabel!
+    @IBOutlet weak var labelDistance: UILabel!
+    @IBOutlet weak var labelTime: UILabel!
+    @IBOutlet weak var labelPace: UILabel!
+    @IBOutlet weak var labelCalories: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.overrideUserInterfaceStyle = .dark
+        SettingLabels()
         settingCardView()
         scrollViewSaveActivity.contentSize.height = labelPhotos.frame.origin.y + labelPhotos.frame.size.height + 20
 
@@ -33,9 +42,11 @@ class SaveActivityViewController: UIViewController {
 
     @IBAction func cancelButtonPressed(_ sender: UIButton) {
         
-        let alert = UIAlertController(title: "Delete Activity", message: "Are you sure you want to Delete this Activity?", preferredStyle: .alert)
+        let alert = UIAlertController(title: NSLocalizedString("Delete Activity", comment: ""),
+                                      message: NSLocalizedString("Are you sure you want to Delete this Activity?", comment: ""),
+                                      preferredStyle: .alert)
                 
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: {_ in
+        let deleteAction = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive, handler: {_ in
             self.navigationController?.dismiss(animated: true, completion: nil)
         })
         
@@ -62,6 +73,19 @@ class SaveActivityViewController: UIViewController {
         imageViewMap.layer.cornerRadius = 15
     }
     
+    func SettingLabels() {
+        labelPhotos.text = NSLocalizedString( "Photos", comment: "")
+        labelDescription.text = NSLocalizedString( "Anyone on Runnr can see your activity", comment: "")
+        labelRunSummary.text = NSLocalizedString( "Run Summary", comment: "")
+        labelPublicActivity.text = NSLocalizedString( "Public Activity", comment: "")
+        
+        labelDescription.sizeToFit()
+        
+        labelPace.text = NSLocalizedString( "Pace", comment: "")
+        labelTime.text = NSLocalizedString( "Time", comment: "")
+        labelCalories.text = NSLocalizedString( "Calories", comment: "")
+        labelDistance.text = NSLocalizedString( "Distance", comment: "")
+    }
 }
 
 extension SaveActivityViewController {

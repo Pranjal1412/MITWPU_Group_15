@@ -118,22 +118,21 @@ class RunStartedViewController: UIViewController {
     
     @IBAction func EndRunButtonPressed(_ sender: UIButton) {
         
-        let alert = UIAlertController(title: "End Run", message: "Are you sure you want to end this run?", preferredStyle: .alert)
+        let alert = UIAlertController(title: NSLocalizedString("End Run", comment: ""),
+                                      message: NSLocalizedString("Are you sure you want to end this run?", comment: ""), preferredStyle: .alert)
         
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancel = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil)
         alert.addAction(cancel)
         
-        let end = UIAlertAction(title: "End Anyway", style: .destructive, handler: { _ in
-            print("Settings tapped")
+        let end = UIAlertAction(title: NSLocalizedString("End Anyway", comment: ""), style: .destructive, handler: { _ in
             
             let destinationVC = SaveActivityViewController()
             destinationVC.modalPresentationStyle = .fullScreen
+            self.navigationController?.pushViewController(destinationVC, animated: true)
             
 //          here self.navigationController?.present(destinationVC, animated: true) doesn't add the screen inside the nav stack
 //          it just presents above the navcontroller, and beacuse of which
 //          self.navigationController?.dismiss(animated: true, completion: nil) was not working in SaveActivityViewController
-            
-            self.navigationController?.pushViewController(destinationVC, animated: true)
             
         })
         

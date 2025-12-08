@@ -22,7 +22,14 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SaveActivityViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
                 <outlet property="imageViewMap" destination="hWv-wV-F1z" id="XVa-yj-8xl"/>
-                <outlet property="labelPhotos" destination="FPl-X2-7My" id="NUg-py-dZx"/>
+                <outlet property="labelCalories" destination="eFS-zH-n0M" id="WSV-7A-AoK"/>
+                <outlet property="labelDescription" destination="ChB-wk-awk" id="EwT-dy-aA9"/>
+                <outlet property="labelDistance" destination="tyb-Br-GeE" id="lFX-ep-DIa"/>
+                <outlet property="labelPace" destination="Ueu-dO-Xz2" id="Itc-x6-W7w"/>
+                <outlet property="labelPhotos" destination="FPl-X2-7My" id="CPu-Lg-ngf"/>
+                <outlet property="labelPublicActivity" destination="vw9-PB-JzU" id="8Sh-oF-sXr"/>
+                <outlet property="labelRunSummary" destination="bJk-ue-WRA" id="5SK-u9-E82"/>
+                <outlet property="labelTime" destination="mmD-jZ-ULq" id="eq9-Xv-q8d"/>
                 <outlet property="scrollViewSaveActivity" destination="scw-9n-W4L" id="fy1-rF-6gR"/>
                 <outlet property="textViewRemark" destination="ek8-dC-2QH" id="DWq-eN-mgP"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -79,15 +86,14 @@
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="6ol-Ib-gxx">
                             <rect key="frame" x="25" y="235" width="352" height="60"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Evening City Run" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y6p-ZN-ULp">
-                                    <rect key="frame" x="0.0" y="0.0" width="191.33333333333334" height="30"/>
+                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Evening City Run" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UhE-P1-COJ">
+                                    <rect key="frame" x="0.0" y="0.0" width="352" height="30"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="30" id="zoz-v0-NUR"/>
+                                        <constraint firstAttribute="height" constant="30" id="vEp-Zg-cGh"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="25"/>
-                                    <nil key="textColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
+                                    <fontDescription key="fontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="23"/>
+                                    <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done"/>
+                                </textField>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tuesday , 23 July 2024 at 7:12 pm" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oUU-DM-QcU">
                                     <rect key="frame" x="0.0" y="35" width="248" height="25"/>
                                     <constraints>
@@ -99,7 +105,10 @@
                                 </label>
                             </subviews>
                             <constraints>
+                                <constraint firstItem="UhE-P1-COJ" firstAttribute="top" secondItem="6ol-Ib-gxx" secondAttribute="top" id="0Bv-4G-qGS"/>
+                                <constraint firstItem="UhE-P1-COJ" firstAttribute="leading" secondItem="6ol-Ib-gxx" secondAttribute="leading" id="BZp-wV-VjK"/>
                                 <constraint firstAttribute="height" constant="60" id="MT4-d4-lgA"/>
+                                <constraint firstAttribute="trailing" secondItem="UhE-P1-COJ" secondAttribute="trailing" id="v93-lt-CfX"/>
                             </constraints>
                         </stackView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Run Summary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bJk-ue-WRA">
@@ -307,20 +316,23 @@
                                 <constraint firstItem="ek8-dC-2QH" firstAttribute="leading" secondItem="6m0-kZ-dUZ" secondAttribute="leading" id="nxf-7X-fq6"/>
                             </constraints>
                         </view>
-                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="90" translatesAutoresizingMaskIntoConstraints="NO" id="Rdm-I9-QLs">
+                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="41" translatesAutoresizingMaskIntoConstraints="NO" id="Rdm-I9-QLs">
                             <rect key="frame" x="25" y="705" width="352" height="45"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="j5n-TI-nsx">
-                                    <rect key="frame" x="0.0" y="0.0" width="201" height="45"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="250" height="45"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Public Activity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vw9-PB-JzU">
-                                            <rect key="frame" x="0.0" y="0.0" width="201" height="20"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="250" height="20"/>
                                             <fontDescription key="fontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="18"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Anyone on Runnr can see your activity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ChB-wk-awk">
-                                            <rect key="frame" x="0.0" y="25" width="201" height="20"/>
+                                            <rect key="frame" x="0.0" y="25" width="250" height="20"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="250" id="7d3-WG-ERO"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" name="SFPro-Regular" family="SF Pro" pointSize="11"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
