@@ -83,7 +83,7 @@
                             </state>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" systemColor="labelColor"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="xbG-6v-sn0" firstAttribute="leading" secondItem="Biy-ss-bQ1" secondAttribute="leading" constant="266" id="0Me-HR-Uu2"/>
                         <constraint firstItem="Iim-Fd-TrO" firstAttribute="top" secondItem="4ZV-l3-kZv" secondAttribute="bottom" constant="10" id="0g2-G8-IZU"/>
@@ -126,9 +126,6 @@
         <namedColor name="AccentColor">
             <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <systemColor name="labelColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

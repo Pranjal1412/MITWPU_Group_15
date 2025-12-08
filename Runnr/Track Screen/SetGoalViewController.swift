@@ -30,6 +30,7 @@ class SetGoalViewController: UIViewController {
         
         view.overrideUserInterfaceStyle = .dark
         settingScreen()
+        hideKeyboardWhenTappedAround()
         
     }
 
@@ -86,4 +87,16 @@ class SetGoalViewController: UIViewController {
         self.dismiss(animated: true)
     }
     
+}
+
+extension SetGoalViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tapGesture = UITapGestureRecognizer(target: self,
+                         action: #selector(hideKeyboard))
+        view.addGestureRecognizer(tapGesture)
+    }
+
+    @objc func hideKeyboard() {
+        view.endEditing(true)
+    }
 }

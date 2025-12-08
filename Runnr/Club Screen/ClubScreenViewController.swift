@@ -16,8 +16,6 @@ class ClubScreenViewController: UIViewController, UITableViewDataSource, UITable
         let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! FriendListTableViewCell
         return cell
     }
-    
- 
 
     @IBOutlet weak var segmentControlClubScreen: UISegmentedControl!
     @IBOutlet weak var searchBarFriendsScreen: UISearchBar!
@@ -35,21 +33,14 @@ class ClubScreenViewController: UIViewController, UITableViewDataSource, UITable
         ButtonCreateClub.isHidden = true
         labelCreateyourOwnClub.isHidden = true
         tableViewFriends.isHidden = true
-        searchBarFriendsScreen.placeholder = "Search for clubs"
+        
         settingCollectionView()
         settingElements()
         settingATtributedText()
         
-        ButtonCreateClub.layer.cornerRadius = ButtonCreateClub.frame.height/2
-        ButtonCreateClub.clipsToBounds = true
-        
         tableViewFriends.dataSource = self
         tableViewFriends.delegate = self
-        
-        tableViewFriends.register(
-               UINib(nibName: "FriendListTableViewCell", bundle: nil),
-               forCellReuseIdentifier: "CustomCell"
-           )
+        tableViewFriends.register(UINib(nibName: "FriendListTableViewCell", bundle: nil), forCellReuseIdentifier: "CustomCell")
     }
     
    
@@ -82,24 +73,26 @@ class ClubScreenViewController: UIViewController, UITableViewDataSource, UITable
              break
          }
         
-}
+    }
+    
     func settingElements() {
+        searchBarFriendsScreen.placeholder = "Search for clubs"
+        ButtonCreateClub.layer.cornerRadius = ButtonCreateClub.frame.height/2
+        ButtonCreateClub.clipsToBounds = true
+        
         //segment edits
         segmentControlClubScreen.selectedSegmentIndex = 1
         segmentControlClubScreen.layer.borderWidth = 0.5
         segmentControlClubScreen.layer.borderColor = UIColor.accent.cgColor
         segmentControlClubScreen.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
         
-        
-        
         //to remove the lines near the search Bar
         searchBarFriendsScreen.backgroundColor = .clear
         searchBarFriendsScreen.barTintColor = .clear
         searchBarFriendsScreen.isTranslucent = true
+        
     }
-    
-   
-    
+
     func settingCollectionView() {
         collectionViewExplore.dataSource = self
         collectionViewExplore.delegate = self
@@ -111,23 +104,19 @@ class ClubScreenViewController: UIViewController, UITableViewDataSource, UITable
     
     func settingATtributedText() {
         
-       
-        labelCreateyourOwnClub.numberOfLines = 1
         labelCreateyourOwnClub.textAlignment = .center
 
         let firstPart = "Create your own "
         let secondPart = "club"
 
-        let attributedText = NSMutableAttributedString(
-            string: firstPart,
+        let attributedText = NSMutableAttributedString(string: firstPart,
             attributes: [
                 .font: UIFont.systemFont(ofSize: 30, weight: .ultraLight),
                 .foregroundColor: UIColor.white
             ]
         )
 
-        attributedText.append(NSAttributedString(
-            string: secondPart,
+        attributedText.append(NSAttributedString(string: secondPart,
             attributes: [
                 .font: UIFont.systemFont(ofSize: 30, weight: .semibold),
                 .foregroundColor: UIColor.white

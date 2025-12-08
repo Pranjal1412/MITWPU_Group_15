@@ -10,7 +10,6 @@ import UIKit
 class ExploreScreenCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var viewExploreClub: UIView!
-    
     @IBOutlet var buttonJoinClub: UIButton!
     
     override func awakeFromNib() {
@@ -18,10 +17,8 @@ class ExploreScreenCollectionViewCell: UICollectionViewCell {
         // Initialization code
         
         viewExploreClub.layer.cornerRadius = 10
-        
         viewExploreClub.clipsToBounds = true
-        
-        buttonJoinClub.titleLabel?.textColor = UIColor.black
+        buttonJoinClub.layer.cornerRadius = buttonJoinClub.frame.height / 2
         
     }
 
