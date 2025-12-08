@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24405"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -13,6 +14,7 @@
         <array key="SF-Pro.ttf">
             <string>SFPro-Light</string>
             <string>SFPro-Medium</string>
+            <string>SFPro-Regular</string>
             <string>SFPro-Semibold</string>
         </array>
     </customFonts>
@@ -50,15 +52,35 @@
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wdd-Wx-T4w">
                                     <rect key="frame" x="0.0" y="0.0" width="322" height="50"/>
-                                    <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                    <subviews>
+                                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7gc-LO-Z6Q">
+                                            <rect key="frame" x="15" y="0.0" width="307" height="50"/>
+                                            <fontDescription key="fontDescription" name="SFPro-Regular" family="SF Pro" pointSize="15"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                        </textField>
+                                    </subviews>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="50" id="6L8-vM-ESj"/>
+                                        <constraint firstItem="7gc-LO-Z6Q" firstAttribute="leading" secondItem="wdd-Wx-T4w" secondAttribute="leading" constant="15" id="B8y-Zi-Udu"/>
+                                        <constraint firstAttribute="trailing" secondItem="7gc-LO-Z6Q" secondAttribute="trailing" id="TyC-UA-ErH"/>
+                                        <constraint firstItem="7gc-LO-Z6Q" firstAttribute="top" secondItem="wdd-Wx-T4w" secondAttribute="top" id="VbZ-bz-l6C"/>
+                                        <constraint firstAttribute="bottom" secondItem="7gc-LO-Z6Q" secondAttribute="bottom" id="bH9-ZO-4M7"/>
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oSs-yp-5eG">
                                     <rect key="frame" x="0.0" y="65" width="322" height="50"/>
-                                    <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                    <subviews>
+                                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9pb-Zl-itS">
+                                            <rect key="frame" x="15" y="0.0" width="307" height="50"/>
+                                            <fontDescription key="fontDescription" name="SFPro-Regular" family="SF Pro" pointSize="15"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                        </textField>
+                                    </subviews>
                                     <constraints>
+                                        <constraint firstItem="9pb-Zl-itS" firstAttribute="top" secondItem="oSs-yp-5eG" secondAttribute="top" id="JJB-Er-tXz"/>
+                                        <constraint firstAttribute="bottom" secondItem="9pb-Zl-itS" secondAttribute="bottom" id="PO6-8n-Nke"/>
+                                        <constraint firstItem="9pb-Zl-itS" firstAttribute="leading" secondItem="oSs-yp-5eG" secondAttribute="leading" constant="15" id="UTI-Vb-vZU"/>
+                                        <constraint firstAttribute="trailing" secondItem="9pb-Zl-itS" secondAttribute="trailing" id="X7C-dI-z55"/>
                                         <constraint firstAttribute="height" constant="50" id="psR-3I-YaU"/>
                                     </constraints>
                                 </view>
@@ -98,8 +120,9 @@
                                     <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="16"/>
                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                    <state key="normal" title="Login with Apple ID">
+                                    <state key="normal" title="    Login with Apple ID">
                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <imageReference key="image" image="apple.logo" catalog="system" symbolScale="large"/>
                                     </state>
                                 </button>
                             </subviews>
@@ -134,23 +157,14 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="137.31343283582089" y="153.77574370709382"/>
         </view>
-        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="S17-yY-Tse">
-            <rect key="frame" x="0.0" y="0.0" width="75" height="35"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <state key="normal" title="Button"/>
-            <buttonConfiguration key="configuration" style="plain" title="Button"/>
-            <point key="canvasLocation" x="207" y="513"/>
-        </button>
     </objects>
     <resources>
+        <image name="apple.logo" catalog="system" width="105" height="128"/>
         <namedColor name="AccentColor">
             <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemBlueColor">
-            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

@@ -45,11 +45,13 @@ class SaveActivityViewController: UIViewController {
         let alert = UIAlertController(title: NSLocalizedString("Delete Activity", comment: ""),
                                       message: NSLocalizedString("Are you sure you want to Delete this Activity?", comment: ""),
                                       preferredStyle: .alert)
-                
+              
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel)
         let deleteAction = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive, handler: {_ in
             self.navigationController?.dismiss(animated: true, completion: nil)
         })
         
+        alert.addAction(cancelAction)
         alert.addAction(deleteAction)
         alert.overrideUserInterfaceStyle = .dark
         present(alert, animated: true, completion: nil)

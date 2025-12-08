@@ -102,7 +102,11 @@ class TrackScreenViewController: UIViewController {
     
     @objc func startButtonPressed() {
         
-        let destinationVC = SetGoalViewController()
+//        let destinationVC = SetGoalViewController()
+//        self.present(destinationVC, animated: true, completion: nil)
+        
+        let destinationVC = LoginViewController()
+        destinationVC.modalPresentationStyle = .fullScreen
         self.present(destinationVC, animated: true, completion: nil)
         
     }
