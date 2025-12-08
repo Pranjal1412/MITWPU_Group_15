@@ -109,6 +109,7 @@
             </constraints>
             <size key="customSize" width="364" height="372"/>
             <connections>
+                <outlet property="buttonJoinClub" destination="cOS-Xn-hHr" id="sk8-tw-4W3"/>
                 <outlet property="viewExploreClub" destination="fPf-hD-fHP" id="HRw-NJ-RAS"/>
             </connections>
             <point key="canvasLocation" x="-596.18320610687022" y="-102.11267605633803"/>
@@ -118,7 +119,7 @@
         <image name="figure.run" catalog="system" width="115" height="128"/>
         <image name="person.2.fill" catalog="system" width="128" height="86"/>
         <namedColor name="CardLightBlack">
-            <color red="0.10196078431372549" green="0.10196078431372549" blue="0.10196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.10199999809265137" green="0.10199999809265137" blue="0.10199999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

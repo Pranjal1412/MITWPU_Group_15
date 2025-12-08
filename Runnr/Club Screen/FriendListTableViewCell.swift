@@ -12,7 +12,15 @@ class FriendListTableViewCell: UITableViewCell {
     @IBOutlet weak var imageProfileFriends: UIImageView!
     
     @IBOutlet var buttonFollow: UIButton!
-    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+        
+        
+        buttonFollow.titleLabel?.textColor = UIColor.black
+        
+    }
+
    
 }
 
