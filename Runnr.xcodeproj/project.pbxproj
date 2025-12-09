@@ -11,7 +11,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		19217CC52EA0E064009AFC93 /* Runnr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Runnr.app; path = "/Users/sdc_user/Desktop/Project/Runnr/build/Debug-iphoneos/Runnr.app"; sourceTree = "<absolute>"; };
+		1935A5FD2EE7D855001CD943 /* Runnr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Runnr.app; path = "/Users/sdc_user/Desktop/Project/Runnr/build/Debug-iphoneos/Runnr.app"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -77,7 +77,7 @@
 				F903F4562EB653FC0066B9A1 /* GoogleMaps */,
 			);
 			productName = Runnr;
-			productReference = 19217CC52EA0E064009AFC93 /* Runnr.app */;
+			productReference = 1935A5FD2EE7D855001CD943 /* Runnr.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */

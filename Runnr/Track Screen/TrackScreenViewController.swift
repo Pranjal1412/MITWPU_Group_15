@@ -21,65 +21,34 @@ class TrackScreenViewController: UIViewController {
         
         view.overrideUserInterfaceStyle = .dark
         
-        labelScreenTitle.sizeToFit()
-        labelScreenTitle.text! = NSLocalizedString("Runnr", comment: "")
-        labelScreenTitle.textColor = .accent
-
         userLocation.requestLocation()
+        
+        labelScreenTitle.sizeToFit()
+        labelScreenTitle.text = NSLocalizedString("Runnr.", comment: "")
+        labelScreenTitle.textColor = .accent
         
     }
 
     override func viewDidLayoutSubviews() {
-        let height = view.safeAreaInsets.bottom
+        let bottomInset = view.safeAreaInsets.bottom
+        let topOffset = labelScreenTitle.frame.height + labelScreenTitle.frame.origin.y + 20.0
         
         userLocation.onLocationUpdate = { coordinate in
+            
+            let mapManger = MapManager()
             if self.isMapInitialized == false {
-                self.initializeMaps(with : height, location : coordinate)
+                
+                let mapView = mapManger.initializeMaps(withBottomInset : bottomInset, withTopOffset: topOffset, location : coordinate)
+                mapManger.mapBehavior(isEnabled: false)
+                self.view.addSubview(mapView)
+                
+                self.userLocation.stopLocation()
                 self.isMapInitialized = true
             }
+            
         }
         
         createStartButton()
-    }
-    
-    func initializeMaps(with bottomInset: CGFloat, location coordinate: CLLocationCoordinate2D) {
-        
-        let camera = GMSCameraPosition.camera(withLatitude: coordinate.latitude, longitude: coordinate.longitude, zoom: 15.0)
-        
-        let systemOS = UIDevice.current.systemVersion
-        let mapView: GMSMapView!
-        
-        let topOffset = labelScreenTitle.frame.height + labelScreenTitle.frame.origin.y + 20.0
-        
-        if systemOS < "26" {
-            mapView = GMSMapView.map(withFrame: CGRect(x: 0, y: 140, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - topOffset - bottomInset) , camera: camera)
-        }
-        
-        else {
-            mapView = GMSMapView.map(withFrame: CGRect(x: 0, y: 140, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - topOffset), camera: camera)
-            
-            print(bottomInset)
-        }
-
-        
-        do {
-           if let MapstyleURL = Bundle.main.url(forResource: "GoogleMapStyle", withExtension: "json") {
-               mapView.mapStyle = try GMSMapStyle(contentsOfFileURL: MapstyleURL)
-           } else {
-               NSLog("Unable to find GoogleMapStyle.json")
-           }
-       } catch {
-           NSLog("One or more of the map styles failed to load. \(error)")
-       }
-        
-        mapView.mapType = .normal
-        
-        mapView.settings.rotateGestures = false
-        mapView.settings.scrollGestures = false
-        mapView.settings.zoomGestures = false
-        
-        view.addSubview(mapView)
-
     }
     
     func createStartButton() {
@@ -105,7 +74,9 @@ class TrackScreenViewController: UIViewController {
         let destinationVC = SetGoalViewController()
         self.present(destinationVC, animated: true, completion: nil)
         
-//        let destinationVC = LoginViewController()
+        userLocation.alwaysAuthorization()
+        
+//        let destinationVC = LiveTrackingViewController()
 //        destinationVC.modalPresentationStyle = .fullScreen
 //        self.present(destinationVC, animated: true, completion: nil)
         

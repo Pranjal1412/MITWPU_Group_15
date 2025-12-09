@@ -21,6 +21,8 @@ class SetGoalViewController: UIViewController {
     @IBOutlet weak var viewBackgroundTime: UIView!
     @IBOutlet weak var viewBackgroundAudio: UIView!
     
+    let userLocation = UserLocationManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -67,6 +69,9 @@ class SetGoalViewController: UIViewController {
         
         if let presenter = self.presentingViewController {
 
+            let newActivity = TempModel(distance: 0, time: "0:00", routeCoordinates: [])
+            activity.append(newActivity)
+            
 //          now we are writing that upon dimissal of the screen perform the following code
             self.dismiss(animated: true) {
 

@@ -26,7 +26,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Runnr." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u5t-gV-e1p">
-                    <rect key="frame" x="25" y="90" width="95" height="39"/>
+                    <rect key="frame" x="25.000000000000007" y="90" width="95.666666666666686" height="39.666666666666657"/>
                     <fontDescription key="fontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="33"/>
                     <color key="textColor" name="AccentColor"/>
                     <nil key="highlightedColor"/>

@@ -29,6 +29,8 @@ class RunStartedViewController: UIViewController {
     @IBOutlet weak var labelHeartRateCounter: UILabel!
     @IBOutlet weak var labelDistanceCounter: UILabel!
     
+    let userLocation = UserLocationManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -38,6 +40,8 @@ class RunStartedViewController: UIViewController {
         settingScreenElements()
         settingPauseButtonImg()
         buttonEndRun.isHidden = true
+        
+        userLocation.requestLocation()
 
     }
 
@@ -93,6 +97,9 @@ class RunStartedViewController: UIViewController {
         buttonEndRun.layer.borderColor = UIColor.accent.cgColor
         
         if buttonPause.tag == 0 {
+            
+            self.userLocation.stopLocation()
+            
             UIView.animate(withDuration: 0.5) {
                 self.buttonPause.frame.origin.x = (UIScreen.main.bounds.width - (self.buttonPause.frame.width * 2) - 70.0)/2.0
                 self.buttonPause.setImage(UIImage(systemName: "play.fill"), for: .normal)
@@ -103,6 +110,9 @@ class RunStartedViewController: UIViewController {
         }
         
         else if buttonPause.tag == 1 {
+            
+            self.userLocation.requestLocation()
+            
             UIView.animate(withDuration: 0.5) {
                 self.buttonPause.frame.origin.x = (UIScreen.main.bounds.width - self.buttonPause.frame.width)/2.0
                 self.buttonPause.setImage(UIImage(systemName: "pause.fill"), for: .normal)
