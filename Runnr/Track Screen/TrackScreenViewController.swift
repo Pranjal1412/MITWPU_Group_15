@@ -30,25 +30,25 @@ class TrackScreenViewController: UIViewController {
     }
 
     override func viewDidLayoutSubviews() {
-        let bottomInset = view.safeAreaInsets.bottom
-        let topOffset = labelScreenTitle.frame.height + labelScreenTitle.frame.origin.y + 20.0
-        
         userLocation.onLocationUpdate = { coordinate in
             
-            let mapManger = MapManager()
             if self.isMapInitialized == false {
                 
+                let mapManger = MapManager()
+                let bottomInset = self.view.safeAreaInsets.bottom
+                let topOffset = self.labelScreenTitle.frame.height + self.labelScreenTitle.frame.origin.y + 20.0
                 let mapView = mapManger.initializeMaps(withBottomInset : bottomInset, withTopOffset: topOffset, location : coordinate)
+                
                 mapManger.mapBehavior(isEnabled: false)
                 self.view.addSubview(mapView)
+                
+                self.createStartButton()
                 
                 self.userLocation.stopLocation()
                 self.isMapInitialized = true
             }
             
         }
-        
-        createStartButton()
     }
     
     func createStartButton() {
@@ -72,6 +72,7 @@ class TrackScreenViewController: UIViewController {
     @objc func startButtonPressed() {
         
         let destinationVC = SetGoalViewController()
+//        destinationVC.modalPresentationStyle = .overCurrentContext
         self.present(destinationVC, animated: true, completion: nil)
         
         userLocation.alwaysAuthorization()

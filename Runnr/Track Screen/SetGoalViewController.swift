@@ -11,7 +11,6 @@ import GoogleMaps
 class SetGoalViewController: UIViewController {
 
     @IBOutlet weak var labelScreenTitle: UILabel!
-    @IBOutlet weak var viewBackground: UIView!
     @IBOutlet weak var viewSubBackground: UIView!
     @IBOutlet weak var viewMainBackground: UIView!
     @IBOutlet weak var buttonStart: UIButton!
@@ -27,7 +26,7 @@ class SetGoalViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        viewBackground.backgroundColor = .clear
+        view.backgroundColor = .clear
         viewMainBackground.layer.cornerRadius = 20
         viewSubBackground.layer.cornerRadius = 15
         

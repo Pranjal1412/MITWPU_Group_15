@@ -11,11 +11,13 @@ import GoogleMaps
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+//    var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         GMSServices.provideAPIKey("AIzaSyBpJKC0vjbzXZRdCeLXGMPQxbyPB0ILvN0")
+//        self.window?.overrideUserInterfaceStyle = .dark
+        
         return true
     }
 

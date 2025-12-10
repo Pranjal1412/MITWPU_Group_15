@@ -23,7 +23,6 @@ class LiveTrackingViewController: UIViewController {
                 
         userLocation.onLocationUpdate = { coordinate in
             
-//            self.mapManager.path.add(coordinate)
             self.mapManager.routeLine.path = activity[activity.count-1].routeCoordinates
             
             print("Path Count: \(activity[activity.count-1].routeCoordinates.count())")

@@ -29,8 +29,13 @@ class RunStartedViewController: UIViewController {
     @IBOutlet weak var labelHeartRateCounter: UILabel!
     @IBOutlet weak var labelDistanceCounter: UILabel!
     
+    @IBOutlet weak var scrollView: UIScrollView!
+    
+    @IBOutlet var viewContent: UIView!
+    @IBOutlet var viewActivityTracking: UIView!
     
     let userLocation = UserLocationManager()
+    var pageControlInitialized = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,11 +48,15 @@ class RunStartedViewController: UIViewController {
         buttonEndRun.isHidden = true
         
         userLocation.requestLocation()
-
     }
-    
-    override func viewDidLayoutSubviews() {
-//        settingPageControl()
+        
+    override func viewDidAppear(_ animated: Bool) {
+        
+        if self.pageControlInitialized == false {
+            settingPageControl()
+            self.pageControlInitialized = true
+        }
+        
     }
 
     func settingScreenElements() {
@@ -165,29 +174,29 @@ class RunStartedViewController: UIViewController {
 
 extension RunStartedViewController {
     
-//    func settingPageControl() {
-//        scrollView.contentSize.width = view.frame.width * 3
-//
-//            for i in 0..<3 {
-//                let page = UIView(frame: CGRect(x: CGFloat(i) * view.frame.width, y: 0,
-//                                                width: view.frame.width,height: scrollView.frame.height))
-//
-//                switch i {
-//                case 0: page.backgroundColor = .blue
-//                    
-//                case 1: trialView.frame = page.bounds
-//                    
-//                    viewAllData.frame = CGRect(x: 25, y: 100, width: trialView.frame.width - 50, height: 300)
-//                    trialView.addSubview(viewAllData)
-//                    
-//                    page.addSubview(trialView)
-//                    
-//                case 2: page.backgroundColor = .green
-//                    
-//                default: break
-//                }
-//
-//                scrollView.addSubview(page)
-//            }
-//    }
+    func settingPageControl() {
+        scrollView.contentSize.width = view.frame.width * 3
+
+            for i in 0..<3 {
+                let page = UIView(frame: CGRect(x: CGFloat(i) * view.frame.width, y: 0,
+                                                width: view.frame.width,height: scrollView.frame.height))
+
+                switch i {
+                case 0: page.backgroundColor = .green
+//                    let mapView = LiveTrackingViewController(nibName: "LiveTrackingViewController", bundle: nil)
+//                    page.addSubview(mapView.view)
+                    
+                case 1:
+                    self.viewContent.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+                    
+                    page.addSubview(self.viewContent)
+                                                            
+                case 2: page.backgroundColor = .green
+                    
+                default: break
+                }
+
+                scrollView.addSubview(page)
+            }
+    }
 }
