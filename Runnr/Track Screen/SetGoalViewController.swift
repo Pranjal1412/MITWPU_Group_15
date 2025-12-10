@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import GoogleMaps
 
 class SetGoalViewController: UIViewController {
 
@@ -69,7 +70,7 @@ class SetGoalViewController: UIViewController {
         
         if let presenter = self.presentingViewController {
 
-            let newActivity = TempModel(distance: 0, time: "0:00", routeCoordinates: [])
+            let newActivity = TempModel(distance: 0, time: "0:00", routeCoordinates: GMSMutablePath())
             activity.append(newActivity)
             
 //          now we are writing that upon dimissal of the screen perform the following code
@@ -96,8 +97,7 @@ class SetGoalViewController: UIViewController {
 
 extension SetGoalViewController {
     func hideKeyboardWhenTappedAround() {
-        let tapGesture = UITapGestureRecognizer(target: self,
-                         action: #selector(hideKeyboard))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         view.addGestureRecognizer(tapGesture)
     }
 

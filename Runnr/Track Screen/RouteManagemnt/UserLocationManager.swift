@@ -6,6 +6,7 @@
 //
 
 import CoreLocation
+import GoogleMaps
 
 class UserLocationManager: NSObject, CLLocationManagerDelegate {
     
@@ -48,8 +49,7 @@ class UserLocationManager: NSObject, CLLocationManagerDelegate {
             
             if activity.isEmpty == false {
                 let index = activity.count - 1
-                activity[index].routeCoordinates.append(location)
-                print("Coordinate COunt: \(activity[index].routeCoordinates.count)")
+                activity[index].routeCoordinates.add(location)
             }
             
             print("Array Size: \(activity.count)")
@@ -68,9 +68,5 @@ class UserLocationManager: NSObject, CLLocationManagerDelegate {
             print("Location Required to use this app")
         }
     }
-    
-//    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-//        print("Failed to get location:", error.localizedDescription)
-//    }
 
 }

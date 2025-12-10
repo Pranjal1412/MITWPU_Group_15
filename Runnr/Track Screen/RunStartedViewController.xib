@@ -29,7 +29,7 @@
                 <outlet property="labelTime" destination="UuH-yl-Uga" id="slg-D7-gJh"/>
                 <outlet property="labelTimeCounter" destination="0fB-7P-aXP" id="YVu-KJ-1TO"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
-                <outlet property="viewBackground" destination="HTK-sZ-fO6" id="KjP-u5-1bT"/>
+                <outlet property="viewAllData" destination="HTK-sZ-fO6" id="83r-qn-gs6"/>
                 <outlet property="viewDistance" destination="Vcu-Pb-L8e" id="stY-ru-3mZ"/>
                 <outlet property="viewHeartRate" destination="ubZ-94-qJC" id="BLx-xy-wIo"/>
                 <outlet property="viewPace" destination="RSC-db-BhL" id="QoL-Jl-pRH"/>
@@ -190,7 +190,7 @@
                         <constraint firstItem="DhY-WJ-eYv" firstAttribute="centerX" secondItem="Vcu-Pb-L8e" secondAttribute="centerX" id="zVJ-3o-6M0"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qsz-ek-2fb">
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qsz-ek-2fb" userLabel="EndRun">
                     <rect key="frame" x="151" y="680" width="100" height="100"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="29"/>

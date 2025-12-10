@@ -7,11 +7,12 @@
 
 import Foundation
 import CoreLocation
+import GoogleMaps
 
 struct TempModel {
     var distance: CGFloat
     var time: String
-    var routeCoordinates: [CLLocationCoordinate2D]
+    var routeCoordinates: GMSMutablePath
 }
 
 var activity: [TempModel] = []
