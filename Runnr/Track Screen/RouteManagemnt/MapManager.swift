@@ -11,13 +11,8 @@ import UIKit
 class MapManager {
     
     private var mapView = GMSMapView()
-    var routeLine : GMSPolyline?
+    var routeLine = GMSPolyline()
     var path = GMSMutablePath()
-    
-    init() {
-        self.routeLine?.strokeColor = UIColor.accent
-        self.routeLine?.strokeWidth = 5.0
-    }
     
     func initializeMaps(withBottomInset bottomInset: CGFloat = 0.0, withTopOffset topOffset: CGFloat = 0.0, location coordinate: CLLocationCoordinate2D) -> GMSMapView {
         
@@ -57,8 +52,12 @@ class MapManager {
     
     func userLocationMarkerSetting(isEnabled: Bool) {
         mapView.isMyLocationEnabled = isEnabled
-        mapView.settings.compassButton = isEnabled
         mapView.settings.myLocationButton = isEnabled
     }
     
+    func setRouteLineStyle() {
+        self.routeLine.strokeColor = UIColor.accent
+        self.routeLine.strokeWidth = 5.0
+        self.routeLine.map = mapView
+    }
 }

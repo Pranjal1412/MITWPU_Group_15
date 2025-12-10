@@ -6,33 +6,41 @@
 //
 
 import UIKit
+import GoogleMaps
 
 class LiveTrackingViewController: UIViewController {
 
     var isMapInitialized = false
     let userLocation = UserLocationManager()
+    let mapManager = MapManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.overrideUserInterfaceStyle = .dark
 
-    }
-
-    override func viewDidLayoutSubviews() {
-        
+        userLocation.requestLocation()
+                
         userLocation.onLocationUpdate = { coordinate in
             
-            let mapManager = MapManager()
+//            self.mapManager.path.add(coordinate)
+            self.mapManager.routeLine.path = activity[activity.count-1].routeCoordinates
+            
+            print("Path Count: \(activity[activity.count-1].routeCoordinates.count())")
             
             if self.isMapInitialized == false {
-                let mapView = mapManager.initializeMaps(location : coordinate)
-                mapManager.userLocationMarkerSetting(isEnabled: true)
+                
+                let mapView = self.mapManager.initializeMaps(location : coordinate)
+                self.mapManager.userLocationMarkerSetting(isEnabled: true)
                 self.view.addSubview(mapView)
+                
+                self.mapManager.setRouteLineStyle()
+                
                 self.isMapInitialized = true
+                
             }
             
         }
-        
     }
+    
 }

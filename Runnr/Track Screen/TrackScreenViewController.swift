@@ -76,9 +76,5 @@ class TrackScreenViewController: UIViewController {
         
         userLocation.alwaysAuthorization()
         
-//        let destinationVC = LiveTrackingViewController()
-//        destinationVC.modalPresentationStyle = .fullScreen
-//        self.present(destinationVC, animated: true, completion: nil)
-        
     }
 }

@@ -68,6 +68,13 @@
   },
   {
     "featureType": "poi",
+    "elementType": "geometry",
+    "stylers": [
+      { "color": "#1F1F1F" }
+    ]
+  },
+  {
+    "featureType": "poi",
     "elementType": "labels.text.fill",
     "stylers": [
       {

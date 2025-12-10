@@ -10,7 +10,7 @@ import GoogleMaps
 
 class RunStartedViewController: UIViewController {
 
-    @IBOutlet weak var viewBackground: UIView!
+    @IBOutlet weak var viewAllData: UIView!
     @IBOutlet weak var viewTime: UIView!
     @IBOutlet weak var viewPace: UIView!
     @IBOutlet weak var viewHeartRate: UIView!
@@ -29,6 +29,7 @@ class RunStartedViewController: UIViewController {
     @IBOutlet weak var labelHeartRateCounter: UILabel!
     @IBOutlet weak var labelDistanceCounter: UILabel!
     
+    
     let userLocation = UserLocationManager()
     
     override func viewDidLoad() {
@@ -44,9 +45,13 @@ class RunStartedViewController: UIViewController {
         userLocation.requestLocation()
 
     }
+    
+    override func viewDidLayoutSubviews() {
+//        settingPageControl()
+    }
 
     func settingScreenElements() {
-        viewBackground.layer.cornerRadius = 20
+        viewAllData.layer.cornerRadius = 20
         viewPace.layer.cornerRadius = 20
         viewHeartRate.layer.cornerRadius = 20
         viewTime.layer.cornerRadius = 20
@@ -106,6 +111,7 @@ class RunStartedViewController: UIViewController {
                 self.buttonEndRun.isHidden = false
                 self.buttonEndRun.frame.origin.x = (self.buttonPause.frame.origin.x + self.buttonPause.frame.width + 70.0)
             }
+            
             buttonPause.tag = 1
         }
         
@@ -153,5 +159,35 @@ class RunStartedViewController: UIViewController {
         
     }
     
+}
+
+// MARK: - Page Control Code
+
+extension RunStartedViewController {
     
+//    func settingPageControl() {
+//        scrollView.contentSize.width = view.frame.width * 3
+//
+//            for i in 0..<3 {
+//                let page = UIView(frame: CGRect(x: CGFloat(i) * view.frame.width, y: 0,
+//                                                width: view.frame.width,height: scrollView.frame.height))
+//
+//                switch i {
+//                case 0: page.backgroundColor = .blue
+//                    
+//                case 1: trialView.frame = page.bounds
+//                    
+//                    viewAllData.frame = CGRect(x: 25, y: 100, width: trialView.frame.width - 50, height: 300)
+//                    trialView.addSubview(viewAllData)
+//                    
+//                    page.addSubview(trialView)
+//                    
+//                case 2: page.backgroundColor = .green
+//                    
+//                default: break
+//                }
+//
+//                scrollView.addSubview(page)
+//            }
+//    }
 }
