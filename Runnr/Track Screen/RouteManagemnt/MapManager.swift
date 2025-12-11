@@ -14,20 +14,23 @@ class MapManager {
     var routeLine = GMSPolyline()
     var path = GMSMutablePath()
     
-    func initializeMaps(withBottomInset bottomInset: CGFloat = 0.0, withTopOffset topOffset: CGFloat = 0.0, location coordinate: CLLocationCoordinate2D) -> GMSMapView {
+    func initializeMaps(withBottomInset bottomInset: CGFloat = 0.0, withTopOffset topOffset: CGFloat = 0.0,
+                        withLeadingInset leadingInset: CGFloat = 0.0, withTrailingInset trailingInset: CGFloat = 0.0,
+                        location coordinate: CLLocationCoordinate2D,) -> GMSMapView {
         
         let camera = GMSCameraPosition.camera(withLatitude: coordinate.latitude, longitude: coordinate.longitude, zoom: 15.0)
-        let systemOS = UIDevice.current.systemVersion
-        
-        if systemOS < "26" {
-            mapView = GMSMapView.map(withFrame: CGRect(x: 0, y: topOffset, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - topOffset - bottomInset) , camera: camera)
-        }
-        
-        else {
-            mapView = GMSMapView.map(withFrame: CGRect(x: 0, y: topOffset, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - topOffset), camera: camera)
-            
-        }
+//        let systemOS = UIDevice.current.systemVersion
+//        
+//        if systemOS < "26" {
+//            mapView = GMSMapView.map(withFrame: CGRect(x: leadingInset, y: topOffset, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - (topOffset + bottomInset)) , camera: camera)
+//        }
+//
+//        else {
+//            mapView = GMSMapView.map(withFrame: CGRect(x: leadingInset, y: topOffset, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - topOffset), camera: camera)
+//            
+//        }
 
+        mapView = GMSMapView.map(withFrame: CGRect(x: leadingInset, y: topOffset, width: UIScreen.main.bounds.width - (leadingInset + trailingInset), height: UIScreen.main.bounds.height - (topOffset + bottomInset)) , camera: camera)
         
         do {
            if let MapstyleURL = Bundle.main.url(forResource: "GoogleMapStyle", withExtension: "json") {
@@ -44,11 +47,11 @@ class MapManager {
         return mapView
     }
     
-    func mapBehavior(isEnabled: Bool) {
-        mapView.settings.rotateGestures = isEnabled
-        mapView.settings.scrollGestures = isEnabled
-        mapView.settings.zoomGestures = isEnabled
-    }
+//    func mapBehavior(isEnabled: Bool) {
+//        mapView.settings.rotateGestures = isEnabled
+//        mapView.settings.scrollGestures = isEnabled
+//        mapView.settings.zoomGestures = isEnabled
+//    }
     
     func userLocationMarkerSetting(isEnabled: Bool) {
         mapView.isMyLocationEnabled = isEnabled
@@ -57,7 +60,8 @@ class MapManager {
     
     func setRouteLineStyle() {
         self.routeLine.strokeColor = UIColor.accent
-        self.routeLine.strokeWidth = 5.0
+        self.routeLine.strokeWidth = 8.0
+        self.routeLine.geodesic = true
         self.routeLine.map = mapView
     }
 }

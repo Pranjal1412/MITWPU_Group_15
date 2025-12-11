@@ -29,8 +29,12 @@ class LiveTrackingViewController: UIViewController {
             
             if self.isMapInitialized == false {
                 
-                let mapView = self.mapManager.initializeMaps(location : coordinate)
+                let mapView = self.mapManager.initializeMaps(withBottomInset: 70.0, withLeadingInset: 10.0, withTrailingInset: 10.0, location: coordinate)
+              
                 self.mapManager.userLocationMarkerSetting(isEnabled: true)
+                mapView.settings.rotateGestures = false
+                mapView.settings.zoomGestures = true
+                mapView.settings.scrollGestures = true
                 self.view.addSubview(mapView)
                 
                 self.mapManager.setRouteLineStyle()

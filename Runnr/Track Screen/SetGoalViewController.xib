@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24127" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24412" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24405"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -223,7 +224,7 @@
                         <constraint firstItem="VXE-42-Ogw" firstAttribute="leading" secondItem="hsK-Vy-pe3" secondAttribute="leading" constant="25" id="BKY-q4-YBw"/>
                         <constraint firstItem="guD-5E-SMd" firstAttribute="leading" secondItem="hsK-Vy-pe3" secondAttribute="leading" constant="25" id="Iqw-OT-s9I"/>
                         <constraint firstItem="guD-5E-SMd" firstAttribute="top" secondItem="neH-Pi-m9v" secondAttribute="bottom" constant="30" id="Qpw-6x-PPg"/>
-                        <constraint firstAttribute="height" constant="661" id="YDa-Lb-S5N"/>
+                        <constraint firstAttribute="height" constant="661" id="Rff-GR-XTu"/>
                         <constraint firstAttribute="bottom" secondItem="guD-5E-SMd" secondAttribute="bottom" constant="44" id="bXT-f7-nWw"/>
                         <constraint firstAttribute="trailing" secondItem="neH-Pi-m9v" secondAttribute="trailing" constant="25" id="d9M-7p-92X"/>
                         <constraint firstItem="VXE-42-Ogw" firstAttribute="top" secondItem="hsK-Vy-pe3" secondAttribute="top" constant="25" id="dMx-e4-0Sg"/>
@@ -236,6 +237,7 @@
                 </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemGreenColor"/>
             <constraints>
                 <constraint firstItem="hsK-Vy-pe3" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="2lg-0Z-e0q"/>
                 <constraint firstAttribute="bottom" secondItem="hsK-Vy-pe3" secondAttribute="bottom" id="9bN-kq-5z8"/>
@@ -253,5 +255,8 @@
         <namedColor name="CardLightBlack">
             <color red="0.10199999809265137" green="0.10199999809265137" blue="0.10199999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>

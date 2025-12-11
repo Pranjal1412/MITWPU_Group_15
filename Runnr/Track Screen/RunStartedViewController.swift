@@ -17,7 +17,7 @@ class RunStartedViewController: UIViewController {
     @IBOutlet weak var viewDistance: UIView!
     @IBOutlet weak var buttonPause: UIButton!
     @IBOutlet weak var buttonEndRun: UIButton!
-    
+    @IBOutlet weak var buttonLockScroll: UIButton!
     
     @IBOutlet weak var labelDistance: UILabel!
     @IBOutlet weak var labelTime: UILabel!
@@ -30,9 +30,10 @@ class RunStartedViewController: UIViewController {
     @IBOutlet weak var labelDistanceCounter: UILabel!
     
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet var viewActivityProgress: UIView!
+    @IBOutlet var viewActivitySettings: UIView!
+    @IBOutlet weak var pageControl: UIPageControl!
     
-    @IBOutlet var viewContent: UIView!
-    @IBOutlet var viewActivityTracking: UIView!
     
     let userLocation = UserLocationManager()
     var pageControlInitialized = false
@@ -43,6 +44,7 @@ class RunStartedViewController: UIViewController {
         navigationItem.hidesBackButton = true
         view.overrideUserInterfaceStyle = .dark
         
+        scrollView.delegate = self
         settingScreenElements()
         settingPauseButtonImg()
         buttonEndRun.isHidden = true
@@ -53,7 +55,7 @@ class RunStartedViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         
         if self.pageControlInitialized == false {
-            settingPageControl()
+            settingHorizontalScroll()
             self.pageControlInitialized = true
         }
         
@@ -65,8 +67,12 @@ class RunStartedViewController: UIViewController {
         viewHeartRate.layer.cornerRadius = 20
         viewTime.layer.cornerRadius = 20
         viewDistance.layer.cornerRadius = 20
-        buttonPause.layer.cornerRadius = 50
-        buttonEndRun.layer.cornerRadius = 50
+        
+        buttonPause.layer.cornerRadius = buttonPause.frame.height / 2
+        buttonEndRun.layer.cornerRadius = buttonEndRun.frame.height / 2
+        buttonLockScroll.layer.cornerRadius = buttonLockScroll.frame.height / 2
+        
+        buttonPause.frame.origin.x = (view.frame.width - buttonPause.frame.width) / 2
         
         labelDistance.font = UIFont(name: "SF Pro Medium", size: 18.0)
         labelDistance.text = NSLocalizedString("Distance (Km)", comment: "")
@@ -136,7 +142,7 @@ class RunStartedViewController: UIViewController {
                 
             }
             buttonPause.tag = 0
-//            buttonEndRun.isHidden = true
+
         }
         
     }
@@ -170,33 +176,59 @@ class RunStartedViewController: UIViewController {
     
 }
 
-// MARK: - Page Control Code
+// MARK: - Page Control Code & Scroll View Setting
 
-extension RunStartedViewController {
+extension RunStartedViewController : UIScrollViewDelegate {
     
-    func settingPageControl() {
+    func settingHorizontalScroll() {
         scrollView.contentSize.width = view.frame.width * 3
 
             for i in 0..<3 {
                 let page = UIView(frame: CGRect(x: CGFloat(i) * view.frame.width, y: 0,
-                                                width: view.frame.width,height: scrollView.frame.height))
+                                                width: UIScreen.main.bounds.width, height: scrollView.frame.height))
 
                 switch i {
-                case 0: /*page.backgroundColor = .green*/
-                    let mapView = LiveTrackingViewController(nibName: "LiveTrackingViewController", bundle: nil)
-                    page.addSubview(mapView.view)
+                case 0:
+                    let liveTrackingView = LiveTrackingViewController(nibName: "LiveTrackingViewController", bundle: nil)
+                    page.addSubview(liveTrackingView.view)
                     
                 case 1:
-                    self.viewContent.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+                    self.viewActivityProgress.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
                     
-                    page.addSubview(self.viewContent)
+                    page.addSubview(self.viewActivityProgress)
                                                             
-                case 2: page.backgroundColor = .green
+                case 2: 
+                    self.viewActivitySettings.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+                    page.addSubview(self.viewActivitySettings)
                     
                 default: break
                 }
 
                 scrollView.addSubview(page)
             }
+        scrollView.contentOffset = CGPoint(x: view.frame.width, y: 0)
     }
+    
+    @IBAction func toggleScrollingTapped(_ sender: UIButton) {
+        scrollView.isScrollEnabled.toggle()
+        
+        if scrollView.isScrollEnabled {
+            sender.setImage(UIImage(systemName: "lock.open.fill"), for: .normal)
+        }
+        else {
+            sender.setImage(UIImage(systemName: "lock.fill"), for: .normal)
+        }
+    }
+    
+//    @IBAction func pageValueChanged(_ sender: UIPageControl) {
+//        let currentPage = sender.currentPage
+//        
+//        scrollView.setContentOffset(CGPoint(x: CGFloat(currentPage) * view.frame.width, y: 0), animated: true)
+//    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        pageControl.currentPage = Int(scrollView.contentOffset.x / view.frame.width)
+    }
+    
+    
 }

@@ -35,15 +35,25 @@ class TrackScreenViewController: UIViewController {
             if self.isMapInitialized == false {
                 
                 let mapManger = MapManager()
-                let bottomInset = self.view.safeAreaInsets.bottom
+                let systemOS = UIDevice.current.systemVersion
                 let topOffset = self.labelScreenTitle.frame.height + self.labelScreenTitle.frame.origin.y + 20.0
-                let mapView = mapManger.initializeMaps(withBottomInset : bottomInset, withTopOffset: topOffset, location : coordinate)
+                var mapView = GMSMapView()
                 
-                mapManger.mapBehavior(isEnabled: false)
+                if systemOS < "26" {
+                    let bottomInset = self.view.safeAreaInsets.bottom
+                    mapView = mapManger.initializeMaps(withBottomInset : bottomInset, withTopOffset: topOffset, location : coordinate)
+                }
+                else {
+                    mapView = mapManger.initializeMaps(withTopOffset: topOffset, location : coordinate)
+                }
+                
+                mapView.settings.scrollGestures = false
+                mapView.settings.zoomGestures = false
+                mapView.settings.rotateGestures = false
+//                mapManger.mapBehavior(isEnabled: false)
                 self.view.addSubview(mapView)
                 
                 self.createStartButton()
-                
                 self.userLocation.stopLocation()
                 self.isMapInitialized = true
             }
@@ -72,7 +82,18 @@ class TrackScreenViewController: UIViewController {
     @objc func startButtonPressed() {
         
         let destinationVC = SetGoalViewController()
-//        destinationVC.modalPresentationStyle = .overCurrentContext
+        
+//        if let sheet = destinationVC.sheetPresentationController {
+//            let customDetent = UISheetPresentationController.Detent.custom { context in
+//                return 661
+//                }
+//                
+//                sheet.detents = [customDetent]
+//                sheet.prefersGrabberVisible = true  // optional: adds drag handle
+//                sheet.preferredCornerRadius = 20
+//        }
+        
+        
         self.present(destinationVC, animated: true, completion: nil)
         
         userLocation.alwaysAuthorization()

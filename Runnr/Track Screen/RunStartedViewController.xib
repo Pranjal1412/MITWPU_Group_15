@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24127" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24412" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24405"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -19,6 +19,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RunStartedViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
                 <outlet property="buttonEndRun" destination="qsz-ek-2fb" id="3x9-Ke-5x6"/>
+                <outlet property="buttonLockScroll" destination="rra-Gr-Og1" id="4dB-d9-NXv"/>
                 <outlet property="buttonPause" destination="pWn-id-S1M" id="eWT-28-zCP"/>
                 <outlet property="labelDistance" destination="DhY-WJ-eYv" id="4xC-5T-Xqy"/>
                 <outlet property="labelDistanceCounter" destination="9TQ-Ut-hG5" id="ZIN-kJ-i2T"/>
@@ -28,11 +29,12 @@
                 <outlet property="labelPaceCounter" destination="zCA-1y-lZ8" id="i0I-S8-ZvX"/>
                 <outlet property="labelTime" destination="UuH-yl-Uga" id="slg-D7-gJh"/>
                 <outlet property="labelTimeCounter" destination="0fB-7P-aXP" id="YVu-KJ-1TO"/>
+                <outlet property="pageControl" destination="6pB-J6-Z0B" id="eoS-fh-EPu"/>
                 <outlet property="scrollView" destination="j6b-0Z-65B" id="kkB-1b-xZy"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
-                <outlet property="viewActivityTracking" destination="UNI-EO-MKJ" id="Le9-1e-kos"/>
+                <outlet property="viewActivityProgress" destination="ndy-VD-VNp" id="Zlm-eP-bWn"/>
+                <outlet property="viewActivitySettings" destination="UNI-EO-MKJ" id="Wlt-tG-dyA"/>
                 <outlet property="viewAllData" destination="HTK-sZ-fO6" id="83r-qn-gs6"/>
-                <outlet property="viewContent" destination="ndy-VD-VNp" id="CCS-bB-vxa"/>
                 <outlet property="viewDistance" destination="Vcu-Pb-L8e" id="stY-ru-3mZ"/>
                 <outlet property="viewHeartRate" destination="ubZ-94-qJC" id="BLx-xy-wIo"/>
                 <outlet property="viewPace" destination="RSC-db-BhL" id="QoL-Jl-pRH"/>
@@ -44,51 +46,40 @@
             <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j6b-0Z-65B">
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j6b-0Z-65B">
                     <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
                     <viewLayoutGuide key="contentLayoutGuide" id="vnh-VI-vyC"/>
                     <viewLayoutGuide key="frameLayoutGuide" id="DeU-bN-1C6"/>
                 </scrollView>
+                <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" currentPage="1" translatesAutoresizingMaskIntoConstraints="NO" id="6pB-J6-Z0B">
+                    <rect key="frame" x="0.0" y="776" width="402" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="6JM-FK-6ay"/>
+                    </constraints>
+                    <color key="pageIndicatorTintColor" name="AccentColorLight"/>
+                    <color key="currentPageIndicatorTintColor" name="AccentColor"/>
+                </pageControl>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="6pB-J6-Z0B" secondAttribute="trailing" id="2hW-mE-D9e"/>
                 <constraint firstItem="j6b-0Z-65B" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="9Xv-rF-G40"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="6pB-J6-Z0B" secondAttribute="bottom" id="9jP-TK-DX1"/>
                 <constraint firstItem="j6b-0Z-65B" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="IN9-Jg-QcA"/>
                 <constraint firstItem="j6b-0Z-65B" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="MLV-1s-FrE"/>
-                <constraint firstAttribute="bottom" secondItem="j6b-0Z-65B" secondAttribute="bottom" id="Zkl-sZ-s85"/>
+                <constraint firstItem="6pB-J6-Z0B" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="S1d-jf-oyD"/>
+                <constraint firstAttribute="bottom" secondItem="j6b-0Z-65B" secondAttribute="bottom" id="ocI-mT-ZI3"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="979" y="-1202"/>
+            <point key="canvasLocation" x="977.61194029850742" y="-1202.0594965675057"/>
         </view>
         <view contentMode="scaleToFill" id="ndy-VD-VNp" userLabel="viewActivityProgress">
             <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vcu-Pb-L8e">
-                    <rect key="frame" x="69.666666666666686" y="555.66666666666663" width="263" height="40"/>
-                    <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DhY-WJ-eYv">
-                            <rect key="frame" x="0.0" y="0.0" width="263" height="40"/>
-                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
-                            <color key="textColor" name="AccentColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
-                    <viewLayoutGuide key="safeArea" id="t6j-mO-PBT"/>
-                    <color key="backgroundColor" name="CardDarkBlack"/>
-                    <constraints>
-                        <constraint firstAttribute="bottom" secondItem="DhY-WJ-eYv" secondAttribute="bottom" id="7gA-tg-ZJP"/>
-                        <constraint firstItem="DhY-WJ-eYv" firstAttribute="leading" secondItem="Vcu-Pb-L8e" secondAttribute="leading" id="ITY-n8-LVP"/>
-                        <constraint firstAttribute="trailing" secondItem="DhY-WJ-eYv" secondAttribute="trailing" id="ODE-ft-6ru"/>
-                        <constraint firstAttribute="height" constant="40" id="RYL-rP-xy6"/>
-                        <constraint firstAttribute="width" constant="263" id="WbY-1r-Ogp"/>
-                        <constraint firstItem="DhY-WJ-eYv" firstAttribute="top" secondItem="Vcu-Pb-L8e" secondAttribute="top" id="nhg-jS-j6o"/>
-                        <constraint firstItem="DhY-WJ-eYv" firstAttribute="centerX" secondItem="Vcu-Pb-L8e" secondAttribute="centerX" id="zVJ-3o-6M0"/>
-                    </constraints>
-                </view>
-                <view contentMode="scaleToFill" id="HTK-sZ-fO6" userLabel="viewStats">
-                    <rect key="frame" x="25" y="100" width="352" height="300"/>
+                <view contentMode="scaleToFill" id="HTK-sZ-fO6" userLabel="viewAllData">
+                    <rect key="frame" x="25" y="104" width="352" height="300"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="YCl-BK-8nh" userLabel="AllDataStack">
@@ -210,7 +201,7 @@
                     </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9TQ-Ut-hG5">
-                    <rect key="frame" x="25" y="415.66666666666669" width="352" height="130.00000000000006"/>
+                    <rect key="frame" x="25" y="419.66666666666669" width="352" height="130.00000000000006"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="130" id="BnP-WR-zFs"/>
                     </constraints>
@@ -218,8 +209,47 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vcu-Pb-L8e">
+                    <rect key="frame" x="69.666666666666686" y="559.66666666666663" width="263" height="40"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DhY-WJ-eYv">
+                            <rect key="frame" x="0.0" y="0.0" width="263" height="40"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                            <color key="textColor" name="AccentColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <viewLayoutGuide key="safeArea" id="t6j-mO-PBT"/>
+                    <color key="backgroundColor" name="CardDarkBlack"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="DhY-WJ-eYv" secondAttribute="bottom" id="7gA-tg-ZJP"/>
+                        <constraint firstItem="DhY-WJ-eYv" firstAttribute="leading" secondItem="Vcu-Pb-L8e" secondAttribute="leading" id="ITY-n8-LVP"/>
+                        <constraint firstAttribute="trailing" secondItem="DhY-WJ-eYv" secondAttribute="trailing" id="ODE-ft-6ru"/>
+                        <constraint firstAttribute="height" constant="40" id="RYL-rP-xy6"/>
+                        <constraint firstAttribute="width" constant="263" id="WbY-1r-Ogp"/>
+                        <constraint firstItem="DhY-WJ-eYv" firstAttribute="top" secondItem="Vcu-Pb-L8e" secondAttribute="top" id="nhg-jS-j6o"/>
+                        <constraint firstItem="DhY-WJ-eYv" firstAttribute="centerX" secondItem="Vcu-Pb-L8e" secondAttribute="centerX" id="zVJ-3o-6M0"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rra-Gr-Og1" userLabel="lock">
+                    <rect key="frame" x="327" y="34" width="50" height="50"/>
+                    <color key="backgroundColor" name="CardLightBlack"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="50" id="JRf-hf-Ijv"/>
+                        <constraint firstAttribute="height" constant="50" id="RNG-N9-fFD"/>
+                    </constraints>
+                    <color key="tintColor" name="AccentColor"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal">
+                        <color key="titleColor" name="AccentColor"/>
+                        <imageReference key="image" image="lock.open.fill" catalog="system" symbolScale="large"/>
+                    </state>
+                    <connections>
+                        <action selector="toggleScrollingTapped:" destination="-1" eventType="touchUpInside" id="9uJ-7g-UCR"/>
+                    </connections>
+                </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qsz-ek-2fb" userLabel="EndRun">
-                    <rect key="frame" x="151" y="636" width="100" height="100"/>
+                    <rect key="frame" x="151" y="641" width="100" height="100"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="29"/>
                     <color key="tintColor" name="AccentColor"/>
@@ -232,7 +262,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pWn-id-S1M" userLabel="pauseRun">
-                    <rect key="frame" x="151" y="636" width="100" height="100"/>
+                    <rect key="frame" x="151" y="641" width="100" height="100"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" name="AccentColor"/>
                     <fontDescription key="fontDescription" type="system" pointSize="29"/>
@@ -251,26 +281,47 @@
             <constraints>
                 <constraint firstItem="Vcu-Pb-L8e" firstAttribute="top" secondItem="9TQ-Ut-hG5" secondAttribute="bottom" constant="10" id="IO7-rQ-NPp"/>
                 <constraint firstItem="9TQ-Ut-hG5" firstAttribute="leading" secondItem="O4Q-6q-dyr" secondAttribute="leading" constant="25" id="KH2-Uo-nmJ"/>
+                <constraint firstItem="HTK-sZ-fO6" firstAttribute="top" secondItem="rra-Gr-Og1" secondAttribute="bottom" constant="20" id="WPn-1G-hoL"/>
                 <constraint firstItem="Vcu-Pb-L8e" firstAttribute="centerX" secondItem="ndy-VD-VNp" secondAttribute="centerX" id="YFZ-Hb-Q51"/>
                 <constraint firstItem="O4Q-6q-dyr" firstAttribute="trailing" secondItem="9TQ-Ut-hG5" secondAttribute="trailing" constant="25" id="bt8-cz-KAB"/>
+                <constraint firstAttribute="trailing" secondItem="rra-Gr-Og1" secondAttribute="trailing" constant="25" id="feT-Nr-1Ks"/>
                 <constraint firstItem="9TQ-Ut-hG5" firstAttribute="top" secondItem="HTK-sZ-fO6" secondAttribute="bottom" constant="25" id="tiH-oI-Q8G"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="164" y="-1201"/>
         </view>
-        <view contentMode="scaleToFill" id="UNI-EO-MKJ">
+        <view contentMode="scaleToFill" id="UNI-EO-MKJ" userLabel="ViewActivitySettings">
             <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hdG-kB-rnr">
+                    <rect key="frame" x="31" y="261" width="340" height="352"/>
+                    <color key="backgroundColor" name="CardDarkBlack"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="352" id="83D-5J-7MI"/>
+                        <constraint firstAttribute="width" constant="340" id="yxL-BY-Qaz"/>
+                    </constraints>
+                </view>
+            </subviews>
             <viewLayoutGuide key="safeArea" id="4V0-iC-4hX"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-            <point key="canvasLocation" x="1825" y="-1215"/>
+            <constraints>
+                <constraint firstItem="hdG-kB-rnr" firstAttribute="centerY" secondItem="UNI-EO-MKJ" secondAttribute="centerY" id="gf3-gn-TZb"/>
+                <constraint firstItem="hdG-kB-rnr" firstAttribute="centerX" secondItem="UNI-EO-MKJ" secondAttribute="centerX" id="hrv-ad-dMB"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="1823.8805970149253" y="-1201.3729977116705"/>
         </view>
     </objects>
     <resources>
+        <image name="lock.open.fill" catalog="system" width="128" height="110"/>
         <image name="pause.fill" catalog="system" width="114" height="128"/>
         <image name="square.fill" catalog="system" width="128" height="114"/>
         <namedColor name="AccentColor">
             <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="AccentColorLight">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="CardDarkBlack">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
