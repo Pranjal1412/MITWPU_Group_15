@@ -182,9 +182,9 @@ extension RunStartedViewController {
                                                 width: view.frame.width,height: scrollView.frame.height))
 
                 switch i {
-                case 0: page.backgroundColor = .green
-//                    let mapView = LiveTrackingViewController(nibName: "LiveTrackingViewController", bundle: nil)
-//                    page.addSubview(mapView.view)
+                case 0: /*page.backgroundColor = .green*/
+                    let mapView = LiveTrackingViewController(nibName: "LiveTrackingViewController", bundle: nil)
+                    page.addSubview(mapView.view)
                     
                 case 1:
                     self.viewContent.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
