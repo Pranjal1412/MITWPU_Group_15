@@ -15,13 +15,15 @@ class TrackScreenViewController: UIViewController {
     
     let userLocation = UserLocationManager()
     var isMapInitialized = false
-
+    let systemOS = UIDevice.current.systemVersion
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.overrideUserInterfaceStyle = .dark
         
-        userLocation.requestLocation()
+        userLocation.locationManager.requestWhenInUseAuthorization()
+        userLocation.locationManager.startUpdatingLocation()
         
         labelScreenTitle.sizeToFit()
         labelScreenTitle.text = NSLocalizedString("Runnr.", comment: "")
@@ -34,17 +36,22 @@ class TrackScreenViewController: UIViewController {
             
             if self.isMapInitialized == false {
                 
-                let mapManger = MapManager()
-                let systemOS = UIDevice.current.systemVersion
+                let mapManager = MapManager()
                 let topOffset = self.labelScreenTitle.frame.height + self.labelScreenTitle.frame.origin.y + 20.0
                 var mapView = GMSMapView()
                 
-                if systemOS < "26" {
+                if self.systemOS < "26" {
                     let bottomInset = self.view.safeAreaInsets.bottom
-                    mapView = mapManger.initializeMaps(withBottomInset : bottomInset, withTopOffset: topOffset, location : coordinate)
+                    mapView = mapManager.initializeMaps(withX: 0.0, withY: topOffset,
+                                                       withWidth: self.view.frame.width,
+                                                       withHeight: self.view.frame.height - bottomInset - topOffset,
+                                                       location: coordinate)
                 }
                 else {
-                    mapView = mapManger.initializeMaps(withTopOffset: topOffset, location : coordinate)
+                    mapView = mapManager.initializeMaps(withX: 0.0, withY: topOffset,
+                                                       withWidth: self.view.frame.width,
+                                                       withHeight: self.view.frame.height - topOffset,
+                                                       location: coordinate)
                 }
                 
                 mapView.settings.scrollGestures = false
@@ -54,7 +61,7 @@ class TrackScreenViewController: UIViewController {
                 self.view.addSubview(mapView)
                 
                 self.createStartButton()
-                self.userLocation.stopLocation()
+                self.userLocation.locationManager.stopUpdatingLocation()
                 self.isMapInitialized = true
             }
             
@@ -93,10 +100,13 @@ class TrackScreenViewController: UIViewController {
 //                sheet.preferredCornerRadius = 20
 //        }
         
+        if self.systemOS >= "26.0" {
+            destinationVC.modalPresentationStyle = .overFullScreen
+        }
         
         self.present(destinationVC, animated: true, completion: nil)
         
-        userLocation.alwaysAuthorization()
+//        userLocation.alwaysAuthorization()
         
     }
 }

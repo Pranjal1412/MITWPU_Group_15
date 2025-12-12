@@ -11,7 +11,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1935A5FD2EE7D855001CD943 /* Runnr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Runnr.app; path = "/Users/sdc_user/Desktop/Project/Runnr/build/Debug-iphoneos/Runnr.app"; sourceTree = "<absolute>"; };
+		19FDEE992EEBCC2E00AF027C /* Runnr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Runnr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -51,6 +51,7 @@
 			isa = PBXGroup;
 			children = (
 				19217CC72EA0E064009AFC93 /* Runnr */,
+				19FDEE992EEBCC2E00AF027C /* Runnr.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -77,7 +78,7 @@
 				F903F4562EB653FC0066B9A1 /* GoogleMaps */,
 			);
 			productName = Runnr;
-			productReference = 1935A5FD2EE7D855001CD943 /* Runnr.app */;
+			productReference = 19FDEE992EEBCC2E00AF027C /* Runnr.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -149,6 +150,9 @@
 				DEVELOPMENT_TEAM = A624XAHBM7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Runnr/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Your location is needed even when the screen is locked.";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Your location is needed for background run tracking.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is used to track your running path.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -186,6 +190,9 @@
 				DEVELOPMENT_TEAM = A624XAHBM7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Runnr/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Your location is needed even when the screen is locked.";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Your location is needed for background run tracking.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is used to track your running path.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

@@ -34,6 +34,7 @@
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="viewActivityProgress" destination="ndy-VD-VNp" id="Zlm-eP-bWn"/>
                 <outlet property="viewActivitySettings" destination="UNI-EO-MKJ" id="Wlt-tG-dyA"/>
+                <outlet property="viewActivityTrack" destination="W3W-pH-BUg" id="y2b-im-0vN"/>
                 <outlet property="viewAllData" destination="HTK-sZ-fO6" id="83r-qn-gs6"/>
                 <outlet property="viewDistance" destination="Vcu-Pb-L8e" id="stY-ru-3mZ"/>
                 <outlet property="viewHeartRate" destination="ubZ-94-qJC" id="BLx-xy-wIo"/>
@@ -58,6 +59,9 @@
                     </constraints>
                     <color key="pageIndicatorTintColor" name="AccentColorLight"/>
                     <color key="currentPageIndicatorTintColor" name="AccentColor"/>
+                    <connections>
+                        <action selector="pageValueChanged:" destination="-1" eventType="valueChanged" id="iCy-zd-0Mf"/>
+                    </connections>
                 </pageControl>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
@@ -201,7 +205,7 @@
                     </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9TQ-Ut-hG5">
-                    <rect key="frame" x="25" y="419.66666666666669" width="352" height="130.00000000000006"/>
+                    <rect key="frame" x="25" y="420.66666666666669" width="352" height="130.00000000000006"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="130" id="BnP-WR-zFs"/>
                     </constraints>
@@ -210,7 +214,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vcu-Pb-L8e">
-                    <rect key="frame" x="69.666666666666686" y="559.66666666666663" width="263" height="40"/>
+                    <rect key="frame" x="69.666666666666686" y="560.66666666666663" width="263" height="40"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DhY-WJ-eYv">
                             <rect key="frame" x="0.0" y="0.0" width="263" height="40"/>
@@ -232,7 +236,7 @@
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rra-Gr-Og1" userLabel="lock">
-                    <rect key="frame" x="327" y="34" width="50" height="50"/>
+                    <rect key="frame" x="327" y="35" width="50" height="50"/>
                     <color key="backgroundColor" name="CardLightBlack"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="50" id="JRf-hf-Ijv"/>
@@ -281,6 +285,7 @@
             <constraints>
                 <constraint firstItem="Vcu-Pb-L8e" firstAttribute="top" secondItem="9TQ-Ut-hG5" secondAttribute="bottom" constant="10" id="IO7-rQ-NPp"/>
                 <constraint firstItem="9TQ-Ut-hG5" firstAttribute="leading" secondItem="O4Q-6q-dyr" secondAttribute="leading" constant="25" id="KH2-Uo-nmJ"/>
+                <constraint firstItem="rra-Gr-Og1" firstAttribute="top" secondItem="ndy-VD-VNp" secondAttribute="top" constant="35" id="SyS-UT-zrQ"/>
                 <constraint firstItem="HTK-sZ-fO6" firstAttribute="top" secondItem="rra-Gr-Og1" secondAttribute="bottom" constant="20" id="WPn-1G-hoL"/>
                 <constraint firstItem="Vcu-Pb-L8e" firstAttribute="centerX" secondItem="ndy-VD-VNp" secondAttribute="centerX" id="YFZ-Hb-Q51"/>
                 <constraint firstItem="O4Q-6q-dyr" firstAttribute="trailing" secondItem="9TQ-Ut-hG5" secondAttribute="trailing" constant="25" id="bt8-cz-KAB"/>
@@ -311,6 +316,14 @@
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="1823.8805970149253" y="-1201.3729977116705"/>
+        </view>
+        <view contentMode="scaleToFill" id="W3W-pH-BUg" userLabel="ViewActivityTrack">
+            <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <viewLayoutGuide key="safeArea" id="tMz-wG-c73"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="978" y="-1899"/>
         </view>
     </objects>
     <resources>

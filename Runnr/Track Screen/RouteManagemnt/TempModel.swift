@@ -13,6 +13,7 @@ struct TempModel {
     var distance: CGFloat
     var time: String
     var routeCoordinates: GMSMutablePath
+    var activityStarted: Bool
 }
 
 var activity: [TempModel] = []

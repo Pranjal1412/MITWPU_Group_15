@@ -21,7 +21,7 @@ class SetGoalViewController: UIViewController {
     @IBOutlet weak var viewBackgroundTime: UIView!
     @IBOutlet weak var viewBackgroundAudio: UIView!
     
-    let userLocation = UserLocationManager()
+//    let userLocation = UserLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +35,13 @@ class SetGoalViewController: UIViewController {
         hideKeyboardWhenTappedAround()
         
     }
-
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if #available(iOS 26.0, *) {
+                view.window?.backgroundColor = .clear
+                presentingViewController?.view.backgroundColor = .clear
+        }
+    }
     
     func settingScreen() {
         let thinFont = UIFont(name: "SF-Pro-Display-Thin", size: 33) ?? UIFont.systemFont(ofSize: 33, weight: .thin)
@@ -69,7 +75,7 @@ class SetGoalViewController: UIViewController {
         
         if let presenter = self.presentingViewController {
 
-            let newActivity = TempModel(distance: 0, time: "0:00", routeCoordinates: GMSMutablePath())
+            let newActivity = TempModel(distance: 0, time: "0:00", routeCoordinates: GMSMutablePath(), activityStarted: true)
             activity.append(newActivity)
             
 //          now we are writing that upon dimissal of the screen perform the following code

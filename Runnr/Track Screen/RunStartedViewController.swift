@@ -32,11 +32,14 @@ class RunStartedViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet var viewActivityProgress: UIView!
     @IBOutlet var viewActivitySettings: UIView!
+    @IBOutlet var viewActivityTrack: UIView!
     @IBOutlet weak var pageControl: UIPageControl!
     
     
     let userLocation = UserLocationManager()
-    var pageControlInitialized = false
+    let mapManager = MapManager()
+    var scrollViewInitialized = false
+    var isMapInitialized = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,14 +52,46 @@ class RunStartedViewController: UIViewController {
         settingPauseButtonImg()
         buttonEndRun.isHidden = true
         
-        userLocation.requestLocation()
+        userLocation.locationManager.startUpdatingLocation()
+        
+        userLocation.onLocationUpdate = { coordinate in
+        
+            if self.isMapInitialized == false {
+                                
+                let mapView = self.mapManager.initializeMaps(withX: 20.0, withY: 70.0,
+                                                             withWidth: self.view.frame.width - 40.0,
+                                                             withHeight: self.view.frame.height - 140.0,
+                                                             location: coordinate)
+              
+                self.mapManager.userLocationMarkerSetting(isEnabled: true)
+                mapView.settings.rotateGestures = false
+                mapView.settings.zoomGestures = true
+                mapView.settings.scrollGestures = true
+                self.viewActivityTrack.addSubview(mapView)
+                
+                self.mapManager.setRouteLineStyle()
+                
+                self.isMapInitialized = true
+                
+            }
+            
+            let index = activity.count - 1
+                                            
+            if activity[index].routeCoordinates.count() == 0 {
+                self.mapManager.addStartMarker(at: coordinate)
+            }
+            
+            activity[index].routeCoordinates.add(coordinate)
+            print("Path Count: \(activity[activity.count-1].routeCoordinates.count())")
+            
+        }
     }
         
     override func viewDidAppear(_ animated: Bool) {
         
-        if self.pageControlInitialized == false {
+        if self.scrollViewInitialized == false {
             settingHorizontalScroll()
-            self.pageControlInitialized = true
+            self.scrollViewInitialized = true
         }
         
     }
@@ -100,25 +135,23 @@ class RunStartedViewController: UIViewController {
     func settingPauseButtonImg() {
         buttonPause.contentVerticalAlignment = .fill
         buttonPause.contentHorizontalAlignment = .fill
+//        buttonPause.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 50, leading: 50, bottom: 50, trailing: 50)
         buttonPause.imageEdgeInsets = UIEdgeInsets(top: 32, left: 35, bottom: 32, right: 35)
         
         buttonEndRun.contentVerticalAlignment = .fill
         buttonEndRun.contentHorizontalAlignment = .fill
+//        buttonEndRun.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 38, leading: 38, bottom: 38, trailing: 38)
         buttonEndRun.imageEdgeInsets = UIEdgeInsets(top: 38, left: 38, bottom: 38, right: 38)
     }
     
     @IBAction func pauseButtonPressed(_ sender: UIButton) {
-        
-//        print("pause button pressed")
-//        let nextVC = RunPausedViewController(nibName: "RunPausedViewController", bundle: nil)
-//        self.navigationController?.pushViewController(nextVC, animated: false)
         
         buttonEndRun.layer.borderWidth = 1.0
         buttonEndRun.layer.borderColor = UIColor.accent.cgColor
         
         if buttonPause.tag == 0 {
             
-            self.userLocation.stopLocation()
+            self.userLocation.locationManager.stopUpdatingLocation()
             
             UIView.animate(withDuration: 0.5) {
                 self.buttonPause.frame.origin.x = (UIScreen.main.bounds.width - (self.buttonPause.frame.width * 2) - 70.0)/2.0
@@ -132,7 +165,7 @@ class RunStartedViewController: UIViewController {
         
         else if buttonPause.tag == 1 {
             
-            self.userLocation.requestLocation()
+            self.userLocation.locationManager.startUpdatingLocation()
             
             UIView.animate(withDuration: 0.5) {
                 self.buttonPause.frame.origin.x = (UIScreen.main.bounds.width - self.buttonPause.frame.width)/2.0
@@ -149,6 +182,9 @@ class RunStartedViewController: UIViewController {
     
     @IBAction func EndRunButtonPressed(_ sender: UIButton) {
         
+        self.userLocation.locationManager.stopUpdatingLocation()
+
+        
         let alert = UIAlertController(title: NSLocalizedString("End Run", comment: ""),
                                       message: NSLocalizedString("Are you sure you want to end this run?", comment: ""), preferredStyle: .alert)
         
@@ -160,6 +196,8 @@ class RunStartedViewController: UIViewController {
             let destinationVC = SaveActivityViewController()
             destinationVC.modalPresentationStyle = .fullScreen
             self.navigationController?.pushViewController(destinationVC, animated: true)
+            
+            activity[activity.count - 1].activityStarted = false
             
 //          here self.navigationController?.present(destinationVC, animated: true) doesn't add the screen inside the nav stack
 //          it just presents above the navcontroller, and beacuse of which
@@ -189,8 +227,8 @@ extension RunStartedViewController : UIScrollViewDelegate {
 
                 switch i {
                 case 0:
-                    let liveTrackingView = LiveTrackingViewController(nibName: "LiveTrackingViewController", bundle: nil)
-                    page.addSubview(liveTrackingView.view)
+                    self.viewActivityTrack.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+                    page.addSubview(viewActivityTrack)
                     
                 case 1:
                     self.viewActivityProgress.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
@@ -220,11 +258,11 @@ extension RunStartedViewController : UIScrollViewDelegate {
         }
     }
     
-//    @IBAction func pageValueChanged(_ sender: UIPageControl) {
-//        let currentPage = sender.currentPage
-//        
-//        scrollView.setContentOffset(CGPoint(x: CGFloat(currentPage) * view.frame.width, y: 0), animated: true)
-//    }
+    @IBAction func pageValueChanged(_ sender: UIPageControl) {
+        let currentPage = sender.currentPage
+        
+        scrollView.setContentOffset(CGPoint(x: CGFloat(currentPage) * view.frame.width, y: 0), animated: true)
+    }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         pageControl.currentPage = Int(scrollView.contentOffset.x / view.frame.width)
