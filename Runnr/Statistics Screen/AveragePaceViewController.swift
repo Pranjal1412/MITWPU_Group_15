@@ -1,43 +1,39 @@
 import UIKit
 
-class DistanceViewController: UIViewController {
+class AveragePaceViewController: UIViewController {
 
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var scrollViewMain: UIScrollView!
-    @IBOutlet weak var scrollViewGraph: UIScrollView!
-    @IBOutlet weak var segmentControlDistance: UISegmentedControl!
-    @IBOutlet weak var collectionViewDistance: UICollectionView!
-    @IBOutlet weak var contentViewGraph: UIView!
-
+    @IBOutlet weak var segmentControlAveragePace: UISegmentedControl!
+    @IBOutlet weak var collectionViewPace: UICollectionView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // ⭐️ REQUIRED FIX — Enable main scroll view
+        
+        // Enable main scroll view
         scrollViewMain.translatesAutoresizingMaskIntoConstraints = false
         scrollViewMain.contentLayoutGuide.widthAnchor.constraint(equalTo: scrollViewMain.contentLayoutGuide.widthAnchor).isActive = true
         scrollViewMain.contentSize.height = 1100
-        // ⭐️ END OF FIX
-
-        // Collection view setup
-        collectionViewDistance.dataSource = self
-        collectionViewDistance.delegate = self
-
+        
+        // Register NIB
         let nib = UINib(nibName: "TrendsCollectionViewCell", bundle: nil)
-        collectionViewDistance.register(nib, forCellWithReuseIdentifier: "cell")
-
+        collectionViewPace.register(nib, forCellWithReuseIdentifier: "cell")
+        
+        // Set data source and delegate
+        collectionViewPace.dataSource = self
+        collectionViewPace.delegate = self
+        
+        // Layout for vertical collection view
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        collectionViewDistance.collectionViewLayout = layout
+        collectionViewPace.collectionViewLayout = layout
+        segmentControlAveragePace.layer.borderWidth = 0.5
+        segmentControlAveragePace.layer.borderColor = UIColor.accent.cgColor
+        segmentControlAveragePace.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
 
-        collectionViewDistance.reloadData()
-
-        // Segment control styling
-        segmentControlDistance.layer.borderWidth = 0.5
-        segmentControlDistance.layer.borderColor = UIColor.accent.cgColor
-        segmentControlDistance.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
-
-        // Scroll view width
-        scrollViewGraph.contentSize.width = 1000
-        contentViewGraph.frame.size.width = scrollViewGraph.contentSize.width
+        scrollView.contentSize.width = 1000
+        contentView.frame.size.width = scrollView.contentSize.width
 
         setupGraph()
     }
@@ -68,13 +64,14 @@ class DistanceViewController: UIViewController {
             let line = UIView()
             line.backgroundColor = UIColor.white.withAlphaComponent(0.3)
             line.translatesAutoresizingMaskIntoConstraints = false
-            contentViewGraph.addSubview(line)
+            contentView.addSubview(line)
 
+            // Position each line
             NSLayoutConstraint.activate([
-                line.leadingAnchor.constraint(equalTo: contentViewGraph.leadingAnchor, constant: 25),
-                line.trailingAnchor.constraint(equalTo: contentViewGraph.trailingAnchor, constant: 0),
+                line.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 25),
+                line.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
                 line.heightAnchor.constraint(equalToConstant: 1),
-                line.bottomAnchor.constraint(equalTo: contentViewGraph.bottomAnchor,
+                line.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
                                              constant: -50 - (CGFloat(i) / CGFloat(numberOfLines)) * maxDisplayHeight)
             ])
         }
@@ -86,12 +83,13 @@ class DistanceViewController: UIViewController {
         stack.spacing = 24
         stack.distribution = .equalSpacing
         stack.translatesAutoresizingMaskIntoConstraints = false
-        contentViewGraph.addSubview(stack)
+        contentView.addSubview(stack)
 
+        // Stack constraints
         NSLayoutConstraint.activate([
-            stack.leadingAnchor.constraint(equalTo: contentViewGraph.leadingAnchor, constant: 40),
-            stack.topAnchor.constraint(equalTo: contentViewGraph.topAnchor, constant: 10),
-            stack.bottomAnchor.constraint(equalTo: contentViewGraph.bottomAnchor, constant: -50)
+            stack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 40),
+            stack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            stack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -50)
         ])
 
         let stackWidth = CGFloat(barValues.count) * 30 + CGFloat(barValues.count - 1) * 24
@@ -108,11 +106,11 @@ class DistanceViewController: UIViewController {
             label.text = "\(value)"
 
             label.translatesAutoresizingMaskIntoConstraints = false
-            contentViewGraph.addSubview(label)
+            contentView.addSubview(label)
 
             NSLayoutConstraint.activate([
-                label.leadingAnchor.constraint(equalTo: contentViewGraph.leadingAnchor, constant: 8),
-                label.centerYAnchor.constraint(equalTo: contentViewGraph.centerYAnchor,
+                label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+                label.centerYAnchor.constraint(equalTo: contentView.centerYAnchor,
                                                constant: CGFloat(i * 40) - 100)
             ])
         }
@@ -124,6 +122,7 @@ class DistanceViewController: UIViewController {
             barContainer.translatesAutoresizingMaskIntoConstraints = false
             barContainer.widthAnchor.constraint(equalToConstant: 30).isActive = true
 
+            // Auto-scaled height
             let normalizedHeight = (value / maxValue) * maxDisplayHeight
 
             let bar = UIView()
@@ -140,6 +139,7 @@ class DistanceViewController: UIViewController {
                 bar.heightAnchor.constraint(equalToConstant: normalizedHeight)
             ])
 
+            // Day label
             let label = UILabel()
             label.text = dayLabels[index]
             label.textColor = .white
@@ -156,13 +156,13 @@ class DistanceViewController: UIViewController {
             stack.addArrangedSubview(barContainer)
         }
 
-        scrollViewGraph.contentSize.width = stackWidth + 40
-        contentViewGraph.frame.size.width = scrollViewGraph.contentSize.width
+        scrollView.contentSize.width = stackWidth + 40
+        contentView.frame.size.width = scrollView.contentSize.width
     }
 
 }
 
-extension DistanceViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension AveragePaceViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
@@ -182,9 +182,8 @@ extension DistanceViewController: UICollectionViewDataSource, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let insets = self.collectionView(collectionView, layout: collectionViewLayout, insetForSectionAt: indexPath.section)
-        let width = collectionView.frame.width - (insets.left + insets.right)
-        return CGSize(width: width, height: 90)
+
+        return CGSize(width: collectionView.frame.width, height: 90)
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -192,16 +191,6 @@ extension DistanceViewController: UICollectionViewDataSource, UICollectionViewDe
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10
     }
-
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-    }
 }
+
+

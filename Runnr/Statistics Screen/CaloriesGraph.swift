@@ -19,6 +19,7 @@ class CaloriesGraph: UIView {
         setNeedsDisplay()
     }
 
+
     override func draw(_ rect: CGRect) {
         // draw using min count so mismatched arrays won't stop drawing
         let count = min(values.count, labels.count)

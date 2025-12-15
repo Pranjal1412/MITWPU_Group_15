@@ -8,22 +8,21 @@
 import Foundation
 struct CardData {
     let number: String
-    let units: String
+    let unit : String
     let title: String
     let trend: String
     let trendChevron: String
 }
 var cardDataArray: [CardData] = [
-    CardData(number: "7.2", units: "Km", title: "Distance Covered",
+    CardData(number: "7.2", unit: "Km", title: "Distance Covered",
              trend: "1.2 km more than last week", trendChevron: "chevron.up.2"),
 
-    CardData(number: "528", units: "Kcal", title: "Calories Burnt",
+    CardData(number: "528", unit: "Kcal", title: "Calories Burnt",
              trend: "50 kcal higher", trendChevron: "chevron.down.2"),
 
-    CardData(number: "10.5", units: "k", title: "Steps Covered",
+    CardData(number: "10.5", unit: "k", title: "Steps Covered",
              trend: "1200 more less", trendChevron: "chevron.up.2"),
 
-    CardData(number: "7:90", units: "mins/km", title: "Average Pace",
+    CardData(number: "7:90", unit: "min/km", title: "Average Pace",
              trend: "2 minutes slower", trendChevron: "chevron.down.2")
 ]
-
