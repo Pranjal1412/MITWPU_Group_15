@@ -7,10 +7,10 @@ struct RunActivity {
     let runTitle: String
     let distanceValue: Double
     let distanceUnit: String
-    let paceValue: String      // Example: "7:45"
-    let paceUnit: String       // Example: "/km"
-    let timeValue: String      // Example: "01 hr 34 min"
-    let timeUnit: String       // Example: "50 sec"
+    let paceValue: String      
+    let paceUnit: String
+    let timeValue: String
+    let timeUnit: String
     let image: UIImage?
     let note: String
     var routeCoordinates: GMSMutablePath
