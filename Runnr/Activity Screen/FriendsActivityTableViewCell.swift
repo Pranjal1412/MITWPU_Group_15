@@ -29,7 +29,7 @@ class FriendsActivityTableViewCell: UITableViewCell {
         selectionStyle = .none
     }
     
-    func configure(with activity: RunActivityFriends) {
+    func configure(with activity: FriendsRunActivity) {
         labelName.text = activity.name
         labelDate.text = activity.date
         labelRunTitle.text = activity.runTitle

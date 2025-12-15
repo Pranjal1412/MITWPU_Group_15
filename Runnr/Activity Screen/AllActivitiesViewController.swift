@@ -7,15 +7,35 @@
 
 import UIKit
 
-class AllActivitiesViewController: UIViewController{
+class AllActivitiesViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
+    
+    let label = UILabel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.overrideUserInterfaceStyle = .dark
         // Do any additional setup after loading the view.
         settingTableView()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        if activities.isEmpty {
+            label.text = "No activities"
+            label.frame = CGRect(x: 0, y: view.frame.height / 2 , width: view.frame.width, height: 50)
+            label.textAlignment = .center
+            label.textColor = .lightGray
+            view.addSubview(label)
+        }
+        else {
+            label.isHidden = true
+        }
+        
+        tableView.reloadData()
+    }
+    
     func settingTableView() {
         tableView.delegate = self
         tableView.dataSource = self
@@ -24,8 +44,10 @@ class AllActivitiesViewController: UIViewController{
     }
     
 }
-    //Table View
-    extension AllActivitiesViewController : UITableViewDelegate, UITableViewDataSource {
+
+// MARK: - Table View code
+
+extension AllActivitiesViewController : UITableViewDelegate, UITableViewDataSource {
         
         func numberOfSections(in tableView: UITableView) -> Int {
             return activities.count
@@ -51,6 +73,7 @@ class AllActivitiesViewController: UIViewController{
             spacer.backgroundColor = .clear
             return spacer
         }
+    
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             print("selected")
         }

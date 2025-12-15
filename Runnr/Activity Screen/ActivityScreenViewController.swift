@@ -89,6 +89,7 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
 
     func numberOfSections(in tableView: UITableView) -> Int {
         if tableView == tableViewMyActivity {
+            //Changed here - by pranjal
             return min(activities.count, 3)
         } else if tableView == tableViewFriendsActivity {
             return activitiesFriends.count

@@ -1,27 +1,40 @@
-//
-//  modelFriends.swift
-//  Runnr
-//
-//  Created by Archit Kankaria on 27/11/25.
-//
 import UIKit
+import GoogleMaps
 
-struct RunActivityFriends {
+struct MyRunActivity {
     let name: String
     let date: String
     let runTitle: String
     let distanceValue: Double
     let distanceUnit: String
-    let paceValue: String      // Example: "7:45"
-    let paceUnit: String       // Example: "/km"
-    let timeValue: String      // Example: "01 hr 34 min"
-    let timeUnit: String       // Example: "50 sec"
+    let paceValue: String      
+    let paceUnit: String
+    let timeValue: String
+    let timeUnit: String
+    let image: UIImage?
+    let note: String
+    var routeCoordinates: GMSMutablePath
+}
+
+struct FriendsRunActivity {
+    let name: String
+    let date: String
+    let runTitle: String
+    let distanceValue: Double
+    let distanceUnit: String
+    let paceValue: String      
+    let paceUnit: String
+    let timeValue: String
+    let timeUnit: String
     let image: UIImage?
     let note: String
 }
 
-let activitiesFriends: [RunActivityFriends] = [
-    RunActivityFriends(
+
+var activities: [MyRunActivity] = []
+
+let activitiesFriends: [FriendsRunActivity] = [
+    FriendsRunActivity(
         name: "Ava Brooks",
         date: "September 7, 6:15 am",
         runTitle: "Morning Run!",
@@ -34,7 +47,7 @@ let activitiesFriends: [RunActivityFriends] = [
         image: UIImage(named: "run_map_example"), // Update image name as needed
         note: "First run in a while, tough, but refreshing excited to rebuild step-by-step."
     ),
-    RunActivityFriends(
+    FriendsRunActivity(
         name: "Ava Brooks",
         date: "September 8, 6:20 am",
         runTitle: "Steady Run",
@@ -48,5 +61,6 @@ let activitiesFriends: [RunActivityFriends] = [
         note: "Tough start, but refreshing to get moving again. Excited to rebuild consistency, step by step."
     )
 ]
+
 
 
