@@ -58,9 +58,9 @@ class ActivityProgressViewController: UIViewController {
         
             if self.isMapInitialized == false {
                                 
-                let mapView = self.mapManager.initializeMaps(withX: 20.0, withY: 70.0,
+                let mapView = self.mapManager.initializeMaps(withX: 20.0, withY: 20.0,
                                                              withWidth: self.view.frame.width - 40.0,
-                                                             withHeight: self.view.frame.height - 140.0,
+                                                             withHeight: self.view.frame.height - 100.0,
                                                              location: coordinate)
               
                 self.mapManager.userLocationMarkerSetting(isEnabled: true)
@@ -224,7 +224,7 @@ extension ActivityProgressViewController : UIScrollViewDelegate {
 
             for i in 0..<3 {
                 let page = UIView(frame: CGRect(x: CGFloat(i) * view.frame.width, y: 0,
-                                                width: UIScreen.main.bounds.width, height: scrollView.frame.height))
+                                                width: scrollView.frame.width, height: scrollView.frame.height))
 
                 switch i {
                 case 0:
