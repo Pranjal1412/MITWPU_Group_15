@@ -7,23 +7,16 @@
 
 import UIKit
 
-class CreateClubChooseSportViewController: UIViewController {
+class CreateClubViewController: UIViewController {
 
     @IBOutlet var labelCreateClub: UILabel!
-    
-    @IBOutlet var viewMainBackground: UIView!
-    
     @IBOutlet var modalView: UIView!
-    
     @IBOutlet var labelSubtitleCreateClub: UILabel!
-    
     @IBOutlet var page1: UIView!
-    
     @IBOutlet var page2: UIView!
-    
     @IBOutlet var page3: UIView!
-    
     @IBOutlet var buttonNext: UIButton!
+    
     
     
     var currentPage = 1
@@ -49,13 +42,26 @@ class CreateClubChooseSportViewController: UIViewController {
        
     }
     
-    @IBAction func nextButtonToPage2(_ sender: UIButton) {
-           
-            if currentPage < 3 {
-                currentPage += 1
-                updateUI()
-            }
+    @IBAction func nextButtonPressed(_ sender: UIButton) {
+        
+        if currentPage < 3 {
+            currentPage += 1
+            updateUI()
         }
+        else {
+            if let presenter = self.presentingViewController {
+                self.dismiss(animated: true) {
+                    let rootVC = ClubProfileViewController(nibName: "ClubProfileViewController", bundle: nil)
+                    let destinationVC = UINavigationController(rootViewController: rootVC)
+                    destinationVC.modalPresentationStyle = .fullScreen
+                    presenter.present(destinationVC, animated: true)
+                    
+                }
+            }
+                    
+        }
+    }
+
    
     func updateUI() {
         switch currentPage {

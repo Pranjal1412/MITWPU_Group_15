@@ -129,7 +129,7 @@ class ClubScreenViewController: UIViewController, UITableViewDataSource, UITable
     }
 
     @IBAction func createClubButtonPressed(_ sender: UIButton) {
-        self.present(CreateClubChooseSportViewController(), animated: true)
+        self.present(CreateClubViewController(), animated: true)
     }
 }
 

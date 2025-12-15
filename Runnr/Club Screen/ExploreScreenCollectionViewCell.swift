@@ -12,6 +12,8 @@ class ExploreScreenCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var viewExploreClub: UIView!
     @IBOutlet var buttonJoinClub: UIButton!
     
+    @IBOutlet var clubProfile: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -19,6 +21,9 @@ class ExploreScreenCollectionViewCell: UICollectionViewCell {
         viewExploreClub.layer.cornerRadius = 10
         viewExploreClub.clipsToBounds = true
         buttonJoinClub.layer.cornerRadius = buttonJoinClub.frame.height / 2
+        
+        clubProfile.layer.cornerRadius = 11.89
+        clubProfile.clipsToBounds = true
         
     }
 

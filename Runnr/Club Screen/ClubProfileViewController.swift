@@ -10,12 +10,26 @@ import UIKit
 class ClubProfileViewController: UIViewController {
 
     @IBOutlet var viewLine: UIView!
+    @IBOutlet var clubDescription: UILabel!
+    @IBOutlet var clubProfileImage: UIImageView!
+    @IBOutlet var joinNowButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        overrideUserInterfaceStyle = .dark
+        view.overrideUserInterfaceStyle = .dark
         
-        viewLine.backgroundColor = .white
+        
+        clubDescription.numberOfLines = 2
+        clubDescription.lineBreakMode = .byWordWrapping
+
+        
+        clubProfileImage.layer.cornerRadius = 12
+        clubProfileImage.clipsToBounds = true
+        
+        joinNowButton.titleLabel?.textColor = .black
+        
+        
+//        viewLine.backgroundColor = .white
         // Do any additional setup after loading the view.
     }
 
