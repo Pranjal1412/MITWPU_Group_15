@@ -16,12 +16,12 @@
         </array>
     </customFonts>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CreateClubChooseSportViewController" customModule="Runnr" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CreateClubViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
-                <outlet property="buttonNext" destination="97n-47-BdF" id="VhW-qu-mM5"/>
+                <outlet property="buttonNext" destination="97n-47-BdF" id="a8N-2o-Vos"/>
                 <outlet property="labelCreateClub" destination="4ZV-l3-kZv" id="A8A-3T-Pgb"/>
                 <outlet property="labelSubtitleCreateClub" destination="Iim-Fd-TrO" id="nto-U8-4ik"/>
-                <outlet property="modalView" destination="Biy-ss-bQ1" id="rnV-vg-9gM"/>
+                <outlet property="modalView" destination="Biy-ss-bQ1" id="Aji-b5-62a"/>
                 <outlet property="page1" destination="FB7-uv-gIg" id="Qgd-Rb-uUb"/>
                 <outlet property="page2" destination="ZDG-Mi-7ph" id="QmD-3U-j7u"/>
                 <outlet property="page3" destination="xbG-6v-sn0" id="7Wy-fd-e0J"/>
@@ -82,7 +82,7 @@
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </state>
                             <connections>
-                                <action selector="nextButtonToPage2:" destination="-1" eventType="touchUpInside" id="Af8-K5-PjK"/>
+                                <action selector="nextButtonPressed:" destination="-1" eventType="touchUpInside" id="AG0-rI-1sY"/>
                             </connections>
                         </button>
                     </subviews>
