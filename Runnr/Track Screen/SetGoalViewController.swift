@@ -73,7 +73,6 @@ class SetGoalViewController: UIViewController {
 //      let presenter = SetGoalViewController() doesn't work as it creates a brand new onject that is unused
         
         if let presenter = self.presentingViewController {
-
                         
 //          now we are writing that upon dimissal of the screen perform the following code
             self.dismiss(animated: true) {

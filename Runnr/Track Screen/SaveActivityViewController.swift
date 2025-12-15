@@ -82,7 +82,14 @@ class SaveActivityViewController: UIViewController {
         activities.append(newActivity)
         print("After passing count: \(livePath!.count())")
 
-        self.navigationController?.dismiss(animated: true, completion: nil)
+//        if let presenter = self.presentingViewController {
+//            self.navigationController?.dismiss(animated: true) {
+//                let destinationVC = ActivityDetailViewController()
+//                destinationVC.modalPresentationStyle = .fullScreen
+//                presenter.present(destinationVC, animated: true, completion: nil)
+//            }
+//        }
+        
     }
     
     func settingCardView() {
