@@ -48,6 +48,7 @@ class ActivityProgressViewController: UIViewController {
         view.overrideUserInterfaceStyle = .dark
         
         scrollView.delegate = self
+        
         settingScreenElements()
         settingPauseButtonImg()
         buttonEndRun.isHidden = true
@@ -75,15 +76,15 @@ class ActivityProgressViewController: UIViewController {
                 
             }
             
-            let index = activity.count - 1
+            let index = activities.count - 1
 //            if activity[index].routeCoordinates.count() == 0 {
 //                self.mapManager.addStartMarker(at: coordinate)
 //            }
             
-            activity[index].routeCoordinates.add(coordinate)
-            self.mapManager.routeLine.path = activity[index].routeCoordinates
+            activities[index].routeCoordinates.add(coordinate)
+            self.mapManager.routeLine.path = activities[index].routeCoordinates
             
-            print("Path Count: \(activity[activity.count-1].routeCoordinates.count())")
+            print("Path Count: \(activities[activities.count-1].routeCoordinates.count())")
             
         }
     }
@@ -108,7 +109,11 @@ class ActivityProgressViewController: UIViewController {
         buttonEndRun.layer.cornerRadius = buttonEndRun.frame.height / 2
         buttonLockScroll.layer.cornerRadius = buttonLockScroll.frame.height / 2
         
+        buttonEndRun.frame.origin.x = (view.frame.width - buttonPause.frame.width) / 2
+        buttonEndRun.frame.origin.y = viewDistance.frame.origin.y + viewDistance.frame.height + 70
+        
         buttonPause.frame.origin.x = (view.frame.width - buttonPause.frame.width) / 2
+        buttonPause.frame.origin.y = viewDistance.frame.origin.y + viewDistance.frame.height + 70
         
         labelDistance.font = UIFont(name: "SF Pro Medium", size: 18.0)
         labelDistance.text = NSLocalizedString("Distance (Km)", comment: "")
@@ -198,7 +203,7 @@ class ActivityProgressViewController: UIViewController {
             destinationVC.modalPresentationStyle = .fullScreen
             self.navigationController?.pushViewController(destinationVC, animated: true)
             
-            activity[activity.count - 1].activityStarted = false
+//            activities[activity.count - 1].activityStarted = false
             
 //          here self.navigationController?.present(destinationVC, animated: true) doesn't add the screen inside the nav stack
 //          it just presents above the navcontroller, and beacuse of which
@@ -220,24 +225,29 @@ class ActivityProgressViewController: UIViewController {
 extension ActivityProgressViewController : UIScrollViewDelegate {
     
     func settingHorizontalScroll() {
+        scrollView.alwaysBounceVertical = false
+        scrollView.showsVerticalScrollIndicator = false
+        
         scrollView.contentSize.width = view.frame.width * 3
-
+        scrollView.contentSize.height = scrollView.frame.height
+        
             for i in 0..<3 {
                 let page = UIView(frame: CGRect(x: CGFloat(i) * view.frame.width, y: 0,
                                                 width: scrollView.frame.width, height: scrollView.frame.height))
-
+                page.backgroundColor = .yellow
+                
                 switch i {
                 case 0:
-                    self.viewActivityTrack.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+                    self.viewActivityTrack.frame = CGRect(x: 0, y: 0, width: page.frame.width, height: page.frame.height)
                     page.addSubview(viewActivityTrack)
                     
                 case 1:
-                    self.viewActivityProgress.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+                    self.viewActivityProgress.frame = CGRect(x: 0, y: 0, width: page.frame.width, height: page.frame.height)
                     
                     page.addSubview(self.viewActivityProgress)
                                                             
                 case 2: 
-                    self.viewActivitySettings.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+                    self.viewActivitySettings.frame = CGRect(x: 0, y: 0, width: page.frame.width, height: page.frame.height)
                     page.addSubview(self.viewActivitySettings)
                     
                 default: break

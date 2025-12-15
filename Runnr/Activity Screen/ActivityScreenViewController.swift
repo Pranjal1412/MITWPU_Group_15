@@ -5,9 +5,10 @@ class ActivityScreenViewController: UIViewController {
     @IBOutlet weak var tableViewMyActivity: UITableView!
     @IBOutlet weak var labelRecentActivities: UILabel!
     @IBOutlet weak var segmentedControlActivityScreen: UISegmentedControl!
-    
     @IBOutlet weak var tableViewFriendsActivity: UITableView!
     
+    let label = UILabel()
+
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -18,6 +19,23 @@ class ActivityScreenViewController: UIViewController {
         settingTableView()
         tableViewMyActivity.isHidden = false
         tableViewFriendsActivity.isHidden = true
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        if activities.isEmpty {
+            label.text = "No activities"
+            label.frame = CGRect(x: 0, y: view.frame.height / 2 , width: view.frame.width, height: 50)
+            label.textAlignment = .center
+            label.textColor = .lightGray
+            view.addSubview(label)
+        }
+        else {
+            label.isHidden = true
+        }
+        
+        tableViewMyActivity.reloadData()
     }
     
     func settingLabelStyle() {
@@ -71,7 +89,7 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
 
     func numberOfSections(in tableView: UITableView) -> Int {
         if tableView == tableViewMyActivity {
-            return activities.count
+            return min(activities.count, 3)
         } else if tableView == tableViewFriendsActivity {
             return activitiesFriends.count
         } else {

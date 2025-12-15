@@ -35,9 +35,10 @@ class MyActivityTableViewCell: UITableViewCell {
         labelRunTitle.text = activity.runTitle
         imageRun.image = activity.image
         labelNote.text = activity.note
-        labelDistance.text = "Distance"
-        labelPace.text = "Pace"
-        labelTime.text = "Time"
+        labelDistance.text = NSLocalizedString("Distance", comment: "")
+        labelPace.text = NSLocalizedString("Pace", comment: "")
+        labelTime.text = NSLocalizedString("Time", comment: "")
+        
         imageProfile.layer.cornerRadius = imageProfile.frame.height / 2
         
         // SF Pro fonts
@@ -49,12 +50,9 @@ class MyActivityTableViewCell: UITableViewCell {
         let distanceValue = String(format: "%.1f", activity.distanceValue)
         let distanceText = NSMutableAttributedString(
             string: distanceValue,
-            attributes: [.font: valueFont, .foregroundColor: highlightColor]
-        )
-        distanceText.append(NSAttributedString(
-            string: " " + activity.distanceUnit,
-            attributes: [.font: unitFont, .foregroundColor: highlightColor]
-        ))
+            attributes: [.font: valueFont, .foregroundColor: highlightColor])
+        
+        distanceText.append(NSAttributedString(string: " " + activity.distanceUnit, attributes: [.font: unitFont, .foregroundColor: highlightColor]))
         labelDistanceContent.attributedText = distanceText
 
         // Pace
@@ -96,4 +94,4 @@ class MyActivityTableViewCell: UITableViewCell {
         labelPaceContent.minimumScaleFactor = 0.5 // Optional for font scaling
     }
 
-    }
+}

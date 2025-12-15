@@ -29,7 +29,7 @@ class UserLocationManager: NSObject, CLLocationManagerDelegate {
             
             onLocationUpdate?(location)
             print("Latitude: \(location.latitude), Longitude: \(location.longitude)")
-            print("Array Size: \(activity.count)")
+            print("Array Size: \(activities.count)")
         }
     
     }

@@ -49,8 +49,8 @@ class SaveActivityViewController: UIViewController {
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel)
         
         let deleteAction = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive, handler: {_ in
-            activity.remove(at: activity.count - 1)
-            print("Array Size: \(activity.count)")
+            activities.remove(at: activities.count - 1)
+            print("Array Size: \(activities.count)")
             self.navigationController?.dismiss(animated: true, completion: nil)
         })
         
