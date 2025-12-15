@@ -13,7 +13,7 @@ struct MyRunActivity {
     let timeUnit: String
     let image: UIImage?
     let note: String
-    var routeCoordinates: GMSMutablePath
+    var routeCoordinates: [CLLocationCoordinate2D]
 }
 
 struct FriendsRunActivity {

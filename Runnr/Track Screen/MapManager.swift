@@ -57,6 +57,8 @@ class MapManager {
         startMarker.map = mapView
     }
     
+
+
     
 //    func resizedSymbol(_ systemName: String, size: CGFloat, color: UIColor) -> UIImage? {
 //        let config = UIImage.SymbolConfiguration(pointSize: size, weight: .regular)

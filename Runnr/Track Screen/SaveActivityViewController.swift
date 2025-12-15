@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import GoogleMaps
 
 class SaveActivityViewController: UIViewController {
 
@@ -26,6 +27,8 @@ class SaveActivityViewController: UIViewController {
     @IBOutlet weak var labelTime: UILabel!
     @IBOutlet weak var labelPace: UILabel!
     @IBOutlet weak var labelCalories: UILabel!
+    
+    var livePath : GMSMutablePath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,6 +65,23 @@ class SaveActivityViewController: UIViewController {
     }
     
     @IBAction func SaveButtonPressed(_ sender: UIButton) {
+        
+        let newActivity = MyRunActivity(
+                    name: "Ava Brooks",
+                    date: "September 7, 6:15 am",
+                    runTitle: "",
+                    distanceValue: 7.2,
+                    distanceUnit: "km",
+                    paceValue: "7:45",
+                    paceUnit: "/km",
+                    timeValue: "01 hr 34 min",
+                    timeUnit: "50 sec",
+                    image: UIImage(named: "run_map_example"),
+                    note: "First run in a while, tough, but refreshing excited to rebuild step-by-step.", routeCoordinates: convertPathToCoordinates(livePath ?? GMSMutablePath()))
+        
+        activities.append(newActivity)
+        print("After passing count: \(livePath!.count())")
+
         self.navigationController?.dismiss(animated: true, completion: nil)
     }
     
@@ -90,6 +110,16 @@ class SaveActivityViewController: UIViewController {
         labelTime.text = NSLocalizedString( "Time", comment: "")
         labelCalories.text = NSLocalizedString( "Calories", comment: "")
         labelDistance.text = NSLocalizedString( "Distance", comment: "")
+    }
+    
+    func convertPathToCoordinates(_ path: GMSMutablePath) -> [CLLocationCoordinate2D] {
+        var coordinates: [CLLocationCoordinate2D] = []
+        
+        for i in 0..<path.count() {
+            coordinates.append(path.coordinate(at: i))
+        }
+        
+        return coordinates
     }
 }
 

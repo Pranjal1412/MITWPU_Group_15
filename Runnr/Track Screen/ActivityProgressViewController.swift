@@ -38,6 +38,7 @@ class ActivityProgressViewController: UIViewController {
     
     let userLocation = UserLocationManager()
     let mapManager = MapManager()
+    var liveRoute = GMSMutablePath()
     var scrollViewInitialized = false
     var isMapInitialized = false
     
@@ -59,7 +60,7 @@ class ActivityProgressViewController: UIViewController {
         
             if self.isMapInitialized == false {
                                 
-                let mapView = self.mapManager.initializeMaps(withX: 20.0, withY: 20.0,
+                let mapView = self.mapManager.initializeMaps(withX: 20.0, withY: 70.0,
                                                              withWidth: self.view.frame.width - 40.0,
                                                              withHeight: self.view.frame.height - 100.0,
                                                              location: coordinate)
@@ -76,15 +77,15 @@ class ActivityProgressViewController: UIViewController {
                 
             }
             
-            let index = activities.count - 1
+//            let index = activities.count - 1
 //            if activity[index].routeCoordinates.count() == 0 {
 //                self.mapManager.addStartMarker(at: coordinate)
 //            }
             
-            activities[index].routeCoordinates.add(coordinate)
-            self.mapManager.routeLine.path = activities[index].routeCoordinates
+            self.mapManager.path.add(coordinate)
+            self.mapManager.routeLine.path = self.mapManager.path
             
-            print("Path Count: \(activities[activities.count-1].routeCoordinates.count())")
+            print("Path Count: \(self.mapManager.path.count())")
             
         }
     }
@@ -110,10 +111,10 @@ class ActivityProgressViewController: UIViewController {
         buttonLockScroll.layer.cornerRadius = buttonLockScroll.frame.height / 2
         
         buttonEndRun.frame.origin.x = (view.frame.width - buttonPause.frame.width) / 2
-        buttonEndRun.frame.origin.y = viewDistance.frame.origin.y + viewDistance.frame.height + 70
+        buttonEndRun.frame.origin.y = viewDistance.frame.origin.y + viewDistance.frame.height + 50
         
         buttonPause.frame.origin.x = (view.frame.width - buttonPause.frame.width) / 2
-        buttonPause.frame.origin.y = viewDistance.frame.origin.y + viewDistance.frame.height + 70
+        buttonPause.frame.origin.y = viewDistance.frame.origin.y + viewDistance.frame.height + 50
         
         labelDistance.font = UIFont(name: "SF Pro Medium", size: 18.0)
         labelDistance.text = NSLocalizedString("Distance (Km)", comment: "")
@@ -200,6 +201,8 @@ class ActivityProgressViewController: UIViewController {
         let end = UIAlertAction(title: NSLocalizedString("End Anyway", comment: ""), style: .destructive, handler: { _ in
             
             let destinationVC = SaveActivityViewController()
+            
+            destinationVC.livePath = self.mapManager.path
             destinationVC.modalPresentationStyle = .fullScreen
             self.navigationController?.pushViewController(destinationVC, animated: true)
             

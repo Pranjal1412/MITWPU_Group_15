@@ -74,21 +74,7 @@ class SetGoalViewController: UIViewController {
         
         if let presenter = self.presentingViewController {
 
-            let newActivity = MyRunActivity(
-                        name: "Ava Brooks",
-                        date: "September 7, 6:15 am",
-                        runTitle: "",
-                        distanceValue: 7.2,
-                        distanceUnit: "km",
-                        paceValue: "7:45",
-                        paceUnit: "/km",
-                        timeValue: "01 hr 34 min",
-                        timeUnit: "50 sec",
-                        image: UIImage(named: "run_map_example"), // Update image name as needed
-                        note: "First run in a while, tough, but refreshing excited to rebuild step-by-step.", routeCoordinates: GMSMutablePath())
-            
-            activities.append(newActivity)
-            
+                        
 //          now we are writing that upon dimissal of the screen perform the following code
             self.dismiss(animated: true) {
 
