@@ -16,7 +16,7 @@
         </array>
     </customFonts>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RunStartedViewController" customModule="Runnr" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ActivityProgressViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
                 <outlet property="buttonEndRun" destination="qsz-ek-2fb" id="3x9-Ke-5x6"/>
                 <outlet property="buttonLockScroll" destination="rra-Gr-Og1" id="4dB-d9-NXv"/>

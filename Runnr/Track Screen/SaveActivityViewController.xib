@@ -77,11 +77,13 @@
                     <rect key="frame" x="0.0" y="115" width="402" height="859"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hWv-wV-F1z">
-                            <rect key="frame" x="25" y="10" width="352" height="195"/>
-                            <color key="backgroundColor" systemColor="systemGrayColor"/>
+                            <rect key="frame" x="25" y="12.333333333333337" width="352" height="190.33333333333329"/>
+                            <color key="backgroundColor" name="CardLightBlack"/>
+                            <color key="tintColor" name="AccentColor"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="195" id="g3w-fL-9BO"/>
                             </constraints>
+                            <imageReference key="image" image="map" catalog="system" symbolScale="small"/>
                         </imageView>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="6ol-Ib-gxx">
                             <rect key="frame" x="25" y="235" width="352" height="60"/>
@@ -407,6 +409,7 @@
     <resources>
         <image name="figure.run" catalog="system" width="115" height="128"/>
         <image name="flame" catalog="system" width="106" height="128"/>
+        <image name="map" catalog="system" width="128" height="112"/>
         <image name="point.bottomleft.forward.to.point.topright.scurvepath" catalog="system" width="117" height="128"/>
         <image name="stopwatch" catalog="system" width="121" height="128"/>
         <namedColor name="AccentColor">
@@ -420,9 +423,6 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemGrayColor">
-            <color red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

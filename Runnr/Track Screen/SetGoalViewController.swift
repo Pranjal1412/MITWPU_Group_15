@@ -81,7 +81,7 @@ class SetGoalViewController: UIViewController {
 //          now we are writing that upon dimissal of the screen perform the following code
             self.dismiss(animated: true) {
 
-                let rootController = RunStartedViewController(nibName: "RunStartedViewController", bundle: nil)
+                let rootController = ActivityProgressViewController(nibName: "ActivityProgressViewController", bundle: nil)
                 let navigationController = UINavigationController(rootViewController: rootController)
 
                 navigationController.modalPresentationStyle = .fullScreen

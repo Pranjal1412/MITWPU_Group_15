@@ -8,7 +8,7 @@
 import UIKit
 import GoogleMaps
 
-class RunStartedViewController: UIViewController {
+class ActivityProgressViewController: UIViewController {
 
     @IBOutlet weak var viewAllData: UIView!
     @IBOutlet weak var viewTime: UIView!
@@ -76,12 +76,13 @@ class RunStartedViewController: UIViewController {
             }
             
             let index = activity.count - 1
-                                            
-            if activity[index].routeCoordinates.count() == 0 {
-                self.mapManager.addStartMarker(at: coordinate)
-            }
+//            if activity[index].routeCoordinates.count() == 0 {
+//                self.mapManager.addStartMarker(at: coordinate)
+//            }
             
             activity[index].routeCoordinates.add(coordinate)
+            self.mapManager.routeLine.path = activity[index].routeCoordinates
+            
             print("Path Count: \(activity[activity.count-1].routeCoordinates.count())")
             
         }
@@ -216,7 +217,7 @@ class RunStartedViewController: UIViewController {
 
 // MARK: - Page Control Code & Scroll View Setting
 
-extension RunStartedViewController : UIScrollViewDelegate {
+extension ActivityProgressViewController : UIScrollViewDelegate {
     
     func settingHorizontalScroll() {
         scrollView.contentSize.width = view.frame.width * 3
