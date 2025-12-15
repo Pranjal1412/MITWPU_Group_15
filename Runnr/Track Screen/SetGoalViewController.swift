@@ -1,4 +1,3 @@
-//
 //  SetGoalViewController.swift
 //  Runnr
 //
@@ -75,7 +74,7 @@ class SetGoalViewController: UIViewController {
         
         if let presenter = self.presentingViewController {
 
-            let newActivity = RunActivity(
+            let newActivity = MyRunActivity(
                         name: "Ava Brooks",
                         date: "September 7, 6:15 am",
                         runTitle: "",
