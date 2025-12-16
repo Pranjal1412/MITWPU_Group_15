@@ -8,7 +8,9 @@ class ActivityScreenViewController: UIViewController {
     @IBOutlet weak var tableViewFriendsActivity: UITableView!
     
     let label = UILabel()
-
+    let myActivity: [MyRunActivity] = DataSource.shared.getMyActivityData()
+    let friendsActivity : [FriendsRunActivity] = DataSource.shared.getFriendsActivityData()
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -24,7 +26,7 @@ class ActivityScreenViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         
-        if activities.isEmpty {
+        if myActivity.isEmpty {
             label.text = "No activities"
             label.frame = CGRect(x: 0, y: view.frame.height / 2 , width: view.frame.width, height: 50)
             label.textAlignment = .center
@@ -76,8 +78,13 @@ class ActivityScreenViewController: UIViewController {
         if sender.selectedSegmentIndex == 1 {
             tableViewMyActivity.isHidden = true
             tableViewFriendsActivity.isHidden = false
+            label.isHidden = true
         }
         else {
+            if myActivity.isEmpty
+            {
+                label.isHidden = false
+            }
             tableViewMyActivity.isHidden = false
             tableViewFriendsActivity.isHidden = true
         }
@@ -90,9 +97,9 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
     func numberOfSections(in tableView: UITableView) -> Int {
         if tableView == tableViewMyActivity {
             //Changed here - by pranjal
-            return min(activities.count, 3)
+            return min(myActivity.count, 3)
         } else if tableView == tableViewFriendsActivity {
-            return activitiesFriends.count
+            return friendsActivity.count
         } else {
             return 0
         }
@@ -108,14 +115,14 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
         if tableView == tableViewMyActivity {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell",
                                                      for: indexPath) as! MyActivityTableViewCell
-            let activity = activities[indexPath.section]
+            let activity = myActivity[indexPath.section]
             cell.configure(with: activity)
             return cell
 
-        } else { // tableViewFriendsActivity
+        } else { // tableViewfriendsActivity
             let cell = tableView.dequeueReusableCell(withIdentifier: "cellFriends",
                                                      for: indexPath) as! FriendsActivityTableViewCell
-            let activity = activitiesFriends[indexPath.section]
+            let activity = friendsActivity[indexPath.section]
             cell.configure(with: activity)
             return cell
         }

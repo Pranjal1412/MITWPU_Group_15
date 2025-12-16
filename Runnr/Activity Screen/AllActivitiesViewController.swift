@@ -12,6 +12,7 @@ class AllActivitiesViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     let label = UILabel()
+    let myActivity: [MyRunActivity] = DataSource.shared.getMyActivityData()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,7 +51,7 @@ class AllActivitiesViewController: UIViewController {
 extension AllActivitiesViewController : UITableViewDelegate, UITableViewDataSource {
         
         func numberOfSections(in tableView: UITableView) -> Int {
-            return activities.count
+            return myActivity.count
         }
 
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -59,7 +60,7 @@ extension AllActivitiesViewController : UITableViewDelegate, UITableViewDataSour
 
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MyActivityTableViewCell
-            let activity = activities[indexPath.section]
+            let activity = myActivity[indexPath.section]
             cell.configure(with: activity)
             return cell
         }
