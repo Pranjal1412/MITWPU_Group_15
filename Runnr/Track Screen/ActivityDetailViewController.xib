@@ -11,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ActivityDetailViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
-                <outlet property="buttonBack" destination="fvr-Lz-tK4" id="Ghj-cc-nOC"/>
+                <outlet property="buttonBack" destination="dzF-gX-nkd" id="Llu-7u-QVE"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -20,21 +20,24 @@
             <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fvr-Lz-tK4">
-                    <rect key="frame" x="10" y="25" width="40" height="40"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dzF-gX-nkd">
+                    <rect key="frame" x="10" y="70" width="50" height="50"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="40" id="FFh-Dd-lFx"/>
-                        <constraint firstAttribute="width" constant="40" id="Xdl-3o-eao"/>
+                        <constraint firstAttribute="height" constant="50" id="ly8-xv-Qhi"/>
+                        <constraint firstAttribute="width" constant="50" id="nHX-ya-gpY"/>
                     </constraints>
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="plain" image="chevron.backward" catalog="system"/>
+                    <connections>
+                        <action selector="backButtonPressed:" destination="-1" eventType="touchUpInside" id="fwB-C8-LAi"/>
+                    </connections>
                 </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="fvr-Lz-tK4" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="hZo-Dh-E8s"/>
-                <constraint firstItem="fvr-Lz-tK4" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="25" id="u3l-xj-bVK"/>
+                <constraint firstItem="dzF-gX-nkd" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="Ga3-ui-wKM"/>
+                <constraint firstItem="dzF-gX-nkd" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="70" id="W3a-ye-Xrr"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="269" y="160"/>

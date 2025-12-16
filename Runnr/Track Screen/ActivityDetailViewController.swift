@@ -17,18 +17,18 @@ class ActivityDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         if #available(iOS 26.0, *) {
             buttonBack.configuration = .glass()
             buttonBack.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
             buttonBack.tintColor = .white
         } else {
             buttonBack.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
+            buttonBack.frame.origin.x = 100.0
             buttonBack.tintColor = .white
         }
-    }
-
-    override func viewDidLayoutSubviews() {
+        
+        userLocation.locationManager.startUpdatingLocation()
         userLocation.onLocationUpdate = { coordinate in
             
             if self.isMapInitialized == false {
@@ -40,9 +40,9 @@ class ActivityDetailViewController: UIViewController {
                                                        withHeight: self.view.frame.height - topOffset,
                                                        location: coordinate)
                 
-                mapView.settings.scrollGestures = false
-                mapView.settings.zoomGestures = false
-                mapView.settings.rotateGestures = false
+                mapView.settings.scrollGestures = true
+                mapView.settings.zoomGestures = true
+                mapView.settings.rotateGestures = true
 //                mapManger.mapBehavior(isEnabled: false)
                 self.view.addSubview(mapView)
                 
@@ -51,6 +51,17 @@ class ActivityDetailViewController: UIViewController {
             }
             
         }
+
     }
     
+    @IBAction func backButtonPressed(_ sender: UIButton) {
+        
+        if let presenter = self.presentingViewController {
+            self.dismiss(animated: true) {
+                presenter.dismiss(animated: true, completion: nil)
+            }
+
+        }
+                
+    }
 }
