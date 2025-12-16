@@ -6,6 +6,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -258,23 +259,25 @@
                             <constraint firstAttribute="height" constant="1" id="GhX-w7-ofD"/>
                         </constraints>
                     </view>
-                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FRk-MK-Fvo">
-                        <rect key="frame" x="20" y="185" width="342" height="191"/>
-                        <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="mapSample" translatesAutoresizingMaskIntoConstraints="NO" id="nSq-JR-Gsg">
-                                <rect key="frame" x="0.0" y="0.0" width="342" height="191"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                        </subviews>
-                        <viewLayoutGuide key="contentLayoutGuide" id="hh5-R3-Jh7"/>
-                        <viewLayoutGuide key="frameLayoutGuide" id="sVG-HJ-icH"/>
-                    </scrollView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First run in a while, tough, but refreshing excited to rebuild step-by-step." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hwW-E0-gwE">
                         <rect key="frame" x="20" y="403.33333333333331" width="338" height="33.666666666666686"/>
                         <fontDescription key="fontDescription" name="SFPro-Light" family="SF Pro" pointSize="14"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="HdC-xd-qFV">
+                        <rect key="frame" x="20" y="192" width="338" height="191"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="191" id="VG2-aH-ShN"/>
+                        </constraints>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="J8T-Qg-eH8">
+                            <size key="itemSize" width="128" height="128"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                    </collectionView>
                 </subviews>
                 <color key="backgroundColor" name="CardLightBlack"/>
                 <constraints>
@@ -282,26 +285,26 @@
                     <constraint firstItem="9eH-zs-5cF" firstAttribute="leading" secondItem="hxc-IF-Ah8" secondAttribute="leading" constant="20" id="6Mt-gP-sRk"/>
                     <constraint firstItem="n8w-2v-eri" firstAttribute="top" secondItem="aYJ-pK-unC" secondAttribute="bottom" constant="15" id="8Ch-A2-0bV"/>
                     <constraint firstAttribute="trailing" secondItem="DXG-H1-W7R" secondAttribute="trailing" constant="20" id="8lD-f8-cLQ"/>
-                    <constraint firstItem="FRk-MK-Fvo" firstAttribute="trailing" secondItem="hxc-IF-Ah8" secondAttribute="trailingMargin" id="A2b-tE-lYx"/>
                     <constraint firstItem="hwW-E0-gwE" firstAttribute="leading" secondItem="hxc-IF-Ah8" secondAttribute="leading" constant="20" id="CB2-Qa-H2m"/>
-                    <constraint firstItem="FRk-MK-Fvo" firstAttribute="top" secondItem="DXG-H1-W7R" secondAttribute="bottom" constant="15" id="EjX-99-w8E"/>
                     <constraint firstItem="n8w-2v-eri" firstAttribute="top" secondItem="aYJ-pK-unC" secondAttribute="bottom" constant="15" id="F7q-4k-wyX"/>
                     <constraint firstItem="n8w-2v-eri" firstAttribute="leading" secondItem="hxc-IF-Ah8" secondAttribute="leading" constant="20" id="HaW-Gh-LYE"/>
                     <constraint firstItem="aYJ-pK-unC" firstAttribute="leading" secondItem="hxc-IF-Ah8" secondAttribute="leading" constant="25" id="Jhq-bu-F1u"/>
                     <constraint firstItem="9eH-zs-5cF" firstAttribute="top" secondItem="n8w-2v-eri" secondAttribute="bottom" constant="15" id="L9r-pi-lL6"/>
-                    <constraint firstItem="FRk-MK-Fvo" firstAttribute="leading" secondItem="DXG-H1-W7R" secondAttribute="leading" id="QWX-bi-4h1"/>
                     <constraint firstItem="DXG-H1-W7R" firstAttribute="top" secondItem="9eH-zs-5cF" secondAttribute="bottom" constant="10" id="RpS-M0-sZn"/>
+                    <constraint firstItem="HdC-xd-qFV" firstAttribute="leading" secondItem="hxc-IF-Ah8" secondAttribute="leadingMargin" id="V65-Ka-Yng"/>
                     <constraint firstItem="DXG-H1-W7R" firstAttribute="leading" secondItem="hxc-IF-Ah8" secondAttribute="leading" constant="20" id="VVc-ir-A0t"/>
-                    <constraint firstItem="hwW-E0-gwE" firstAttribute="top" secondItem="FRk-MK-Fvo" secondAttribute="bottom" constant="15" id="WdU-gc-LWs"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="HdC-xd-qFV" secondAttribute="trailing" id="YFE-qN-TGH"/>
                     <constraint firstItem="aYJ-pK-unC" firstAttribute="top" secondItem="hxc-IF-Ah8" secondAttribute="top" constant="20" id="iSI-aw-97v"/>
                     <constraint firstAttribute="trailing" secondItem="n8w-2v-eri" secondAttribute="trailing" constant="20" id="pqH-aW-VAt"/>
                     <constraint firstAttribute="bottom" secondItem="hwW-E0-gwE" secondAttribute="bottom" constant="15" id="qZx-mW-0QX"/>
+                    <constraint firstItem="HdC-xd-qFV" firstAttribute="top" secondItem="DXG-H1-W7R" secondAttribute="bottom" constant="22" id="sa1-7O-JgT"/>
                     <constraint firstAttribute="trailing" secondItem="hwW-E0-gwE" secondAttribute="trailing" constant="20" id="uUY-LJ-KN6"/>
+                    <constraint firstItem="hwW-E0-gwE" firstAttribute="top" secondItem="HdC-xd-qFV" secondAttribute="bottom" constant="20.329999999999998" id="yiY-kd-AIE"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="vbJ-qI-1C7"/>
             <connections>
-                <outlet property="imageMap" destination="nSq-JR-Gsg" id="sIF-0i-K9R"/>
+                <outlet property="collectionViewPhotos" destination="HdC-xd-qFV" id="bOi-Wx-NIM"/>
                 <outlet property="imageProfile" destination="XfV-Pc-aTD" id="mLw-9S-AzY"/>
                 <outlet property="labelDate" destination="lgc-7w-dlL" id="SfQ-KQ-WfY"/>
                 <outlet property="labelDistance" destination="Ygc-8X-zxl" id="pOu-80-W4V"/>
@@ -313,13 +316,11 @@
                 <outlet property="labelRunTitle" destination="9eH-zs-5cF" id="uSe-sJ-yTY"/>
                 <outlet property="labelTime" destination="L4v-UE-74H" id="D66-YU-Icc"/>
                 <outlet property="labelTimeContent" destination="bLe-ZS-MKV" id="osg-qf-Q90"/>
-                <outlet property="scrollViewFriendsActivity" destination="FRk-MK-Fvo" id="PZh-K5-ZiL"/>
             </connections>
             <point key="canvasLocation" x="-558.77862595419845" y="-57.04225352112676"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="mapSample" width="1140" height="626"/>
         <image name="profile photo" width="1400" height="787"/>
         <namedColor name="AccentColor">
             <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -327,5 +328,8 @@
         <namedColor name="CardLightBlack">
             <color red="0.10199999809265137" green="0.10199999809265137" blue="0.10199999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

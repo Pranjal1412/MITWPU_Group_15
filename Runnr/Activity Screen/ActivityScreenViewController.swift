@@ -117,7 +117,7 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
 
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+        
         if tableView == tableViewMyActivity {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell",
                                                      for: indexPath) as! MyActivityTableViewCell
@@ -132,8 +132,8 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
             cell.configure(with: activity)
             return cell
         }
-    }
 
+    }
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 30
     }
