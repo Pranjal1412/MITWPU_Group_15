@@ -18,7 +18,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ExploreScreenCollectionViewCell" customModule="Runnr" customModuleProvider="target"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="ExploreScreenCollectionViewCell" customModule="Runnr" customModuleProvider="target">
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="gTV-IL-0wX" customClass="ExploreScreenCollectionViewCell" customModule="Runnr" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="161" height="246"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -118,9 +118,12 @@
             </constraints>
             <size key="customSize" width="364" height="372"/>
             <connections>
-                <outlet property="buttonJoinClub" destination="cOS-Xn-hHr" id="sk8-tw-4W3"/>
-                <outlet property="clubProfile" destination="jE4-pj-esh" id="GHv-Am-eM8"/>
-                <outlet property="viewExploreClub" destination="fPf-hD-fHP" id="HRw-NJ-RAS"/>
+                <outlet property="ClubSport" destination="iC9-Xg-xcd" id="pKh-BJ-k7I"/>
+                <outlet property="LabelTitle" destination="7nn-Oc-17v" id="eBS-XF-NqV"/>
+                <outlet property="NumberOfRunners" destination="CEr-YI-dHB" id="xzF-S2-mjn"/>
+                <outlet property="buttonJoinClub" destination="cOS-Xn-hHr" id="JdU-HU-x9d"/>
+                <outlet property="clubProfile" destination="jE4-pj-esh" id="YVv-kO-NGk"/>
+                <outlet property="viewExploreClub" destination="fPf-hD-fHP" id="uZn-03-zsg"/>
             </connections>
             <point key="canvasLocation" x="-596.18320610687022" y="-102.11267605633803"/>
         </collectionViewCell>

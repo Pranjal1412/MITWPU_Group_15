@@ -14,6 +14,8 @@ class ClubScreenViewController: UIViewController, UITableViewDataSource, UITable
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! FriendListTableViewCell
+        
+        cell.configureCell(with: friendsDataArray[indexPath.row])
         return cell
     }
 
@@ -41,6 +43,7 @@ class ClubScreenViewController: UIViewController, UITableViewDataSource, UITable
         tableViewFriends.dataSource = self
         tableViewFriends.delegate = self
         tableViewFriends.register(UINib(nibName: "FriendListTableViewCell", bundle: nil), forCellReuseIdentifier: "CustomCell")
+        
     }
     
    
@@ -142,6 +145,7 @@ extension ClubScreenViewController : UICollectionViewDataSource, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ExploreScreenCollectionViewCell
         
+        cell.configureCell(with: clubDataArray[indexPath.row])
         return cell
     }
     
@@ -149,6 +153,7 @@ extension ClubScreenViewController : UICollectionViewDataSource, UICollectionVie
         let width = (collectionViewExplore.frame.width - 80) / 2
         
         let size = CGSize(width: width, height: 246)
+        
         return size
         
     }

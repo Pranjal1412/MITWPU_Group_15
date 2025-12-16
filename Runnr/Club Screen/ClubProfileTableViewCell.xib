@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24412" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24405"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="SF-Pro.ttf">
+            <string>SFPro-Light</string>
+            <string>SFPro-Semibold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" rowHeight="63" id="KGk-i7-Jjw" customClass="ClubProfileTableViewCell" customModule="Runnr" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="402" height="80"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="402" height="80"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="shield" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="xUC-c9-6V8">
+                        <rect key="frame" x="46" y="21" width="40" height="38.666666666666671"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="40" id="aPK-kT-lVQ"/>
+                            <constraint firstAttribute="width" constant="40" id="ehE-F2-nHS"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fKk-HU-v4x">
+                        <rect key="frame" x="100" y="20" width="252" height="24"/>
+                        <fontDescription key="fontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="20"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c5Q-xe-fsH">
+                        <rect key="frame" x="100" y="49" width="252" height="15"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="15" id="02L-UA-9Bx"/>
+                            <constraint firstAttribute="width" constant="252" id="Qsd-xU-1pu"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="SFPro-Light" family="SF Pro" pointSize="13"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uWr-Ry-QjM">
+                        <rect key="frame" x="362" y="30" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="9EN-eF-qPa"/>
+                            <constraint firstAttribute="height" constant="20" id="f7x-Uh-j81"/>
+                        </constraints>
+                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <state key="normal" title="Button"/>
+                        <buttonConfiguration key="configuration" style="plain" image="chevron.right" catalog="system"/>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="uWr-Ry-QjM" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="30" id="3jT-kp-hZI"/>
+                    <constraint firstItem="c5Q-xe-fsH" firstAttribute="leading" secondItem="xUC-c9-6V8" secondAttribute="trailing" constant="14" id="Gg9-DO-r5z"/>
+                    <constraint firstItem="fKk-HU-v4x" firstAttribute="leading" secondItem="xUC-c9-6V8" secondAttribute="trailing" constant="14" id="OJC-4J-BHN"/>
+                    <constraint firstItem="uWr-Ry-QjM" firstAttribute="leading" secondItem="fKk-HU-v4x" secondAttribute="trailing" constant="10" id="OiJ-kk-IIS"/>
+                    <constraint firstAttribute="trailing" secondItem="uWr-Ry-QjM" secondAttribute="trailing" constant="20" symbolic="YES" id="R9W-ec-lcW"/>
+                    <constraint firstItem="uWr-Ry-QjM" firstAttribute="leading" secondItem="c5Q-xe-fsH" secondAttribute="trailing" constant="10" id="WT6-5F-BcL"/>
+                    <constraint firstItem="c5Q-xe-fsH" firstAttribute="top" secondItem="fKk-HU-v4x" secondAttribute="bottom" constant="5" id="WTZ-9c-Vkp"/>
+                    <constraint firstAttribute="bottom" secondItem="uWr-Ry-QjM" secondAttribute="bottom" constant="30" id="Xv2-4V-EEb"/>
+                    <constraint firstItem="xUC-c9-6V8" firstAttribute="centerY" secondItem="uWr-Ry-QjM" secondAttribute="centerY" id="as6-48-UFn"/>
+                    <constraint firstItem="xUC-c9-6V8" firstAttribute="top" secondItem="fKk-HU-v4x" secondAttribute="top" id="eXg-bi-VnV"/>
+                    <constraint firstItem="c5Q-xe-fsH" firstAttribute="top" secondItem="fKk-HU-v4x" secondAttribute="bottom" constant="5" id="fTi-nA-Kfm"/>
+                    <constraint firstItem="xUC-c9-6V8" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="46" id="zIx-iQ-r8i"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="badgeImage" destination="xUC-c9-6V8" id="juz-fe-6Sm"/>
+                <outlet property="chevron" destination="as6-48-UFn" id="toJ-Zx-aZO"/>
+                <outlet property="levelDescription" destination="c5Q-xe-fsH" id="R3Z-V4-Pci"/>
+                <outlet property="levelName" destination="fKk-HU-v4x" id="lLz-t8-Pcc"/>
+            </connections>
+            <point key="canvasLocation" x="-124" y="-26"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="chevron.right" catalog="system" width="97" height="128"/>
+        <image name="shield" catalog="system" width="121" height="128"/>
+    </resources>
+</document>
