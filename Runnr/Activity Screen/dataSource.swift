@@ -43,61 +43,7 @@ class DataSource{
             note: "Tough start, but refreshing to get moving again. Excited to rebuild consistency, step by step."
         )]
         
-        let mySampleData : [MyRunActivity] = [ MyRunActivity(
-            name: "Ava Brooks",
-            date: "September 7, 6:15 am",
-            runTitle: "",
-            distanceValue: 7.2,
-            distanceUnit: "km",
-            paceValue: "7:45",
-            paceUnit: "/km",
-            timeValue: "01 hr 34 min",
-            timeUnit: "50 sec",
-            image: UIImage(named: "run_map_example"),
-            note: "First run in a while, tough, but refreshing excited to rebuild step-by-step.", routeCoordinates: []),
-                                        
-           MyRunActivity(
-               name: "Ava Brooks",
-               date: "September 7, 6:15 am",
-               runTitle: "",
-               distanceValue: 7.2,
-               distanceUnit: "km",
-               paceValue: "7:45",
-               paceUnit: "/km",
-               timeValue: "01 hr 34 min",
-               timeUnit: "50 sec",
-               image: UIImage(named: "run_map_example"),
-               note: "First run in a while, tough, but refreshing excited to rebuild step-by-step.", routeCoordinates: []),
-           
-           MyRunActivity(
-               name: "Ava Brooks",
-               date: "September 7, 6:15 am",
-               runTitle: "",
-               distanceValue: 7.2,
-               distanceUnit: "km",
-               paceValue: "7:45",
-               paceUnit: "/km",
-               timeValue: "01 hr 34 min",
-               timeUnit: "50 sec",
-               image: UIImage(named: "run_map_example"),
-               note: "First run in a while, tough, but refreshing excited to rebuild step-by-step.", routeCoordinates: []),
-                                               
-               MyRunActivity(
-                   name: "Ava Brooks",
-                   date: "September 7, 6:15 am",
-                   runTitle: "",
-                   distanceValue: 7.2,
-                   distanceUnit: "km",
-                   paceValue: "7:45",
-                   paceUnit: "/km",
-                   timeValue: "01 hr 34 min",
-                   timeUnit: "50 sec",
-                   image: UIImage(named: "run_map_example"),
-                   note: "First run in a while, tough, but refreshing excited to rebuild step-by-step.", routeCoordinates: [])
-        ]
-        
         self.activitiesFriends = friendsSampleData
-//        self.activities = mySampleData
     }
     
     func getFriendsActivityData() -> [FriendsRunActivity] {

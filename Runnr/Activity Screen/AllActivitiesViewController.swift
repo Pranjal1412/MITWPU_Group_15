@@ -23,7 +23,7 @@ class AllActivitiesViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         
-        if activities.isEmpty {
+        if myActivity.isEmpty {
             label.text = "No activities"
             label.frame = CGRect(x: 0, y: view.frame.height / 2 , width: view.frame.width, height: 50)
             label.textAlignment = .center
