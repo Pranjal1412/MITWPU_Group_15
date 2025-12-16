@@ -27,6 +27,7 @@ struct FriendsRunActivity {
     let timeValue: String
     let timeUnit: String
     let image:  String
+    let photos: [String] 
     let note: String
 }
 

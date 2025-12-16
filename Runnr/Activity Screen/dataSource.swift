@@ -5,7 +5,7 @@
 //  Created by Archit Kankaria on 16/12/25.
 //
 import UIKit
-    
+        
 class DataSource{
     private var activities: [MyRunActivity] = []
     private var activitiesFriends: [FriendsRunActivity] = []
@@ -27,6 +27,7 @@ class DataSource{
             timeValue: "01 hr 34 min",
             timeUnit: "50 sec",
             image: "mapSample",
+            photos: ["run1", "run2", "run3"],
             note: "First run in a while, tough, but refreshing excited to rebuild step-by-step."
         ),
         FriendsRunActivity(
@@ -40,6 +41,7 @@ class DataSource{
             timeValue: "01 hr 18 min",
             timeUnit: "14 sec",
             image: "mapSample",
+            photos: ["run1", "run2", "mapSample"],
             note: "Tough start, but refreshing to get moving again. Excited to rebuild consistency, step by step."
         )]
         
