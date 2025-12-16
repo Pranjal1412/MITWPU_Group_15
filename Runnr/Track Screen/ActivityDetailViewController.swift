@@ -11,9 +11,11 @@ import GoogleMaps
 class ActivityDetailViewController: UIViewController {
 
     @IBOutlet weak var buttonBack: UIButton!
+    @IBOutlet weak var buttonShowAnalysis: UIButton!
     
     var isMapInitialized: Bool = false
     let userLocation = UserLocationManager()
+    var activityData : GMSMutablePath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +29,8 @@ class ActivityDetailViewController: UIViewController {
             buttonBack.frame.origin.x = 100.0
             buttonBack.tintColor = .white
         }
+        
+        buttonShowAnalysis.layer.cornerRadius = buttonShowAnalysis.frame.height / 2.0
         
         userLocation.locationManager.startUpdatingLocation()
         userLocation.onLocationUpdate = { coordinate in
@@ -43,15 +47,18 @@ class ActivityDetailViewController: UIViewController {
                 mapView.settings.scrollGestures = true
                 mapView.settings.zoomGestures = true
                 mapView.settings.rotateGestures = true
-//                mapManger.mapBehavior(isEnabled: false)
-                self.view.addSubview(mapView)
                 
+                mapManager.routeLine = GMSPolyline(path: self.activityData)
+                mapManager.setRouteLineStyle()
+                
+                self.view.addSubview(mapView)
+                self.view.bringSubviewToFront(self.buttonShowAnalysis)
                 self.userLocation.locationManager.stopUpdatingLocation()
                 self.isMapInitialized = true
             }
             
         }
-
+        
     }
     
     @IBAction func backButtonPressed(_ sender: UIButton) {
