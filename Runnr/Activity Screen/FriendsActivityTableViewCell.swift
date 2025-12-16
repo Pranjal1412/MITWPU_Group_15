@@ -21,6 +21,7 @@ class FriendsActivityTableViewCell: UITableViewCell {
     @IBOutlet weak var labelTimeContent: UILabel!
     @IBOutlet weak var labelNote: UILabel!
     
+    @IBOutlet weak var imageMap: UIImageView!
     @IBOutlet weak var scrollViewFriendsActivity: UIScrollView!
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -33,7 +34,7 @@ class FriendsActivityTableViewCell: UITableViewCell {
         labelName.text = activity.name
         labelDate.text = activity.date
         labelRunTitle.text = activity.runTitle
-        
+        imageMap.image = UIImage(named: "mapSample")
         labelNote.text = activity.note
         labelDistance.text = "Distance"
         labelPace.text = "Pace"

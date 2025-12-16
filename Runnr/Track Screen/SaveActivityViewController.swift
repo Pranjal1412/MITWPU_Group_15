@@ -77,7 +77,7 @@ class SaveActivityViewController: UIViewController {
                     paceUnit: "/km",
                     timeValue: "01 hr 34 min",
                     timeUnit: "50 sec",
-                    image: UIImage(named: "run_map_example"),
+                    image: "mapSample",
                     note: "First run in a while, tough, but refreshing excited to rebuild step-by-step.", routeCoordinates: convertPathToCoordinates(livePath ?? GMSMutablePath()))
         
         self.datsource.addMyActivity(newActivity)

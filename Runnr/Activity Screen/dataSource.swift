@@ -26,7 +26,7 @@ class DataSource{
             paceUnit: "/km",
             timeValue: "01 hr 34 min",
             timeUnit: "50 sec",
-            image: UIImage(named: "run_map_example"), // Update image name as needed
+            image: "mapSample",
             note: "First run in a while, tough, but refreshing excited to rebuild step-by-step."
         ),
         FriendsRunActivity(
@@ -39,7 +39,7 @@ class DataSource{
             paceUnit: "/km",
             timeValue: "01 hr 18 min",
             timeUnit: "14 sec",
-            image: UIImage(named: "run_map_example_2"), // Dummy name for example
+            image: "mapSample",
             note: "Tough start, but refreshing to get moving again. Excited to rebuild consistency, step by step."
         )]
         
