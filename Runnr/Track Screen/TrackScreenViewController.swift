@@ -90,23 +90,11 @@ class TrackScreenViewController: UIViewController {
         
         let destinationVC = SetGoalViewController()
         
-//        if let sheet = destinationVC.sheetPresentationController {
-//            let customDetent = UISheetPresentationController.Detent.custom { context in
-//                return 661
-//                }
-//                
-//                sheet.detents = [customDetent]
-//                sheet.prefersGrabberVisible = true  // optional: adds drag handle
-//                sheet.preferredCornerRadius = 20
-//        }
-        
         if self.systemOS >= "26.0" {
             destinationVC.modalPresentationStyle = .overFullScreen
         }
         
         self.present(destinationVC, animated: true, completion: nil)
-        
-//        userLocation.alwaysAuthorization()
-        
+                
     }
 }

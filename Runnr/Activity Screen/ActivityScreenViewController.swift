@@ -8,7 +8,10 @@ class ActivityScreenViewController: UIViewController {
     @IBOutlet weak var tableViewFriendsActivity: UITableView!
     
     let label = UILabel()
-    let myActivity: [MyRunActivity] = DataSource.shared.getMyActivityData()
+    var myActivity: [MyRunActivity] {
+        DataSource.shared.getMyActivityData()
+    }
+    
     let friendsActivity : [FriendsRunActivity] = DataSource.shared.getFriendsActivityData()
     
     override func viewDidLoad() {
@@ -22,22 +25,22 @@ class ActivityScreenViewController: UIViewController {
         tableViewMyActivity.isHidden = false
         tableViewFriendsActivity.isHidden = true
         
+        label.text = "No activities"
+        label.frame = CGRect(x: 0, y: view.frame.height / 2 , width: view.frame.width, height: 50)
+        label.textAlignment = .center
+        label.textColor = .lightGray
+        
+        if myActivity.isEmpty {
+            view.addSubview(label)
+        }
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         
-        if myActivity.isEmpty {
-            label.text = "No activities"
-            label.frame = CGRect(x: 0, y: view.frame.height / 2 , width: view.frame.width, height: 50)
-            label.textAlignment = .center
-            label.textColor = .lightGray
-            view.addSubview(label)
-        }
-        else {
-            label.isHidden = true
-        }
-        
         tableViewMyActivity.reloadData()
+        print(myActivity.count)
     }
     
     func settingLabelStyle() {

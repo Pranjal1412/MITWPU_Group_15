@@ -38,7 +38,6 @@ class ActivityProgressViewController: UIViewController {
     
     let userLocation = UserLocationManager()
     let mapManager = MapManager()
-    var liveRoute = GMSMutablePath()
     var scrollViewInitialized = false
     var isMapInitialized = false
     

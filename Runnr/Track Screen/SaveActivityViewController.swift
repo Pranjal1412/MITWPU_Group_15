@@ -29,6 +29,7 @@ class SaveActivityViewController: UIViewController {
     @IBOutlet weak var labelCalories: UILabel!
     
     var livePath : GMSMutablePath?
+    let datsource = DataSource.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,8 +53,8 @@ class SaveActivityViewController: UIViewController {
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel)
         
         let deleteAction = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive, handler: {_ in
-            activities.remove(at: activities.count - 1)
-            print("Array Size: \(activities.count)")
+            self.datsource.deleteMyActivity()
+            print("After passing count: \(self.datsource.getMyActivityData().count)")
             self.navigationController?.dismiss(animated: true, completion: nil)
         })
         
@@ -79,9 +80,11 @@ class SaveActivityViewController: UIViewController {
                     image: UIImage(named: "run_map_example"),
                     note: "First run in a while, tough, but refreshing excited to rebuild step-by-step.", routeCoordinates: convertPathToCoordinates(livePath ?? GMSMutablePath()))
         
-        activities.append(newActivity)
-        print("After passing count: \(livePath!.count())")
-
+        self.datsource.addMyActivity(newActivity)
+        print("After passing count: \(self.datsource.getMyActivityData().count)")
+        
+        self.navigationController?.dismiss(animated: true)
+        
 //        if let presenter = self.presentingViewController {
 //            self.navigationController?.dismiss(animated: true) {
 //                let destinationVC = ActivityDetailViewController()
