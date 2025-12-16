@@ -258,7 +258,7 @@
                             <constraint firstAttribute="height" constant="1" id="MQb-We-6sk"/>
                         </constraints>
                     </view>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="eo4-xy-YgV">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mapSample" id="eo4-xy-YgV">
                         <rect key="frame" x="20" y="185" width="342" height="191"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
@@ -310,6 +310,7 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="mapSample" width="1140" height="626"/>
         <image name="profile photo" width="1400" height="787"/>
         <namedColor name="AccentColor">
             <color red="0.67843137254901964" green="0.97254901960784312" blue="0.27058823529411763" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

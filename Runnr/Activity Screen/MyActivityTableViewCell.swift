@@ -33,12 +33,12 @@ class MyActivityTableViewCell: UITableViewCell {
         labelName.text = activity.name
         labelDate.text = activity.date
         labelRunTitle.text = activity.runTitle
-        imageRun.image = activity.image
+        imageRun.image = UIImage(named: activity.image)
         labelNote.text = activity.note
         labelDistance.text = NSLocalizedString("Distance", comment: "")
         labelPace.text = NSLocalizedString("Pace", comment: "")
         labelTime.text = NSLocalizedString("Time", comment: "")
-        
+        imageRun.layer.cornerRadius = 10
         imageProfile.layer.cornerRadius = imageProfile.frame.height / 2
         
         // SF Pro fonts
