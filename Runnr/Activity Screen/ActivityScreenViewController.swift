@@ -40,6 +40,9 @@ class ActivityScreenViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         
         tableViewMyActivity.reloadData()
+        if myActivity.isEmpty == false {
+            label.isHidden = true
+        }
         print(myActivity.count)
     }
     
