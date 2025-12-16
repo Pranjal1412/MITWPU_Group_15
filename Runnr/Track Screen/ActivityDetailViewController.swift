@@ -10,13 +10,22 @@ import GoogleMaps
 
 class ActivityDetailViewController: UIViewController {
 
+    @IBOutlet weak var buttonBack: UIButton!
+    
     var isMapInitialized: Bool = false
     let userLocation = UserLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
+        if #available(iOS 26.0, *) {
+            buttonBack.configuration = .glass()
+            buttonBack.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
+            buttonBack.tintColor = .white
+        } else {
+            buttonBack.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
+            buttonBack.tintColor = .white
+        }
     }
 
     override func viewDidLayoutSubviews() {

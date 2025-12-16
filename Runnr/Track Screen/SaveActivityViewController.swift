@@ -83,12 +83,14 @@ class SaveActivityViewController: UIViewController {
         self.datsource.addMyActivity(newActivity)
         print("After passing count: \(self.datsource.getMyActivityData().count)")
         
-        self.navigationController?.dismiss(animated: true)
+//        self.navigationController?.dismiss(animated: true)
+        let destinationVC = ActivityDetailViewController()
+        destinationVC.modalPresentationStyle = .fullScreen
+        navigationController?.present(destinationVC, animated: true)
         
 //        if let presenter = self.presentingViewController {
 //            self.navigationController?.dismiss(animated: true) {
-//                let destinationVC = ActivityDetailViewController()
-//                destinationVC.modalPresentationStyle = .fullScreen
+//                
 //                presenter.present(destinationVC, animated: true, completion: nil)
 //            }
 //        }

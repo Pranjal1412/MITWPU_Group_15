@@ -36,10 +36,10 @@ class SetGoalViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if #available(iOS 26.0, *) {
-                view.window?.backgroundColor = .clear
-                presentingViewController?.view.backgroundColor = .clear
-        }
+//        if #available(iOS 26.0, *) {
+//                view.window?.backgroundColor = .clear
+//                presentingViewController?.view.backgroundColor = .clear
+//        }
     }
     
     func settingScreen() {
