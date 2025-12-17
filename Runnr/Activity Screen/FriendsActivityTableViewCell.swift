@@ -33,11 +33,9 @@ class FriendsActivityTableViewCell: UITableViewCell {
             collectionViewPhotos.dataSource = self
             collectionViewPhotos.delegate   = self
 
-            let nib = UINib(nibName: "FriendPhotoCollectionViewCell", bundle: nil)
-            collectionViewPhotos.register(
-                nib,
-                forCellWithReuseIdentifier: "FriendPhotoCollectionViewCell"
-            )
+            let nib = UINib(nibName: "FriendsPhotosCollectionViewCell", bundle: nil)
+            
+            collectionViewPhotos.register(nib,forCellWithReuseIdentifier: "friendCell")
         }
 
         // STEP 2: configure cell with model + photos
@@ -121,14 +119,13 @@ class FriendsActivityTableViewCell: UITableViewCell {
             }
             labelTimeContent.attributedText = timeText
             labelPaceContent.minimumScaleFactor = 0.5
-
-            // NEW: pass photos to the collection view
-            //setPhotos(activity.photos)
+            collectionViewPhotos.backgroundColor = .clear
+            setPhotos(activity.photos)
         }
 
         func setPhotos(_ names: [String]) {
             photos = names
-            collectionViewPhotos.reloadData()
+            print("photos in cell:", photos)
         }
     }
 
@@ -140,26 +137,35 @@ class FriendsActivityTableViewCell: UITableViewCell {
 
         func collectionView(_ collectionView: UICollectionView,
                             numberOfItemsInSection section: Int) -> Int {
+            print(photos.count)
             return photos.count
         }
 
         func collectionView(_ collectionView: UICollectionView,
                             cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "FriendPhotoCollectionViewCell",
+                withReuseIdentifier: "friendCell",
                 for: indexPath
             ) as! FriendsPhotosCollectionViewCell
 
-            let imageName = photos[indexPath.item]
-            cell.imageCellFriends.image = UIImage(named: imageName)
-            cell.imageCellFriends.contentMode = .scaleAspectFill
-            cell.imageCellFriends.clipsToBounds = true
+            let imageName = photos[indexPath.row]
+//            print(imageName)
+            cell.configure(with: imageName)
             return cell
         }
 
         func collectionView(_ collectionView: UICollectionView,
                             layout collectionViewLayout: UICollectionViewLayout,
                             sizeForItemAt indexPath: IndexPath) -> CGSize {
-            return collectionView.bounds.size
+            
+            var width = 152.0
+            let height = collectionView.bounds.height
+            if indexPath.row == 2{
+                width = collectionView.bounds.width - 32.0
+                
+            }
+            return CGSize(width: width, height: height)
+
         }
+        
     }

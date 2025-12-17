@@ -6,7 +6,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -265,13 +264,12 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="HdC-xd-qFV">
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="HdC-xd-qFV">
                         <rect key="frame" x="20" y="192" width="338" height="191"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="191" id="VG2-aH-ShN"/>
                         </constraints>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="J8T-Qg-eH8">
+                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="J8T-Qg-eH8">
                             <size key="itemSize" width="128" height="128"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -281,6 +279,7 @@
                 </subviews>
                 <color key="backgroundColor" name="CardLightBlack"/>
                 <constraints>
+                    <constraint firstItem="hwW-E0-gwE" firstAttribute="top" secondItem="HdC-xd-qFV" secondAttribute="bottom" constant="20.329999999999998" id="3xt-LF-goO"/>
                     <constraint firstAttribute="trailing" secondItem="9eH-zs-5cF" secondAttribute="trailing" constant="20" id="5Up-6S-hPj"/>
                     <constraint firstItem="9eH-zs-5cF" firstAttribute="leading" secondItem="hxc-IF-Ah8" secondAttribute="leading" constant="20" id="6Mt-gP-sRk"/>
                     <constraint firstItem="n8w-2v-eri" firstAttribute="top" secondItem="aYJ-pK-unC" secondAttribute="bottom" constant="15" id="8Ch-A2-0bV"/>
@@ -288,17 +287,20 @@
                     <constraint firstItem="hwW-E0-gwE" firstAttribute="leading" secondItem="hxc-IF-Ah8" secondAttribute="leading" constant="20" id="CB2-Qa-H2m"/>
                     <constraint firstItem="n8w-2v-eri" firstAttribute="top" secondItem="aYJ-pK-unC" secondAttribute="bottom" constant="15" id="F7q-4k-wyX"/>
                     <constraint firstItem="n8w-2v-eri" firstAttribute="leading" secondItem="hxc-IF-Ah8" secondAttribute="leading" constant="20" id="HaW-Gh-LYE"/>
+                    <constraint firstItem="HdC-xd-qFV" firstAttribute="top" secondItem="DXG-H1-W7R" secondAttribute="bottom" constant="22" id="ICc-fU-J7U"/>
                     <constraint firstItem="aYJ-pK-unC" firstAttribute="leading" secondItem="hxc-IF-Ah8" secondAttribute="leading" constant="25" id="Jhq-bu-F1u"/>
                     <constraint firstItem="9eH-zs-5cF" firstAttribute="top" secondItem="n8w-2v-eri" secondAttribute="bottom" constant="15" id="L9r-pi-lL6"/>
                     <constraint firstItem="DXG-H1-W7R" firstAttribute="top" secondItem="9eH-zs-5cF" secondAttribute="bottom" constant="10" id="RpS-M0-sZn"/>
                     <constraint firstItem="HdC-xd-qFV" firstAttribute="leading" secondItem="hxc-IF-Ah8" secondAttribute="leadingMargin" id="V65-Ka-Yng"/>
                     <constraint firstItem="DXG-H1-W7R" firstAttribute="leading" secondItem="hxc-IF-Ah8" secondAttribute="leading" constant="20" id="VVc-ir-A0t"/>
                     <constraint firstAttribute="trailingMargin" secondItem="HdC-xd-qFV" secondAttribute="trailing" id="YFE-qN-TGH"/>
+                    <constraint firstItem="HdC-xd-qFV" firstAttribute="leading" secondItem="hxc-IF-Ah8" secondAttribute="leadingMargin" id="fVl-6I-OLh"/>
                     <constraint firstItem="aYJ-pK-unC" firstAttribute="top" secondItem="hxc-IF-Ah8" secondAttribute="top" constant="20" id="iSI-aw-97v"/>
                     <constraint firstAttribute="trailing" secondItem="n8w-2v-eri" secondAttribute="trailing" constant="20" id="pqH-aW-VAt"/>
                     <constraint firstAttribute="bottom" secondItem="hwW-E0-gwE" secondAttribute="bottom" constant="15" id="qZx-mW-0QX"/>
                     <constraint firstItem="HdC-xd-qFV" firstAttribute="top" secondItem="DXG-H1-W7R" secondAttribute="bottom" constant="22" id="sa1-7O-JgT"/>
                     <constraint firstAttribute="trailing" secondItem="hwW-E0-gwE" secondAttribute="trailing" constant="20" id="uUY-LJ-KN6"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="HdC-xd-qFV" secondAttribute="trailing" id="vap-F7-sxo"/>
                     <constraint firstItem="hwW-E0-gwE" firstAttribute="top" secondItem="HdC-xd-qFV" secondAttribute="bottom" constant="20.329999999999998" id="yiY-kd-AIE"/>
                 </constraints>
             </tableViewCellContentView>
@@ -328,8 +330,5 @@
         <namedColor name="CardLightBlack">
             <color red="0.10199999809265137" green="0.10199999809265137" blue="0.10199999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
     </resources>
 </document>
