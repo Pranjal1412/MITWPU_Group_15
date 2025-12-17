@@ -27,6 +27,12 @@ class ClubProfileViewController: UIViewController,
 
     @IBOutlet var tableViewLeaderBoard: UITableView!
     
+    @IBOutlet var viewPosts: UIView!
+    
+    @IBOutlet var viewLeaderBoard: UIView!
+    
+    @IBOutlet var viewTagged: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -46,6 +52,10 @@ class ClubProfileViewController: UIViewController,
         tableViewLeaderBoard.delegate = self
         tableViewLeaderBoard.register(UINib(nibName: "ClubProfileTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
         
+        collectionView.isHidden = false
+        tableViewLeaderBoard.isHidden = true
+        viewPosts.backgroundColor = .accent
+
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.minimumInteritemSpacing = 4
             layout.minimumLineSpacing = 4
@@ -95,6 +105,48 @@ class ClubProfileViewController: UIViewController,
 
         let width = (collectionView.frame.width - 20) / 3
         return CGSize(width: width, height: width)
+    }
+    @IBAction func taggedButtonPressed(_ sender: UIButton) {
+        showTagged()
+        sender.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        
+    }
+    
+    @IBAction func leaderboardButtonPressed(_ sender: UIButton) {
+        showLeaderBoard()
+        sender.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        
+    }
+    
+    @IBAction func postsButtonPressed(_ sender: UIButton) {
+        showPosts()
+        sender.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        
+    }
+    
+   
+    func showPosts() {
+        collectionView.isHidden = false
+        tableViewLeaderBoard.isHidden = true
+        viewPosts.backgroundColor = .accent
+        viewTagged.backgroundColor = .white
+        viewLeaderBoard.backgroundColor = .white
+    }
+
+    func showLeaderBoard() {
+        collectionView.isHidden = true
+        tableViewLeaderBoard.isHidden = false
+        viewLeaderBoard.backgroundColor = .accent
+        viewPosts.backgroundColor = .white
+        viewTagged.backgroundColor = .white
+    }
+
+    func showTagged() {
+        collectionView.isHidden = false
+        tableViewLeaderBoard.isHidden = true
+        viewTagged.backgroundColor = .accent
+        viewPosts.backgroundColor = .white
+        viewLeaderBoard.backgroundColor = .white
     }
 }
 
