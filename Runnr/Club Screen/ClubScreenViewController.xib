@@ -103,7 +103,7 @@
                         <outlet property="delegate" destination="-1" id="01Z-6f-mj5"/>
                     </connections>
                 </searchBar>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="qb8-Dp-DRw">
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="qb8-Dp-DRw">
                     <rect key="frame" x="0.0" y="266" width="402" height="608"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -135,12 +135,6 @@
                 <constraint firstItem="vyM-ru-Mgt" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="yLD-lN-o6m"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <variation key="default">
-                <mask key="subviews">
-                    <exclude reference="dKE-91-srN"/>
-                    <exclude reference="qb8-Dp-DRw"/>
-                </mask>
-            </variation>
             <point key="canvasLocation" x="-160.30534351145039" y="104.92957746478874"/>
         </view>
     </objects>
