@@ -26,16 +26,25 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Runnr." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u5t-gV-e1p">
-                    <rect key="frame" x="25.000000000000007" y="90" width="95.666666666666686" height="39.666666666666657"/>
+                    <rect key="frame" x="25.000000000000007" y="90" width="95.666666666666686" height="40"/>
                     <fontDescription key="fontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="33"/>
                     <color key="textColor" name="AccentColor"/>
                     <nil key="highlightedColor"/>
                     <size key="shadowOffset" width="4" height="-1"/>
                 </label>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user3" translatesAutoresizingMaskIntoConstraints="NO" id="lY6-tK-Jv9">
+                    <rect key="frame" x="342" y="90" width="45" height="45"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="45" id="bAQ-xc-XDU"/>
+                        <constraint firstAttribute="height" constant="45" id="mOw-uv-7Ub"/>
+                    </constraints>
+                </imageView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
+                <constraint firstItem="lY6-tK-Jv9" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="90" id="6HR-VA-rTm"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="lY6-tK-Jv9" secondAttribute="trailing" constant="15" id="D2H-Hz-kab"/>
                 <constraint firstItem="u5t-gV-e1p" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="25" id="iGT-Ms-DNj"/>
                 <constraint firstItem="u5t-gV-e1p" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="90" id="oJG-sW-Elm"/>
             </constraints>
@@ -44,6 +53,7 @@
         </view>
     </objects>
     <resources>
+        <image name="user3" width="120" height="120"/>
         <namedColor name="AccentColor">
             <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

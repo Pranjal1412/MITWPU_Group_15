@@ -40,6 +40,8 @@ class ActivityProgressViewController: UIViewController {
     let mapManager = MapManager()
     var scrollViewInitialized = false
     var isMapInitialized = false
+    var activityRoute : [CLLocationCoordinate2D] = []
+    var bounds = GMSCoordinateBounds()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,7 +67,7 @@ class ActivityProgressViewController: UIViewController {
                                                              location: coordinate)
               
                 self.mapManager.userLocationMarkerSetting(isEnabled: true)
-                mapView.settings.rotateGestures = false
+                mapView.settings.rotateGestures = true
                 mapView.settings.zoomGestures = true
                 mapView.settings.scrollGestures = true
                 self.viewActivityTrack.addSubview(mapView)
@@ -166,6 +168,12 @@ class ActivityProgressViewController: UIViewController {
                 self.buttonEndRun.frame.origin.x = (self.buttonPause.frame.origin.x + self.buttonPause.frame.width + 70.0)
             }
             
+            self.convertPathToCoordinates(mapManager.path).forEach { coordinate in
+                bounds = bounds.includingCoordinate(coordinate)
+            }
+            
+            mapManager.mapView.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 70))
+            
             buttonPause.tag = 1
         }
         
@@ -180,6 +188,13 @@ class ActivityProgressViewController: UIViewController {
                 self.buttonEndRun.frame.origin.x = (UIScreen.main.bounds.width - self.buttonPause.frame.width)/2.0
                 
             }
+
+            let lastCoordinate = self.mapManager.path.coordinate(at: self.mapManager.path.count() - 1)
+            
+            let cameraView = GMSCameraPosition(latitude: lastCoordinate.latitude, longitude: lastCoordinate.longitude, zoom: 15.0)
+            
+            mapManager.mapView.animate(to: cameraView)
+            
             buttonPause.tag = 0
 
         }
@@ -190,6 +205,7 @@ class ActivityProgressViewController: UIViewController {
         
         self.userLocation.locationManager.stopUpdatingLocation()
 
+        activityRoute = convertPathToCoordinates(mapManager.path)
         
         let alert = UIAlertController(title: NSLocalizedString("End Run", comment: ""),
                                       message: NSLocalizedString("Are you sure you want to end this run?", comment: ""), preferredStyle: .alert)
@@ -201,7 +217,7 @@ class ActivityProgressViewController: UIViewController {
             
             let destinationVC = SaveActivityViewController()
             
-            destinationVC.livePath = self.mapManager.path
+            destinationVC.livePath = self.activityRoute
             destinationVC.modalPresentationStyle = .fullScreen
             self.navigationController?.pushViewController(destinationVC, animated: true)
             
@@ -218,6 +234,16 @@ class ActivityProgressViewController: UIViewController {
         
         present(alert, animated: true , completion: nil)
         
+    }
+    
+    func convertPathToCoordinates(_ path: GMSMutablePath) -> [CLLocationCoordinate2D] {
+        var coordinates: [CLLocationCoordinate2D] = []
+        
+        for i in 0..<path.count() {
+            coordinates.append(path.coordinate(at: i))
+        }
+        
+        return coordinates
     }
     
 }

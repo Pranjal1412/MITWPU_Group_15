@@ -10,7 +10,7 @@ import UIKit
 
 class MapManager {
     
-    private var mapView = GMSMapView()
+    var mapView = GMSMapView()
     var routeLine = GMSPolyline()
     var path = GMSMutablePath()
     var startMarker = GMSMarker()

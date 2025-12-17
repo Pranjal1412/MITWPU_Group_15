@@ -14,11 +14,12 @@ class SaveActivityViewController: UIViewController {
     @IBOutlet weak var viewTime: UIView!
     @IBOutlet weak var viewPace: UIView!
     @IBOutlet weak var viewCalories: UIView!
-    @IBOutlet weak var viewtextField: UIView!
     @IBOutlet weak var scrollViewSaveActivity: UIScrollView!
     @IBOutlet weak var labelPhotos: UILabel!
     @IBOutlet weak var imageViewMap: UIImageView!
+    
     @IBOutlet weak var textViewRemark: UITextView!
+    @IBOutlet weak var textFieldActivityTitle: UITextField!
     
     @IBOutlet weak var labelRunSummary: UILabel!
     @IBOutlet weak var labelPublicActivity: UILabel!
@@ -28,7 +29,9 @@ class SaveActivityViewController: UIViewController {
     @IBOutlet weak var labelPace: UILabel!
     @IBOutlet weak var labelCalories: UILabel!
     
-    var livePath : GMSMutablePath?
+    
+    
+    var livePath : [CLLocationCoordinate2D] = []
     let datsource = DataSource.shared
     
     override func viewDidLoad() {
@@ -70,7 +73,7 @@ class SaveActivityViewController: UIViewController {
         let newActivity = MyRunActivity(
                     name: "Ava Brooks",
                     date: "September 7, 6:15 am",
-                    runTitle: "",
+                    runTitle: textFieldActivityTitle.text ?? "Morning Run",
                     distanceValue: 7.2,
                     distanceUnit: "km",
                     paceValue: "7:45",
@@ -78,23 +81,16 @@ class SaveActivityViewController: UIViewController {
                     timeValue: "01 hr 34 min",
                     timeUnit: "50 sec",
                     image: "mapSample",
-                    note: "First run in a while, tough, but refreshing excited to rebuild step-by-step.", routeCoordinates: convertPathToCoordinates(livePath ?? GMSMutablePath()))
+                    note: "First run in a while, tough, but refreshing excited to rebuild step-by-step.", routeCoordinates: livePath)
         
         self.datsource.addMyActivity(newActivity)
         print("After passing count: \(self.datsource.getMyActivityData().count)")
         
-//        self.navigationController?.dismiss(animated: true)
         let destinationVC = ActivityDetailViewController()
-        destinationVC.modalPresentationStyle = .fullScreen
         destinationVC.activityData = newActivity
-        navigationController?.present(destinationVC, animated: true)
         
-//        if let presenter = self.presentingViewController {
-//            self.navigationController?.dismiss(animated: true) {
-//                
-//                presenter.present(destinationVC, animated: true, completion: nil)
-//            }
-//        }
+        destinationVC.modalPresentationStyle = .fullScreen
+        navigationController?.present(destinationVC, animated: true)
         
     }
     
@@ -104,9 +100,9 @@ class SaveActivityViewController: UIViewController {
         viewTime.layer.cornerRadius = 15
         viewCalories.layer.cornerRadius = 15
         
-        viewtextField.layer.cornerRadius = 15
-        viewtextField.layer.borderColor = UIColor.white.cgColor
-        viewtextField.layer.borderWidth = 0.5
+        textViewRemark.layer.cornerRadius = 15
+        textViewRemark.layer.borderColor = UIColor.white.cgColor
+        textViewRemark.layer.borderWidth = 0.5
         
         imageViewMap.layer.cornerRadius = 15
     }
@@ -125,15 +121,6 @@ class SaveActivityViewController: UIViewController {
         labelDistance.text = NSLocalizedString( "Distance", comment: "")
     }
     
-    func convertPathToCoordinates(_ path: GMSMutablePath) -> [CLLocationCoordinate2D] {
-        var coordinates: [CLLocationCoordinate2D] = []
-        
-        for i in 0..<path.count() {
-            coordinates.append(path.coordinate(at: i))
-        }
-        
-        return coordinates
-    }
 }
 
 extension SaveActivityViewController {

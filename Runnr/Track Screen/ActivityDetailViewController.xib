@@ -19,6 +19,7 @@
             <connections>
                 <outlet property="buttonBack" destination="dzF-gX-nkd" id="Llu-7u-QVE"/>
                 <outlet property="buttonShowAnalysis" destination="oYt-iY-x1Z" id="oTP-Qo-tST"/>
+                <outlet property="labelActivityHeading" destination="48z-kX-Vm6" id="wHt-3D-rad"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -28,10 +29,10 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dzF-gX-nkd">
-                    <rect key="frame" x="10" y="70" width="50" height="50"/>
+                    <rect key="frame" x="10" y="70" width="45" height="45"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="50" id="ly8-xv-Qhi"/>
-                        <constraint firstAttribute="width" constant="50" id="nHX-ya-gpY"/>
+                        <constraint firstAttribute="height" constant="45" id="ly8-xv-Qhi"/>
+                        <constraint firstAttribute="width" constant="45" id="nHX-ya-gpY"/>
                     </constraints>
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="plain" image="chevron.backward" catalog="system"/>
@@ -51,7 +52,19 @@
                     <state key="normal" title="Show Analysis">
                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
+                    <connections>
+                        <action selector="showAnalysisOfRunPressed:" destination="-1" eventType="touchUpInside" id="RUw-Cq-XAS"/>
+                    </connections>
                 </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="48z-kX-Vm6">
+                    <rect key="frame" x="75" y="70" width="267" height="45"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="97S-yz-fBS"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="25"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -61,6 +74,9 @@
                 <constraint firstItem="dzF-gX-nkd" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="Ga3-ui-wKM"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="oYt-iY-x1Z" secondAttribute="bottom" constant="30" id="VQC-t4-pI1"/>
                 <constraint firstItem="dzF-gX-nkd" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="70" id="W3a-ye-Xrr"/>
+                <constraint firstItem="48z-kX-Vm6" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="70" id="Yic-0T-3Ob"/>
+                <constraint firstAttribute="trailing" secondItem="48z-kX-Vm6" secondAttribute="trailing" constant="60" id="bGd-xp-BEy"/>
+                <constraint firstItem="48z-kX-Vm6" firstAttribute="leading" secondItem="dzF-gX-nkd" secondAttribute="trailing" constant="20" id="ivS-Y2-9wu"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="268.65671641791045" y="159.95423340961096"/>
