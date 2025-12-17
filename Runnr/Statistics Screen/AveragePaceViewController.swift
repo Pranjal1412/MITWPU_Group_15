@@ -5,16 +5,30 @@ class AveragePaceViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var scrollViewMain: UIScrollView!
+    @IBOutlet weak var labelNumber: UILabel!
     @IBOutlet weak var segmentControlAveragePace: UISegmentedControl!
+    @IBOutlet weak var labelAveragePace: UILabel!
     @IBOutlet weak var collectionViewPace: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "Average Pace"
+        let appearance = UINavigationBarAppearance()
+            appearance.configureWithTransparentBackground() 
+            appearance.titleTextAttributes = [
+                .font: UIFont.systemFont(ofSize: 22, weight: .bold)
+            ]
+
+            navigationController?.navigationBar.standardAppearance = appearance
+            navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
         // Enable main scroll view
         scrollViewMain.translatesAutoresizingMaskIntoConstraints = false
         scrollViewMain.contentLayoutGuide.widthAnchor.constraint(equalTo: scrollViewMain.contentLayoutGuide.widthAnchor).isActive = true
-        scrollViewMain.contentSize.height = 1100
+        scrollViewMain.contentSize.width = view.frame.width
+//        scrollViewMain.contentSize.height = collectionViewPace.frame.height + collectionViewPace.frame.origin.y + 100
+        
+        navigationItem.hidesBackButton = false
         
         // Register NIB
         let nib = UINib(nibName: "TrendsCollectionViewCell", bundle: nil)
@@ -32,10 +46,37 @@ class AveragePaceViewController: UIViewController {
         segmentControlAveragePace.layer.borderColor = UIColor.accent.cgColor
         segmentControlAveragePace.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
 
-        scrollView.contentSize.width = 1000
+        scrollView.contentSize.width = view.frame.width
         contentView.frame.size.width = scrollView.contentSize.width
 
         setupGraph()
+        settingLabelStyle()
+    }
+    
+    func settingLabelStyle() {
+        
+        let mediumFont = UIFont(name: "SFProText-Medium", size: 15) ?? UIFont.systemFont(ofSize: 15, weight: .medium)
+        let thinFont = UIFont(name: "SFProText-Light", size: 10) ?? UIFont.systemFont(ofSize: 10)
+        let titleText = NSAttributedString(string: "Average Pace" + " ", attributes: [.font: mediumFont, .foregroundColor: UIColor.white])
+        let unitsText = NSAttributedString(string: "(min/km)", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
+
+        let fullText = NSMutableAttributedString()
+        fullText.append(titleText)
+        fullText.append(unitsText)
+
+        labelAveragePace.attributedText = fullText
+        
+        let boldFont = UIFont(name: "SFProText-Bold", size: 32) ?? UIFont.systemFont(ofSize: 32, weight: .bold)
+        let thin2Font = UIFont(name: "SFProText-Light", size: 15) ?? UIFont.systemFont(ofSize: 15)
+        let numberText = NSAttributedString(string: "7:90" + " ", attributes: [.font: boldFont, .foregroundColor:UIColor(named: "AccentColor") ?? UIColor.white])
+        let unitText = NSAttributedString(string: "min/km", attributes: [.font: thin2Font, .foregroundColor:UIColor(named: "AccentColor") ?? UIColor.white])
+
+        let fullTexts = NSMutableAttributedString()
+        fullTexts.append(numberText)
+        fullTexts.append(unitText)
+
+        labelNumber.attributedText = fullTexts
+        
     }
 
     func setupGraph() {
@@ -159,14 +200,18 @@ class AveragePaceViewController: UIViewController {
         scrollView.contentSize.width = stackWidth + 40
         contentView.frame.size.width = scrollView.contentSize.width
     }
-
+    
+    override func viewDidLayoutSubviews() {
+        scrollViewMain.contentSize.height = collectionViewPace.frame.height + collectionViewPace.frame.origin.y + 100
+    }
+    
 }
 
 extension AveragePaceViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return distanceCardDataArray.count
+        return averagePaceTrends.count
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -174,7 +219,7 @@ extension AveragePaceViewController: UICollectionViewDataSource, UICollectionVie
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell",
                                                       for: indexPath) as! TrendsCollectionViewCell
-        let item = distanceCardDataArray[indexPath.row]
+        let item = averagePaceTrends[indexPath.row]
         cell.configureCell(with: item)
         return cell
     }

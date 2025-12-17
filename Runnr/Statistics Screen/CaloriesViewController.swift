@@ -5,16 +5,28 @@ class CaloriesViewController: UIViewController {
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var scrollViewMain: UIScrollView!
     @IBOutlet weak var segmentControlCalories: UISegmentedControl!
+    @IBOutlet weak var labelCaloriesBurnt: UILabel!
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var labelNumber: UILabel!
     @IBOutlet weak var collectionViewCalories: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "Calories"
+        let appearance = UINavigationBarAppearance()
+            appearance.configureWithTransparentBackground() 
+            appearance.titleTextAttributes = [
+                .font: UIFont.systemFont(ofSize: 22, weight: .bold)
+            ]
+
+            navigationController?.navigationBar.standardAppearance = appearance
+            navigationController?.navigationBar.scrollEdgeAppearance = appearance
+
         
         // Enable main scroll view
         scrollViewMain.translatesAutoresizingMaskIntoConstraints = false
         scrollViewMain.contentLayoutGuide.widthAnchor.constraint(equalTo: scrollViewMain.contentLayoutGuide.widthAnchor).isActive = true
-        scrollViewMain.contentSize.height = 1100
+        scrollViewMain.contentSize.width = view.frame.width
         
         // Register NIB
         let nib = UINib(nibName: "TrendsCollectionViewCell", bundle: nil)
@@ -37,7 +49,37 @@ class CaloriesViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         setupGraph()
+        settingLabelStyle()
         
+        scrollViewMain.contentSize.height = collectionViewCalories.frame.height + collectionViewCalories.frame.origin.y + 100
+    }
+    
+    func settingLabelStyle() {
+        
+        let mediumFont = UIFont(name: "SFProText-Medium", size: 15) ?? UIFont.systemFont(ofSize: 15, weight: .medium)
+        let thinFont = UIFont(name: "SFProText-Light", size: 10) ?? UIFont.systemFont(ofSize: 10)
+        let titleText = NSAttributedString(string: "Calories Burnt" + " ", attributes: [.font: mediumFont, .foregroundColor: UIColor.white])
+        let unitsText = NSAttributedString(string: "(kcal)", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
+
+        let fullText = NSMutableAttributedString()
+        fullText.append(titleText)
+        fullText.append(unitsText)
+
+        labelCaloriesBurnt.attributedText = fullText
+        
+        let boldFont = UIFont(name: "SFProText-Bold", size: 32) ?? UIFont.systemFont(ofSize: 32, weight: .bold)
+        let thin2Font = UIFont(name: "SFProText-Light", size: 15) ?? UIFont.systemFont(ofSize: 15)
+        let numberText = NSAttributedString(string: "230" + " ", attributes: [.font: boldFont, .foregroundColor:UIColor(named: "AccentColor") ?? UIColor.white])
+        let unitText = NSAttributedString(string: "kcal", attributes: [.font: thin2Font, .foregroundColor:UIColor(named: "AccentColor") ?? UIColor.white])
+
+        let fullTexts = NSMutableAttributedString()
+        fullTexts.append(numberText)
+        fullTexts.append(unitText)
+
+        labelNumber.attributedText = fullTexts
+        
+    }
+    
         func setupGraph() {
             
             let barValues: [CGFloat] = [
@@ -164,13 +206,13 @@ class CaloriesViewController: UIViewController {
             scrollView.contentSize.width = stackWidth + 40
             contentView.frame.size.width = scrollView.contentSize.width
         }
-    }
 }
+
 extension CaloriesViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return distanceCardDataArray.count
+        return caloriesBurntTrends.count
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -178,7 +220,7 @@ extension CaloriesViewController: UICollectionViewDataSource, UICollectionViewDe
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell",
                                                       for: indexPath) as! TrendsCollectionViewCell
-        let item = distanceCardDataArray[indexPath.row]
+        let item = caloriesBurntTrends[indexPath.row]
         cell.configureCell(with: item)
         return cell
     }

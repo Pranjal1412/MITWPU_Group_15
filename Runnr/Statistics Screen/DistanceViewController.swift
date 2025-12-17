@@ -7,14 +7,27 @@ class DistanceViewController: UIViewController {
     @IBOutlet weak var segmentControlDistance: UISegmentedControl!
     @IBOutlet weak var collectionViewDistance: UICollectionView!
     @IBOutlet weak var contentViewGraph: UIView!
-
+    @IBOutlet weak var labelNumber: UILabel!
+    @IBOutlet weak var labelDistanceCovered: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "Distance"
+        let appearance = UINavigationBarAppearance()
+            appearance.configureWithTransparentBackground() 
+            appearance.titleTextAttributes = [
+                .font: UIFont.systemFont(ofSize: 22, weight: .bold)
+            ]
+
+            navigationController?.navigationBar.standardAppearance = appearance
+            navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+        scrollViewMain.contentSize.height = collectionViewDistance.frame.height + collectionViewDistance.frame.origin.y + 100
 
         // ⭐️ REQUIRED FIX — Enable main scroll view
         scrollViewMain.translatesAutoresizingMaskIntoConstraints = false
         scrollViewMain.contentLayoutGuide.widthAnchor.constraint(equalTo: scrollViewMain.contentLayoutGuide.widthAnchor).isActive = true
-        scrollViewMain.contentSize.height = 1100
+        scrollViewMain.contentSize.width = view.frame.width
         // ⭐️ END OF FIX
 
         // Collection view setup
@@ -40,6 +53,33 @@ class DistanceViewController: UIViewController {
         contentViewGraph.frame.size.width = scrollViewGraph.contentSize.width
 
         setupGraph()
+        settingLabelStyle()
+    }
+    
+    func settingLabelStyle() {
+        
+        let mediumFont = UIFont(name: "SFProText-Medium", size: 15) ?? UIFont.systemFont(ofSize: 15, weight: .medium)
+        let thinFont = UIFont(name: "SFProText-Light", size: 10) ?? UIFont.systemFont(ofSize: 10)
+        let titleText = NSAttributedString(string: "Distance Covered" + " ", attributes: [.font: mediumFont, .foregroundColor: UIColor.white])
+        let unitsText = NSAttributedString(string: "(km)", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
+
+        let fullText = NSMutableAttributedString()
+        fullText.append(titleText)
+        fullText.append(unitsText)
+
+        labelDistanceCovered.attributedText = fullText
+        
+        let boldFont = UIFont(name: "SFProText-Bold", size: 32) ?? UIFont.systemFont(ofSize: 32, weight: .bold)
+        let thin2Font = UIFont(name: "SFProText-Light", size: 15) ?? UIFont.systemFont(ofSize: 15)
+        let numberText = NSAttributedString(string: "20.3" + " ", attributes: [.font: boldFont, .foregroundColor:UIColor(named: "AccentColor") ?? UIColor.white])
+        let unitText = NSAttributedString(string: "km", attributes: [.font: thin2Font, .foregroundColor:UIColor(named: "AccentColor") ?? UIColor.white])
+
+        let fullTexts = NSMutableAttributedString()
+        fullTexts.append(numberText)
+        fullTexts.append(unitText)
+
+        labelNumber.attributedText = fullTexts
+        
     }
 
     func setupGraph() {
@@ -166,7 +206,7 @@ extension DistanceViewController: UICollectionViewDataSource, UICollectionViewDe
 
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return distanceCardDataArray.count
+        return distanceTrends.count
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -174,7 +214,7 @@ extension DistanceViewController: UICollectionViewDataSource, UICollectionViewDe
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell",
                                                       for: indexPath) as! TrendsCollectionViewCell
-        let item = distanceCardDataArray[indexPath.row]
+        let item = distanceTrends[indexPath.row]
         cell.configureCell(with: item)
         return cell
     }

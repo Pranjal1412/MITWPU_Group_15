@@ -15,7 +15,7 @@ class ActivityDetailViewController: UIViewController {
     
     var isMapInitialized: Bool = false
     let userLocation = UserLocationManager()
-    var activityData : GMSMutablePath?
+    var activityData : MyRunActivity?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +48,8 @@ class ActivityDetailViewController: UIViewController {
                 mapView.settings.zoomGestures = true
                 mapView.settings.rotateGestures = true
                 
-                mapManager.routeLine = GMSPolyline(path: self.activityData)
+                mapManager.path = self.convertCoordinatesToPath(from: self.activityData?.routeCoordinates ?? [])
+                mapManager.routeLine.path = mapManager.path
                 mapManager.setRouteLineStyle()
                 
                 self.view.addSubview(mapView)
@@ -59,16 +60,25 @@ class ActivityDetailViewController: UIViewController {
             
         }
         
+//        print(activityData?.runTitle)
     }
     
     @IBAction func backButtonPressed(_ sender: UIButton) {
         
         if let presenter = self.presentingViewController {
-            self.dismiss(animated: true) {
-                presenter.dismiss(animated: true, completion: nil)
+            self.dismiss(animated: false) {
+                presenter.dismiss(animated: false, completion: nil)
             }
 
         }
                 
+    }
+    
+    func convertCoordinatesToPath(from coordinates: [CLLocationCoordinate2D]) -> GMSMutablePath {
+        let path = GMSMutablePath()
+            for coordinate in coordinates {
+                path.add(coordinate)
+            }
+            return path
     }
 }

@@ -86,7 +86,7 @@ class SaveActivityViewController: UIViewController {
 //        self.navigationController?.dismiss(animated: true)
         let destinationVC = ActivityDetailViewController()
         destinationVC.modalPresentationStyle = .fullScreen
-        destinationVC.activityData = livePath
+        destinationVC.activityData = newActivity
         navigationController?.present(destinationVC, animated: true)
         
 //        if let presenter = self.presentingViewController {
