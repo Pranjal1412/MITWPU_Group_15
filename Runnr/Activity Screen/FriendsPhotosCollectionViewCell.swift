@@ -14,12 +14,11 @@ class FriendsPhotosCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-    func configure()
-    {
-        
-            imageCellFriends.image = UIImage(named: "photos")
+    func configure(with image: String) {
+        print("inside cell function \(image)")
+            imageCellFriends.image = UIImage(named: image)
             imageCellFriends.clipsToBounds = true
-        
+            imageCellFriends.layer.cornerRadius = 10
     }
 
 }
