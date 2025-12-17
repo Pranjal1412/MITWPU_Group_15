@@ -8,7 +8,7 @@
 import UIKit
 import GoogleMaps
 
-class ActivityProgressViewController: UIViewController {
+class ActivityLiveTrackingViewController: UIViewController {
 
     @IBOutlet weak var viewAllData: UIView!
     @IBOutlet weak var viewTime: UIView!
@@ -215,7 +215,7 @@ class ActivityProgressViewController: UIViewController {
         
         let end = UIAlertAction(title: NSLocalizedString("End Anyway", comment: ""), style: .destructive, handler: { _ in
             
-            let destinationVC = SaveActivityViewController()
+            let destinationVC = ActivitySaveViewController()
             
             destinationVC.livePath = self.activityRoute
             destinationVC.modalPresentationStyle = .fullScreen
@@ -250,7 +250,7 @@ class ActivityProgressViewController: UIViewController {
 
 // MARK: - Page Control Code & Scroll View Setting
 
-extension ActivityProgressViewController : UIScrollViewDelegate {
+extension ActivityLiveTrackingViewController : UIScrollViewDelegate {
     
     func settingHorizontalScroll() {
         scrollView.alwaysBounceVertical = false

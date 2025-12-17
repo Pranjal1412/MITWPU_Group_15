@@ -7,7 +7,7 @@
 import UIKit
 import GoogleMaps
 
-class SetGoalViewController: UIViewController {
+class ActivitySetGoalViewController: UIViewController {
 
     @IBOutlet weak var labelScreenTitle: UILabel!
     @IBOutlet weak var viewSubBackground: UIView!
@@ -96,7 +96,7 @@ class SetGoalViewController: UIViewController {
     
 }
 
-extension SetGoalViewController {
+extension ActivitySetGoalViewController {
     func hideKeyboardWhenTappedAround() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         view.addGestureRecognizer(tapGesture)

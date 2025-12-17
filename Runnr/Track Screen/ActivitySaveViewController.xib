@@ -19,7 +19,7 @@
         </array>
     </customFonts>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SaveActivityViewController" customModule="Runnr" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ActivitySaveViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
                 <outlet property="imageViewMap" destination="hWv-wV-F1z" id="XVa-yj-8xl"/>
                 <outlet property="labelCalories" destination="eFS-zH-n0M" id="WSV-7A-AoK"/>

@@ -9,7 +9,7 @@ import UIKit
 import GoogleMaps
 
 
-class TrackScreenViewController: UIViewController {
+class ActivityStartViewController: UIViewController {
     
     @IBOutlet weak var labelScreenTitle: UILabel!
     
@@ -88,7 +88,7 @@ class TrackScreenViewController: UIViewController {
     
     @objc func startButtonPressed() {
         
-        let destinationVC = SetGoalViewController()
+        let destinationVC = ActivitySetGoalViewController()
         
         if self.systemOS >= "26.0" {
             destinationVC.modalPresentationStyle = .overFullScreen

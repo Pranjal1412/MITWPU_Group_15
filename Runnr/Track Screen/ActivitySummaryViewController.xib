@@ -15,7 +15,7 @@
         </array>
     </customFonts>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ActivityDetailViewController" customModule="Runnr" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ActivitySummaryViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
                 <outlet property="buttonBack" destination="dzF-gX-nkd" id="Llu-7u-QVE"/>
                 <outlet property="buttonShowAnalysis" destination="oYt-iY-x1Z" id="oTP-Qo-tST"/>

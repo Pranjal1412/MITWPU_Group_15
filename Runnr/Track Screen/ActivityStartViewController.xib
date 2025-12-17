@@ -14,7 +14,7 @@
         </array>
     </customFonts>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TrackScreenViewController" customModule="Runnr" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ActivityStartViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
                 <outlet property="labelScreenTitle" destination="u5t-gV-e1p" id="Utj-Cu-x4P"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -33,7 +33,7 @@
                     <size key="shadowOffset" width="4" height="-1"/>
                 </label>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user3" translatesAutoresizingMaskIntoConstraints="NO" id="lY6-tK-Jv9">
-                    <rect key="frame" x="342" y="90" width="45" height="45"/>
+                    <rect key="frame" x="342" y="90.666666666666671" width="45" height="43.666666666666671"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="45" id="bAQ-xc-XDU"/>
                         <constraint firstAttribute="height" constant="45" id="mOw-uv-7Ub"/>

@@ -8,7 +8,7 @@
 import UIKit
 import GoogleMaps
 
-class ActivityDetailViewController: UIViewController {
+class ActivitySummaryViewController: UIViewController {
 
     @IBOutlet weak var buttonBack: UIButton!
     @IBOutlet weak var buttonShowAnalysis: UIButton!
