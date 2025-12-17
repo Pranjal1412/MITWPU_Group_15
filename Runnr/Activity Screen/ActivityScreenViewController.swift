@@ -145,7 +145,16 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("selected")
+        if tableView == tableViewMyActivity {
+            let activity = myActivity[indexPath.section]
+            
+            let destinationVC = ActivityDetailViewController()
+            destinationVC.activityData = activity
+            
+            destinationVC.modalPresentationStyle = .overFullScreen
+            self.present(destinationVC, animated: true)
+            
+        }
     }
 }
 
