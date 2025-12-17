@@ -21,7 +21,7 @@ class GameOngoingCollectionViewCell: UICollectionViewCell{
         super.awakeFromNib()
         // Initialization code
     }
-    func configure(with model: GameCard) {
+    func configure(with model: CurrentGameCard) {
         labelBattleRun.text = model.title
         labelYou.text = model.youName
         labelFriendOngoing.text = model.friendName

@@ -29,7 +29,7 @@ class CreateClubViewController: UIViewController {
         modalView.layer.cornerRadius = 10
         modalView.clipsToBounds = true
         
-        buttonNext.layer.cornerRadius = 10
+        buttonNext.layer.cornerRadius = buttonNext.frame.height / 2.0
         buttonNext.titleLabel?.textColor = UIColor.black
         
         settingAttributedTextCreateClub()

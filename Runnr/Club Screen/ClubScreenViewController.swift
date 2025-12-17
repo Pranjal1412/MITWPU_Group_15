@@ -7,17 +7,8 @@
 import Foundation
 import UIKit
 
-class ClubScreenViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! FriendListTableViewCell
-        
-        cell.configureCell(with: friendsDataArray[indexPath.row])
-        return cell
-    }
+class ClubScreenViewController: UIViewController {
+
 
     @IBOutlet weak var segmentControlClubScreen: UISegmentedControl!
     @IBOutlet weak var searchBarFriendsScreen: UISearchBar!
@@ -28,6 +19,7 @@ class ClubScreenViewController: UIViewController, UITableViewDataSource, UITable
     @IBOutlet var labelCreateyourOwnClub: UILabel!
     @IBOutlet var tableViewFriends: UITableView!
     
+    let systemOS = UIDevice.current.systemVersion
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +30,7 @@ class ClubScreenViewController: UIViewController, UITableViewDataSource, UITable
         
         settingCollectionView()
         settingElements()
-        settingATtributedText()
+        settingAttributedText()
         
         tableViewFriends.dataSource = self
         tableViewFriends.delegate = self
@@ -105,12 +97,12 @@ class ClubScreenViewController: UIViewController, UITableViewDataSource, UITable
         collectionViewExplore.contentInset = UIEdgeInsets(top: 0, left: 30, bottom: 30, right: 30)
     }
     
-    func settingATtributedText() {
+    func settingAttributedText() {
         
         labelCreateyourOwnClub.textAlignment = .center
 
         let firstPart = "Create your own "
-        let secondPart = "club"
+        let secondPart = "Club"
 
         let attributedText = NSMutableAttributedString(string: firstPart,
             attributes: [
@@ -127,14 +119,22 @@ class ClubScreenViewController: UIViewController, UITableViewDataSource, UITable
         ))
 
         labelCreateyourOwnClub.attributedText = attributedText
-        
+        labelCreateyourOwnClub.sizeToFit()
     
     }
 
     @IBAction func createClubButtonPressed(_ sender: UIButton) {
-        self.present(CreateClubViewController(), animated: true)
+        let destinationVC = CreateClubViewController()
+                
+        if self.systemOS >= "26.0" {
+            destinationVC.modalPresentationStyle = .overFullScreen
+        }
+        
+        self.present(destinationVC, animated: true, completion: nil)
     }
 }
+
+// MARK: - Collection View
 
 extension ClubScreenViewController : UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
@@ -164,5 +164,20 @@ extension ClubScreenViewController : UICollectionViewDataSource, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 20
+    }
+}
+
+// MARK: - Table View
+
+extension ClubScreenViewController : UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 4
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! FriendListTableViewCell
+        
+        cell.configureCell(with: friendsDataArray[indexPath.row])
+        return cell
     }
 }

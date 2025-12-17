@@ -32,7 +32,10 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="0Gq-Ps-LxO">
-                    <rect key="frame" x="20" y="148" width="362" height="32"/>
+                    <rect key="frame" x="20" y="148.33333333333334" width="362" height="37"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="36" id="zyL-vo-ORP"/>
+                    </constraints>
                     <segments>
                         <segment title="Ongoing"/>
                         <segment title="Upcoming"/>
@@ -44,19 +47,22 @@
                     </connections>
                 </segmentedControl>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Game" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ak8-md-SGm">
-                    <rect key="frame" x="25" y="90" width="100" height="39.666666666666657"/>
+                    <rect key="frame" x="25" y="90" width="100" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="nW9-oC-wXg"/>
+                    </constraints>
                     <fontDescription key="fontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="33"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vh0-T3-Pzc">
-                    <rect key="frame" x="0.0" y="199" width="402" height="295"/>
+                    <rect key="frame" x="0.0" y="204.33333333333337" width="402" height="250"/>
                     <subviews>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gameScreenPhoto" translatesAutoresizingMaskIntoConstraints="NO" id="Vb2-4K-Lur">
-                            <rect key="frame" x="0.0" y="0.0" width="402" height="295"/>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="GameBackground" translatesAutoresizingMaskIntoConstraints="NO" id="Vb2-4K-Lur">
+                            <rect key="frame" x="0.0" y="0.0" width="402" height="250"/>
                         </imageView>
                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="HRD-pA-q3P">
-                            <rect key="frame" x="54" y="123.66666666666669" width="294" height="48"/>
+                            <rect key="frame" x="54" y="100.99999999999997" width="294" height="48"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Md5-ni-0UJ">
                                     <rect key="frame" x="0.0" y="0.0" width="140" height="48"/>
@@ -97,15 +103,12 @@
                         <constraint firstItem="Vb2-4K-Lur" firstAttribute="top" secondItem="Vh0-T3-Pzc" secondAttribute="top" id="gVR-W2-fZs"/>
                         <constraint firstItem="Vb2-4K-Lur" firstAttribute="leading" secondItem="Vh0-T3-Pzc" secondAttribute="leading" id="vwZ-6x-XW0"/>
                         <constraint firstAttribute="trailing" secondItem="Vb2-4K-Lur" secondAttribute="trailing" id="x5J-5n-sQe"/>
-                        <constraint firstAttribute="height" constant="295" id="xXe-yU-iNw"/>
+                        <constraint firstAttribute="height" constant="250" id="xXe-yU-iNw"/>
                     </constraints>
                 </view>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="hTm-UN-AV2">
-                    <rect key="frame" x="0.0" y="520" width="402" height="354"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="354" id="LnL-KQ-qNm"/>
-                    </constraints>
+                    <rect key="frame" x="0.0" y="469.33333333333326" width="402" height="404.66666666666674"/>
+                    <color key="backgroundColor" name="AccentColor"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="tI8-ac-fgQ">
                         <size key="itemSize" width="128" height="128"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -114,11 +117,8 @@
                     </collectionViewFlowLayout>
                 </collectionView>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="1Xe-8Q-paj">
-                    <rect key="frame" x="0.0" y="520" width="402" height="354"/>
+                    <rect key="frame" x="0.0" y="469.33333333333326" width="402" height="404.66666666666674"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="354" id="OWB-Qh-Bif"/>
-                    </constraints>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="b3U-0r-hDP">
                         <size key="itemSize" width="128" height="128"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -127,11 +127,8 @@
                     </collectionViewFlowLayout>
                 </collectionView>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="CGv-op-xny">
-                    <rect key="frame" x="0.0" y="520" width="402" height="354"/>
+                    <rect key="frame" x="0.0" y="469.33333333333326" width="402" height="404.66666666666674"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="354" id="E8p-O7-Jnc"/>
-                    </constraints>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="yDS-Jf-hng">
                         <size key="itemSize" width="128" height="128"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -152,15 +149,15 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Vh0-T3-Pzc" secondAttribute="trailing" id="TQC-9Q-Njh"/>
                 <constraint firstItem="1Xe-8Q-paj" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="TwB-2o-dCF"/>
                 <constraint firstItem="0Gq-Ps-LxO" firstAttribute="top" secondItem="ak8-md-SGm" secondAttribute="bottom" constant="18.329999999999998" id="XIO-eI-mSg"/>
-                <constraint firstItem="CGv-op-xny" firstAttribute="top" secondItem="Vh0-T3-Pzc" secondAttribute="bottom" constant="26" id="bvW-bB-KOj"/>
+                <constraint firstItem="CGv-op-xny" firstAttribute="top" secondItem="Vh0-T3-Pzc" secondAttribute="bottom" constant="15" id="bvW-bB-KOj"/>
                 <constraint firstItem="1Xe-8Q-paj" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="c1u-q8-HPY"/>
-                <constraint firstItem="1Xe-8Q-paj" firstAttribute="top" secondItem="Vh0-T3-Pzc" secondAttribute="bottom" constant="26" id="cZA-8k-diq"/>
+                <constraint firstItem="1Xe-8Q-paj" firstAttribute="top" secondItem="Vh0-T3-Pzc" secondAttribute="bottom" constant="15" id="cZA-8k-diq"/>
                 <constraint firstItem="hTm-UN-AV2" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="fxc-cf-bqK"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ak8-md-SGm" secondAttribute="trailing" constant="277" id="gjE-kE-Lh8"/>
                 <constraint firstItem="CGv-op-xny" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="j1g-X3-Rdv"/>
                 <constraint firstItem="0Gq-Ps-LxO" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="l6D-CM-1s0"/>
                 <constraint firstAttribute="bottom" secondItem="hTm-UN-AV2" secondAttribute="bottom" id="qH9-eh-06m"/>
-                <constraint firstItem="hTm-UN-AV2" firstAttribute="top" secondItem="Vh0-T3-Pzc" secondAttribute="bottom" constant="26" id="rvw-hf-Rim"/>
+                <constraint firstItem="hTm-UN-AV2" firstAttribute="top" secondItem="Vh0-T3-Pzc" secondAttribute="bottom" constant="15" id="rvw-hf-Rim"/>
                 <constraint firstAttribute="bottom" secondItem="1Xe-8Q-paj" secondAttribute="bottom" id="vGN-qf-bku"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="0Gq-Ps-LxO" secondAttribute="trailing" constant="20" id="vgm-wF-Rpl"/>
                 <constraint firstItem="hTm-UN-AV2" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="ywA-jI-mRk"/>
@@ -170,7 +167,7 @@
         </view>
     </objects>
     <resources>
-        <image name="gameScreenPhoto" width="730" height="532"/>
+        <image name="GameBackground" width="1206" height="885"/>
         <namedColor name="AccentColor">
             <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

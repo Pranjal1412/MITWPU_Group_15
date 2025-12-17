@@ -16,7 +16,7 @@ class GameScreenViewController: UIViewController {
     @IBOutlet weak var collectionViewCompleted: UICollectionView!
     @IBOutlet weak var segmentedControlGame: UISegmentedControl!
 
-    private let sideInset: CGFloat = 16
+    private let sideInset: CGFloat = 15
     private let cellHeight: CGFloat = 166
 
     override func viewDidLoad() {
@@ -113,11 +113,11 @@ extension GameScreenViewController: UICollectionViewDelegate,
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
         if collectionView == collectionViewOngoing {
-            return games.count
+            return currentGame.count
         } else if collectionView == collectionViewUpcoming {
-            return UpcomingGame.count
+            return upcomingGame.count
         } else if collectionView == collectionViewCompleted {
-            return CompletedGame.count
+            return completedGame.count
         } else {
             return 0
         }
@@ -132,7 +132,7 @@ extension GameScreenViewController: UICollectionViewDelegate,
                 for: indexPath
             ) as! GameOngoingCollectionViewCell
 
-            let game = games[indexPath.item]
+            let game = currentGame[indexPath.item]
             cell.configure(with: game)
             return cell
 
@@ -142,7 +142,7 @@ extension GameScreenViewController: UICollectionViewDelegate,
                 for: indexPath
             ) as! GameUpcomingCollectionViewCell
 
-            let game = UpcomingGame[indexPath.item]
+            let game = upcomingGame[indexPath.item]
             cell.configure(with: game)
             return cell
 
@@ -152,7 +152,7 @@ extension GameScreenViewController: UICollectionViewDelegate,
                 for: indexPath
             ) as! GameCompletedCollectionViewCell
 
-            let game = CompletedGame[indexPath.item]
+            let game = completedGame[indexPath.item]
             cell.configure(with: game)
             return cell
         }
@@ -171,9 +171,9 @@ extension GameScreenViewController: UICollectionViewDelegate,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
 
         return UIEdgeInsets(
-            top: 16,
+            top: 0,
             left: sideInset,
-            bottom: 24,
+            bottom: 25,
             right: sideInset
         )
     }
@@ -181,6 +181,23 @@ extension GameScreenViewController: UICollectionViewDelegate,
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 16
+        return 15
     }
+
+    // navigate to game image view controller
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath) {
+
+        guard collectionView == collectionViewOngoing else { return }
+
+        let vc = GameImageViewController(
+            nibName: "GameImageViewController",
+            bundle: nil
+        )
+
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true)
+    }
+
 }
+

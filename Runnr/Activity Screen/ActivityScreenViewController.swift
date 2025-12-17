@@ -148,7 +148,7 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
         if tableView == tableViewMyActivity {
             let activity = myActivity[indexPath.section]
             
-            let destinationVC = ActivityDetailViewController()
+            let destinationVC = ActivitySummaryViewController()
             destinationVC.activityData = activity
             
             destinationVC.modalPresentationStyle = .overFullScreen

@@ -26,7 +26,7 @@ class ViewController: UIViewController {
         let iconTwo = UITabBarItem(title:NSLocalizedString("Clubs", comment: ""), image: UIImage(systemName: "person.2.fill"), selectedImage: UIImage(systemName: "person.2.fill"))
         itemTwo.tabBarItem = iconTwo
 
-        let itemThree = TrackScreenViewController()
+        let itemThree = ActivityStartViewController()
         let iconThree = UITabBarItem(title:NSLocalizedString("Track", comment: ""), image: UIImage(systemName: "figure.run"), selectedImage: UIImage(systemName: "figure.run"))
         itemThree.tabBarItem = iconThree
 
