@@ -53,6 +53,7 @@ class CreateClubViewController: UIViewController {
                 self.dismiss(animated: true) {
                     let rootVC = ClubProfileViewController(nibName: "ClubProfileViewController", bundle: nil)
                     let destinationVC = UINavigationController(rootViewController: rootVC)
+                    rootVC.buttonTitle = "Edit Club Profile"
                     destinationVC.modalPresentationStyle = .fullScreen
                     presenter.present(destinationVC, animated: true)
                     

@@ -13,9 +13,7 @@ class ClubScreenViewController: UIViewController {
     @IBOutlet weak var segmentControlClubScreen: UISegmentedControl!
     @IBOutlet weak var searchBarFriendsScreen: UISearchBar!
     @IBOutlet weak var collectionViewExplore: UICollectionView!
-    
     @IBOutlet var ButtonCreateClub: UIButton!
-    
     @IBOutlet var labelCreateyourOwnClub: UILabel!
     @IBOutlet var tableViewFriends: UITableView!
     
@@ -164,6 +162,13 @@ extension ClubScreenViewController : UICollectionViewDataSource, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 20
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let destinationVC = ClubProfileViewController()
+        destinationVC.buttonTitle = "Join Now"
+        destinationVC.modalPresentationStyle = .fullScreen
+        self.present(destinationVC, animated: true)
     }
     
 }
