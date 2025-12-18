@@ -16,12 +16,17 @@ class GameCompletedCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var labelFriendBlocks: UILabel!
     @IBOutlet weak var labelYou: UILabel!
     @IBOutlet weak var labelCompleted: UILabel!
+    
     override func awakeFromNib() {
             super.awakeFromNib()
         viewCompleted.backgroundColor = .cardLightBlack
         viewCompleted.layer.cornerRadius = 15
         viewCompleted.clipsToBounds = true
-        }
+        
+        labelYourBlocks.sizeToFit()
+        labelFriendBlocks.sizeToFit()
+    }
+    
     func configure(with model: CompletedGameCard) {
         labelTitle.text = model.title
         labelCompleted.text = model.completed

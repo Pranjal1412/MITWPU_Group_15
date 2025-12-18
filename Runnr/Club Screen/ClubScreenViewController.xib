@@ -103,9 +103,8 @@
                         <outlet property="delegate" destination="-1" id="01Z-6f-mj5"/>
                     </connections>
                 </searchBar>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="qb8-Dp-DRw">
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="qb8-Dp-DRw">
                     <rect key="frame" x="0.0" y="266" width="402" height="608"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Atu-Po-gV4">
                         <size key="itemSize" width="128" height="128"/>
@@ -130,7 +129,11 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="vyM-ru-Mgt" secondAttribute="trailing" constant="20" id="LEv-vf-Fhr"/>
                 <constraint firstItem="vyM-ru-Mgt" firstAttribute="top" secondItem="bDJ-s7-eTs" secondAttribute="bottom" constant="20" id="TmI-C7-nkh"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="D1J-4K-o7n" secondAttribute="trailing" constant="46" id="Vz0-Nx-O3n"/>
+                <constraint firstItem="qb8-Dp-DRw" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="kD7-5Z-cCF"/>
+                <constraint firstAttribute="bottom" secondItem="qb8-Dp-DRw" secondAttribute="bottom" id="lzw-uK-2UG"/>
                 <constraint firstItem="dKE-91-srN" firstAttribute="top" secondItem="RLc-jZ-AhE" secondAttribute="bottom" constant="25" id="njd-71-9aX"/>
+                <constraint firstItem="qb8-Dp-DRw" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="pAi-Bt-m9H"/>
+                <constraint firstItem="qb8-Dp-DRw" firstAttribute="top" secondItem="RLc-jZ-AhE" secondAttribute="bottom" constant="20" id="rH6-8r-ZhC"/>
                 <constraint firstItem="RLc-jZ-AhE" firstAttribute="top" secondItem="vyM-ru-Mgt" secondAttribute="bottom" constant="20" id="vGn-7K-M8h"/>
                 <constraint firstItem="vyM-ru-Mgt" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="yLD-lN-o6m"/>
             </constraints>

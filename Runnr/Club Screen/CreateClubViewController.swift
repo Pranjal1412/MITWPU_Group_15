@@ -26,7 +26,7 @@ class CreateClubViewController: UIViewController {
 
         view.backgroundColor = .clear
         
-        modalView.layer.cornerRadius = 10
+        modalView.layer.cornerRadius = 20
         modalView.clipsToBounds = true
         
         buttonNext.layer.cornerRadius = buttonNext.frame.height / 2.0
@@ -62,7 +62,11 @@ class CreateClubViewController: UIViewController {
         }
     }
 
-   
+    @IBAction func dismissModalPressed(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    
     func updateUI() {
         switch currentPage {
         case 1:
@@ -118,6 +122,8 @@ class CreateClubViewController: UIViewController {
         labelSubtitleCreateClub.textAlignment = .center
         labelSubtitleCreateClub.textColor = .white
         labelSubtitleCreateClub.numberOfLines = 2
+        
+        labelSubtitleCreateClub.sizeToFit()
     }
     
     
@@ -160,9 +166,9 @@ class CreateClubViewController: UIViewController {
        
     
     func settingPageProgress() {
-        page1.layer.cornerRadius = 5
-        page2.layer.cornerRadius = 5
-        page3.layer.cornerRadius = 5
+        page1.layer.cornerRadius = page1.frame.height / 2.0
+        page2.layer.cornerRadius = page2.frame.height / 2.0
+        page3.layer.cornerRadius = page3.frame.height / 2.0
         
         pageIndicator(p1: .accent, p2: .gray, p3: .gray)
 

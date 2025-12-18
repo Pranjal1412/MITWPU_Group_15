@@ -10,6 +10,9 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <array key="SF-Pro-Display-Thin.otf">
+            <string>SFProDisplay-Thin</string>
+        </array>
         <array key="SF-Pro.ttf">
             <string>SFPro-Semibold</string>
         </array>
@@ -18,6 +21,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ActivityScreenViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
                 <outlet property="labelRecentActivities" destination="7w8-Sb-Nfo" id="HN8-33-2qx"/>
+                <outlet property="labelScreenTitle" destination="wne-ou-9Cc" id="khK-vB-6CB"/>
                 <outlet property="segmentedControlActivityScreen" destination="8mf-cO-d31" id="ymZ-r4-vad"/>
                 <outlet property="tableViewFriendsActivity" destination="GYY-As-FBA" id="5UJ-Qy-Hpk"/>
                 <outlet property="tableViewMyActivity" destination="O8E-oM-G2U" id="mxW-yk-rqL"/>
@@ -33,37 +37,13 @@
                     <rect key="frame" x="10" y="256" width="382" height="618"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
-                <stackView opaque="NO" contentMode="scaleToFill" spacing="165" translatesAutoresizingMaskIntoConstraints="NO" id="hlx-DK-JO3">
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="hlx-DK-JO3">
                     <rect key="frame" x="16" y="216" width="370" height="20"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7w8-Sb-Nfo">
-                            <rect key="frame" x="0.0" y="0.0" width="185" height="20"/>
-                            <attributedString key="attributedText">
-                                <fragment content="Recent">
-                                    <attributes>
-                                        <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                        <font key="NSFont" size="25" name="SFProDisplay-Thin"/>
-                                        <font key="NSOriginalFont" size="25" name="SFProDisplay-Thin"/>
-                                        <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                    </attributes>
-                                </fragment>
-                                <fragment content=" ">
-                                    <attributes>
-                                        <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                        <font key="NSFont" size="25" name="SFProDisplay-Regular"/>
-                                        <font key="NSOriginalFont" size="25" name="SFProDisplay-Regular"/>
-                                        <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                    </attributes>
-                                </fragment>
-                                <fragment content="Activities">
-                                    <attributes>
-                                        <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                        <font key="NSFont" size="25" name="SFProDisplay-Bold"/>
-                                        <font key="NSOriginalFont" size="25" name="SFProDisplay-Bold"/>
-                                        <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                    </attributes>
-                                </fragment>
-                            </attributedString>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recent Activities" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7w8-Sb-Nfo">
+                            <rect key="frame" x="0.0" y="0.0" width="330" height="20"/>
+                            <fontDescription key="fontDescription" name="SFProDisplay-Thin" family="SF Pro Display" pointSize="25"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WOl-0C-n9W">
@@ -81,10 +61,7 @@
                         </button>
                     </subviews>
                     <constraints>
-                        <constraint firstItem="7w8-Sb-Nfo" firstAttribute="leading" secondItem="hlx-DK-JO3" secondAttribute="leading" id="63Z-V0-deK"/>
                         <constraint firstAttribute="height" constant="20" id="ILB-Nf-bsn"/>
-                        <constraint firstAttribute="bottom" secondItem="7w8-Sb-Nfo" secondAttribute="bottom" id="LcA-fQ-TcF"/>
-                        <constraint firstItem="7w8-Sb-Nfo" firstAttribute="top" secondItem="hlx-DK-JO3" secondAttribute="top" id="WW1-48-Ci6"/>
                     </constraints>
                 </stackView>
                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="8mf-cO-d31">

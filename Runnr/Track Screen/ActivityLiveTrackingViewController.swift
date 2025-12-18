@@ -289,6 +289,9 @@ extension ActivityLiveTrackingViewController : UIScrollViewDelegate {
     @IBAction func toggleScrollingTapped(_ sender: UIButton) {
         scrollView.isScrollEnabled.toggle()
         
+        let isUnlocked = scrollView.isScrollEnabled
+        pageControl.isUserInteractionEnabled = isUnlocked
+        
         if scrollView.isScrollEnabled {
             sender.setImage(UIImage(systemName: "lock.open.fill"), for: .normal)
         }
@@ -299,7 +302,6 @@ extension ActivityLiveTrackingViewController : UIScrollViewDelegate {
     
     @IBAction func pageValueChanged(_ sender: UIPageControl) {
         let currentPage = sender.currentPage
-        
         scrollView.setContentOffset(CGPoint(x: CGFloat(currentPage) * view.frame.width, y: 0), animated: true)
     }
     

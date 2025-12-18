@@ -6,6 +6,7 @@ class ActivityScreenViewController: UIViewController {
     @IBOutlet weak var labelRecentActivities: UILabel!
     @IBOutlet weak var segmentedControlActivityScreen: UISegmentedControl!
     @IBOutlet weak var tableViewFriendsActivity: UITableView!
+    @IBOutlet weak var labelScreenTitle: UILabel!
     
     let label = UILabel()
     var myActivity: [MyRunActivity] {
@@ -34,7 +35,8 @@ class ActivityScreenViewController: UIViewController {
             view.addSubview(label)
         }
         
-        
+        labelScreenTitle.sizeToFit()
+        tableViewFriendsActivity.showsVerticalScrollIndicator = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,6 +59,7 @@ class ActivityScreenViewController: UIViewController {
         fullText.append(activitiesText)
 
         labelRecentActivities.attributedText = fullText
+        labelRecentActivities.sizeToFit()
     }
     
     func settingTableView() {

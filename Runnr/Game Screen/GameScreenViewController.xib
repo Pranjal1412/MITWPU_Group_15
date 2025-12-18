@@ -22,6 +22,7 @@
                 <outlet property="collectionViewCompleted" destination="CGv-op-xny" id="5Bt-ov-XxJ"/>
                 <outlet property="collectionViewOngoing" destination="hTm-UN-AV2" id="C3b-tG-Qjw"/>
                 <outlet property="collectionViewUpcoming" destination="1Xe-8Q-paj" id="i3t-i9-GtD"/>
+                <outlet property="labelScreenTitle" destination="ak8-md-SGm" id="9zm-C3-sGm"/>
                 <outlet property="segmentedControlGame" destination="0Gq-Ps-LxO" id="pkN-pB-XEf"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -47,7 +48,7 @@
                     </connections>
                 </segmentedControl>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Game" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ak8-md-SGm">
-                    <rect key="frame" x="25" y="90" width="100" height="40"/>
+                    <rect key="frame" x="24.999999999999993" y="90" width="88.333333333333314" height="40"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="nW9-oC-wXg"/>
                     </constraints>
@@ -108,7 +109,7 @@
                 </view>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="hTm-UN-AV2">
                     <rect key="frame" x="0.0" y="469.33333333333326" width="402" height="404.66666666666674"/>
-                    <color key="backgroundColor" name="AccentColor"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="tI8-ac-fgQ">
                         <size key="itemSize" width="128" height="128"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -153,7 +154,6 @@
                 <constraint firstItem="1Xe-8Q-paj" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="c1u-q8-HPY"/>
                 <constraint firstItem="1Xe-8Q-paj" firstAttribute="top" secondItem="Vh0-T3-Pzc" secondAttribute="bottom" constant="15" id="cZA-8k-diq"/>
                 <constraint firstItem="hTm-UN-AV2" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="fxc-cf-bqK"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ak8-md-SGm" secondAttribute="trailing" constant="277" id="gjE-kE-Lh8"/>
                 <constraint firstItem="CGv-op-xny" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="j1g-X3-Rdv"/>
                 <constraint firstItem="0Gq-Ps-LxO" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="l6D-CM-1s0"/>
                 <constraint firstAttribute="bottom" secondItem="hTm-UN-AV2" secondAttribute="bottom" id="qH9-eh-06m"/>

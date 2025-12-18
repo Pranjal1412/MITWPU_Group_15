@@ -16,6 +16,8 @@ class GameScreenViewController: UIViewController {
     @IBOutlet weak var collectionViewCompleted: UICollectionView!
     @IBOutlet weak var segmentedControlGame: UISegmentedControl!
 
+    @IBOutlet weak var labelScreenTitle: UILabel!
+    
     private let sideInset: CGFloat = 15
     private let cellHeight: CGFloat = 166
 
@@ -29,6 +31,7 @@ class GameScreenViewController: UIViewController {
         collectionViewOngoing.isHidden = false
         collectionViewUpcoming.isHidden = true
         collectionViewCompleted.isHidden = true
+        labelScreenTitle.sizeToFit()
     }
 
     // MARK: - Layout
@@ -163,6 +166,10 @@ extension GameScreenViewController: UICollectionViewDelegate,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
 
         let width = collectionView.bounds.width - (sideInset * 2)
+        
+        if collectionView == collectionViewOngoing || collectionView == collectionViewUpcoming {
+            return CGSize(width: width, height: 140)
+        }
         return CGSize(width: width, height: cellHeight)
     }
 

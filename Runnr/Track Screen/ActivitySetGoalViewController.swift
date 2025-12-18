@@ -14,6 +14,7 @@ class ActivitySetGoalViewController: UIViewController {
     @IBOutlet weak var viewMainBackground: UIView!
     @IBOutlet weak var buttonStart: UIButton!
     @IBOutlet weak var buttonSkip: UIButton!
+    @IBOutlet weak var labelAudioFeedback: UILabel!
     
     @IBOutlet weak var viewBackgroungActivity: UIView!
     @IBOutlet weak var viewBackgroundDistance: UIView!
@@ -32,7 +33,7 @@ class ActivitySetGoalViewController: UIViewController {
         view.overrideUserInterfaceStyle = .dark
         settingScreen()
         hideKeyboardWhenTappedAround()
-        
+        labelAudioFeedback.sizeToFit()
     }
     
     override func viewDidAppear(_ animated: Bool) {

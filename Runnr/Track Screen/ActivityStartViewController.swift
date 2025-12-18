@@ -25,10 +25,10 @@ class ActivityStartViewController: UIViewController {
         userLocation.locationManager.requestWhenInUseAuthorization()
         userLocation.locationManager.startUpdatingLocation()
         
-        labelScreenTitle.sizeToFit()
+        
         labelScreenTitle.text = NSLocalizedString("Runnr.", comment: "")
         labelScreenTitle.textColor = .accent
-        
+        labelScreenTitle.sizeToFit()
     }
 
     override func viewDidLayoutSubviews() {
