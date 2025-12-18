@@ -18,7 +18,7 @@ class FriendListTableViewCell: UITableViewCell {
         // Initialization code
         
         
-        buttonFollow.titleLabel?.textColor = UIColor.black
+        buttonFollow.layer.cornerRadius = buttonFollow.frame.height / 2.0
         
     }
 
