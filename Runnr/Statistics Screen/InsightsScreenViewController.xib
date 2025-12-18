@@ -75,14 +75,12 @@
                     <constraints>
                         <constraint firstItem="ktC-FD-5zp" firstAttribute="leading" secondItem="prg-hr-dxM" secondAttribute="leading" constant="25" id="2TZ-OC-Oln"/>
                         <constraint firstItem="6A4-Va-OoK" firstAttribute="top" secondItem="ktC-FD-5zp" secondAttribute="bottom" constant="10" id="3ib-Gq-hpb"/>
-                        <constraint firstItem="rbJ-Vz-FHC" firstAttribute="leading" secondItem="prg-hr-dxM" secondAttribute="leading" constant="25" id="53W-4K-Fxg"/>
-                        <constraint firstItem="prg-hr-dxM" firstAttribute="trailing" secondItem="rbJ-Vz-FHC" secondAttribute="trailing" constant="-377" id="887-jO-bz3"/>
-                        <constraint firstItem="6A4-Va-OoK" firstAttribute="leading" secondItem="prg-hr-dxM" secondAttribute="leading" constant="25" id="95w-B5-4gP"/>
+                        <constraint firstItem="rbJ-Vz-FHC" firstAttribute="leading" secondItem="baY-ae-sga" secondAttribute="leading" constant="25" id="53W-4K-Fxg"/>
+                        <constraint firstItem="baY-ae-sga" firstAttribute="trailing" secondItem="rbJ-Vz-FHC" secondAttribute="trailing" constant="25" id="887-jO-bz3"/>
                         <constraint firstItem="ktC-FD-5zp" firstAttribute="top" secondItem="prg-hr-dxM" secondAttribute="top" constant="5" id="Lnt-uA-off"/>
-                        <constraint firstItem="6A4-Va-OoK" firstAttribute="top" secondItem="ktC-FD-5zp" secondAttribute="bottom" constant="10" id="MmZ-Le-tto"/>
-                        <constraint firstItem="prg-hr-dxM" firstAttribute="trailing" secondItem="6A4-Va-OoK" secondAttribute="trailing" constant="-377" id="Rz7-ov-LNW"/>
+                        <constraint firstItem="baY-ae-sga" firstAttribute="trailing" secondItem="6A4-Va-OoK" secondAttribute="trailing" constant="25" id="Vs6-bu-fHe"/>
+                        <constraint firstItem="6A4-Va-OoK" firstAttribute="leading" secondItem="baY-ae-sga" secondAttribute="leading" constant="25" id="XNG-Tm-AmM"/>
                         <constraint firstItem="prg-hr-dxM" firstAttribute="trailing" secondItem="ktC-FD-5zp" secondAttribute="trailing" constant="-377" id="oDg-eF-E7o"/>
-                        <constraint firstItem="rbJ-Vz-FHC" firstAttribute="top" secondItem="6A4-Va-OoK" secondAttribute="bottom" constant="20" id="rQh-NR-q0D"/>
                         <constraint firstItem="rbJ-Vz-FHC" firstAttribute="top" secondItem="6A4-Va-OoK" secondAttribute="bottom" constant="20" id="wlo-UR-MCH"/>
                     </constraints>
                     <viewLayoutGuide key="contentLayoutGuide" id="prg-hr-dxM"/>
