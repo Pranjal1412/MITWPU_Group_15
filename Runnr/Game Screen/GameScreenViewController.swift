@@ -197,13 +197,11 @@ extension GameScreenViewController: UICollectionViewDelegate,
 
         guard collectionView == collectionViewOngoing else { return }
 
-        let vc = GameImageViewController(
-            nibName: "GameImageViewController",
-            bundle: nil
-        )
+        let destinationVC = BattleRunViewController(nibName: "BattleRunViewController",bundle: nil)
 
-        vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: true)
+        destinationVC.modalPresentationStyle = .fullScreen
+        self.present(destinationVC, animated: true , completion: nil)
+        
     }
 
 }
