@@ -34,6 +34,13 @@ class ClubProfileViewController: UIViewController,
         joinNowButton.setTitle(buttonTitle, for: .normal)
         joinNowButton.layer.cornerRadius = joinNowButton.frame.height / 2.0
         
+        if joinNowButton.titleLabel?.text == "Edit Club Profile" {
+            joinNowButton.setTitleColor(.accent, for: .normal)
+            joinNowButton.backgroundColor = .black
+            joinNowButton.layer.borderColor = UIColor.accent.cgColor
+            joinNowButton.layer.borderWidth = 1
+        }
+        
         tableViewLeaderBoard.dataSource = self
         tableViewLeaderBoard.delegate = self
         tableViewLeaderBoard.register(UINib(nibName: "ClubProfileTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
