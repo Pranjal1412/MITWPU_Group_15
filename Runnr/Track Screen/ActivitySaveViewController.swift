@@ -29,6 +29,7 @@ class ActivitySaveViewController: UIViewController {
     @IBOutlet weak var labelPace: UILabel!
     @IBOutlet weak var labelCalories: UILabel!
     
+    @IBOutlet weak var imageView: UIImageView!
     
     
     var livePath : [CLLocationCoordinate2D] = []
@@ -40,7 +41,7 @@ class ActivitySaveViewController: UIViewController {
         view.overrideUserInterfaceStyle = .dark
         SettingLabels()
         settingCardView()
-        scrollViewSaveActivity.contentSize.height = labelPhotos.frame.origin.y + labelPhotos.frame.size.height + 20
+        scrollViewSaveActivity.contentSize.height = imageView.frame.origin.y + imageView.frame.size.height + 20
 
         registerNotifications()
         hideKeyboardWhenTappedAround()
@@ -70,6 +71,14 @@ class ActivitySaveViewController: UIViewController {
     
     @IBAction func SaveButtonPressed(_ sender: UIButton) {
         
+        if textFieldActivityTitle.text == "" {
+            textFieldActivityTitle.text = "Morning Run"
+        }
+        
+        if textViewRemark.text == "" {
+            textViewRemark.text = "No Remark"
+        }
+        
         let newActivity = MyRunActivity(
                     name: "Ava Brooks",
                     date: "September 7, 6:15 am",
@@ -81,7 +90,8 @@ class ActivitySaveViewController: UIViewController {
                     timeValue: "01 hr 34 min",
                     timeUnit: "50 sec",
                     image: "mapSample",
-                    note: "First run in a while, tough, but refreshing excited to rebuild step-by-step.", routeCoordinates: livePath)
+                    note: textViewRemark.text ?? "Noremark",
+                    routeCoordinates: livePath)
         
         self.datsource.addMyActivity(newActivity)
         print("After passing count: \(self.datsource.getMyActivityData().count)")
@@ -105,6 +115,7 @@ class ActivitySaveViewController: UIViewController {
         textViewRemark.layer.borderWidth = 0.5
         
         imageViewMap.layer.cornerRadius = 15
+        imageView.layer.cornerRadius = 10
     }
     
     func SettingLabels() {

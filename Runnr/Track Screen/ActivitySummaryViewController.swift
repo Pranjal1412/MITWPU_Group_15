@@ -91,6 +91,7 @@ class ActivitySummaryViewController: UIViewController {
     @IBAction func showAnalysisOfRunPressed(_ sender: UIButton) {
         
         let destinationVC = ActivityAnalysisViewController()
+        destinationVC.activityData = self.activityData
         self.present(destinationVC, animated: true)
     }
     

@@ -263,7 +263,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First run in a while, tough, but refreshing excited to rebuild step-by-step." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v3S-PE-n7B">
-                        <rect key="frame" x="20" y="391" width="338" height="46"/>
+                        <rect key="frame" x="20" y="391" width="338" height="41"/>
                         <fontDescription key="fontDescription" name="SFPro-Light" family="SF Pro" pointSize="14"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -275,7 +275,7 @@
                     <constraint firstAttribute="trailing" secondItem="v3S-PE-n7B" secondAttribute="trailing" constant="20" id="6ZL-Sn-0iF"/>
                     <constraint firstItem="v3S-PE-n7B" firstAttribute="top" secondItem="eo4-xy-YgV" secondAttribute="bottom" constant="15" id="9C8-w0-Yno"/>
                     <constraint firstAttribute="trailing" secondItem="SyU-LO-bu7" secondAttribute="trailing" constant="20" id="Dg7-5Z-ocU"/>
-                    <constraint firstAttribute="bottom" secondItem="v3S-PE-n7B" secondAttribute="bottom" constant="15" id="G4a-Td-aJk"/>
+                    <constraint firstAttribute="bottom" secondItem="v3S-PE-n7B" secondAttribute="bottom" constant="20" id="G4a-Td-aJk"/>
                     <constraint firstItem="vmm-F7-qJw" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="M7t-Xk-W8R"/>
                     <constraint firstItem="v3S-PE-n7B" firstAttribute="top" secondItem="eo4-xy-YgV" secondAttribute="bottom" constant="15" id="ZtM-U5-dW7"/>
                     <constraint firstItem="4Wp-Bi-iK1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="ajH-N4-MF2"/>

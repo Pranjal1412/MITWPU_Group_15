@@ -298,21 +298,14 @@
             <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hdG-kB-rnr">
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hdG-kB-rnr">
                     <rect key="frame" x="31" y="261" width="340" height="352"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" name="CardDarkBlack"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="352" id="83D-5J-7MI"/>
-                        <constraint firstAttribute="width" constant="340" id="yxL-BY-Qaz"/>
-                    </constraints>
                 </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="4V0-iC-4hX"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-            <constraints>
-                <constraint firstItem="hdG-kB-rnr" firstAttribute="centerY" secondItem="UNI-EO-MKJ" secondAttribute="centerY" id="gf3-gn-TZb"/>
-                <constraint firstItem="hdG-kB-rnr" firstAttribute="centerX" secondItem="UNI-EO-MKJ" secondAttribute="centerX" id="hrv-ad-dMB"/>
-            </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="1823.8805970149253" y="-1201.3729977116705"/>
         </view>

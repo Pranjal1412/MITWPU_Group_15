@@ -15,13 +15,14 @@ class ActivitySetGoalViewController: UIViewController {
     @IBOutlet weak var buttonStart: UIButton!
     @IBOutlet weak var buttonSkip: UIButton!
     @IBOutlet weak var labelAudioFeedback: UILabel!
+    @IBOutlet weak var labelDistance: UILabel!
+    @IBOutlet weak var labelTime: UILabel!
     
     @IBOutlet weak var viewBackgroungActivity: UIView!
     @IBOutlet weak var viewBackgroundDistance: UIView!
     @IBOutlet weak var viewBackgroundTime: UIView!
     @IBOutlet weak var viewBackgroundAudio: UIView!
     
-//    let userLocation = UserLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,13 +37,6 @@ class ActivitySetGoalViewController: UIViewController {
         labelAudioFeedback.sizeToFit()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-//        if #available(iOS 26.0, *) {
-//                view.window?.backgroundColor = .clear
-//                presentingViewController?.view.backgroundColor = .clear
-//        }
-    }
-    
     func settingScreen() {
         let thinFont = UIFont(name: "SF-Pro-Display-Thin", size: 33) ?? UIFont.systemFont(ofSize: 33, weight: .thin)
         let boldFont = UIFont(name: "SF-Pro-Display-Bold", size: 33) ?? UIFont.boldSystemFont(ofSize: 33)
@@ -53,9 +47,29 @@ class ActivitySetGoalViewController: UIViewController {
         let attributedString = NSMutableAttributedString()
         attributedString.append(thinText)
         attributedString.append(boldText)
-        
         labelScreenTitle.attributedText = attributedString
         
+        
+        let regularFont = UIFont(name: "SF-Pro-Display-Thin", size: 20) ?? UIFont.systemFont(ofSize: 20, weight: .regular)
+        let lightFont = UIFont(name: "SF-Pro-Display-Bold", size: 13) ?? UIFont.systemFont(ofSize: 13, weight: .light)
+        
+        
+        var regularText = NSAttributedString(string: "Distance ", attributes: [.font: regularFont , .foregroundColor: UIColor.white])
+        var lightText = NSAttributedString(string: "(km)", attributes: [.font: lightFont , .foregroundColor: UIColor.white])
+        
+        let fullDistancetext = NSMutableAttributedString()
+        fullDistancetext.append(regularText)
+        fullDistancetext.append(lightText)
+        labelDistance.attributedText = fullDistancetext
+        
+        regularText = NSAttributedString(string: "Time ", attributes: [.font: regularFont , .foregroundColor: UIColor.white])
+        lightText = NSAttributedString(string: "(hrs)", attributes: [.font: lightFont , .foregroundColor: UIColor.white])
+        
+        let fullTimetext = NSMutableAttributedString()
+        fullTimetext.append(regularText)
+        fullTimetext.append(lightText)
+        labelTime.attributedText = fullTimetext
+
         buttonSkip.layer.borderWidth = 1
         buttonSkip.layer.borderColor = UIColor.accent.cgColor
         buttonSkip.layer.cornerRadius = buttonSkip.frame.height / 2
