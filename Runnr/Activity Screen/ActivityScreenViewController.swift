@@ -30,10 +30,7 @@ class ActivityScreenViewController: UIViewController {
         label.frame = CGRect(x: 0, y: view.frame.height / 2 , width: view.frame.width, height: 50)
         label.textAlignment = .center
         label.textColor = .lightGray
-        
-        if myActivity.isEmpty {
-            view.addSubview(label)
-        }
+        view.addSubview(label)
         
         labelScreenTitle.sizeToFit()
         tableViewFriendsActivity.showsVerticalScrollIndicator = false
