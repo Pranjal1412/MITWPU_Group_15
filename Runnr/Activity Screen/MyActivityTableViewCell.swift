@@ -33,7 +33,7 @@ class MyActivityTableViewCell: UITableViewCell {
         labelName.text = activity.name
         labelDate.text = activity.date
         labelRunTitle.text = activity.runTitle
-        imageRun.image = UIImage(named: activity.image)
+        imageRun.image = activity.image
         labelNote.text = activity.note
         labelDistance.text = NSLocalizedString("Distance", comment: "")
         labelPace.text = NSLocalizedString("Pace", comment: "")

@@ -173,6 +173,7 @@ class ActivityLiveTrackingViewController: UIViewController {
             }
             
             mapManager.mapView.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 70))
+            self.mapManager.mapView.isMyLocationEnabled = false
             
             buttonPause.tag = 1
         }
@@ -180,6 +181,7 @@ class ActivityLiveTrackingViewController: UIViewController {
         else if buttonPause.tag == 1 {
             
             self.userLocation.locationManager.startUpdatingLocation()
+            self.mapManager.mapView.isMyLocationEnabled = true
             
             UIView.animate(withDuration: 0.5) {
                 self.buttonPause.frame.origin.x = (UIScreen.main.bounds.width - self.buttonPause.frame.width)/2.0
@@ -204,8 +206,6 @@ class ActivityLiveTrackingViewController: UIViewController {
     @IBAction func EndRunButtonPressed(_ sender: UIButton) {
         
         self.userLocation.locationManager.stopUpdatingLocation()
-
-        activityRoute = convertPathToCoordinates(mapManager.path)
         
         let alert = UIAlertController(title: NSLocalizedString("End Run", comment: ""),
                                       message: NSLocalizedString("Are you sure you want to end this run?", comment: ""), preferredStyle: .alert)
@@ -215,9 +215,13 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         let end = UIAlertAction(title: NSLocalizedString("End Anyway", comment: ""), style: .destructive, handler: { _ in
             
+            let mapImage = self.captureMapImage(from: self.mapManager.mapView)
+            self.activityRoute = self.convertPathToCoordinates(self.mapManager.path)
+            
             let destinationVC = ActivitySaveViewController()
             
-            destinationVC.livePath = self.activityRoute
+            destinationVC.routeCoordinates = self.activityRoute
+            destinationVC.mapImage = mapImage
             destinationVC.modalPresentationStyle = .fullScreen
             self.navigationController?.pushViewController(destinationVC, animated: true)
             
@@ -245,6 +249,15 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         return coordinates
     }
+    
+    func captureMapImage(from mapView: GMSMapView) -> UIImage? {
+        let renderer = UIGraphicsImageRenderer(size: mapView.bounds.size)
+
+        return renderer.image { _ in
+            mapView.drawHierarchy(in: mapView.bounds,afterScreenUpdates: true)
+        }
+    }
+
     
 }
 

@@ -11,7 +11,7 @@ struct MyRunActivity {
     let paceUnit: String
     let timeValue: String
     let timeUnit: String
-    let image: String
+    let image: UIImage
     let note: String
     var routeCoordinates: [CLLocationCoordinate2D]
 }

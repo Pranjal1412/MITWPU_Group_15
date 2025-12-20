@@ -32,7 +32,8 @@ class ActivitySaveViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     
     
-    var livePath : [CLLocationCoordinate2D] = []
+    var routeCoordinates : [CLLocationCoordinate2D] = []
+    var mapImage : UIImage?
     let datsource = DataSource.shared
     
     override func viewDidLoad() {
@@ -89,9 +90,9 @@ class ActivitySaveViewController: UIViewController {
                     paceUnit: "/km",
                     timeValue: "01 hr 34 min",
                     timeUnit: "50 sec",
-                    image: "mapSample",
+                    image: mapImage!,
                     note: textViewRemark.text ?? "Noremark",
-                    routeCoordinates: livePath)
+                    routeCoordinates: routeCoordinates)
         
         self.datsource.addMyActivity(newActivity)
         print("After passing count: \(self.datsource.getMyActivityData().count)")
@@ -114,6 +115,7 @@ class ActivitySaveViewController: UIViewController {
         textViewRemark.layer.borderColor = UIColor.white.cgColor
         textViewRemark.layer.borderWidth = 0.5
         
+        imageViewMap.image = mapImage
         imageViewMap.layer.cornerRadius = 15
         imageView.layer.cornerRadius = 10
     }
