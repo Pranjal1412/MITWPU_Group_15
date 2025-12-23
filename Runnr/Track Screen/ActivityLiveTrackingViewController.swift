@@ -38,10 +38,11 @@ class ActivityLiveTrackingViewController: UIViewController {
     
     let userLocation = UserLocationManager()
     let mapManager = MapManager()
+    var bounds = GMSCoordinateBounds()
+    var activityManager: UserActivityManager!
+    
     var scrollViewInitialized = false
     var isMapInitialized = false
-    var activityRoute : [CLLocationCoordinate2D] = []
-    var bounds = GMSCoordinateBounds()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,6 +57,11 @@ class ActivityLiveTrackingViewController: UIViewController {
         buttonEndRun.isHidden = true
         
         userLocation.locationManager.startUpdatingLocation()
+        userLocation.activityStarted = true
+        
+        activityManager = UserActivityManager(timerLabel: self.labelTimeCounter)
+        activityManager.activityTimeStamp()
+        activityManager.startTimer()
         
         userLocation.onLocationUpdate = { coordinate in
         
@@ -85,6 +91,9 @@ class ActivityLiveTrackingViewController: UIViewController {
             
             self.mapManager.path.add(coordinate)
             self.mapManager.routeLine.path = self.mapManager.path
+            
+            let formatted = String(format: "%.2f", self.userLocation.totalDistance / 1000)
+            self.labelDistanceCounter.text = "\(formatted)"
             
             print("Path Count: \(self.mapManager.path.count())")
             
@@ -160,6 +169,7 @@ class ActivityLiveTrackingViewController: UIViewController {
         if buttonPause.tag == 0 {
             
             self.userLocation.locationManager.stopUpdatingLocation()
+            self.activityManager.stopTimer()
             
             UIView.animate(withDuration: 0.5) {
                 self.buttonPause.frame.origin.x = (UIScreen.main.bounds.width - (self.buttonPause.frame.width * 2) - 70.0)/2.0
@@ -181,6 +191,7 @@ class ActivityLiveTrackingViewController: UIViewController {
         else if buttonPause.tag == 1 {
             
             self.userLocation.locationManager.startUpdatingLocation()
+            self.activityManager.startTimer()
             self.mapManager.mapView.isMyLocationEnabled = true
             
             UIView.animate(withDuration: 0.5) {
@@ -215,13 +226,17 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         let end = UIAlertAction(title: NSLocalizedString("End Anyway", comment: ""), style: .destructive, handler: { _ in
             
-            let mapImage = self.captureMapImage(from: self.mapManager.mapView)
-            self.activityRoute = self.convertPathToCoordinates(self.mapManager.path)
-            
+            self.userLocation.activityStarted = false
+                        
             let destinationVC = ActivitySaveViewController()
+            destinationVC.activityRouteCoordinates = self.convertPathToCoordinates(self.mapManager.path) // track coordinates
+            destinationVC.activityMapImage = self.captureMapImage(from: self.mapManager.mapView) // map Image
+            destinationVC.activityTimeStamp = self.activityManager.timeStamp //date of the activity
+            destinationVC.activityTotalDistance = String(format: "%.2f", self.userLocation.totalDistance / 1000)
+            destinationVC.activityTotalHours = String(format: "%02d", self.activityManager.hours)
+            destinationVC.activityTotalMins = String(format: "%02d", self.activityManager.minutes)
+            destinationVC.activityTotalSec = String(format: "%02d", self.activityManager.seconds)
             
-            destinationVC.routeCoordinates = self.activityRoute
-            destinationVC.mapImage = mapImage
             destinationVC.modalPresentationStyle = .fullScreen
             self.navigationController?.pushViewController(destinationVC, animated: true)
             

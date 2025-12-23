@@ -12,6 +12,9 @@ class UserLocationManager: NSObject, CLLocationManagerDelegate {
     
     let locationManager = CLLocationManager()
     var onLocationUpdate: ((CLLocationCoordinate2D) -> Void)?
+    var activityStarted : Bool = false
+    var totalDistance : CGFloat = 0.0
+    var lastLocation : CLLocation?
     
     override init() {
         super.init()
@@ -25,13 +28,22 @@ class UserLocationManager: NSObject, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
             
-        if let location = manager.location?.coordinate {
+        if let location = manager.location {
             
-            onLocationUpdate?(location)
-            print("Latitude: \(location.latitude), Longitude: \(location.longitude)")
+            onLocationUpdate?(location.coordinate)
+            print("Latitude: \(location.coordinate.latitude), Longitude: \(location.coordinate.longitude)")
+            
+            if activityStarted == true {
+                if let last = lastLocation {
+                    totalDistance += location.distance(from: last)
+                }
+                
+                lastLocation = location
+            }
         }
     
     }
+    
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status == .authorizedAlways {

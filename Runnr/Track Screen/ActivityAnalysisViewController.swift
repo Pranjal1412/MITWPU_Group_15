@@ -53,9 +53,12 @@ class ActivityAnalysisViewController: UIViewController {
         
         labelUserName.text = NSLocalizedString("Ava Brooks", comment: "")
         labelUserName.sizeToFit()
-        
+    
         labelActivityTitle.text = NSLocalizedString(activityData!.runTitle, comment: "")
         labelActivityTitle.sizeToFit()
+        
+        labelActivityDate.text = activityData?.date
+        labelActivityDate.sizeToFit()
         
         labelActivityRemark.text = NSLocalizedString(activityData!.note, comment: "")
         
@@ -83,54 +86,39 @@ class ActivityAnalysisViewController: UIViewController {
         let boldFont = UIFont(name: "SFProText-Bold", size: 22) ?? UIFont.systemFont(ofSize: 22, weight: .medium)
         
         
-        var thinText = NSAttributedString(string: " km", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
-        var boldText = NSAttributedString(string: "7.2", attributes: [.font: boldFont, .foregroundColor: UIColor.white])
+        var distanceText = NSMutableAttributedString(string: self.activityData!.distanceValue, attributes: [.font: boldFont, .foregroundColor: UIColor.white])
         
-        let fullDistanceText = NSMutableAttributedString()
-        fullDistanceText.append(boldText)
-        fullDistanceText.append(thinText)
-        labelDistanceValue.attributedText = fullDistanceText
+        distanceText.append(NSAttributedString(string: " " + self.activityData!.distanceUnit, attributes: [.font: thinFont, .foregroundColor: UIColor.white]))
+        
+        labelDistanceValue.attributedText = distanceText
         labelDistanceValue.textColor = .accent
         
-        thinText = NSAttributedString(string: " /km", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
-        boldText = NSAttributedString(string: "7:90", attributes: [.font: boldFont, .foregroundColor: UIColor.white])
+        var paceText = NSMutableAttributedString(string: "7:90", attributes: [.font: boldFont, .foregroundColor: UIColor.white])
         
-        let fullPaceText = NSMutableAttributedString()
-        fullPaceText.append(boldText)
-        fullPaceText.append(thinText)
-        labelPaceValue.attributedText = fullPaceText
+        paceText.append(NSAttributedString(string: " /km", attributes: [.font: thinFont, .foregroundColor: UIColor.white]))
+        
+        labelPaceValue.attributedText = paceText
         labelPaceValue.textColor = .accent
+            
+        var caloriesText = NSMutableAttributedString(string: "116", attributes: [.font: boldFont, .foregroundColor: UIColor.white])
         
-        thinText = NSAttributedString(string: " kcal", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
-        boldText = NSAttributedString(string: "116", attributes: [.font: boldFont, .foregroundColor: UIColor.white])
-        
-        let fullCaloriesText = NSMutableAttributedString()
-        fullCaloriesText.append(boldText)
-        fullCaloriesText.append(thinText)
-        labelCaloriesValue.attributedText = fullCaloriesText
+        caloriesText.append(NSAttributedString(string: " kcal", attributes: [.font: thinFont, .foregroundColor: UIColor.white]))
+
+        labelCaloriesValue.attributedText = caloriesText
         labelCaloriesValue.textColor = .accent
         
-        thinText = NSAttributedString(string: "hr", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
-        boldText = NSAttributedString(string: "01", attributes: [.font: boldFont, .foregroundColor: UIColor.white])
+        let timeText = NSMutableAttributedString(string: self.activityData!.timeHour, attributes: [.font: boldFont, .foregroundColor: UIColor.accent])
+        timeText.append(NSAttributedString(string: "hr", attributes: [.font: thinFont, .foregroundColor: UIColor.accent]))
         
-        let fullTimeText = NSMutableAttributedString()
-        fullTimeText.append(boldText)
-        fullTimeText.append(thinText)
+        timeText.append(NSAttributedString(string: " " + self.activityData!.timeMin, attributes: [.font: boldFont, .foregroundColor: UIColor.accent]))
         
-        thinText = NSAttributedString(string: "min", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
-        boldText = NSAttributedString(string: " 53", attributes: [.font: boldFont, .foregroundColor: UIColor.white])
+        timeText.append(NSAttributedString(string: "min", attributes: [.font: thinFont, .foregroundColor: UIColor.accent]))
         
-        fullTimeText.append(boldText)
-        fullTimeText.append(thinText)
+        timeText.append(NSAttributedString(string: " " + self.activityData!.timeSec, attributes: [.font: boldFont, .foregroundColor: UIColor.accent]))
         
-        thinText = NSAttributedString(string: "sec", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
-        boldText = NSAttributedString(string: " 12", attributes: [.font: boldFont, .foregroundColor: UIColor.white])
+        timeText.append(NSAttributedString(string: "sec", attributes: [.font: thinFont, .foregroundColor: UIColor.accent]))
         
-        fullTimeText.append(boldText)
-        fullTimeText.append(thinText)
-        
-        labelTimeValue.attributedText = fullTimeText
-        labelTimeValue.textColor = .accent
+        labelTimeValue.attributedText = timeText
     }
 
 }

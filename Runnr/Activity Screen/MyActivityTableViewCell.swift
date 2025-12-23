@@ -44,54 +44,33 @@ class MyActivityTableViewCell: UITableViewCell {
         // SF Pro fonts
         let valueFont = UIFont(name: "SFProText-Medium", size: 20) ?? UIFont.systemFont(ofSize: 20, weight: .medium)
         let unitFont = UIFont(name: "SFProText-Light", size: 11) ?? UIFont.systemFont(ofSize: 11, weight: .light)
-        let highlightColor = UIColor(red: 173/255, green: 248/255, blue: 69/255, alpha: 1)
 
         // Distance
-        let distanceValue = String(format: "%.1f", activity.distanceValue)
         let distanceText = NSMutableAttributedString(
-            string: distanceValue,
-            attributes: [.font: valueFont, .foregroundColor: highlightColor])
+            string: activity.distanceValue,
+            attributes: [.font: valueFont, .foregroundColor: UIColor.accent])
         
-        distanceText.append(NSAttributedString(string: " " + activity.distanceUnit, attributes: [.font: unitFont, .foregroundColor: highlightColor]))
+        distanceText.append(NSAttributedString(string: " " + activity.distanceUnit, attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
         labelDistanceContent.attributedText = distanceText
 
         // Pace
-        let paceText = NSMutableAttributedString(
-            string: activity.paceValue,
-            attributes: [.font: valueFont, .foregroundColor: highlightColor]
-        )
-        paceText.append(NSAttributedString(
-            string: " " + activity.paceUnit,
-            attributes: [.font: unitFont, .foregroundColor: highlightColor]
-        ))
+        let paceText = NSMutableAttributedString(string: activity.paceValue,attributes: [.font: valueFont, .foregroundColor: UIColor.accent])
+        paceText.append(NSAttributedString(string: " " + activity.paceUnit,attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
         labelPaceContent.attributedText = paceText
 
-        // Time (all units smaller and #ADF845)
-        let timeText = NSMutableAttributedString()
-        let timeValueComponents = activity.timeValue.components(separatedBy: " ")
-        var i = 0
-        while i < timeValueComponents.count {
-            let part = timeValueComponents[i]
-            if let _ = Int(part) {
-                timeText.append(NSAttributedString(string: part + " ", attributes: [.font: valueFont, .foregroundColor: highlightColor]))
-            } else {
-                timeText.append(NSAttributedString(string: part + " ", attributes: [.font: unitFont, .foregroundColor: highlightColor]))
-            }
-            i += 1
-        }
-        let timeUnitComponents = activity.timeUnit.components(separatedBy: " ")
-        i = 0
-        while i < timeUnitComponents.count {
-            let part = timeUnitComponents[i]
-            if let _ = Int(part) {
-                timeText.append(NSAttributedString(string: part + " ", attributes: [.font: valueFont, .foregroundColor: highlightColor]))
-            } else {
-                timeText.append(NSAttributedString(string: part + " ", attributes: [.font: unitFont, .foregroundColor: highlightColor]))
-            }
-            i += 1
-        }
+        let timeText = NSMutableAttributedString(string: activity.timeHour, attributes: [.font: valueFont, .foregroundColor: UIColor.accent])
+        timeText.append(NSAttributedString(string: "hr", attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
+        
+        timeText.append(NSAttributedString(string: " " + activity.timeMin, attributes: [.font: valueFont, .foregroundColor: UIColor.accent]))
+        
+        timeText.append(NSAttributedString(string: "min", attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
+        
+        timeText.append(NSAttributedString(string: " " + activity.timeSec, attributes: [.font: valueFont, .foregroundColor: UIColor.accent]))
+        
+        timeText.append(NSAttributedString(string: "sec", attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
+        
         labelTimeContent.attributedText = timeText
-        labelPaceContent.minimumScaleFactor = 0.5 // Optional for font scaling
+
     }
 
 }

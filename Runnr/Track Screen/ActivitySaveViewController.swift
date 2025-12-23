@@ -25,16 +25,23 @@ class ActivitySaveViewController: UIViewController {
     @IBOutlet weak var labelPublicActivity: UILabel!
     @IBOutlet weak var labelDescription: UILabel!
     @IBOutlet weak var labelDistance: UILabel!
+    @IBOutlet weak var labelDistanceValue: UILabel!
     @IBOutlet weak var labelTime: UILabel!
+    @IBOutlet weak var labelTimeValue: UILabel!
     @IBOutlet weak var labelPace: UILabel!
     @IBOutlet weak var labelCalories: UILabel!
+    @IBOutlet weak var labelTimeStamp: UILabel!
     
     @IBOutlet weak var imageView: UIImageView!
     
-    
-    var routeCoordinates : [CLLocationCoordinate2D] = []
-    var mapImage : UIImage?
-    let datsource = DataSource.shared
+    var activityRouteCoordinates : [CLLocationCoordinate2D] = []
+    var activityMapImage : UIImage?
+    var activityTimeStamp : String?
+    var activityTotalDistance : String?
+    var activityTotalHours : String?
+    var activityTotalMins : String?
+    var activityTotalSec : String?
+    var datsource = DataSource.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,17 +89,18 @@ class ActivitySaveViewController: UIViewController {
         
         let newActivity = MyRunActivity(
                     name: "Ava Brooks",
-                    date: "September 7, 6:15 am",
+                    date: activityTimeStamp!,
                     runTitle: textFieldActivityTitle.text ?? "Morning Run",
-                    distanceValue: 7.2,
+                    distanceValue: activityTotalDistance!,
                     distanceUnit: "km",
                     paceValue: "7:45",
                     paceUnit: "/km",
-                    timeValue: "01 hr 34 min",
-                    timeUnit: "50 sec",
-                    image: mapImage!,
-                    note: textViewRemark.text ?? "Noremark",
-                    routeCoordinates: routeCoordinates)
+                    timeHour: activityTotalHours ?? "00",
+                    timeMin: activityTotalMins ?? "00",
+                    timeSec: activityTotalSec ?? "00",
+                    image: activityMapImage!,
+                    note: textViewRemark.text ?? "No Remark",
+                    routeCoordinates: activityRouteCoordinates)
         
         self.datsource.addMyActivity(newActivity)
         print("After passing count: \(self.datsource.getMyActivityData().count)")
@@ -115,7 +123,7 @@ class ActivitySaveViewController: UIViewController {
         textViewRemark.layer.borderColor = UIColor.white.cgColor
         textViewRemark.layer.borderWidth = 0.5
         
-        imageViewMap.image = mapImage
+        imageViewMap.image = activityMapImage
         imageViewMap.layer.cornerRadius = 15
         imageView.layer.cornerRadius = 10
     }
@@ -125,13 +133,17 @@ class ActivitySaveViewController: UIViewController {
         labelDescription.text = NSLocalizedString( "Anyone on Runnr can see your activity", comment: "")
         labelRunSummary.text = NSLocalizedString( "Run Summary", comment: "")
         labelPublicActivity.text = NSLocalizedString( "Public Activity", comment: "")
+        labelTimeStamp.text = self.activityTimeStamp!
         
         labelDescription.sizeToFit()
         
         labelPace.text = NSLocalizedString( "Pace", comment: "")
         labelTime.text = NSLocalizedString( "Time", comment: "")
+        labelTimeValue.text = self.activityTotalHours! + " : " + self.activityTotalMins! + " : " + self.activityTotalSec!
+        labelTimeValue.sizeToFit()
         labelCalories.text = NSLocalizedString( "Calories", comment: "")
         labelDistance.text = NSLocalizedString( "Distance", comment: "")
+        labelDistanceValue.text = self.activityTotalDistance! + " km"
     }
     
 }

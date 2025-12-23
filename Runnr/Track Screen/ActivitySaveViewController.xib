@@ -26,11 +26,14 @@
                 <outlet property="labelCalories" destination="eFS-zH-n0M" id="WSV-7A-AoK"/>
                 <outlet property="labelDescription" destination="ChB-wk-awk" id="EwT-dy-aA9"/>
                 <outlet property="labelDistance" destination="tyb-Br-GeE" id="lFX-ep-DIa"/>
+                <outlet property="labelDistanceValue" destination="53I-49-L3a" id="w0g-og-61u"/>
                 <outlet property="labelPace" destination="Ueu-dO-Xz2" id="Itc-x6-W7w"/>
                 <outlet property="labelPhotos" destination="FPl-X2-7My" id="CPu-Lg-ngf"/>
                 <outlet property="labelPublicActivity" destination="vw9-PB-JzU" id="8Sh-oF-sXr"/>
                 <outlet property="labelRunSummary" destination="bJk-ue-WRA" id="5SK-u9-E82"/>
                 <outlet property="labelTime" destination="mmD-jZ-ULq" id="eq9-Xv-q8d"/>
+                <outlet property="labelTimeStamp" destination="oUU-DM-QcU" id="IYS-6P-zia"/>
+                <outlet property="labelTimeValue" destination="6Nn-RO-XLU" id="EHa-rG-9Lt"/>
                 <outlet property="scrollViewSaveActivity" destination="scw-9n-W4L" id="fy1-rF-6gR"/>
                 <outlet property="textFieldActivityTitle" destination="UhE-P1-COJ" id="cVI-wM-MW7"/>
                 <outlet property="textViewRemark" destination="ek8-dC-2QH" id="DWq-eN-mgP"/>
