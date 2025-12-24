@@ -75,7 +75,7 @@ class ActivitySaveViewController: UIViewController {
     @IBAction func SaveButtonPressed(_ sender: UIButton) {
         
         if textFieldActivityTitle.text == "" {
-            textFieldActivityTitle.text = "Morning Run"
+            textFieldActivityTitle.text = defaultActivityTitle()
         }
         
         if textViewRemark.text == "" {
@@ -129,6 +129,22 @@ class ActivitySaveViewController: UIViewController {
         labelDistance.text = NSLocalizedString( "Distance", comment: "")
         labelDistanceValue.text = self.newActivity.distanceValue + " " + self.newActivity.distanceUnit
     }
+    
+    func defaultActivityTitle() -> String {
+        let hour = Calendar.current.component(.hour, from: Date())
+
+        switch hour {
+        case 5..<12:
+            return "Morning Run"
+        case 12..<17:
+            return "Afternoon Run"
+        case 17..<21:
+            return "Evening Run"
+        default:
+            return "Night Run"
+        }
+    }
+
     
 }
 
