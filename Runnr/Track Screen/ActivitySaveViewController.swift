@@ -90,7 +90,7 @@ class ActivitySaveViewController: UIViewController {
         print("After passing count: \(self.datsource.getMyActivityData().count)")
         
         let destinationVC = ActivitySummaryViewController()
-        destinationVC.activityData = newActivity
+        destinationVC.activityData = self.newActivity
         
         destinationVC.modalPresentationStyle = .fullScreen
         navigationController?.present(destinationVC, animated: true)

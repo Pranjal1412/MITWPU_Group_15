@@ -26,8 +26,8 @@ class ActivityScreenViewController: UIViewController {
         tableViewMyActivity.isHidden = false
         tableViewFriendsActivity.isHidden = true
         
-        label.text = "No activities"
-        label.frame = CGRect(x: 0, y: view.frame.height / 2 , width: view.frame.width, height: 50)
+        label.text = "No Activities"
+        label.frame = CGRect(x: 0, y: view.frame.height / 2 + 20.0, width: view.frame.width, height: 50)
         label.textAlignment = .center
         label.textColor = .lightGray
         view.addSubview(label)
@@ -37,11 +37,12 @@ class ActivityScreenViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
-        tableViewMyActivity.reloadData()
+                
         if myActivity.isEmpty == false {
             label.isHidden = true
         }
+        
+        tableViewMyActivity.reloadData()
         print(myActivity.count)
     }
     
