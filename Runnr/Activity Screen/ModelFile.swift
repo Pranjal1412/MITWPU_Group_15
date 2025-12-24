@@ -4,16 +4,17 @@ import GoogleMaps
 struct MyRunActivity {
     let name: String
     let date: String
-    let runTitle: String
+    var runTitle: String
     let distanceValue: String
     let distanceUnit: String
-    let paceValue: String      
+    let paceValue: String
     let paceUnit: String
     let timeHour: String
     let timeMin: String
     let timeSec: String
-    let image: UIImage
-    let note: String
+    let mapImage: UIImage
+    var note: String
+    var isPublic: Bool
     var routeCoordinates: [CLLocationCoordinate2D]
 }
 

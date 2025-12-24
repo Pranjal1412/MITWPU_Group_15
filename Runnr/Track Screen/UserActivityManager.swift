@@ -15,16 +15,16 @@ class UserActivityManager {
     var accumulatedTime: TimeInterval = 0
     var timerLabel : UILabel
     
-    init (timerLabel: UILabel) {
-        self.timerLabel = timerLabel
-    }
-    
     var seconds: Int = 0
     var minutes: Int = 0
     var hours: Int = 0
     
     var timeStamp : String?
-
+    
+    init (timerLabel: UILabel) {
+        self.timerLabel = timerLabel
+    }
+    
     func activityTimeStamp() {
         let formatter = DateFormatter()
         formatter.dateStyle = .long

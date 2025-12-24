@@ -18,6 +18,7 @@ class ActivitySaveViewController: UIViewController {
     @IBOutlet weak var labelPhotos: UILabel!
     @IBOutlet weak var imageViewMap: UIImageView!
     
+    @IBOutlet weak var switchIsActivityPublic: UISwitch!
     @IBOutlet weak var textViewRemark: UITextView!
     @IBOutlet weak var textFieldActivityTitle: UITextField!
     
@@ -34,13 +35,7 @@ class ActivitySaveViewController: UIViewController {
     
     @IBOutlet weak var imageView: UIImageView!
     
-    var activityRouteCoordinates : [CLLocationCoordinate2D] = []
-    var activityMapImage : UIImage?
-    var activityTimeStamp : String?
-    var activityTotalDistance : String?
-    var activityTotalHours : String?
-    var activityTotalMins : String?
-    var activityTotalSec : String?
+    var newActivity: MyRunActivity!
     var datsource = DataSource.shared
     
     override func viewDidLoad() {
@@ -87,20 +82,9 @@ class ActivitySaveViewController: UIViewController {
             textViewRemark.text = "No Remark"
         }
         
-        let newActivity = MyRunActivity(
-                    name: "Ava Brooks",
-                    date: activityTimeStamp!,
-                    runTitle: textFieldActivityTitle.text ?? "Morning Run",
-                    distanceValue: activityTotalDistance!,
-                    distanceUnit: "km",
-                    paceValue: "7:45",
-                    paceUnit: "/km",
-                    timeHour: activityTotalHours ?? "00",
-                    timeMin: activityTotalMins ?? "00",
-                    timeSec: activityTotalSec ?? "00",
-                    image: activityMapImage!,
-                    note: textViewRemark.text ?? "No Remark",
-                    routeCoordinates: activityRouteCoordinates)
+        newActivity.runTitle = textFieldActivityTitle.text ?? "Morning Run"
+        newActivity.note = textViewRemark.text ?? "No Remark"
+        newActivity.isPublic = switchIsActivityPublic.isOn
         
         self.datsource.addMyActivity(newActivity)
         print("After passing count: \(self.datsource.getMyActivityData().count)")
@@ -123,7 +107,7 @@ class ActivitySaveViewController: UIViewController {
         textViewRemark.layer.borderColor = UIColor.white.cgColor
         textViewRemark.layer.borderWidth = 0.5
         
-        imageViewMap.image = activityMapImage
+        imageViewMap.image = self.newActivity.mapImage
         imageViewMap.layer.cornerRadius = 15
         imageView.layer.cornerRadius = 10
     }
@@ -133,17 +117,17 @@ class ActivitySaveViewController: UIViewController {
         labelDescription.text = NSLocalizedString( "Anyone on Runnr can see your activity", comment: "")
         labelRunSummary.text = NSLocalizedString( "Run Summary", comment: "")
         labelPublicActivity.text = NSLocalizedString( "Public Activity", comment: "")
-        labelTimeStamp.text = self.activityTimeStamp!
+        labelTimeStamp.text = self.newActivity.date
         
         labelDescription.sizeToFit()
         
         labelPace.text = NSLocalizedString( "Pace", comment: "")
         labelTime.text = NSLocalizedString( "Time", comment: "")
-        labelTimeValue.text = self.activityTotalHours! + " : " + self.activityTotalMins! + " : " + self.activityTotalSec!
+        labelTimeValue.text = self.newActivity.timeHour + " : " + self.newActivity.timeMin + " : " + self.newActivity.timeSec
         labelTimeValue.sizeToFit()
         labelCalories.text = NSLocalizedString( "Calories", comment: "")
         labelDistance.text = NSLocalizedString( "Distance", comment: "")
-        labelDistanceValue.text = self.activityTotalDistance! + " km"
+        labelDistanceValue.text = self.newActivity.distanceValue + " " + self.newActivity.distanceUnit
     }
     
 }

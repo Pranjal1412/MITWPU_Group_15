@@ -228,14 +228,25 @@ class ActivityLiveTrackingViewController: UIViewController {
             
             self.userLocation.activityStarted = false
                         
+            let newActivity = MyRunActivity(
+                        name: "Ava Brooks",
+                        date: self.activityManager.timeStamp!,
+                        runTitle: "",
+                        distanceValue: String(format: "%.2f", self.userLocation.totalDistance / 1000),
+                        distanceUnit: "km",
+                        paceValue: "7:45",
+                        paceUnit: "/km",
+                        timeHour: String(format: "%02d", self.activityManager.hours),
+                        timeMin: String(format: "%02d", self.activityManager.minutes),
+                        timeSec: String(format: "%02d", self.activityManager.seconds),
+                        mapImage: self.captureMapImage(from: self.mapManager.mapView)!,
+                        note: "",
+                        isPublic: false,
+                        routeCoordinates: self.convertPathToCoordinates(self.mapManager.path))
+
+            
             let destinationVC = ActivitySaveViewController()
-            destinationVC.activityRouteCoordinates = self.convertPathToCoordinates(self.mapManager.path) // track coordinates
-            destinationVC.activityMapImage = self.captureMapImage(from: self.mapManager.mapView) // map Image
-            destinationVC.activityTimeStamp = self.activityManager.timeStamp //date of the activity
-            destinationVC.activityTotalDistance = String(format: "%.2f", self.userLocation.totalDistance / 1000)
-            destinationVC.activityTotalHours = String(format: "%02d", self.activityManager.hours)
-            destinationVC.activityTotalMins = String(format: "%02d", self.activityManager.minutes)
-            destinationVC.activityTotalSec = String(format: "%02d", self.activityManager.seconds)
+            destinationVC.newActivity = newActivity
             
             destinationVC.modalPresentationStyle = .fullScreen
             self.navigationController?.pushViewController(destinationVC, animated: true)

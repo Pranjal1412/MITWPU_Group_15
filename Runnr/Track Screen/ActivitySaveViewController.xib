@@ -35,6 +35,7 @@
                 <outlet property="labelTimeStamp" destination="oUU-DM-QcU" id="IYS-6P-zia"/>
                 <outlet property="labelTimeValue" destination="6Nn-RO-XLU" id="EHa-rG-9Lt"/>
                 <outlet property="scrollViewSaveActivity" destination="scw-9n-W4L" id="fy1-rF-6gR"/>
+                <outlet property="switchIsActivityPublic" destination="WiB-FV-uZ5" id="hvb-Rd-fyl"/>
                 <outlet property="textFieldActivityTitle" destination="UhE-P1-COJ" id="cVI-wM-MW7"/>
                 <outlet property="textViewRemark" destination="ek8-dC-2QH" id="DWq-eN-mgP"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -181,10 +182,10 @@
                                                     <color key="tintColor" name="AccentColor"/>
                                                 </imageView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Hqj-UH-khD">
-                                                    <rect key="frame" x="15" y="35" width="113" height="45"/>
+                                                    <rect key="frame" x="15" y="35" width="136" height="45"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mmD-jZ-ULq">
-                                                            <rect key="frame" x="0.0" y="0.0" width="113" height="20"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="136" height="20"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="20" id="H8p-wK-hUD"/>
                                                             </constraints>
@@ -193,7 +194,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="59 : 19 : 34" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Nn-RO-XLU">
-                                                            <rect key="frame" x="0.0" y="25" width="113" height="20"/>
+                                                            <rect key="frame" x="0.0" y="25" width="136" height="20"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="20" id="hkW-C9-X9h"/>
                                                             </constraints>
@@ -206,7 +207,7 @@
                                             </subviews>
                                             <color key="backgroundColor" name="CardLightBlack"/>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="Hqj-UH-khD" secondAttribute="trailing" constant="38" id="4NP-mb-4sN"/>
+                                                <constraint firstAttribute="trailing" secondItem="Hqj-UH-khD" secondAttribute="trailing" constant="15" id="4NP-mb-4sN"/>
                                                 <constraint firstItem="Hqj-UH-khD" firstAttribute="top" secondItem="d5U-tX-s32" secondAttribute="top" constant="35" id="Ahc-Pp-2kn"/>
                                                 <constraint firstItem="Hqj-UH-khD" firstAttribute="leading" secondItem="d5U-tX-s32" secondAttribute="leading" constant="15" id="jC8-id-wL3"/>
                                                 <constraint firstAttribute="height" constant="100" id="yju-j5-smA"/>
