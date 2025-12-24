@@ -32,7 +32,7 @@ class ActivityStartViewController: UIViewController {
     }
 
     override func viewDidLayoutSubviews() {
-        userLocation.onLocationUpdate = { coordinate in
+        userLocation.onLocationUpdate = { location in
             
             if self.isMapInitialized == false {
                 
@@ -45,13 +45,13 @@ class ActivityStartViewController: UIViewController {
                     mapView = mapManager.initializeMaps(withX: 0.0, withY: topOffset,
                                                        withWidth: self.view.frame.width,
                                                        withHeight: self.view.frame.height - bottomInset - topOffset,
-                                                       location: coordinate)
+                                                        location: location.coordinate)
                 }
                 else {
                     mapView = mapManager.initializeMaps(withX: 0.0, withY: topOffset,
                                                        withWidth: self.view.frame.width,
                                                        withHeight: self.view.frame.height - topOffset,
-                                                       location: coordinate)
+                                                       location: location.coordinate)
                 }
                 
                 mapView.settings.scrollGestures = false

@@ -79,11 +79,11 @@ class ActivitySaveViewController: UIViewController {
         }
         
         if textViewRemark.text == "" {
-            textViewRemark.text = "No Remark"
+            textViewRemark.text = ""
         }
         
-        newActivity.runTitle = textFieldActivityTitle.text ?? "Morning Run"
-        newActivity.note = textViewRemark.text ?? "No Remark"
+        newActivity.runTitle = textFieldActivityTitle.text!
+        newActivity.note = textViewRemark.text
         newActivity.isPublic = switchIsActivityPublic.isOn
         
         self.datsource.addMyActivity(newActivity)

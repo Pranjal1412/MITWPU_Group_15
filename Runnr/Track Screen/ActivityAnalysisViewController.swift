@@ -86,21 +86,21 @@ class ActivityAnalysisViewController: UIViewController {
         let boldFont = UIFont(name: "SFProText-Bold", size: 22) ?? UIFont.systemFont(ofSize: 22, weight: .medium)
         
         
-        var distanceText = NSMutableAttributedString(string: self.activityData!.distanceValue, attributes: [.font: boldFont, .foregroundColor: UIColor.white])
+        let distanceText = NSMutableAttributedString(string: self.activityData!.distanceValue, attributes: [.font: boldFont, .foregroundColor: UIColor.white])
         
         distanceText.append(NSAttributedString(string: " " + self.activityData!.distanceUnit, attributes: [.font: thinFont, .foregroundColor: UIColor.white]))
         
         labelDistanceValue.attributedText = distanceText
         labelDistanceValue.textColor = .accent
         
-        var paceText = NSMutableAttributedString(string: "7:90", attributes: [.font: boldFont, .foregroundColor: UIColor.white])
+        let paceText = NSMutableAttributedString(string: "7:90", attributes: [.font: boldFont, .foregroundColor: UIColor.white])
         
         paceText.append(NSAttributedString(string: " /km", attributes: [.font: thinFont, .foregroundColor: UIColor.white]))
         
         labelPaceValue.attributedText = paceText
         labelPaceValue.textColor = .accent
             
-        var caloriesText = NSMutableAttributedString(string: "116", attributes: [.font: boldFont, .foregroundColor: UIColor.white])
+        let caloriesText = NSMutableAttributedString(string: "116", attributes: [.font: boldFont, .foregroundColor: UIColor.white])
         
         caloriesText.append(NSAttributedString(string: " kcal", attributes: [.font: thinFont, .foregroundColor: UIColor.white]))
 

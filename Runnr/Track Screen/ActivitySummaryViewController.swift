@@ -35,7 +35,7 @@ class ActivitySummaryViewController: UIViewController {
         labelActivityHeading.text = activityData?.runTitle
         
         userLocation.locationManager.startUpdatingLocation()
-        userLocation.onLocationUpdate = { coordinate in
+        userLocation.onLocationUpdate = { location in
             
             if self.isMapInitialized == false {
                 
@@ -44,7 +44,7 @@ class ActivitySummaryViewController: UIViewController {
                 let mapView = mapManager.initializeMaps(withX: 0.0, withY: topOffset,
                                                        withWidth: self.view.frame.width,
                                                        withHeight: self.view.frame.height - topOffset,
-                                                       location: coordinate)
+                                                       location: location.coordinate)
                 
                 mapView.settings.scrollGestures = true
                 mapView.settings.zoomGestures = true

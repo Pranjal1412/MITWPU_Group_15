@@ -63,14 +63,14 @@ class ActivityLiveTrackingViewController: UIViewController {
         activityManager.activityTimeStamp()
         activityManager.startTimer()
         
-        userLocation.onLocationUpdate = { coordinate in
+        userLocation.onLocationUpdate = { location in
         
             if self.isMapInitialized == false {
                                 
                 let mapView = self.mapManager.initializeMaps(withX: 20.0, withY: 70.0,
                                                              withWidth: self.view.frame.width - 40.0,
                                                              withHeight: self.view.frame.height - 100.0,
-                                                             location: coordinate)
+                                                             location: location.coordinate)
               
                 self.mapManager.userLocationMarkerSetting(isEnabled: true)
                 mapView.settings.rotateGestures = true
@@ -89,10 +89,11 @@ class ActivityLiveTrackingViewController: UIViewController {
 //                self.mapManager.addStartMarker(at: coordinate)
 //            }
             
-            self.mapManager.path.add(coordinate)
+            self.mapManager.path.add(location.coordinate)
             self.mapManager.routeLine.path = self.mapManager.path
             
-            let formatted = String(format: "%.2f", self.userLocation.totalDistance / 1000)
+            self.activityManager.updateDistance(with: location)
+            let formatted = String(format: "%.2f", self.activityManager.totalDistance / 1000)
             self.labelDistanceCounter.text = "\(formatted)"
             
             print("Path Count: \(self.mapManager.path.count())")
@@ -107,58 +108,6 @@ class ActivityLiveTrackingViewController: UIViewController {
             self.scrollViewInitialized = true
         }
         
-    }
-
-    func settingScreenElements() {
-        viewAllData.layer.cornerRadius = 20
-        viewPace.layer.cornerRadius = 20
-        viewHeartRate.layer.cornerRadius = 20
-        viewTime.layer.cornerRadius = 20
-        viewDistance.layer.cornerRadius = 20
-        
-        buttonPause.layer.cornerRadius = buttonPause.frame.height / 2
-        buttonEndRun.layer.cornerRadius = buttonEndRun.frame.height / 2
-        buttonLockScroll.layer.cornerRadius = buttonLockScroll.frame.height / 2
-        
-        buttonEndRun.frame.origin.x = (view.frame.width - buttonPause.frame.width) / 2
-        buttonEndRun.frame.origin.y = viewDistance.frame.origin.y + viewDistance.frame.height + 50
-        
-        buttonPause.frame.origin.x = (view.frame.width - buttonPause.frame.width) / 2
-        buttonPause.frame.origin.y = viewDistance.frame.origin.y + viewDistance.frame.height + 50
-        
-        labelDistance.font = UIFont(name: "SF Pro Medium", size: 18.0)
-        labelDistance.text = NSLocalizedString("Distance (Km)", comment: "")
-        labelDistance.sizeToFit()
-        
-        labelTime.font = UIFont(name: "SF Pro Medium", size: 18.0)
-        labelTime.text = NSLocalizedString("Time", comment: "")
-        labelTime.sizeToFit()
-        
-        labelPace.font = UIFont(name: "SF Pro Medium", size: 18.0)
-        labelPace.text = NSLocalizedString("Pace", comment: "")
-        labelPace.sizeToFit()
-        
-        labelHeartRate.font = UIFont(name: "SF Pro Medium", size: 18.0)
-        labelHeartRate.text = NSLocalizedString("Heart Rate", comment: "")
-        labelHeartRate.sizeToFit()
-        
-        labelPaceCounter.font = UIFont(name: "SF Pro Regular", size: 20)
-        labelTimeCounter.font = UIFont(name: "SF Pro Regular", size: 55)
-        labelDistanceCounter.font = UIFont(name: "SF Pro Regular", size: 128)
-        labelHeartRateCounter.font = UIFont(name: "SF Pro Regular", size: 20)
-        
-    }
-    
-    func settingPauseButtonImg() {
-        buttonPause.contentVerticalAlignment = .fill
-        buttonPause.contentHorizontalAlignment = .fill
-//        buttonPause.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 50, leading: 50, bottom: 50, trailing: 50)
-        buttonPause.imageEdgeInsets = UIEdgeInsets(top: 32, left: 35, bottom: 32, right: 35)
-        
-        buttonEndRun.contentVerticalAlignment = .fill
-        buttonEndRun.contentHorizontalAlignment = .fill
-//        buttonEndRun.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 38, leading: 38, bottom: 38, trailing: 38)
-        buttonEndRun.imageEdgeInsets = UIEdgeInsets(top: 38, left: 38, bottom: 38, right: 38)
     }
     
     @IBAction func pauseButtonPressed(_ sender: UIButton) {
@@ -232,7 +181,7 @@ class ActivityLiveTrackingViewController: UIViewController {
                         name: "Ava Brooks",
                         date: self.activityManager.timeStamp!,
                         runTitle: "",
-                        distanceValue: String(format: "%.2f", self.userLocation.totalDistance / 1000),
+                        distanceValue: String(format: "%.2f", self.activityManager.totalDistance / 1000),
                         distanceUnit: "km",
                         paceValue: "7:45",
                         paceUnit: "/km",
@@ -244,7 +193,6 @@ class ActivityLiveTrackingViewController: UIViewController {
                         isPublic: false,
                         routeCoordinates: self.convertPathToCoordinates(self.mapManager.path))
 
-            
             let destinationVC = ActivitySaveViewController()
             destinationVC.newActivity = newActivity
             
@@ -264,6 +212,58 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         present(alert, animated: true , completion: nil)
         
+    }
+    
+    func settingScreenElements() {
+        viewAllData.layer.cornerRadius = 20
+        viewPace.layer.cornerRadius = 20
+        viewHeartRate.layer.cornerRadius = 20
+        viewTime.layer.cornerRadius = 20
+        viewDistance.layer.cornerRadius = 20
+        
+        buttonPause.layer.cornerRadius = buttonPause.frame.height / 2
+        buttonEndRun.layer.cornerRadius = buttonEndRun.frame.height / 2
+        buttonLockScroll.layer.cornerRadius = buttonLockScroll.frame.height / 2
+        
+        buttonEndRun.frame.origin.x = (view.frame.width - buttonPause.frame.width) / 2
+        buttonEndRun.frame.origin.y = viewDistance.frame.origin.y + viewDistance.frame.height + 50
+        
+        buttonPause.frame.origin.x = (view.frame.width - buttonPause.frame.width) / 2
+        buttonPause.frame.origin.y = viewDistance.frame.origin.y + viewDistance.frame.height + 50
+        
+        labelDistance.font = UIFont(name: "SF Pro Medium", size: 18.0)
+        labelDistance.text = NSLocalizedString("Distance (Km)", comment: "")
+        labelDistance.sizeToFit()
+        
+        labelTime.font = UIFont(name: "SF Pro Medium", size: 18.0)
+        labelTime.text = NSLocalizedString("Time", comment: "")
+        labelTime.sizeToFit()
+        
+        labelPace.font = UIFont(name: "SF Pro Medium", size: 18.0)
+        labelPace.text = NSLocalizedString("Pace", comment: "")
+        labelPace.sizeToFit()
+        
+        labelHeartRate.font = UIFont(name: "SF Pro Medium", size: 18.0)
+        labelHeartRate.text = NSLocalizedString("Heart Rate", comment: "")
+        labelHeartRate.sizeToFit()
+        
+        labelPaceCounter.font = UIFont(name: "SF Pro Regular", size: 20)
+        labelTimeCounter.font = UIFont(name: "SF Pro Regular", size: 55)
+        labelDistanceCounter.font = UIFont(name: "SF Pro Regular", size: 128)
+        labelHeartRateCounter.font = UIFont(name: "SF Pro Regular", size: 20)
+        
+    }
+    
+    func settingPauseButtonImg() {
+        buttonPause.contentVerticalAlignment = .fill
+        buttonPause.contentHorizontalAlignment = .fill
+//        buttonPause.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 50, leading: 50, bottom: 50, trailing: 50)
+        buttonPause.imageEdgeInsets = UIEdgeInsets(top: 32, left: 35, bottom: 32, right: 35)
+        
+        buttonEndRun.contentVerticalAlignment = .fill
+        buttonEndRun.contentHorizontalAlignment = .fill
+//        buttonEndRun.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 38, leading: 38, bottom: 38, trailing: 38)
+        buttonEndRun.imageEdgeInsets = UIEdgeInsets(top: 38, left: 38, bottom: 38, right: 38)
     }
     
     func convertPathToCoordinates(_ path: GMSMutablePath) -> [CLLocationCoordinate2D] {

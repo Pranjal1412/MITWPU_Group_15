@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import CoreLocation
 
 class UserActivityManager {
 
@@ -14,12 +15,14 @@ class UserActivityManager {
     var startTime: Date?
     var accumulatedTime: TimeInterval = 0
     var timerLabel : UILabel
+    var timeStamp : String?
     
     var seconds: Int = 0
     var minutes: Int = 0
     var hours: Int = 0
     
-    var timeStamp : String?
+    var totalDistance : CGFloat = 0.0
+    var lastLocation : CLLocation?
     
     init (timerLabel: UILabel) {
         self.timerLabel = timerLabel
@@ -65,5 +68,13 @@ class UserActivityManager {
         hours = totalSeconds / 3600
     
         return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+    }
+    
+    func updateDistance(with location: CLLocation) {
+        if let last = lastLocation {
+            totalDistance += location.distance(from: last)
+        }
+        
+        lastLocation = location
     }
 }

@@ -11,10 +11,8 @@ import GoogleMaps
 class UserLocationManager: NSObject, CLLocationManagerDelegate {
     
     let locationManager = CLLocationManager()
-    var onLocationUpdate: ((CLLocationCoordinate2D) -> Void)?
+    var onLocationUpdate: ((CLLocation) -> Void)?
     var activityStarted : Bool = false
-    var totalDistance : CGFloat = 0.0
-    var lastLocation : CLLocation?
     
     override init() {
         super.init()
@@ -30,16 +28,9 @@ class UserLocationManager: NSObject, CLLocationManagerDelegate {
             
         if let location = manager.location {
             
-            onLocationUpdate?(location.coordinate)
+            onLocationUpdate?(location)
             print("Latitude: \(location.coordinate.latitude), Longitude: \(location.coordinate.longitude)")
             
-            if activityStarted == true {
-                if let last = lastLocation {
-                    totalDistance += location.distance(from: last)
-                }
-                
-                lastLocation = location
-            }
         }
     
     }
