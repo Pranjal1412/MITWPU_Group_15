@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import CoreLocation
+import CoreMotion
 
 class UserActivityManager {
 
@@ -17,12 +18,20 @@ class UserActivityManager {
     var timerLabel : UILabel
     var timeStamp : String?
     
+    var totalTime: TimeInterval = 0
     var seconds: Int = 0
     var minutes: Int = 0
     var hours: Int = 0
     
-    var totalDistance : CGFloat = 0.0
+    var totalDistance: Double = 0.0
+    var distance : Double = 0.0
     var lastLocation : CLLocation?
+    
+    let pedometer = CMPedometer()
+    var totalSteps: Int = 0
+    var steps : Int = 0
+    
+    var livePace : Double = 0.0
     
     init (timerLabel: UILabel) {
         self.timerLabel = timerLabel
@@ -55,7 +64,7 @@ class UserActivityManager {
 
     @objc func updateTime() {
         if let start = startTime {
-            let totalTime = accumulatedTime + Date().timeIntervalSince(start)
+            totalTime = accumulatedTime + Date().timeIntervalSince(start)
             timerLabel.text = formatTime(totalTime)
         }
     }
@@ -70,11 +79,54 @@ class UserActivityManager {
         return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
     }
     
-    func updateDistance(with location: CLLocation) {
+    func startUpdatingDistance(with location: CLLocation) {
         if let last = lastLocation {
-            totalDistance += location.distance(from: last)
+            distance += location.distance(from: last) / 1000
         }
         
         lastLocation = location
     }
+    
+    func stopUpdatingDistance() {
+        totalDistance += distance
+        distance = 0
+        lastLocation = nil
+    }
+    
+    func startStepsTracking() {
+        if CMPedometer.isStepCountingAvailable() {
+            
+            pedometer.startUpdates(from: Date()) { data, error in
+                if let data = data, error == nil {
+                    self.steps = data.numberOfSteps.intValue
+                    print("Steps:", self.steps)
+                }
+            }
+        }
+    }
+    
+    func stopStepsTracking() {
+        pedometer.stopUpdates()
+        totalSteps += steps
+        steps = 0
+    }
+    
+    func showLivePace(using location: CLLocation) {
+        let speed = location.speed // unit here is meter/seconds
+        
+        if speed > 0 {
+            livePace = (1000/speed) / 60 // unit converted to min/km
+            print("Pace:", livePace)
+        }
+    }
+
+    func getAveragePace() -> Double {
+        
+        if totalDistance >= 0.1 && totalTime >= 60 {
+            return (totalTime / 60) / distance
+        }
+        
+        return 0.00
+    }
+    
 }

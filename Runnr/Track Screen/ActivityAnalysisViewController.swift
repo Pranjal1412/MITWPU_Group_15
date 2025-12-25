@@ -93,19 +93,12 @@ class ActivityAnalysisViewController: UIViewController {
         labelDistanceValue.attributedText = distanceText
         labelDistanceValue.textColor = .accent
         
-        let paceText = NSMutableAttributedString(string: "7:90", attributes: [.font: boldFont, .foregroundColor: UIColor.white])
+        let paceText = NSMutableAttributedString(string: self.activityData!.paceValue, attributes: [.font: boldFont, .foregroundColor: UIColor.white])
         
         paceText.append(NSAttributedString(string: " /km", attributes: [.font: thinFont, .foregroundColor: UIColor.white]))
         
         labelPaceValue.attributedText = paceText
         labelPaceValue.textColor = .accent
-            
-        let caloriesText = NSMutableAttributedString(string: "116", attributes: [.font: boldFont, .foregroundColor: UIColor.white])
-        
-        caloriesText.append(NSAttributedString(string: " kcal", attributes: [.font: thinFont, .foregroundColor: UIColor.white]))
-
-        labelCaloriesValue.attributedText = caloriesText
-        labelCaloriesValue.textColor = .accent
         
         let timeText = NSMutableAttributedString(string: self.activityData!.timeHour, attributes: [.font: boldFont, .foregroundColor: UIColor.accent])
         timeText.append(NSAttributedString(string: "hr", attributes: [.font: thinFont, .foregroundColor: UIColor.accent]))
@@ -119,6 +112,15 @@ class ActivityAnalysisViewController: UIViewController {
         timeText.append(NSAttributedString(string: "sec", attributes: [.font: thinFont, .foregroundColor: UIColor.accent]))
         
         labelTimeValue.attributedText = timeText
+        
+        let caloriesText = NSMutableAttributedString(string: "116", attributes: [.font: boldFont, .foregroundColor: UIColor.white])
+        
+        caloriesText.append(NSAttributedString(string: " kcal", attributes: [.font: thinFont, .foregroundColor: UIColor.white]))
+
+        labelCaloriesValue.attributedText = caloriesText
+        labelCaloriesValue.textColor = .accent
+        
+        labelStepsValue.text = self.activityData!.stepsValue
     }
 
 }

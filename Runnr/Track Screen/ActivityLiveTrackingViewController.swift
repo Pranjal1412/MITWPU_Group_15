@@ -7,6 +7,7 @@
 
 import UIKit
 import GoogleMaps
+import CoreMotion
 
 class ActivityLiveTrackingViewController: UIViewController {
 
@@ -62,6 +63,7 @@ class ActivityLiveTrackingViewController: UIViewController {
         activityManager = UserActivityManager(timerLabel: self.labelTimeCounter)
         activityManager.activityTimeStamp()
         activityManager.startTimer()
+        activityManager.startStepsTracking()
         
         userLocation.onLocationUpdate = { location in
         
@@ -92,9 +94,11 @@ class ActivityLiveTrackingViewController: UIViewController {
             self.mapManager.path.add(location.coordinate)
             self.mapManager.routeLine.path = self.mapManager.path
             
-            self.activityManager.updateDistance(with: location)
-            let formatted = String(format: "%.2f", self.activityManager.totalDistance / 1000)
-            self.labelDistanceCounter.text = "\(formatted)"
+            self.activityManager.startUpdatingDistance(with: location)
+            self.labelDistanceCounter.text = String(format: "%.2f", self.activityManager.distance)
+            
+            self.activityManager.showLivePace(using: location)
+            self.labelPaceCounter.text = String(format: "%.2f", self.activityManager.livePace)
             
             print("Path Count: \(self.mapManager.path.count())")
             
@@ -119,6 +123,8 @@ class ActivityLiveTrackingViewController: UIViewController {
             
             self.userLocation.locationManager.stopUpdatingLocation()
             self.activityManager.stopTimer()
+            self.activityManager.stopStepsTracking()
+            self.activityManager.stopUpdatingDistance()
             
             UIView.animate(withDuration: 0.5) {
                 self.buttonPause.frame.origin.x = (UIScreen.main.bounds.width - (self.buttonPause.frame.width * 2) - 70.0)/2.0
@@ -141,6 +147,8 @@ class ActivityLiveTrackingViewController: UIViewController {
             
             self.userLocation.locationManager.startUpdatingLocation()
             self.activityManager.startTimer()
+            self.activityManager.startStepsTracking()
+            
             self.mapManager.mapView.isMyLocationEnabled = true
             
             UIView.animate(withDuration: 0.5) {
@@ -181,10 +189,11 @@ class ActivityLiveTrackingViewController: UIViewController {
                         name: "Ava Brooks",
                         date: self.activityManager.timeStamp!,
                         runTitle: "",
-                        distanceValue: String(format: "%.2f", self.activityManager.totalDistance / 1000),
+                        distanceValue: String(format: "%.2f", self.activityManager.distance),
                         distanceUnit: "km",
-                        paceValue: "7:45",
+                        paceValue: String(format: "%.2f", self.activityManager.getAveragePace()),
                         paceUnit: "/km",
+                        stepsValue: String(self.activityManager.totalSteps),
                         timeHour: String(format: "%02d", self.activityManager.hours),
                         timeMin: String(format: "%02d", self.activityManager.minutes),
                         timeSec: String(format: "%02d", self.activityManager.seconds),
@@ -194,7 +203,7 @@ class ActivityLiveTrackingViewController: UIViewController {
                         routeCoordinates: self.convertPathToCoordinates(self.mapManager.path))
 
             let destinationVC = ActivitySaveViewController()
-            destinationVC.newActivity = newActivity
+            destinationVC.activityData = newActivity
             
             destinationVC.modalPresentationStyle = .fullScreen
             self.navigationController?.pushViewController(destinationVC, animated: true)

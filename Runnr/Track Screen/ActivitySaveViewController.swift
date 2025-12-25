@@ -30,12 +30,14 @@ class ActivitySaveViewController: UIViewController {
     @IBOutlet weak var labelTime: UILabel!
     @IBOutlet weak var labelTimeValue: UILabel!
     @IBOutlet weak var labelPace: UILabel!
+    @IBOutlet weak var labelPaceValue: UILabel!
     @IBOutlet weak var labelCalories: UILabel!
+    @IBOutlet weak var labelCaloriesValue: UILabel!
     @IBOutlet weak var labelTimeStamp: UILabel!
     
     @IBOutlet weak var imageView: UIImageView!
     
-    var newActivity: MyRunActivity!
+    var activityData: MyRunActivity!
     var datsource = DataSource.shared
     
     override func viewDidLoad() {
@@ -82,15 +84,15 @@ class ActivitySaveViewController: UIViewController {
             textViewRemark.text = ""
         }
         
-        newActivity.runTitle = textFieldActivityTitle.text!
-        newActivity.note = textViewRemark.text
-        newActivity.isPublic = switchIsActivityPublic.isOn
+        activityData.runTitle = textFieldActivityTitle.text!
+        activityData.note = textViewRemark.text
+        activityData.isPublic = switchIsActivityPublic.isOn
         
-        self.datsource.addMyActivity(newActivity)
+        self.datsource.addMyActivity(activityData)
         print("After passing count: \(self.datsource.getMyActivityData().count)")
         
         let destinationVC = ActivitySummaryViewController()
-        destinationVC.activityData = self.newActivity
+        destinationVC.activityData = self.activityData
         
         destinationVC.modalPresentationStyle = .fullScreen
         navigationController?.present(destinationVC, animated: true)
@@ -107,7 +109,7 @@ class ActivitySaveViewController: UIViewController {
         textViewRemark.layer.borderColor = UIColor.white.cgColor
         textViewRemark.layer.borderWidth = 0.5
         
-        imageViewMap.image = self.newActivity.mapImage
+        imageViewMap.image = self.activityData.mapImage
         imageViewMap.layer.cornerRadius = 15
         imageView.layer.cornerRadius = 10
     }
@@ -117,17 +119,18 @@ class ActivitySaveViewController: UIViewController {
         labelDescription.text = NSLocalizedString( "Anyone on Runnr can see your activity", comment: "")
         labelRunSummary.text = NSLocalizedString( "Run Summary", comment: "")
         labelPublicActivity.text = NSLocalizedString( "Public Activity", comment: "")
-        labelTimeStamp.text = self.newActivity.date
+        labelTimeStamp.text = self.activityData.date
         
         labelDescription.sizeToFit()
         
         labelPace.text = NSLocalizedString( "Pace", comment: "")
+        labelPaceValue.text = self.activityData.paceValue + " " + self.activityData.paceUnit
         labelTime.text = NSLocalizedString( "Time", comment: "")
-        labelTimeValue.text = self.newActivity.timeHour + " : " + self.newActivity.timeMin + " : " + self.newActivity.timeSec
+        labelTimeValue.text = self.activityData.timeHour + " : " + self.activityData.timeMin + " : " + self.activityData.timeSec
         labelTimeValue.sizeToFit()
         labelCalories.text = NSLocalizedString( "Calories", comment: "")
         labelDistance.text = NSLocalizedString( "Distance", comment: "")
-        labelDistanceValue.text = self.newActivity.distanceValue + " " + self.newActivity.distanceUnit
+        labelDistanceValue.text = self.activityData.distanceValue + " " + self.activityData.distanceUnit
     }
     
     func defaultActivityTitle() -> String {

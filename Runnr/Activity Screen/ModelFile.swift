@@ -9,6 +9,7 @@ struct MyRunActivity {
     let distanceUnit: String
     let paceValue: String
     let paceUnit: String
+    let stepsValue: String
     let timeHour: String
     let timeMin: String
     let timeSec: String
