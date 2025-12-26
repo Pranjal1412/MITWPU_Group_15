@@ -21,6 +21,8 @@ class ActivitySummaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
                 
+        view.overrideUserInterfaceStyle = .dark
+        
         if #available(iOS 26.0, *) {
             buttonBack.configuration = .glass()
             buttonBack.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
@@ -71,10 +73,8 @@ class ActivitySummaryViewController: UIViewController {
                 self.userLocation.locationManager.stopUpdatingLocation()
                 self.isMapInitialized = true
             }
-            
         }
         
-//        print(activityData?.runTitle)
     }
     
     @IBAction func backButtonPressed(_ sender: UIButton) {

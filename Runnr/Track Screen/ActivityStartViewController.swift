@@ -68,6 +68,15 @@ class ActivityStartViewController: UIViewController {
         }
     }
     
+    @IBAction func profileButtonPressed(_ sender: UIButton) {
+        
+        let destinationVC = UserProfileViewController()
+        destinationVC.modalPresentationStyle = .fullScreen
+        self.present(destinationVC, animated: true, completion: nil)
+        
+    }
+    
+    
     func createStartButton() {
         let startButton = UIButton()
         
