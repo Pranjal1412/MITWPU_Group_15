@@ -10,6 +10,11 @@ class StepsViewController: UIViewController {
     @IBOutlet weak var scrollViewMain: UIScrollView!
     @IBOutlet weak var labelStepsCovered: UILabel!
     @IBOutlet weak var labelNumber: UILabel!
+    
+    private let daysPerWeek = 7
+    private var weeklyBarValues: [[CGFloat]] = []
+    private var weeklyDayLabels: [[String]] = []
+
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Steps"
@@ -22,6 +27,10 @@ class StepsViewController: UIViewController {
             navigationController?.navigationBar.standardAppearance = appearance
             navigationController?.navigationBar.scrollEdgeAppearance = appearance
     
+        scrollView.delegate = self
+                scrollView.isPagingEnabled = true
+                scrollView.showsHorizontalScrollIndicator = false
+        
         scrollViewMain.contentSize.height = collectionViewSteps.frame.height + collectionViewSteps.frame.origin.y + 100
 
         // Enable main scroll view
