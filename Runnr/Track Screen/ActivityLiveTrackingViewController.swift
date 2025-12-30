@@ -91,11 +91,13 @@ class ActivityLiveTrackingViewController: UIViewController {
 //                self.mapManager.addStartMarker(at: coordinate)
 //            }
             
-            self.mapManager.path.add(location.coordinate)
-            self.mapManager.routeLine.path = self.mapManager.path
-            
-            self.activityManager.startUpdatingDistance(with: location)
-            self.labelDistanceCounter.text = String(format: "%.2f", self.activityManager.distance)
+            if self.addCoordinateIfValid(location) {
+                self.mapManager.path.add(location.coordinate)
+                self.mapManager.routeLine.path = self.mapManager.path
+                
+                self.activityManager.startUpdatingDistance(with: location)
+                self.labelDistanceCounter.text = String(format: "%.2f", self.activityManager.totalDistance)
+            }
             
             self.activityManager.showLivePace(using: location)
             self.labelPaceCounter.text = String(format: "%.2f", self.activityManager.livePace)
@@ -221,6 +223,23 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         present(alert, animated: true , completion: nil)
         
+    }
+    
+    func addCoordinateIfValid(_ newLocation: CLLocation) -> Bool {
+        if mapManager.path.count() == 0 {
+               return true
+           }
+
+        let lastCoordinate = mapManager.path.coordinate(at: mapManager.path.count() - 1)
+        let lastLocation = CLLocation(latitude: lastCoordinate.latitude,
+                                     longitude: lastCoordinate.longitude)
+
+        let distance = newLocation.distance(from: lastLocation)
+        if distance > 5 {
+            return true
+        }
+        
+        return false
     }
     
     func settingScreenElements() {

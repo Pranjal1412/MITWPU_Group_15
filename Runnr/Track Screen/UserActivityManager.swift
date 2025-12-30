@@ -123,7 +123,7 @@ class UserActivityManager {
     func getAveragePace() -> Double {
         
         if totalDistance >= 0.1 && totalTime >= 60 {
-            return (totalTime / 60) / distance
+            return (totalTime / 60) / totalDistance
         }
         
         return 0.00
