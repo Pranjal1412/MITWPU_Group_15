@@ -4,6 +4,7 @@ class AveragePaceViewController: UIViewController {
 
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var weekRangeLabel: UILabel!
     @IBOutlet weak var scrollViewMain: UIScrollView!
     @IBOutlet weak var labelNumber: UILabel!
     @IBOutlet weak var segmentControlAveragePace: UISegmentedControl!
@@ -17,25 +18,27 @@ class AveragePaceViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        scrollViewMain.alwaysBounceVertical = false
+        scrollViewMain.bounces = false
         navigationItem.title = "Average Pace"
         let appearance = UINavigationBarAppearance()
-            appearance.configureWithTransparentBackground() 
-            appearance.titleTextAttributes = [
-                .font: UIFont.systemFont(ofSize: 22, weight: .bold)
-            ]
+        appearance.configureWithTransparentBackground()
+        appearance.titleTextAttributes = [
+            .font: UIFont.systemFont(ofSize: 22, weight: .bold)
+        ]
 
-            navigationController?.navigationBar.standardAppearance = appearance
-            navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
         scrollView.delegate = self
-                scrollView.isPagingEnabled = true
-                scrollView.showsHorizontalScrollIndicator = false
+        scrollView.isPagingEnabled = true
+        scrollView.showsHorizontalScrollIndicator = false
         
         // Enable main scroll view
         scrollViewMain.translatesAutoresizingMaskIntoConstraints = false
         scrollViewMain.contentLayoutGuide.widthAnchor.constraint(equalTo: scrollViewMain.contentLayoutGuide.widthAnchor).isActive = true
         scrollViewMain.contentSize.width = view.frame.width
-//        scrollViewMain.contentSize.height = collectionViewPace.frame.height + collectionViewPace.frame.origin.y + 100
         
         navigationItem.hidesBackButton = false
         
@@ -60,6 +63,9 @@ class AveragePaceViewController: UIViewController {
 
         setupGraph()
         settingLabelStyle()
+        
+        // Initialize week label for first week
+        updateWeekLabel(for: 0)
     }
     
     func settingLabelStyle() {
@@ -93,13 +99,15 @@ class AveragePaceViewController: UIViewController {
         let barValues: [CGFloat] = [
             50, 120, 75, 90, 160, 130, 200,
             40, 180, 110, 70, 150, 90, 210,
-            60, 140, 195, 80, 170, 125
+            60, 140, 195, 80, 170, 125,230,
+            450, 250, 165, 280, 190, 135,220
         ]
 
         let dayLabels = [
             "S","M","T","W","T","F","S",
             "M","T","W","T","F","S","M",
-            "T","W","T","F","S","M"
+            "T","W","T","F","S","M","T",
+            "W","T","F","S","M","T","W"
         ]
 
         let barColor = UIColor(red: 0xAD/255, green: 0xF8/255, blue: 0x45/255, alpha: 1)
@@ -116,7 +124,6 @@ class AveragePaceViewController: UIViewController {
             line.translatesAutoresizingMaskIntoConstraints = false
             contentView.addSubview(line)
 
-            // Position each line
             NSLayoutConstraint.activate([
                 line.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 25),
                 line.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
@@ -135,7 +142,6 @@ class AveragePaceViewController: UIViewController {
         stack.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(stack)
 
-        // Stack constraints
         NSLayoutConstraint.activate([
             stack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 40),
             stack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
@@ -172,7 +178,6 @@ class AveragePaceViewController: UIViewController {
             barContainer.translatesAutoresizingMaskIntoConstraints = false
             barContainer.widthAnchor.constraint(equalToConstant: 30).isActive = true
 
-            // Auto-scaled height
             let normalizedHeight = (value / maxValue) * maxDisplayHeight
 
             let bar = UIView()
@@ -189,7 +194,6 @@ class AveragePaceViewController: UIViewController {
                 bar.heightAnchor.constraint(equalToConstant: normalizedHeight)
             ])
 
-            // Day label
             let label = UILabel()
             label.text = dayLabels[index]
             label.textColor = .white
@@ -216,6 +220,7 @@ class AveragePaceViewController: UIViewController {
     
 }
 
+// MARK: — UICollectionView
 extension AveragePaceViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView,
@@ -247,4 +252,52 @@ extension AveragePaceViewController: UICollectionViewDataSource, UICollectionVie
     }
 }
 
+// MARK: — UIScrollViewDelegate for updating week label
+extension AveragePaceViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard scrollView == self.scrollView else { return }
+        
+        let barWidth: CGFloat = 30
+        let barSpacing: CGFloat = 24
+        let weekWidth = (barWidth + barSpacing) * CGFloat(daysPerWeek)
+        
+        let weekIndex = Int(scrollView.contentOffset.x / weekWidth)
+        
+        let totalWeeks = Int(ceil(Double(setupBarValues().count) / Double(daysPerWeek)))
+        let currentWeek = max(0, min(weekIndex, totalWeeks - 1))
+        
+        updateWeekLabel(for: currentWeek)
+    }
+    
+    private func updateWeekLabel(for index: Int) {
+        if let weekDates = getWeekDates(for: index) {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "d MMM"
+            let start = formatter.string(from: weekDates.start)
+            let end = formatter.string(from: weekDates.end)
+            weekRangeLabel.text = "\(start) - \(end)"
+        }
+    }
+    
+    private func getWeekDates(for index: Int) -> (start: Date, end: Date)? {
+        let calendar = Calendar.current
+        let today = Date()
+        
+        guard let startOfWeek = calendar.dateInterval(of: .weekOfYear, for: today)?.start else { return nil }
+        
+        let start = calendar.date(byAdding: .weekOfYear, value: index, to: startOfWeek)!
+        let end = calendar.date(byAdding: .day, value: daysPerWeek - 1, to: start)!
+        return (start, end)
+    }
+    
+    private func setupBarValues() -> [CGFloat] {
+        return [
+            50, 120, 75, 90, 160, 130, 200,
+            40, 180, 110, 70, 150, 90, 210,
+            60, 140, 195, 80, 170, 125,230,
+            450, 250, 165, 280, 190, 135,220
+        ]
+    }
+}
 

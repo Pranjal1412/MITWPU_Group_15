@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24412" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24405"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -20,6 +20,7 @@
                 <outlet property="scrollViewMain" destination="QT5-lz-Xjx" id="Yyi-So-qhf"/>
                 <outlet property="segmentControlDistance" destination="6un-z3-dSa" id="RBC-t8-WNK"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="weekRangeLabel" destination="Xkv-Zt-zcd" id="Sei-Y4-vwq"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -31,7 +32,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance Covered" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RUc-nc-l8s">
-                            <rect key="frame" x="16" y="92" width="370" height="20"/>
+                            <rect key="frame" x="16" y="97" width="370" height="20"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="20" id="eYi-Ky-RHm"/>
                             </constraints>
@@ -40,7 +41,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20.3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MKp-gG-Z5R">
-                            <rect key="frame" x="16" y="122" width="370" height="40"/>
+                            <rect key="frame" x="16" y="115" width="370" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="9cP-Eb-jOz"/>
                             </constraints>
@@ -101,23 +102,34 @@
                                 <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                             </collectionViewFlowLayout>
                         </collectionView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Weekly Range" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xkv-Zt-zcd">
+                            <rect key="frame" x="16" y="175" width="370" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="Xfr-VX-UVB"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstItem="WMx-Pu-oAp" firstAttribute="top" secondItem="MKp-gG-Z5R" secondAttribute="bottom" constant="25" id="0gC-BW-Rbn"/>
-                        <constraint firstItem="MKp-gG-Z5R" firstAttribute="top" secondItem="RUc-nc-l8s" secondAttribute="bottom" constant="10" id="6Lx-QL-9L2"/>
-                        <constraint firstItem="MKp-gG-Z5R" firstAttribute="top" secondItem="RUc-nc-l8s" secondAttribute="bottom" constant="10" id="BPQ-bR-s7m"/>
+                        <constraint firstItem="WMx-Pu-oAp" firstAttribute="top" secondItem="MKp-gG-Z5R" secondAttribute="bottom" constant="32" id="0gC-BW-Rbn"/>
+                        <constraint firstItem="MKp-gG-Z5R" firstAttribute="top" secondItem="RUc-nc-l8s" secondAttribute="bottom" constant="-2" id="6Lx-QL-9L2"/>
+                        <constraint firstItem="MKp-gG-Z5R" firstAttribute="top" secondItem="RUc-nc-l8s" secondAttribute="bottom" constant="-2" id="BPQ-bR-s7m"/>
+                        <constraint firstItem="DkM-M5-1hr" firstAttribute="trailing" secondItem="Xkv-Zt-zcd" secondAttribute="trailing" constant="16" id="Bgc-ht-24B"/>
                         <constraint firstItem="X2c-gZ-PLg" firstAttribute="top" secondItem="0qq-3D-tRO" secondAttribute="bottom" constant="20" id="Cgf-Sq-0lV"/>
                         <constraint firstItem="X2c-gZ-PLg" firstAttribute="leading" secondItem="DkM-M5-1hr" secondAttribute="leading" constant="16" id="HDA-Y8-fhO"/>
                         <constraint firstItem="DkM-M5-1hr" firstAttribute="trailing" secondItem="MKp-gG-Z5R" secondAttribute="trailing" constant="16" id="IHF-dz-2fv"/>
                         <constraint firstItem="WMx-Pu-oAp" firstAttribute="leading" secondItem="DkM-M5-1hr" secondAttribute="leading" id="Ih1-NE-uf6"/>
-                        <constraint firstItem="RUc-nc-l8s" firstAttribute="top" secondItem="6un-z3-dSa" secondAttribute="bottom" constant="25" id="IuK-8p-1DX"/>
+                        <constraint firstItem="RUc-nc-l8s" firstAttribute="top" secondItem="6un-z3-dSa" secondAttribute="bottom" constant="30" id="IuK-8p-1DX"/>
                         <constraint firstItem="DkM-M5-1hr" firstAttribute="bottom" secondItem="X2c-gZ-PLg" secondAttribute="bottom" constant="20" id="PJj-0H-5aW"/>
                         <constraint firstItem="WMx-Pu-oAp" firstAttribute="trailing" secondItem="DkM-M5-1hr" secondAttribute="trailing" id="Qeh-W0-con"/>
                         <constraint firstItem="DkM-M5-1hr" firstAttribute="trailing" secondItem="RUc-nc-l8s" secondAttribute="trailing" constant="16" id="RDo-WM-QJj"/>
                         <constraint firstItem="MKp-gG-Z5R" firstAttribute="leading" secondItem="DkM-M5-1hr" secondAttribute="leading" constant="16" id="S5H-ZL-UnK"/>
                         <constraint firstItem="DkM-M5-1hr" firstAttribute="trailing" secondItem="0qq-3D-tRO" secondAttribute="trailing" constant="16" id="W66-H5-qEF"/>
-                        <constraint firstItem="RUc-nc-l8s" firstAttribute="top" secondItem="6un-z3-dSa" secondAttribute="bottom" constant="25" id="bo5-6U-zdv"/>
+                        <constraint firstItem="Xkv-Zt-zcd" firstAttribute="top" secondItem="MKp-gG-Z5R" secondAttribute="bottom" constant="20" id="bMd-lH-aMv"/>
+                        <constraint firstItem="RUc-nc-l8s" firstAttribute="top" secondItem="6un-z3-dSa" secondAttribute="bottom" constant="30" id="bo5-6U-zdv"/>
                         <constraint firstItem="0qq-3D-tRO" firstAttribute="top" secondItem="WMx-Pu-oAp" secondAttribute="bottom" constant="50" id="emO-69-6aE"/>
                         <constraint firstItem="6un-z3-dSa" firstAttribute="leading" secondItem="DkM-M5-1hr" secondAttribute="leading" constant="16" id="fBN-8B-od5"/>
                         <constraint firstItem="6un-z3-dSa" firstAttribute="top" secondItem="DnD-I4-KA3" secondAttribute="top" constant="30" id="fZh-T5-B4q"/>
@@ -125,6 +137,7 @@
                         <constraint firstItem="DkM-M5-1hr" firstAttribute="trailing" secondItem="X2c-gZ-PLg" secondAttribute="trailing" constant="16" id="kqc-gX-Idt"/>
                         <constraint firstItem="DkM-M5-1hr" firstAttribute="trailing" secondItem="6un-z3-dSa" secondAttribute="trailing" constant="16" id="llZ-7W-vMJ"/>
                         <constraint firstItem="0qq-3D-tRO" firstAttribute="leading" secondItem="DkM-M5-1hr" secondAttribute="leading" constant="16" id="lr7-NB-h6L"/>
+                        <constraint firstItem="Xkv-Zt-zcd" firstAttribute="leading" secondItem="DkM-M5-1hr" secondAttribute="leading" constant="16" id="szU-FK-VXU"/>
                         <constraint firstItem="0qq-3D-tRO" firstAttribute="top" secondItem="WMx-Pu-oAp" secondAttribute="bottom" constant="50" id="yO4-h3-XwC"/>
                     </constraints>
                     <viewLayoutGuide key="contentLayoutGuide" id="DnD-I4-KA3"/>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24412" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24405"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -25,6 +25,7 @@
                 <outlet property="scrollViewMain" destination="DxR-x2-Ufb" id="EHa-uU-38e"/>
                 <outlet property="segmentControlSteps" destination="c0x-uA-z7w" id="aoM-Vs-NFP"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="weekRangeLabel" destination="lgd-tL-CqO" id="kVs-NB-MHI"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -48,7 +49,7 @@
                             <color key="selectedSegmentTintColor" name="AccentColor"/>
                         </segmentedControl>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lFW-3U-qqr">
-                            <rect key="frame" x="16" y="122" width="370" height="40"/>
+                            <rect key="frame" x="16" y="115" width="370" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="tBd-VX-6xB"/>
                             </constraints>
@@ -81,7 +82,7 @@
                             <viewLayoutGuide key="frameLayoutGuide" id="zHr-DO-RS0"/>
                         </scrollView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Steps Covered" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W1N-b7-M0C">
-                            <rect key="frame" x="16" y="92" width="370" height="20"/>
+                            <rect key="frame" x="16" y="97" width="370" height="20"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="20" id="Bla-74-Q5C"/>
                             </constraints>
@@ -99,9 +100,18 @@
                                 <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                             </collectionViewFlowLayout>
                         </collectionView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Weekly Range" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lgd-tL-CqO">
+                            <rect key="frame" x="16" y="175" width="370" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="K1m-na-ScU"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <constraints>
-                        <constraint firstItem="lFW-3U-qqr" firstAttribute="top" secondItem="W1N-b7-M0C" secondAttribute="bottom" constant="10" id="56M-6A-WpK"/>
+                        <constraint firstItem="lFW-3U-qqr" firstAttribute="top" secondItem="W1N-b7-M0C" secondAttribute="bottom" constant="-2" id="56M-6A-WpK"/>
                         <constraint firstItem="lFW-3U-qqr" firstAttribute="leading" secondItem="kzo-Et-Vnx" secondAttribute="leading" constant="16" id="DPz-xB-C1V"/>
                         <constraint firstItem="c0x-uA-z7w" firstAttribute="top" secondItem="Mdl-0B-JCI" secondAttribute="top" constant="30" id="Fz8-8b-PBr"/>
                         <constraint firstItem="0Co-F6-RYg" firstAttribute="leading" secondItem="kzo-Et-Vnx" secondAttribute="leading" id="GQX-LN-n9v"/>
@@ -111,11 +121,14 @@
                         <constraint firstItem="erT-DZ-jLO" firstAttribute="top" secondItem="D5J-x6-hGU" secondAttribute="bottom" constant="20" id="Ovd-EE-GNX"/>
                         <constraint firstItem="kzo-Et-Vnx" firstAttribute="bottom" secondItem="erT-DZ-jLO" secondAttribute="bottom" constant="20" id="PFl-7C-s4s"/>
                         <constraint firstItem="erT-DZ-jLO" firstAttribute="leading" secondItem="kzo-Et-Vnx" secondAttribute="leading" constant="16" id="PqQ-1W-96G"/>
-                        <constraint firstItem="0Co-F6-RYg" firstAttribute="top" secondItem="lFW-3U-qqr" secondAttribute="bottom" constant="25" id="Qzb-uV-v3w"/>
+                        <constraint firstItem="0Co-F6-RYg" firstAttribute="top" secondItem="lFW-3U-qqr" secondAttribute="bottom" constant="32" id="Qzb-uV-v3w"/>
+                        <constraint firstItem="lgd-tL-CqO" firstAttribute="leading" secondItem="kzo-Et-Vnx" secondAttribute="leading" constant="16" id="d1F-ut-qNL"/>
+                        <constraint firstItem="kzo-Et-Vnx" firstAttribute="trailing" secondItem="lgd-tL-CqO" secondAttribute="trailing" constant="16" id="lHR-AE-DXk"/>
                         <constraint firstItem="c0x-uA-z7w" firstAttribute="leading" secondItem="kzo-Et-Vnx" secondAttribute="leading" constant="16" id="lfG-Xj-bfZ"/>
                         <constraint firstItem="kzo-Et-Vnx" firstAttribute="trailing" secondItem="D5J-x6-hGU" secondAttribute="trailing" constant="16" id="mbN-BV-nUi"/>
+                        <constraint firstItem="lgd-tL-CqO" firstAttribute="top" secondItem="lFW-3U-qqr" secondAttribute="bottom" constant="20" id="oml-4e-aB0"/>
                         <constraint firstItem="W1N-b7-M0C" firstAttribute="leading" secondItem="kzo-Et-Vnx" secondAttribute="leading" constant="16" id="pL5-vU-naY"/>
-                        <constraint firstItem="W1N-b7-M0C" firstAttribute="top" secondItem="c0x-uA-z7w" secondAttribute="bottom" constant="25" id="pdn-2Y-0iJ"/>
+                        <constraint firstItem="W1N-b7-M0C" firstAttribute="top" secondItem="c0x-uA-z7w" secondAttribute="bottom" constant="30" id="pdn-2Y-0iJ"/>
                         <constraint firstItem="kzo-Et-Vnx" firstAttribute="trailing" secondItem="lFW-3U-qqr" secondAttribute="trailing" constant="16" id="uro-7H-vrJ"/>
                         <constraint firstItem="kzo-Et-Vnx" firstAttribute="trailing" secondItem="erT-DZ-jLO" secondAttribute="trailing" constant="16" id="wwc-X0-hyr"/>
                         <constraint firstItem="0Co-F6-RYg" firstAttribute="trailing" secondItem="kzo-Et-Vnx" secondAttribute="trailing" id="xkI-R1-emX"/>
