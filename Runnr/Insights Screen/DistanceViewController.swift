@@ -10,6 +10,10 @@ class DistanceViewController: UIViewController {
     @IBOutlet weak var labelNumber: UILabel!
     @IBOutlet weak var labelDistanceCovered: UILabel!
     
+    private let daysPerWeek = 7
+    private var weeklyBarValues: [[CGFloat]] = []
+    private var weeklyDayLabels: [[String]] = []
+
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Distance"
@@ -21,6 +25,11 @@ class DistanceViewController: UIViewController {
 
             navigationController?.navigationBar.standardAppearance = appearance
             navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+        scrollViewGraph.delegate = self
+        scrollViewGraph.isPagingEnabled = true
+        scrollViewGraph.showsHorizontalScrollIndicator = false
+        
         
         scrollViewMain.contentSize.height = collectionViewDistance.frame.height + collectionViewDistance.frame.origin.y + 100
 

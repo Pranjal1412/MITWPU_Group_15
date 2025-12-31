@@ -10,6 +10,10 @@ class CaloriesViewController: UIViewController {
     @IBOutlet weak var labelNumber: UILabel!
     @IBOutlet weak var collectionViewCalories: UICollectionView!
     
+    private let daysPerWeek = 7
+    private var weeklyBarValues: [[CGFloat]] = []
+    private var weeklyDayLabels: [[String]] = []
+
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Calories"
@@ -21,6 +25,11 @@ class CaloriesViewController: UIViewController {
 
             navigationController?.navigationBar.standardAppearance = appearance
             navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+        scrollView.delegate = self
+                scrollView.isPagingEnabled = true
+                scrollView.showsHorizontalScrollIndicator = false
+        
 
         
         // Enable main scroll view
