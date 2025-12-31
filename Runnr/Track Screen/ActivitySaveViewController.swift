@@ -89,6 +89,7 @@ class ActivitySaveViewController: UIViewController {
         activityData.isPublic = switchIsActivityPublic.isOn
         
         self.datsource.addMyActivity(activityData)
+        self.datsource.updateTotalRunnrPoints(with: activityData.basePoints)
         print("After passing count: \(self.datsource.getMyActivityData().count)")
         
         let destinationVC = ActivitySummaryViewController()

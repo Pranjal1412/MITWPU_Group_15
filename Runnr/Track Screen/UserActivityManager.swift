@@ -24,7 +24,6 @@ class UserActivityManager {
     var hours: Int = 0
     
     var totalDistance: Double = 0.0
-    var distance : Double = 0.0
     var lastLocation : CLLocation?
     
     let pedometer = CMPedometer()
@@ -81,15 +80,13 @@ class UserActivityManager {
     
     func startUpdatingDistance(with location: CLLocation) {
         if let last = lastLocation {
-            distance += location.distance(from: last) / 1000
+            totalDistance += location.distance(from: last) / 1000
         }
         
         lastLocation = location
     }
     
     func stopUpdatingDistance() {
-        totalDistance += distance
-        distance = 0
         lastLocation = nil
     }
     
@@ -129,4 +126,7 @@ class UserActivityManager {
         return 0.00
     }
     
+    func pointsEarned() -> Int {
+        return (Int(totalDistance) * (Int(totalDistance) + 1)) * 5
+    }
 }

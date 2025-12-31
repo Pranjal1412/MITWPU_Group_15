@@ -13,6 +13,7 @@ struct MyRunActivity {
     let timeHour: String
     let timeMin: String
     let timeSec: String
+    let basePoints: Int
     let mapImage: UIImage
     var note: String
     var isPublic: Bool

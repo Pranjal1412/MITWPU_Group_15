@@ -191,7 +191,7 @@ class ActivityLiveTrackingViewController: UIViewController {
                         name: "Ava Brooks",
                         date: self.activityManager.timeStamp!,
                         runTitle: "",
-                        distanceValue: String(format: "%.2f", self.activityManager.distance),
+                        distanceValue: String(format: "%.2f", self.activityManager.totalDistance),
                         distanceUnit: "km",
                         paceValue: String(format: "%.2f", self.activityManager.getAveragePace()),
                         paceUnit: "/km",
@@ -199,6 +199,7 @@ class ActivityLiveTrackingViewController: UIViewController {
                         timeHour: String(format: "%02d", self.activityManager.hours),
                         timeMin: String(format: "%02d", self.activityManager.minutes),
                         timeSec: String(format: "%02d", self.activityManager.seconds),
+                        basePoints: self.activityManager.pointsEarned(),
                         mapImage: self.captureMapImage(from: self.mapManager.mapView)!,
                         note: "",
                         isPublic: false,
@@ -228,14 +229,14 @@ class ActivityLiveTrackingViewController: UIViewController {
     func addCoordinateIfValid(_ newLocation: CLLocation) -> Bool {
         if mapManager.path.count() == 0 {
                return true
-           }
+        }
 
         let lastCoordinate = mapManager.path.coordinate(at: mapManager.path.count() - 1)
         let lastLocation = CLLocation(latitude: lastCoordinate.latitude,
                                      longitude: lastCoordinate.longitude)
 
-        let distance = newLocation.distance(from: lastLocation)
-        if distance > 5 {
+        let distance = newLocation.distance(from: lastLocation)  // distance here is in meters
+        if distance > 2 {
             return true
         }
         

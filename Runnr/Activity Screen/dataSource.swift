@@ -9,6 +9,8 @@ import UIKit
 class DataSource{
     private var activities: [MyRunActivity] = []
     private var activitiesFriends: [FriendsRunActivity] = []
+    private var totalRunnrPoints: Int = 0
+    
     static let shared = DataSource()
     
     private init() {
@@ -46,6 +48,7 @@ class DataSource{
         )]
         
         self.activitiesFriends = friendsSampleData
+        self.totalRunnrPoints = 0
     }
     
     func getFriendsActivityData() -> [FriendsRunActivity] {
@@ -63,6 +66,10 @@ class DataSource{
         if !activities.isEmpty {
             activities.removeLast()
         }
+    }
+    
+    func updateTotalRunnrPoints(with points: Int) {
+        totalRunnrPoints += points
     }
 }
 
