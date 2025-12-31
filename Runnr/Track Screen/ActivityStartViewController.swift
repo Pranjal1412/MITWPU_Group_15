@@ -12,10 +12,14 @@ import GoogleMaps
 class ActivityStartViewController: UIViewController {
     
     @IBOutlet weak var labelScreenTitle: UILabel!
+    @IBOutlet weak var labelTotalPoints: UILabel!
     
     let userLocation = UserLocationManager()
     var isMapInitialized = false
     let systemOS = UIDevice.current.systemVersion
+    var totalPoints: Int {
+        DataSource.shared.getTotalRunnrPoints()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +35,10 @@ class ActivityStartViewController: UIViewController {
         labelScreenTitle.sizeToFit()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        labelTotalPoints.text = "\(totalPoints)"
+    }
+    
     override func viewDidLayoutSubviews() {
         userLocation.onLocationUpdate = { location in
             

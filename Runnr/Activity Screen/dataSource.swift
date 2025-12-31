@@ -6,7 +6,7 @@
 //
 import UIKit
         
-class DataSource{
+class DataSource {
     private var activities: [MyRunActivity] = []
     private var activitiesFriends: [FriendsRunActivity] = []
     private var totalRunnrPoints: Int = 0
@@ -70,6 +70,10 @@ class DataSource{
     
     func updateTotalRunnrPoints(with points: Int) {
         totalRunnrPoints += points
+    }
+    
+    func getTotalRunnrPoints() -> Int {
+        return totalRunnrPoints
     }
 }
 
