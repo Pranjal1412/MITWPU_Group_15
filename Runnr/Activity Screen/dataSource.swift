@@ -9,7 +9,9 @@ import UIKit
 class DataSource {
     private var activities: [MyRunActivity] = []
     private var activitiesFriends: [FriendsRunActivity] = []
+    
     private var totalRunnrPoints: Int = 0
+    private var totalDistance: Double = 0
     
     static let shared = DataSource()
     
@@ -74,6 +76,18 @@ class DataSource {
     
     func getTotalRunnrPoints() -> Int {
         return totalRunnrPoints
+    }
+    
+    func getTotalActivities() -> Int {
+        return activities.count
+    }
+    
+    func updateTotalDistance(with distance: Double) {
+        totalDistance += distance
+    }
+    
+    func getTotalKms() -> Double {
+        return totalDistance
     }
 }
 

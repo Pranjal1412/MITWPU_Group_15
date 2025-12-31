@@ -2,18 +2,19 @@ import UIKit
 import GoogleMaps
 
 struct MyRunActivity {
-    let name: String
-    let date: String
+    let userName: String
+    let timeStamp: String
     var runTitle: String
-    let distanceValue: String
+    let distanceValue: Double
     let distanceUnit: String
-    let paceValue: String
+    let paceValue: Double
     let paceUnit: String
-    let stepsValue: String
-    let timeHour: String
-    let timeMin: String
-    let timeSec: String
+    let stepsValue: Int
+    let timeHour: Int
+    let timeMin: Int
+    let timeSec: Int
     let basePoints: Int
+    let skillPoints: Int
     let mapImage: UIImage
     var note: String
     var isPublic: Bool

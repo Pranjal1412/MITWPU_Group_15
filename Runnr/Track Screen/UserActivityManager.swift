@@ -31,6 +31,7 @@ class UserActivityManager {
     var steps : Int = 0
     
     var livePace : Double = 0.0
+    var avgPace : Double = 0.0
     
     init (timerLabel: UILabel) {
         self.timerLabel = timerLabel
@@ -74,8 +75,9 @@ class UserActivityManager {
         seconds = totalSeconds % 60
         minutes = (totalSeconds % 3600) / 60
         hours = totalSeconds / 3600
-    
+        
         return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+
     }
     
     func startUpdatingDistance(with location: CLLocation) {
@@ -120,13 +122,31 @@ class UserActivityManager {
     func getAveragePace() -> Double {
         
         if totalDistance >= 0.1 && totalTime >= 60 {
-            return (totalTime / 60) / totalDistance
+            avgPace = (totalTime / 60) / totalDistance
         }
         
-        return 0.00
+        return avgPace
     }
     
-    func pointsEarned() -> Int {
+    func skillPointsEarned() -> Int {
+        switch avgPace {
+            
+            case 0:
+                return 0
+            case 1..<4:
+                return 100
+                
+            case 4..<6:
+                return 50
+                
+            case 6..<8:
+                return 30
+            default:
+                return 10
+        }
+    }
+    
+    func basePointsEarned() -> Int {
         return (Int(totalDistance) * (Int(totalDistance) + 1)) * 5
     }
 }

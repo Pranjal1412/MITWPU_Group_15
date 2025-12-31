@@ -118,8 +118,8 @@ class ActivityLiveTrackingViewController: UIViewController {
     
     @IBAction func pauseButtonPressed(_ sender: UIButton) {
         
-        buttonEndRun.layer.borderWidth = 1.0
-        buttonEndRun.layer.borderColor = UIColor.accent.cgColor
+//        buttonEndRun.layer.borderWidth = 1.0
+//        buttonEndRun.layer.borderColor = UIColor.accent.cgColor
         
         if buttonPause.tag == 0 {
             
@@ -188,22 +188,23 @@ class ActivityLiveTrackingViewController: UIViewController {
             self.userLocation.activityStarted = false
                         
             let newActivity = MyRunActivity(
-                        name: "Ava Brooks",
-                        date: self.activityManager.timeStamp!,
-                        runTitle: "",
-                        distanceValue: String(format: "%.2f", self.activityManager.totalDistance),
-                        distanceUnit: "km",
-                        paceValue: String(format: "%.2f", self.activityManager.getAveragePace()),
-                        paceUnit: "/km",
-                        stepsValue: String(self.activityManager.totalSteps),
-                        timeHour: String(format: "%02d", self.activityManager.hours),
-                        timeMin: String(format: "%02d", self.activityManager.minutes),
-                        timeSec: String(format: "%02d", self.activityManager.seconds),
-                        basePoints: self.activityManager.pointsEarned(),
-                        mapImage: self.captureMapImage(from: self.mapManager.mapView)!,
-                        note: "",
-                        isPublic: false,
-                        routeCoordinates: self.convertPathToCoordinates(self.mapManager.path))
+                userName: "Ava Brooks",
+                timeStamp: self.activityManager.timeStamp!,
+                runTitle: "",
+                distanceValue: self.activityManager.totalDistance,
+                distanceUnit: "km",
+                paceValue: self.activityManager.getAveragePace(),
+                paceUnit: "/km",
+                stepsValue: self.activityManager.totalSteps,
+                timeHour: self.activityManager.hours,
+                timeMin: self.activityManager.minutes,
+                timeSec: self.activityManager.seconds,
+                basePoints: self.activityManager.basePointsEarned(),
+                skillPoints: self.activityManager.skillPointsEarned(),
+                mapImage: self.captureMapImage(from: self.mapManager.mapView)!,
+                note: "",
+                isPublic: false,
+                routeCoordinates: self.convertPathToCoordinates(self.mapManager.path))
 
             let destinationVC = ActivitySaveViewController()
             destinationVC.activityData = newActivity
@@ -249,9 +250,7 @@ class ActivityLiveTrackingViewController: UIViewController {
         viewHeartRate.layer.cornerRadius = 20
         viewTime.layer.cornerRadius = 20
         viewDistance.layer.cornerRadius = 20
-        
-        buttonPause.layer.cornerRadius = buttonPause.frame.height / 2
-        buttonEndRun.layer.cornerRadius = buttonEndRun.frame.height / 2
+
         buttonLockScroll.layer.cornerRadius = buttonLockScroll.frame.height / 2
         
         buttonEndRun.frame.origin.x = (view.frame.width - buttonPause.frame.width) / 2
@@ -286,12 +285,51 @@ class ActivityLiveTrackingViewController: UIViewController {
     func settingPauseButtonImg() {
         buttonPause.contentVerticalAlignment = .fill
         buttonPause.contentHorizontalAlignment = .fill
-//        buttonPause.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 50, leading: 50, bottom: 50, trailing: 50)
-        buttonPause.imageEdgeInsets = UIEdgeInsets(top: 32, left: 35, bottom: 32, right: 35)
+        buttonPause.layer.cornerRadius = buttonPause.frame.height / 2
         
         buttonEndRun.contentVerticalAlignment = .fill
         buttonEndRun.contentHorizontalAlignment = .fill
-//        buttonEndRun.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 38, leading: 38, bottom: 38, trailing: 38)
+        buttonEndRun.layer.borderWidth = 1
+        buttonEndRun.layer.borderColor = UIColor.accent.cgColor
+        buttonEndRun.layer.cornerRadius = buttonEndRun.frame.height / 2
+        
+//        var pauseButtonConfig = UIButton.Configuration.plain()
+//
+//        pauseButtonConfig.image = UIImage(systemName: "pause.fill")
+//        pauseButtonConfig.baseForegroundColor = .black
+//
+//        pauseButtonConfig.background.backgroundColor = .accent
+//        pauseButtonConfig.background.cornerRadius = 20
+//
+//        pauseButtonConfig.contentInsets = NSDirectionalEdgeInsets(
+//            top: 0,
+//            leading: 0,
+//            bottom: 0,
+//            trailing: 0
+//        )
+//
+//        buttonPause.configuration = pauseButtonConfig
+//    
+//        var endButtonConfig = UIButton.Configuration.plain()
+//
+//        endButtonConfig.image = UIImage(systemName: "square.fill")
+//        endButtonConfig.baseForegroundColor = .accent
+//
+//        endButtonConfig.background.strokeColor = .accent
+//        endButtonConfig.background.strokeWidth = 1
+//        endButtonConfig.background.backgroundColor = .black
+//        endButtonConfig.background.cornerRadius = buttonEndRun.frame.height / 2
+//
+//        endButtonConfig.contentInsets = NSDirectionalEdgeInsets(
+//            top: 0,
+//            leading: 0,
+//            bottom: 0,
+//            trailing: 0
+//        )
+//
+//        buttonEndRun.configuration = endButtonConfig
+        
+        buttonPause.imageEdgeInsets = UIEdgeInsets(top: 32, left: 35, bottom: 32, right: 35)
         buttonEndRun.imageEdgeInsets = UIEdgeInsets(top: 38, left: 38, bottom: 38, right: 38)
     }
     

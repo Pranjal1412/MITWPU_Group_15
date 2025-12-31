@@ -89,7 +89,9 @@ class ActivitySaveViewController: UIViewController {
         activityData.isPublic = switchIsActivityPublic.isOn
         
         self.datsource.addMyActivity(activityData)
-        self.datsource.updateTotalRunnrPoints(with: activityData.basePoints)
+        self.datsource.updateTotalRunnrPoints(with: activityData.basePoints + activityData.skillPoints)
+        self.datsource.updateTotalDistance(with: activityData.distanceValue)
+        
         print("After passing count: \(self.datsource.getMyActivityData().count)")
         
         let destinationVC = ActivitySummaryViewController()
@@ -120,18 +122,18 @@ class ActivitySaveViewController: UIViewController {
         labelDescription.text = NSLocalizedString( "Anyone on Runnr can see your activity", comment: "")
         labelRunSummary.text = NSLocalizedString( "Run Summary", comment: "")
         labelPublicActivity.text = NSLocalizedString( "Public Activity", comment: "")
-        labelTimeStamp.text = self.activityData.date
+        labelTimeStamp.text = self.activityData.timeStamp
         
         labelDescription.sizeToFit()
         
         labelPace.text = NSLocalizedString( "Pace", comment: "")
-        labelPaceValue.text = self.activityData.paceValue + " " + self.activityData.paceUnit
+        labelPaceValue.text = String(format: "%.2f", self.activityData.paceValue) + " " + self.activityData.paceUnit
         labelTime.text = NSLocalizedString( "Time", comment: "")
-        labelTimeValue.text = self.activityData.timeHour + " : " + self.activityData.timeMin + " : " + self.activityData.timeSec
+        labelTimeValue.text = String(format: "%02d : %02d : %02d", self.activityData.timeHour, self.activityData.timeMin, self.activityData.timeSec)
         labelTimeValue.sizeToFit()
         labelCalories.text = NSLocalizedString( "Calories", comment: "")
         labelDistance.text = NSLocalizedString( "Distance", comment: "")
-        labelDistanceValue.text = self.activityData.distanceValue + " " + self.activityData.distanceUnit
+        labelDistanceValue.text = String(format: "%.2f", self.activityData.distanceValue) + " " + self.activityData.distanceUnit
     }
     
     func defaultActivityTitle() -> String {
