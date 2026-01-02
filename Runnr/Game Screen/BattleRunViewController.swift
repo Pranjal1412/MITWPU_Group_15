@@ -22,11 +22,10 @@
         @IBOutlet weak var labelYourPoints: UILabel!
         @IBOutlet weak var labelTime: UILabel!
         @IBOutlet weak var viewEnds: UIView!
-     
+ 
         let game = BattleRunGame()
         var boardController: BoardController?
         
-        // Camera rig for orbiting and zooming
         private let cameraRig = Entity()
         private var orbitCenter: SIMD3<Float> = .zero
 
@@ -57,7 +56,6 @@
         
         func setupAR() {
             arView.cameraMode = .nonAR
-            // FIXED: Pure black background
             arView.environment.background = .color(.black)
             
             let lightAnchor = AnchorEntity(world: .zero)
@@ -67,19 +65,20 @@
             lightAnchor.addChild(sun)
             arView.scene.addAnchor(lightAnchor)
 
-            // Camera setup
             let camera = PerspectiveCamera()
             cameraRig.addChild(camera)
             let rigAnchor = AnchorEntity(world: .zero)
             rigAnchor.addChild(cameraRig)
             arView.scene.addAnchor(rigAnchor)
 
-            // Gestures
+            // Single Tap for capturing
             let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
             arView.addGestureRecognizer(tap)
-            let pinch = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch(_:)))
+            
+            // Pinch and Pan for camera
+            let pinch = UIPinchGestureRecognizer(target: self, action:#selector(handlePinch(_:)))
             arView.addGestureRecognizer(pinch)
-            let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
+            let pan = UIPanGestureRecognizer(target: self, action:#selector(handlePan(_:)))
             arView.addGestureRecognizer(pan)
         }
         
@@ -91,51 +90,49 @@
                 boardAnchor.addChild(root)
                 arView.scene.addAnchor(boardAnchor)
 
-                root.scale = [7.0, 7.0, 7.0]
+                root.scale = [9.0, 9.0, 9.0]
                 root.position = [0, 0, 0]
                 root.orientation = simd_quatf(angle: 0.785, axis: [1, 0, 0])
 
                 self.frame(entity: root)
                 boardController = BoardController(root: root, game: game)
-                print("✅ Board loaded. \(boardController!.tileEntities.count) tiles")
             } catch {
                 print("❌ Load failed: \(error)")
             }
         }
 
+        // --- NEW BULLETPROOF TAP LOGIC ---
         @objc func handleTap(_ recognizer: UITapGestureRecognizer) {
             let location = recognizer.location(in: arView)
-            guard let controller = boardController else { return }
             
-            // Match screen tap to 3D tiles
-            for (id, entity) in controller.tileEntities {
-                let worldPos = entity.position(relativeTo: nil)
-                if let screenPos = arView.project(worldPos) {
-                    let dx = Float(screenPos.x) - Float(location.x)
-                    let dy = Float(screenPos.y) - Float(location.y)
-                    let distance = sqrtf(dx*dx + dy*dy)
-                    
-                    if distance < 80 { // Hit area
-                        handleTileTap(id: id)
+            // 1. Perform a physics hit-test (Raycast)
+            // This finds exactly what your finger is touching in the 3D world.
+            let results = arView.hitTest(location)
+            
+            if let firstHit = results.first {
+                var entity: Entity? = firstHit.entity
+                
+                // 2. Climb up the parent tree to find the one named "Tile_X"
+                while let current = entity {
+                    if current.name.hasPrefix("Tile_") {
+                        handleTileTap(id: current.name)
                         return
                     }
+                    entity = current.parent
                 }
             }
+            print("💨 Tap missed all tiles.")
         }
         
         private func handleTileTap(id: String) {
             guard let controller = boardController, let tile = game.tiles[id] else { return }
             
-            print("👆 Tapped: \(id) | Current Points: \(game.points[game.currentPlayer] ?? 0)")
-
             if game.canCapture(tile: tile, cost: 10) {
                 game.capture(tileID: id, cost: 10)
                 updateTileMaterial(id: id, controller: controller)
                 updatePointsLabels()
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                print("✅ Captured: \(id)")
-            } else {
-                print("❌ Capture Failed: Check points or owner")
+                print("✅ Captured precisely: \(id)")
             }
         }
 
@@ -144,9 +141,8 @@
                   let tileData = game.tiles[id] else { return }
             
             let color = ownerColor(for: tileData.owner)
-            let material = SimpleMaterial(color: color, isMetallic: false)
+            let material = UnlitMaterial(color: color)
             
-            // FIXED: Explicitly update the ModelComponent to force color refresh
             if var modelComponent = model.model {
                 modelComponent.materials = [material]
                 model.model = modelComponent
@@ -156,7 +152,7 @@
         private func ownerColor(for owner: TileOwner) -> UIColor {
             switch owner {
             case .none: return .gray
-            case .player(.me): return .systemBlue
+            case .player(.me): return .systemCyan
             case .player(.lea): return .systemYellow
             }
         }
@@ -166,7 +162,7 @@
             labelFriendsPoints.text = "Ⓡ \(game.points[.lea] ?? 0)"
         }
 
-        // Camera controls
+        // Camera rig movement
         @objc private func handlePinch(_ recognizer: UIPinchGestureRecognizer) {
             let scale = Float(recognizer.scale); recognizer.scale = 1
             let delta = (1 - scale) * 2.0
@@ -191,7 +187,7 @@
         }
     }
 
-    // MARK: - Game Logic
+    // MARK: - Game & Controller Classes
 
     enum Player { case me, lea }
     enum TileOwner { case none, player(Player) }
@@ -208,7 +204,7 @@
         }
 
         func capture(tileID: String, cost: Int) {
-            guard canCapture(tile: tiles[tileID]!, cost: cost) else { return }
+            guard let tile = tiles[tileID], canCapture(tile: tile, cost: cost) else { return }
             points[currentPlayer]! -= cost
             tiles[tileID]?.owner = .player(currentPlayer)
         }
@@ -225,13 +221,22 @@
 
         private func setupTiles() {
             root.visit { entity in
-                guard let modelEntity = entity as? ModelEntity, entity.name.hasPrefix("Tile_") else { return }
-                // Ensure collision is generated for hit testing
-                modelEntity.generateCollisionShapes(recursive: false)
-                modelEntity.components.set(InputTargetComponent())
-                self.tileEntities[entity.name] = modelEntity
-                self.game.tiles[entity.name] = TileState(id: entity.name, owner: .none)
+                if entity.name.hasPrefix("Tile_") {
+                    if let model = entity as? ModelEntity {
+                        registerTile(model, withName: entity.name)
+                    } else if let childModel = entity.children.first(where: { $0 is ModelEntity }) as? ModelEntity {
+                        registerTile(childModel, withName: entity.name)
+                    }
+                }
             }
+        }
+
+        private func registerTile(_ entity: ModelEntity, withName name: String) {
+            // IMPORTANT: Generate collision shapes so the Raycast laser can hit it
+            entity.generateCollisionShapes(recursive: false)
+            entity.components.set(InputTargetComponent())
+            self.tileEntities[name] = entity
+            self.game.tiles[name] = TileState(id: name, owner: .none)
         }
     }
 
