@@ -262,9 +262,15 @@ extension AveragePaceViewController: UIScrollViewDelegate {
         let barSpacing: CGFloat = 24
         let weekWidth = (barWidth + barSpacing) * CGFloat(daysPerWeek)
         
-        let weekIndex = Int(scrollView.contentOffset.x / weekWidth)
+        // ADDITION: Use the center of the visible area to determine the active week
+        // This ensures the label changes when you are halfway through the transition
+        let midPointX = scrollView.contentOffset.x + (scrollView.frame.width / 2)
+        let weekIndex = Int(midPointX / weekWidth)
         
-        let totalWeeks = Int(ceil(Double(setupBarValues().count) / Double(daysPerWeek)))
+        let totalBars = setupBarValues().count
+        let totalWeeks = Int(ceil(Double(totalBars) / Double(daysPerWeek)))
+        
+        // Clamp the index between 0 and the last week index
         let currentWeek = max(0, min(weekIndex, totalWeeks - 1))
         
         updateWeekLabel(for: currentWeek)
