@@ -11,6 +11,7 @@ import CoreMotion
 
 class ActivityLiveTrackingViewController: UIViewController {
 
+    @IBOutlet weak var viewCountdown: UIView!
     @IBOutlet weak var viewAllData: UIView!
     @IBOutlet weak var viewTime: UIView!
     @IBOutlet weak var viewPace: UIView!
@@ -19,6 +20,8 @@ class ActivityLiveTrackingViewController: UIViewController {
     @IBOutlet weak var buttonPause: UIButton!
     @IBOutlet weak var buttonEndRun: UIButton!
     @IBOutlet weak var buttonLockScroll: UIButton!
+    @IBOutlet weak var labelTimeCountdown: UILabel!
+    @IBOutlet weak var labelQuote: UILabel!
     
     @IBOutlet weak var labelDistance: UILabel!
     @IBOutlet weak var labelTime: UILabel!
@@ -45,6 +48,10 @@ class ActivityLiveTrackingViewController: UIViewController {
     var scrollViewInitialized = false
     var isMapInitialized = false
     
+    var timer : Timer?
+    var counter = 3
+    var quotes: [String] = ["Starting Your Tracker...", "You Got This", "Lock in", "Lace Up"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -52,6 +59,8 @@ class ActivityLiveTrackingViewController: UIViewController {
         view.overrideUserInterfaceStyle = .dark
         
         scrollView.delegate = self
+        scrollView.isScrollEnabled = false
+        pageControl.isHidden = true
         
         settingScreenElements()
         settingPauseButtonImg()
@@ -105,6 +114,8 @@ class ActivityLiveTrackingViewController: UIViewController {
             print("Path Count: \(self.mapManager.path.count())")
             
         }
+        
+        self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
     }
         
     override func viewDidAppear(_ animated: Bool) {
@@ -225,6 +236,32 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         present(alert, animated: true , completion: nil)
         
+    }
+    
+    @objc func updateTimer() {
+        if counter < -1 {
+            self.viewCountdown.isHidden = true
+            self.scrollView.isScrollEnabled = true
+            pageControl.isHidden = false
+            timer?.invalidate()
+            timer = nil
+        }
+        else if counter == -1 {
+            self.labelTimeCountdown.text = "Go!"
+            self.labelQuote.isHidden = true
+        }
+        else if counter == 0 {
+            self.labelTimeCountdown.font = UIFont.systemFont(ofSize: 80, weight: .black)
+            self.labelTimeCountdown.text = "Ready!"
+            self.labelQuote.text = quotes[self.counter]
+        }
+        else {
+            self.labelTimeCountdown.text = "\(Int(self.counter))"
+            self.labelQuote.text = quotes[self.counter]
+        }
+        
+        
+        counter -= 1
     }
     
     func addCoordinateIfValid(_ newLocation: CLLocation) -> Bool {
