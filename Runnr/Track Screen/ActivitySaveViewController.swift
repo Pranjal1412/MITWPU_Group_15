@@ -96,6 +96,7 @@ class ActivitySaveViewController: UIViewController {
         
         let destinationVC = ActivitySummaryViewController()
         destinationVC.activityData = self.activityData
+        destinationVC.showAlert = true
         
         destinationVC.modalPresentationStyle = .fullScreen
         navigationController?.present(destinationVC, animated: true)

@@ -17,6 +17,7 @@ class ActivitySummaryViewController: UIViewController {
     var isMapInitialized: Bool = false
     let userLocation = UserLocationManager()
     var activityData : MyRunActivity?
+    var showAlert : Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,6 +76,18 @@ class ActivitySummaryViewController: UIViewController {
             }
         }
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if self.showAlert {
+            let alert = UIAlertController(title: "Congratulations!", message: "You have earned \(activityData!.basePoints + activityData!.skillPoints) points. Claim them now!", preferredStyle: .alert)
+            let claimPointsAction = UIAlertAction(title: "Claim Points", style: .default)
+        
+            alert.overrideUserInterfaceStyle = .dark
+            alert.addAction(claimPointsAction)
+            
+            present(alert, animated: true , completion: nil)
+        }
     }
     
     @IBAction func backButtonPressed(_ sender: UIButton) {

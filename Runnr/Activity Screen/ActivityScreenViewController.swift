@@ -151,6 +151,7 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
             
             let destinationVC = ActivitySummaryViewController()
             destinationVC.activityData = activity
+            destinationVC.showAlert = false
             
             destinationVC.modalPresentationStyle = .overFullScreen
             self.present(destinationVC, animated: true)

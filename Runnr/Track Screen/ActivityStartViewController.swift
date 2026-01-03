@@ -16,7 +16,9 @@ class ActivityStartViewController: UIViewController {
     
     let userLocation = UserLocationManager()
     var isMapInitialized = false
-    let systemOS = UIDevice.current.systemVersion
+    let topGradientView = UIView()
+    let bottomGradientView = UIView()
+    
     var totalPoints: Int {
         DataSource.shared.getTotalRunnrPoints()
     }
@@ -48,17 +50,17 @@ class ActivityStartViewController: UIViewController {
                 let topOffset = self.labelScreenTitle.frame.height + self.labelScreenTitle.frame.origin.y + 20.0
                 var mapView = GMSMapView()
                 
-                if self.systemOS < "26" {
-                    let bottomInset = self.view.safeAreaInsets.bottom
+                if #available(iOS 26.0, *) {
                     mapView = mapManager.initializeMaps(withX: 0.0, withY: topOffset,
                                                        withWidth: self.view.frame.width,
-                                                       withHeight: self.view.frame.height - bottomInset - topOffset,
+                                                       withHeight: self.view.frame.height  - topOffset,
                                                         location: location.coordinate)
                 }
                 else {
+                    let bottomInset = self.view.safeAreaInsets.bottom
                     mapView = mapManager.initializeMaps(withX: 0.0, withY: topOffset,
                                                        withWidth: self.view.frame.width,
-                                                       withHeight: self.view.frame.height - topOffset,
+                                                       withHeight: self.view.frame.height - topOffset - bottomInset,
                                                        location: location.coordinate)
                 }
                 
@@ -66,7 +68,13 @@ class ActivityStartViewController: UIViewController {
                 mapView.settings.zoomGestures = false
                 mapView.settings.rotateGestures = false
 //                mapManger.mapBehavior(isEnabled: false)
+                self.topGradientView.frame = mapView.bounds
+                self.topGradientView.frame.origin.y = mapView.frame.origin.y - 5
+                self.topGradientView.frame.origin.x = mapView.frame.origin.x
+                addTopGradient(to: self.topGradientView)
+                
                 self.view.addSubview(mapView)
+                self.view.addSubview(self.topGradientView)
                 
                 self.createStartButton()
                 self.userLocation.locationManager.stopUpdatingLocation()
@@ -107,7 +115,7 @@ class ActivityStartViewController: UIViewController {
         
         let destinationVC = ActivitySetGoalViewController()
         
-        if self.systemOS >= "26.0" {
+        if #available(iOS 26.0, *) {
             destinationVC.modalPresentationStyle = .overFullScreen
         }
         

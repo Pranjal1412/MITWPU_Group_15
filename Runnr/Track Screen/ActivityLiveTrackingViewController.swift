@@ -47,6 +47,7 @@ class ActivityLiveTrackingViewController: UIViewController {
     
     var scrollViewInitialized = false
     var isMapInitialized = false
+    let topGradientView = UIView()
     
     var timer : Timer?
     var counter = 3
@@ -73,6 +74,8 @@ class ActivityLiveTrackingViewController: UIViewController {
         activityManager.activityTimeStamp()
         activityManager.startTimer()
         activityManager.startStepsTracking()
+        
+        self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
         
         userLocation.onLocationUpdate = { location in
         
@@ -115,7 +118,18 @@ class ActivityLiveTrackingViewController: UIViewController {
             
         }
         
-        self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        self.topGradientView.frame.size.width = self.view.bounds.width
+        self.topGradientView.frame.size.height = 100.0
+        self.topGradientView.frame.origin.y = 0.0
+        self.topGradientView.frame.origin.x = 0.0
+        addTopGradient(to: self.topGradientView)
+        viewActivityTrack.addSubview(self.topGradientView)
+        
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.applyGradient(to: mapManager.mapView)
     }
         
     override func viewDidAppear(_ animated: Bool) {
@@ -264,6 +278,21 @@ class ActivityLiveTrackingViewController: UIViewController {
         counter -= 1
     }
     
+    func applyGradient(to view: UIView) {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = view.bounds
+
+        gradientLayer.colors = [
+            UIColor.red.cgColor,
+            UIColor.white.cgColor
+        ]
+
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+        gradientLayer.endPoint = CGPoint(x: 1, y: 1)
+
+        view.layer.insertSublayer(gradientLayer, at: 0)
+    }
+    
     func addCoordinateIfValid(_ newLocation: CLLocation) -> Bool {
         if mapManager.path.count() == 0 {
                return true
@@ -274,7 +303,7 @@ class ActivityLiveTrackingViewController: UIViewController {
                                      longitude: lastCoordinate.longitude)
 
         let distance = newLocation.distance(from: lastLocation)  // distance here is in meters
-        if distance > 2 {
+        if distance > 4 {
             return true
         }
         
