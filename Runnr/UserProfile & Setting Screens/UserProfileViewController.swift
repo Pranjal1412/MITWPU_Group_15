@@ -47,6 +47,11 @@ class UserProfileViewController: UIViewController {
         self.loadAllData()
     }
 
+    @IBAction func editProfilePressed(_ sender: UIButton) {
+        isSignUpComplete = false
+    }
+    
+    
     @IBAction func buttonBackPressed(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
@@ -98,13 +103,12 @@ class UserProfileViewController: UIViewController {
             self.labelCategory.text = runnrCategories[3].name
             
             self.progressView.progress = 1
-            self.labelCategoryGoalLeft.text = "Goal Completed!"
+            self.labelCategoryGoalLeft.text = localize(stringWith: "Goal Completed!")
             self.labelCategoryGoalLeft.sizeToFit()
-            self.labelCategoryGoal.text = "More to Come!!"
+            self.labelCategoryGoal.text = localize(stringWith: "More to Come!!")
             self.labelCategoryGoal.sizeToFit()
         }
         
-        self.labelCategory.adjustsFontForContentSizeCategory = true
     }
 
 }

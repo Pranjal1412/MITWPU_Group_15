@@ -7,6 +7,17 @@
 
 import UIKit
 
+var isSignUpComplete : Bool {
+    get {
+        return UserDefaults.standard.object(forKey: "isSignUpComplete") as? Bool ?? false
+    }
+    
+    set(value) {
+        UserDefaults.standard.set(value, forKey: "isSignUpComplete")
+        UserDefaults.standard.synchronize()
+    }
+}
+
 func addTopGradient(to view: UIView) {
     let gradient = CAGradientLayer()
     gradient.frame = view.bounds
@@ -53,4 +64,8 @@ func addBottomGradient(to view: UIView) {
     gradient.endPoint = CGPoint(x: 0.5, y: 0)
 
     view.layer.insertSublayer(gradient, at: 0)
+}
+
+func localize(stringWith key: String) -> String {
+    NSLocalizedString(key, comment: "")
 }

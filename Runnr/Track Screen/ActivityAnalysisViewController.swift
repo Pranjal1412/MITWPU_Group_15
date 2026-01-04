@@ -54,35 +54,35 @@ class ActivityAnalysisViewController: UIViewController {
     
     func setElements() {
         
-        labelUserName.text = NSLocalizedString("Ava Brooks", comment: "")
+        labelUserName.text = localize(stringWith: "Ava Brooks")
         labelUserName.sizeToFit()
     
-        labelActivityTitle.text = NSLocalizedString(activityData!.runTitle, comment: "")
+        labelActivityTitle.text = localize(stringWith: activityData!.runTitle)
         labelActivityTitle.sizeToFit()
         
         labelActivityDate.text = activityData?.timeStamp
         labelActivityDate.sizeToFit()
         
-        labelActivityRemark.text = NSLocalizedString(activityData!.note, comment: "")
+        labelActivityRemark.text = localize(stringWith: activityData!.note)
         
-        labelDistance.text = NSLocalizedString("Distance", comment: "")
+        labelDistance.text = localize(stringWith:"Distance")
         labelDistance.sizeToFit()
         
-        labelPace.text = NSLocalizedString("Pace", comment: "")
+        labelPace.text = localize(stringWith: "Pace")
         labelPace.sizeToFit()
         
-        labelTime.text = NSLocalizedString("Time", comment: "")
+        labelTime.text = localize(stringWith: "Time")
         labelTime.sizeToFit()
         
-        labelCalories.text = NSLocalizedString("Calories", comment: "")
+        labelCalories.text = localize(stringWith: "Calories")
         labelCalories.sizeToFit()
         
-        labelSteps.text = NSLocalizedString("Steps Taken", comment: "")
+        labelSteps.text = localize(stringWith: "Steps Taken")
         labelSteps.sizeToFit()
         
-        labelBasePoints.text = NSLocalizedString("Base Points: ", comment: "") + String(self.activityData!.basePoints)
-        labelSkillPoints.text = NSLocalizedString("Skill Points: ", comment: "") + String(self.activityData!.skillPoints)
-        labelTotalPoints.text = NSLocalizedString("Points: ", comment: "") + String(self.activityData!.basePoints + self.activityData!.skillPoints)
+        labelBasePoints.text = localize(stringWith: "Base Points: ") + String(self.activityData!.basePoints)
+        labelSkillPoints.text = localize(stringWith: "Skill Points: ") + String(self.activityData!.skillPoints)
+        labelTotalPoints.text = localize(stringWith: "Points: ") + String(self.activityData!.basePoints + self.activityData!.skillPoints)
         
         viewActivityStats.layer.cornerRadius = 10
         imageViewPhotos.layer.cornerRadius = 10

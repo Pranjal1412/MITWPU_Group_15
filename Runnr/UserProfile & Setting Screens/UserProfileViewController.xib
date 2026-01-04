@@ -144,6 +144,9 @@
                     <state key="normal" title="Edit Profile">
                         <color key="titleColor" systemColor="labelColor"/>
                     </state>
+                    <connections>
+                        <action selector="editProfilePressed:" destination="-1" eventType="touchUpInside" id="hBD-5z-XnT"/>
+                    </connections>
                 </button>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="gvH-h2-T8q">
                     <rect key="frame" x="20" y="335" width="362" height="60"/>

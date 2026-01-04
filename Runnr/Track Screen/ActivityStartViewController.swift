@@ -18,6 +18,7 @@ class ActivityStartViewController: UIViewController {
     var isMapInitialized = false
     let topGradientView = UIView()
     let bottomGradientView = UIView()
+    var newUserAlert : Bool?
     
     var totalPoints: Int {
         DataSource.shared.getTotalRunnrPoints()
@@ -35,10 +36,21 @@ class ActivityStartViewController: UIViewController {
         labelScreenTitle.text = NSLocalizedString("Runnr.", comment: "")
         labelScreenTitle.textColor = .accent
         labelScreenTitle.sizeToFit()
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {
         labelTotalPoints.text = "\(totalPoints)"
+        
+        if self.newUserAlert ?? false {
+            let alert = UIAlertController(title: localize(stringWith: "Welcome to Runnr."), message: localize(stringWith: "Congratulations! You’ve unlocked 100 points!"), preferredStyle: .alert)
+            
+            let claimAction = UIAlertAction(title: localize(stringWith: "Claim!"), style: .default, handler: nil)
+            alert.addAction(claimAction)
+            
+            alert.overrideUserInterfaceStyle = .dark
+            present(alert, animated: true, completion: nil)
+        }
     }
     
     override func viewDidLayoutSubviews() {
