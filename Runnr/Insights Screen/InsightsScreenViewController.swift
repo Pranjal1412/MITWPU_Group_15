@@ -8,6 +8,12 @@ class InsightsScreenViewController: UIViewController {
 
     private var calendarView: UICalendarView!
 
+    var myActivities : [MyRunActivity] {
+        DataSource.shared.getMyActivityData()
+    }
+    
+    var lastActivity : MyRunActivity?
+
     // GREEN dates → ORANGE FLAME
     let greenDates: [Date] = [
         Calendar.current.date(byAdding: .day, value: -1, to: Date())!,
@@ -31,19 +37,18 @@ class InsightsScreenViewController: UIViewController {
         super.viewDidLoad()
         view.overrideUserInterfaceStyle = .dark
 
-        setupScrollView()
-        setupCollectionView()
-        setupCalendar()
+        self.setupScrollView()
+        self.setupCollectionView()
+        self.setupCalendar()
+        lastActivity = self.getLatestActivity(from: self.myActivities)
     }
 
-    // MARK: - ScrollView
     private func setupScrollView() {
         scrollViewInsights.alwaysBounceHorizontal = false
         scrollViewInsights.showsHorizontalScrollIndicator = false
         scrollViewInsights.isDirectionalLockEnabled = true
     }
 
-    // MARK: - CollectionView
     private func setupCollectionView() {
         collectionViewInsightsCards.dataSource = self
         collectionViewInsightsCards.delegate = self
@@ -86,16 +91,18 @@ class InsightsScreenViewController: UIViewController {
                 constant: -50
             ),
 
-            // ✅ FIXED HEIGHT (prevents cut-off)
             calendarView.heightAnchor.constraint(equalToConstant: 450),
-
-            // ✅ Defines scroll content height
             calendarView.bottomAnchor.constraint(
                 equalTo: scrollViewInsights.contentLayoutGuide.bottomAnchor,
                 constant: -40
             )
         ])
     }
+    
+    func getLatestActivity(from activities: [MyRunActivity]) -> MyRunActivity? {
+        return activities.max(by: { $0.timeStamp < $1.timeStamp })
+    }
+
 }
 
 // MARK: - Calendar Decorations
@@ -145,6 +152,22 @@ extension InsightsScreenViewController:
             for: indexPath
         ) as! InsightsScreenCollectionViewCell
 
+        switch indexPath.row {
+        case 0:
+            cardDataArray[indexPath.row].number = String(format: "%.2f", lastActivity?.distanceValue ?? 0.00)
+
+        case 1:
+            cardDataArray[indexPath.row].number = String(format: "%2d", lastActivity?.caloriesValue ?? 0)
+        
+        case 2:
+            cardDataArray[indexPath.row].number = String(format: "%2d", lastActivity?.stepsValue ?? 0)
+            
+        case 3:
+            cardDataArray[indexPath.row].number = String(format: "%.2f", lastActivity?.paceValue ?? 0.00)
+
+        default:
+            break
+        }
         cell.configureCell(with: cardDataArray[indexPath.row])
         return cell
     }

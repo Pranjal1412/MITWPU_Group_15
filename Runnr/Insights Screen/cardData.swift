@@ -7,11 +7,11 @@
 
 import Foundation
 struct CardData {
-    let number: String
+    var number: String
     let unit : String
     let title: String
-    let trend: String
-    let trendChevron: String
+    var trend: String
+    var trendChevron: String
 }
 var cardDataArray: [CardData] = [
     CardData(number: "7.2", unit: "Km", title: "Distance Covered",
