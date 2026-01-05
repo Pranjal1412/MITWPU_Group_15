@@ -16,7 +16,7 @@ class UserActivityManager {
     var startTime: Date?
     var accumulatedTime: TimeInterval = 0
     var timerLabel : UILabel
-    var timeStamp : String?
+    var timeStamp : Date?
     
     var totalTime: TimeInterval = 0
     var seconds: Int = 0
@@ -38,10 +38,12 @@ class UserActivityManager {
     }
     
     func activityTimeStamp() {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.timeStyle = .short
-        timeStamp = formatter.string(from: Date())
+//        let formatter = DateFormatter()
+//        formatter.dateStyle = .long
+//        formatter.timeStyle = .short
+//        timeStamp = formatter.string(from: Date())
+        
+        timeStamp = Date()
     }
     
     // same function for resuming the timer if activity is just paused

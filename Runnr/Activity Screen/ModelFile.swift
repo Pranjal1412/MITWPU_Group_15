@@ -3,7 +3,7 @@ import GoogleMaps
 
 struct MyRunActivity {
     let userName: String
-    let timeStamp: String
+    let timeStamp: Date
     var runTitle: String
     let distanceValue: Double
     let distanceUnit: String

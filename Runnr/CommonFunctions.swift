@@ -69,3 +69,10 @@ func addBottomGradient(to view: UIView) {
 func localize(stringWith key: String) -> String {
     NSLocalizedString(key, comment: "")
 }
+
+func formatDate(with date: Date) -> String {
+    let formatter = DateFormatter()
+    formatter.dateStyle = .long
+    formatter.timeStyle = .short
+    return formatter.string(from: date)
+}

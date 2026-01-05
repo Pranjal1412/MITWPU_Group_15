@@ -31,7 +31,7 @@ class MyActivityTableViewCell: UITableViewCell {
 
     func configure(with activity: MyRunActivity) {
         labelName.text = activity.userName
-        labelDate.text = activity.timeStamp
+        labelDate.text = formatDate(with: activity.timeStamp)
         labelRunTitle.text = activity.runTitle
         imageRun.image = activity.mapImage
         labelNote.text = activity.note

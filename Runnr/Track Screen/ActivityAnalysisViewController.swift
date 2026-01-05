@@ -60,7 +60,7 @@ class ActivityAnalysisViewController: UIViewController {
         labelActivityTitle.text = localize(stringWith: activityData!.runTitle)
         labelActivityTitle.sizeToFit()
         
-        labelActivityDate.text = activityData?.timeStamp
+        labelActivityDate.text = formatDate(with: activityData!.timeStamp)
         labelActivityDate.sizeToFit()
         
         labelActivityRemark.text = localize(stringWith: activityData!.note)
