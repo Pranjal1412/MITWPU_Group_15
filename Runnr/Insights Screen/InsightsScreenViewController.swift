@@ -226,7 +226,7 @@ extension InsightsScreenViewController:
             let curMin = latestActivity?.timeMin ?? 0
             let curSec = latestActivity?.timeSec ?? 0
             let currentTotal = curMin * 60 + curSec
-            cell.settingLabelStyle(withValue: String(format: "%d:%02d", curMin, curSec), withUnit: "min")
+            cell.settingLabelStyle(withValue: String(format: "%d:%02d", curMin, curSec), withUnit: "min/km")
 
             if hasPrevious {
                 let prevMin = previousActivity!.timeMin
