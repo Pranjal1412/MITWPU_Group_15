@@ -30,8 +30,8 @@ class MyActivityTableViewCell: UITableViewCell {
     }
 
     func configure(with activity: MyRunActivity) {
-        labelName.text = activity.name
-        labelDate.text = activity.date
+        labelName.text = activity.userName
+        labelDate.text = formatDate(with: activity.timeStamp)
         labelRunTitle.text = activity.runTitle
         imageRun.image = activity.mapImage
         labelNote.text = activity.note
@@ -47,25 +47,25 @@ class MyActivityTableViewCell: UITableViewCell {
 
         // Distance
         let distanceText = NSMutableAttributedString(
-            string: activity.distanceValue,
+            string: String(format: "%.2f", activity.distanceValue),
             attributes: [.font: valueFont, .foregroundColor: UIColor.accent])
         
         distanceText.append(NSAttributedString(string: " " + activity.distanceUnit, attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
         labelDistanceContent.attributedText = distanceText
 
         // Pace
-        let paceText = NSMutableAttributedString(string: activity.paceValue,attributes: [.font: valueFont, .foregroundColor: UIColor.accent])
+        let paceText = NSMutableAttributedString(string: String(format: "%.2f", activity.paceValue),attributes: [.font: valueFont, .foregroundColor: UIColor.accent])
         paceText.append(NSAttributedString(string: " " + activity.paceUnit,attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
         labelPaceContent.attributedText = paceText
 
-        let timeText = NSMutableAttributedString(string: activity.timeHour, attributes: [.font: valueFont, .foregroundColor: UIColor.accent])
+        let timeText = NSMutableAttributedString(string: String(format: "%02d", activity.timeHour), attributes: [.font: valueFont, .foregroundColor: UIColor.accent])
         timeText.append(NSAttributedString(string: "hr", attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
         
-        timeText.append(NSAttributedString(string: " " + activity.timeMin, attributes: [.font: valueFont, .foregroundColor: UIColor.accent]))
+        timeText.append(NSAttributedString(string: " " + String(format: "%02d", activity.timeMin), attributes: [.font: valueFont, .foregroundColor: UIColor.accent]))
         
         timeText.append(NSAttributedString(string: "min", attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
         
-        timeText.append(NSAttributedString(string: " " + activity.timeSec, attributes: [.font: valueFont, .foregroundColor: UIColor.accent]))
+        timeText.append(NSAttributedString(string: " " + String(format: "%02d", activity.timeSec), attributes: [.font: valueFont, .foregroundColor: UIColor.accent]))
         
         timeText.append(NSAttributedString(string: "sec", attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
         

@@ -19,6 +19,14 @@ class ClubScreenViewController: UIViewController {
     
     let systemOS = UIDevice.current.systemVersion
     
+    var friendsDataArray: [friendsData] = [
+        friendsData(profilePhoto: "user1", name: "Dave Johnson", isFollowing: false),
+        friendsData(profilePhoto: "user2", name: "Mark Brown", isFollowing: true),
+        friendsData(profilePhoto: "user3", name: "Sophia Lee", isFollowing: false),
+        friendsData(profilePhoto: "user4", name: "Liam Carter", isFollowing: false)
+    ]
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -180,10 +188,21 @@ extension ClubScreenViewController : UITableViewDataSource, UITableViewDelegate 
         return 4
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! FriendListTableViewCell
-        
+    func tableView(_ tableView: UITableView,
+                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: "CustomCell",
+            for: indexPath
+        ) as! FriendListTableViewCell
+
         cell.configureCell(with: friendsDataArray[indexPath.row])
+
+       
+        cell.followAction = {
+            self.friendsDataArray[indexPath.row].isFollowing.toggle()
+            tableView.reloadRows(at: [indexPath], with: .none)
+        }
         return cell
     }
 }

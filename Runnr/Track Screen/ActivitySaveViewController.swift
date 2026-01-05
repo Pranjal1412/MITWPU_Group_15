@@ -30,12 +30,14 @@ class ActivitySaveViewController: UIViewController {
     @IBOutlet weak var labelTime: UILabel!
     @IBOutlet weak var labelTimeValue: UILabel!
     @IBOutlet weak var labelPace: UILabel!
+    @IBOutlet weak var labelPaceValue: UILabel!
     @IBOutlet weak var labelCalories: UILabel!
+    @IBOutlet weak var labelCaloriesValue: UILabel!
     @IBOutlet weak var labelTimeStamp: UILabel!
     
     @IBOutlet weak var imageView: UIImageView!
     
-    var newActivity: MyRunActivity!
+    var activityData: MyRunActivity!
     var datsource = DataSource.shared
     
     override func viewDidLoad() {
@@ -53,13 +55,13 @@ class ActivitySaveViewController: UIViewController {
 
     @IBAction func cancelButtonPressed(_ sender: UIButton) {
         
-        let alert = UIAlertController(title: NSLocalizedString("Delete Activity", comment: ""),
-                                      message: NSLocalizedString("Are you sure you want to Delete this Activity?", comment: ""),
+        let alert = UIAlertController(title: localize(stringWith: "Delete Activity"),
+                                      message:localize(stringWith: "Are you sure you want to Delete this Activity?"),
                                       preferredStyle: .alert)
               
-        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel)
+        let cancelAction = UIAlertAction(title: localize(stringWith: "Cancel"), style: .cancel)
         
-        let deleteAction = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive, handler: {_ in
+        let deleteAction = UIAlertAction(title: localize(stringWith: "Delete"), style: .destructive, handler: {_ in
             self.datsource.deleteMyActivity()
             print("After passing count: \(self.datsource.getMyActivityData().count)")
             self.navigationController?.dismiss(animated: true, completion: nil)
@@ -75,22 +77,26 @@ class ActivitySaveViewController: UIViewController {
     @IBAction func SaveButtonPressed(_ sender: UIButton) {
         
         if textFieldActivityTitle.text == "" {
-            textFieldActivityTitle.text = "Morning Run"
+            textFieldActivityTitle.text = defaultActivityTitle()
         }
         
         if textViewRemark.text == "" {
             textViewRemark.text = ""
         }
         
-        newActivity.runTitle = textFieldActivityTitle.text!
-        newActivity.note = textViewRemark.text
-        newActivity.isPublic = switchIsActivityPublic.isOn
+        activityData.runTitle = textFieldActivityTitle.text!
+        activityData.note = textViewRemark.text
+        activityData.isPublic = switchIsActivityPublic.isOn
         
-        self.datsource.addMyActivity(newActivity)
+        self.datsource.addMyActivity(activityData)
+        self.datsource.updateTotalRunnrPoints(with: activityData.basePoints + activityData.skillPoints)
+        self.datsource.updateTotalDistance(with: activityData.distanceValue)
+        
         print("After passing count: \(self.datsource.getMyActivityData().count)")
         
         let destinationVC = ActivitySummaryViewController()
-        destinationVC.activityData = self.newActivity
+        destinationVC.activityData = self.activityData
+        destinationVC.showAlert = true
         
         destinationVC.modalPresentationStyle = .fullScreen
         navigationController?.present(destinationVC, animated: true)
@@ -107,7 +113,7 @@ class ActivitySaveViewController: UIViewController {
         textViewRemark.layer.borderColor = UIColor.white.cgColor
         textViewRemark.layer.borderWidth = 0.5
         
-        imageViewMap.image = self.newActivity.mapImage
+        imageViewMap.image = self.activityData.mapImage
         imageViewMap.layer.cornerRadius = 15
         imageView.layer.cornerRadius = 10
     }
@@ -117,18 +123,36 @@ class ActivitySaveViewController: UIViewController {
         labelDescription.text = NSLocalizedString( "Anyone on Runnr can see your activity", comment: "")
         labelRunSummary.text = NSLocalizedString( "Run Summary", comment: "")
         labelPublicActivity.text = NSLocalizedString( "Public Activity", comment: "")
-        labelTimeStamp.text = self.newActivity.date
+        labelTimeStamp.text = formatDate(with: self.activityData.timeStamp)
         
         labelDescription.sizeToFit()
         
         labelPace.text = NSLocalizedString( "Pace", comment: "")
+        labelPaceValue.text = String(format: "%.2f", self.activityData.paceValue) + " " + self.activityData.paceUnit
         labelTime.text = NSLocalizedString( "Time", comment: "")
-        labelTimeValue.text = self.newActivity.timeHour + " : " + self.newActivity.timeMin + " : " + self.newActivity.timeSec
+        labelTimeValue.text = String(format: "%02d : %02d : %02d", self.activityData.timeHour, self.activityData.timeMin, self.activityData.timeSec)
         labelTimeValue.sizeToFit()
         labelCalories.text = NSLocalizedString( "Calories", comment: "")
+        labelCaloriesValue.text = String(format: "%.0f", self.activityData.caloriesValue) + " kcal"
         labelDistance.text = NSLocalizedString( "Distance", comment: "")
-        labelDistanceValue.text = self.newActivity.distanceValue + " " + self.newActivity.distanceUnit
+        labelDistanceValue.text = String(format: "%.2f", self.activityData.distanceValue) + " " + self.activityData.distanceUnit
     }
+    
+    func defaultActivityTitle() -> String {
+        let hour = Calendar.current.component(.hour, from: Date())
+
+        switch hour {
+        case 5..<12:
+            return "Morning Run"
+        case 12..<17:
+            return "Afternoon Run"
+        case 17..<21:
+            return "Evening Run"
+        default:
+            return "Night Run"
+        }
+    }
+
     
 }
 

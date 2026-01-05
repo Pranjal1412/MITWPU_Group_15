@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24412" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24405"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -22,8 +21,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
                 <outlet property="buttonApple" destination="mAF-D3-Q1h" id="Hpd-XV-Xro"/>
+                <outlet property="buttonBack" destination="lkz-8i-TAf" id="Udh-aj-GHq"/>
                 <outlet property="buttonGoogle" destination="jJ7-6Z-twB" id="mEq-Yy-wBM"/>
-                <outlet property="buttonSignUp" destination="d0I-ak-poB" id="g6D-DK-ReM"/>
+                <outlet property="buttonLogin" destination="d0I-ak-poB" id="R9L-SR-11r"/>
                 <outlet property="labelScreenTitle" destination="jLJ-hG-Rtn" id="HP7-DJ-Y0K"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="viewEmailBackground" destination="wdd-Wx-T4w" id="mcg-1Y-P2H"/>
@@ -36,7 +36,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="OPm-tk-n0C">
-                    <rect key="frame" x="40" y="259" width="322" height="356"/>
+                    <rect key="frame" x="40" y="244" width="322" height="356"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jLJ-hG-Rtn">
                             <rect key="frame" x="0.0" y="0.0" width="322" height="40"/>
@@ -141,16 +141,32 @@
                     <state key="normal" title="Login">
                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
+                    <connections>
+                        <action selector="loginButtonPressed:" destination="-1" eventType="touchUpInside" id="SDi-Kw-63x"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lkz-8i-TAf">
+                    <rect key="frame" x="10" y="70" width="45" height="45"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="45" id="B8H-Cs-r3D"/>
+                        <constraint firstAttribute="height" constant="45" id="bnV-yV-q0t"/>
+                    </constraints>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" image="chevron.left" catalog="system"/>
+                    <connections>
+                        <action selector="backButtonPressed:" destination="-1" eventType="touchUpInside" id="RsC-6p-VlV"/>
+                    </connections>
                 </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="d0I-ak-poB" secondAttribute="bottom" constant="20" id="0E1-HV-pXq"/>
-                <constraint firstItem="OPm-tk-n0C" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="0aR-Hb-hIb"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="d0I-ak-poB" secondAttribute="trailing" constant="45" id="2fb-mi-k9f"/>
-                <constraint firstItem="OPm-tk-n0C" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="6n5-JV-5SP"/>
+                <constraint firstItem="lkz-8i-TAf" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="70" id="9Ds-u3-I2Z"/>
+                <constraint firstItem="lkz-8i-TAf" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="AMq-34-Tbq"/>
                 <constraint firstItem="OPm-tk-n0C" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="40" id="LSc-2r-hmD"/>
+                <constraint firstItem="OPm-tk-n0C" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="120" id="S1c-VA-zlN"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="OPm-tk-n0C" secondAttribute="trailing" constant="40" id="VBL-xA-7zK"/>
                 <constraint firstItem="d0I-ak-poB" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="45" id="XXI-1S-xyb"/>
             </constraints>
@@ -160,6 +176,7 @@
     </objects>
     <resources>
         <image name="apple.logo" catalog="system" width="105" height="128"/>
+        <image name="chevron.left" catalog="system" width="97" height="128"/>
         <namedColor name="AccentColor">
             <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

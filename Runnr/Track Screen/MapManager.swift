@@ -21,7 +21,16 @@ class MapManager {
                         location coordinate: CLLocationCoordinate2D,) -> GMSMapView {
         
         let camera = GMSCameraPosition.camera(withLatitude: coordinate.latitude, longitude: coordinate.longitude, zoom: 15.0)
-        mapView = GMSMapView.map(withFrame: CGRect(x: valueOfX, y: valueOfY, width: width, height: height), camera: camera)
+        
+//        following code is deprecated
+//        mapView = GMSMapView.map(withFrame: CGRect(x: valueOfX, y: valueOfY, width: width, height: height), camera: camera)
+        
+        let options = GMSMapViewOptions()
+        options.frame = CGRect(x: valueOfX, y: valueOfY, width: width, height: height)
+        options.camera = camera
+
+        mapView = GMSMapView(options: options)
+
         
         do {
            if let MapstyleURL = Bundle.main.url(forResource: "GoogleMapStyle", withExtension: "json") {

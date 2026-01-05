@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24127" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -16,16 +15,19 @@
                 <outlet property="labelActivityDate" destination="OAc-nC-YPY" id="IKx-5g-6Ki"/>
                 <outlet property="labelActivityRemark" destination="GHI-4T-iP5" id="XBR-qa-d1i"/>
                 <outlet property="labelActivityTitle" destination="xXf-mb-UUq" id="EfQ-Kc-wVi"/>
+                <outlet property="labelBasePoints" destination="UJU-G2-fiv" id="pev-Cp-XtN"/>
                 <outlet property="labelCalories" destination="6AI-hd-BPb" id="XOH-V7-m39"/>
                 <outlet property="labelCaloriesValue" destination="siT-i5-eFV" id="bgl-fT-zvv"/>
                 <outlet property="labelDistance" destination="kxE-ha-h0q" id="2s9-cs-Cgl"/>
                 <outlet property="labelDistanceValue" destination="e0R-DN-fqF" id="5bt-by-8Xj"/>
                 <outlet property="labelPace" destination="X6v-kC-Mqa" id="qA9-Au-45a"/>
                 <outlet property="labelPaceValue" destination="Iqm-i6-q9I" id="Sel-rU-APO"/>
+                <outlet property="labelSkillPoints" destination="daG-ak-O7F" id="aUL-ng-LEL"/>
                 <outlet property="labelSteps" destination="DhW-Zi-N9I" id="xgm-wh-LVR"/>
                 <outlet property="labelStepsValue" destination="EuY-xv-Ct3" id="wSI-Ow-Eyu"/>
                 <outlet property="labelTime" destination="UWA-yU-jwb" id="xua-xe-eFp"/>
                 <outlet property="labelTimeValue" destination="AVZ-kk-sl0" id="Uqi-LE-KLC"/>
+                <outlet property="labelTotalPoints" destination="wVd-yO-gsS" id="Nfe-UZ-VnL"/>
                 <outlet property="labelUserName" destination="iV0-AA-TFB" id="QFl-5a-7ky"/>
                 <outlet property="scrollView" destination="MbJ-Ym-WSI" id="5Z3-pJ-ce2"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -442,7 +444,7 @@
                 <constraint firstItem="MbJ-Ym-WSI" firstAttribute="top" secondItem="weN-iG-qFz" secondAttribute="bottom" constant="25" id="mdr-wh-M5v"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="137.31343283582089" y="217.62013729977116"/>
+            <point key="canvasLocation" x="516" y="164"/>
         </view>
     </objects>
     <resources>

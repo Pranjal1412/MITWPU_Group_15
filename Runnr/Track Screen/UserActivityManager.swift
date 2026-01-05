@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import CoreLocation
+import CoreMotion
 
 class UserActivityManager {
 
@@ -15,24 +16,34 @@ class UserActivityManager {
     var startTime: Date?
     var accumulatedTime: TimeInterval = 0
     var timerLabel : UILabel
-    var timeStamp : String?
+    var timeStamp : Date?
     
+    var totalTime: TimeInterval = 0
     var seconds: Int = 0
     var minutes: Int = 0
     var hours: Int = 0
     
-    var totalDistance : CGFloat = 0.0
+    var totalDistance: Double = 0.0
     var lastLocation : CLLocation?
+    
+    let pedometer = CMPedometer()
+    var totalSteps: Int = 0
+    var steps : Int = 0
+    
+    var livePace : Double = 0.0
+    var avgPace : Double = 0.0
     
     init (timerLabel: UILabel) {
         self.timerLabel = timerLabel
     }
     
     func activityTimeStamp() {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.timeStyle = .short
-        timeStamp = formatter.string(from: Date())
+//        let formatter = DateFormatter()
+//        formatter.dateStyle = .long
+//        formatter.timeStyle = .short
+//        timeStamp = formatter.string(from: Date())
+        
+        timeStamp = Date()
     }
     
     // same function for resuming the timer if activity is just paused
@@ -55,7 +66,7 @@ class UserActivityManager {
 
     @objc func updateTime() {
         if let start = startTime {
-            let totalTime = accumulatedTime + Date().timeIntervalSince(start)
+            totalTime = accumulatedTime + Date().timeIntervalSince(start)
             timerLabel.text = formatTime(totalTime)
         }
     }
@@ -66,15 +77,78 @@ class UserActivityManager {
         seconds = totalSeconds % 60
         minutes = (totalSeconds % 3600) / 60
         hours = totalSeconds / 3600
-    
+        
         return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+
     }
     
-    func updateDistance(with location: CLLocation) {
+    func startUpdatingDistance(with location: CLLocation) {
         if let last = lastLocation {
-            totalDistance += location.distance(from: last)
+            totalDistance += location.distance(from: last) / 1000
         }
         
         lastLocation = location
+    }
+    
+    func stopUpdatingDistance() {
+        lastLocation = nil
+    }
+    
+    func startStepsTracking() {
+        if CMPedometer.isStepCountingAvailable() {
+            
+            pedometer.startUpdates(from: Date()) { data, error in
+                if let data = data, error == nil {
+                    self.steps = data.numberOfSteps.intValue
+                    print("Steps:", self.steps)
+                }
+            }
+        }
+    }
+    
+    func stopStepsTracking() {
+        pedometer.stopUpdates()
+        totalSteps += steps
+        steps = 0
+    }
+    
+    func showLivePace(using location: CLLocation) {
+        let speed = location.speed // unit here is meter/seconds
+        
+        if speed > 0 {
+            livePace = (1000/speed) / 60 // unit converted to min/km
+            print("Pace:", livePace)
+        }
+    }
+
+    func getAveragePace() -> Double {
+        
+        if totalDistance >= 0.1 && totalTime >= 60 {
+            avgPace = (totalTime / 60) / totalDistance
+        }
+        
+        return avgPace
+    }
+    
+    func skillPointsEarned() -> Int {
+        switch avgPace {
+            
+            case 0:
+                return 0
+            case 1..<4:
+                return 100
+                
+            case 4..<6:
+                return 50
+                
+            case 6..<8:
+                return 30
+            default:
+                return 10
+        }
+    }
+    
+    func basePointsEarned() -> Int {
+        return (Int(totalDistance) * (Int(totalDistance) + 1)) * 5
     }
 }

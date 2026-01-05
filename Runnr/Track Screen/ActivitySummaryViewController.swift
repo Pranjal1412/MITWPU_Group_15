@@ -17,10 +17,13 @@ class ActivitySummaryViewController: UIViewController {
     var isMapInitialized: Bool = false
     let userLocation = UserLocationManager()
     var activityData : MyRunActivity?
+    var showAlert : Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
                 
+        view.overrideUserInterfaceStyle = .dark
+        
         if #available(iOS 26.0, *) {
             buttonBack.configuration = .glass()
             buttonBack.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
@@ -71,10 +74,20 @@ class ActivitySummaryViewController: UIViewController {
                 self.userLocation.locationManager.stopUpdatingLocation()
                 self.isMapInitialized = true
             }
-            
         }
         
-//        print(activityData?.runTitle)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if self.showAlert {
+            let alert = UIAlertController(title: localize(stringWith: "Congratulations!"), message: localize(stringWith: "You have earned \(activityData!.basePoints + activityData!.skillPoints) points. Claim them now!"), preferredStyle: .alert)
+            let claimPointsAction = UIAlertAction(title: localize(stringWith: "Claim Points"), style: .default)
+        
+            alert.overrideUserInterfaceStyle = .dark
+            alert.addAction(claimPointsAction)
+            
+            present(alert, animated: true , completion: nil)
+        }
     }
     
     @IBAction func backButtonPressed(_ sender: UIButton) {

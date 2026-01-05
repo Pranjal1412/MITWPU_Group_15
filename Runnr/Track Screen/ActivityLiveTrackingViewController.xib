@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24127" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
@@ -27,7 +26,9 @@
                 <outlet property="labelHeartRateCounter" destination="ZSF-Is-yz8" id="9BZ-xl-GEA"/>
                 <outlet property="labelPace" destination="RYU-lV-POk" id="7xn-Y0-NIB"/>
                 <outlet property="labelPaceCounter" destination="zCA-1y-lZ8" id="i0I-S8-ZvX"/>
+                <outlet property="labelQuote" destination="rcO-uf-liP" id="neD-sF-4Nu"/>
                 <outlet property="labelTime" destination="UuH-yl-Uga" id="slg-D7-gJh"/>
+                <outlet property="labelTimeCountdown" destination="Wpf-aA-UYj" id="diV-IR-QEO"/>
                 <outlet property="labelTimeCounter" destination="0fB-7P-aXP" id="YVu-KJ-1TO"/>
                 <outlet property="pageControl" destination="6pB-J6-Z0B" id="eoS-fh-EPu"/>
                 <outlet property="scrollView" destination="j6b-0Z-65B" id="kkB-1b-xZy"/>
@@ -36,6 +37,7 @@
                 <outlet property="viewActivitySettings" destination="UNI-EO-MKJ" id="Wlt-tG-dyA"/>
                 <outlet property="viewActivityTrack" destination="W3W-pH-BUg" id="y2b-im-0vN"/>
                 <outlet property="viewAllData" destination="HTK-sZ-fO6" id="83r-qn-gs6"/>
+                <outlet property="viewCountdown" destination="bLJ-R5-RT4" id="zMK-fk-Thq"/>
                 <outlet property="viewDistance" destination="Vcu-Pb-L8e" id="stY-ru-3mZ"/>
                 <outlet property="viewHeartRate" destination="ubZ-94-qJC" id="BLx-xy-wIo"/>
                 <outlet property="viewPace" destination="RSC-db-BhL" id="QoL-Jl-pRH"/>
@@ -279,20 +281,53 @@
                         <constraint firstItem="YCl-BK-8nh" firstAttribute="leading" secondItem="HTK-sZ-fO6" secondAttribute="leading" constant="20" id="zYD-tk-P1M"/>
                     </constraints>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bLJ-R5-RT4" userLabel="countdownView">
+                    <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="rm4-bM-6gL">
+                            <rect key="frame" x="25" y="346" width="352" height="182.33333333333337"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wpf-aA-UYj">
+                                    <rect key="frame" x="0.0" y="0.0" width="352" height="131.33333333333334"/>
+                                    <fontDescription key="fontDescription" type="system" weight="black" pointSize="140"/>
+                                    <color key="textColor" name="AccentColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rcO-uf-liP">
+                                    <rect key="frame" x="0.0" y="132.33333333333331" width="352" height="50"/>
+                                    <fontDescription key="fontDescription" type="system" weight="thin" pointSize="30"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                        </stackView>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="rm4-bM-6gL" secondAttribute="trailing" constant="25" id="D9c-HT-ncF"/>
+                        <constraint firstItem="rm4-bM-6gL" firstAttribute="centerY" secondItem="bLJ-R5-RT4" secondAttribute="centerY" id="jOb-2X-8tw"/>
+                        <constraint firstItem="rm4-bM-6gL" firstAttribute="leading" secondItem="bLJ-R5-RT4" secondAttribute="leading" constant="25" id="qDM-rU-LE8"/>
+                        <constraint firstItem="rm4-bM-6gL" firstAttribute="centerX" secondItem="bLJ-R5-RT4" secondAttribute="centerX" id="s17-Xx-a73"/>
+                    </constraints>
+                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="O4Q-6q-dyr"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
+                <constraint firstAttribute="bottom" secondItem="bLJ-R5-RT4" secondAttribute="bottom" id="AQE-Zw-2cY"/>
                 <constraint firstAttribute="trailing" secondItem="rra-Gr-Og1" secondAttribute="trailing" constant="25" id="EZb-gE-2LT"/>
                 <constraint firstItem="HTK-sZ-fO6" firstAttribute="top" secondItem="rra-Gr-Og1" secondAttribute="bottom" constant="15" id="GxY-Ja-LHw"/>
                 <constraint firstItem="Vcu-Pb-L8e" firstAttribute="top" secondItem="9TQ-Ut-hG5" secondAttribute="bottom" constant="10" id="IO7-rQ-NPp"/>
                 <constraint firstItem="9TQ-Ut-hG5" firstAttribute="leading" secondItem="O4Q-6q-dyr" secondAttribute="leading" constant="25" id="KH2-Uo-nmJ"/>
                 <constraint firstItem="Vcu-Pb-L8e" firstAttribute="centerX" secondItem="ndy-VD-VNp" secondAttribute="centerX" id="YFZ-Hb-Q51"/>
+                <constraint firstItem="bLJ-R5-RT4" firstAttribute="top" secondItem="ndy-VD-VNp" secondAttribute="top" id="ZHn-Gn-FyO"/>
                 <constraint firstItem="O4Q-6q-dyr" firstAttribute="trailing" secondItem="9TQ-Ut-hG5" secondAttribute="trailing" constant="25" id="bt8-cz-KAB"/>
+                <constraint firstItem="bLJ-R5-RT4" firstAttribute="leading" secondItem="O4Q-6q-dyr" secondAttribute="leading" id="efP-E9-tvN"/>
+                <constraint firstItem="bLJ-R5-RT4" firstAttribute="trailing" secondItem="O4Q-6q-dyr" secondAttribute="trailing" id="hF6-UM-Lse"/>
                 <constraint firstItem="9TQ-Ut-hG5" firstAttribute="top" secondItem="HTK-sZ-fO6" secondAttribute="bottom" constant="25" id="tiH-oI-Q8G"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="218" y="-1202"/>
+            <point key="canvasLocation" x="174.62686567164178" y="-1202.0594965675057"/>
         </view>
         <view contentMode="scaleToFill" id="UNI-EO-MKJ" userLabel="ViewActivitySettings">
             <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>

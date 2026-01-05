@@ -17,8 +17,9 @@ struct clubData: Codable {
 struct friendsData {
     let profilePhoto: String
     let name: String
-    let followStatus: String
+    var isFollowing: Bool
 }
+
 
 struct posts {
     let images: String
@@ -58,18 +59,11 @@ var postImagesArray: [posts] = [
     
     
     
-    var friendsDataArray: [friendsData] = [
-        friendsData(profilePhoto: "user1",
-                    name: "Dave Johnson",
-                    followStatus: "Follow"),
-        friendsData(profilePhoto: "user2",
-                    name: "Mark Brown",
-                    followStatus: "Following"),
-        friendsData(profilePhoto: "user3",
-                    name: "Sophia Lee",
-                    followStatus: "Follow"),
-        friendsData(profilePhoto: "user4",
-                    name: "Liam Carter",
-                    followStatus: "Follow")
-    ]
+var friendsDataArray: [friendsData] = [
+    friendsData(profilePhoto: "user1", name: "Dave Johnson", isFollowing: false),
+    friendsData(profilePhoto: "user2", name: "Mark Brown", isFollowing: true),
+    friendsData(profilePhoto: "user3", name: "Sophia Lee", isFollowing: false),
+    friendsData(profilePhoto: "user4", name: "Liam Carter", isFollowing: false)
+]
+
 

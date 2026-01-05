@@ -7,9 +7,11 @@
 
 import UIKit
 import GoogleMaps
+import CoreMotion
 
 class ActivityLiveTrackingViewController: UIViewController {
 
+    @IBOutlet weak var viewCountdown: UIView!
     @IBOutlet weak var viewAllData: UIView!
     @IBOutlet weak var viewTime: UIView!
     @IBOutlet weak var viewPace: UIView!
@@ -18,6 +20,8 @@ class ActivityLiveTrackingViewController: UIViewController {
     @IBOutlet weak var buttonPause: UIButton!
     @IBOutlet weak var buttonEndRun: UIButton!
     @IBOutlet weak var buttonLockScroll: UIButton!
+    @IBOutlet weak var labelTimeCountdown: UILabel!
+    @IBOutlet weak var labelQuote: UILabel!
     
     @IBOutlet weak var labelDistance: UILabel!
     @IBOutlet weak var labelTime: UILabel!
@@ -43,6 +47,11 @@ class ActivityLiveTrackingViewController: UIViewController {
     
     var scrollViewInitialized = false
     var isMapInitialized = false
+    let topGradientView = UIView()
+    
+    var timer : Timer?
+    var counter = 3
+    var quotes: [String] = ["Starting Your Tracker...", "You Got This", "Lock in", "Lace Up"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +60,8 @@ class ActivityLiveTrackingViewController: UIViewController {
         view.overrideUserInterfaceStyle = .dark
         
         scrollView.delegate = self
+        scrollView.isScrollEnabled = false
+        pageControl.isHidden = true
         
         settingScreenElements()
         settingPauseButtonImg()
@@ -62,6 +73,9 @@ class ActivityLiveTrackingViewController: UIViewController {
         activityManager = UserActivityManager(timerLabel: self.labelTimeCounter)
         activityManager.activityTimeStamp()
         activityManager.startTimer()
+        activityManager.startStepsTracking()
+        
+        self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
         
         userLocation.onLocationUpdate = { location in
         
@@ -89,16 +103,33 @@ class ActivityLiveTrackingViewController: UIViewController {
 //                self.mapManager.addStartMarker(at: coordinate)
 //            }
             
-            self.mapManager.path.add(location.coordinate)
-            self.mapManager.routeLine.path = self.mapManager.path
+            if self.addCoordinateIfValid(location) {
+                self.mapManager.path.add(location.coordinate)
+                self.mapManager.routeLine.path = self.mapManager.path
+                
+                self.activityManager.startUpdatingDistance(with: location)
+                self.labelDistanceCounter.text = String(format: "%.2f", self.activityManager.totalDistance)
+            }
             
-            self.activityManager.updateDistance(with: location)
-            let formatted = String(format: "%.2f", self.activityManager.totalDistance / 1000)
-            self.labelDistanceCounter.text = "\(formatted)"
+            self.activityManager.showLivePace(using: location)
+            self.labelPaceCounter.text = String(format: "%.2f", self.activityManager.livePace)
             
             print("Path Count: \(self.mapManager.path.count())")
             
         }
+        
+        self.topGradientView.frame.size.width = self.view.bounds.width
+        self.topGradientView.frame.size.height = 100.0
+        self.topGradientView.frame.origin.y = 0.0
+        self.topGradientView.frame.origin.x = 0.0
+        addTopGradient(to: self.topGradientView)
+        viewActivityTrack.addSubview(self.topGradientView)
+        
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.applyGradient(to: mapManager.mapView)
     }
         
     override func viewDidAppear(_ animated: Bool) {
@@ -112,13 +143,15 @@ class ActivityLiveTrackingViewController: UIViewController {
     
     @IBAction func pauseButtonPressed(_ sender: UIButton) {
         
-        buttonEndRun.layer.borderWidth = 1.0
-        buttonEndRun.layer.borderColor = UIColor.accent.cgColor
+//        buttonEndRun.layer.borderWidth = 1.0
+//        buttonEndRun.layer.borderColor = UIColor.accent.cgColor
         
         if buttonPause.tag == 0 {
             
             self.userLocation.locationManager.stopUpdatingLocation()
             self.activityManager.stopTimer()
+            self.activityManager.stopStepsTracking()
+            self.activityManager.stopUpdatingDistance()
             
             UIView.animate(withDuration: 0.5) {
                 self.buttonPause.frame.origin.x = (UIScreen.main.bounds.width - (self.buttonPause.frame.width * 2) - 70.0)/2.0
@@ -141,6 +174,8 @@ class ActivityLiveTrackingViewController: UIViewController {
             
             self.userLocation.locationManager.startUpdatingLocation()
             self.activityManager.startTimer()
+            self.activityManager.startStepsTracking()
+            
             self.mapManager.mapView.isMyLocationEnabled = true
             
             UIView.animate(withDuration: 0.5) {
@@ -167,34 +202,38 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         self.userLocation.locationManager.stopUpdatingLocation()
         
-        let alert = UIAlertController(title: NSLocalizedString("End Run", comment: ""),
-                                      message: NSLocalizedString("Are you sure you want to end this run?", comment: ""), preferredStyle: .alert)
+        let alert = UIAlertController(title: localize(stringWith: "End Run"),
+                                      message: localize(stringWith: "Are you sure you want to end this run?"), preferredStyle: .alert)
         
-        let cancel = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil)
+        let cancel = UIAlertAction(title: localize(stringWith: "Cancel"), style: .cancel, handler: nil)
         alert.addAction(cancel)
         
-        let end = UIAlertAction(title: NSLocalizedString("End Anyway", comment: ""), style: .destructive, handler: { _ in
+        let end = UIAlertAction(title: localize(stringWith: "End Anyway"), style: .destructive, handler: { _ in
             
             self.userLocation.activityStarted = false
                         
             let newActivity = MyRunActivity(
-                        name: "Ava Brooks",
-                        date: self.activityManager.timeStamp!,
-                        runTitle: "",
-                        distanceValue: String(format: "%.2f", self.activityManager.totalDistance / 1000),
-                        distanceUnit: "km",
-                        paceValue: "7:45",
-                        paceUnit: "/km",
-                        timeHour: String(format: "%02d", self.activityManager.hours),
-                        timeMin: String(format: "%02d", self.activityManager.minutes),
-                        timeSec: String(format: "%02d", self.activityManager.seconds),
-                        mapImage: self.captureMapImage(from: self.mapManager.mapView)!,
-                        note: "",
-                        isPublic: false,
-                        routeCoordinates: self.convertPathToCoordinates(self.mapManager.path))
+                userName: "Ava Brooks",
+                timeStamp: self.activityManager.timeStamp!,
+                runTitle: "",
+                distanceValue: self.activityManager.totalDistance,
+                distanceUnit: "km",
+                paceValue: self.activityManager.getAveragePace(),
+                paceUnit: "/km",
+                stepsValue: self.activityManager.totalSteps,
+                caloriesValue: 123,
+                timeHour: self.activityManager.hours,
+                timeMin: self.activityManager.minutes,
+                timeSec: self.activityManager.seconds,
+                basePoints: self.activityManager.basePointsEarned(),
+                skillPoints: self.activityManager.skillPointsEarned(),
+                mapImage: self.captureMapImage(from: self.mapManager.mapView)!,
+                note: "",
+                isPublic: false,
+                routeCoordinates: self.convertPathToCoordinates(self.mapManager.path))
 
             let destinationVC = ActivitySaveViewController()
-            destinationVC.newActivity = newActivity
+            destinationVC.activityData = newActivity
             
             destinationVC.modalPresentationStyle = .fullScreen
             self.navigationController?.pushViewController(destinationVC, animated: true)
@@ -214,15 +253,71 @@ class ActivityLiveTrackingViewController: UIViewController {
         
     }
     
+    @objc func updateTimer() {
+        if counter < -1 {
+            self.viewCountdown.isHidden = true
+            self.scrollView.isScrollEnabled = true
+            pageControl.isHidden = false
+            timer?.invalidate()
+            timer = nil
+        }
+        else if counter == -1 {
+            self.labelTimeCountdown.text = "Go!"
+            self.labelQuote.isHidden = true
+        }
+        else if counter == 0 {
+            self.labelTimeCountdown.font = UIFont.systemFont(ofSize: 80, weight: .black)
+            self.labelTimeCountdown.text = "Ready!"
+            self.labelQuote.text = quotes[self.counter]
+        }
+        else {
+            self.labelTimeCountdown.text = "\(Int(self.counter))"
+            self.labelQuote.text = quotes[self.counter]
+        }
+        
+        
+        counter -= 1
+    }
+    
+    func applyGradient(to view: UIView) {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = view.bounds
+
+        gradientLayer.colors = [
+            UIColor.red.cgColor,
+            UIColor.white.cgColor
+        ]
+
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+        gradientLayer.endPoint = CGPoint(x: 1, y: 1)
+
+        view.layer.insertSublayer(gradientLayer, at: 0)
+    }
+    
+    func addCoordinateIfValid(_ newLocation: CLLocation) -> Bool {
+        if mapManager.path.count() == 0 {
+               return true
+        }
+
+        let lastCoordinate = mapManager.path.coordinate(at: mapManager.path.count() - 1)
+        let lastLocation = CLLocation(latitude: lastCoordinate.latitude,
+                                     longitude: lastCoordinate.longitude)
+
+        let distance = newLocation.distance(from: lastLocation)  // distance here is in meters
+        if distance > 4 {
+            return true
+        }
+        
+        return false
+    }
+    
     func settingScreenElements() {
         viewAllData.layer.cornerRadius = 20
         viewPace.layer.cornerRadius = 20
         viewHeartRate.layer.cornerRadius = 20
         viewTime.layer.cornerRadius = 20
         viewDistance.layer.cornerRadius = 20
-        
-        buttonPause.layer.cornerRadius = buttonPause.frame.height / 2
-        buttonEndRun.layer.cornerRadius = buttonEndRun.frame.height / 2
+
         buttonLockScroll.layer.cornerRadius = buttonLockScroll.frame.height / 2
         
         buttonEndRun.frame.origin.x = (view.frame.width - buttonPause.frame.width) / 2
@@ -232,19 +327,19 @@ class ActivityLiveTrackingViewController: UIViewController {
         buttonPause.frame.origin.y = viewDistance.frame.origin.y + viewDistance.frame.height + 50
         
         labelDistance.font = UIFont(name: "SF Pro Medium", size: 18.0)
-        labelDistance.text = NSLocalizedString("Distance (Km)", comment: "")
+        labelDistance.text = localize(stringWith: "Distance (Km)")
         labelDistance.sizeToFit()
         
         labelTime.font = UIFont(name: "SF Pro Medium", size: 18.0)
-        labelTime.text = NSLocalizedString("Time", comment: "")
+        labelTime.text = localize(stringWith: "Time")
         labelTime.sizeToFit()
         
         labelPace.font = UIFont(name: "SF Pro Medium", size: 18.0)
-        labelPace.text = NSLocalizedString("Pace", comment: "")
+        labelPace.text = localize(stringWith: "Pace")
         labelPace.sizeToFit()
         
         labelHeartRate.font = UIFont(name: "SF Pro Medium", size: 18.0)
-        labelHeartRate.text = NSLocalizedString("Heart Rate", comment: "")
+        labelHeartRate.text = localize(stringWith: "Heart Rate")
         labelHeartRate.sizeToFit()
         
         labelPaceCounter.font = UIFont(name: "SF Pro Regular", size: 20)
@@ -257,12 +352,51 @@ class ActivityLiveTrackingViewController: UIViewController {
     func settingPauseButtonImg() {
         buttonPause.contentVerticalAlignment = .fill
         buttonPause.contentHorizontalAlignment = .fill
-//        buttonPause.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 50, leading: 50, bottom: 50, trailing: 50)
-        buttonPause.imageEdgeInsets = UIEdgeInsets(top: 32, left: 35, bottom: 32, right: 35)
+        buttonPause.layer.cornerRadius = buttonPause.frame.height / 2
         
         buttonEndRun.contentVerticalAlignment = .fill
         buttonEndRun.contentHorizontalAlignment = .fill
-//        buttonEndRun.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 38, leading: 38, bottom: 38, trailing: 38)
+        buttonEndRun.layer.borderWidth = 1
+        buttonEndRun.layer.borderColor = UIColor.accent.cgColor
+        buttonEndRun.layer.cornerRadius = buttonEndRun.frame.height / 2
+        
+//        var pauseButtonConfig = UIButton.Configuration.plain()
+//
+//        pauseButtonConfig.image = UIImage(systemName: "pause.fill")
+//        pauseButtonConfig.baseForegroundColor = .black
+//
+//        pauseButtonConfig.background.backgroundColor = .accent
+//        pauseButtonConfig.background.cornerRadius = 20
+//
+//        pauseButtonConfig.contentInsets = NSDirectionalEdgeInsets(
+//            top: 0,
+//            leading: 0,
+//            bottom: 0,
+//            trailing: 0
+//        )
+//
+//        buttonPause.configuration = pauseButtonConfig
+//    
+//        var endButtonConfig = UIButton.Configuration.plain()
+//
+//        endButtonConfig.image = UIImage(systemName: "square.fill")
+//        endButtonConfig.baseForegroundColor = .accent
+//
+//        endButtonConfig.background.strokeColor = .accent
+//        endButtonConfig.background.strokeWidth = 1
+//        endButtonConfig.background.backgroundColor = .black
+//        endButtonConfig.background.cornerRadius = buttonEndRun.frame.height / 2
+//
+//        endButtonConfig.contentInsets = NSDirectionalEdgeInsets(
+//            top: 0,
+//            leading: 0,
+//            bottom: 0,
+//            trailing: 0
+//        )
+//
+//        buttonEndRun.configuration = endButtonConfig
+        
+        buttonPause.imageEdgeInsets = UIEdgeInsets(top: 32, left: 35, bottom: 32, right: 35)
         buttonEndRun.imageEdgeInsets = UIEdgeInsets(top: 38, left: 38, bottom: 38, right: 38)
     }
     

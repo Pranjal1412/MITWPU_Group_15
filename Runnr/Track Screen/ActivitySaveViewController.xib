@@ -24,10 +24,12 @@
                 <outlet property="imageView" destination="1gd-Ud-K3g" id="dD6-Jo-VaB"/>
                 <outlet property="imageViewMap" destination="hWv-wV-F1z" id="XVa-yj-8xl"/>
                 <outlet property="labelCalories" destination="eFS-zH-n0M" id="WSV-7A-AoK"/>
+                <outlet property="labelCaloriesValue" destination="oZs-ix-exC" id="wvJ-9H-y5X"/>
                 <outlet property="labelDescription" destination="ChB-wk-awk" id="EwT-dy-aA9"/>
                 <outlet property="labelDistance" destination="tyb-Br-GeE" id="lFX-ep-DIa"/>
                 <outlet property="labelDistanceValue" destination="53I-49-L3a" id="w0g-og-61u"/>
                 <outlet property="labelPace" destination="Ueu-dO-Xz2" id="Itc-x6-W7w"/>
+                <outlet property="labelPaceValue" destination="EGD-OV-UIp" id="K6R-jg-UaV"/>
                 <outlet property="labelPhotos" destination="FPl-X2-7My" id="CPu-Lg-ngf"/>
                 <outlet property="labelPublicActivity" destination="vw9-PB-JzU" id="8Sh-oF-sXr"/>
                 <outlet property="labelRunSummary" destination="bJk-ue-WRA" id="5SK-u9-E82"/>

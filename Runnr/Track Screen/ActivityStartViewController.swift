@@ -12,10 +12,18 @@ import GoogleMaps
 class ActivityStartViewController: UIViewController {
     
     @IBOutlet weak var labelScreenTitle: UILabel!
+    @IBOutlet weak var labelTotalPoints: UILabel!
     
     let userLocation = UserLocationManager()
     var isMapInitialized = false
-    let systemOS = UIDevice.current.systemVersion
+    let topGradientView = UIView()
+    let bottomGradientView = UIView()
+    var newUserAlert : Bool?
+    
+    var dataSource = DataSource.shared
+    var totalPoints: Int {
+        dataSource.getTotalRunnrPoints()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,8 +37,25 @@ class ActivityStartViewController: UIViewController {
         labelScreenTitle.text = NSLocalizedString("Runnr.", comment: "")
         labelScreenTitle.textColor = .accent
         labelScreenTitle.sizeToFit()
+        
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        
+        if self.newUserAlert ?? false {
+            let alert = UIAlertController(title: localize(stringWith: "Welcome to Runnr."), message: localize(stringWith: "Congratulations! You’ve unlocked 100 points!"), preferredStyle: .alert)
+            
+            let claimAction = UIAlertAction(title: localize(stringWith: "Claim!"), style: .default, handler: nil)
+            alert.addAction(claimAction)
+            
+            alert.overrideUserInterfaceStyle = .dark
+            present(alert, animated: true, completion: nil)
+            
+        }
+        
+        labelTotalPoints.text = "\(totalPoints)"
+    }
+    
     override func viewDidLayoutSubviews() {
         userLocation.onLocationUpdate = { location in
             
@@ -40,17 +65,17 @@ class ActivityStartViewController: UIViewController {
                 let topOffset = self.labelScreenTitle.frame.height + self.labelScreenTitle.frame.origin.y + 20.0
                 var mapView = GMSMapView()
                 
-                if self.systemOS < "26" {
-                    let bottomInset = self.view.safeAreaInsets.bottom
+                if #available(iOS 26.0, *) {
                     mapView = mapManager.initializeMaps(withX: 0.0, withY: topOffset,
                                                        withWidth: self.view.frame.width,
-                                                       withHeight: self.view.frame.height - bottomInset - topOffset,
+                                                       withHeight: self.view.frame.height  - topOffset,
                                                         location: location.coordinate)
                 }
                 else {
+                    let bottomInset = self.view.safeAreaInsets.bottom
                     mapView = mapManager.initializeMaps(withX: 0.0, withY: topOffset,
                                                        withWidth: self.view.frame.width,
-                                                       withHeight: self.view.frame.height - topOffset,
+                                                       withHeight: self.view.frame.height - topOffset - bottomInset,
                                                        location: location.coordinate)
                 }
                 
@@ -58,7 +83,13 @@ class ActivityStartViewController: UIViewController {
                 mapView.settings.zoomGestures = false
                 mapView.settings.rotateGestures = false
 //                mapManger.mapBehavior(isEnabled: false)
+                self.topGradientView.frame = mapView.bounds
+                self.topGradientView.frame.origin.y = mapView.frame.origin.y - 5
+                self.topGradientView.frame.origin.x = mapView.frame.origin.x
+                addTopGradient(to: self.topGradientView)
+                
                 self.view.addSubview(mapView)
+                self.view.addSubview(self.topGradientView)
                 
                 self.createStartButton()
                 self.userLocation.locationManager.stopUpdatingLocation()
@@ -67,6 +98,15 @@ class ActivityStartViewController: UIViewController {
             
         }
     }
+    
+    @IBAction func profileButtonPressed(_ sender: UIButton) {
+        
+        let destinationVC = UserProfileViewController()
+        destinationVC.modalPresentationStyle = .fullScreen
+        self.present(destinationVC, animated: true, completion: nil)
+        
+    }
+    
     
     func createStartButton() {
         let startButton = UIButton()
@@ -90,7 +130,7 @@ class ActivityStartViewController: UIViewController {
         
         let destinationVC = ActivitySetGoalViewController()
         
-        if self.systemOS >= "26.0" {
+        if #available(iOS 26.0, *) {
             destinationVC.modalPresentationStyle = .overFullScreen
         }
         

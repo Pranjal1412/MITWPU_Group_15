@@ -6,9 +6,13 @@
 //
 import UIKit
         
-class DataSource{
+class DataSource {
     private var activities: [MyRunActivity] = []
     private var activitiesFriends: [FriendsRunActivity] = []
+    
+    private var totalRunnrPoints: Int = 100
+    private var totalDistance: Double = 0
+    
     static let shared = DataSource()
     
     private init() {
@@ -26,7 +30,6 @@ class DataSource{
             paceUnit: "/km",
             timeValue: "01 hr 34 min",
             timeUnit: "50 sec",
-            //image: "mapSample",
             photos: ["run1", "run2", "mapSample"],
             note: "First run in a while, tough, but refreshing excited to rebuild step-by-step."
         ),
@@ -40,12 +43,12 @@ class DataSource{
             paceUnit: "/km",
             timeValue: "01 hr 18 min",
             timeUnit: "14 sec",
-            //image: "mapSample",
             photos: ["run1", "run2", "mapSample"],
             note: "Tough start, but refreshing to get moving again. Excited to rebuild consistency, step by step."
         )]
         
         self.activitiesFriends = friendsSampleData
+        self.totalRunnrPoints = 0
     }
     
     func getFriendsActivityData() -> [FriendsRunActivity] {
@@ -63,6 +66,26 @@ class DataSource{
         if !activities.isEmpty {
             activities.removeLast()
         }
+    }
+    
+    func updateTotalRunnrPoints(with points: Int) {
+        totalRunnrPoints += points
+    }
+    
+    func getTotalRunnrPoints() -> Int {
+        return totalRunnrPoints
+    }
+    
+    func getTotalActivities() -> Int {
+        return activities.count
+    }
+    
+    func updateTotalDistance(with distance: Double) {
+        totalDistance += distance
+    }
+    
+    func getTotalKms() -> Double {
+        return totalDistance
     }
 }
 
