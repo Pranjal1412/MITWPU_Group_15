@@ -202,13 +202,13 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         self.userLocation.locationManager.stopUpdatingLocation()
         
-        let alert = UIAlertController(title: NSLocalizedString("End Run", comment: ""),
-                                      message: NSLocalizedString("Are you sure you want to end this run?", comment: ""), preferredStyle: .alert)
+        let alert = UIAlertController(title: localize(stringWith: "End Run"),
+                                      message: localize(stringWith: "Are you sure you want to end this run?"), preferredStyle: .alert)
         
-        let cancel = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil)
+        let cancel = UIAlertAction(title: localize(stringWith: "Cancel"), style: .cancel, handler: nil)
         alert.addAction(cancel)
         
-        let end = UIAlertAction(title: NSLocalizedString("End Anyway", comment: ""), style: .destructive, handler: { _ in
+        let end = UIAlertAction(title: localize(stringWith: "End Anyway"), style: .destructive, handler: { _ in
             
             self.userLocation.activityStarted = false
                         
@@ -221,6 +221,7 @@ class ActivityLiveTrackingViewController: UIViewController {
                 paceValue: self.activityManager.getAveragePace(),
                 paceUnit: "/km",
                 stepsValue: self.activityManager.totalSteps,
+                caloriesValue: 123,
                 timeHour: self.activityManager.hours,
                 timeMin: self.activityManager.minutes,
                 timeSec: self.activityManager.seconds,
@@ -326,19 +327,19 @@ class ActivityLiveTrackingViewController: UIViewController {
         buttonPause.frame.origin.y = viewDistance.frame.origin.y + viewDistance.frame.height + 50
         
         labelDistance.font = UIFont(name: "SF Pro Medium", size: 18.0)
-        labelDistance.text = NSLocalizedString("Distance (Km)", comment: "")
+        labelDistance.text = localize(stringWith: "Distance (Km)")
         labelDistance.sizeToFit()
         
         labelTime.font = UIFont(name: "SF Pro Medium", size: 18.0)
-        labelTime.text = NSLocalizedString("Time", comment: "")
+        labelTime.text = localize(stringWith: "Time")
         labelTime.sizeToFit()
         
         labelPace.font = UIFont(name: "SF Pro Medium", size: 18.0)
-        labelPace.text = NSLocalizedString("Pace", comment: "")
+        labelPace.text = localize(stringWith: "Pace")
         labelPace.sizeToFit()
         
         labelHeartRate.font = UIFont(name: "SF Pro Medium", size: 18.0)
-        labelHeartRate.text = NSLocalizedString("Heart Rate", comment: "")
+        labelHeartRate.text = localize(stringWith: "Heart Rate")
         labelHeartRate.sizeToFit()
         
         labelPaceCounter.font = UIFont(name: "SF Pro Regular", size: 20)

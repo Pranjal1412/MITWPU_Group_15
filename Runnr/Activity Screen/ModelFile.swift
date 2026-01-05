@@ -10,6 +10,7 @@ struct MyRunActivity {
     let paceValue: Double
     let paceUnit: String
     let stepsValue: Int
+    let caloriesValue: Int
     let timeHour: Int
     let timeMin: Int
     let timeSec: Int

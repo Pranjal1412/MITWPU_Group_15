@@ -120,7 +120,7 @@ class ActivityAnalysisViewController: UIViewController {
         
         labelTimeValue.attributedText = timeText
         
-        let caloriesText = NSMutableAttributedString(string: "116", attributes: [.font: boldFont, .foregroundColor: UIColor.white])
+        let caloriesText = NSMutableAttributedString(string: String(self.activityData!.caloriesValue), attributes: [.font: boldFont, .foregroundColor: UIColor.white])
         
         caloriesText.append(NSAttributedString(string: " kcal", attributes: [.font: thinFont, .foregroundColor: UIColor.white]))
 

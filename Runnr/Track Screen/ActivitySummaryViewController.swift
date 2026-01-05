@@ -80,8 +80,8 @@ class ActivitySummaryViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         if self.showAlert {
-            let alert = UIAlertController(title: "Congratulations!", message: "You have earned \(activityData!.basePoints + activityData!.skillPoints) points. Claim them now!", preferredStyle: .alert)
-            let claimPointsAction = UIAlertAction(title: "Claim Points", style: .default)
+            let alert = UIAlertController(title: localize(stringWith: "Congratulations!"), message: localize(stringWith: "You have earned \(activityData!.basePoints + activityData!.skillPoints) points. Claim them now!"), preferredStyle: .alert)
+            let claimPointsAction = UIAlertAction(title: localize(stringWith: "Claim Points"), style: .default)
         
             alert.overrideUserInterfaceStyle = .dark
             alert.addAction(claimPointsAction)

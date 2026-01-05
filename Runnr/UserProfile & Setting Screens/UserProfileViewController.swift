@@ -70,19 +70,19 @@ class UserProfileViewController: UIViewController {
         if totalDistance <= 600 {
             if totalDistance == 0 && totalDistance < 50 {
                 self.imageCategoryBadge.image = UIImage(named: runnrCategories[0].badge)
-                self.labelCategory.text = runnrCategories[0].name
+                self.labelCategory.text = localize(stringWith: runnrCategories[0].name)
                 self.labelCategoryGoal.text = "\(runnrCategories[0].goal) Km"
                 self.labelCategory.tag = 0
             }
             else if totalDistance >= 50 && totalDistance < 250 {
                 self.imageCategoryBadge.image = UIImage(named: runnrCategories[1].badge)
-                self.labelCategory.text = runnrCategories[1].name
+                self.labelCategory.text = localize(stringWith: runnrCategories[1].name)
                 self.labelCategory.tag = 1
                 self.labelCategoryGoal.text = "\(runnrCategories[1].goal) Km"
             }
             else if totalDistance >= 250 && totalDistance < 600 {
                 self.imageCategoryBadge.image = UIImage(named: runnrCategories[2].badge)
-                self.labelCategory.text = runnrCategories[2].name
+                self.labelCategory.text = localize(stringWith: runnrCategories[2].name)
                 self.labelCategoryGoal.text = "\(runnrCategories[2].goal) Km"
                 self.labelCategory.tag = 2
             }
@@ -92,8 +92,8 @@ class UserProfileViewController: UIViewController {
             let thinFont = UIFont(name: "SFProText-Light", size: 15) ?? UIFont.systemFont(ofSize: 15, weight: .light)
             let boldFont = UIFont(name: "SFProText-Bold", size: 17) ?? UIFont.systemFont(ofSize: 17, weight: .medium)
             
-            let text = NSMutableAttributedString(string: "\(runnrCategories[self.labelCategory.tag].goal - self.totalDistance) km to ", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
-            text.append(NSAttributedString(string: "\(runnrCategories[self.labelCategory.tag+1].name)", attributes: [.font: boldFont, .foregroundColor: UIColor.white]))
+            let text = NSMutableAttributedString(string: localize(stringWith: "\(runnrCategories[self.labelCategory.tag].goal - self.totalDistance) km to "), attributes: [.font: thinFont, .foregroundColor: UIColor.white])
+            text.append(NSAttributedString(string: localize(stringWith: "\(runnrCategories[self.labelCategory.tag+1].name)"), attributes: [.font: boldFont, .foregroundColor: UIColor.white]))
             self.labelCategoryGoalLeft.attributedText = text
 
         }

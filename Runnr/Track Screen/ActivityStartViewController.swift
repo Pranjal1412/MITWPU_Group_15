@@ -20,8 +20,9 @@ class ActivityStartViewController: UIViewController {
     let bottomGradientView = UIView()
     var newUserAlert : Bool?
     
+    var dataSource = DataSource.shared
     var totalPoints: Int {
-        DataSource.shared.getTotalRunnrPoints()
+        dataSource.getTotalRunnrPoints()
     }
     
     override func viewDidLoad() {
@@ -40,7 +41,6 @@ class ActivityStartViewController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        labelTotalPoints.text = "\(totalPoints)"
         
         if self.newUserAlert ?? false {
             let alert = UIAlertController(title: localize(stringWith: "Welcome to Runnr."), message: localize(stringWith: "Congratulations! You’ve unlocked 100 points!"), preferredStyle: .alert)
@@ -50,7 +50,10 @@ class ActivityStartViewController: UIViewController {
             
             alert.overrideUserInterfaceStyle = .dark
             present(alert, animated: true, completion: nil)
+            
         }
+        
+        labelTotalPoints.text = "\(totalPoints)"
     }
     
     override func viewDidLayoutSubviews() {
