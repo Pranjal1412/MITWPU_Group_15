@@ -41,8 +41,8 @@ class JoinUsViewController: UIViewController {
         let thinFont = UIFont(name: "SF-Pro-Display-Thin", size: 33) ?? UIFont.systemFont(ofSize: 33, weight: .thin)
         let boldFont = UIFont(name: "SF-Pro-Display-Bold", size: 33) ?? UIFont.boldSystemFont(ofSize: 35)
         
-        let thinText = NSAttributedString(string: localize(stringWith: "SignUp to "), attributes: [.font: thinFont , .foregroundColor: UIColor.white])
-        let boldText = NSAttributedString(string: localize(stringWith: "Runnr"), attributes: [.font: boldFont , .foregroundColor: UIColor.white])
+        let thinText = NSAttributedString(string: String(localized: "SignUp to "), attributes: [.font: thinFont , .foregroundColor: UIColor.white])
+        let boldText = NSAttributedString(string: String(localized: "Runnr"), attributes: [.font: boldFont , .foregroundColor: UIColor.white])
         
         let attributedString = NSMutableAttributedString()
         attributedString.append(thinText)
@@ -68,13 +68,13 @@ class JoinUsViewController: UIViewController {
     
     func settingButton() {
         buttonSignUp.layer.cornerRadius = buttonSignUp.frame.height / 2
-        buttonSignUp.setTitle(localize(stringWith: "Sign Up"), for: .normal)
+        buttonSignUp.setTitle(String(localized: "Sign Up"), for: .normal)
         
         buttonApple.layer.cornerRadius = buttonApple.frame.height / 2
-        buttonApple.setTitle(localize(stringWith: "Sign Up with Apple ID"), for: .normal)
+        buttonApple.setTitle(String(localized: "Sign Up with Apple ID"), for: .normal)
         
         buttonGoogle.layer.cornerRadius = buttonGoogle.frame.height / 2
-        buttonGoogle.setTitle(localize(stringWith: "Sign Up with Google"), for: .normal)
+        buttonGoogle.setTitle(String(localized: "Sign Up with Google"), for: .normal)
         
         if #available(iOS 26.0, *) {
             self.buttonBack.configuration = .glass()
