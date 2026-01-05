@@ -51,6 +51,7 @@ class ActivityStartViewController: UIViewController {
             alert.overrideUserInterfaceStyle = .dark
             present(alert, animated: true, completion: nil)
             
+            self.newUserAlert = false
         }
         
         labelTotalPoints.text = "\(totalPoints)"

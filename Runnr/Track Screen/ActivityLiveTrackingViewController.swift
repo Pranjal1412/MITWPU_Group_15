@@ -72,10 +72,11 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         activityManager = UserActivityManager(timerLabel: self.labelTimeCounter)
         activityManager.activityTimeStamp()
-        activityManager.startTimer()
-        activityManager.startStepsTracking()
         
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        
+        activityManager.startTimer()
+        activityManager.startStepsTracking()
         
         userLocation.onLocationUpdate = { location in
         
@@ -126,10 +127,6 @@ class ActivityLiveTrackingViewController: UIViewController {
         viewActivityTrack.addSubview(self.topGradientView)
         
         
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        self.applyGradient(to: mapManager.mapView)
     }
         
     override func viewDidAppear(_ animated: Bool) {
@@ -277,21 +274,6 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         
         counter -= 1
-    }
-    
-    func applyGradient(to view: UIView) {
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = view.bounds
-
-        gradientLayer.colors = [
-            UIColor.red.cgColor,
-            UIColor.white.cgColor
-        ]
-
-        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
-        gradientLayer.endPoint = CGPoint(x: 1, y: 1)
-
-        view.layer.insertSublayer(gradientLayer, at: 0)
     }
     
     func addCoordinateIfValid(_ newLocation: CLLocation) -> Bool {

@@ -14,12 +14,20 @@ class UserProfileViewController: UIViewController {
     @IBOutlet weak var imageCategoryBadge: UIImageView!
     @IBOutlet weak var buttonEditProfile: UIButton!
     
+    @IBOutlet weak var labelScreenTitle: UILabel!
     @IBOutlet weak var labelTotalPoints: UILabel!
+    @IBOutlet weak var labelTotalPointsCount: UILabel!
     @IBOutlet weak var labelTotalActivities: UILabel!
+    @IBOutlet weak var labelTotalActivitiesCount: UILabel!
     @IBOutlet weak var labelTotalDistance: UILabel!
+    @IBOutlet weak var labelTotalDistanceCount: UILabel!
     @IBOutlet weak var labelCategory: UILabel!
     @IBOutlet weak var labelCategoryGoal: UILabel!
     @IBOutlet weak var labelCategoryGoalLeft: UILabel!
+    @IBOutlet weak var labelFollower: UILabel!
+    @IBOutlet weak var labelFollowerCount: UILabel!
+    @IBOutlet weak var labelFollowing: UILabel!
+    @IBOutlet weak var labelFollowingCount: UILabel!
     
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var stackProgress: UIStackView!
@@ -58,14 +66,23 @@ class UserProfileViewController: UIViewController {
     
     func settingsElements() {
         
+        self.labelScreenTitle.text = String(localized: "Profile")
+        self.labelFollower.text = String(localized: "Followers")
+        self.labelFollowing.text = String(localized: "Following")
+        self.buttonEditProfile.setTitle(String(localized: "Edit Profile"), for: .normal)
+        
+        self.labelTotalPoints.text = String(localized: "Total Points")
+        self.labelTotalDistance.text = String(localized: "Total Distance")
+        self.labelTotalActivities.text = String(localized: "Total Activities")
+        
         imageProfile.layer.cornerRadius = imageProfile.frame.size.width / 2
         buttonEditProfile.layer.cornerRadius = 10.0
     }
     
     func loadAllData() {
-        self.labelTotalPoints.text = "\(self.totalRunnrPoints)"
-        self.labelTotalActivities.text = "\(self.totalActivities)"
-        self.labelTotalDistance.text = "\(self.totalDistance)"
+        self.labelTotalPointsCount.text = "\(self.totalRunnrPoints)"
+        self.labelTotalActivitiesCount.text = "\(self.totalActivities)"
+        self.labelTotalDistanceCount.text = "\(self.totalDistance)"
         
         if totalDistance <= 600 {
             if totalDistance == 0 && totalDistance < 50 {

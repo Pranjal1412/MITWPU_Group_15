@@ -41,8 +41,8 @@ class LoginViewController: UIViewController {
         let thinFont = UIFont(name: "SF-Pro-Display-Thin", size: 33) ?? UIFont.systemFont(ofSize: 33, weight: .thin)
         let boldFont = UIFont(name: "SF-Pro-Display-Bold", size: 33) ?? UIFont.boldSystemFont(ofSize: 35)
         
-        let thinText = NSAttributedString(string: String(localized: "Login to "), attributes: [.font: thinFont , .foregroundColor: UIColor.white])
-        let boldText = NSAttributedString(string: String(localized: "Runnr"), attributes: [.font: boldFont , .foregroundColor: UIColor.white])
+        let thinText = NSAttributedString(string: String(localized: "Login to"), attributes: [.font: thinFont , .foregroundColor: UIColor.white])
+        let boldText = NSAttributedString(string: String(localized: " Runnr"), attributes: [.font: boldFont , .foregroundColor: UIColor.white])
         
         let attributedString = NSMutableAttributedString()
         attributedString.append(thinText)

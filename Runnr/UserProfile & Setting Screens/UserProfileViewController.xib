@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24127" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -19,9 +19,17 @@
                 <outlet property="labelCategory" destination="8rq-12-jhI" id="9UX-tm-hlQ"/>
                 <outlet property="labelCategoryGoal" destination="I27-8p-GWV" id="JW6-iS-txQ"/>
                 <outlet property="labelCategoryGoalLeft" destination="pFg-3t-d8z" id="JIa-wR-Zj4"/>
-                <outlet property="labelTotalActivities" destination="8cv-Ie-kS7" id="rvc-IC-UNY"/>
-                <outlet property="labelTotalDistance" destination="VHg-ko-Nyg" id="Bak-Zd-RX5"/>
-                <outlet property="labelTotalPoints" destination="Pu3-SL-W0e" id="csX-aL-z8c"/>
+                <outlet property="labelFollower" destination="pv9-RI-OXc" id="rCN-ai-0by"/>
+                <outlet property="labelFollowerCount" destination="sj5-eU-dTz" id="wRU-lm-vD9"/>
+                <outlet property="labelFollowing" destination="ju8-OK-Pee" id="cyo-aJ-V6W"/>
+                <outlet property="labelFollowingCount" destination="033-mT-2FV" id="7hg-I4-Lfu"/>
+                <outlet property="labelScreenTitle" destination="4h5-tk-7iD" id="ATI-fH-4Qi"/>
+                <outlet property="labelTotalActivities" destination="ApH-HQ-5DS" id="T1Z-fW-Gxz"/>
+                <outlet property="labelTotalActivitiesCount" destination="8cv-Ie-kS7" id="rvc-IC-UNY"/>
+                <outlet property="labelTotalDistance" destination="VAw-cH-Cbq" id="8IR-vl-T8P"/>
+                <outlet property="labelTotalDistanceCount" destination="VHg-ko-Nyg" id="Bak-Zd-RX5"/>
+                <outlet property="labelTotalPoints" destination="9CU-q8-P6A" id="hAr-mH-WiR"/>
+                <outlet property="labelTotalPointsCount" destination="Pu3-SL-W0e" id="csX-aL-z8c"/>
                 <outlet property="progressView" destination="ZMn-v1-7Eg" id="PRW-Ye-RDg"/>
                 <outlet property="stackProgress" destination="gvH-h2-T8q" id="FI6-3G-WVc"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>

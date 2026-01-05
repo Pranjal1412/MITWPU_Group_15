@@ -32,6 +32,7 @@ class ActivityScreenViewController: UIViewController {
         label.textColor = .lightGray
         view.addSubview(label)
         
+        self.labelScreenTitle.text = String(localized: "Activities")
         labelScreenTitle.sizeToFit()
         tableViewFriendsActivity.showsVerticalScrollIndicator = false
     }
