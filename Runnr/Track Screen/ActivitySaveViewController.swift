@@ -55,13 +55,13 @@ class ActivitySaveViewController: UIViewController {
 
     @IBAction func cancelButtonPressed(_ sender: UIButton) {
         
-        let alert = UIAlertController(title: localize(stringWith: "Delete Activity"),
-                                      message:localize(stringWith: "Are you sure you want to Delete this Activity?"),
+        let alert = UIAlertController(title: String(localized: "Delete Activity"),
+                                      message: String(localized: "Are you sure you want to Delete this Activity?"),
                                       preferredStyle: .alert)
               
-        let cancelAction = UIAlertAction(title: localize(stringWith: "Cancel"), style: .cancel)
+        let cancelAction = UIAlertAction(title: String(localized: "Cancel"), style: .cancel)
         
-        let deleteAction = UIAlertAction(title: localize(stringWith: "Delete"), style: .destructive, handler: {_ in
+        let deleteAction = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive, handler: {_ in
             self.datsource.deleteMyActivity()
             print("After passing count: \(self.datsource.getMyActivityData().count)")
             self.navigationController?.dismiss(animated: true, completion: nil)

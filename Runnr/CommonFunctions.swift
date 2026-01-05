@@ -66,10 +66,6 @@ func addBottomGradient(to view: UIView) {
     view.layer.insertSublayer(gradient, at: 0)
 }
 
-func localize(stringWith key: String) -> String {
-    NSLocalizedString(key, comment: "")
-}
-
 func formatDate(with date: Date) -> String {
     let formatter = DateFormatter()
     formatter.dateStyle = .long

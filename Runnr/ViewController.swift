@@ -24,11 +24,11 @@ class ViewController: UIViewController {
         view.overrideUserInterfaceStyle = .dark
         
         self.buttonJoinUs.layer.cornerRadius = buttonJoinUs.frame.height / 2
-        self.buttonJoinUs.setTitle(localize(stringWith: "Join Us"), for: .normal)
+        self.buttonJoinUs.setTitle(String(localized: "Join Us"), for: .normal)
         self.buttonJoinUs.clipsToBounds = true
         
         self.buttonLogin.layer.cornerRadius = buttonLogin.frame.height / 2
-        self.buttonLogin.setTitle(localize(stringWith: "Login"), for: .normal)
+        self.buttonLogin.setTitle(String(localized: "Login"), for: .normal)
         self.buttonLogin.layer.borderColor = UIColor.white.cgColor
         self.buttonLogin.layer.borderWidth = 1.0
         self.buttonLogin.clipsToBounds = true

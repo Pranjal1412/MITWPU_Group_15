@@ -43,9 +43,9 @@ class ActivityStartViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         
         if self.newUserAlert ?? false {
-            let alert = UIAlertController(title: localize(stringWith: "Welcome to Runnr."), message: localize(stringWith: "Congratulations! You’ve unlocked 100 points!"), preferredStyle: .alert)
+            let alert = UIAlertController(title: String(localized: "Welcome to Runnr."), message: String(localized: "Congratulations! You’ve unlocked 100 points!"), preferredStyle: .alert)
             
-            let claimAction = UIAlertAction(title: localize(stringWith: "Claim!"), style: .default, handler: nil)
+            let claimAction = UIAlertAction(title: String(localized: "Claim!"), style: .default, handler: nil)
             alert.addAction(claimAction)
             
             alert.overrideUserInterfaceStyle = .dark
