@@ -13,21 +13,28 @@ class FriendListTableViewCell: UITableViewCell {
     @IBOutlet var FriendName: UILabel!
     
     @IBOutlet var buttonFollow: UIButton!
+    var followAction: (() -> Void)?
+
+    
     override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-        
-        
-        buttonFollow.layer.cornerRadius = buttonFollow.frame.height / 2.0
-        
+            super.awakeFromNib()
+            buttonFollow.layer.cornerRadius = buttonFollow.frame.height / 2
+        }
+
+        func configureCell(with data: friendsData) {
+            FriendName.text = data.name
+            imageProfileFriends.image = UIImage(named: data.profilePhoto)
+
+            if data.isFollowing {
+                buttonFollow.setTitle("Following", for: .normal)
+                buttonFollow.backgroundColor = .lightGray
+            } else {
+                buttonFollow.setTitle("Follow", for: .normal)
+                buttonFollow.backgroundColor = .accent
+            }
+        }
+
+        @IBAction func followButtonTapped(_ sender: UIButton) {
+            followAction?()
+        }
     }
-
-    func configureCell(with data: friendsData) {
-       
-        //buttonFollow.textLabel?.text = data.followStatus
-        FriendName.text = data.name
-        imageProfileFriends.image = UIImage(named: data.profilePhoto)
-    }
-}
-
-
