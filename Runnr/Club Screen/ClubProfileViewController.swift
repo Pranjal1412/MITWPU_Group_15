@@ -132,6 +132,11 @@ extension ClubProfileViewController {
 //        cell.configureCell(with: friendsDataArray[indexPath.row])
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let destinationVC = LeaderBoardViewController()
+        self.navigationController?.pushViewController(destinationVC, animated: true)
+    }
 }
 
 // MARK: - Collection View

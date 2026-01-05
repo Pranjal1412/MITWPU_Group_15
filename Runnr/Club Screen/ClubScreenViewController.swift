@@ -174,9 +174,11 @@ extension ClubScreenViewController : UICollectionViewDataSource, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let destinationVC = ClubProfileViewController()
+        let navigationController = UINavigationController(rootViewController: destinationVC)
+        
         destinationVC.buttonTitle = "Join Now"
-        destinationVC.modalPresentationStyle = .fullScreen
-        self.present(destinationVC, animated: true)
+        navigationController.modalPresentationStyle = .fullScreen
+        self.present(navigationController, animated: true)
     }
     
 }
