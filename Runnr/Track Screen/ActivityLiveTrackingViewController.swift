@@ -225,13 +225,13 @@ class ActivityLiveTrackingViewController: UIViewController {
                 basePoints: self.activityManager.basePointsEarned(),
                 skillPoints: self.activityManager.skillPointsEarned(),
                 mapImage: self.captureMapImage(from: self.mapManager.mapView)!,
+                activityPhotos: [],
                 note: "",
                 isPublic: false,
                 routeCoordinates: self.convertPathToCoordinates(self.mapManager.path))
 
             let destinationVC = ActivitySaveViewController()
             destinationVC.activityData = newActivity
-            
             destinationVC.modalPresentationStyle = .fullScreen
             self.navigationController?.pushViewController(destinationVC, animated: true)
             

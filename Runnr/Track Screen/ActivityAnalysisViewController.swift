@@ -21,7 +21,7 @@ class ActivityAnalysisViewController: UIViewController {
     @IBOutlet weak var labelSteps: UILabel!
     
     @IBOutlet weak var viewActivityStats: UIView!
-    @IBOutlet weak var imageViewPhotos: UIImageView!
+    @IBOutlet weak var collectionViewPhotos: UICollectionView!
     
     @IBOutlet weak var labelDistanceValue: UILabel!
     @IBOutlet weak var labelPaceValue: UILabel!
@@ -38,7 +38,9 @@ class ActivityAnalysisViewController: UIViewController {
         super.viewDidLoad()
 
         view.overrideUserInterfaceStyle = .dark
-        scrollView.contentSize.height = imageViewPhotos.frame.origin.y + imageViewPhotos.frame.height + 25
+        scrollView.contentSize.height = self.collectionViewPhotos.frame.origin.y + self.collectionViewPhotos.frame.height + 25
+        collectionViewPhotos.dataSource = self
+        collectionViewPhotos.register(UINib(nibName: "AddPhotosCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AddPhotosCollectionViewCell")
         
         setElements()
         settingAttributedText()
@@ -85,7 +87,7 @@ class ActivityAnalysisViewController: UIViewController {
         labelTotalPoints.text = String(localized: "Points: ") + String(self.activityData!.basePoints + self.activityData!.skillPoints)
         
         viewActivityStats.layer.cornerRadius = 10
-        imageViewPhotos.layer.cornerRadius = 10
+        self.collectionViewPhotos.layer.cornerRadius = 10
     }
     
     func settingAttributedText() {
@@ -130,4 +132,30 @@ class ActivityAnalysisViewController: UIViewController {
         labelStepsValue.text = String(self.activityData!.stepsValue)
     }
 
+}
+
+// MARK: - Add Photos CollectionView Settings
+
+extension ActivityAnalysisViewController : UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.activityData!.activityPhotos.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddPhotosCollectionViewCell", for: indexPath) as! AddPhotosCollectionViewCell
+        
+        let image = self.activityData!.activityPhotos[indexPath.row]
+        cell.configureCell(with: image)
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 100, height: 100)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 10.0
+    }
 }

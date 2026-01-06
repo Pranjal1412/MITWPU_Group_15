@@ -37,7 +37,7 @@ class ActivityStartViewController: UIViewController {
         labelScreenTitle.text = NSLocalizedString("Runnr.", comment: "")
         labelScreenTitle.textColor = .accent
         labelScreenTitle.sizeToFit()
-        
+        self.createStartButton()
     }
 
     override func viewWillAppear(_ animated: Bool) {
