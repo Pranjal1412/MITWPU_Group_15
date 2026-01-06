@@ -3,6 +3,7 @@ import UIKit
 class InsightsScreenViewController: UIViewController {
 
     @IBOutlet weak var labelStreak: UILabel!
+    @IBOutlet weak var labelTotalPoints: UILabel!
     @IBOutlet weak var collectionViewInsightsCards: UICollectionView!
     @IBOutlet weak var scrollViewInsights: UIScrollView!
 
@@ -14,6 +15,10 @@ class InsightsScreenViewController: UIViewController {
 
     private var latestActivity: MyRunActivity?
     private var previousActivity: MyRunActivity?
+    var dataSource = DataSource.shared
+    var totalPoints: Int {
+        dataSource.getTotalRunnrPoints()
+    }
 
     // ✅ GREEN DATES derived from activities
     private var greenDates: Set<Date> = []
@@ -24,11 +29,20 @@ class InsightsScreenViewController: UIViewController {
 
         setupScrollView()
         setupCollectionView()
-        prepareActivities()
-        prepareGreenDates()
         setupCalendar()
     }
+    override func viewWillAppear(_ animated: Bool) {
+        prepareActivities()
+        prepareGreenDates()
+        
+        labelTotalPoints.text = "\(totalPoints)"
+    }
 
+    @IBAction func profileButtonPressed(_ sender: Any) {
+        let destinationVC = UserProfileViewController()
+        destinationVC.modalPresentationStyle = .fullScreen
+        self.present(destinationVC, animated: true, completion: nil)
+    }
     // MARK: - Activity Preparation
     private func prepareActivities() {
         let sorted = myActivities.sorted { $0.timeStamp > $1.timeStamp }

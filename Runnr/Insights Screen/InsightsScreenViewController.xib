@@ -18,6 +18,7 @@
             <connections>
                 <outlet property="collectionViewInsightsCards" destination="6A4-Va-OoK" id="rMQ-6o-RpX"/>
                 <outlet property="labelStreak" destination="rbJ-Vz-FHC" id="k2N-Uz-A6w"/>
+                <outlet property="labelTotalPoints" destination="x2z-SB-2Cu" id="j3Y-Qy-5QD"/>
                 <outlet property="scrollViewInsights" destination="xDQ-3m-mbB" id="UtQ-Pk-uVc"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -85,23 +86,49 @@
                     <viewLayoutGuide key="contentLayoutGuide" id="prg-hr-dxM"/>
                     <viewLayoutGuide key="frameLayoutGuide" id="baY-ae-sga"/>
                 </scrollView>
+                <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="6jZ-nn-cvY">
+                    <rect key="frame" x="290.66666666666669" y="90" width="91.333333333333314" height="40"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x2z-SB-2Cu">
+                            <rect key="frame" x="0.0" y="0.0" width="41.333333333333336" height="40"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e3J-RG-qPA">
+                            <rect key="frame" x="51.333333333333314" y="0.0" width="40" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="UWA-S1-DhS"/>
+                                <constraint firstAttribute="width" constant="40" id="cjL-ez-Ouk"/>
+                            </constraints>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="Button" image="user3"/>
+                            <connections>
+                                <action selector="profileButtonPressed:" destination="-1" eventType="touchUpInside" id="8jO-ky-PlY"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                </stackView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="xDQ-3m-mbB" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="1hC-Hw-TEw"/>
+                <constraint firstAttribute="trailing" secondItem="6jZ-nn-cvY" secondAttribute="trailing" constant="20" id="AOI-KB-FEt"/>
                 <constraint firstItem="xDQ-3m-mbB" firstAttribute="top" secondItem="dDs-5u-QI8" secondAttribute="bottom" constant="15" id="O2z-dq-MrH"/>
                 <constraint firstItem="xDQ-3m-mbB" firstAttribute="top" secondItem="dDs-5u-QI8" secondAttribute="bottom" constant="15" id="brc-Ey-FW6"/>
+                <constraint firstItem="6jZ-nn-cvY" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="90" id="fvd-n9-t6W"/>
                 <constraint firstAttribute="bottom" secondItem="xDQ-3m-mbB" secondAttribute="bottom" id="gxS-nF-tnh"/>
                 <constraint firstItem="xDQ-3m-mbB" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="nSD-mA-cBN"/>
                 <constraint firstItem="dDs-5u-QI8" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="90" id="nfB-rW-QU5"/>
                 <constraint firstItem="dDs-5u-QI8" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="zrT-2a-UR7"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="137.40458015267174" y="153.52112676056339"/>
+            <point key="canvasLocation" x="122" y="177"/>
         </view>
     </objects>
     <resources>
+        <image name="user3" width="120" height="120"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
