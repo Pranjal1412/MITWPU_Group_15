@@ -32,4 +32,5 @@ class LeaderBoardTableViewCell: UITableViewCell {
             labelName.text = name
             labelValue.text = value
         }
+    
 }

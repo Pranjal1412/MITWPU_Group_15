@@ -66,4 +66,57 @@ var friendsDataArray: [friendsData] = [
     friendsData(profilePhoto: "user4", name: "Liam Carter", isFollowing: false)
 ]
 
+enum LeaderboardMode {
+    case kilometer
+    case streak
+    case points
+}
+
+struct LeaderboardUser {
+    let name: String
+    let profileImageName: String   // image asset name
+    let kilometers: Int
+    let streak: Int
+    let points: Int
+}
+
+let leaderboardUsersArray: [LeaderboardUser] = [
+    LeaderboardUser(
+        name: "Ava Brooks",
+        profileImageName: "user_ava",
+        kilometers: 15,
+        streak: 37,
+        points: 436
+    ),
+    LeaderboardUser(
+        name: "John Carter",
+        profileImageName: "user_john",
+        kilometers: 12,
+        streak: 28,
+        points: 390
+    ),
+    LeaderboardUser(
+        name: "Emma Lee",
+        profileImageName: "user_emma",
+        kilometers: 10,
+        streak: 22,
+        points: 350
+    ),
+    LeaderboardUser(
+        name: "Ryan Smith",
+        profileImageName: "user_ryan",
+        kilometers: 8,
+        streak: 18,
+        points: 300
+    ),
+    LeaderboardUser(
+        name: "Sophia Kim",
+        profileImageName: "user_sophia",
+        kilometers: 6,
+        streak: 15,
+        points: 270
+    )
+]
+
+
 
