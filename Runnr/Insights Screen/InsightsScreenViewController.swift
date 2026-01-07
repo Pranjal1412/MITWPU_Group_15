@@ -15,6 +15,7 @@ class InsightsScreenViewController: UIViewController {
 
     private var latestActivity: MyRunActivity?
     private var previousActivity: MyRunActivity?
+
     var dataSource = DataSource.shared
     var totalPoints: Int {
         dataSource.getTotalRunnrPoints()
@@ -23,6 +24,7 @@ class InsightsScreenViewController: UIViewController {
     // ✅ GREEN DATES derived from activities
     private var greenDates: Set<Date> = []
 
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.overrideUserInterfaceStyle = .dark
@@ -31,18 +33,26 @@ class InsightsScreenViewController: UIViewController {
         setupCollectionView()
         setupCalendar()
     }
+
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
         prepareActivities()
         prepareGreenDates()
-        
+
         labelTotalPoints.text = "\(totalPoints)"
+
+        // ✅ REQUIRED FIX
+        collectionViewInsightsCards.reloadData()
     }
 
+    // MARK: - Profile
     @IBAction func profileButtonPressed(_ sender: Any) {
         let destinationVC = UserProfileViewController()
         destinationVC.modalPresentationStyle = .fullScreen
-        self.present(destinationVC, animated: true, completion: nil)
+        present(destinationVC, animated: true)
     }
+
     // MARK: - Activity Preparation
     private func prepareActivities() {
         let sorted = myActivities.sorted { $0.timeStamp > $1.timeStamp }
@@ -96,7 +106,7 @@ class InsightsScreenViewController: UIViewController {
         calendarView.delegate = self
 
         NSLayoutConstraint.activate([
-            calendarView.topAnchor.constraint(equalTo: labelStreak.bottomAnchor, constant: 16),
+            calendarView.topAnchor.constraint(equalTo: labelStreak.bottomAnchor, constant: 10),
             calendarView.leadingAnchor.constraint(equalTo: scrollViewInsights.contentLayoutGuide.leadingAnchor, constant: 25),
             calendarView.trailingAnchor.constraint(equalTo: scrollViewInsights.contentLayoutGuide.trailingAnchor, constant: -25),
             calendarView.widthAnchor.constraint(equalTo: scrollViewInsights.frameLayoutGuide.widthAnchor, constant: -50),
@@ -119,10 +129,16 @@ class InsightsScreenViewController: UIViewController {
     }
 
     // MARK: - Update Chevron ImageView
-    private func updateChevron(cell: InsightsScreenCollectionViewCell, current: Double, previous: Double) {
+    private func updateChevron(cell: InsightsScreenCollectionViewCell,
+                               current: Double,
+                               previous: Double) {
+
         if current > previous {
             let symbol = UIImage(systemName: "chevron.up.2")?
-                .withTintColor(UIColor(red: 0.68, green: 0.97, blue: 0.27, alpha: 1), renderingMode: .alwaysOriginal)
+                .withTintColor(
+                    UIColor(red: 0.68, green: 0.97, blue: 0.27, alpha: 1),
+                    renderingMode: .alwaysOriginal
+                )
             cell.imageViewChevron.image = symbol
         } else if current < previous {
             let symbol = UIImage(systemName: "chevron.down.2")?
@@ -147,7 +163,6 @@ extension InsightsScreenViewController: UICalendarViewDelegate {
         guard let date = calendar.date(from: dateComponents) else { return nil }
         let normalized = calendar.startOfDay(for: date)
 
-        // Only decorate if activity exists for that day
         if greenDates.contains(normalized) {
             let config = UIImage.SymbolConfiguration(pointSize: 12, weight: .bold)
             if let flame = UIImage(systemName: "flame.fill", withConfiguration: config)?
@@ -155,7 +170,6 @@ extension InsightsScreenViewController: UICalendarViewDelegate {
                 return .image(flame)
             }
         }
-
         return nil
     }
 }
@@ -193,6 +207,7 @@ extension InsightsScreenViewController:
         case 0: // Distance
             cell.labelCardTitle.text = "Distance"
             let current = latestActivity?.distanceValue ?? 0
+
             if hasPrevious {
                 let previous = previousActivity!.distanceValue
                 cell.settingLabelStyle(withValue: String(format: "%.2f", current), withUnit: "km")
@@ -208,6 +223,7 @@ extension InsightsScreenViewController:
         case 1: // Calories
             cell.labelCardTitle.text = "Calories"
             let current = Double(latestActivity?.caloriesValue ?? 0)
+
             if hasPrevious {
                 let previous = Double(previousActivity!.caloriesValue)
                 cell.settingLabelStyle(withValue: "\(Int(current))", withUnit: "kcal")
@@ -223,6 +239,7 @@ extension InsightsScreenViewController:
         case 2: // Steps
             cell.labelCardTitle.text = "Steps"
             let current = Double(latestActivity?.stepsValue ?? 0)
+
             if hasPrevious {
                 let previous = Double(previousActivity!.stepsValue)
                 cell.settingLabelStyle(withValue: "\(Int(current))", withUnit: "steps")
@@ -237,20 +254,40 @@ extension InsightsScreenViewController:
 
         case 3: // Average Pace
             cell.labelCardTitle.text = "Average Pace"
+
             let curMin = latestActivity?.timeMin ?? 0
             let curSec = latestActivity?.timeSec ?? 0
             let currentTotal = curMin * 60 + curSec
-            cell.settingLabelStyle(withValue: String(format: "%d:%02d", curMin, curSec), withUnit: "min/km")
+
+            cell.settingLabelStyle(
+                withValue: String(format: "%d:%02d", curMin, curSec),
+                withUnit: "min/km"
+            )
 
             if hasPrevious {
                 let prevMin = previousActivity!.timeMin
                 let prevSec = previousActivity!.timeSec
                 let previousTotal = prevMin * 60 + prevSec
 
-                cell.labelTrend.text = trendText(current: Double(currentTotal),
-                                                 previous: Double(previousTotal),
-                                                 unit: "s")
-                updateChevron(cell: cell, current: Double(currentTotal), previous: Double(previousTotal))
+                let diff = previousTotal - currentTotal
+
+                if diff > 0 {
+                    cell.labelTrend.text = "\(diff)s faster than last run"
+                    cell.imageViewChevron.image = UIImage(systemName: "chevron.up.2")?
+                        .withTintColor(
+                            UIColor(red: 0.68, green: 0.97, blue: 0.27, alpha: 1),
+                            renderingMode: .alwaysOriginal
+                        )
+                } else if diff < 0 {
+                    cell.labelTrend.text = "\(abs(diff))s slower than last run"
+                    cell.imageViewChevron.image = UIImage(systemName: "chevron.down.2")?
+                        .withTintColor(.red, renderingMode: .alwaysOriginal)
+                } else {
+                    cell.labelTrend.text = "Same as last run"
+                    cell.imageViewChevron.image = UIImage(systemName: "minus")?
+                        .withTintColor(.systemBlue, renderingMode: .alwaysOriginal)
+                }
+
             } else {
                 cell.labelTrend.text = "No recorded pace"
                 cell.imageViewChevron.image = UIImage(systemName: "minus")?
