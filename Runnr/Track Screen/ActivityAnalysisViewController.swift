@@ -19,10 +19,12 @@ class ActivityAnalysisViewController: UIViewController {
     @IBOutlet weak var labelTime: UILabel!
     @IBOutlet weak var labelCalories: UILabel!
     @IBOutlet weak var labelSteps: UILabel!
+    @IBOutlet weak var labelPhotosHeading: UILabel!
     
     @IBOutlet weak var viewActivityStats: UIView!
     @IBOutlet weak var collectionViewPhotos: UICollectionView!
     
+    @IBOutlet weak var imageGraph: UIImageView!
     @IBOutlet weak var labelDistanceValue: UILabel!
     @IBOutlet weak var labelPaceValue: UILabel!
     @IBOutlet weak var labelTimeValue: UILabel!
@@ -38,7 +40,8 @@ class ActivityAnalysisViewController: UIViewController {
         super.viewDidLoad()
 
         view.overrideUserInterfaceStyle = .dark
-        scrollView.contentSize.height = self.collectionViewPhotos.frame.origin.y + self.collectionViewPhotos.frame.height + 25
+        
+        settingScrollViewHeight()
         collectionViewPhotos.dataSource = self
         collectionViewPhotos.register(UINib(nibName: "AddPhotosCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AddPhotosCollectionViewCell")
         
@@ -52,7 +55,15 @@ class ActivityAnalysisViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    
+    func settingScrollViewHeight() {
+        if self.activityData?.activityPhotos.count == 0 {
+            self.labelPhotosHeading.isHidden = true
+            scrollView.contentSize.height = self.imageGraph.frame.origin.y + self.imageGraph.frame.height + 10
+        }
+        else {
+            scrollView.contentSize.height = self.collectionViewPhotos.frame.origin.y + self.collectionViewPhotos.frame.height
+        }
+    }
     
     func setElements() {
         
@@ -87,7 +98,6 @@ class ActivityAnalysisViewController: UIViewController {
         labelTotalPoints.text = String(localized: "Points: ") + String(self.activityData!.basePoints + self.activityData!.skillPoints)
         
         viewActivityStats.layer.cornerRadius = 10
-        self.collectionViewPhotos.layer.cornerRadius = 10
     }
     
     func settingAttributedText() {

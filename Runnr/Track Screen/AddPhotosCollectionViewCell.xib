@@ -20,13 +20,30 @@
                         <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="scU-oO-khM">
+                        <rect key="frame" x="75" y="15" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="KE4-bm-KeX"/>
+                            <constraint firstAttribute="height" constant="20" id="RNX-J3-8RJ"/>
+                        </constraints>
+                        <state key="normal" title="Button"/>
+                        <buttonConfiguration key="configuration" style="plain" image="multiply" catalog="system"/>
+                    </button>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstItem="scU-oO-khM" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="15" id="KV7-0G-cYo"/>
+                <constraint firstAttribute="trailing" secondItem="scU-oO-khM" secondAttribute="trailing" constant="5" id="aFH-NB-y9E"/>
+            </constraints>
             <connections>
+                <outlet property="buttonDeletePhoto" destination="scU-oO-khM" id="GnM-bI-bCe"/>
                 <outlet property="imagePhotos" destination="tpa-ck-wjb" id="3gQ-yf-8oV"/>
             </connections>
-            <point key="canvasLocation" x="139" y="154"/>
+            <point key="canvasLocation" x="138.93129770992365" y="153.52112676056339"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="multiply" catalog="system" width="128" height="111"/>
+    </resources>
 </document>

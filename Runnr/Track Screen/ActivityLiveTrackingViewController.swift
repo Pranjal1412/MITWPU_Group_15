@@ -51,7 +51,7 @@ class ActivityLiveTrackingViewController: UIViewController {
     
     var timer : Timer?
     var counter = 3
-    var quotes: [String] = ["Starting Your Tracker...", "You Got This", "Lock in", "Lace Up"]
+    var quotes: [String] = [String(localized: "Starting Your Tracker..."), String(localized: "You Got This"), String(localized: "Lock in"), String(localized: "Lace Up")]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,7 +75,6 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
         
-        activityManager.startTimer()
         activityManager.startStepsTracking()
         
         userLocation.onLocationUpdate = { location in
@@ -255,6 +254,9 @@ class ActivityLiveTrackingViewController: UIViewController {
             self.viewCountdown.isHidden = true
             self.scrollView.isScrollEnabled = true
             pageControl.isHidden = false
+            
+            self.activityManager.startTimer()
+            
             timer?.invalidate()
             timer = nil
         }

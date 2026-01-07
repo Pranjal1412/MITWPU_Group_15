@@ -389,12 +389,10 @@
                                 <constraint firstAttribute="height" constant="70" id="x22-uU-D9z"/>
                             </constraints>
                         </stackView>
-                        <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Jge-r0-dhF">
+                        <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Jge-r0-dhF">
                             <rect key="frame" x="25" y="815" width="352" height="100"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="100" id="o3M-mf-sNw"/>
-                            </constraints>
                             <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ZqR-PH-FZe">
                                 <size key="itemSize" width="128" height="128"/>
                                 <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -416,9 +414,7 @@
                         <constraint firstItem="t6l-fQ-51s" firstAttribute="trailing" secondItem="hWv-wV-F1z" secondAttribute="trailing" constant="25" id="Roq-A6-XWZ"/>
                         <constraint firstItem="Rdm-I9-QLs" firstAttribute="leading" secondItem="t6l-fQ-51s" secondAttribute="leading" constant="25" id="T5v-Yp-5B5"/>
                         <constraint firstItem="zlC-hw-yHW" firstAttribute="top" secondItem="FPl-X2-7My" secondAttribute="bottom" constant="10" id="VwB-I0-B0M"/>
-                        <constraint firstItem="Jge-r0-dhF" firstAttribute="top" secondItem="FPl-X2-7My" secondAttribute="bottom" constant="10" id="YnU-Mr-7DW"/>
                         <constraint firstItem="t6l-fQ-51s" firstAttribute="trailing" secondItem="Rdm-I9-QLs" secondAttribute="trailing" constant="25" id="cBA-zX-neF"/>
-                        <constraint firstItem="Jge-r0-dhF" firstAttribute="leading" secondItem="t6l-fQ-51s" secondAttribute="leading" constant="25" id="cGj-tU-rZV"/>
                         <constraint firstItem="t6l-fQ-51s" firstAttribute="trailing" secondItem="FPl-X2-7My" secondAttribute="trailing" constant="25" id="cnq-9M-bGe"/>
                         <constraint firstItem="t6l-fQ-51s" firstAttribute="trailing" secondItem="6ol-Ib-gxx" secondAttribute="trailing" constant="25" id="cnz-2F-w0S"/>
                         <constraint firstItem="FPl-X2-7My" firstAttribute="top" secondItem="Rdm-I9-QLs" secondAttribute="bottom" constant="30" id="dHW-0T-74M"/>
@@ -430,7 +426,6 @@
                         <constraint firstItem="hWv-wV-F1z" firstAttribute="leading" secondItem="t6l-fQ-51s" secondAttribute="leading" constant="25" id="qqe-d5-yRJ"/>
                         <constraint firstItem="bJk-ue-WRA" firstAttribute="leading" secondItem="t6l-fQ-51s" secondAttribute="leading" constant="25" id="t4r-pS-V7f"/>
                         <constraint firstItem="zlC-hw-yHW" firstAttribute="leading" secondItem="t6l-fQ-51s" secondAttribute="leading" constant="25" id="v09-S0-Hh5"/>
-                        <constraint firstItem="t6l-fQ-51s" firstAttribute="trailing" secondItem="Jge-r0-dhF" secondAttribute="trailing" constant="25" id="vQg-LC-24d"/>
                     </constraints>
                     <viewLayoutGuide key="contentLayoutGuide" id="JbD-7u-dtq"/>
                     <viewLayoutGuide key="frameLayoutGuide" id="t6l-fQ-51s"/>

@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ActivityAnalysisViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
                 <outlet property="collectionViewPhotos" destination="oRR-gO-k1O" id="NHd-PO-tTX"/>
+                <outlet property="imageGraph" destination="gfc-cx-Yfz" id="hmy-jt-Fhf"/>
                 <outlet property="labelActivityDate" destination="OAc-nC-YPY" id="IKx-5g-6Ki"/>
                 <outlet property="labelActivityRemark" destination="GHI-4T-iP5" id="XBR-qa-d1i"/>
                 <outlet property="labelActivityTitle" destination="xXf-mb-UUq" id="EfQ-Kc-wVi"/>
@@ -22,6 +23,7 @@
                 <outlet property="labelDistanceValue" destination="e0R-DN-fqF" id="5bt-by-8Xj"/>
                 <outlet property="labelPace" destination="X6v-kC-Mqa" id="qA9-Au-45a"/>
                 <outlet property="labelPaceValue" destination="Iqm-i6-q9I" id="Sel-rU-APO"/>
+                <outlet property="labelPhotosHeading" destination="5yf-hO-ZK5" id="qcD-Xk-t8e"/>
                 <outlet property="labelSkillPoints" destination="daG-ak-O7F" id="aUL-ng-LEL"/>
                 <outlet property="labelSteps" destination="DhW-Zi-N9I" id="xgm-wh-LVR"/>
                 <outlet property="labelStepsValue" destination="EuY-xv-Ct3" id="wSI-Ow-Eyu"/>
@@ -36,7 +38,7 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="402" height="1060"/>
+            <rect key="frame" x="0.0" y="0.0" width="402" height="955"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MbJ-Ym-WSI">
@@ -376,12 +378,10 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="oRR-gO-k1O">
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="oRR-gO-k1O">
                             <rect key="frame" x="25" y="760" width="352" height="100"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="100" id="onR-LA-Ljm"/>
-                            </constraints>
                             <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="mod-XD-xyc">
                                 <size key="itemSize" width="128" height="128"/>
                                 <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -399,8 +399,6 @@
                         <constraint firstItem="DpQ-C3-83A" firstAttribute="leading" secondItem="xub-A8-1Rn" secondAttribute="leading" constant="25" id="BCe-FV-Owl"/>
                         <constraint firstItem="xub-A8-1Rn" firstAttribute="trailing" secondItem="wMJ-Vf-n8K" secondAttribute="trailing" constant="25" id="KK6-0w-FDd"/>
                         <constraint firstItem="xub-A8-1Rn" firstAttribute="trailing" secondItem="a2A-DS-3jy" secondAttribute="trailing" constant="25" id="MF4-Py-cIt"/>
-                        <constraint firstItem="oRR-gO-k1O" firstAttribute="top" secondItem="5yf-hO-ZK5" secondAttribute="bottom" constant="10" id="Mpi-oN-PyB"/>
-                        <constraint firstItem="oRR-gO-k1O" firstAttribute="leading" secondItem="xub-A8-1Rn" secondAttribute="leading" constant="25" id="Mu7-dQ-6Fp"/>
                         <constraint firstItem="xub-A8-1Rn" firstAttribute="trailing" secondItem="sO4-mt-cM5" secondAttribute="trailing" constant="25" id="NU6-8R-9eH"/>
                         <constraint firstItem="5yf-hO-ZK5" firstAttribute="top" secondItem="gfc-cx-Yfz" secondAttribute="bottom" constant="25" id="QOH-Xw-ANT"/>
                         <constraint firstItem="xub-A8-1Rn" firstAttribute="trailing" secondItem="GQ6-Uz-tXr" secondAttribute="trailing" constant="25" id="Tfj-y0-r3J"/>
@@ -415,7 +413,6 @@
                         <constraint firstItem="sO4-mt-cM5" firstAttribute="leading" secondItem="xub-A8-1Rn" secondAttribute="leading" constant="25" id="mKR-Tw-p4w"/>
                         <constraint firstItem="wMJ-Vf-n8K" firstAttribute="top" secondItem="DpQ-C3-83A" secondAttribute="bottom" constant="25" id="meI-NZ-O9K"/>
                         <constraint firstItem="xub-A8-1Rn" firstAttribute="trailing" secondItem="gfc-cx-Yfz" secondAttribute="trailing" constant="25" id="mpn-jH-zfF"/>
-                        <constraint firstItem="xub-A8-1Rn" firstAttribute="trailing" secondItem="oRR-gO-k1O" secondAttribute="trailing" constant="25" id="nrn-Vu-daY"/>
                         <constraint firstItem="a2A-DS-3jy" firstAttribute="top" secondItem="GQ6-Uz-tXr" secondAttribute="bottom" constant="25" id="oZi-WI-TV6"/>
                         <constraint firstItem="sO4-mt-cM5" firstAttribute="top" secondItem="0JF-7y-7In" secondAttribute="top" constant="5" id="pdj-tX-4uT"/>
                         <constraint firstItem="GQ6-Uz-tXr" firstAttribute="top" secondItem="JiZ-Rz-ixh" secondAttribute="bottom" constant="15" id="uOe-y8-hii"/>
@@ -451,7 +448,7 @@
                 <constraint firstItem="MbJ-Ym-WSI" firstAttribute="top" secondItem="weN-iG-qFz" secondAttribute="bottom" constant="25" id="mdr-wh-M5v"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="516" y="164"/>
+            <point key="canvasLocation" x="514.92537313432831" y="127.34553775743706"/>
         </view>
     </objects>
     <resources>

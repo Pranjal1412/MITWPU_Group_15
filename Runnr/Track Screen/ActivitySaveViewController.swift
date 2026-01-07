@@ -272,19 +272,31 @@ extension ActivitySaveViewController : PHPickerViewControllerDelegate, UIImagePi
         
         // not called until all the task that has entered in the task leave the group
         group.notify(queue: .main) {
-            self.collectionViewAddPhotos.reloadData()
+            
+            if self.selectedImages.count == 0 {
+                self.collectionViewAddPhotos.isHidden = true
+                self.stackAddPhotos.isHidden = false
+                
+                self.scrollViewSaveActivity.contentSize.height = self.stackAddPhotos.frame.height + self.stackAddPhotos.frame.origin.y + 10
+
+            }
+            else {
+                self.collectionViewAddPhotos.reloadData()
+                self.scrollViewSaveActivity.contentSize.height = self.collectionViewAddPhotos.frame.height + self.collectionViewAddPhotos.frame.origin.y + 10
+
+            }
+            
         }
                 
-        self.scrollViewSaveActivity.contentSize.height = self.collectionViewAddPhotos.frame.height + self.collectionViewAddPhotos.frame.origin.y + 10
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true)
         self.collectionViewAddPhotos.isHidden = false
 
-//        if let image = info[.originalImage] as? UIImage {
-            //                imageView.image = image
-//        }
+        if let image = info[.originalImage] as? UIImage {
+            self.selectedImages.append(image)
+        }
         
         self.scrollViewSaveActivity.contentSize.height = self.collectionViewAddPhotos.frame.height + self.collectionViewAddPhotos.frame.origin.y + 10
 
@@ -311,7 +323,7 @@ extension ActivitySaveViewController : UICollectionViewDataSource, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 100, height: 100)
+        return CGSize(width: 100, height: 150)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
