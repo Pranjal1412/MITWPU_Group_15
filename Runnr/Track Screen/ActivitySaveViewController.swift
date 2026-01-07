@@ -35,7 +35,8 @@ class ActivitySaveViewController: UIViewController {
     @IBOutlet weak var labelCalories: UILabel!
     @IBOutlet weak var labelCaloriesValue: UILabel!
     @IBOutlet weak var labelTimeStamp: UILabel!
-        
+    @IBOutlet weak var labelAddPhotos: UILabel!
+    
     @IBOutlet weak var stackAddPhotos: UIStackView!
     @IBOutlet weak var collectionViewAddPhotos: UICollectionView!
     
@@ -144,10 +145,10 @@ class ActivitySaveViewController: UIViewController {
     }
     
     func SettingLabels() {
-        labelPhotos.text = NSLocalizedString( "Photos", comment: "")
-        labelDescription.text = NSLocalizedString( "Anyone on Runnr can see your activity", comment: "")
-        labelRunSummary.text = NSLocalizedString( "Run Summary", comment: "")
-        labelPublicActivity.text = NSLocalizedString( "Public Activity", comment: "")
+        labelPhotos.text = String(localized: "Photos")
+        labelDescription.text = String(localized: "Anyone on Runnr can see your activity")
+        labelRunSummary.text = String(localized: "Run Summary")
+        labelPublicActivity.text = String(localized: "Public Activity")
         labelTimeStamp.text = formatDate(with: self.activityData.timeStamp)
         
         labelDescription.sizeToFit()
@@ -161,6 +162,8 @@ class ActivitySaveViewController: UIViewController {
         labelCaloriesValue.text = String(format: "%.0f", self.activityData.caloriesValue) + " kcal"
         labelDistance.text = NSLocalizedString( "Distance", comment: "")
         labelDistanceValue.text = String(format: "%.2f", self.activityData.distanceValue) + " " + self.activityData.distanceUnit
+        
+        labelAddPhotos.text = String(localized: "Tap here to upload photos")
     }
     
     func defaultActivityTitle() -> String {

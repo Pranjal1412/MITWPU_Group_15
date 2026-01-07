@@ -28,7 +28,9 @@ class AddPhotosCollectionViewCell: UICollectionViewCell {
             buttonDeletePhoto.setImage(UIImage(systemName: "multiply.circle"), for: .normal)
         }
         
-        imagePhotos.layer.cornerRadius = 10
+        
         imagePhotos.image = image
+        imagePhotos.layer.cornerRadius = 10
+        imagePhotos.clipsToBounds = true
     }
 }

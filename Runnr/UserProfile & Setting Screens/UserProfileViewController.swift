@@ -29,8 +29,11 @@ class UserProfileViewController: UIViewController {
     @IBOutlet weak var labelFollowing: UILabel!
     @IBOutlet weak var labelFollowingCount: UILabel!
     
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var stackProgress: UIStackView!
+    @IBOutlet weak var collectionViewBestActivity: UICollectionView!
+    @IBOutlet weak var collectionViewBadgeEarned: UICollectionView!
     
     var totalRunnrPoints : Int {
         DataSource.shared.getTotalRunnrPoints()
@@ -48,6 +51,9 @@ class UserProfileViewController: UIViewController {
         super.viewDidLoad()
 
         view.overrideUserInterfaceStyle = .dark
+        self.collectionViewBestActivity.dataSource = self
+        self.collectionViewBestActivity.register(UINib(nibName: "BestActivitiesCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "BestActivitiesCollectionViewCell")
+        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.collectionViewBadgeEarned.frame.height + self.collectionViewBadgeEarned.frame.origin.y + 30)
         settingsElements()
     }
     
@@ -128,4 +134,27 @@ class UserProfileViewController: UIViewController {
         
     }
 
+}
+
+//MARK: - Collection View Settings
+
+extension UserProfileViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 2
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BestActivitiesCollectionViewCell", for: indexPath) as! BestActivitiesCollectionViewCell
+        
+        cell.configureCell()
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let inset: CGFloat = 16
+        let spacing: CGFloat = 10
+        let width = (collectionView.bounds.width - inset - spacing) / 2
+        return CGSize(width: width, height: width)
+    }
+    
 }

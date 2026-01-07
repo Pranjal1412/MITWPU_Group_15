@@ -22,6 +22,7 @@
             <connections>
                 <outlet property="collectionViewAddPhotos" destination="Jge-r0-dhF" id="Dan-bb-oz1"/>
                 <outlet property="imageViewMap" destination="hWv-wV-F1z" id="XVa-yj-8xl"/>
+                <outlet property="labelAddPhotos" destination="YnD-FN-1W6" id="dAr-IL-DXc"/>
                 <outlet property="labelCalories" destination="eFS-zH-n0M" id="WSV-7A-AoK"/>
                 <outlet property="labelCaloriesValue" destination="oZs-ix-exC" id="wvJ-9H-y5X"/>
                 <outlet property="labelDescription" destination="ChB-wk-awk" id="EwT-dy-aA9"/>
@@ -305,41 +306,37 @@
                             </subviews>
                         </stackView>
                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="41" translatesAutoresizingMaskIntoConstraints="NO" id="Rdm-I9-QLs">
-                            <rect key="frame" x="25" y="705" width="352" height="45"/>
+                            <rect key="frame" x="25" y="705" width="352" height="44.666666666666629"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="j5n-TI-nsx">
-                                    <rect key="frame" x="0.0" y="0.0" width="249" height="45"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="249" height="44.666666666666664"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Public Activity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vw9-PB-JzU">
-                                            <rect key="frame" x="0.0" y="0.0" width="249" height="20"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="249" height="19.666666666666668"/>
                                             <fontDescription key="fontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="18"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Anyone on Runnr can see your activity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ChB-wk-awk">
-                                            <rect key="frame" x="0.0" y="25" width="249" height="20"/>
+                                            <rect key="frame" x="0.0" y="24.666666666666629" width="249" height="20"/>
                                             <fontDescription key="fontDescription" name="SFPro-Regular" family="SF Pro" pointSize="14"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="45" id="tmf-Oc-7ab"/>
-                                    </constraints>
                                 </stackView>
                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WiB-FV-uZ5">
-                                    <rect key="frame" x="290" y="8.3333333333333695" width="64" height="28.333333333333329"/>
+                                    <rect key="frame" x="290" y="8.3333333333333712" width="64" height="28"/>
                                     <color key="onTintColor" name="AccentColor"/>
                                 </switch>
                             </subviews>
                             <constraints>
-                                <constraint firstAttribute="height" constant="45" id="2Oi-2D-M1y"/>
                                 <constraint firstAttribute="trailing" secondItem="WiB-FV-uZ5" secondAttribute="trailing" id="PO8-b6-f0T"/>
                                 <constraint firstAttribute="bottom" secondItem="WiB-FV-uZ5" secondAttribute="bottom" constant="8.3300000000000001" id="slU-Cf-Aw6"/>
                             </constraints>
                         </stackView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Photos" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FPl-X2-7My">
-                            <rect key="frame" x="25" y="780" width="352" height="25"/>
+                            <rect key="frame" x="25" y="779.66666666666663" width="352" height="25"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="25" id="fbr-4d-8Jh"/>
                             </constraints>
@@ -358,7 +355,7 @@
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textView>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="zlC-hw-yHW">
-                            <rect key="frame" x="25" y="815" width="352" height="70"/>
+                            <rect key="frame" x="25" y="814.66666666666663" width="352" height="70"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k96-9U-I7c">
                                     <rect key="frame" x="0.0" y="0.0" width="352" height="50"/>
@@ -394,7 +391,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ZqR-PH-FZe">
-                                <size key="itemSize" width="128" height="128"/>
+                                <size key="itemSize" width="100" height="100"/>
                                 <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                 <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                 <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
