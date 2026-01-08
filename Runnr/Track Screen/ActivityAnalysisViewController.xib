@@ -378,10 +378,12 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="oRR-gO-k1O">
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="oRR-gO-k1O">
                             <rect key="frame" x="25" y="760" width="352" height="100"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="100" id="4Wr-Ef-Lny"/>
+                            </constraints>
                             <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="mod-XD-xyc">
                                 <size key="itemSize" width="128" height="128"/>
                                 <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -397,6 +399,7 @@
                         <constraint firstItem="JiZ-Rz-ixh" firstAttribute="leading" secondItem="xub-A8-1Rn" secondAttribute="leading" constant="25" id="6rI-rV-ShE"/>
                         <constraint firstItem="DpQ-C3-83A" firstAttribute="top" secondItem="Epa-za-Jmi" secondAttribute="bottom" constant="25" id="9h0-hz-o1T"/>
                         <constraint firstItem="DpQ-C3-83A" firstAttribute="leading" secondItem="xub-A8-1Rn" secondAttribute="leading" constant="25" id="BCe-FV-Owl"/>
+                        <constraint firstItem="xub-A8-1Rn" firstAttribute="trailing" secondItem="oRR-gO-k1O" secondAttribute="trailing" constant="25" id="F03-dz-zvv"/>
                         <constraint firstItem="xub-A8-1Rn" firstAttribute="trailing" secondItem="wMJ-Vf-n8K" secondAttribute="trailing" constant="25" id="KK6-0w-FDd"/>
                         <constraint firstItem="xub-A8-1Rn" firstAttribute="trailing" secondItem="a2A-DS-3jy" secondAttribute="trailing" constant="25" id="MF4-Py-cIt"/>
                         <constraint firstItem="xub-A8-1Rn" firstAttribute="trailing" secondItem="sO4-mt-cM5" secondAttribute="trailing" constant="25" id="NU6-8R-9eH"/>
@@ -406,8 +409,10 @@
                         <constraint firstItem="xub-A8-1Rn" firstAttribute="trailing" secondItem="5yf-hO-ZK5" secondAttribute="trailing" constant="25" id="WLl-GI-Fr0"/>
                         <constraint firstItem="Epa-za-Jmi" firstAttribute="top" secondItem="sO4-mt-cM5" secondAttribute="bottom" constant="20" id="apr-gB-g1x"/>
                         <constraint firstItem="GQ6-Uz-tXr" firstAttribute="leading" secondItem="xub-A8-1Rn" secondAttribute="leading" constant="25" id="bBD-00-jWz"/>
+                        <constraint firstItem="oRR-gO-k1O" firstAttribute="leading" secondItem="xub-A8-1Rn" secondAttribute="leading" constant="25" id="bKX-S1-ayV"/>
                         <constraint firstItem="Epa-za-Jmi" firstAttribute="leading" secondItem="xub-A8-1Rn" secondAttribute="leading" constant="20" id="bm1-o4-AAg"/>
                         <constraint firstItem="5yf-hO-ZK5" firstAttribute="leading" secondItem="xub-A8-1Rn" secondAttribute="leading" constant="25" id="fdy-OH-TUd"/>
+                        <constraint firstItem="oRR-gO-k1O" firstAttribute="top" secondItem="5yf-hO-ZK5" secondAttribute="bottom" constant="10" id="h5n-K6-VVg"/>
                         <constraint firstItem="xub-A8-1Rn" firstAttribute="trailing" secondItem="Epa-za-Jmi" secondAttribute="trailing" constant="20" id="hjC-yH-dkm"/>
                         <constraint firstItem="xub-A8-1Rn" firstAttribute="trailing" secondItem="DpQ-C3-83A" secondAttribute="trailing" constant="25" id="jx3-PQ-LvF"/>
                         <constraint firstItem="sO4-mt-cM5" firstAttribute="leading" secondItem="xub-A8-1Rn" secondAttribute="leading" constant="25" id="mKR-Tw-p4w"/>

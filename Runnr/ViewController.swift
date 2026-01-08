@@ -20,9 +20,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.overrideUserInterfaceStyle = .dark
-        
+                
         self.buttonJoinUs.layer.cornerRadius = buttonJoinUs.frame.height / 2
         self.buttonJoinUs.setTitle(String(localized: "Join Us"), for: .normal)
         self.buttonJoinUs.clipsToBounds = true
@@ -61,7 +59,6 @@ class ViewController: UIViewController {
             itemFive.tabBarItem = iconFive
             
             let tabBarControllerArray = [itemOne, itemTwo, itemThree, itemFour, itemFive]
-            tabBar.overrideUserInterfaceStyle = .dark
             tabBar.setViewControllers(tabBarControllerArray, animated: false)
             tabBar.selectedIndex = 2
             tabBar.modalPresentationStyle = .fullScreen

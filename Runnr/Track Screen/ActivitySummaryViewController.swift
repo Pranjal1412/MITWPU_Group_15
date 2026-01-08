@@ -22,9 +22,7 @@ class ActivitySummaryViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-                
-        view.overrideUserInterfaceStyle = .dark
-        
+                        
         if #available(iOS 26.0, *) {
             buttonBack.configuration = .glass()
             buttonBack.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
@@ -91,7 +89,6 @@ class ActivitySummaryViewController: UIViewController {
             let alert = UIAlertController(title: String(localized: "Congratulations!"), message: "You have earned \(activityData!.basePoints + activityData!.skillPoints) points. Claim them now!", preferredStyle: .alert)
             let claimPointsAction = UIAlertAction(title: String(localized: "Claim Points"), style: .default)
         
-            alert.overrideUserInterfaceStyle = .dark
             alert.addAction(claimPointsAction)
             
             present(alert, animated: true , completion: nil)

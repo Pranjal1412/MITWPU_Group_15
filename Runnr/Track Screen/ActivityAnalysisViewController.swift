@@ -38,11 +38,10 @@ class ActivityAnalysisViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        view.overrideUserInterfaceStyle = .dark
         
         settingScrollViewHeight()
         collectionViewPhotos.dataSource = self
+        collectionViewPhotos.delegate = self
         collectionViewPhotos.register(UINib(nibName: "AddPhotosCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AddPhotosCollectionViewCell")
         
         setElements()
@@ -61,7 +60,7 @@ class ActivityAnalysisViewController: UIViewController {
             scrollView.contentSize.height = self.imageGraph.frame.origin.y + self.imageGraph.frame.height + 10
         }
         else {
-            scrollView.contentSize.height = self.collectionViewPhotos.frame.origin.y + self.collectionViewPhotos.frame.height
+            scrollView.contentSize.height = self.collectionViewPhotos.frame.origin.y + self.collectionViewPhotos.frame.height + 10
         }
     }
     

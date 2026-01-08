@@ -33,7 +33,6 @@ class UserProfileViewController: UIViewController {
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var stackProgress: UIStackView!
     @IBOutlet weak var collectionViewBestActivity: UICollectionView!
-    @IBOutlet weak var collectionViewBadgeEarned: UICollectionView!
     
     var totalRunnrPoints : Int {
         DataSource.shared.getTotalRunnrPoints()
@@ -50,17 +49,18 @@ class UserProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.overrideUserInterfaceStyle = .dark
         self.collectionViewBestActivity.dataSource = self
-        self.collectionViewBestActivity.delegate = self
         
-//        self.collectionViewBadgeEarned.dataSource = self
-//        self.collectionViewBadgeEarned.delegate = self
+        self.collectionViewBestActivity.register(UINib(nibName: "SectionHeaderView", bundle: nil),
+                                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                                 withReuseIdentifier: "SectionHeaderView")
         
         self.collectionViewBestActivity.register(UINib(nibName: "BestActivitiesCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "BestActivitiesCollectionViewCell")
-//        self.collectionViewBadgeEarned.register(UINib(nibName: "BadgeCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "BadgeCollectionViewCell")
+        self.collectionViewBestActivity.register(UINib(nibName: "BadgeCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "BadgeCollectionViewCell")
         
-        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.collectionViewBadgeEarned.frame.height + self.collectionViewBadgeEarned.frame.origin.y + 30)
+        self.collectionViewBestActivity.setCollectionViewLayout(generateLayout(), animated: true)
+        
+        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.collectionViewBestActivity.frame.height + self.collectionViewBestActivity.frame.origin.y + 30)
         settingsElements()
     }
     
@@ -145,24 +145,108 @@ class UserProfileViewController: UIViewController {
 
 //MARK: - Collection View Settings
 
-extension UserProfileViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+extension UserProfileViewController: UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 2
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BestActivitiesCollectionViewCell", for: indexPath) as! BestActivitiesCollectionViewCell
-        
-        cell.configureCell()
-        return cell
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if section == 0 {
+            return 2
+        }
+        else {
+            return 2
+        }
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width - 60, height: 120)
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        if indexPath.section == 0 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BestActivitiesCollectionViewCell", for: indexPath) as! BestActivitiesCollectionViewCell
+            
+            cell.configureCell()
+            return cell
+        }
+        else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BadgeCollectionViewCell", for: indexPath) as! BadgeCollectionViewCell
+            
+            return cell
+        }
+
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SectionHeaderView", for: indexPath) as! SectionHeaderView
+        
+        if indexPath.section == 0 {
+            sectionHeader.imageSection.image = UIImage(systemName: "trophy.fill")
+            sectionHeader.labelSectionHeading.text = "Best Activities"
+        }
+        else if indexPath.section == 1 {
+            sectionHeader.imageSection.image = UIImage(systemName: "medal.fill")
+            sectionHeader.labelSectionHeading.text = "Badges Earned"
+        }
+        
+        return sectionHeader
+    }
+    
+    
+    func generateLayout() -> UICollectionViewLayout {
+        
+        let layout = UICollectionViewCompositionalLayout { section, env in
+        
+            let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(25))
+            
+            // parameter elementKind should match with forSupplementaryViewOfKind in register
+            let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+            
+            if section == 0 {
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                
+                item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 10)
+                
+                let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(self.view.frame.width - 60), heightDimension: .estimated(140))
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 1)
+                                
+                let section = NSCollectionLayoutSection(group: group)
+                section.orthogonalScrollingBehavior = .continuous
+                
+                section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 20, trailing: 10)
+                section.boundarySupplementaryItems = [headerItem]
+                
+                return section
+                
+            }
+            
+            else {
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                
+                item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 15)
+                
+                let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(100), heightDimension: .absolute(100))
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 1)
+                
+                let section = NSCollectionLayoutSection(group: group)
+                section.orthogonalScrollingBehavior = .continuous
+                
+                section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 10, bottom: 10, trailing: 10)
+                section.boundarySupplementaryItems = [headerItem]
+                
+                return section
+                
+            }
+
+        }
+    
+        return layout
     }
     
 }

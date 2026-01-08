@@ -21,7 +21,6 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
 
         navigationItem.hidesBackButton = true
-        view.overrideUserInterfaceStyle = .dark
         settingTitle()
         SettingViews()
         settingButton()

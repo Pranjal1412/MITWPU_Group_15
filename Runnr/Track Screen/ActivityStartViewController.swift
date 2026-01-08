@@ -27,9 +27,7 @@ class ActivityStartViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.overrideUserInterfaceStyle = .dark
-        
+                
         userLocation.locationManager.requestWhenInUseAuthorization()
         userLocation.locationManager.startUpdatingLocation()
         
@@ -48,7 +46,6 @@ class ActivityStartViewController: UIViewController {
             let claimAction = UIAlertAction(title: String(localized: "Claim!"), style: .default, handler: nil)
             alert.addAction(claimAction)
             
-            alert.overrideUserInterfaceStyle = .dark
             present(alert, animated: true, completion: nil)
             
             self.newUserAlert = false

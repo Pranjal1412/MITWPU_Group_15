@@ -47,7 +47,6 @@ class ActivitySaveViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.overrideUserInterfaceStyle = .dark
         SettingLabels()
         settingCardView()
         scrollViewSaveActivity.contentSize.height = stackAddPhotos.frame.origin.y + stackAddPhotos.frame.size.height + 20
@@ -77,7 +76,6 @@ class ActivitySaveViewController: UIViewController {
         
         alert.addAction(cancelAction)
         alert.addAction(deleteAction)
-        alert.overrideUserInterfaceStyle = .dark
         present(alert, animated: true, completion: nil)
         
     }

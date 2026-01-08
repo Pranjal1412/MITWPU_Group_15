@@ -57,7 +57,6 @@ class ActivityLiveTrackingViewController: UIViewController {
         super.viewDidLoad()
 
         navigationItem.hidesBackButton = true
-        view.overrideUserInterfaceStyle = .dark
         
         scrollView.delegate = self
         scrollView.isScrollEnabled = false
@@ -242,7 +241,6 @@ class ActivityLiveTrackingViewController: UIViewController {
             
         })
         
-        alert.overrideUserInterfaceStyle = .dark
         alert.addAction(end)
         
         present(alert, animated: true , completion: nil)
