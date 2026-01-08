@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24412" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_3" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24405"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -105,35 +104,6 @@
                                 <action selector="dismissModalPressed:" destination="-1" eventType="touchUpInside" id="uLg-gf-qXk"/>
                             </connections>
                         </button>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rDe-n4-2hE">
-                            <rect key="frame" x="37" y="190" width="328" height="385"/>
-                            <subviews>
-                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kb9-TO-e3c">
-                                    <rect key="frame" x="117" y="0.0" width="100" height="100"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                </imageView>
-                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PGJ-vU-ryS">
-                                    <rect key="frame" x="3" y="148" width="322" height="34"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits"/>
-                                </textField>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pAa-8k-Ndn">
-                                    <rect key="frame" x="26" y="119" width="42" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <nil key="textColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="qDQ-57-Qun">
-                                    <rect key="frame" x="3" y="213" width="322" height="34"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits"/>
-                                </textField>
-                            </subviews>
-                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        </view>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="WxK-x6-iif">
                             <rect key="frame" x="26" y="230" width="352" height="330"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -152,7 +122,6 @@
                     </subviews>
                     <color key="backgroundColor" red="0.047058823529411764" green="0.047058823529411764" blue="0.047058823529411764" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstItem="rDe-n4-2hE" firstAttribute="leading" secondItem="Biy-ss-bQ1" secondAttribute="leading" constant="37" id="0OK-t8-a5k"/>
                         <constraint firstItem="Iim-Fd-TrO" firstAttribute="top" secondItem="4ZV-l3-kZv" secondAttribute="bottom" constant="10" id="0g2-G8-IZU"/>
                         <constraint firstItem="97n-47-BdF" firstAttribute="top" secondItem="IFq-ha-xbG" secondAttribute="bottom" constant="90" id="2Ae-4Z-QpN"/>
                         <constraint firstAttribute="trailing" secondItem="Hn6-bU-9ha" secondAttribute="trailing" constant="25" id="4ve-jy-3ui"/>
@@ -161,11 +130,9 @@
                         <constraint firstItem="4ZV-l3-kZv" firstAttribute="top" secondItem="Biy-ss-bQ1" secondAttribute="top" constant="64" id="GV8-JG-3H2"/>
                         <constraint firstAttribute="trailing" secondItem="4ZV-l3-kZv" secondAttribute="trailing" constant="25" id="ILz-Rf-5cU"/>
                         <constraint firstAttribute="trailing" secondItem="Iim-Fd-TrO" secondAttribute="trailing" constant="25" id="JOb-gL-h1E"/>
-                        <constraint firstAttribute="trailing" secondItem="rDe-n4-2hE" secondAttribute="trailing" constant="37" id="Myo-Pg-pbD"/>
                         <constraint firstAttribute="trailing" secondItem="IFq-ha-xbG" secondAttribute="trailing" constant="88" id="PKV-Rx-8LW"/>
                         <constraint firstItem="Iim-Fd-TrO" firstAttribute="leading" secondItem="Biy-ss-bQ1" secondAttribute="leading" constant="25" id="VMy-IT-vQd"/>
                         <constraint firstItem="Hn6-bU-9ha" firstAttribute="top" secondItem="Iim-Fd-TrO" secondAttribute="bottom" constant="35" id="XJm-BW-6m8"/>
-                        <constraint firstItem="97n-47-BdF" firstAttribute="top" secondItem="rDe-n4-2hE" secondAttribute="bottom" constant="44" id="ZUh-Dw-44d"/>
                         <constraint firstItem="REJ-hB-PMH" firstAttribute="top" secondItem="Biy-ss-bQ1" secondAttribute="top" constant="25" id="eR0-d2-ZjH"/>
                         <constraint firstItem="IFq-ha-xbG" firstAttribute="leading" secondItem="Biy-ss-bQ1" secondAttribute="leading" constant="80" id="eWo-IG-aRs"/>
                         <constraint firstItem="97n-47-BdF" firstAttribute="leading" secondItem="Biy-ss-bQ1" secondAttribute="leading" constant="46" id="jDn-Ek-Xv7"/>
@@ -176,7 +143,6 @@
                     </constraints>
                     <variation key="default">
                         <mask key="subviews">
-                            <exclude reference="rDe-n4-2hE"/>
                             <exclude reference="WxK-x6-iif"/>
                             <exclude reference="IFq-ha-xbG"/>
                         </mask>

@@ -74,7 +74,7 @@
                 <outlet property="labelValue" destination="T2D-uT-jXK" id="Cwx-vf-LBA"/>
                 <outlet property="profileImageView" destination="LG1-HT-MNg" id="dmc-B7-0jp"/>
             </connections>
-            <point key="canvasLocation" x="197" y="142"/>
+            <point key="canvasLocation" x="-32" y="31"/>
         </tableViewCell>
     </objects>
     <resources>

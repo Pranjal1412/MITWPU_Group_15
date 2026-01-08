@@ -41,7 +41,7 @@ class CreateClubViewController: UIViewController {
         // Do any additional setup after loading the view.
        
     }
-    
+
     @IBAction func nextButtonPressed(_ sender: UIButton) {
         
         if currentPage < 3 {
@@ -53,6 +53,9 @@ class CreateClubViewController: UIViewController {
                 self.dismiss(animated: true) {
                     let rootVC = ClubProfileViewController(nibName: "ClubProfileViewController", bundle: nil)
                     let destinationVC = UINavigationController(rootViewController: rootVC)
+                    
+                    myClubs.append(myClubData(clubProfileImg: "", clubName: "Runnr", numberOfMembers: "19k", sport: "Running", isPublic: true, clubMotive: "Just for Fun", clubDescription: "United we RUN. GROW. NETWORK & HAVE FUN. "))
+                    
                     rootVC.buttonTitle = "Edit Club Profile"
                     destinationVC.modalPresentationStyle = .fullScreen
                     presenter.present(destinationVC, animated: true)

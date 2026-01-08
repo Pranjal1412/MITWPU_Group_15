@@ -16,6 +16,8 @@ class ClubScreenViewController: UIViewController {
     @IBOutlet var ButtonCreateClub: UIButton!
     @IBOutlet var labelCreateyourOwnClub: UILabel!
     @IBOutlet var tableViewFriends: UITableView!
+    @IBOutlet var joinedClubCollectionView: UICollectionView!
+    @IBOutlet var yourClubLabel: UILabel!
     
     let systemOS = UIDevice.current.systemVersion
     
@@ -44,7 +46,17 @@ class ClubScreenViewController: UIViewController {
         
     }
     
-   
+    override func viewWillAppear(_ animated: Bool) {
+        
+        if myClubs.isEmpty == false {
+            joinedClubCollectionView.isHidden = false
+            yourClubLabel.isHidden = false
+        }
+        
+        joinedClubCollectionView.reloadData()
+        tableViewFriends.reloadData()
+        collectionViewExplore.reloadData()
+    }
     
     @IBAction func segmentShiftAction(_ sender: UISegmentedControl) {
         
@@ -56,6 +68,8 @@ class ClubScreenViewController: UIViewController {
             labelCreateyourOwnClub.isHidden = true
             tableViewFriends.isHidden = false
             searchBarFriendsScreen.placeholder = "Search for others"
+            joinedClubCollectionView.isHidden = true
+            yourClubLabel.isHidden = true
          case 1:
             collectionViewExplore.isHidden = false
             ButtonCreateClub.isHidden = true
@@ -63,12 +77,26 @@ class ClubScreenViewController: UIViewController {
             labelCreateyourOwnClub.isHidden = true
             tableViewFriends.isHidden = true
             searchBarFriendsScreen.placeholder = "Search for clubs"
+            joinedClubCollectionView.isHidden = true
          case 2:
-            collectionViewExplore.isHidden = true
-            ButtonCreateClub.isHidden = false
-            searchBarFriendsScreen.isHidden = true
-            labelCreateyourOwnClub.isHidden = false
-            tableViewFriends.isHidden = true
+            if myClubs.isEmpty {
+                ButtonCreateClub.isHidden = false
+                labelCreateyourOwnClub.isHidden = false
+                collectionViewExplore.isHidden = true
+                joinedClubCollectionView.isHidden = true
+                yourClubLabel.isHidden = true
+                tableViewFriends.isHidden = true
+                print(myClubs.count)
+            }
+            else {
+                ButtonCreateClub.isHidden = true
+                labelCreateyourOwnClub.isHidden = true
+                collectionViewExplore.isHidden = true
+                tableViewFriends.isHidden = true
+                joinedClubCollectionView.isHidden = false
+                yourClubLabel.isHidden = false
+                joinedClubCollectionView.reloadData()
+            }
             
          default:
              break
@@ -99,8 +127,19 @@ class ClubScreenViewController: UIViewController {
         collectionViewExplore.delegate = self
         
         collectionViewExplore.register(UINib(nibName: "ExploreScreenCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "cell")
+        
+        
         view.overrideUserInterfaceStyle = .dark
         collectionViewExplore.contentInset = UIEdgeInsets(top: 0, left: 30, bottom: 30, right: 30)
+        
+        
+        joinedClubCollectionView.dataSource = self
+        joinedClubCollectionView.delegate = self
+
+        joinedClubCollectionView.register(
+            UINib(nibName: "JoinedClubsCollectionViewCell", bundle: nil),
+            forCellWithReuseIdentifier: "JoinedClubsCollectionViewCell"
+        )
     }
     
     func settingAttributedText() {
@@ -145,14 +184,28 @@ class ClubScreenViewController: UIViewController {
 extension ClubScreenViewController : UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 6
-    }
+        if collectionView == collectionViewExplore {
+                   return clubDataArray.count
+               } else if collectionView == joinedClubCollectionView {
+                   return myClubs.count
+               }
+               return 0
+           }
+    
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ExploreScreenCollectionViewCell
         
-        cell.configureCell(with: clubDataArray[indexPath.row])
-        return cell
+        if collectionView == collectionViewExplore {
+            let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ExploreScreenCollectionViewCell
+            cell.configureCell(with: clubDataArray[indexPath.row])
+            return cell
+        }
+        else {
+            let cell =  joinedClubCollectionView.dequeueReusableCell(withReuseIdentifier: "JoinedClubsCollectionViewCell", for: indexPath) as! JoinedClubsCollectionViewCell
+            cell.configureCell(with: myClubs[indexPath.row])
+            return cell
+        }
+
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -180,6 +233,12 @@ extension ClubScreenViewController : UICollectionViewDataSource, UICollectionVie
         navigationController.modalPresentationStyle = .fullScreen
         self.present(navigationController, animated: true)
     }
+    
+    
+   
+
+    
+    
     
 }
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24128" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -41,7 +41,7 @@
                                     <constraint firstAttribute="width" constant="15" id="nnx-mU-RJs"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="11.2k" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LLQ-9i-4q3">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Run" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LLQ-9i-4q3">
                                 <rect key="frame" x="16" y="0.0" width="35" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="35" id="92i-lf-S5v"/>
@@ -63,7 +63,7 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="evx-q5-5SD">
+                    <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="evx-q5-5SD">
                         <rect key="frame" x="15" y="176" width="60" height="20"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.2.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="HTa-WI-brN">
@@ -85,6 +85,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="60" id="3cJ-CZ-c8a"/>
+                            <constraint firstAttribute="height" constant="20" id="hHn-qu-oKC"/>
+                        </constraints>
                     </stackView>
                 </subviews>
             </view>
@@ -95,10 +99,18 @@
                 <constraint firstItem="lc6-4L-PB8" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="BCz-d2-xcf"/>
                 <constraint firstItem="lc6-4L-PB8" firstAttribute="top" secondItem="M29-zx-iTy" secondAttribute="bottom" constant="5" id="Xrb-4B-CiE"/>
                 <constraint firstItem="M29-zx-iTy" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="15" id="nn7-cD-rxV"/>
+                <constraint firstItem="evx-q5-5SD" firstAttribute="top" secondItem="lc6-4L-PB8" secondAttribute="bottom" constant="5" id="rDA-Y4-dle"/>
                 <constraint firstAttribute="trailing" secondItem="M29-zx-iTy" secondAttribute="trailing" constant="15" id="rH6-M1-mkd"/>
+                <constraint firstItem="evx-q5-5SD" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="v1b-Ul-FIJ"/>
                 <constraint firstItem="M29-zx-iTy" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="xGn-ci-OqS"/>
             </constraints>
-            <point key="canvasLocation" x="138.1679389312977" y="153.16901408450704"/>
+            <connections>
+                <outlet property="ClubName" destination="lc6-4L-PB8" id="0DI-wp-vBl"/>
+                <outlet property="ClubProfileImage" destination="M29-zx-iTy" id="jaO-JC-uqE"/>
+                <outlet property="NumberOfRunners" destination="2Fa-Zw-TCm" id="EAF-aU-7ef"/>
+                <outlet property="Sport" destination="LLQ-9i-4q3" id="3EY-E3-5gl"/>
+            </connections>
+            <point key="canvasLocation" x="-25" y="-59"/>
         </collectionViewCell>
     </objects>
     <resources>
