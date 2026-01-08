@@ -17,6 +17,7 @@ struct MyRunActivity {
     let basePoints: Int
     let skillPoints: Int
     let mapImage: UIImage
+    var activityPhotos: [UIImage]
     var note: String
     var isPublic: Bool
     var routeCoordinates: [CLLocationCoordinate2D]

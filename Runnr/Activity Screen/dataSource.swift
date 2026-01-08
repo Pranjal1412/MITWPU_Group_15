@@ -48,7 +48,7 @@ class DataSource {
         )]
         
         self.activitiesFriends = friendsSampleData
-        self.totalRunnrPoints = 0
+        self.totalRunnrPoints = 100
     }
     
     func getFriendsActivityData() -> [FriendsRunActivity] {

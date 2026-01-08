@@ -151,16 +151,18 @@
 				DEVELOPMENT_TEAM = A624XAHBM7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Runnr/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Your location is needed even when the screen is locked.";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Your location is needed even when the screen is locked.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is used to track your running path.";
 				INFOPLIST_KEY_NSMotionUsageDescription = "This app uses motion data to track steps during your activity.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app needs photo library access.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -194,16 +196,18 @@
 				DEVELOPMENT_TEAM = A624XAHBM7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Runnr/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Your location is needed even when the screen is locked.";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Your location is needed even when the screen is locked.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is used to track your running path.";
 				INFOPLIST_KEY_NSMotionUsageDescription = "This app uses motion data to track steps during your activity.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app needs photo library access.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

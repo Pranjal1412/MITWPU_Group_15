@@ -7,8 +7,11 @@
 
 import UIKit
 
-class ClubProfileTableViewCell: UITableViewCell {
 
+class ClubProfileTableViewCell: UITableViewCell {
+    
+    
+    
     @IBOutlet var levelName: UILabel!
     @IBOutlet var levelDescription: UILabel!
    
@@ -19,6 +22,7 @@ class ClubProfileTableViewCell: UITableViewCell {
         // Initialization code
     }
 
+  
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 

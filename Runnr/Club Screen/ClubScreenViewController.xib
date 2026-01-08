@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24412" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24405"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -19,11 +18,13 @@
             <connections>
                 <outlet property="ButtonCreateClub" destination="Kyf-ml-Xlp" id="PxP-bz-qra"/>
                 <outlet property="collectionViewExplore" destination="qb8-Dp-DRw" id="X5Z-75-vFO"/>
+                <outlet property="joinedClubCollectionView" destination="i4U-66-9CN" id="hEO-En-Vuj"/>
                 <outlet property="labelCreateyourOwnClub" destination="znz-7o-Se4" id="bL5-25-3PM"/>
                 <outlet property="searchBarFriendsScreen" destination="RLc-jZ-AhE" id="p7M-pD-jGe"/>
                 <outlet property="segmentControlClubScreen" destination="vyM-ru-Mgt" id="fdt-ld-rU8"/>
                 <outlet property="tableViewFriends" destination="dKE-91-srN" id="lXp-p5-fzt"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="yourClubLabel" destination="ARY-lh-bYp" id="gUC-2J-xYQ"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -103,6 +104,36 @@
                         <outlet property="delegate" destination="-1" id="01Z-6f-mj5"/>
                     </connections>
                 </searchBar>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="i4U-66-9CN">
+                    <rect key="frame" x="0.0" y="307" width="402" height="567"/>
+                    <color key="backgroundColor" name="AccentColor"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="fYq-Xo-l8y">
+                        <size key="itemSize" width="128" height="128"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ARY-lh-bYp">
+                    <rect key="frame" x="21" y="261" width="360" height="36"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="360" id="OSb-S6-IwU"/>
+                        <constraint firstAttribute="height" constant="36" id="diu-uO-KcY"/>
+                    </constraints>
+                    <attributedString key="attributedText">
+                        <fragment content="Your ">
+                            <attributes>
+                                <font key="NSFont" size="30" name="SFPro-Light"/>
+                            </attributes>
+                        </fragment>
+                        <fragment content="clubs">
+                            <attributes>
+                                <font key="NSFont" size="30" name="SFPro-RegularItalic"/>
+                            </attributes>
+                        </fragment>
+                    </attributedString>
+                    <nil key="highlightedColor"/>
+                </label>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="qb8-Dp-DRw">
                     <rect key="frame" x="0.0" y="266" width="402" height="608"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -121,16 +152,24 @@
                 <constraint firstItem="bDJ-s7-eTs" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="0oz-os-W5V"/>
                 <constraint firstItem="D1J-4K-o7n" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="2N3-lQ-nvx"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="RLc-jZ-AhE" secondAttribute="trailing" constant="12" id="2Oc-fh-dka"/>
+                <constraint firstItem="i4U-66-9CN" firstAttribute="top" secondItem="RLc-jZ-AhE" secondAttribute="bottom" constant="61" id="4CE-9j-i4J"/>
+                <constraint firstAttribute="bottom" secondItem="i4U-66-9CN" secondAttribute="bottom" id="5h5-Lv-MTC"/>
                 <constraint firstItem="RLc-jZ-AhE" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="12" id="7UQ-E2-zkm"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ARY-lh-bYp" secondAttribute="trailing" constant="21" id="7XQ-a8-lRg"/>
                 <constraint firstItem="D1J-4K-o7n" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="46" id="8Y8-ko-dJX"/>
                 <constraint firstItem="dKE-91-srN" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="8di-qr-Lit"/>
                 <constraint firstItem="dKE-91-srN" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="B2J-0I-LY1"/>
                 <constraint firstItem="bDJ-s7-eTs" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="90" id="GeY-VO-LyA"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="vyM-ru-Mgt" secondAttribute="trailing" constant="20" id="LEv-vf-Fhr"/>
+                <constraint firstItem="ARY-lh-bYp" firstAttribute="top" secondItem="RLc-jZ-AhE" secondAttribute="bottom" constant="15" id="P8G-wk-sc0"/>
+                <constraint firstItem="i4U-66-9CN" firstAttribute="top" secondItem="ARY-lh-bYp" secondAttribute="bottom" constant="10" id="Pd8-lO-Bq5"/>
                 <constraint firstItem="vyM-ru-Mgt" firstAttribute="top" secondItem="bDJ-s7-eTs" secondAttribute="bottom" constant="20" id="TmI-C7-nkh"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="D1J-4K-o7n" secondAttribute="trailing" constant="46" id="Vz0-Nx-O3n"/>
+                <constraint firstItem="i4U-66-9CN" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="WJZ-qA-uCl"/>
+                <constraint firstAttribute="trailing" secondItem="i4U-66-9CN" secondAttribute="trailing" id="g3w-9B-dCh"/>
                 <constraint firstItem="qb8-Dp-DRw" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="kD7-5Z-cCF"/>
                 <constraint firstAttribute="bottom" secondItem="qb8-Dp-DRw" secondAttribute="bottom" id="lzw-uK-2UG"/>
+                <constraint firstItem="ARY-lh-bYp" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="21" id="mfr-1x-eJL"/>
                 <constraint firstItem="dKE-91-srN" firstAttribute="top" secondItem="RLc-jZ-AhE" secondAttribute="bottom" constant="25" id="njd-71-9aX"/>
                 <constraint firstItem="qb8-Dp-DRw" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="pAi-Bt-m9H"/>
                 <constraint firstItem="qb8-Dp-DRw" firstAttribute="top" secondItem="RLc-jZ-AhE" secondAttribute="bottom" constant="20" id="rH6-8r-ZhC"/>
@@ -138,7 +177,7 @@
                 <constraint firstItem="vyM-ru-Mgt" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="yLD-lN-o6m"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-160.30534351145039" y="104.92957746478874"/>
+            <point key="canvasLocation" x="-160.30534351145039" y="85.91549295774648"/>
         </view>
     </objects>
     <resources>

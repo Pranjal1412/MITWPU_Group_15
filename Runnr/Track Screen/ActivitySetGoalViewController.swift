@@ -31,7 +31,6 @@ class ActivitySetGoalViewController: UIViewController {
         viewMainBackground.layer.cornerRadius = 20
         viewSubBackground.layer.cornerRadius = 15
         
-        view.overrideUserInterfaceStyle = .dark
         settingScreen()
         hideKeyboardWhenTappedAround()
         labelAudioFeedback.sizeToFit()

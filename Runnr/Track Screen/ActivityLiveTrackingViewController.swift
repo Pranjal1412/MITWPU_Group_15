@@ -51,13 +51,12 @@ class ActivityLiveTrackingViewController: UIViewController {
     
     var timer : Timer?
     var counter = 3
-    var quotes: [String] = ["Starting Your Tracker...", "You Got This", "Lock in", "Lace Up"]
+    var quotes: [String] = [String(localized: "Starting Your Tracker..."), String(localized: "You Got This"), String(localized: "Lock in"), String(localized: "Lace Up")]
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         navigationItem.hidesBackButton = true
-        view.overrideUserInterfaceStyle = .dark
         
         scrollView.delegate = self
         scrollView.isScrollEnabled = false
@@ -72,10 +71,10 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         activityManager = UserActivityManager(timerLabel: self.labelTimeCounter)
         activityManager.activityTimeStamp()
-        activityManager.startTimer()
-        activityManager.startStepsTracking()
         
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        
+        activityManager.startStepsTracking()
         
         userLocation.onLocationUpdate = { location in
         
@@ -126,10 +125,6 @@ class ActivityLiveTrackingViewController: UIViewController {
         viewActivityTrack.addSubview(self.topGradientView)
         
         
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        self.applyGradient(to: mapManager.mapView)
     }
         
     override func viewDidAppear(_ animated: Bool) {
@@ -228,13 +223,13 @@ class ActivityLiveTrackingViewController: UIViewController {
                 basePoints: self.activityManager.basePointsEarned(),
                 skillPoints: self.activityManager.skillPointsEarned(),
                 mapImage: self.captureMapImage(from: self.mapManager.mapView)!,
+                activityPhotos: [],
                 note: "",
                 isPublic: false,
                 routeCoordinates: self.convertPathToCoordinates(self.mapManager.path))
 
             let destinationVC = ActivitySaveViewController()
             destinationVC.activityData = newActivity
-            
             destinationVC.modalPresentationStyle = .fullScreen
             self.navigationController?.pushViewController(destinationVC, animated: true)
             
@@ -246,7 +241,6 @@ class ActivityLiveTrackingViewController: UIViewController {
             
         })
         
-        alert.overrideUserInterfaceStyle = .dark
         alert.addAction(end)
         
         present(alert, animated: true , completion: nil)
@@ -258,6 +252,9 @@ class ActivityLiveTrackingViewController: UIViewController {
             self.viewCountdown.isHidden = true
             self.scrollView.isScrollEnabled = true
             pageControl.isHidden = false
+            
+            self.activityManager.startTimer()
+            
             timer?.invalidate()
             timer = nil
         }
@@ -277,21 +274,6 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         
         counter -= 1
-    }
-    
-    func applyGradient(to view: UIView) {
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = view.bounds
-
-        gradientLayer.colors = [
-            UIColor.red.cgColor,
-            UIColor.white.cgColor
-        ]
-
-        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
-        gradientLayer.endPoint = CGPoint(x: 1, y: 1)
-
-        view.layer.insertSublayer(gradientLayer, at: 0)
     }
     
     func addCoordinateIfValid(_ newLocation: CLLocation) -> Bool {
