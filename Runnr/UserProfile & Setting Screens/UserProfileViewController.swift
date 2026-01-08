@@ -54,10 +54,12 @@ class UserProfileViewController: UIViewController {
         self.collectionViewBestActivity.dataSource = self
         self.collectionViewBestActivity.delegate = self
         
-        self.collectionViewBadgeEarned.dataSource = self
-        self.collectionViewBadgeEarned.delegate = self
+//        self.collectionViewBadgeEarned.dataSource = self
+//        self.collectionViewBadgeEarned.delegate = self
         
         self.collectionViewBestActivity.register(UINib(nibName: "BestActivitiesCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "BestActivitiesCollectionViewCell")
+//        self.collectionViewBadgeEarned.register(UINib(nibName: "BadgeCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "BadgeCollectionViewCell")
+        
         self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.collectionViewBadgeEarned.frame.height + self.collectionViewBadgeEarned.frame.origin.y + 30)
         settingsElements()
     }
@@ -156,10 +158,11 @@ extension UserProfileViewController: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let inset: CGFloat = 16
-        let spacing: CGFloat = 10
-        let width = (collectionView.bounds.width - inset - spacing) / 2
-        return CGSize(width: width, height: width)
+        return CGSize(width: view.frame.width - 60, height: 120)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
     }
     
 }
