@@ -24,6 +24,7 @@
                 <outlet property="scrollViewMain" destination="Ezg-9O-IIZ" id="Ahc-ih-pwj"/>
                 <outlet property="segmentControlAveragePace" destination="MHi-Tx-JgM" id="X2L-eP-MEf"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="viewYAxis" destination="azE-0m-9kB" id="XY4-oH-S73"/>
                 <outlet property="weekRangeLabel" destination="vk2-72-EXv" id="YfE-i1-f6S"/>
             </connections>
         </placeholder>
@@ -45,10 +46,10 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qpc-sI-Lbb">
-                            <rect key="frame" x="0.0" y="192" width="402" height="250"/>
+                            <rect key="frame" x="25" y="192" width="377" height="250"/>
                             <subviews>
                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="emV-PJ-g5T" customClass="AveragePaceGraph" customModule="Runnr" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="0.0" width="402" height="250"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="377" height="250"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </view>
                             </subviews>
@@ -108,6 +109,11 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="azE-0m-9kB">
+                            <rect key="frame" x="0.0" y="192" width="25" height="250"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        </view>
                     </subviews>
                     <constraints>
                         <constraint firstItem="vk2-72-EXv" firstAttribute="top" secondItem="Ka2-4c-AO0" secondAttribute="bottom" constant="20" id="2Ao-AH-UgS"/>

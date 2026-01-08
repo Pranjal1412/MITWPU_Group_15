@@ -24,6 +24,7 @@
                 <outlet property="scrollViewMain" destination="x2e-zu-gUB" id="JHR-Iw-mMg"/>
                 <outlet property="segmentControlCalories" destination="5JB-WY-xJ2" id="mi8-6O-rLH"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="viewYAxis" destination="V4z-ZD-Wfj" id="76k-20-Vsm"/>
                 <outlet property="weekRangeLabel" destination="X1B-U3-GbT" id="6vG-yE-84F"/>
             </connections>
         </placeholder>
@@ -85,12 +86,11 @@
                             </collectionViewFlowLayout>
                         </collectionView>
                         <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lRe-Xt-o51">
-                            <rect key="frame" x="0.0" y="187" width="402" height="250"/>
+                            <rect key="frame" x="25" y="192" width="380" height="250"/>
                             <subviews>
                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o7F-ug-KEx">
-                                    <rect key="frame" x="0.0" y="0.0" width="402" height="250"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="380" height="250"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 </view>
                             </subviews>
                             <constraints>
@@ -108,6 +108,11 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="V4z-ZD-Wfj">
+                            <rect key="frame" x="0.0" y="192" width="25" height="250"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        </view>
                     </subviews>
                     <constraints>
                         <constraint firstItem="IQ7-1E-Ztn" firstAttribute="leading" secondItem="kG1-vS-EcG" secondAttribute="leading" constant="16" id="0zZ-vt-gqa"/>

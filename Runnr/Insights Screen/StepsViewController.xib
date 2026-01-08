@@ -17,13 +17,14 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="StepsViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
                 <outlet property="collectionViewSteps" destination="erT-DZ-jLO" id="ZY9-B5-82L"/>
-                <outlet property="contentView" destination="JYm-La-yLE" id="dPw-4M-JmJ"/>
+                <outlet property="contentView" destination="JYm-La-yLE" id="6Lo-GT-Ugd"/>
                 <outlet property="labelNumber" destination="lFW-3U-qqr" id="iQz-Lr-M3y"/>
                 <outlet property="labelStepsCovered" destination="W1N-b7-M0C" id="Ry7-HY-Sd2"/>
                 <outlet property="scrollView" destination="0Co-F6-RYg" id="akS-Jc-WAt"/>
                 <outlet property="scrollViewMain" destination="DxR-x2-Ufb" id="EHa-uU-38e"/>
                 <outlet property="segmentControlSteps" destination="c0x-uA-z7w" id="aoM-Vs-NFP"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="viewYAxis" destination="SxT-OK-KvP" id="KUz-AM-Dh8"/>
                 <outlet property="weekRangeLabel" destination="lgd-tL-CqO" id="kVs-NB-MHI"/>
             </connections>
         </placeholder>
@@ -66,12 +67,11 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Co-F6-RYg">
-                            <rect key="frame" x="0.0" y="187" width="402" height="250"/>
+                            <rect key="frame" x="25" y="192" width="380" height="250"/>
                             <subviews>
                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JYm-La-yLE">
-                                    <rect key="frame" x="0.0" y="0.0" width="402" height="250"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="380" height="250"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 </view>
                             </subviews>
                             <constraints>
@@ -108,6 +108,11 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SxT-OK-KvP">
+                            <rect key="frame" x="0.0" y="192" width="25" height="250"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        </view>
                     </subviews>
                     <constraints>
                         <constraint firstItem="lFW-3U-qqr" firstAttribute="top" secondItem="W1N-b7-M0C" secondAttribute="bottom" constant="-2" id="56M-6A-WpK"/>

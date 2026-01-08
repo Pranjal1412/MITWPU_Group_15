@@ -19,6 +19,7 @@
                 <outlet property="scrollViewMain" destination="QT5-lz-Xjx" id="Yyi-So-qhf"/>
                 <outlet property="segmentControlDistance" destination="6un-z3-dSa" id="RBC-t8-WNK"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="viewYAxis" destination="NCT-x9-6tB" id="82E-yJ-KFV"/>
                 <outlet property="weekRangeLabel" destination="Xkv-Zt-zcd" id="Sei-Y4-vwq"/>
             </connections>
         </placeholder>
@@ -49,12 +50,11 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WMx-Pu-oAp">
-                            <rect key="frame" x="0.0" y="187" width="402" height="250"/>
+                            <rect key="frame" x="25" y="192" width="380" height="250"/>
                             <subviews>
                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bOi-zF-tzz">
-                                    <rect key="frame" x="0.0" y="0.0" width="402" height="250"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="380" height="250"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 </view>
                             </subviews>
                             <constraints>
@@ -110,6 +110,11 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NCT-x9-6tB">
+                            <rect key="frame" x="0.0" y="192" width="25" height="250"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
