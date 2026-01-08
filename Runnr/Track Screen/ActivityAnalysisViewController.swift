@@ -19,10 +19,12 @@ class ActivityAnalysisViewController: UIViewController {
     @IBOutlet weak var labelTime: UILabel!
     @IBOutlet weak var labelCalories: UILabel!
     @IBOutlet weak var labelSteps: UILabel!
+    @IBOutlet weak var labelPhotosHeading: UILabel!
     
     @IBOutlet weak var viewActivityStats: UIView!
-    @IBOutlet weak var imageViewPhotos: UIImageView!
+    @IBOutlet weak var collectionViewPhotos: UICollectionView!
     
+    @IBOutlet weak var imageGraph: UIImageView!
     @IBOutlet weak var labelDistanceValue: UILabel!
     @IBOutlet weak var labelPaceValue: UILabel!
     @IBOutlet weak var labelTimeValue: UILabel!
@@ -38,7 +40,10 @@ class ActivityAnalysisViewController: UIViewController {
         super.viewDidLoad()
 
         view.overrideUserInterfaceStyle = .dark
-        scrollView.contentSize.height = imageViewPhotos.frame.origin.y + imageViewPhotos.frame.height + 25
+        
+        settingScrollViewHeight()
+        collectionViewPhotos.dataSource = self
+        collectionViewPhotos.register(UINib(nibName: "AddPhotosCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AddPhotosCollectionViewCell")
         
         setElements()
         settingAttributedText()
@@ -50,7 +55,15 @@ class ActivityAnalysisViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    
+    func settingScrollViewHeight() {
+        if self.activityData?.activityPhotos.count == 0 {
+            self.labelPhotosHeading.isHidden = true
+            scrollView.contentSize.height = self.imageGraph.frame.origin.y + self.imageGraph.frame.height + 10
+        }
+        else {
+            scrollView.contentSize.height = self.collectionViewPhotos.frame.origin.y + self.collectionViewPhotos.frame.height
+        }
+    }
     
     func setElements() {
         
@@ -85,7 +98,6 @@ class ActivityAnalysisViewController: UIViewController {
         labelTotalPoints.text = String(localized: "Points: ") + String(self.activityData!.basePoints + self.activityData!.skillPoints)
         
         viewActivityStats.layer.cornerRadius = 10
-        imageViewPhotos.layer.cornerRadius = 10
     }
     
     func settingAttributedText() {
@@ -130,4 +142,30 @@ class ActivityAnalysisViewController: UIViewController {
         labelStepsValue.text = String(self.activityData!.stepsValue)
     }
 
+}
+
+// MARK: - Add Photos CollectionView Settings
+
+extension ActivityAnalysisViewController : UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.activityData!.activityPhotos.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddPhotosCollectionViewCell", for: indexPath) as! AddPhotosCollectionViewCell
+        
+        let image = self.activityData!.activityPhotos[indexPath.row]
+        cell.configureCell(with: image)
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 100, height: 100)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 10.0
+    }
 }

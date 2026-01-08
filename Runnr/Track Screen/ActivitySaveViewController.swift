@@ -7,6 +7,7 @@
 
 import UIKit
 import GoogleMaps
+import PhotosUI
 
 class ActivitySaveViewController: UIViewController {
 
@@ -34,11 +35,14 @@ class ActivitySaveViewController: UIViewController {
     @IBOutlet weak var labelCalories: UILabel!
     @IBOutlet weak var labelCaloriesValue: UILabel!
     @IBOutlet weak var labelTimeStamp: UILabel!
+    @IBOutlet weak var labelAddPhotos: UILabel!
     
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var stackAddPhotos: UIStackView!
+    @IBOutlet weak var collectionViewAddPhotos: UICollectionView!
     
     var activityData: MyRunActivity!
     var datsource = DataSource.shared
+    private var selectedImages: [UIImage] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,8 +50,12 @@ class ActivitySaveViewController: UIViewController {
         view.overrideUserInterfaceStyle = .dark
         SettingLabels()
         settingCardView()
-        scrollViewSaveActivity.contentSize.height = imageView.frame.origin.y + imageView.frame.size.height + 20
+        scrollViewSaveActivity.contentSize.height = stackAddPhotos.frame.origin.y + stackAddPhotos.frame.size.height + 20
 
+        collectionViewAddPhotos.isHidden = true
+        collectionViewAddPhotos.register(UINib(nibName: "AddPhotosCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AddPhotosCollectionViewCell")
+        collectionViewAddPhotos.dataSource = self
+        
         registerNotifications()
         hideKeyboardWhenTappedAround()
         textViewRemark.clipsToBounds = true
@@ -84,9 +92,10 @@ class ActivitySaveViewController: UIViewController {
             textViewRemark.text = ""
         }
         
-        activityData.runTitle = textFieldActivityTitle.text!
-        activityData.note = textViewRemark.text
-        activityData.isPublic = switchIsActivityPublic.isOn
+        activityData.runTitle = self.textFieldActivityTitle.text!
+        activityData.note = self.textViewRemark.text
+        activityData.isPublic = self.switchIsActivityPublic.isOn
+        activityData.activityPhotos = self.selectedImages
         
         self.datsource.addMyActivity(activityData)
         self.datsource.updateTotalRunnrPoints(with: activityData.basePoints + activityData.skillPoints)
@@ -103,6 +112,24 @@ class ActivitySaveViewController: UIViewController {
         
     }
     
+    @IBAction func addPhotosButtonPressed(_ sender: UIButton) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let cameraButton = UIAlertAction(title: String(localized: "Camera"), style: .default, handler: {_ in 
+            self.openCamera()
+        })
+        let photoLibraryButton = UIAlertAction(title: String(localized: "Gallery"), style: .default, handler: {_ in
+            self.openPhotoLibrary()
+        })
+        let cancelButton = UIAlertAction(title: String("Cancel"), style: .cancel)
+
+        alert.addAction(cameraButton)
+        alert.addAction(photoLibraryButton)
+        alert.addAction(cancelButton)
+        
+        self.present(alert, animated: true)
+    }
+    
     func settingCardView() {
         viewDistance.layer.cornerRadius = 15
         viewPace.layer.cornerRadius = 15
@@ -115,14 +142,13 @@ class ActivitySaveViewController: UIViewController {
         
         imageViewMap.image = self.activityData.mapImage
         imageViewMap.layer.cornerRadius = 15
-        imageView.layer.cornerRadius = 10
     }
     
     func SettingLabels() {
-        labelPhotos.text = NSLocalizedString( "Photos", comment: "")
-        labelDescription.text = NSLocalizedString( "Anyone on Runnr can see your activity", comment: "")
-        labelRunSummary.text = NSLocalizedString( "Run Summary", comment: "")
-        labelPublicActivity.text = NSLocalizedString( "Public Activity", comment: "")
+        labelPhotos.text = String(localized: "Photos")
+        labelDescription.text = String(localized: "Anyone on Runnr can see your activity")
+        labelRunSummary.text = String(localized: "Run Summary")
+        labelPublicActivity.text = String(localized: "Public Activity")
         labelTimeStamp.text = formatDate(with: self.activityData.timeStamp)
         
         labelDescription.sizeToFit()
@@ -136,6 +162,8 @@ class ActivitySaveViewController: UIViewController {
         labelCaloriesValue.text = String(format: "%.0f", self.activityData.caloriesValue) + " kcal"
         labelDistance.text = NSLocalizedString( "Distance", comment: "")
         labelDistanceValue.text = String(format: "%.2f", self.activityData.distanceValue) + " " + self.activityData.distanceUnit
+        
+        labelAddPhotos.text = String(localized: "Tap here to upload photos")
     }
     
     func defaultActivityTitle() -> String {
@@ -155,6 +183,8 @@ class ActivitySaveViewController: UIViewController {
 
     
 }
+
+// MARK: - KeyBoard Settings
 
 extension ActivitySaveViewController {
     
@@ -183,5 +213,123 @@ extension ActivitySaveViewController {
     
     @objc private func keyboardWillHide(notification: NSNotification){
         scrollViewSaveActivity.contentInset.bottom = 0
+    }
+}
+
+// MARK: - Camera & Photos
+
+extension ActivitySaveViewController : PHPickerViewControllerDelegate, UIImagePickerControllerDelegate & UINavigationControllerDelegate  {
+    
+    func openPhotoLibrary() {
+        var config = PHPickerConfiguration()
+        config.filter = .images
+        config.selectionLimit = 5
+
+        let picker = PHPickerViewController(configuration: config)
+        picker.delegate = self
+        present(picker, animated: true)
+    }
+
+    func openCamera() {
+        guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
+            print("Camera not available")
+            return
+        }
+
+        let picker = UIImagePickerController()
+        picker.sourceType = .camera
+        picker.delegate = self
+        present(picker, animated: true)
+    }
+
+    
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+
+        self.collectionViewAddPhotos.isHidden = false
+        self.stackAddPhotos.isHidden = true
+        
+//        this is required because it takes time to load the images but collection vew gets loaded before all the images are loaded
+//        so group allows to keep track about when all the task are completed and upon completion reloadData is called
+        let group = DispatchGroup()
+        
+        for result in results {
+//          .itemProvider -> object that can load the image data
+            let provider = result.itemProvider
+            
+//          .canLoadObject -> Confirms the selected item can be converted into UIImage
+            if provider.canLoadObject(ofClass: UIImage.self) {
+                group.enter()
+//              loading the image
+                provider.loadObject(ofClass: UIImage.self) { image, _ in
+                    DispatchQueue.main.async {
+                        if let image = image as? UIImage {
+                            self.selectedImages.append(image)
+                            print("Current count:", self.selectedImages.count)
+                        }
+                    }
+                    group.leave()
+                }
+            }
+        }
+        
+        // not called until all the task that has entered in the task leave the group
+        group.notify(queue: .main) {
+            
+            if self.selectedImages.count == 0 {
+                self.collectionViewAddPhotos.isHidden = true
+                self.stackAddPhotos.isHidden = false
+                
+                self.scrollViewSaveActivity.contentSize.height = self.stackAddPhotos.frame.height + self.stackAddPhotos.frame.origin.y + 10
+
+            }
+            else {
+                self.collectionViewAddPhotos.reloadData()
+                self.scrollViewSaveActivity.contentSize.height = self.collectionViewAddPhotos.frame.height + self.collectionViewAddPhotos.frame.origin.y + 10
+
+            }
+            
+        }
+                
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true)
+        self.collectionViewAddPhotos.isHidden = false
+
+        if let image = info[.originalImage] as? UIImage {
+            self.selectedImages.append(image)
+        }
+        
+        self.scrollViewSaveActivity.contentSize.height = self.collectionViewAddPhotos.frame.height + self.collectionViewAddPhotos.frame.origin.y + 10
+
+    }
+    
+}
+
+// MARK: - Add Photos CollectionView Settings
+
+extension ActivitySaveViewController : UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print(self.selectedImages.count)
+        return self.selectedImages.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddPhotosCollectionViewCell", for: indexPath) as! AddPhotosCollectionViewCell
+        
+        let image = self.selectedImages[indexPath.row]
+        cell.configureCell(with: image)
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 100, height: 150)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 10.0
     }
 }

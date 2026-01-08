@@ -18,7 +18,8 @@ class ActivitySummaryViewController: UIViewController {
     let userLocation = UserLocationManager()
     var activityData : MyRunActivity?
     var showAlert : Bool = false
-    
+    let topGradientView = UIView()
+
     override func viewDidLoad() {
         super.viewDidLoad()
                 
@@ -41,8 +42,8 @@ class ActivitySummaryViewController: UIViewController {
         userLocation.onLocationUpdate = { location in
             
             if self.isMapInitialized == false {
-                
                 let mapManager = MapManager()
+
                 let topOffset = self.labelActivityHeading.frame.origin.y + self.labelActivityHeading.frame.height + 20.0
                 let mapView = mapManager.initializeMaps(withX: 0.0, withY: topOffset,
                                                        withWidth: self.view.frame.width,
@@ -68,8 +69,14 @@ class ActivitySummaryViewController: UIViewController {
                 
 //                here we are now adjusting map such that it cover the entire track
                 mapView.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 70))
+                self.topGradientView.frame = mapView.bounds
+                self.topGradientView.frame.origin.y = mapView.frame.origin.y - 5
+                self.topGradientView.frame.origin.x = mapView.frame.origin.x
+                addTopGradient(to: self.topGradientView)
                 
                 self.view.addSubview(mapView)
+                self.view.addSubview(self.topGradientView)
+
                 self.view.bringSubviewToFront(self.buttonShowAnalysis)
                 self.userLocation.locationManager.stopUpdatingLocation()
                 self.isMapInitialized = true
@@ -79,8 +86,9 @@ class ActivitySummaryViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
         if self.showAlert {
-            let alert = UIAlertController(title: String(localized: "Congratulations!"), message: String(localized: "You have earned \(activityData!.basePoints + activityData!.skillPoints) points. Claim them now!"), preferredStyle: .alert)
+            let alert = UIAlertController(title: String(localized: "Congratulations!"), message: "You have earned \(activityData!.basePoints + activityData!.skillPoints) points. Claim them now!", preferredStyle: .alert)
             let claimPointsAction = UIAlertAction(title: String(localized: "Claim Points"), style: .default)
         
             alert.overrideUserInterfaceStyle = .dark
@@ -88,6 +96,7 @@ class ActivitySummaryViewController: UIViewController {
             
             present(alert, animated: true , completion: nil)
         }
+        
     }
     
     @IBAction func backButtonPressed(_ sender: UIButton) {

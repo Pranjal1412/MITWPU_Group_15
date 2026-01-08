@@ -7,6 +7,7 @@
 
 import UIKit
 
+let tabBar = UITabBarController()
 
 class ViewController: UIViewController {
 
@@ -14,8 +15,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var labelTitle: UILabel!
     @IBOutlet weak var buttonJoinUs: UIButton!
     @IBOutlet weak var buttonLogin: UIButton!
-    
-    let tabBar = UITabBarController()
+
     var newUser = false
     
     override func viewDidLoad() {

@@ -37,7 +37,7 @@ class ActivityStartViewController: UIViewController {
         labelScreenTitle.text = NSLocalizedString("Runnr.", comment: "")
         labelScreenTitle.textColor = .accent
         labelScreenTitle.sizeToFit()
-        
+        self.createStartButton()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -51,6 +51,7 @@ class ActivityStartViewController: UIViewController {
             alert.overrideUserInterfaceStyle = .dark
             present(alert, animated: true, completion: nil)
             
+            self.newUserAlert = false
         }
         
         labelTotalPoints.text = "\(totalPoints)"

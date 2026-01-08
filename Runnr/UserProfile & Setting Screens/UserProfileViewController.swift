@@ -14,15 +14,26 @@ class UserProfileViewController: UIViewController {
     @IBOutlet weak var imageCategoryBadge: UIImageView!
     @IBOutlet weak var buttonEditProfile: UIButton!
     
+    @IBOutlet weak var labelScreenTitle: UILabel!
     @IBOutlet weak var labelTotalPoints: UILabel!
+    @IBOutlet weak var labelTotalPointsCount: UILabel!
     @IBOutlet weak var labelTotalActivities: UILabel!
+    @IBOutlet weak var labelTotalActivitiesCount: UILabel!
     @IBOutlet weak var labelTotalDistance: UILabel!
+    @IBOutlet weak var labelTotalDistanceCount: UILabel!
     @IBOutlet weak var labelCategory: UILabel!
     @IBOutlet weak var labelCategoryGoal: UILabel!
     @IBOutlet weak var labelCategoryGoalLeft: UILabel!
+    @IBOutlet weak var labelFollower: UILabel!
+    @IBOutlet weak var labelFollowerCount: UILabel!
+    @IBOutlet weak var labelFollowing: UILabel!
+    @IBOutlet weak var labelFollowingCount: UILabel!
     
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var stackProgress: UIStackView!
+    @IBOutlet weak var collectionViewBestActivity: UICollectionView!
+    @IBOutlet weak var collectionViewBadgeEarned: UICollectionView!
     
     var totalRunnrPoints : Int {
         DataSource.shared.getTotalRunnrPoints()
@@ -40,6 +51,16 @@ class UserProfileViewController: UIViewController {
         super.viewDidLoad()
 
         view.overrideUserInterfaceStyle = .dark
+        self.collectionViewBestActivity.dataSource = self
+        self.collectionViewBestActivity.delegate = self
+        
+//        self.collectionViewBadgeEarned.dataSource = self
+//        self.collectionViewBadgeEarned.delegate = self
+        
+        self.collectionViewBestActivity.register(UINib(nibName: "BestActivitiesCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "BestActivitiesCollectionViewCell")
+//        self.collectionViewBadgeEarned.register(UINib(nibName: "BadgeCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "BadgeCollectionViewCell")
+        
+        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.collectionViewBadgeEarned.frame.height + self.collectionViewBadgeEarned.frame.origin.y + 30)
         settingsElements()
     }
     
@@ -58,14 +79,23 @@ class UserProfileViewController: UIViewController {
     
     func settingsElements() {
         
+        self.labelScreenTitle.text = String(localized: "Profile")
+        self.labelFollower.text = String(localized: "Followers")
+        self.labelFollowing.text = String(localized: "Following")
+        self.buttonEditProfile.setTitle(String(localized: "Edit Profile"), for: .normal)
+        
+        self.labelTotalPoints.text = String(localized: "Total Points")
+        self.labelTotalDistance.text = String(localized: "Total Distance")
+        self.labelTotalActivities.text = String(localized: "Total Activities")
+        
         imageProfile.layer.cornerRadius = imageProfile.frame.size.width / 2
         buttonEditProfile.layer.cornerRadius = 10.0
     }
     
     func loadAllData() {
-        self.labelTotalPoints.text = "\(self.totalRunnrPoints)"
-        self.labelTotalActivities.text = "\(self.totalActivities)"
-        self.labelTotalDistance.text = "\(self.totalDistance)"
+        self.labelTotalPointsCount.text = "\(self.totalRunnrPoints)"
+        self.labelTotalActivitiesCount.text = "\(self.totalActivities)"
+        self.labelTotalDistanceCount.text = "\(self.totalDistance)"
         
         if totalDistance <= 600 {
             if totalDistance == 0 && totalDistance < 50 {
@@ -111,4 +141,28 @@ class UserProfileViewController: UIViewController {
         
     }
 
+}
+
+//MARK: - Collection View Settings
+
+extension UserProfileViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 2
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BestActivitiesCollectionViewCell", for: indexPath) as! BestActivitiesCollectionViewCell
+        
+        cell.configureCell()
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width - 60, height: 120)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+    
 }

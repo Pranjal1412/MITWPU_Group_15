@@ -7,10 +7,17 @@ class ActivityScreenViewController: UIViewController {
     @IBOutlet weak var segmentedControlActivityScreen: UISegmentedControl!
     @IBOutlet weak var tableViewFriendsActivity: UITableView!
     @IBOutlet weak var labelScreenTitle: UILabel!
+    @IBOutlet weak var stackRecentActivities: UIStackView!
+    @IBOutlet weak var labelTotalPoints: UILabel!
     
     let label = UILabel()
+
+    var dataSource = DataSource.shared
+    var totalPoints: Int {
+        dataSource.getTotalRunnrPoints()
+    }
     var myActivity: [MyRunActivity] {
-        DataSource.shared.getMyActivityData()
+        dataSource.getMyActivityData()
     }
     
     let friendsActivity : [FriendsRunActivity] = DataSource.shared.getFriendsActivityData()
@@ -26,24 +33,30 @@ class ActivityScreenViewController: UIViewController {
         tableViewMyActivity.isHidden = false
         tableViewFriendsActivity.isHidden = true
         
-        label.text = "No Activities"
         label.frame = CGRect(x: 0, y: view.frame.height / 2 + 20.0, width: view.frame.width, height: 50)
         label.textAlignment = .center
-        label.textColor = .lightGray
         view.addSubview(label)
         
+        self.labelScreenTitle.text = String(localized: "Activities")
         labelScreenTitle.sizeToFit()
         tableViewFriendsActivity.showsVerticalScrollIndicator = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
                 
-        if myActivity.isEmpty == false {
+        if myActivity.isEmpty {
+            label.isHidden = false
+            stackRecentActivities.isHidden = true
+        }
+        else {
             label.isHidden = true
+            stackRecentActivities.isHidden = false
         }
         
         tableViewMyActivity.reloadData()
         print(myActivity.count)
+        
+        self.labelTotalPoints.text = "\(totalPoints)"
     }
     
     func settingLabelStyle() {
@@ -56,7 +69,15 @@ class ActivityScreenViewController: UIViewController {
         fullText.append(recentText)
         fullText.append(activitiesText)
 
+        let thinText = NSAttributedString(string: "No ", attributes: [.font: thinFont, .foregroundColor: UIColor.lightGray])
+        let boldText = NSAttributedString(string: "Activities", attributes: [.font: boldFont, .foregroundColor: UIColor.lightGray])
+        
+        let completeText = NSMutableAttributedString()
+        completeText.append(thinText)
+        completeText.append(boldText)
+        
         labelRecentActivities.attributedText = fullText
+        label.attributedText = completeText
         labelRecentActivities.sizeToFit()
     }
     
@@ -90,8 +111,14 @@ class ActivityScreenViewController: UIViewController {
         else {
             if myActivity.isEmpty
             {
+                stackRecentActivities.isHidden = true
                 label.isHidden = false
             }
+            else {
+                stackRecentActivities.isHidden = false
+                label.isHidden = true
+            }
+            
             tableViewMyActivity.isHidden = false
             tableViewFriendsActivity.isHidden = true
         }
@@ -103,7 +130,6 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
 
     func numberOfSections(in tableView: UITableView) -> Int {
         if tableView == tableViewMyActivity {
-            //Changed here - by pranjal
             return min(myActivity.count, 3)
         } else if tableView == tableViewFriendsActivity {
             return friendsActivity.count
