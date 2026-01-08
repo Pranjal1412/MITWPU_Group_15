@@ -2,10 +2,8 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24127" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
         <capability name="Image references" minToolsVersion="12.0"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -22,6 +20,7 @@
                 <outlet property="arView" destination="6vX-jq-ITZ" id="f8l-rT-kCj"/>
                 <outlet property="imageFriends" destination="jJo-Y7-NCG" id="Vxx-oY-foq"/>
                 <outlet property="imageYour" destination="pxc-sd-h6c" id="yel-Tk-Ofn"/>
+                <outlet property="labelCaptureCount" destination="Gns-Tv-jf9" id="ULw-SW-CzN"/>
                 <outlet property="labelFriendsPoints" destination="gaV-sN-XAu" id="xgg-Ch-0Rv"/>
                 <outlet property="labelTime" destination="97F-PT-6ZM" id="Xdl-Ao-Whh"/>
                 <outlet property="labelYourPoints" destination="chN-7m-UmH" id="eXr-AW-Erl"/>
@@ -150,39 +149,51 @@
                         <constraint firstAttribute="height" constant="30" id="0R0-oA-XFU"/>
                         <constraint firstAttribute="width" constant="30" id="8Yd-iY-Srv"/>
                     </constraints>
-                    <color key="tintColor" name="AccentColor"/>
+                    <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                     <state key="normal">
                         <imageReference key="image" image="xmark" catalog="system" symbolScale="large"/>
                     </state>
                     <connections>
-                        <action selector="cancelButtonPressed:" destination="-1" eventType="touchUpInside" id="Tde-To-OWz"/>
+                        <action selector="buttonBack:" destination="-1" eventType="touchUpInside" id="mQ0-in-Obw"/>
                     </connections>
                 </button>
-                <arView multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6vX-jq-ITZ">
-                    <rect key="frame" x="32" y="263" width="342" height="351"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <arView multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6vX-jq-ITZ">
+                    <rect key="frame" x="0.0" y="263" width="402" height="351"/>
                 </arView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gns-Tv-jf9">
+                    <rect key="frame" x="42" y="244" width="318" height="20.333333333333314"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="1C5-8n-AZn" secondAttribute="trailing" constant="220" id="0Ow-Ob-T9T"/>
+                <constraint firstItem="6vX-jq-ITZ" firstAttribute="top" secondItem="Pca-og-lYn" secondAttribute="bottom" constant="27" id="7IL-Ds-Os3"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="4JN-Ga-dLa" secondAttribute="trailing" constant="43" id="8cZ-AG-7Uw"/>
                 <constraint firstItem="1C5-8n-AZn" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="681" id="E6d-oU-30f"/>
+                <constraint firstItem="6vX-jq-ITZ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="FKJ-0g-AKd"/>
                 <constraint firstItem="1C5-8n-AZn" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="42" id="It0-XG-SPH"/>
                 <constraint firstItem="Pca-og-lYn" firstAttribute="top" secondItem="rl0-M9-oO5" secondAttribute="bottom" constant="72" id="MDs-h9-hJX"/>
+                <constraint firstItem="Gns-Tv-jf9" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="42" id="Nnf-s0-xCC"/>
                 <constraint firstItem="TzH-UP-2xT" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="O2L-3e-haB"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="rl0-M9-oO5" secondAttribute="trailing" constant="124" id="Rek-WO-8Rc"/>
                 <constraint firstItem="4JN-Ga-dLa" firstAttribute="leading" secondItem="1C5-8n-AZn" secondAttribute="trailing" constant="37" id="cxM-Ly-x2P"/>
+                <constraint firstItem="1C5-8n-AZn" firstAttribute="top" secondItem="6vX-jq-ITZ" secondAttribute="bottom" constant="67" id="diK-c7-k1l"/>
                 <constraint firstItem="rl0-M9-oO5" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="100" id="fiy-oZ-UzH"/>
                 <constraint firstItem="Pca-og-lYn" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="hry-Z1-vhk"/>
                 <constraint firstItem="TzH-UP-2xT" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="70" id="mkw-s3-jK9"/>
                 <constraint firstItem="Pca-og-lYn" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="108" id="oCA-Ue-WuN"/>
                 <constraint firstItem="1C5-8n-AZn" firstAttribute="top" secondItem="4JN-Ga-dLa" secondAttribute="top" id="pro-00-nWp"/>
+                <constraint firstItem="Gns-Tv-jf9" firstAttribute="top" secondItem="Pca-og-lYn" secondAttribute="bottom" constant="8" symbolic="YES" id="tKg-t6-7rj"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="1C5-8n-AZn" secondAttribute="bottom" constant="65" id="yef-ZL-bLu"/>
                 <constraint firstItem="rl0-M9-oO5" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="124" id="yjH-9r-myp"/>
                 <constraint firstItem="1C5-8n-AZn" firstAttribute="bottom" secondItem="4JN-Ga-dLa" secondAttribute="bottom" id="zcH-cc-WRP"/>
+                <constraint firstItem="Gns-Tv-jf9" firstAttribute="centerX" secondItem="6vX-jq-ITZ" secondAttribute="centerX" id="zri-XN-iKq"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Gns-Tv-jf9" secondAttribute="trailing" constant="42" id="zvq-Z8-lMu"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="52.238805970149251" y="94.050343249427911"/>
@@ -192,9 +203,6 @@
         <image name="user3" width="120" height="120"/>
         <image name="user4" width="120" height="120"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
-        <namedColor name="AccentColor">
-            <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
