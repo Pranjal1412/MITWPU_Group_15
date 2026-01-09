@@ -118,10 +118,14 @@ class ActivityAnalysisViewController: UIViewController {
         labelPaceValue.attributedText = paceText
         labelPaceValue.textColor = .accent
         
-        let timeText = NSMutableAttributedString(string: String(format: "%02d", self.activityData!.timeHour), attributes: [.font: boldFont, .foregroundColor: UIColor.accent])
-        timeText.append(NSAttributedString(string: "hr", attributes: [.font: thinFont, .foregroundColor: UIColor.accent]))
+        var timeText = NSMutableAttributedString(string: "")
         
-        timeText.append(NSAttributedString(string: " " + String(format: "%02d", self.activityData!.timeMin), attributes: [.font: boldFont, .foregroundColor: UIColor.accent]))
+        if self.activityData!.timeHour != 0 {
+            timeText = NSMutableAttributedString(string: String(format: "%02d", self.activityData!.timeHour), attributes: [.font: boldFont, .foregroundColor: UIColor.accent])
+            timeText.append(NSAttributedString(string: "hr ", attributes: [.font: thinFont, .foregroundColor: UIColor.accent]))
+        }
+        
+        timeText.append(NSAttributedString(string: String(format: "%02d", self.activityData!.timeMin), attributes: [.font: boldFont, .foregroundColor: UIColor.accent]))
         
         timeText.append(NSAttributedString(string: "min", attributes: [.font: thinFont, .foregroundColor: UIColor.accent]))
         
@@ -139,6 +143,11 @@ class ActivityAnalysisViewController: UIViewController {
         labelCaloriesValue.textColor = .accent
         
         labelStepsValue.text = String(self.activityData!.stepsValue)
+        
+        self.labelTimeValue.sizeToFit()
+        self.labelDistanceValue.sizeToFit()
+        self.labelPaceValue.sizeToFit()
+        self.labelCaloriesValue.sizeToFit()
     }
 
 }
@@ -155,7 +164,7 @@ extension ActivityAnalysisViewController : UICollectionViewDataSource, UICollect
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddPhotosCollectionViewCell", for: indexPath) as! AddPhotosCollectionViewCell
         
         let image = self.activityData!.activityPhotos[indexPath.row]
-        cell.configureCell(with: image)
+        cell.configureCell(with: image, hideCancel: true)
         
         return cell
     }

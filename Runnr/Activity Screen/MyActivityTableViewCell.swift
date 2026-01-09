@@ -58,10 +58,14 @@ class MyActivityTableViewCell: UITableViewCell {
         paceText.append(NSAttributedString(string: " " + activity.paceUnit,attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
         labelPaceContent.attributedText = paceText
 
-        let timeText = NSMutableAttributedString(string: String(format: "%02d", activity.timeHour), attributes: [.font: valueFont, .foregroundColor: UIColor.accent])
-        timeText.append(NSAttributedString(string: "hr", attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
+        var timeText = NSMutableAttributedString()
         
-        timeText.append(NSAttributedString(string: " " + String(format: "%02d", activity.timeMin), attributes: [.font: valueFont, .foregroundColor: UIColor.accent]))
+        if activity.timeHour != 0 {
+            timeText = NSMutableAttributedString(string: String(format: "%02d", activity.timeHour), attributes: [.font: valueFont, .foregroundColor: UIColor.accent])
+            timeText.append(NSAttributedString(string: "hr ", attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
+        }
+        
+        timeText.append(NSAttributedString(string: String(format: "%02d", activity.timeMin), attributes: [.font: valueFont, .foregroundColor: UIColor.accent]))
         
         timeText.append(NSAttributedString(string: "min", attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
         

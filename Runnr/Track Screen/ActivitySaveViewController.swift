@@ -318,7 +318,7 @@ extension ActivitySaveViewController : UICollectionViewDataSource, UICollectionV
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddPhotosCollectionViewCell", for: indexPath) as! AddPhotosCollectionViewCell
         
         let image = self.selectedImages[indexPath.row]
-        cell.configureCell(with: image)
+        cell.configureCell(with: image, hideCancel: false)
         
         return cell
     }

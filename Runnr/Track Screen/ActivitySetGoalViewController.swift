@@ -97,7 +97,7 @@ class ActivitySetGoalViewController: UIViewController {
                 navigationController.modalPresentationStyle = .fullScreen
                 navigationController.navigationBar.isHidden = true
 
-                presenter.present(navigationController, animated: true, completion: nil)
+                presenter.present(navigationController, animated: false, completion: nil)
             }
         }
         
