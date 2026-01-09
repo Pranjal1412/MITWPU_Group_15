@@ -61,7 +61,7 @@ extension AllActivitiesViewController : UITableViewDelegate, UITableViewDataSour
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MyActivityTableViewCell
             let activity = myActivity[indexPath.section]
-            cell.configure(with: activity)
+            cell.configure(with: activity, index: indexPath.section)
             return cell
         }
 

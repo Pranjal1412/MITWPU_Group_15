@@ -44,18 +44,8 @@ class ActivityScreenViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
                 
-        if myActivity.isEmpty {
-            label.isHidden = false
-            stackRecentActivities.isHidden = true
-        }
-        else {
-            label.isHidden = true
-            stackRecentActivities.isHidden = false
-        }
-        
-        tableViewMyActivity.reloadData()
+        updateScreenElements()
         print(myActivity.count)
-        
         self.labelTotalPoints.text = "\(totalPoints)"
     }
     
@@ -97,6 +87,19 @@ class ActivityScreenViewController: UIViewController {
         segmentedControlActivityScreen.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
     }
     
+    func updateScreenElements() {
+        if myActivity.isEmpty {
+            label.isHidden = false
+            stackRecentActivities.isHidden = true
+        }
+        else {
+            label.isHidden = true
+            stackRecentActivities.isHidden = false
+        }
+        
+        tableViewMyActivity.reloadData()
+    }
+    
     @IBAction func chevronToAllActivities(_ sender: UIButton) {
         let vc = AllActivitiesViewController()
         navigationController?.pushViewController(vc, animated: true)
@@ -109,15 +112,7 @@ class ActivityScreenViewController: UIViewController {
             label.isHidden = true
         }
         else {
-            if myActivity.isEmpty
-            {
-                stackRecentActivities.isHidden = true
-                label.isHidden = false
-            }
-            else {
-                stackRecentActivities.isHidden = false
-                label.isHidden = true
-            }
+            self.updateScreenElements()
             
             tableViewMyActivity.isHidden = false
             tableViewFriendsActivity.isHidden = true
@@ -149,7 +144,8 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell",
                                                      for: indexPath) as! MyActivityTableViewCell
             let activity = myActivity[indexPath.section]
-            cell.configure(with: activity)
+            cell.delegate = self
+            cell.configure(with: activity, index: indexPath.section)
             return cell
 
         } else { // tableViewfriendsActivity
@@ -186,6 +182,22 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
     }
 }
 
+extension ActivityScreenViewController: MyActivityCellDelegate {
+    func didTapOnMoreOptions(for index: Int) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let deleteAction = UIAlertAction(title: String(localized: "Delete Activity"), style: .destructive) { _ in
+            self.dataSource.deleteMyActivity(atIndex: index)
+            self.updateScreenElements()
+        }
+//        let cancelAction = UIAlertAction(title: String(localized: "Cancel"), style: .cancel, handler: nil)
+        
+        alert.addAction(deleteAction)
+//        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    
+}
 
 
 

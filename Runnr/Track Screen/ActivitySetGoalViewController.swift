@@ -23,6 +23,7 @@ class ActivitySetGoalViewController: UIViewController {
     @IBOutlet weak var viewBackgroundTime: UIView!
     @IBOutlet weak var viewBackgroundAudio: UIView!
     
+    @IBOutlet weak var buttonActivity: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +32,11 @@ class ActivitySetGoalViewController: UIViewController {
         viewMainBackground.layer.cornerRadius = 20
         viewSubBackground.layer.cornerRadius = 15
         
+        self.buttonActivity.setTitle("Select Activity", for: .normal)
+        self.buttonActivity.setTitleColor(.gray, for: .normal)
+        
         settingScreen()
+        setupMenu()
         hideKeyboardWhenTappedAround()
         labelAudioFeedback.sizeToFit()
     }
@@ -106,6 +111,25 @@ class ActivitySetGoalViewController: UIViewController {
     @IBAction func cancelButtonPressed(_ sender: UIButton) {
         
         self.dismiss(animated: true)
+    }
+    
+    func setupMenu() {
+
+        let run = UIAction(title: "Run") { _ in
+            self.buttonActivity.setTitle("Run", for: .normal)
+        }
+
+        let walk = UIAction(title: "Walk") { _ in
+            self.buttonActivity.setTitle("Walk", for: .normal)
+        }
+
+        let cycle = UIAction(title: "Cycle") { _ in
+            self.buttonActivity.setTitle("Cycle", for: .normal)
+        }
+
+        buttonActivity.menu = UIMenu(children: [run, walk, cycle])
+        buttonActivity.showsMenuAsPrimaryAction = true
+        self.buttonActivity.setTitleColor(.accent, for: .normal)
     }
     
 }

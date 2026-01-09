@@ -28,6 +28,9 @@
                         </constraints>
                         <state key="normal" title="Button"/>
                         <buttonConfiguration key="configuration" style="plain" image="multiply" catalog="system"/>
+                        <connections>
+                            <action selector="deletePhotoButtonTapped:" destination="gTV-IL-0wX" eventType="touchUpInside" id="K4u-9h-JoR"/>
+                        </connections>
                     </button>
                 </subviews>
             </view>

@@ -18,10 +18,12 @@ class ActivitySaveViewController: UIViewController {
     @IBOutlet weak var scrollViewSaveActivity: UIScrollView!
     @IBOutlet weak var labelPhotos: UILabel!
     @IBOutlet weak var imageViewMap: UIImageView!
+    @IBOutlet weak var buttonAddPhotos: UIButton!
     
     @IBOutlet weak var switchIsActivityPublic: UISwitch!
     @IBOutlet weak var textViewRemark: UITextView!
     @IBOutlet weak var textFieldActivityTitle: UITextField!
+    @IBOutlet weak var viewRemark: UIView!
     
     @IBOutlet weak var labelRunSummary: UILabel!
     @IBOutlet weak var labelPublicActivity: UILabel!
@@ -39,9 +41,10 @@ class ActivitySaveViewController: UIViewController {
     
     @IBOutlet weak var stackAddPhotos: UIStackView!
     @IBOutlet weak var collectionViewAddPhotos: UICollectionView!
+    @IBOutlet weak var containerViewHeightConstraint: NSLayoutConstraint!
     
     var activityData: MyRunActivity!
-    var datsource = DataSource.shared
+    var dataSource = DataSource.shared
     private var selectedImages: [UIImage] = []
     
     override func viewDidLoad() {
@@ -55,9 +58,13 @@ class ActivitySaveViewController: UIViewController {
         collectionViewAddPhotos.register(UINib(nibName: "AddPhotosCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AddPhotosCollectionViewCell")
         collectionViewAddPhotos.dataSource = self
         
+        self.textViewRemark.delegate = self
+
+        let lineHeight = self.textViewRemark.font!.lineHeight
+        containerViewHeightConstraint.constant = lineHeight * 2 + 20.0
+        
         registerNotifications()
         hideKeyboardWhenTappedAround()
-        textViewRemark.clipsToBounds = true
     }
 
     @IBAction func cancelButtonPressed(_ sender: UIButton) {
@@ -69,8 +76,8 @@ class ActivitySaveViewController: UIViewController {
         let cancelAction = UIAlertAction(title: String(localized: "Cancel"), style: .cancel)
         
         let deleteAction = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive, handler: {_ in
-            self.datsource.deleteMyActivity()
-            print("After passing count: \(self.datsource.getMyActivityData().count)")
+//            self.dataSource.deleteMyActivity(self.dataSource.deleteMyActivity(atIndex: ))
+            print("After passing count: \(self.dataSource.getMyActivityData().count)")
             self.navigationController?.dismiss(animated: true, completion: nil)
         })
         
@@ -95,11 +102,11 @@ class ActivitySaveViewController: UIViewController {
         activityData.isPublic = self.switchIsActivityPublic.isOn
         activityData.activityPhotos = self.selectedImages
         
-        self.datsource.addMyActivity(activityData)
-        self.datsource.updateTotalRunnrPoints(with: activityData.basePoints + activityData.skillPoints)
-        self.datsource.updateTotalDistance(with: activityData.distanceValue)
+        self.dataSource.addMyActivity(activityData)
+        self.dataSource.updateTotalRunnrPoints(with: activityData.basePoints + activityData.skillPoints)
+        self.dataSource.updateTotalDistance(with: activityData.distanceValue)
         
-        print("After passing count: \(self.datsource.getMyActivityData().count)")
+        print("After passing count: \(self.dataSource.getMyActivityData().count)")
         
         let destinationVC = ActivitySummaryViewController()
         destinationVC.activityData = self.activityData
@@ -128,15 +135,34 @@ class ActivitySaveViewController: UIViewController {
         self.present(alert, animated: true)
     }
     
+    @IBAction func AddMorePhotos(_ sender: UIButton) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let cameraButton = UIAlertAction(title: String(localized: "Camera"), style: .default, handler: {_ in
+            self.openCamera()
+        })
+        let photoLibraryButton = UIAlertAction(title: String(localized: "Gallery"), style: .default, handler: {_ in
+            self.openPhotoLibrary()
+        })
+        let cancelButton = UIAlertAction(title: String("Cancel"), style: .cancel)
+
+        alert.addAction(cameraButton)
+        alert.addAction(photoLibraryButton)
+        alert.addAction(cancelButton)
+        
+        self.present(alert, animated: true)
+    }
+    
+    
     func settingCardView() {
         viewDistance.layer.cornerRadius = 15
         viewPace.layer.cornerRadius = 15
         viewTime.layer.cornerRadius = 15
         viewCalories.layer.cornerRadius = 15
         
-        textViewRemark.layer.cornerRadius = 15
-        textViewRemark.layer.borderColor = UIColor.white.cgColor
-        textViewRemark.layer.borderWidth = 0.5
+        self.viewRemark.layer.cornerRadius = 15
+        self.viewRemark.layer.borderColor = UIColor.white.cgColor
+        self.viewRemark.layer.borderWidth = 0.5
         
         imageViewMap.image = self.activityData.mapImage
         imageViewMap.layer.cornerRadius = 15
@@ -221,7 +247,7 @@ extension ActivitySaveViewController : PHPickerViewControllerDelegate, UIImagePi
     func openPhotoLibrary() {
         var config = PHPickerConfiguration()
         config.filter = .images
-        config.selectionLimit = 5
+        config.selectionLimit = 5 - self.selectedImages.count
 
         let picker = PHPickerViewController(configuration: config)
         picker.delegate = self
@@ -273,20 +299,7 @@ extension ActivitySaveViewController : PHPickerViewControllerDelegate, UIImagePi
         
         // not called until all the task that has entered in the task leave the group
         group.notify(queue: .main) {
-            
-            if self.selectedImages.count == 0 {
-                self.collectionViewAddPhotos.isHidden = true
-                self.stackAddPhotos.isHidden = false
-                
-                self.scrollViewSaveActivity.contentSize.height = self.stackAddPhotos.frame.height + self.stackAddPhotos.frame.origin.y + 10
-
-            }
-            else {
-                self.collectionViewAddPhotos.reloadData()
-                self.scrollViewSaveActivity.contentSize.height = self.collectionViewAddPhotos.frame.height + self.collectionViewAddPhotos.frame.origin.y + 10
-
-            }
-            
+            self.updatePhotoUI()
         }
                 
     }
@@ -299,15 +312,45 @@ extension ActivitySaveViewController : PHPickerViewControllerDelegate, UIImagePi
             self.selectedImages.append(image)
         }
         
-        self.scrollViewSaveActivity.contentSize.height = self.collectionViewAddPhotos.frame.height + self.collectionViewAddPhotos.frame.origin.y + 10
+        self.updatePhotoUI()
 
+    }
+    
+    func updatePhotoUI() {
+        if self.selectedImages.count == 0 {
+            self.collectionViewAddPhotos.isHidden = true
+            self.stackAddPhotos.isHidden = false
+            self.buttonAddPhotos.isHidden = true
+            
+            self.scrollViewSaveActivity.contentSize.height = self.stackAddPhotos.frame.height + self.stackAddPhotos.frame.origin.y + 10
+
+        }
+        else {
+            self.collectionViewAddPhotos.reloadData()
+            self.scrollViewSaveActivity.contentSize.height = self.collectionViewAddPhotos.frame.height + self.collectionViewAddPhotos.frame.origin.y + 10
+            
+            if self.selectedImages.count < 5 {
+                self.buttonAddPhotos.isHidden = false
+            }
+            else {
+                self.buttonAddPhotos.isHidden = true
+            }
+
+        }
     }
     
 }
 
 // MARK: - Add Photos CollectionView Settings
 
-extension ActivitySaveViewController : UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension ActivitySaveViewController : UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, AddPhotosCollectionViewCellDelegate {
+    
+    func deletePhoto(at index: Int) {
+        self.selectedImages.remove(at: index)
+        self.updatePhotoUI()
+        self.collectionViewAddPhotos.reloadData()
+    }
+    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         print(self.selectedImages.count)
@@ -317,8 +360,10 @@ extension ActivitySaveViewController : UICollectionViewDataSource, UICollectionV
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddPhotosCollectionViewCell", for: indexPath) as! AddPhotosCollectionViewCell
         
+        cell.delegate = self
+        
         let image = self.selectedImages[indexPath.row]
-        cell.configureCell(with: image, hideCancel: false)
+        cell.configureCell(with: image, hideCancel: false, index: indexPath.row)
         
         return cell
     }
@@ -330,4 +375,33 @@ extension ActivitySaveViewController : UICollectionViewDataSource, UICollectionV
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 10.0
     }
+}
+
+extension ActivitySaveViewController : UITextViewDelegate {
+    
+    func textViewDidChange(_ textView: UITextView) {
+        
+        let inset = textView.textContainerInset.top + textView.textContainerInset.bottom
+        let lineHeight = textView.font?.lineHeight ?? 0
+        
+        let minHeight = lineHeight * 2 + inset
+        let maxHeight = lineHeight * 5 + inset
+
+//        .infinity is used because we are allowing text view to use as much of height it requires, but if the height exceeds maximum
+//        we are enabling scrolling
+        let size = CGSize(width: textView.frame.width - 20.0, height: .infinity)
+        let contentHeight = textView.sizeThatFits(size).height
+        let newHeight = min(max(contentHeight, minHeight), maxHeight)
+
+        if containerViewHeightConstraint.constant != newHeight {
+            containerViewHeightConstraint.constant = newHeight
+        }
+
+        textView.isScrollEnabled = contentHeight > maxHeight
+        UIView.animate(withDuration: 0.2) {
+                self.view.layoutIfNeeded()
+        }
+
+    }
+    
 }

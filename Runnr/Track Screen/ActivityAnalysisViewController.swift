@@ -164,7 +164,7 @@ extension ActivityAnalysisViewController : UICollectionViewDataSource, UICollect
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddPhotosCollectionViewCell", for: indexPath) as! AddPhotosCollectionViewCell
         
         let image = self.activityData!.activityPhotos[indexPath.row]
-        cell.configureCell(with: image, hideCancel: true)
+        cell.configureCell(with: image, hideCancel: true, index: indexPath.row)
         
         return cell
     }

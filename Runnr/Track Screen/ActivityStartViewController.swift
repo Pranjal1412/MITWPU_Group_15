@@ -21,6 +21,7 @@ class ActivityStartViewController: UIViewController {
     var newUserAlert : Bool?
     
     var dataSource = DataSource.shared
+    var buttonStart: UIButton!
     var totalPoints: Int {
         dataSource.getTotalRunnrPoints()
     }
@@ -35,7 +36,6 @@ class ActivityStartViewController: UIViewController {
         labelScreenTitle.text = NSLocalizedString("Runnr.", comment: "")
         labelScreenTitle.textColor = .accent
         labelScreenTitle.sizeToFit()
-        self.createStartButton()
     }
 
     override func viewWillAppear(_ animated: Bool) {

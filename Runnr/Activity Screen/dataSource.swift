@@ -62,9 +62,9 @@ class DataSource {
         activities.append(activity)
     }
     
-    func deleteMyActivity() {
+    func deleteMyActivity(atIndex index: Int) {
         if !activities.isEmpty {
-            activities.removeLast()
+            activities.remove(at: index)
         }
     }
     
