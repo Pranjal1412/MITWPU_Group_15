@@ -8,7 +8,7 @@ struct MyRunActivity {
     let distanceValue: Double
     let distanceUnit: String
     let paceValue: Double
-    let livePace: [LivePaceGraphData]
+    let pageGraphData: [LivePaceGraphData]
     let paceUnit: String
     let stepsValue: Int
     let caloriesValue: Int
@@ -42,6 +42,7 @@ struct LivePaceGraphData: Identifiable {
     let id: UUID = UUID()
     let paceValue: Double
     let distance: Double
+    let symbol: Bool
 }
 
 

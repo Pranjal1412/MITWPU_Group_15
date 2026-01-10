@@ -32,9 +32,6 @@ class ActivitySetGoalViewController: UIViewController {
         viewMainBackground.layer.cornerRadius = 20
         viewSubBackground.layer.cornerRadius = 15
         
-        self.buttonActivity.setTitle("Select Activity", for: .normal)
-        self.buttonActivity.setTitleColor(.gray, for: .normal)
-        
         settingScreen()
         setupMenu()
         hideKeyboardWhenTappedAround()
@@ -115,19 +112,30 @@ class ActivitySetGoalViewController: UIViewController {
     
     func setupMenu() {
 
+        let defaultActivity = UIAction(title: "Select Activity") { _ in
+            self.buttonActivity.setTitle("Select Activity", for: .normal)
+            self.buttonActivity.setTitleColor(.gray, for: .normal)
+        }
+        
         let run = UIAction(title: "Run") { _ in
             self.buttonActivity.setTitle("Run", for: .normal)
+            self.buttonActivity.setTitleColor(.accent, for: .normal)
+
         }
 
         let walk = UIAction(title: "Walk") { _ in
             self.buttonActivity.setTitle("Walk", for: .normal)
+            self.buttonActivity.setTitleColor(.accent, for: .normal)
+
         }
 
         let cycle = UIAction(title: "Cycle") { _ in
             self.buttonActivity.setTitle("Cycle", for: .normal)
+            self.buttonActivity.setTitleColor(.accent, for: .normal)
+
         }
 
-        buttonActivity.menu = UIMenu(children: [run, walk, cycle])
+        buttonActivity.menu = UIMenu(children: [defaultActivity, run, walk, cycle])
         buttonActivity.showsMenuAsPrimaryAction = true
         self.buttonActivity.setTitleColor(.accent, for: .normal)
     }

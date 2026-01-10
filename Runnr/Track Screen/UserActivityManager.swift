@@ -37,7 +37,7 @@ class UserActivityManager {
     
     private var graphDistanceInterval: Double = 0
     private var graphTimeInterval: TimeInterval = 0
-    private var graphDistancePoint: Double = 0
+    private var graphDistancePoint: Int = 0
     var paceGraphData: [LivePaceGraphData] = []
     
     init (timerLabel: UILabel) {
@@ -134,7 +134,7 @@ class UserActivityManager {
                 self.currentPace = (self.graphTimeInterval / self.graphDistanceInterval) * 1000 / 60
                 
                 self.graphDistancePoint += 500
-                self.paceGraphData.append(LivePaceGraphData(paceValue: self.currentPace, distance: self.graphDistancePoint))
+                self.paceGraphData.append(LivePaceGraphData(paceValue: self.currentPace, distance: Double(self.graphDistancePoint) / 1000, symbol: self.graphDistancePoint % 1000 == 0))
                 
                 self.graphTimeInterval = 0
                 self.graphDistanceInterval = 0

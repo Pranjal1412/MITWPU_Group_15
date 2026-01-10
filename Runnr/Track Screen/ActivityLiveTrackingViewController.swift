@@ -52,7 +52,7 @@ class ActivityLiveTrackingViewController: UIViewController {
     var activityStartTime: Date?
     var timer : Timer?
     var counter = 3
-    var quotes: [String] = [String(localized: "Starting Your Tracker..."), String(localized: "You Got This"), String(localized: "Lock in"), String(localized: "Lace Up")]
+    var quotes: [String] = [String(localized: "You Got This"), String(localized: "Lock in"), String(localized: "Lace Up")]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -215,7 +215,7 @@ class ActivityLiveTrackingViewController: UIViewController {
                 distanceValue: self.activityManager.totalDistance,
                 distanceUnit: "km",
                 paceValue: self.activityManager.getAveragePace(),
-                livePace: self.activityManager.paceGraphData,
+                pageGraphData: self.activityManager.paceGraphData,
                 paceUnit: "/km",
                 stepsValue: self.activityManager.totalSteps,
                 caloriesValue: 123,
@@ -263,11 +263,11 @@ class ActivityLiveTrackingViewController: UIViewController {
         else if counter == 0 {
             self.labelTimeCountdown.font = UIFont.systemFont(ofSize: 80, weight: .black)
             self.labelTimeCountdown.text = "Go!"
-            self.labelQuote.text = quotes[self.counter]
+            self.labelQuote.isHidden = true
         }
         else {
             self.labelTimeCountdown.text = "\(Int(self.counter))"
-            self.labelQuote.text = quotes[self.counter]
+            self.labelQuote.text = quotes[self.counter - 1]
         }
         
         
