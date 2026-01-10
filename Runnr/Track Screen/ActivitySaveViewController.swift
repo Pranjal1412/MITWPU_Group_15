@@ -327,6 +327,9 @@ extension ActivitySaveViewController : PHPickerViewControllerDelegate, UIImagePi
         }
         else {
             self.collectionViewAddPhotos.reloadData()
+            self.collectionViewAddPhotos.isHidden = false
+            self.stackAddPhotos.isHidden = true
+            
             self.scrollViewSaveActivity.contentSize.height = self.collectionViewAddPhotos.frame.height + self.collectionViewAddPhotos.frame.origin.y + 10
             
             if self.selectedImages.count < 5 {
@@ -343,14 +346,7 @@ extension ActivitySaveViewController : PHPickerViewControllerDelegate, UIImagePi
 
 // MARK: - Add Photos CollectionView Settings
 
-extension ActivitySaveViewController : UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, AddPhotosCollectionViewCellDelegate {
-    
-    func deletePhoto(at index: Int) {
-        self.selectedImages.remove(at: index)
-        self.updatePhotoUI()
-        self.collectionViewAddPhotos.reloadData()
-    }
-    
+extension ActivitySaveViewController : UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         print(self.selectedImages.count)
@@ -359,14 +355,21 @@ extension ActivitySaveViewController : UICollectionViewDataSource, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddPhotosCollectionViewCell", for: indexPath) as! AddPhotosCollectionViewCell
-        
-        cell.delegate = self
-        
+                
         let image = self.selectedImages[indexPath.row]
-        cell.configureCell(with: image, hideCancel: false, index: indexPath.row)
+        cell.buttonDeletePhoto.tag = indexPath.row
+        cell.buttonDeletePhoto.addTarget(self, action: #selector(deletePhoto(_ :)), for: .touchUpInside)
+        
+        cell.configureCell(with: image, hideCancel: false)
         
         return cell
     }
+    
+    @objc func deletePhoto(_ sender: UIButton) {
+        self.selectedImages.remove(at: sender.tag)
+       self.updatePhotoUI()
+       self.collectionViewAddPhotos.reloadData()
+   }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 100, height: 150)

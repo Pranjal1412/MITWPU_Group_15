@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import SwiftUI
+import Charts
 
 class ActivityAnalysisViewController: UIViewController {
 
@@ -39,12 +41,10 @@ class ActivityAnalysisViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        settingScrollViewHeight()
-        collectionViewPhotos.dataSource = self
-        collectionViewPhotos.delegate = self
-        collectionViewPhotos.register(UINib(nibName: "AddPhotosCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AddPhotosCollectionViewCell")
+//        let GraphView = swi
         
         setElements()
+        settingCollectioView()
         settingAttributedText()
         
     }
@@ -54,7 +54,8 @@ class ActivityAnalysisViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    func settingScrollViewHeight() {
+    func setElements() {
+        
         if self.activityData?.activityPhotos.count == 0 {
             self.labelPhotosHeading.isHidden = true
             scrollView.contentSize.height = self.imageGraph.frame.origin.y + self.imageGraph.frame.height + 10
@@ -62,9 +63,6 @@ class ActivityAnalysisViewController: UIViewController {
         else {
             scrollView.contentSize.height = self.collectionViewPhotos.frame.origin.y + self.collectionViewPhotos.frame.height + 10
         }
-    }
-    
-    func setElements() {
         
         labelUserName.text = activityData!.userName
         labelUserName.sizeToFit()
@@ -156,6 +154,12 @@ class ActivityAnalysisViewController: UIViewController {
 
 extension ActivityAnalysisViewController : UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    func settingCollectioView() {
+        collectionViewPhotos.dataSource = self
+        collectionViewPhotos.delegate = self
+        collectionViewPhotos.register(UINib(nibName: "AddPhotosCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AddPhotosCollectionViewCell")
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.activityData!.activityPhotos.count
     }
@@ -164,7 +168,7 @@ extension ActivityAnalysisViewController : UICollectionViewDataSource, UICollect
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddPhotosCollectionViewCell", for: indexPath) as! AddPhotosCollectionViewCell
         
         let image = self.activityData!.activityPhotos[indexPath.row]
-        cell.configureCell(with: image, hideCancel: true, index: indexPath.row)
+        cell.configureCell(with: image, hideCancel: true)
         
         return cell
     }
@@ -177,3 +181,56 @@ extension ActivityAnalysisViewController : UICollectionViewDataSource, UICollect
         return 10.0
     }
 }
+
+// MARK: - Setting up Pace Graph
+
+struct GraphView: View {
+    var body: some View {
+        Chart {
+            LineMark(x: .value("Distance", "1 Km"), y: .value("Pace", 4))
+                .symbol(.square)
+                .symbolSize(100)
+            
+            LineMark(x: .value("Distance", "2 Km"), y: .value("Pace", 6))
+                .symbol(.circle)
+                .symbolSize(100)
+            
+            LineMark(x: .value("Distance", "3 Km"), y: .value("Pace", 5))
+                .symbol(.circle)
+                .symbolSize(100)
+            
+            LineMark(x: .value("Distance", "4 Km"), y: .value("Pace", 5.75))
+                .symbol(.circle)
+                .symbolSize(100)
+            
+            LineMark(x: .value("Distance", "5 Km"), y: .value("Pace", 7))
+                .symbol(.square)
+                .symbolSize(100)
+            
+        }
+        .aspectRatio(1, contentMode: .fit)
+        .padding()
+        .chartXAxis {
+            AxisMarks { _ in
+                AxisGridLine()
+                    .foregroundStyle(.black.opacity(1))
+                AxisTick()
+                    .foregroundStyle(.black)
+                AxisValueLabel()
+                    .foregroundStyle(.black)
+            }
+        }
+        .chartYAxis {
+            AxisMarks(position: .leading) { _ in
+                AxisGridLine()
+                    .foregroundStyle(.black.opacity(1))
+                AxisTick()
+                    .foregroundStyle(.black)
+                AxisValueLabel()
+                    .foregroundStyle(.black)
+            }
+        }
+
+    }
+}
+

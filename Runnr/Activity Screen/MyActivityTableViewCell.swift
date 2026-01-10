@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol MyActivityCellDelegate {
-    func didTapOnMoreOptions(for index: Int)
-}
-
 class MyActivityTableViewCell: UITableViewCell {
 
     @IBOutlet weak var labelName: UILabel!
@@ -24,24 +20,16 @@ class MyActivityTableViewCell: UITableViewCell {
     @IBOutlet weak var labelPaceContent: UILabel!
     @IBOutlet weak var labelTimeContent: UILabel!
     @IBOutlet weak var imageRun: UIImageView!
+    @IBOutlet weak var buttonMoreOptions: UIButton!
     @IBOutlet weak var labelNote: UILabel!
-    
-    var delegate: MyActivityCellDelegate?
-    var cellIndex: Int = 0
     
     override func awakeFromNib() {
         super.awakeFromNib()
         contentView.layer.cornerRadius = 20
         selectionStyle = .none
     }
-
-    @IBAction func moreOptionsButtonPressed(_ sender: UIButton) {
-        delegate?.didTapOnMoreOptions(for: self.cellIndex)
-    }
     
-    
-    func configure(with activity: MyRunActivity, index: Int) {
-        self.cellIndex = index
+    func configure(with activity: MyRunActivity) {
         labelName.text = activity.userName
         labelDate.text = formatDate(with: activity.timeStamp)
         labelRunTitle.text = activity.runTitle

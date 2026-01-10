@@ -120,7 +120,7 @@ class ActivityScreenViewController: UIViewController {
     }
 }
 
-//Table View
+//MARK: - Table View Settings
 extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -144,8 +144,11 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell",
                                                      for: indexPath) as! MyActivityTableViewCell
             let activity = myActivity[indexPath.section]
-            cell.delegate = self
-            cell.configure(with: activity, index: indexPath.section)
+            cell.configure(with: activity)
+            
+            cell.buttonMoreOptions.tag = indexPath.section
+            cell.buttonMoreOptions.addTarget(self, action: #selector(didTapOnMoreOptions(_:)), for: .touchUpInside)
+            
             return cell
 
         } else { // tableViewfriendsActivity
@@ -182,17 +185,20 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
     }
 }
 
-extension ActivityScreenViewController: MyActivityCellDelegate {
-    func didTapOnMoreOptions(for index: Int) {
+extension ActivityScreenViewController {
+    @objc func didTapOnMoreOptions(_ sender: UIButton) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let deleteAction = UIAlertAction(title: String(localized: "Delete Activity"), style: .destructive) { _ in
-            self.dataSource.deleteMyActivity(atIndex: index)
+        
+        let shareAction = UIAlertAction(title: String(localized: "Share Activity"), style: .default)
+        let deleteAction = UIAlertAction(title: String(localized: "Delete Activity"), style: .default) { _ in
+            self.dataSource.deleteMyActivity(atIndex: sender.tag)
             self.updateScreenElements()
         }
-//        let cancelAction = UIAlertAction(title: String(localized: "Cancel"), style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: String(localized: "Cancel"), style: .cancel, handler: nil)
         
+        alert.addAction(shareAction)
         alert.addAction(deleteAction)
-//        alert.addAction(cancelAction)
+        alert.addAction(cancelAction)
         present(alert, animated: true, completion: nil)
     }
     

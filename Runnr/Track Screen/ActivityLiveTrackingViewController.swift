@@ -49,6 +49,7 @@ class ActivityLiveTrackingViewController: UIViewController {
     var isMapInitialized = false
     let topGradientView = UIView()
     
+    var activityStartTime: Date?
     var timer : Timer?
     var counter = 3
     var quotes: [String] = [String(localized: "Starting Your Tracker..."), String(localized: "You Got This"), String(localized: "Lock in"), String(localized: "Lace Up")]
@@ -70,7 +71,7 @@ class ActivityLiveTrackingViewController: UIViewController {
         userLocation.activityStarted = true
         
         activityManager = UserActivityManager(timerLabel: self.labelTimeCounter)
-        activityManager.activityTimeStamp()
+        self.activityStartTime = Date()
         
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
         
@@ -111,7 +112,7 @@ class ActivityLiveTrackingViewController: UIViewController {
             }
             
             self.activityManager.showLivePace(using: location)
-            self.labelPaceCounter.text = String(format: "%.2f", self.activityManager.livePace)
+            self.labelPaceCounter.text = String(format: "%.2f", self.activityManager.currentPace)
             
             print("Path Count: \(self.mapManager.path.count())")
             
@@ -209,11 +210,12 @@ class ActivityLiveTrackingViewController: UIViewController {
                         
             let newActivity = MyRunActivity(
                 userName: "Ava Brooks",
-                timeStamp: self.activityManager.timeStamp!,
+                timeStamp: self.activityStartTime!,
                 runTitle: "",
                 distanceValue: self.activityManager.totalDistance,
                 distanceUnit: "km",
                 paceValue: self.activityManager.getAveragePace(),
+                livePace: self.activityManager.paceGraphData,
                 paceUnit: "/km",
                 stepsValue: self.activityManager.totalSteps,
                 caloriesValue: 123,
@@ -248,7 +250,7 @@ class ActivityLiveTrackingViewController: UIViewController {
     }
     
     @objc func updateTimer() {
-        if counter < -1 {
+        if counter < 0 {
             self.viewCountdown.isHidden = true
             self.scrollView.isScrollEnabled = true
             pageControl.isHidden = false
@@ -258,13 +260,9 @@ class ActivityLiveTrackingViewController: UIViewController {
             timer?.invalidate()
             timer = nil
         }
-        else if counter == -1 {
-            self.labelTimeCountdown.text = "Go!"
-            self.labelQuote.isHidden = true
-        }
         else if counter == 0 {
             self.labelTimeCountdown.font = UIFont.systemFont(ofSize: 80, weight: .black)
-            self.labelTimeCountdown.text = "Ready!"
+            self.labelTimeCountdown.text = "Go!"
             self.labelQuote.text = quotes[self.counter]
         }
         else {

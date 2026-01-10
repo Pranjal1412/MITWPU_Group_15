@@ -11,30 +11,22 @@ class AllActivitiesViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
+    var dataSource = DataSource.shared
     let label = UILabel()
-    let myActivity: [MyRunActivity] = DataSource.shared.getMyActivityData()
+    var myActivity: [MyRunActivity] {
+        dataSource.getMyActivityData()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.overrideUserInterfaceStyle = .dark
-        // Do any additional setup after loading the view.
+        
+        settingLabel()
         settingTableView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
-        if myActivity.isEmpty {
-            label.text = "No activities"
-            label.frame = CGRect(x: 0, y: view.frame.height / 2 , width: view.frame.width, height: 50)
-            label.textAlignment = .center
-            label.textColor = .lightGray
-            view.addSubview(label)
-        }
-        else {
-            label.isHidden = true
-        }
-        
-        tableView.reloadData()
+        self.updateScreenElements()
     }
     
     func settingTableView() {
@@ -42,6 +34,20 @@ class AllActivitiesViewController: UIViewController {
         tableView.dataSource = self
         tableView.register(UINib(nibName: "MyActivityTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
         tableView.showsVerticalScrollIndicator = false
+    }
+    
+    func settingLabel() {
+        let thinFont = UIFont(name: "SFProText-Thin", size: 25) ?? UIFont.systemFont(ofSize: 25, weight: .thin)
+        let boldFont = UIFont(name: "SFProText-Bold", size: 25) ?? UIFont.boldSystemFont(ofSize: 25)
+        
+        let thinText = NSAttributedString(string: "No ", attributes: [.font: thinFont, .foregroundColor: UIColor.lightGray])
+        let boldText = NSAttributedString(string: "Activities", attributes: [.font: boldFont, .foregroundColor: UIColor.lightGray])
+        
+        let completeText = NSMutableAttributedString()
+        completeText.append(thinText)
+        completeText.append(boldText)
+        label.attributedText = completeText
+        view.addSubview(label)
     }
     
 }
@@ -61,7 +67,9 @@ extension AllActivitiesViewController : UITableViewDelegate, UITableViewDataSour
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MyActivityTableViewCell
             let activity = myActivity[indexPath.section]
-            cell.configure(with: activity, index: indexPath.section)
+            cell.configure(with: activity)
+            cell.buttonMoreOptions.tag = indexPath.section
+            cell.buttonMoreOptions.addTarget(self, action: #selector(didTapOnMoreOptions(_:)), for: .touchUpInside)
             return cell
         }
 
@@ -79,5 +87,33 @@ extension AllActivitiesViewController : UITableViewDelegate, UITableViewDataSour
             print("selected")
         }
 
+    
+    @objc func didTapOnMoreOptions(_ sender: UIButton) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let shareAction = UIAlertAction(title: String(localized: "Share Activity"), style: .default)
+        let deleteAction = UIAlertAction(title: String(localized: "Delete Activity"), style: .default) { _ in
+            self.dataSource.deleteMyActivity(atIndex: sender.tag)
+            self.updateScreenElements()
+        }
+        let cancelAction = UIAlertAction(title: String(localized: "Cancel"), style: .cancel, handler: nil)
+        
+        alert.addAction(shareAction)
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
     }
+    
+    func updateScreenElements() {
+        tableView.reloadData()
+        
+        if myActivity.isEmpty {
+            label.isHidden = false
+        }
+        else {
+            label.isHidden = true
+        }
+        
+    }
+}
 
