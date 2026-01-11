@@ -130,10 +130,10 @@ class UserActivityManager {
                 self.liveTimeInterval = 0
             }
             
-            if self.graphTimeInterval > 0 && self.graphDistanceInterval >= 500 {
+            if self.graphTimeInterval > 0 && self.graphDistanceInterval >= 100 {
                 self.currentPace = (self.graphTimeInterval / self.graphDistanceInterval) * 1000 / 60
                 
-                self.graphDistancePoint += 500
+                self.graphDistancePoint += 100
                 self.paceGraphData.append(LivePaceGraphData(paceValue: self.currentPace, distance: Double(self.graphDistancePoint) / 1000, symbol: self.graphDistancePoint % 1000 == 0))
                 
                 self.graphTimeInterval = 0

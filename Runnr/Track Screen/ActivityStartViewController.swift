@@ -92,6 +92,7 @@ class ActivityStartViewController: UIViewController {
                 self.createStartButton()
                 self.userLocation.locationManager.stopUpdatingLocation()
                 self.isMapInitialized = true
+                
             }
             
         }

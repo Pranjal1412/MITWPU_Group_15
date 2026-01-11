@@ -38,12 +38,11 @@ class ActivityAnalysisViewController: UIViewController {
     
     var activityData : MyRunActivity?
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let graphView = GraphView(paceData: self.activityData!.pageGraphData)
-        
+        let graphView = GraphView(paceData: self.activityData!.paceGraphData)
+
         let hostingController = UIHostingController(rootView: graphView)
         addChild(hostingController)
         hostingController.view.translatesAutoresizingMaskIntoConstraints = false
@@ -215,8 +214,8 @@ struct GraphView: View {
 //    ]
 
     let paceData: [LivePaceGraphData]
-    var maxXValue : LivePaceGraphData {
-        paceData.max { $0.distance < $1.distance }!
+    var maxXValue : LivePaceGraphData? {
+        paceData.max { $0.distance < $1.distance }
     }
     
     var maxYValue : LivePaceGraphData? {
@@ -250,7 +249,7 @@ struct GraphView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .chartXAxis {
-            AxisMarks(values: Array(stride(from: 0.0, through: maxXValue.distance + 0.5, by: 1.0))) { value in
+            AxisMarks(values: Array(stride(from: 0.0, through: (maxXValue?.distance ?? 5.0) + 0.5, by: 1.0))) { value in
                 AxisGridLine()
                     .foregroundStyle(.white.opacity(1))
                 AxisTick()
@@ -259,8 +258,8 @@ struct GraphView: View {
                     .foregroundStyle(.white)
             }
         }
-        .chartXScale(domain: 0...maxXValue.distance + 0.5)
-        .chartYScale(domain: 0...maxYValue!.paceValue)
+        .chartXScale(domain: 0...(maxXValue?.distance ?? 5) + 0.5)
+        .chartYScale(domain: 0...(maxYValue?.paceValue ?? 5))
         .chartYAxis {
             AxisMarks(position: .leading) { _ in
                 AxisGridLine()

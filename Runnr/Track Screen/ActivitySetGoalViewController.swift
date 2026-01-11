@@ -13,7 +13,6 @@ class ActivitySetGoalViewController: UIViewController {
     @IBOutlet weak var viewSubBackground: UIView!
     @IBOutlet weak var viewMainBackground: UIView!
     @IBOutlet weak var buttonStart: UIButton!
-    @IBOutlet weak var buttonSkip: UIButton!
     @IBOutlet weak var labelAudioFeedback: UILabel!
     @IBOutlet weak var labelDistance: UILabel!
     @IBOutlet weak var labelTime: UILabel!
@@ -70,10 +69,6 @@ class ActivitySetGoalViewController: UIViewController {
         fullTimetext.append(regularText)
         fullTimetext.append(lightText)
         labelTime.attributedText = fullTimetext
-
-        buttonSkip.layer.borderWidth = 1
-        buttonSkip.layer.borderColor = UIColor.accent.cgColor
-        buttonSkip.layer.cornerRadius = buttonSkip.frame.height / 2
         
         buttonStart.layer.cornerRadius = buttonStart.frame.height / 2
         
@@ -114,7 +109,7 @@ class ActivitySetGoalViewController: UIViewController {
 
         let defaultActivity = UIAction(title: "Select Activity") { _ in
             self.buttonActivity.setTitle("Select Activity", for: .normal)
-            self.buttonActivity.setTitleColor(.gray, for: .normal)
+            self.buttonActivity.setTitleColor(.darkGray, for: .normal)
         }
         
         let run = UIAction(title: "Run") { _ in

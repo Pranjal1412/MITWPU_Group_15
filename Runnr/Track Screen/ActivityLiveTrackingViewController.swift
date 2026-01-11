@@ -75,8 +75,6 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
         
-        activityManager.startStepsTracking()
-        
         userLocation.onLocationUpdate = { location in
         
             if self.isMapInitialized == false {
@@ -94,26 +92,20 @@ class ActivityLiveTrackingViewController: UIViewController {
                 
                 self.mapManager.setRouteLineStyle()
                 
+                self.userLocation.locationManager.distanceFilter = 5
                 self.isMapInitialized = true
                 
             }
+
+            self.mapManager.path.add(location.coordinate)
+            self.mapManager.routeLine.path = self.mapManager.path
             
-//            let index = activities.count - 1
-//            if activity[index].routeCoordinates.count() == 0 {
-//                self.mapManager.addStartMarker(at: coordinate)
-//            }
-            
-            if self.addCoordinateIfValid(location) {
-                self.mapManager.path.add(location.coordinate)
-                self.mapManager.routeLine.path = self.mapManager.path
-                
-                self.activityManager.startUpdatingDistance(with: location)
-                self.labelDistanceCounter.text = String(format: "%.2f", self.activityManager.totalDistance)
-            }
+            self.activityManager.startUpdatingDistance(with: location)
+            self.labelDistanceCounter.text = String(format: "%.2f", self.activityManager.totalDistance)
             
             self.activityManager.showLivePace(using: location)
             self.labelPaceCounter.text = String(format: "%.2f", self.activityManager.currentPace)
-            
+
             print("Path Count: \(self.mapManager.path.count())")
             
         }
@@ -138,10 +130,7 @@ class ActivityLiveTrackingViewController: UIViewController {
     }
     
     @IBAction func pauseButtonPressed(_ sender: UIButton) {
-        
-//        buttonEndRun.layer.borderWidth = 1.0
-//        buttonEndRun.layer.borderColor = UIColor.accent.cgColor
-        
+                
         if buttonPause.tag == 0 {
             
             self.userLocation.locationManager.stopUpdatingLocation()
@@ -215,7 +204,7 @@ class ActivityLiveTrackingViewController: UIViewController {
                 distanceValue: self.activityManager.totalDistance,
                 distanceUnit: "km",
                 paceValue: self.activityManager.getAveragePace(),
-                pageGraphData: self.activityManager.paceGraphData,
+                paceGraphData: self.activityManager.paceGraphData,
                 paceUnit: "/km",
                 stepsValue: self.activityManager.totalSteps,
                 caloriesValue: 123,
@@ -234,13 +223,6 @@ class ActivityLiveTrackingViewController: UIViewController {
             destinationVC.activityData = newActivity
             destinationVC.modalPresentationStyle = .fullScreen
             self.navigationController?.pushViewController(destinationVC, animated: true)
-            
-//            activities[activity.count - 1].activityStarted = false
-            
-//          here self.navigationController?.present(destinationVC, animated: true) doesn't add the screen inside the nav stack
-//          it just presents above the navcontroller, and beacuse of which
-//          self.navigationController?.dismiss(animated: true, completion: nil) was not working in SaveActivityViewController
-            
         })
         
         alert.addAction(end)
@@ -256,6 +238,7 @@ class ActivityLiveTrackingViewController: UIViewController {
             pageControl.isHidden = false
             
             self.activityManager.startTimer()
+            activityManager.startStepsTracking()
             
             timer?.invalidate()
             timer = nil
@@ -284,7 +267,7 @@ class ActivityLiveTrackingViewController: UIViewController {
                                      longitude: lastCoordinate.longitude)
 
         let distance = newLocation.distance(from: lastLocation)  // distance here is in meters
-        if distance > 4 {
+        if distance > 5 {
             return true
         }
         
@@ -339,42 +322,6 @@ class ActivityLiveTrackingViewController: UIViewController {
         buttonEndRun.layer.borderWidth = 1
         buttonEndRun.layer.borderColor = UIColor.accent.cgColor
         buttonEndRun.layer.cornerRadius = buttonEndRun.frame.height / 2
-        
-//        var pauseButtonConfig = UIButton.Configuration.plain()
-//
-//        pauseButtonConfig.image = UIImage(systemName: "pause.fill")
-//        pauseButtonConfig.baseForegroundColor = .black
-//
-//        pauseButtonConfig.background.backgroundColor = .accent
-//        pauseButtonConfig.background.cornerRadius = 20
-//
-//        pauseButtonConfig.contentInsets = NSDirectionalEdgeInsets(
-//            top: 0,
-//            leading: 0,
-//            bottom: 0,
-//            trailing: 0
-//        )
-//
-//        buttonPause.configuration = pauseButtonConfig
-//    
-//        var endButtonConfig = UIButton.Configuration.plain()
-//
-//        endButtonConfig.image = UIImage(systemName: "square.fill")
-//        endButtonConfig.baseForegroundColor = .accent
-//
-//        endButtonConfig.background.strokeColor = .accent
-//        endButtonConfig.background.strokeWidth = 1
-//        endButtonConfig.background.backgroundColor = .black
-//        endButtonConfig.background.cornerRadius = buttonEndRun.frame.height / 2
-//
-//        endButtonConfig.contentInsets = NSDirectionalEdgeInsets(
-//            top: 0,
-//            leading: 0,
-//            bottom: 0,
-//            trailing: 0
-//        )
-//
-//        buttonEndRun.configuration = endButtonConfig
         
         buttonPause.imageEdgeInsets = UIEdgeInsets(top: 32, left: 35, bottom: 32, right: 35)
         buttonEndRun.imageEdgeInsets = UIEdgeInsets(top: 38, left: 38, bottom: 38, right: 38)

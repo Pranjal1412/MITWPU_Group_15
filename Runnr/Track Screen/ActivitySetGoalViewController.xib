@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24127" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="UIMenu" message="Requires Xcode 11 or later." minToolsVersion="11.0" requiredIntegratedClassName="UICommandDiff"/>
@@ -18,7 +18,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ActivitySetGoalViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
                 <outlet property="buttonActivity" destination="amk-i3-LWg" id="rlA-iv-B8o"/>
-                <outlet property="buttonSkip" destination="TBZ-h8-4PM" id="5M9-jn-hYa"/>
                 <outlet property="buttonStart" destination="gzs-Np-AhN" id="PNM-5G-546"/>
                 <outlet property="labelAudioFeedback" destination="qPU-ae-qn0" id="9OV-fc-ISs"/>
                 <outlet property="labelDistance" destination="K07-cz-d2z" id="wCX-rf-2Z2"/>
@@ -85,7 +84,7 @@
                                                                 </children>
                                                             </menu>
                                                             <state key="normal" title="Button">
-                                                                <color key="titleColor" name="AccentColor"/>
+                                                                <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             </state>
                                                         </button>
                                                     </subviews>
@@ -247,37 +246,6 @@
                                 <constraint firstItem="AKb-jw-guw" firstAttribute="top" secondItem="neH-Pi-m9v" secondAttribute="top" constant="15" id="sG1-l9-Y4n"/>
                             </constraints>
                         </view>
-                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="guD-5E-SMd">
-                            <rect key="frame" x="25" y="562" width="352" height="55"/>
-                            <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TBZ-h8-4PM">
-                                    <rect key="frame" x="0.0" y="0.0" width="156" height="55"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="55" id="VQU-Dl-HJx"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="20"/>
-                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                    <state key="normal" title="Skip">
-                                        <color key="titleColor" name="AccentColor"/>
-                                    </state>
-                                </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gzs-Np-AhN">
-                                    <rect key="frame" x="196" y="0.0" width="156" height="55"/>
-                                    <color key="backgroundColor" name="AccentColor"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="55" id="5kV-Jq-Ivq"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="20"/>
-                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                    <state key="normal" title="Start">
-                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="buttonStartActivityPressed:" destination="-1" eventType="touchUpInside" id="yci-JN-3r2"/>
-                                    </connections>
-                                </button>
-                            </subviews>
-                        </stackView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VXE-42-Ogw">
                             <rect key="frame" x="25" y="25" width="30" height="30"/>
                             <constraints>
@@ -291,21 +259,35 @@
                                 <action selector="cancelButtonPressed:" destination="-1" eventType="touchUpInside" id="Rth-ob-U0s"/>
                             </connections>
                         </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gzs-Np-AhN">
+                            <rect key="frame" x="25" y="557" width="352" height="55"/>
+                            <color key="backgroundColor" name="AccentColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="55" id="5kV-Jq-Ivq"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="20"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="Start">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="buttonStartActivityPressed:" destination="-1" eventType="touchUpInside" id="yci-JN-3r2"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" red="0.047058823529411764" green="0.047058823529411764" blue="0.047058823529411764" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
+                        <constraint firstItem="gzs-Np-AhN" firstAttribute="top" secondItem="neH-Pi-m9v" secondAttribute="bottom" constant="25" id="A5O-aN-jbd"/>
                         <constraint firstItem="hSZ-0b-JWD" firstAttribute="top" secondItem="hsK-Vy-pe3" secondAttribute="top" constant="55" id="AU0-5V-wmj"/>
                         <constraint firstItem="VXE-42-Ogw" firstAttribute="leading" secondItem="hsK-Vy-pe3" secondAttribute="leading" constant="25" id="BKY-q4-YBw"/>
-                        <constraint firstItem="guD-5E-SMd" firstAttribute="leading" secondItem="hsK-Vy-pe3" secondAttribute="leading" constant="25" id="Iqw-OT-s9I"/>
-                        <constraint firstItem="guD-5E-SMd" firstAttribute="top" secondItem="neH-Pi-m9v" secondAttribute="bottom" constant="30" id="Qpw-6x-PPg"/>
                         <constraint firstAttribute="height" constant="661" id="Rff-GR-XTu"/>
-                        <constraint firstAttribute="bottom" secondItem="guD-5E-SMd" secondAttribute="bottom" constant="44" id="bXT-f7-nWw"/>
+                        <constraint firstAttribute="trailing" secondItem="gzs-Np-AhN" secondAttribute="trailing" constant="25" id="Rwn-RM-2Y9"/>
                         <constraint firstAttribute="trailing" secondItem="neH-Pi-m9v" secondAttribute="trailing" constant="25" id="d9M-7p-92X"/>
                         <constraint firstItem="VXE-42-Ogw" firstAttribute="top" secondItem="hsK-Vy-pe3" secondAttribute="top" constant="25" id="dMx-e4-0Sg"/>
                         <constraint firstItem="neH-Pi-m9v" firstAttribute="top" secondItem="hSZ-0b-JWD" secondAttribute="bottom" constant="25" id="fjI-6I-Kg6"/>
                         <constraint firstAttribute="trailing" secondItem="hSZ-0b-JWD" secondAttribute="trailing" constant="25" id="ilj-2w-Qup"/>
+                        <constraint firstItem="gzs-Np-AhN" firstAttribute="leading" secondItem="hsK-Vy-pe3" secondAttribute="leading" constant="25" id="q97-wd-cIP"/>
                         <constraint firstItem="hSZ-0b-JWD" firstAttribute="leading" secondItem="hsK-Vy-pe3" secondAttribute="leading" constant="25" id="tey-Ag-XWF"/>
-                        <constraint firstAttribute="trailing" secondItem="guD-5E-SMd" secondAttribute="trailing" constant="25" id="yrX-2d-Oan"/>
                         <constraint firstItem="neH-Pi-m9v" firstAttribute="leading" secondItem="hsK-Vy-pe3" secondAttribute="leading" constant="25" id="zfb-EF-cn2"/>
                     </constraints>
                 </view>
