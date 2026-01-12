@@ -75,14 +75,8 @@ class GameSetOneViewController: UIViewController {
 //                    showAlert(message: "Please select a game")
 //                    return
 //                }
-//        let destinationVC = GameSetTwoViewController()
-//        self.present(destinationVC, animated: true, completion: nil)
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            if let destinationVC = storyboard.instantiateViewController(withIdentifier: "GameSetTwoViewController") as? GameSetTwoViewController {
-                
-                destinationVC.modalPresentationStyle = .fullScreen // Keeps your desired transition
-                self.present(destinationVC, animated: true, completion: nil)
-            }
+        let destinationVC = GameSetTwoViewController()
+        self.present(destinationVC, animated: true, completion: nil)
     }
     private func showAlert(message: String) {
             let alert = UIAlertController(title: "Missing Information", message: message, preferredStyle: .alert)

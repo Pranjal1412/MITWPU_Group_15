@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import GoogleSignIn
 
 class JoinUsViewController: UIViewController {
-
+    
     @IBOutlet weak var labelScreenTitle: UILabel!
     @IBOutlet weak var viewEmailBackground: UIView!
     @IBOutlet weak var viewPasswordBackground: UIView!
@@ -19,14 +20,15 @@ class JoinUsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         navigationItem.hidesBackButton = true
         view.overrideUserInterfaceStyle = .dark
         settingTitle()
         SettingViews()
         settingButton()
+        print("View appeared")
     }
-
+    
     @IBAction func signUpButtonPressed(_ sender: UIButton) {
         isSignUpComplete = true
         self.navigationController?.popToRootViewController(animated: false)
@@ -82,6 +84,35 @@ class JoinUsViewController: UIViewController {
         
         self.buttonBack.tintColor = UIColor.white
         self.buttonBack.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        buttonGoogle.isUserInteractionEnabled = true
+        // Ensure the button isn't covered by its own label
+        buttonGoogle.bringSubviewToFront(buttonGoogle.titleLabel!)
     }
     
+    @IBAction func buttonGooglePressed(_ sender: UIButton) {
+        print("Google Button Tapped") // Add this to debug in the console
+            
+            GIDSignIn.sharedInstance.signIn(withPresenting: self) { signInResult, error in
+                if let error = error {
+                    print("Sign in failed: \(error.localizedDescription)")
+                    return
+                }
+                
+                // Success!
+                let user = signInResult?.user
+                let emailAddress = user?.profile?.email
+                print("Successfully signed in as: \(emailAddress ?? "Unknown")")
+                
+                // IMPORTANT: Call your proceed function here
+                DispatchQueue.main.async {
+                    self.proceedAfterLogin()
+                }
+            }
+    }
+    
+    func proceedAfterLogin() {
+        // Option A: If you want to pop back to the root like your Sign Up button does
+        isSignUpComplete = true
+        self.navigationController?.popToRootViewController(animated: true)
+    }
 }
