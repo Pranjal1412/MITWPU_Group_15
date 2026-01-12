@@ -10,7 +10,7 @@ struct CurrentGameCard {
     let youName: String
     let friendName: String
     let progress: Float
-    let timeLeftText: String 
+    let timeLeftText: String
 }
 
 struct UpcomingGameCard {
