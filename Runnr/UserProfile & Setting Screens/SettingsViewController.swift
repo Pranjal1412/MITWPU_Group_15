@@ -1,0 +1,82 @@
+//
+//  SettingsViewController.swift
+//  Runnr
+//
+//  Created by SDC-USER on 12/01/26.
+//
+
+import UIKit
+
+class SettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+
+    @IBOutlet weak var tableViewSettings: UITableView!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        self.tableViewSettings.dataSource = self
+        self.tableViewSettings.delegate = self
+        
+        self.tableViewSettings.register(UINib(nibName: "SettingsTableViewCell", bundle: nil), forCellReuseIdentifier: "SettingsTableViewCell")
+    }
+
+    @IBAction func cancelButtonPressed(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return settingsArray.count
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return settingsArray[section]!.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsTableViewCell", for: indexPath) as! SettingsTableViewCell
+        
+        let section = indexPath.section
+        let cellData = settingsArray[section]![indexPath.row]
+        
+        cell.configureCell(with: cellData)
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 30
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+
+        let headerView = UIView()
+        headerView.backgroundColor = .black
+
+        let titleLabel = UILabel()
+        titleLabel.textColor = .accent
+        titleLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        titleLabel.frame = CGRect(x: 15, y: 0, width: tableView.frame.width, height: 30)
+
+        switch section {
+        case 0:
+            titleLabel.text = "Account Details"
+        case 1:
+            titleLabel.text = "Privacy & Control"
+        case 2:
+            titleLabel.text = "Personalization"
+        default:
+            titleLabel.text = ""
+        }
+
+        headerView.addSubview(titleLabel)
+
+        return headerView
+    }
+
+
+}
+

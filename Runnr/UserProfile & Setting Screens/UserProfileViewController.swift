@@ -77,6 +77,20 @@ class UserProfileViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func navigateToSettings(_ sender: UIButton) {
+        
+        if let presenter = self.presentingViewController {
+            self.dismiss(animated: true) {
+                let rootVC = SettingsViewController()
+                let navigationController = UINavigationController(rootViewController: rootVC)
+                navigationController.modalPresentationStyle = .fullScreen
+                presenter.present(navigationController, animated: true, completion: nil)
+            }
+        }
+        
+    }
+    
+    
     func settingsElements() {
         
         self.labelScreenTitle.text = String(localized: "Profile")

@@ -22,8 +22,14 @@ class ActivitySetGoalViewController: UIViewController {
     @IBOutlet weak var viewBackgroundTime: UIView!
     @IBOutlet weak var viewBackgroundAudio: UIView!
     
+    @IBOutlet weak var switchAudioFeedback: UISwitch!
+    @IBOutlet weak var sliderSetTime: UISlider!
     @IBOutlet weak var buttonActivity: UIButton!
     @IBOutlet weak var labelSelectedTime: UILabel!
+    
+    @IBOutlet weak var labelMinTime: UILabel!
+    @IBOutlet weak var labelMidTime: UILabel!
+    @IBOutlet weak var labelMaxTime: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +42,8 @@ class ActivitySetGoalViewController: UIViewController {
         setupMenu()
         hideKeyboardWhenTappedAround()
         labelAudioFeedback.sizeToFit()
+        
+        sliderSetTime.isEnabled = false
     }
     
     func settingScreen() {
@@ -80,10 +88,24 @@ class ActivitySetGoalViewController: UIViewController {
     }
     
     @IBAction func sliderValueChanged(_ sender: UISlider) {
-        let selectedValue = Int(sender.value)
-        self.labelSelectedTime.text = "\(selectedValue)"
+        let selectedValue = sender.value
+        self.labelSelectedTime.text = String(format: "%.2f", selectedValue)
         
     }
+    
+    @IBAction func distanceGoalSet(_ sender: UITextField) {
+        if sender.hasText {
+            self.sliderSetTime.minimumValue = 1
+            self.sliderSetTime.maximumValue = 2
+            
+            self.labelMinTime.text = "1.00"
+            self.labelMaxTime.text = "2.00"
+            self.labelMidTime.text = "1.50"
+            
+            self.sliderSetTime.isEnabled = true
+        }
+    }
+    
     @IBAction func buttonStartActivityPressed(_ sender: UIButton) {
                 
         if self.buttonActivity.titleLabel?.text != "Select Activity" {
@@ -93,6 +115,8 @@ class ActivitySetGoalViewController: UIViewController {
                 self.dismiss(animated: true) {
 
                     let rootController = ActivityLiveTrackingViewController(nibName: "ActivityLiveTrackingViewController", bundle: nil)
+                    rootController.isAudioFeedbackOn = self.switchAudioFeedback.isOn
+                    rootController.activityTypeSelected = self.buttonActivity.titleLabel!.text!
                     let navigationController = UINavigationController(rootViewController: rootController)
 
                     navigationController.modalPresentationStyle = .fullScreen

@@ -39,6 +39,7 @@ class ActivityLiveTrackingViewController: UIViewController {
     @IBOutlet var viewActivityTrack: UIView!
     @IBOutlet weak var pageControl: UIPageControl!
     
+    @IBOutlet weak var switchAudioFeedback: UISwitch!
     
     let userLocation = UserLocationManager()
     let mapManager = MapManager()
@@ -47,7 +48,9 @@ class ActivityLiveTrackingViewController: UIViewController {
     
     var scrollViewInitialized = false
     var isMapInitialized = false
+    var isAudioFeedbackOn = false
     let topGradientView = UIView()
+    var activityTypeSelected : String = ""
     
     var activityStartTime: Date?
     var timer : Timer?
@@ -69,6 +72,8 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         userLocation.locationManager.startUpdatingLocation()
         userLocation.activityStarted = true
+        
+        self.switchAudioFeedback.isOn = isAudioFeedbackOn
         
         activityManager = UserActivityManager(timerLabel: self.labelTimeCounter)
         self.activityStartTime = Date()
@@ -201,6 +206,7 @@ class ActivityLiveTrackingViewController: UIViewController {
                 userName: "Ava Brooks",
                 timeStamp: self.activityStartTime!,
                 runTitle: "",
+                activityType: self.activityTypeSelected,
                 distanceValue: self.activityManager.totalDistance,
                 distanceUnit: "km",
                 paceValue: self.activityManager.getAveragePace(),
