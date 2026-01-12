@@ -23,6 +23,7 @@ class ActivitySetGoalViewController: UIViewController {
     @IBOutlet weak var viewBackgroundAudio: UIView!
     
     @IBOutlet weak var buttonActivity: UIButton!
+    @IBOutlet weak var labelSelectedTime: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,24 +79,34 @@ class ActivitySetGoalViewController: UIViewController {
         viewBackgroungActivity.layer.cornerRadius = 15
     }
     
+    @IBAction func sliderValueChanged(_ sender: UISlider) {
+        let selectedValue = Int(sender.value)
+        self.labelSelectedTime.text = "\(selectedValue)"
+        
+    }
     @IBAction func buttonStartActivityPressed(_ sender: UIButton) {
                 
-//      Using self.presentingViewController as we need the same object that is been created and hence
-//      let presenter = SetGoalViewController() doesn't work as it creates a brand new onject that is unused
-        
-        if let presenter = self.presentingViewController {
-                        
-//          now we are writing that upon dimissal of the screen perform the following code
-            self.dismiss(animated: true) {
+        if self.buttonActivity.titleLabel?.text != "Select Activity" {
+            if let presenter = self.presentingViewController {
+                            
+    //          now we are writing that upon dimissal of the screen perform the following code
+                self.dismiss(animated: true) {
 
-                let rootController = ActivityLiveTrackingViewController(nibName: "ActivityLiveTrackingViewController", bundle: nil)
-                let navigationController = UINavigationController(rootViewController: rootController)
+                    let rootController = ActivityLiveTrackingViewController(nibName: "ActivityLiveTrackingViewController", bundle: nil)
+                    let navigationController = UINavigationController(rootViewController: rootController)
 
-                navigationController.modalPresentationStyle = .fullScreen
-                navigationController.navigationBar.isHidden = true
+                    navigationController.modalPresentationStyle = .fullScreen
+                    navigationController.navigationBar.isHidden = true
 
-                presenter.present(navigationController, animated: false, completion: nil)
+                    presenter.present(navigationController, animated: false, completion: nil)
+                }
             }
+        }
+        else {
+            let alert = UIAlertController(title: "Select an Activity", message: "You need to select an activity before starting", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "cancel", style: .cancel, handler: nil)
+            alert.addAction(cancelAction)
+            self.present(alert, animated: true, completion: nil)
         }
         
     }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24127" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="UIMenu" message="Requires Xcode 11 or later." minToolsVersion="11.0" requiredIntegratedClassName="UICommandDiff"/>
@@ -22,6 +22,7 @@
                 <outlet property="labelAudioFeedback" destination="qPU-ae-qn0" id="9OV-fc-ISs"/>
                 <outlet property="labelDistance" destination="K07-cz-d2z" id="wCX-rf-2Z2"/>
                 <outlet property="labelScreenTitle" destination="hSZ-0b-JWD" id="icb-EQ-Rfn"/>
+                <outlet property="labelSelectedTime" destination="T8j-RL-24c" id="IcO-gp-ds8"/>
                 <outlet property="labelTime" destination="26d-AA-wHm" id="ddB-w6-4x3"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="viewBackgroundAudio" destination="f3i-N4-Nj0" id="74R-A2-fc6"/>
@@ -144,17 +145,30 @@
                                             <rect key="frame" x="0.0" y="178" width="322" height="115"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="26d-AA-wHm">
-                                                    <rect key="frame" x="15" y="15" width="292" height="30"/>
+                                                    <rect key="frame" x="15" y="15" width="140" height="30"/>
                                                     <constraints>
+                                                        <constraint firstAttribute="width" constant="140" id="MR3-oO-p5E"/>
                                                         <constraint firstAttribute="height" constant="30" id="Yuf-g2-QmW"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T8j-RL-24c">
+                                                    <rect key="frame" x="265.66666666666669" y="15" width="41.333333333333314" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="Uu7-KD-Dvj"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="DXa-Rb-qXv">
                                                     <rect key="frame" x="15" y="50" width="292" height="34"/>
                                                     <color key="tintColor" name="AccentColor"/>
+                                                    <connections>
+                                                        <action selector="sliderValueChanged:" destination="-1" eventType="valueChanged" id="hZi-ND-2D5"/>
+                                                    </connections>
                                                 </slider>
                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="70" translatesAutoresizingMaskIntoConstraints="NO" id="T65-p7-XGm">
                                                     <rect key="frame" x="15" y="86" width="292" height="20"/>
@@ -189,11 +203,12 @@
                                                 <constraint firstItem="DXa-Rb-qXv" firstAttribute="leading" secondItem="OIt-mu-NGb" secondAttribute="leading" constant="15" id="AOq-gK-ftK"/>
                                                 <constraint firstItem="T65-p7-XGm" firstAttribute="top" secondItem="DXa-Rb-qXv" secondAttribute="bottom" constant="2" id="H5v-j7-8n5"/>
                                                 <constraint firstItem="26d-AA-wHm" firstAttribute="leading" secondItem="OIt-mu-NGb" secondAttribute="leading" constant="15" id="HYa-T3-jcA"/>
+                                                <constraint firstItem="T8j-RL-24c" firstAttribute="top" secondItem="OIt-mu-NGb" secondAttribute="top" constant="15" id="M26-Zc-KEc"/>
+                                                <constraint firstAttribute="trailing" secondItem="T8j-RL-24c" secondAttribute="trailing" constant="15" id="W94-E8-S2b"/>
                                                 <constraint firstAttribute="height" constant="115" id="Wr8-s9-wr9"/>
                                                 <constraint firstItem="T65-p7-XGm" firstAttribute="leading" secondItem="OIt-mu-NGb" secondAttribute="leading" constant="15" id="Xtg-FM-Szn"/>
                                                 <constraint firstAttribute="trailing" secondItem="T65-p7-XGm" secondAttribute="trailing" constant="15" id="jwt-vq-hDh"/>
                                                 <constraint firstAttribute="trailing" secondItem="DXa-Rb-qXv" secondAttribute="trailing" constant="15" id="nmu-Ue-sq0"/>
-                                                <constraint firstAttribute="trailing" secondItem="26d-AA-wHm" secondAttribute="trailing" constant="15" id="sQ0-xA-ntq"/>
                                                 <constraint firstItem="DXa-Rb-qXv" firstAttribute="top" secondItem="26d-AA-wHm" secondAttribute="bottom" constant="5" id="wdF-KO-fxr"/>
                                             </constraints>
                                         </view>

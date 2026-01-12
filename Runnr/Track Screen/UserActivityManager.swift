@@ -22,7 +22,7 @@ class UserActivityManager {
     var minutes: Int = 0
     var hours: Int = 0
     
-    private var lastLocation : CLLocation?
+    private var distanceLastLocation: CLLocation?
     var totalDistance: Double = 0.0
     
     private let pedometer = CMPedometer()
@@ -30,13 +30,14 @@ class UserActivityManager {
     var totalSteps: Int = 0
     
     private var avgPace : Double = 0.0
-    private var liveDistanceInterval: Double = 0
-    private var liveTimeInterval: TimeInterval = 0
+    private var liveDistance: Double = 0
+    private var liveTime: TimeInterval = 0
+    private var paceLastLocation: CLLocation?
     var currentPace : Double = 0.0
 
     
-    private var graphDistanceInterval: Double = 0
-    private var graphTimeInterval: TimeInterval = 0
+    private var graphDistance: Double = 0
+    private var graphTime: TimeInterval = 0
     private var graphDistancePoint: Int = 0
     var paceGraphData: [LivePaceGraphData] = []
     
@@ -81,15 +82,15 @@ class UserActivityManager {
     }
     
     func startUpdatingDistance(with location: CLLocation) {
-        if let last = lastLocation {
+        if let last = self.distanceLastLocation {
             totalDistance += location.distance(from: last) / 1000
         }
         
-        lastLocation = location
+        self.distanceLastLocation = location
     }
     
     func stopUpdatingDistance() {
-        lastLocation = nil
+        self.distanceLastLocation = nil
     }
     
     func startStepsTracking() {
@@ -111,40 +112,50 @@ class UserActivityManager {
     }
     
     func showLivePace(using location: CLLocation) {
-        if let last = lastLocation {
+
+        if let last = self.paceLastLocation {
+
+            print("Inside showLivePace")
+            print("Current:", location.timestamp)
+            print("Last:", last.timestamp)
 
             let deltaDistance = location.distance(from: last)
             let deltaTime = location.timestamp.timeIntervalSince(last.timestamp)
 
+            print("deltaDistance: \(deltaDistance), deltaTime: \(deltaTime)")
             if deltaDistance > 0 && deltaTime > 0 {
-                self.liveDistanceInterval += deltaDistance
-                self.liveTimeInterval += deltaTime
-                
-                self.graphDistanceInterval = deltaDistance
-                self.graphTimeInterval = deltaTime
-            }
+                self.liveDistance += deltaDistance
+                self.liveTime += deltaTime
+                print("liveDistance: \(liveDistance), liveTime: \(liveTime) -> outside if")
 
-            if self.liveTimeInterval >= 10 && self.liveDistanceInterval > 0 {
-                self.currentPace = (self.liveTimeInterval / self.liveDistanceInterval) * 1000 / 60
-                self.liveDistanceInterval = 0
-                self.liveTimeInterval = 0
-            }
-            
-            if self.graphTimeInterval > 0 && self.graphDistanceInterval >= 100 {
-                self.currentPace = (self.graphTimeInterval / self.graphDistanceInterval) * 1000 / 60
+                if self.liveTime >= 10 && self.liveDistance > 0 {
+                    self.currentPace = (self.liveTime / self.liveDistance) * 1000 / 60
+                    print("liveDistance: \(liveDistance), liveTime: \(liveTime) -> inside if")
+
+                    self.liveDistance = 0
+                    self.liveTime = 0
+                }
+
+                self.graphDistance += deltaDistance
+                self.graphTime += deltaTime
+                print("graphDistance: \(graphDistance), graphTime: \(graphTime) -> outside if")
+
+                if self.graphDistance >= 100 {
+                    let pace = (self.graphTime / self.graphDistance) * 1000 / 60
+
+                    self.graphDistancePoint += 100
+                    self.paceGraphData.append(LivePaceGraphData(paceValue: pace, distance: Double(graphDistancePoint) / 1000, symbol: graphDistancePoint % 1000 == 0))
+                    print("graphDistance: \(graphDistance), graphTime: \(graphTime) -> inside if")
+                    self.graphDistance = 0
+                    self.graphTime = 0
+                }
                 
-                self.graphDistancePoint += 100
-                self.paceGraphData.append(LivePaceGraphData(paceValue: self.currentPace, distance: Double(self.graphDistancePoint) / 1000, symbol: self.graphDistancePoint % 1000 == 0))
-                
-                self.graphTimeInterval = 0
-                self.graphDistanceInterval = 0
             }
-            
         }
-            
-        self.lastLocation = location
-        
+
+        self.paceLastLocation = location
     }
+
 
     func getAveragePace() -> Double {
         
