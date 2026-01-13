@@ -44,18 +44,8 @@ class ActivityScreenViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
                 
-        if myActivity.isEmpty {
-            label.isHidden = false
-            stackRecentActivities.isHidden = true
-        }
-        else {
-            label.isHidden = true
-            stackRecentActivities.isHidden = false
-        }
-        
-        tableViewMyActivity.reloadData()
+        updateScreenElements()
         print(myActivity.count)
-        
         self.labelTotalPoints.text = "\(totalPoints)"
     }
     
@@ -97,6 +87,19 @@ class ActivityScreenViewController: UIViewController {
         segmentedControlActivityScreen.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
     }
     
+    func updateScreenElements() {
+        if myActivity.isEmpty {
+            label.isHidden = false
+            stackRecentActivities.isHidden = true
+        }
+        else {
+            label.isHidden = true
+            stackRecentActivities.isHidden = false
+        }
+        
+        tableViewMyActivity.reloadData()
+    }
+    
     @IBAction func chevronToAllActivities(_ sender: UIButton) {
         let vc = AllActivitiesViewController()
         navigationController?.pushViewController(vc, animated: true)
@@ -109,15 +112,7 @@ class ActivityScreenViewController: UIViewController {
             label.isHidden = true
         }
         else {
-            if myActivity.isEmpty
-            {
-                stackRecentActivities.isHidden = true
-                label.isHidden = false
-            }
-            else {
-                stackRecentActivities.isHidden = false
-                label.isHidden = true
-            }
+            self.updateScreenElements()
             
             tableViewMyActivity.isHidden = false
             tableViewFriendsActivity.isHidden = true
@@ -125,7 +120,7 @@ class ActivityScreenViewController: UIViewController {
     }
 }
 
-//Table View
+//MARK: - Table View Settings
 extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -150,6 +145,10 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
                                                      for: indexPath) as! MyActivityTableViewCell
             let activity = myActivity[indexPath.section]
             cell.configure(with: activity)
+            
+            cell.buttonMoreOptions.tag = indexPath.section
+            cell.buttonMoreOptions.addTarget(self, action: #selector(didTapOnMoreOptions(_:)), for: .touchUpInside)
+            
             return cell
 
         } else { // tableViewfriendsActivity
@@ -186,6 +185,25 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
     }
 }
 
+extension ActivityScreenViewController {
+    @objc func didTapOnMoreOptions(_ sender: UIButton) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let shareAction = UIAlertAction(title: String(localized: "Share Activity"), style: .default)
+        let deleteAction = UIAlertAction(title: String(localized: "Delete Activity"), style: .default) { _ in
+            self.dataSource.deleteMyActivity(atIndex: sender.tag)
+            self.updateScreenElements()
+        }
+        let cancelAction = UIAlertAction(title: String(localized: "Cancel"), style: .cancel, handler: nil)
+        
+        alert.addAction(shareAction)
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    
+}
 
 
 

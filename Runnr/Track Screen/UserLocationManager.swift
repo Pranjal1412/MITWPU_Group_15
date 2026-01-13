@@ -18,7 +18,7 @@ class UserLocationManager: NSObject, CLLocationManagerDelegate {
         super.init()
         
         locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locationManager.activityType = .fitness
         locationManager.distanceFilter = kCLDistanceFilterNone
         

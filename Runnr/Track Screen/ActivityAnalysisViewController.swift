@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import SwiftUI
+import Charts
 
 class ActivityAnalysisViewController: UIViewController {
 
@@ -24,7 +26,6 @@ class ActivityAnalysisViewController: UIViewController {
     @IBOutlet weak var viewActivityStats: UIView!
     @IBOutlet weak var collectionViewPhotos: UICollectionView!
     
-    @IBOutlet weak var imageGraph: UIImageView!
     @IBOutlet weak var labelDistanceValue: UILabel!
     @IBOutlet weak var labelPaceValue: UILabel!
     @IBOutlet weak var labelTimeValue: UILabel!
@@ -33,18 +34,31 @@ class ActivityAnalysisViewController: UIViewController {
     @IBOutlet weak var labelBasePoints: UILabel!
     @IBOutlet weak var labelSkillPoints: UILabel!
     @IBOutlet weak var labelTotalPoints: UILabel!
+    @IBOutlet weak var viewGraphContainer: UIView!
     
     var activityData : MyRunActivity?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        settingScrollViewHeight()
-        collectionViewPhotos.dataSource = self
-        collectionViewPhotos.delegate = self
-        collectionViewPhotos.register(UINib(nibName: "AddPhotosCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AddPhotosCollectionViewCell")
+        let graphView = GraphView(paceData: self.activityData!.paceGraphData)
+
+        let hostingController = UIHostingController(rootView: graphView)
+        addChild(hostingController)
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+        viewGraphContainer.addSubview(hostingController.view)
         
+        NSLayoutConstraint.activate([
+            hostingController.view.topAnchor.constraint(equalTo: self.viewGraphContainer.topAnchor),
+            hostingController.view.bottomAnchor.constraint(equalTo: self.viewGraphContainer.bottomAnchor),
+            hostingController.view.leadingAnchor.constraint(equalTo: self.viewGraphContainer.leadingAnchor),
+            hostingController.view.trailingAnchor.constraint(equalTo: self.viewGraphContainer.trailingAnchor)
+        ])
+        
+        hostingController.didMove(toParent: self)
+                
         setElements()
+        settingCollectioView()
         settingAttributedText()
         
     }
@@ -54,17 +68,15 @@ class ActivityAnalysisViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    func settingScrollViewHeight() {
+    func setElements() {
+        
         if self.activityData?.activityPhotos.count == 0 {
             self.labelPhotosHeading.isHidden = true
-            scrollView.contentSize.height = self.imageGraph.frame.origin.y + self.imageGraph.frame.height + 10
+            scrollView.contentSize.height = self.viewGraphContainer.frame.origin.y + self.viewGraphContainer.frame.height + 10
         }
         else {
             scrollView.contentSize.height = self.collectionViewPhotos.frame.origin.y + self.collectionViewPhotos.frame.height + 10
         }
-    }
-    
-    func setElements() {
         
         labelUserName.text = activityData!.userName
         labelUserName.sizeToFit()
@@ -118,10 +130,14 @@ class ActivityAnalysisViewController: UIViewController {
         labelPaceValue.attributedText = paceText
         labelPaceValue.textColor = .accent
         
-        let timeText = NSMutableAttributedString(string: String(format: "%02d", self.activityData!.timeHour), attributes: [.font: boldFont, .foregroundColor: UIColor.accent])
-        timeText.append(NSAttributedString(string: "hr", attributes: [.font: thinFont, .foregroundColor: UIColor.accent]))
+        var timeText = NSMutableAttributedString(string: "")
         
-        timeText.append(NSAttributedString(string: " " + String(format: "%02d", self.activityData!.timeMin), attributes: [.font: boldFont, .foregroundColor: UIColor.accent]))
+        if self.activityData!.timeHour != 0 {
+            timeText = NSMutableAttributedString(string: String(format: "%02d", self.activityData!.timeHour), attributes: [.font: boldFont, .foregroundColor: UIColor.accent])
+            timeText.append(NSAttributedString(string: "hr ", attributes: [.font: thinFont, .foregroundColor: UIColor.accent]))
+        }
+        
+        timeText.append(NSAttributedString(string: String(format: "%02d", self.activityData!.timeMin), attributes: [.font: boldFont, .foregroundColor: UIColor.accent]))
         
         timeText.append(NSAttributedString(string: "min", attributes: [.font: thinFont, .foregroundColor: UIColor.accent]))
         
@@ -139,6 +155,11 @@ class ActivityAnalysisViewController: UIViewController {
         labelCaloriesValue.textColor = .accent
         
         labelStepsValue.text = String(self.activityData!.stepsValue)
+        
+        self.labelTimeValue.sizeToFit()
+        self.labelDistanceValue.sizeToFit()
+        self.labelPaceValue.sizeToFit()
+        self.labelCaloriesValue.sizeToFit()
     }
 
 }
@@ -146,6 +167,12 @@ class ActivityAnalysisViewController: UIViewController {
 // MARK: - Add Photos CollectionView Settings
 
 extension ActivityAnalysisViewController : UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func settingCollectioView() {
+        collectionViewPhotos.dataSource = self
+        collectionViewPhotos.delegate = self
+        collectionViewPhotos.register(UINib(nibName: "AddPhotosCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AddPhotosCollectionViewCell")
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.activityData!.activityPhotos.count
@@ -155,7 +182,7 @@ extension ActivityAnalysisViewController : UICollectionViewDataSource, UICollect
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddPhotosCollectionViewCell", for: indexPath) as! AddPhotosCollectionViewCell
         
         let image = self.activityData!.activityPhotos[indexPath.row]
-        cell.configureCell(with: image)
+        cell.configureCell(with: image, hideCancel: true)
         
         return cell
     }
@@ -168,3 +195,83 @@ extension ActivityAnalysisViewController : UICollectionViewDataSource, UICollect
         return 10.0
     }
 }
+
+// MARK: - Setting up Pace Graph
+
+struct GraphView: View {
+//    let pacePoints: [LivePaceGraphData] = [
+//        LivePaceGraphData(paceValue: 6, distance: 0.5, symbol: false),
+//        LivePaceGraphData(paceValue: 4, distance: 1, symbol: true),
+//        LivePaceGraphData(paceValue: 6, distance: 1.5, symbol: false),
+//        LivePaceGraphData(paceValue: 6, distance: 2, symbol: true),
+//        LivePaceGraphData(paceValue: 5, distance: 2.5, symbol: false),
+//        LivePaceGraphData(paceValue: 5, distance: 3, symbol: true),
+//        LivePaceGraphData(paceValue: 5.5, distance: 3.5, symbol: false),
+//        LivePaceGraphData(paceValue: 5.75, distance: 4, symbol: true),
+//        LivePaceGraphData(paceValue: 6, distance: 4.5, symbol: false),
+//        LivePaceGraphData(paceValue: 7, distance: 5, symbol: true),
+//        LivePaceGraphData(paceValue: 8, distance: 7.5, symbol: false)
+//    ]
+
+    let paceData: [LivePaceGraphData]
+    var maxXValue : LivePaceGraphData? {
+        paceData.max { $0.distance < $1.distance }
+    }
+    
+    var maxYValue : LivePaceGraphData? {
+        paceData.max { $0.paceValue < $1.paceValue }
+    }
+    var minYValue : LivePaceGraphData? {
+        paceData.min { $0.paceValue < $1.paceValue }
+    }
+    
+    var body: some View {
+        Chart {
+            
+            ForEach(paceData) { data in
+                         
+                if data.symbol {
+                    LineMark(x: .value("Distance", data.distance), y: .value("Pace", data.paceValue))
+                        .symbol(.circle)
+                        .symbolSize(70)
+                }
+                else {
+                    LineMark(x: .value("Distance", data.distance), y: .value("Pace", data.paceValue))
+                }
+                
+                AreaMark(
+                    x: .value("Distance", data.distance), y: .value("Pace", data.paceValue)
+                )
+                .foregroundStyle(.accent.opacity(0.2))
+
+            }
+
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .chartXAxis {
+            AxisMarks(values: Array(stride(from: 0.0, through: (maxXValue?.distance ?? 5.0) + 0.5, by: 1.0))) { value in
+                AxisGridLine()
+                    .foregroundStyle(.white.opacity(1))
+                AxisTick()
+                    .foregroundStyle(.white)
+                AxisValueLabel()
+                    .foregroundStyle(.white)
+            }
+        }
+        .chartXScale(domain: 0...(maxXValue?.distance ?? 5) + 0.5)
+        .chartYScale(domain: 0...(maxYValue?.paceValue ?? 5))
+        .chartYAxis {
+            AxisMarks(position: .leading) { _ in
+                AxisGridLine()
+                    .foregroundStyle(.white.opacity(1))
+                AxisTick()
+                    .foregroundStyle(.white)
+                AxisValueLabel()
+                    .foregroundStyle(.white)
+            }
+        }
+        .background(Color(.black))
+
+    }
+}
+

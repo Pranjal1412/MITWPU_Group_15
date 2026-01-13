@@ -21,6 +21,7 @@ class ActivityStartViewController: UIViewController {
     var newUserAlert : Bool?
     
     var dataSource = DataSource.shared
+    var buttonStart: UIButton!
     var totalPoints: Int {
         dataSource.getTotalRunnrPoints()
     }
@@ -36,6 +37,7 @@ class ActivityStartViewController: UIViewController {
         labelScreenTitle.textColor = .accent
         labelScreenTitle.sizeToFit()
         self.createStartButton()
+
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -81,7 +83,8 @@ class ActivityStartViewController: UIViewController {
                 mapView.settings.zoomGestures = false
                 mapView.settings.rotateGestures = false
 //                mapManger.mapBehavior(isEnabled: false)
-                self.topGradientView.frame = mapView.bounds
+                self.topGradientView.frame.size.height = 100
+                self.topGradientView.frame.size.width = mapView.frame.width
                 self.topGradientView.frame.origin.y = mapView.frame.origin.y - 5
                 self.topGradientView.frame.origin.x = mapView.frame.origin.x
                 addTopGradient(to: self.topGradientView)
@@ -92,6 +95,7 @@ class ActivityStartViewController: UIViewController {
                 self.createStartButton()
                 self.userLocation.locationManager.stopUpdatingLocation()
                 self.isMapInitialized = true
+                
             }
             
         }

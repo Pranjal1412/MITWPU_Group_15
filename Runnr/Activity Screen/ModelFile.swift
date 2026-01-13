@@ -5,9 +5,11 @@ struct MyRunActivity {
     let userName: String
     let timeStamp: Date
     var runTitle: String
+    let activityType: String
     let distanceValue: Double
     let distanceUnit: String
     let paceValue: Double
+    let paceGraphData: [LivePaceGraphData]
     let paceUnit: String
     let stepsValue: Int
     let caloriesValue: Int
@@ -33,9 +35,15 @@ struct FriendsRunActivity {
     let paceUnit: String
     let timeValue: String
     let timeUnit: String
-    //let image:  String
     let photos: [String]
     let note: String
+}
+
+struct LivePaceGraphData: Identifiable {
+    let id: UUID = UUID()
+    let paceValue: Double
+    let distance: Double
+    let symbol: Bool
 }
 
 

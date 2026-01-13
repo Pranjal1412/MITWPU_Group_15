@@ -13,7 +13,6 @@ class ActivitySetGoalViewController: UIViewController {
     @IBOutlet weak var viewSubBackground: UIView!
     @IBOutlet weak var viewMainBackground: UIView!
     @IBOutlet weak var buttonStart: UIButton!
-    @IBOutlet weak var buttonSkip: UIButton!
     @IBOutlet weak var labelAudioFeedback: UILabel!
     @IBOutlet weak var labelDistance: UILabel!
     @IBOutlet weak var labelTime: UILabel!
@@ -23,6 +22,14 @@ class ActivitySetGoalViewController: UIViewController {
     @IBOutlet weak var viewBackgroundTime: UIView!
     @IBOutlet weak var viewBackgroundAudio: UIView!
     
+    @IBOutlet weak var switchAudioFeedback: UISwitch!
+    @IBOutlet weak var sliderSetTime: UISlider!
+    @IBOutlet weak var buttonActivity: UIButton!
+    @IBOutlet weak var labelSelectedTime: UILabel!
+    
+    @IBOutlet weak var labelMinTime: UILabel!
+    @IBOutlet weak var labelMidTime: UILabel!
+    @IBOutlet weak var labelMaxTime: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,8 +39,11 @@ class ActivitySetGoalViewController: UIViewController {
         viewSubBackground.layer.cornerRadius = 15
         
         settingScreen()
+        setupMenu()
         hideKeyboardWhenTappedAround()
         labelAudioFeedback.sizeToFit()
+        
+        sliderSetTime.isEnabled = false
     }
     
     func settingScreen() {
@@ -68,10 +78,6 @@ class ActivitySetGoalViewController: UIViewController {
         fullTimetext.append(regularText)
         fullTimetext.append(lightText)
         labelTime.attributedText = fullTimetext
-
-        buttonSkip.layer.borderWidth = 1
-        buttonSkip.layer.borderColor = UIColor.accent.cgColor
-        buttonSkip.layer.cornerRadius = buttonSkip.frame.height / 2
         
         buttonStart.layer.cornerRadius = buttonStart.frame.height / 2
         
@@ -81,24 +87,50 @@ class ActivitySetGoalViewController: UIViewController {
         viewBackgroungActivity.layer.cornerRadius = 15
     }
     
+    @IBAction func sliderValueChanged(_ sender: UISlider) {
+        let selectedValue = sender.value
+        self.labelSelectedTime.text = String(format: "%.2f", selectedValue)
+        
+    }
+    
+    @IBAction func distanceGoalSet(_ sender: UITextField) {
+        if sender.hasText {
+            self.sliderSetTime.minimumValue = 1
+            self.sliderSetTime.maximumValue = 2
+            
+            self.labelMinTime.text = "1.00"
+            self.labelMaxTime.text = "2.00"
+            self.labelMidTime.text = "1.50"
+            
+            self.sliderSetTime.isEnabled = true
+        }
+    }
+    
     @IBAction func buttonStartActivityPressed(_ sender: UIButton) {
                 
-//      Using self.presentingViewController as we need the same object that is been created and hence
-//      let presenter = SetGoalViewController() doesn't work as it creates a brand new onject that is unused
-        
-        if let presenter = self.presentingViewController {
-                        
-//          now we are writing that upon dimissal of the screen perform the following code
-            self.dismiss(animated: true) {
+        if self.buttonActivity.titleLabel?.text != "Select Activity" {
+            if let presenter = self.presentingViewController {
+                            
+    //          now we are writing that upon dimissal of the screen perform the following code
+                self.dismiss(animated: true) {
 
-                let rootController = ActivityLiveTrackingViewController(nibName: "ActivityLiveTrackingViewController", bundle: nil)
-                let navigationController = UINavigationController(rootViewController: rootController)
+                    let rootController = ActivityLiveTrackingViewController(nibName: "ActivityLiveTrackingViewController", bundle: nil)
+                    rootController.isAudioFeedbackOn = self.switchAudioFeedback.isOn
+                    rootController.activityTypeSelected = self.buttonActivity.titleLabel!.text!
+                    let navigationController = UINavigationController(rootViewController: rootController)
 
-                navigationController.modalPresentationStyle = .fullScreen
-                navigationController.navigationBar.isHidden = true
+                    navigationController.modalPresentationStyle = .fullScreen
+                    navigationController.navigationBar.isHidden = true
 
-                presenter.present(navigationController, animated: true, completion: nil)
+                    presenter.present(navigationController, animated: false, completion: nil)
+                }
             }
+        }
+        else {
+            let alert = UIAlertController(title: "Select an Activity", message: "You need to select an activity before starting", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "cancel", style: .cancel, handler: nil)
+            alert.addAction(cancelAction)
+            self.present(alert, animated: true, completion: nil)
         }
         
     }
@@ -106,6 +138,36 @@ class ActivitySetGoalViewController: UIViewController {
     @IBAction func cancelButtonPressed(_ sender: UIButton) {
         
         self.dismiss(animated: true)
+    }
+    
+    func setupMenu() {
+
+        let defaultActivity = UIAction(title: "Select Activity") { _ in
+            self.buttonActivity.setTitle("Select Activity", for: .normal)
+            self.buttonActivity.setTitleColor(.darkGray, for: .normal)
+        }
+        
+        let run = UIAction(title: "Run") { _ in
+            self.buttonActivity.setTitle("Run", for: .normal)
+            self.buttonActivity.setTitleColor(.accent, for: .normal)
+
+        }
+
+        let walk = UIAction(title: "Walk") { _ in
+            self.buttonActivity.setTitle("Walk", for: .normal)
+            self.buttonActivity.setTitleColor(.accent, for: .normal)
+
+        }
+
+        let cycle = UIAction(title: "Cycle") { _ in
+            self.buttonActivity.setTitle("Cycle", for: .normal)
+            self.buttonActivity.setTitleColor(.accent, for: .normal)
+
+        }
+
+        buttonActivity.menu = UIMenu(children: [defaultActivity, run, walk, cycle])
+        buttonActivity.showsMenuAsPrimaryAction = true
+        self.buttonActivity.setTitleColor(.accent, for: .normal)
     }
     
 }

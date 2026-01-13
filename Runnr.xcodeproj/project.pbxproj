@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C9E277EB2F12697F0024A853 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = C9E277EA2F12697F0024A853 /* GoogleSignIn */; };
+		C9E277ED2F12697F0024A853 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C9E277EC2F12697F0024A853 /* GoogleSignInSwift */; };
 		F903F4572EB653FC0066B9A1 /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = F903F4562EB653FC0066B9A1 /* GoogleMaps */; };
 /* End PBXBuildFile section */
 
@@ -40,7 +42,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9E277ED2F12697F0024A853 /* GoogleSignInSwift in Frameworks */,
 				F903F4572EB653FC0066B9A1 /* GoogleMaps in Frameworks */,
+				C9E277EB2F12697F0024A853 /* GoogleSignIn in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,6 +80,8 @@
 			name = Runnr;
 			packageProductDependencies = (
 				F903F4562EB653FC0066B9A1 /* GoogleMaps */,
+				C9E277EA2F12697F0024A853 /* GoogleSignIn */,
+				C9E277EC2F12697F0024A853 /* GoogleSignInSwift */,
 			);
 			productName = Runnr;
 			productReference = 19FDEE992EEBCC2E00AF027C /* Runnr.app */;
@@ -108,6 +114,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				F903F4552EB653FC0066B9A1 /* XCRemoteSwiftPackageReference "ios-maps-sdk" */,
+				C9E277E92F12697F0024A853 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 19217CBC2EA0E064009AFC93;
@@ -375,6 +382,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		C9E277E92F12697F0024A853 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.1.0;
+			};
+		};
 		F903F4552EB653FC0066B9A1 /* XCRemoteSwiftPackageReference "ios-maps-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/googlemaps/ios-maps-sdk";
@@ -386,6 +401,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		C9E277EA2F12697F0024A853 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C9E277E92F12697F0024A853 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		C9E277EC2F12697F0024A853 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C9E277E92F12697F0024A853 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
 		F903F4562EB653FC0066B9A1 /* GoogleMaps */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F903F4552EB653FC0066B9A1 /* XCRemoteSwiftPackageReference "ios-maps-sdk" */;

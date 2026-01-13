@@ -25,14 +25,14 @@ func addTopGradient(to view: UIView) {
     gradient.colors = [
         UIColor.black.cgColor,
         UIColor.black.withAlphaComponent(0.4).cgColor,
-        UIColor.black.withAlphaComponent(0.4).cgColor,
+//        UIColor.black.withAlphaComponent(0.4).cgColor,
         UIColor.black.withAlphaComponent(0.2).cgColor,
-        UIColor.black.withAlphaComponent(0.2).cgColor,
+//        UIColor.black.withAlphaComponent(0.2).cgColor,
+//        UIColor.black.withAlphaComponent(0.1).cgColor,
         UIColor.black.withAlphaComponent(0.1).cgColor,
-        UIColor.black.withAlphaComponent(0.1).cgColor,
-        UIColor.black.withAlphaComponent(0.1).cgColor,
-        UIColor.black.withAlphaComponent(0.1).cgColor,
-        UIColor.black.withAlphaComponent(0.1).cgColor,
+//        UIColor.black.withAlphaComponent(0.1).cgColor,
+//        UIColor.black.withAlphaComponent(0.1).cgColor,
+//        UIColor.black.withAlphaComponent(0.1).cgColor,
         UIColor.clear.cgColor
     ]
 

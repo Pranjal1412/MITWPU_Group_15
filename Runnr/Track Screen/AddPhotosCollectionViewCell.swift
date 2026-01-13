@@ -15,20 +15,26 @@ class AddPhotosCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-
-    func configureCell(with image: UIImage) {
+    
+    func configureCell(with image: UIImage, hideCancel value: Bool) {
         
-        if #available(iOS 26.0, *) {
-            buttonDeletePhoto.configuration = .glass()
-            buttonDeletePhoto.tintColor = .accent
-            buttonDeletePhoto.setImage(UIImage(systemName: "multiply"), for: .normal)
+        if value == false {
+            self.buttonDeletePhoto.isHidden = value
+            
+            if #available(iOS 26.0, *) {
+                buttonDeletePhoto.configuration = .glass()
+                buttonDeletePhoto.tintColor = .accent
+                buttonDeletePhoto.setImage(UIImage(systemName: "multiply"), for: .normal)
+            }
+            else {
+                buttonDeletePhoto.tintColor = .accent
+                buttonDeletePhoto.setImage(UIImage(systemName: "multiply.circle"), for: .normal)
+            }
         }
         else {
-            buttonDeletePhoto.tintColor = .accent
-            buttonDeletePhoto.setImage(UIImage(systemName: "multiply.circle"), for: .normal)
+            self.buttonDeletePhoto.isHidden = value
         }
-        
-        
+                
         imagePhotos.image = image
         imagePhotos.layer.cornerRadius = 10
         imagePhotos.clipsToBounds = true

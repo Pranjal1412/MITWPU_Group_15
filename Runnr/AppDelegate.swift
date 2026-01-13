@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        GMSServices.provideAPIKey("AIzaSyBpJKC0vjbzXZRdCeLXGMPQxbyPB0ILvN0")
+        GMSServices.provideAPIKey("AIzaSyAUgJgB9iqP2RzDO25TliEF_Qn77P1I5QQ")
 //        self.window?.overrideUserInterfaceStyle = .dark
         
         return true

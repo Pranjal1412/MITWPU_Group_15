@@ -105,6 +105,11 @@ class GameScreenViewController: UIViewController {
             collectionViewCompleted.isHidden = true
         }
     }
+    
+    @IBAction func buttonToGame(_ sender: UIButton) {
+        let destinationVC = GameSetOneViewController()
+        self.present(destinationVC, animated: true, completion: nil)
+    }
 }
 
 // MARK: - Collection View Delegates
@@ -203,6 +208,6 @@ extension GameScreenViewController: UICollectionViewDelegate,
         self.present(destinationVC, animated: true , completion: nil)
         
     }
-
+    
 }
 

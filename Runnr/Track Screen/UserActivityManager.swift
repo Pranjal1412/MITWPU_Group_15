@@ -12,43 +12,42 @@ import CoreMotion
 
 class UserActivityManager {
 
-    var timer: Timer?
-    var startTime: Date?
-    var accumulatedTime: TimeInterval = 0
-    var timerLabel : UILabel
-    var timeStamp : Date?
+    private var timer: Timer?
+    private var startTime: Date?
+    private var accumulatedTime: TimeInterval = 0
+    private var timerLabel : UILabel
     
-    var totalTime: TimeInterval = 0
+    private var totalTime: TimeInterval = 0
     var seconds: Int = 0
     var minutes: Int = 0
     var hours: Int = 0
     
+    private var distanceLastLocation: CLLocation?
     var totalDistance: Double = 0.0
-    var lastLocation : CLLocation?
     
-    let pedometer = CMPedometer()
+    private let pedometer = CMPedometer()
+    private var steps : Int = 0
     var totalSteps: Int = 0
-    var steps : Int = 0
     
-    var livePace : Double = 0.0
-    var avgPace : Double = 0.0
+    private var avgPace : Double = 0.0
+    private var liveDistance: Double = 0
+    private var liveTime: TimeInterval = 0
+    private var paceLastLocation: CLLocation?
+    var currentPace : Double = 0.0
+
+    
+    private var graphDistance: Double = 0
+    private var graphTime: TimeInterval = 0
+    private var graphDistancePoint: Int = 0
+    var paceGraphData: [LivePaceGraphData] = []
     
     init (timerLabel: UILabel) {
         self.timerLabel = timerLabel
     }
     
-    func activityTimeStamp() {
-//        let formatter = DateFormatter()
-//        formatter.dateStyle = .long
-//        formatter.timeStyle = .short
-//        timeStamp = formatter.string(from: Date())
-        
-        timeStamp = Date()
-    }
-    
     // same function for resuming the timer if activity is just paused
     func startTimer() {
-        startTime = Date()
+        self.startTime = Date()
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
     }
 
@@ -83,15 +82,15 @@ class UserActivityManager {
     }
     
     func startUpdatingDistance(with location: CLLocation) {
-        if let last = lastLocation {
+        if let last = self.distanceLastLocation {
             totalDistance += location.distance(from: last) / 1000
         }
         
-        lastLocation = location
+        self.distanceLastLocation = location
     }
     
     func stopUpdatingDistance() {
-        lastLocation = nil
+        self.distanceLastLocation = nil
     }
     
     func startStepsTracking() {
@@ -113,25 +112,62 @@ class UserActivityManager {
     }
     
     func showLivePace(using location: CLLocation) {
-        let speed = location.speed // unit here is meter/seconds
-        
-        if speed > 0 {
-            livePace = (1000/speed) / 60 // unit converted to min/km
-            print("Pace:", livePace)
+
+        if let last = self.paceLastLocation {
+
+            print("Inside showLivePace")
+            print("Current:", location.timestamp)
+            print("Last:", last.timestamp)
+
+            let deltaDistance = location.distance(from: last)
+            let deltaTime = location.timestamp.timeIntervalSince(last.timestamp)
+
+            print("deltaDistance: \(deltaDistance), deltaTime: \(deltaTime)")
+            if deltaDistance > 0 && deltaTime > 0 {
+                self.liveDistance += deltaDistance
+                self.liveTime += deltaTime
+                print("liveDistance: \(liveDistance), liveTime: \(liveTime) -> outside if")
+
+                if self.liveTime >= 10 && self.liveDistance > 0 {
+                    self.currentPace = (self.liveTime / self.liveDistance) * 1000 / 60
+                    print("liveDistance: \(liveDistance), liveTime: \(liveTime) -> inside if")
+
+                    self.liveDistance = 0
+                    self.liveTime = 0
+                }
+
+                self.graphDistance += deltaDistance
+                self.graphTime += deltaTime
+                print("graphDistance: \(graphDistance), graphTime: \(graphTime) -> outside if")
+
+                if self.graphDistance >= 100 {
+                    let pace = (self.graphTime / self.graphDistance) * 1000 / 60
+
+                    self.graphDistancePoint += 100
+                    self.paceGraphData.append(LivePaceGraphData(paceValue: pace, distance: Double(graphDistancePoint) / 1000, symbol: graphDistancePoint % 1000 == 0))
+                    print("graphDistance: \(graphDistance), graphTime: \(graphTime) -> inside if")
+                    self.graphDistance = 0
+                    self.graphTime = 0
+                }
+                
+            }
         }
+
+        self.paceLastLocation = location
     }
+
 
     func getAveragePace() -> Double {
         
-        if totalDistance >= 0.1 && totalTime >= 60 {
-            avgPace = (totalTime / 60) / totalDistance
+        if totalDistance > 0 && totalTime >= 60 {
+            self.avgPace = (totalTime / 60) / totalDistance
         }
         
-        return avgPace
+        return self.avgPace
     }
     
     func skillPointsEarned() -> Int {
-        switch avgPace {
+        switch self.avgPace {
             
             case 0:
                 return 0
