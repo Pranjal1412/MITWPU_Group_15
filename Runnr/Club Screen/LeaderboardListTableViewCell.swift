@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LeaderBoardTableViewCell: UITableViewCell {
+class LeaderboardListTableViewCell: UITableViewCell {
 
     @IBOutlet var labelName: UILabel!
     @IBOutlet var labelRank: UILabel!

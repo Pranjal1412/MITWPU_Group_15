@@ -116,7 +116,7 @@ extension LeaderBoardViewController : UITableViewDelegate, UITableViewDataSource
         let cell = tableView.dequeueReusableCell(
             withIdentifier: "LeaderBoardTableViewCell",
             for: indexPath
-        ) as! LeaderBoardTableViewCell
+        ) as! LeaderboardListTableViewCell
 
         let user = users[indexPath.row]
 
