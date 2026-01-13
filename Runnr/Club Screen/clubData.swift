@@ -135,3 +135,5 @@ let clubActivityOptions : [ClubActivity] = [ClubActivity(image: UIImage(systemNa
                                             ClubActivity(image: UIImage(systemName: "figure.hiking"), title: "Hiking"),
                                             ClubActivity(image: UIImage(systemName: "figure.walk"), title: "Walking"),
                                             ClubActivity(image: UIImage(systemName: "figure.highintensity.intervaltraining"), title: "Marathons")]
+
+let clubDescriptions: [String] = ["Just for fun!", "Competitive Play", "Fitness", "Charity"]

@@ -105,12 +105,19 @@
                                 <action selector="dismissModalPressed:" destination="-1" eventType="touchUpInside" id="uLg-gf-qXk"/>
                             </connections>
                         </button>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rP3-rw-WdF">
+                            <rect key="frame" x="25" y="168.66666666666671" width="352" height="409.33333333333326"/>
+                            <subviews>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lO6-VC-3tu">
+                                    <rect key="frame" x="126" y="31" width="100" height="100"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </view>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="D0N-uX-vXH">
-                            <rect key="frame" x="66" y="228.66666666666671" width="270" height="289.33333333333326"/>
+                            <rect key="frame" x="25" y="193.66666666666671" width="352" height="359.33333333333326"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="270" id="2oA-Hu-iUM"/>
-                            </constraints>
                             <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="p3d-Hl-FgK">
                                 <size key="itemSize" width="128" height="128"/>
                                 <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -122,24 +129,34 @@
                     <color key="backgroundColor" red="0.047058823529411764" green="0.047058823529411764" blue="0.047058823529411764" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstItem="Iim-Fd-TrO" firstAttribute="top" secondItem="4ZV-l3-kZv" secondAttribute="bottom" constant="10" id="0g2-G8-IZU"/>
-                        <constraint firstItem="D0N-uX-vXH" firstAttribute="centerX" secondItem="Biy-ss-bQ1" secondAttribute="centerX" id="3w6-dv-ClG"/>
                         <constraint firstAttribute="trailing" secondItem="Hn6-bU-9ha" secondAttribute="trailing" constant="25" id="4ve-jy-3ui"/>
                         <constraint firstItem="4ZV-l3-kZv" firstAttribute="leading" secondItem="Biy-ss-bQ1" secondAttribute="leading" constant="25" id="8RB-IC-FeK"/>
                         <constraint firstItem="REJ-hB-PMH" firstAttribute="leading" secondItem="Biy-ss-bQ1" secondAttribute="leading" constant="20" id="8Wd-0k-xCW"/>
                         <constraint firstItem="4ZV-l3-kZv" firstAttribute="top" secondItem="Biy-ss-bQ1" secondAttribute="top" constant="64" id="GV8-JG-3H2"/>
                         <constraint firstAttribute="trailing" secondItem="4ZV-l3-kZv" secondAttribute="trailing" constant="25" id="ILz-Rf-5cU"/>
                         <constraint firstAttribute="trailing" secondItem="Iim-Fd-TrO" secondAttribute="trailing" constant="25" id="JOb-gL-h1E"/>
-                        <constraint firstItem="97n-47-BdF" firstAttribute="top" secondItem="D0N-uX-vXH" secondAttribute="bottom" constant="75" id="Ndy-hW-HJ1"/>
+                        <constraint firstItem="97n-47-BdF" firstAttribute="top" secondItem="D0N-uX-vXH" secondAttribute="bottom" constant="40" id="Ndy-hW-HJ1"/>
+                        <constraint firstAttribute="trailing" secondItem="rP3-rw-WdF" secondAttribute="trailing" constant="25" id="SE0-X4-Vjz"/>
                         <constraint firstItem="Iim-Fd-TrO" firstAttribute="leading" secondItem="Biy-ss-bQ1" secondAttribute="leading" constant="25" id="VMy-IT-vQd"/>
-                        <constraint firstItem="D0N-uX-vXH" firstAttribute="top" secondItem="Hn6-bU-9ha" secondAttribute="bottom" constant="75" id="WNg-hI-8qa"/>
+                        <constraint firstItem="D0N-uX-vXH" firstAttribute="top" secondItem="Hn6-bU-9ha" secondAttribute="bottom" constant="40" id="WNg-hI-8qa"/>
                         <constraint firstItem="Hn6-bU-9ha" firstAttribute="top" secondItem="Iim-Fd-TrO" secondAttribute="bottom" constant="35" id="XJm-BW-6m8"/>
+                        <constraint firstAttribute="trailing" secondItem="D0N-uX-vXH" secondAttribute="trailing" constant="25" id="Zwm-wf-x50"/>
+                        <constraint firstItem="D0N-uX-vXH" firstAttribute="leading" secondItem="Biy-ss-bQ1" secondAttribute="leading" constant="25" id="bZC-Hb-M0X"/>
                         <constraint firstItem="REJ-hB-PMH" firstAttribute="top" secondItem="Biy-ss-bQ1" secondAttribute="top" constant="25" id="eR0-d2-ZjH"/>
+                        <constraint firstItem="97n-47-BdF" firstAttribute="top" secondItem="rP3-rw-WdF" secondAttribute="bottom" constant="15" id="iz1-rI-OeB"/>
                         <constraint firstItem="97n-47-BdF" firstAttribute="leading" secondItem="Biy-ss-bQ1" secondAttribute="leading" constant="46" id="jDn-Ek-Xv7"/>
+                        <constraint firstItem="rP3-rw-WdF" firstAttribute="leading" secondItem="Biy-ss-bQ1" secondAttribute="leading" constant="25" id="n4a-Kt-ePV"/>
+                        <constraint firstItem="rP3-rw-WdF" firstAttribute="top" secondItem="Hn6-bU-9ha" secondAttribute="bottom" constant="15" id="qcW-aF-SZW"/>
                         <constraint firstAttribute="height" constant="700" id="rPd-Xx-yy8"/>
                         <constraint firstAttribute="trailing" secondItem="97n-47-BdF" secondAttribute="trailing" constant="46" id="rtH-Kr-Etj"/>
                         <constraint firstAttribute="bottom" secondItem="97n-47-BdF" secondAttribute="bottom" constant="53" id="tno-yx-rfu"/>
                         <constraint firstItem="Hn6-bU-9ha" firstAttribute="leading" secondItem="Biy-ss-bQ1" secondAttribute="leading" constant="25" id="zjn-QC-qcb"/>
                     </constraints>
+                    <variation key="default">
+                        <mask key="subviews">
+                            <exclude reference="D0N-uX-vXH"/>
+                        </mask>
+                    </variation>
                 </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
@@ -149,7 +166,7 @@
                 <constraint firstItem="Biy-ss-bQ1" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="ZZj-C1-5va"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="205.97014925373134" y="140.73226544622423"/>
+            <point key="canvasLocation" x="205.97014925373134" y="140.04576659038901"/>
         </view>
     </objects>
     <resources>
