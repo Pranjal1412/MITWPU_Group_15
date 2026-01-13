@@ -30,7 +30,9 @@ class JoinUsViewController: UIViewController {
     
     @IBAction func signUpButtonPressed(_ sender: UIButton) {
         isSignUpComplete = true
-        self.navigationController?.popToRootViewController(animated: false)
+        //self.navigationController?.popToRootViewController(animated: false)
+        let destinationVC = YourInformationViewController()
+        self.navigationController?.pushViewController(destinationVC, animated: true)
     }
     
     @IBAction func backButtonPressed(_ sender: UIButton) {
@@ -75,7 +77,7 @@ class JoinUsViewController: UIViewController {
         buttonApple.setTitle(String(localized: "Sign Up with Apple ID"), for: .normal)
         
         buttonGoogle.layer.cornerRadius = buttonGoogle.frame.height / 2
-        buttonGoogle.setTitle(String(localized: "Sign Up with Google"), for: .normal)
+        //buttonGoogle.setTitle(String(localized: "Sign Up with Google"), for: .normal)
         
         if #available(iOS 26.0, *) {
             self.buttonBack.configuration = .glass()
