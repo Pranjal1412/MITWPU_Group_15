@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct clubData: Codable {
     let image: String
@@ -30,7 +31,6 @@ struct friendsData {
     var isFollowing: Bool
 }
 
-
 struct posts {
     let images: String
 }
@@ -42,9 +42,7 @@ struct LeaderBoard {
     let levelDescription: String
 }
 
-var myClubs: [myClubData] = [
-    
-]
+var myClubs: [myClubData] = []
 
 let leaderBoardArray: [LeaderBoard] = [
 LeaderBoard(badge: "badge 1", levelName: "Starter", levelDescription: "0 - 49.99 Kilometers"),
@@ -128,5 +126,12 @@ let leaderboardUsersArray: [LeaderboardUser] = [
     )
 ]
 
+struct ClubActivity {
+    let image : UIImage?
+    let title : String
+}
 
-
+let clubActivityOptions : [ClubActivity] = [ClubActivity(image: UIImage(systemName: "figure.run"), title: "Running"),
+                                            ClubActivity(image: UIImage(systemName: "figure.hiking"), title: "Hiking"),
+                                            ClubActivity(image: UIImage(systemName: "figure.walk"), title: "Walking"),
+                                            ClubActivity(image: UIImage(systemName: "figure.highintensity.intervaltraining"), title: "Marathons")]

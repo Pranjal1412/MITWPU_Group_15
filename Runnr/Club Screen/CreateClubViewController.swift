@@ -16,8 +16,7 @@ class CreateClubViewController: UIViewController {
     @IBOutlet var page2: UIView!
     @IBOutlet var page3: UIView!
     @IBOutlet var buttonNext: UIButton!
-    
-    
+    @IBOutlet weak var collectionViewClubActivity: UICollectionView!
     
     var currentPage = 1
     
@@ -36,10 +35,11 @@ class CreateClubViewController: UIViewController {
         settingSubtitleCreateClub()
         settingPageProgress()
         
+        self.collectionViewClubActivity.dataSource = self
+        self.collectionViewClubActivity.delegate = self
         
-        
-        // Do any additional setup after loading the view.
-       
+        self.collectionViewClubActivity.register(UINib(nibName: "SelectActivityCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "SelectActivityCollectionViewCell")
+               
     }
 
     @IBAction func nextButtonPressed(_ sender: UIButton) {
@@ -178,4 +178,62 @@ class CreateClubViewController: UIViewController {
 
     }
    
+}
+
+extension CreateClubViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return clubActivityOptions.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SelectActivityCollectionViewCell", for: indexPath) as! SelectActivityCollectionViewCell
+        
+        cell.configureCell(with: clubActivityOptions[indexPath.row])
+        cell.viewCellBackground.layer.borderColor = UIColor.lightGray.cgColor
+        cell.viewCellBackground.layer.borderWidth = 1
+        cell.viewCellBackground.layer.cornerRadius = 10.0
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = (self.collectionViewClubActivity.frame.width - 60) / 2
+        let height = (self.collectionViewClubActivity.frame.height - 20) / 2
+        
+        let size = CGSize(width: width, height: height)
+        
+        return size
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! SelectActivityCollectionViewCell
+        
+        if cell.viewCellBackground.layer.borderColor == UIColor.accent.cgColor {
+            cell.viewCellBackground.layer.borderColor = UIColor.lightGray.cgColor
+            cell.imageActivity.tintColor = .white
+            cell.labelActivityTitle.textColor = .white
+            cell.viewCellBackground.layer.borderWidth = 2
+        }
+        else {
+            cell.viewCellBackground.layer.borderColor = UIColor.accent.cgColor
+            cell.imageActivity.tintColor = .accent
+            cell.labelActivityTitle.textColor = .accent
+            cell.viewCellBackground.layer.borderWidth = 2
+        }
+        
+    }
 }
