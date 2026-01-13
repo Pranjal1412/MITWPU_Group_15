@@ -126,7 +126,7 @@ extension ClubProfileViewController {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ClubProfileTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ClubLeaderboardTableViewCell
         
         cell.configureCell(with: leaderBoardArray[indexPath.row])
 //        cell.configureCell(with: friendsDataArray[indexPath.row])

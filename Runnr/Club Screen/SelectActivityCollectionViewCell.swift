@@ -9,9 +9,19 @@ import UIKit
 
 class SelectActivityCollectionViewCell: UICollectionViewCell {
 
+    @IBOutlet weak var imageActivity: UIImageView!
+    @IBOutlet weak var labelActivityTitle: UILabel!
+    @IBOutlet weak var viewCellBackground: UIView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
 
+    func configureCell(with activity: ClubActivity) {
+        self.imageActivity.image = activity.image
+        self.labelActivityTitle.text = activity.title
+        self.labelActivityTitle.textColor = .white
+    }
+    
 }
