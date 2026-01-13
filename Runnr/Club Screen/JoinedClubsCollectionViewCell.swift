@@ -14,15 +14,20 @@ class JoinedClubsCollectionViewCell: UICollectionViewCell {
     @IBOutlet var NumberOfRunners: UILabel!
     @IBOutlet var Sport: UILabel!
     
+    @IBOutlet var viewJoinedClub: UIView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        viewJoinedClub.layer.cornerRadius = 10
+        viewJoinedClub.clipsToBounds = true
+        
     }
     func configureCell(with data: myClubData) {
         ClubName.text = data.clubName
         Sport.text = data.sport
         NumberOfRunners.text = data.numberOfMembers
         ClubProfileImage.image = UIImage(named: data.clubProfileImg)
+        
     }
 }
 
