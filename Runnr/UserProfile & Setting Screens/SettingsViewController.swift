@@ -59,7 +59,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         let titleLabel = UILabel()
         titleLabel.textColor = .accent
         titleLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        titleLabel.frame = CGRect(x: 15, y: 0, width: tableView.frame.width, height: 30)
+        titleLabel.frame = CGRect(x: 5, y: 0, width: tableView.frame.width, height: 30)
 
         switch section {
         case 0:
@@ -78,5 +78,29 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     }
 
 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+        let cellSelected = settingsArray[indexPath.section]![indexPath.row]
+        
+        if cellSelected.title == "Logout" {
+            let alert = UIAlertController(title: "Logout", message: "Are you sure you want to logout?", preferredStyle: .alert)
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+            let logoutAction = UIAlertAction(title: "Logout", style: .destructive) { (action) in
+                isSignUpComplete = false
+                if let presenter = self.presentingViewController {
+                    self.dismiss(animated: true) {
+                        presenter.dismiss(animated: false, completion: nil)
+                    }
+                }
+            }
+            
+            alert.addAction(cancelAction)
+            alert.addAction(logoutAction)
+            present(alert, animated: true, completion: nil)
+        }
+        
+    }
 }
 

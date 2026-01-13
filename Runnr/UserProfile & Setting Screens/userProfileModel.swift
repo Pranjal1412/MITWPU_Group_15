@@ -31,5 +31,5 @@ let settingsArray : [Int : [Settings]] = [ 0 : [Settings(symbol: UIImage(systemN
                                                 Settings(symbol: UIImage(systemName: "lock.shield"), title: "Privacy Controls"),
                                                 Settings(symbol: UIImage(systemName: "bell.circle"), title: "Notification Settings")],
                                            2 : [Settings(symbol: UIImage(systemName: "character.bubble"), title: "Language")],
-                                           3 : [Settings(symbol: UIImage(systemName: "door.left.hand.open"), title: "Log Out"),
+                                           3 : [Settings(symbol: UIImage(systemName: "door.left.hand.open"), title: "Logout"),
                                                 Settings(symbol: UIImage(systemName: "trash"), title: "Delete Account")]]

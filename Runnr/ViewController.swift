@@ -72,6 +72,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func loginButtonPressed(_ sender: UIButton) {
+        self.newUser = false
         self.navigationController?.pushViewController(LoginViewController(), animated: true)
     }
     

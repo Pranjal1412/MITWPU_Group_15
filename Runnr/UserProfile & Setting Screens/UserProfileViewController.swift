@@ -69,7 +69,7 @@ class UserProfileViewController: UIViewController {
     }
 
     @IBAction func editProfilePressed(_ sender: UIButton) {
-        isSignUpComplete = false
+        
     }
     
     
