@@ -69,14 +69,13 @@ class CreateClubViewController: UIViewController {
                 self.dismiss(animated: true) {
                     let rootVC = ClubProfileViewController(nibName: "ClubProfileViewController", bundle: nil)
                     let destinationVC = UINavigationController(rootViewController: rootVC)
+                   
+                    let nextClub = MyClubData(clubProfileImg: UIImage(named: "club1")!, clubName: "Slow Sundays", numberOfMembers: "11k", sport: "Running", isPublic: true, clubMotive: "Just for Fun", clubDescription: "United we RUN. GROW. NETWORK & HAVE FUN.")
                     
-                    rootVC.clubDescription.text = "United we RUN. GROW. NETWORK & HAVE FUN. "
-                    rootVC.clubProfileImage.image = UIImage(named: "club1")
-                    rootVC.labelClubName.text = "Slow Sundays"
-                    rootVC.labelSportType.text = "Running"
-                    rootVC.labelNumberOfMembers.text = "11k Members"
+                    myClubs.append(nextClub)
                     
-                    myClubs.append(MyClubData(clubProfileImg: "club1", clubName: "Slow Sundays", numberOfMembers: "11k", sport: "Running", isPublic: true, clubMotive: "Just for Fun", clubDescription: "United we RUN. GROW. NETWORK & HAVE FUN."))
+                    rootVC.isMyClub = true
+                    rootVC.myClubProfileData = nextClub
                     
                     rootVC.buttonTitle = "Edit Club Profile"
                     destinationVC.modalPresentationStyle = .fullScreen

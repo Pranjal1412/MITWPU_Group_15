@@ -145,7 +145,7 @@
                     </collectionViewFlowLayout>
                 </collectionView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="70q-Rw-j1Y">
-                    <rect key="frame" x="315" y="702" width="60" height="60"/>
+                    <rect key="frame" x="315" y="726" width="60" height="60"/>
                     <color key="backgroundColor" name="AccentColor"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="60" id="9qX-zo-MaG"/>
@@ -173,7 +173,7 @@
                 <constraint firstItem="D1J-4K-o7n" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="46" id="8Y8-ko-dJX"/>
                 <constraint firstItem="dKE-91-srN" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="8di-qr-Lit"/>
                 <constraint firstItem="dKE-91-srN" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="B2J-0I-LY1"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="70q-Rw-j1Y" secondAttribute="bottom" constant="44" id="BHE-ft-Il3"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="70q-Rw-j1Y" secondAttribute="bottom" constant="20" id="BHE-ft-Il3"/>
                 <constraint firstItem="bDJ-s7-eTs" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="90" id="GeY-VO-LyA"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="vyM-ru-Mgt" secondAttribute="trailing" constant="20" id="LEv-vf-Fhr"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="70q-Rw-j1Y" secondAttribute="trailing" constant="27" id="LIB-Ov-ZNl"/>
