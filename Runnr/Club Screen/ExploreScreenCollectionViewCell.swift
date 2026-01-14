@@ -27,11 +27,11 @@ class ExploreScreenCollectionViewCell: UICollectionViewCell {
         clubProfile.clipsToBounds = true
     }
 
-    func configureCell(with data: clubData) {
+    func configureCell(with data: ExploreClubData) {
         LabelTitle.text = data.clubName
         ClubSport.text = data.sport
         NumberOfRunners.text = data.numberOfMembers
-        clubProfile.image = UIImage(named: data.image)
+        clubProfile.image = data.clubProfileImg
     }
 }
 

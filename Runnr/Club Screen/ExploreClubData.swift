@@ -8,14 +8,17 @@
 import Foundation
 import UIKit
 
-struct clubData: Codable {
-    let image: String
+struct ExploreClubData {
+    let clubProfileImg: UIImage?
     let clubName: String
     let numberOfMembers: String
     let sport: String
+    let clubMotive: String
+    let clubDescription: String
+    let postImages = [UIImage(named: "post 1"), UIImage(named: "post 2"), UIImage(named: "post 3"), UIImage(named: "post 4")]
 }
 
-struct myClubData {
+struct MyClubData {
     let clubProfileImg: String
     let clubName: String
     let numberOfMembers: String
@@ -31,18 +34,32 @@ struct friendsData {
     var isFollowing: Bool
 }
 
-struct posts {
-    let images: String
-}
-
-
 struct LeaderBoard {
     let badge: String
     let levelName: String
     let levelDescription: String
 }
 
-var myClubs: [myClubData] = []
+struct LeaderboardUser {
+    let name: String
+    let profileImageName: String
+    let kilometers: Int
+    let streak: Int
+    let points: Int
+}
+
+enum LeaderboardMode {
+    case kilometer
+    case streak
+    case points
+}
+
+struct ClubActivity {
+    let image : UIImage?
+    let title : String
+}
+
+var myClubs: [MyClubData] = []
 
 let leaderBoardArray: [LeaderBoard] = [
 LeaderBoard(badge: "badge 1", levelName: "Starter", levelDescription: "0 - 49.99 Kilometers"),
@@ -51,20 +68,55 @@ LeaderBoard(badge: "badge 3", levelName: "Achiever", levelDescription: "250.00 -
 LeaderBoard(badge: "badge 4", levelName: "Champion", levelDescription: "1,000.00 - 4,999.9 Kilometers")
 ]
 
-var postImagesArray: [posts] = [
-    posts(images: "post 1"),
-    posts(images: "post 2"),
-    posts(images: "post 3"),
-    posts(images: "post 4")
-]
-
-let clubDataArray: [clubData] = [
-    clubData(image: "club1", clubName: "Runnr Club", numberOfMembers: "12k", sport: "Run"),
-    clubData(image: "club2", clubName: "Happy Trails", numberOfMembers: "11.2k", sport: "Hiking"),
-    clubData(image: "club3", clubName: "Running Global", numberOfMembers: "9.7k", sport: "Run"),
-    clubData(image: "club4", clubName: "Fast Wheels", numberOfMembers: "1.5k", sport: "Hiking"),
-    clubData(image: "club1", clubName: "Runnr Club", numberOfMembers: "12k", sport: "Run"),
-    clubData(image: "club2", clubName: "Happy Trails", numberOfMembers: "11.2k", sport: "Hiking"),
+let clubDataArray: [ExploreClubData] = [
+    ExploreClubData(
+        clubProfileImg: UIImage(named: "club1"),
+        clubName: "Runnr Club",
+        numberOfMembers: "12k",
+        sport: "Run",
+        clubMotive: "Run together. Grow stronger.",
+        clubDescription: "A community of passionate runners focused on consistency, endurance, and pushing personal limits."
+    ),
+    ExploreClubData(
+        clubProfileImg: UIImage(named: "club2"),
+        clubName: "Happy Trails",
+        numberOfMembers: "11.2k",
+        sport: "Hiking",
+        clubMotive: "Explore more, worry less.",
+        clubDescription: "Weekend hikers and nature lovers who enjoy discovering scenic trails and peaceful escapes."
+    ),
+    ExploreClubData(
+        clubProfileImg: UIImage(named: "club3"),
+        clubName: "Running Global",
+        numberOfMembers: "9.7k",
+        sport: "Run",
+        clubMotive: "Miles without borders.",
+        clubDescription: "An international running club connecting athletes worldwide through virtual and local runs."
+    ),
+    ExploreClubData(
+        clubProfileImg: UIImage(named: "club4"),
+        clubName: "Fast Wheels",
+        numberOfMembers: "1.5k",
+        sport: "Hiking",
+        clubMotive: "Adventure at full speed.",
+        clubDescription: "For thrill-seekers who love fast-paced hikes, elevation challenges, and rugged terrains."
+    ),
+    ExploreClubData(
+        clubProfileImg: UIImage(named: "club1"),
+        clubName: "Runnr Club",
+        numberOfMembers: "12k",
+        sport: "Run",
+        clubMotive: "Run together. Grow stronger.",
+        clubDescription: "Daily runs, training plans, and motivation for runners of all experience levels."
+    ),
+    ExploreClubData(
+        clubProfileImg: UIImage(named: "club2"),
+        clubName: "Happy Trails",
+        numberOfMembers: "11.2k",
+        sport: "Hiking",
+        clubMotive: "Nature is the best therapy.",
+        clubDescription: "A friendly hiking group focused on mental wellness, exploration, and community bonding."
+    )
 ]
     
 var friendsDataArray: [friendsData] = [
@@ -73,20 +125,6 @@ var friendsDataArray: [friendsData] = [
     friendsData(profilePhoto: "user3", name: "Sophia Lee", isFollowing: false),
     friendsData(profilePhoto: "user4", name: "Liam Carter", isFollowing: false)
 ]
-
-enum LeaderboardMode {
-    case kilometer
-    case streak
-    case points
-}
-
-struct LeaderboardUser {
-    let name: String
-    let profileImageName: String   // image asset name
-    let kilometers: Int
-    let streak: Int
-    let points: Int
-}
 
 let leaderboardUsersArray: [LeaderboardUser] = [
     LeaderboardUser(
@@ -125,11 +163,6 @@ let leaderboardUsersArray: [LeaderboardUser] = [
         points: 270
     )
 ]
-
-struct ClubActivity {
-    let image : UIImage?
-    let title : String
-}
 
 let clubActivityOptions : [ClubActivity] = [ClubActivity(image: UIImage(systemName: "figure.run"), title: "Running"),
                                             ClubActivity(image: UIImage(systemName: "figure.hiking"), title: "Hiking"),

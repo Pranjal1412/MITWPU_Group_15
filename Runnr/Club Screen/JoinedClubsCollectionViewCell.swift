@@ -21,7 +21,7 @@ class JoinedClubsCollectionViewCell: UICollectionViewCell {
         joinedClubView.layer.cornerRadius = 10
         joinedClubView.clipsToBounds = true
     }
-    func configureCell(with data: myClubData) {
+    func configureCell(with data: MyClubData) {
         ClubName.text = data.clubName
         Sport.text = data.sport
         NumberOfRunners.text = data.numberOfMembers

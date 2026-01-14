@@ -55,6 +55,7 @@ class CreateClubViewController: UIViewController {
         clubDescriptionView.layer.borderWidth = 1.0
         
         lastpageView.isHidden = true
+        
     }
 
     @IBAction func nextButtonPressed(_ sender: UIButton) {
@@ -69,7 +70,13 @@ class CreateClubViewController: UIViewController {
                     let rootVC = ClubProfileViewController(nibName: "ClubProfileViewController", bundle: nil)
                     let destinationVC = UINavigationController(rootViewController: rootVC)
                     
-                    myClubs.append(myClubData(clubProfileImg: "club1", clubName: "Slow Sundays", numberOfMembers: "11k", sport: "Run", isPublic: true, clubMotive: "Just for Fun", clubDescription: "United we RUN. GROW. NETWORK & HAVE FUN. "))
+                    rootVC.clubDescription.text = "United we RUN. GROW. NETWORK & HAVE FUN. "
+                    rootVC.clubProfileImage.image = UIImage(named: "club1")
+                    rootVC.labelClubName.text = "Slow Sundays"
+                    rootVC.labelSportType.text = "Running"
+                    rootVC.labelNumberOfMembers.text = "11k Members"
+                    
+                    myClubs.append(MyClubData(clubProfileImg: "club1", clubName: "Slow Sundays", numberOfMembers: "11k", sport: "Running", isPublic: true, clubMotive: "Just for Fun", clubDescription: "United we RUN. GROW. NETWORK & HAVE FUN."))
                     
                     rootVC.buttonTitle = "Edit Club Profile"
                     destinationVC.modalPresentationStyle = .fullScreen
@@ -112,6 +119,9 @@ class CreateClubViewController: UIViewController {
             buttonNext.setTitle("Complete", for: .normal)
             collectionViewClubActivity.isHidden = true
             lastpageView.isHidden = false
+            
+            registerNotifications()
+            hideKeyboardWhenTappedAround()
             
         default: break
         }
@@ -305,3 +315,25 @@ extension CreateClubViewController: UICollectionViewDataSource, UICollectionView
         
     }
 }
+
+extension CreateClubViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tapGesture = UITapGestureRecognizer(target: self,
+                         action: #selector(hideKeyboard))
+        view.addGestureRecognizer(tapGesture)
+    }
+
+    @objc func hideKeyboard() {
+        view.endEditing(true)
+    }
+    
+    func registerNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
+    @objc private func keyboardWillShow(notification: NSNotification){}
+    
+    @objc private func keyboardWillHide(notification: NSNotification){}
+}
+
