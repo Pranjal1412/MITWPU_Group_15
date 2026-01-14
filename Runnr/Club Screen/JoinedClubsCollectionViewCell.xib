@@ -23,14 +23,18 @@
                 <rect key="frame" x="0.0" y="0.0" width="161" height="211"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="M29-zx-iTy">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aiL-H0-3j9">
+                        <rect key="frame" x="0.0" y="0.0" width="161" height="211"/>
+                        <color key="backgroundColor" name="CardLightBlack"/>
+                    </view>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="club4" translatesAutoresizingMaskIntoConstraints="NO" id="M29-zx-iTy">
                         <rect key="frame" x="15" y="15" width="131" height="131"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="131" id="9se-qR-pme"/>
                             <constraint firstAttribute="width" constant="131" id="TDl-wp-p0c"/>
                         </constraints>
                     </imageView>
-                    <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="CsA-Ex-fEu">
+                    <stackView opaque="NO" contentMode="scaleToFill" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="CsA-Ex-fEu">
                         <rect key="frame" x="101" y="176" width="51" height="20"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="figure.run" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="WzJ-wY-RmZ">
@@ -48,10 +52,14 @@
                                     <constraint firstAttribute="height" constant="20" id="Fk5-5P-fvR"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="SFPro-Light" family="SF Pro" pointSize="12"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="1C5-q0-CmR"/>
+                            <constraint firstAttribute="width" constant="51" id="wkj-Jw-wuK"/>
+                        </constraints>
                     </stackView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lc6-4L-PB8">
                         <rect key="frame" x="15" y="151" width="131" height="20"/>
@@ -60,7 +68,7 @@
                             <constraint firstAttribute="height" constant="20" id="m1Y-x9-HAi"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="SFPro-Bold" family="SF Pro" pointSize="14"/>
-                        <nil key="textColor"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="evx-q5-5SD">
@@ -81,7 +89,7 @@
                                     <constraint firstAttribute="height" constant="20" id="yjA-2U-hAY"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="SFPro-Light" family="SF Pro" pointSize="12"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -93,31 +101,42 @@
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
-            <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="lc6-4L-PB8" secondAttribute="trailing" constant="15" id="AkX-fE-jMZ"/>
                 <constraint firstItem="lc6-4L-PB8" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="BCz-d2-xcf"/>
                 <constraint firstItem="lc6-4L-PB8" firstAttribute="top" secondItem="M29-zx-iTy" secondAttribute="bottom" constant="5" id="Xrb-4B-CiE"/>
+                <constraint firstAttribute="bottom" secondItem="CsA-Ex-fEu" secondAttribute="bottom" constant="15" id="dPy-aL-3Q0"/>
                 <constraint firstItem="M29-zx-iTy" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="15" id="nn7-cD-rxV"/>
+                <constraint firstItem="aiL-H0-3j9" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="oS6-Mx-6LI"/>
                 <constraint firstItem="evx-q5-5SD" firstAttribute="top" secondItem="lc6-4L-PB8" secondAttribute="bottom" constant="5" id="rDA-Y4-dle"/>
                 <constraint firstAttribute="trailing" secondItem="M29-zx-iTy" secondAttribute="trailing" constant="15" id="rH6-M1-mkd"/>
+                <constraint firstAttribute="bottom" secondItem="aiL-H0-3j9" secondAttribute="bottom" id="s2R-0X-gYD"/>
+                <constraint firstAttribute="trailing" secondItem="aiL-H0-3j9" secondAttribute="trailing" id="sNz-zz-TmF"/>
+                <constraint firstItem="CsA-Ex-fEu" firstAttribute="leading" secondItem="evx-q5-5SD" secondAttribute="trailing" constant="26" id="tmd-XG-MmA"/>
                 <constraint firstItem="evx-q5-5SD" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="v1b-Ul-FIJ"/>
+                <constraint firstItem="aiL-H0-3j9" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="vda-LV-EUO"/>
                 <constraint firstItem="M29-zx-iTy" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="xGn-ci-OqS"/>
+                <constraint firstItem="CsA-Ex-fEu" firstAttribute="top" secondItem="lc6-4L-PB8" secondAttribute="bottom" constant="5" id="zeK-1E-htv"/>
             </constraints>
             <connections>
                 <outlet property="ClubName" destination="lc6-4L-PB8" id="0DI-wp-vBl"/>
                 <outlet property="ClubProfileImage" destination="M29-zx-iTy" id="jaO-JC-uqE"/>
                 <outlet property="NumberOfRunners" destination="2Fa-Zw-TCm" id="EAF-aU-7ef"/>
                 <outlet property="Sport" destination="LLQ-9i-4q3" id="3EY-E3-5gl"/>
+                <outlet property="joinedClubView" destination="aiL-H0-3j9" id="ANW-VT-vr1"/>
             </connections>
-            <point key="canvasLocation" x="-25" y="-59"/>
+            <point key="canvasLocation" x="-25.190839694656489" y="-59.507042253521128"/>
         </collectionViewCell>
     </objects>
     <resources>
+        <image name="club4" width="393" height="393"/>
         <image name="figure.run" catalog="system" width="115" height="128"/>
         <image name="person.2.fill" catalog="system" width="128" height="86"/>
         <namedColor name="AccentColor">
             <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="CardLightBlack">
+            <color red="0.10199999809265137" green="0.10199999809265137" blue="0.10199999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

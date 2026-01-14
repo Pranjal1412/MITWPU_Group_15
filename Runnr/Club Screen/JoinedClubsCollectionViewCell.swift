@@ -13,10 +13,13 @@ class JoinedClubsCollectionViewCell: UICollectionViewCell {
     @IBOutlet var ClubName: UILabel!
     @IBOutlet var NumberOfRunners: UILabel!
     @IBOutlet var Sport: UILabel!
+    @IBOutlet var joinedClubView: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        joinedClubView.layer.cornerRadius = 10
+        joinedClubView.clipsToBounds = true
     }
     func configureCell(with data: myClubData) {
         ClubName.text = data.clubName

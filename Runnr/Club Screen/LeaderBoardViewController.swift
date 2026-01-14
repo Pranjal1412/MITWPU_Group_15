@@ -29,7 +29,7 @@ class LeaderBoardViewController: UIViewController {
         
 
 
-        navigationItem.hidesBackButton = true
+//        navigationItem.hidesBackButton = true
         view.overrideUserInterfaceStyle = .dark
         
         tableView.delegate = self
@@ -38,7 +38,7 @@ class LeaderBoardViewController: UIViewController {
         
         tableView.showsVerticalScrollIndicator = false
         
-        tableView.register(UINib(nibName: "LeaderBoardTableViewCell", bundle: nil), forCellReuseIdentifier: "LeaderBoardTableViewCell")
+        tableView.register(UINib(nibName: "LeaderboardListTableViewCell", bundle: nil), forCellReuseIdentifier: "LeaderboardListTableViewCell")
         
         setMode(.kilometer)
     }
@@ -114,7 +114,7 @@ extension LeaderBoardViewController : UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(
-            withIdentifier: "LeaderBoardTableViewCell",
+            withIdentifier: "LeaderboardListTableViewCell",
             for: indexPath
         ) as! LeaderboardListTableViewCell
 

@@ -17,6 +17,9 @@ class CreateClubViewController: UIViewController {
     @IBOutlet var page3: UIView!
     @IBOutlet var buttonNext: UIButton!
     @IBOutlet weak var collectionViewClubActivity: UICollectionView!
+    @IBOutlet var lastpageView: UIView!
+    @IBOutlet var clubNameView: UIView!
+    @IBOutlet var clubDescriptionView: UIView!
     
     var currentPage = 1
     
@@ -41,6 +44,17 @@ class CreateClubViewController: UIViewController {
         self.collectionViewClubActivity.register(UINib(nibName: "SelectActivityCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "SelectActivityCollectionViewCell")
         self.collectionViewClubActivity.register(UINib(nibName: "ClubDescriptionCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ClubDescriptionCollectionViewCell")
                
+        clubNameView.layer.cornerRadius = 10
+        clubNameView.clipsToBounds = true
+        clubNameView.layer.borderColor = UIColor.gray.cgColor
+        clubNameView.layer.borderWidth = 1.0
+        
+        clubDescriptionView.layer.cornerRadius = 10
+        clubDescriptionView.clipsToBounds = true
+        clubDescriptionView.layer.borderColor = UIColor.gray.cgColor
+        clubDescriptionView.layer.borderWidth = 1.0
+        
+        lastpageView.isHidden = true
     }
 
     @IBAction func nextButtonPressed(_ sender: UIButton) {
@@ -55,7 +69,7 @@ class CreateClubViewController: UIViewController {
                     let rootVC = ClubProfileViewController(nibName: "ClubProfileViewController", bundle: nil)
                     let destinationVC = UINavigationController(rootViewController: rootVC)
                     
-                    myClubs.append(myClubData(clubProfileImg: "", clubName: "Runnr", numberOfMembers: "19k", sport: "Running", isPublic: true, clubMotive: "Just for Fun", clubDescription: "United we RUN. GROW. NETWORK & HAVE FUN. "))
+                    myClubs.append(myClubData(clubProfileImg: "club1", clubName: "Slow Sundays", numberOfMembers: "11k", sport: "Run", isPublic: true, clubMotive: "Just for Fun", clubDescription: "United we RUN. GROW. NETWORK & HAVE FUN. "))
                     
                     rootVC.buttonTitle = "Edit Club Profile"
                     destinationVC.modalPresentationStyle = .fullScreen
@@ -81,6 +95,8 @@ class CreateClubViewController: UIViewController {
             buttonNext.setTitle("Next", for: .normal)
             collectionViewClubActivity.isHidden = false
             self.collectionViewClubActivity.reloadData()
+            lastpageView.isHidden = true
+            
             
         case 2:
             setSecondPageText()
@@ -88,12 +104,14 @@ class CreateClubViewController: UIViewController {
             buttonNext.setTitle("Next", for: .normal)
             collectionViewClubActivity.isHidden = false
             self.collectionViewClubActivity.reloadData()
+            lastpageView.isHidden = true
             
         case 3:
             setThirdPageText()
             pageIndicator(p1: .gray, p2: .gray, p3: .accent)
             buttonNext.setTitle("Complete", for: .normal)
             collectionViewClubActivity.isHidden = true
+            lastpageView.isHidden = false
             
         default: break
         }
@@ -127,6 +145,8 @@ class CreateClubViewController: UIViewController {
         labelCreateClub.attributedText = attributedText
      
     }
+    
+  
     
     func settingSubtitleCreateClub() {
         labelSubtitleCreateClub.text = "Launch your club with your favourite sport!"
