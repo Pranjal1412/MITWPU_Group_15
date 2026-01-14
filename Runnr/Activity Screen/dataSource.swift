@@ -87,6 +87,11 @@ class DataSource {
     func getTotalKms() -> Double {
         return totalDistance
     }
+    func shareActivity(atIndex index: Int, presentingViewController: UIViewController) {
+        let shareMessage = "Check out my run on Runnr! 🏃‍♂️"
+        let itemsToShare: [Any] = [shareMessage]
+        let activityVC = UIActivityViewController(activityItems: itemsToShare, applicationActivities: nil)
+        presentingViewController.present(activityVC, animated: true)
+    }
 }
-
 
