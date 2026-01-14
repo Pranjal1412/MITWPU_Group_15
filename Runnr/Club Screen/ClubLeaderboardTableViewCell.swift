@@ -8,7 +8,7 @@
 import UIKit
 
 
-class ClubProfileTableViewCell: UITableViewCell {
+class ClubLeaderboardTableViewCell: UITableViewCell {
     
     
     

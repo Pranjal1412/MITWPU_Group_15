@@ -5,6 +5,7 @@ struct MyRunActivity {
     let userName: String
     let timeStamp: Date
     var runTitle: String
+    let activityType: String
     let distanceValue: Double
     let distanceUnit: String
     let paceValue: Double

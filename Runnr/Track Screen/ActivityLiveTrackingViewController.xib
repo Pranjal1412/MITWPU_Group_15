@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24127" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -32,6 +32,7 @@
                 <outlet property="labelTimeCounter" destination="0fB-7P-aXP" id="YVu-KJ-1TO"/>
                 <outlet property="pageControl" destination="6pB-J6-Z0B" id="eoS-fh-EPu"/>
                 <outlet property="scrollView" destination="j6b-0Z-65B" id="kkB-1b-xZy"/>
+                <outlet property="switchAudioFeedback" destination="PG0-MH-Ebq" id="xtZ-KE-gpj"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="viewActivityProgress" destination="ndy-VD-VNp" id="Zlm-eP-bWn"/>
                 <outlet property="viewActivitySettings" destination="UNI-EO-MKJ" id="Wlt-tG-dyA"/>
@@ -397,41 +398,15 @@
                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="2AG-5e-Nu8">
                                     <rect key="frame" x="0.0" y="150" width="322" height="60"/>
                                     <subviews>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NG0-Pc-Cp8">
-                                            <rect key="frame" x="0.0" y="0.0" width="153.66666666666666" height="60"/>
-                                            <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cR5-x2-MoI">
-                                                    <rect key="frame" x="10" y="10" width="133.66666666666666" height="40"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                    <state key="normal" title="  Camera" image="camera.fill" catalog="system">
-                                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </state>
-                                                </button>
-                                            </subviews>
-                                            <color key="backgroundColor" name="CardLightBlack"/>
-                                            <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="cR5-x2-MoI" secondAttribute="bottom" constant="10" id="67N-j5-uEr"/>
-                                                <constraint firstItem="cR5-x2-MoI" firstAttribute="leading" secondItem="NG0-Pc-Cp8" secondAttribute="leading" constant="10" id="T8h-gR-Kdr"/>
-                                                <constraint firstAttribute="trailing" secondItem="cR5-x2-MoI" secondAttribute="trailing" constant="10" id="jYY-5j-rGt"/>
-                                                <constraint firstItem="cR5-x2-MoI" firstAttribute="top" secondItem="NG0-Pc-Cp8" secondAttribute="top" constant="10" id="kWq-ac-Y2l"/>
-                                            </constraints>
-                                            <userDefinedRuntimeAttributes>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                    <integer key="value" value="15"/>
-                                                </userDefinedRuntimeAttribute>
-                                            </userDefinedRuntimeAttributes>
-                                        </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P6q-aa-xXj">
-                                            <rect key="frame" x="168.66666666666663" y="0.0" width="153.33333333333337" height="60"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="322" height="60"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="YmD-jv-3Jy">
-                                                    <rect key="frame" x="10" y="10" width="133.33333333333334" height="40"/>
+                                                    <rect key="frame" x="10" y="10" width="302" height="40"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                    <state key="normal" title="Share Location">
+                                                    <state key="normal" title="Share Location" image="mappin" catalog="system">
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
                                                 </button>
@@ -499,8 +474,8 @@
         </view>
     </objects>
     <resources>
-        <image name="camera.fill" catalog="system" width="128" height="93"/>
         <image name="lock.open.fill" catalog="system" width="128" height="110"/>
+        <image name="mappin" catalog="system" width="106" height="128"/>
         <image name="pause.fill" catalog="system" width="114" height="128"/>
         <image name="square.fill" catalog="system" width="128" height="114"/>
         <namedColor name="AccentColor">
