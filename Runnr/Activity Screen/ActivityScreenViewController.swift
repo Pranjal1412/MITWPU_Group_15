@@ -189,8 +189,10 @@ extension ActivityScreenViewController {
     @objc func didTapOnMoreOptions(_ sender: UIButton) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let shareAction = UIAlertAction(title: String(localized: "Share Activity"), style: .default)
-        let deleteAction = UIAlertAction(title: String(localized: "Delete Activity"), style: .default) { _ in
+        let shareAction = UIAlertAction(title: String(localized: "Share Activity"), style: .default){
+            _ in self.dataSource.shareActivity(atIndex: sender.tag, presentingViewController: self)
+        }
+        let deleteAction = UIAlertAction(title: String(localized: "Delete Activity"), style: .destructive) { _ in
             self.dataSource.deleteMyActivity(atIndex: sender.tag)
             self.updateScreenElements()
         }
@@ -201,8 +203,6 @@ extension ActivityScreenViewController {
         alert.addAction(cancelAction)
         present(alert, animated: true, completion: nil)
     }
-    
-    
 }
 
 

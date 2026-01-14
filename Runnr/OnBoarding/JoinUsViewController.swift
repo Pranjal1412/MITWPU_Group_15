@@ -36,6 +36,7 @@ class JoinUsViewController: UIViewController {
     }
     
     @IBAction func backButtonPressed(_ sender: UIButton) {
+        isSignUpComplete = false
         self.navigationController?.popViewController(animated: true)
         
     }
@@ -114,6 +115,7 @@ class JoinUsViewController: UIViewController {
     func proceedAfterLogin() {
         // Option A: If you want to pop back to the root like your Sign Up button does
         isSignUpComplete = true
-        self.navigationController?.popToRootViewController(animated: true)
+        let destinationVC = YourInformationViewController()
+        self.navigationController?.pushViewController(destinationVC, animated: true)
     }
 }

@@ -10,7 +10,6 @@ import PhotosUI
 class YourInformationViewController: UIViewController {
 
     
-    @IBOutlet weak var buttonBack: UIButton!
     @IBOutlet weak var imageProfile: UIImageView!
     @IBOutlet weak var buttonProfileImage: UIButton!
     @IBOutlet weak var viewFirstName: UIView!
@@ -26,6 +25,7 @@ class YourInformationViewController: UIViewController {
     @IBOutlet weak var textFieldHeight: UITextField!
     @IBOutlet weak var viewWeight: UIView!
     @IBOutlet weak var textFieldWeight: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
@@ -83,6 +83,11 @@ class YourInformationViewController: UIViewController {
     
     @IBAction func pickDate(_ sender: UIDatePicker) {
         let selectedDate = sender.date
+    }
+    
+    @IBAction func continueToTrack(_ sender: Any) {
+        self.navigationController?.popToRootViewController(animated: true)
+       
     }
 }
 
