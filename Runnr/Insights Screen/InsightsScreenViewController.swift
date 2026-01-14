@@ -7,7 +7,6 @@ class InsightsScreenViewController: UIViewController {
     @IBOutlet weak var collectionViewInsightsCards: UICollectionView!
     @IBOutlet weak var scrollViewInsights: UIScrollView!
 
-    // ✅ REQUIRED HEIGHT CONSTRAINT
     @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!
 
     private var calendarView: UICalendarView!
@@ -24,7 +23,7 @@ class InsightsScreenViewController: UIViewController {
         dataSource.getTotalRunnrPoints()
     }
 
-    // ✅ GREEN DATES derived from activities
+    // green dates derived from my activities
     private var greenDates: Set<Date> = []
 
     // MARK: - Lifecycle
@@ -45,7 +44,6 @@ class InsightsScreenViewController: UIViewController {
 
         labelTotalPoints.text = "\(totalPoints)"
 
-        // ✅ FIX: Reload + resize collection view properly
         collectionViewInsightsCards.reloadData()
         collectionViewInsightsCards.layoutIfNeeded()
         collectionViewHeightConstraint.constant =
@@ -75,7 +73,16 @@ class InsightsScreenViewController: UIViewController {
             let day = calendar.startOfDay(for: activity.timeStamp)
             greenDates.insert(day)
         }
+
+        //refresh because sf symbol wasnt showing up instantly, needed to scroll to another month then back for it to show up.
+        calendarView.reloadDecorations(
+            forDateComponents: greenDates.map {
+                calendar.dateComponents([.year, .month, .day], from: $0)
+            },
+            animated: false
+        )
     }
+
 
     // MARK: - ScrollView
     private func setupScrollView() {

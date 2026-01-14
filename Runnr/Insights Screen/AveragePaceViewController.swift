@@ -15,8 +15,8 @@ class AveragePaceViewController: UIViewController {
 
     // MARK: - Graph Data
     private let daysPerWeek = 7
-    private let barSpacing: CGFloat = 26
-    private let barWidth: CGFloat = 30
+    private let barSpacing: CGFloat = 25
+    private let barWidth: CGFloat = 31
     private var barValues: [CGFloat] =
     [
         50, 120, 75, 90, 160, 130, 200,
@@ -58,7 +58,7 @@ class AveragePaceViewController: UIViewController {
         segmentControlAveragePace.layer.borderColor = UIColor.accent.cgColor
         segmentControlAveragePace.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
 
-//        normalizeDataForFullWeeks()
+        // normalizeDataForFullWeeks()
         setupGraph()
         setupYAxis()
         settingLabelStyle()
@@ -139,7 +139,7 @@ class AveragePaceViewController: UIViewController {
             stack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
         ])
 
-        let stackWidth = CGFloat(barValues.count) * barWidth + CGFloat(barValues.count-1) * barSpacing + 22
+        let stackWidth = CGFloat(barValues.count) * barWidth + CGFloat(barValues.count-1) * barSpacing + 20
         stack.widthAnchor.constraint(equalToConstant: stackWidth).isActive = true
 
         // Bars
