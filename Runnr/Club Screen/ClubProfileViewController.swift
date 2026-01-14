@@ -43,7 +43,7 @@ class ClubProfileViewController: UIViewController,
         
         tableViewLeaderBoard.dataSource = self
         tableViewLeaderBoard.delegate = self
-        tableViewLeaderBoard.register(UINib(nibName: "ClubProfileTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
+        tableViewLeaderBoard.register(UINib(nibName: "ClubLeaderboardTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
         
         collectionView.isHidden = false
         tableViewLeaderBoard.isHidden = true
@@ -53,6 +53,8 @@ class ClubProfileViewController: UIViewController,
             layout.minimumInteritemSpacing = 4
             layout.minimumLineSpacing = 4
             layout.sectionInset = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+            
+        
         }
 
     }

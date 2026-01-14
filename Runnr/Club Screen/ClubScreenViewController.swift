@@ -18,6 +18,9 @@ class ClubScreenViewController: UIViewController {
     @IBOutlet var tableViewFriends: UITableView!
     @IBOutlet var joinedClubCollectionView: UICollectionView!
     @IBOutlet var yourClubLabel: UILabel!
+    @IBOutlet var AddMoreClubsButton: UIButton!
+    
+    
     
     let systemOS = UIDevice.current.systemVersion
     
@@ -35,14 +38,19 @@ class ClubScreenViewController: UIViewController {
         ButtonCreateClub.isHidden = true
         labelCreateyourOwnClub.isHidden = true
         tableViewFriends.isHidden = true
+        AddMoreClubsButton.isHidden = true
         
         settingCollectionView()
         settingElements()
         settingAttributedText()
+        settingAttributedTextYourClub()
         
         tableViewFriends.dataSource = self
         tableViewFriends.delegate = self
         tableViewFriends.register(UINib(nibName: "FriendListTableViewCell", bundle: nil), forCellReuseIdentifier: "CustomCell")
+        
+        AddMoreClubsButton.layer.cornerRadius = AddMoreClubsButton.frame.height / 2
+        AddMoreClubsButton.clipsToBounds = true
         
     }
     
@@ -51,6 +59,8 @@ class ClubScreenViewController: UIViewController {
         if myClubs.isEmpty == false {
             joinedClubCollectionView.isHidden = false
             yourClubLabel.isHidden = false
+            AddMoreClubsButton.isHidden = false
+            
         }
         
         joinedClubCollectionView.reloadData()
@@ -70,6 +80,8 @@ class ClubScreenViewController: UIViewController {
             searchBarFriendsScreen.placeholder = "Search for others"
             joinedClubCollectionView.isHidden = true
             yourClubLabel.isHidden = true
+            
+            AddMoreClubsButton.isHidden = true
          case 1:
             collectionViewExplore.isHidden = false
             ButtonCreateClub.isHidden = true
@@ -78,6 +90,8 @@ class ClubScreenViewController: UIViewController {
             tableViewFriends.isHidden = true
             searchBarFriendsScreen.placeholder = "Search for clubs"
             joinedClubCollectionView.isHidden = true
+           
+            AddMoreClubsButton.isHidden = true
          case 2:
             if myClubs.isEmpty {
                 ButtonCreateClub.isHidden = false
@@ -86,6 +100,8 @@ class ClubScreenViewController: UIViewController {
                 joinedClubCollectionView.isHidden = true
                 yourClubLabel.isHidden = true
                 tableViewFriends.isHidden = true
+                AddMoreClubsButton.isHidden = true
+               
                 print(myClubs.count)
             }
             else {
@@ -95,6 +111,8 @@ class ClubScreenViewController: UIViewController {
                 tableViewFriends.isHidden = true
                 joinedClubCollectionView.isHidden = false
                 yourClubLabel.isHidden = false
+              
+                AddMoreClubsButton.isHidden = false
                 joinedClubCollectionView.reloadData()
             }
             
@@ -140,6 +158,9 @@ class ClubScreenViewController: UIViewController {
             UINib(nibName: "JoinedClubsCollectionViewCell", bundle: nil),
             forCellWithReuseIdentifier: "JoinedClubsCollectionViewCell"
         )
+        joinedClubCollectionView.contentInset = UIEdgeInsets(top: 0, left: 30, bottom: 30, right: 30)
+        
+        
     }
     
     func settingAttributedText() {
@@ -177,6 +198,8 @@ class ClubScreenViewController: UIViewController {
         
         self.present(destinationVC, animated: true, completion: nil)
     }
+    
+    
 }
 
 // MARK: - Collection View
@@ -209,14 +232,25 @@ extension ClubScreenViewController : UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (collectionViewExplore.frame.width - 80) / 2
         
-        let size = CGSize(width: width, height: 246)
-        
-        return size
+        if collectionView == joinedClubCollectionView {
+            let width = (joinedClubCollectionView.frame.width - 80) / 2
+            
+            let size = CGSize(width: width, height: 211)
+            
+            return size
+        }
+        else {
+            let width = (collectionViewExplore.frame.width - 80) / 2
+            
+            let size = CGSize(width: width, height: 246)
+            
+            return size
+        }
         
     }
     
+ 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 20
     }
@@ -232,6 +266,26 @@ extension ClubScreenViewController : UICollectionViewDataSource, UICollectionVie
         destinationVC.buttonTitle = "Join Now"
         navigationController.modalPresentationStyle = .fullScreen
         self.present(navigationController, animated: true)
+    }
+    
+    func settingAttributedTextYourClub() {
+
+       
+        yourClubLabel.numberOfLines = 1
+        //yourClubLabel.textAlignment = .center
+        
+        let thinFont = UIFont(name: "SFProText-UltraThin",size: 33) ?? UIFont.systemFont(ofSize: 33, weight: .ultraLight)
+        let boldFont = UIFont(name: "SFProText-Semibold",size: 33) ?? UIFont.systemFont(ofSize: 33, weight: .semibold)
+        
+        let firstPart = NSAttributedString(string: "Your",attributes: [.font: thinFont, .foregroundColor: UIColor.white])
+        let secondPart = NSAttributedString(string: " clubs",attributes: [.font: boldFont, .foregroundColor: UIColor.white])
+
+        let attributedText = NSMutableAttributedString()
+        attributedText.append(firstPart)
+        attributedText.append(secondPart)
+        
+        yourClubLabel.attributedText = attributedText
+     
     }
     
     

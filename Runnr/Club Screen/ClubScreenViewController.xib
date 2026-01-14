@@ -16,6 +16,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ClubScreenViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
+                <outlet property="AddMoreClubsButton" destination="70q-Rw-j1Y" id="07b-hs-93P"/>
                 <outlet property="ButtonCreateClub" destination="Kyf-ml-Xlp" id="PxP-bz-qra"/>
                 <outlet property="collectionViewExplore" destination="qb8-Dp-DRw" id="X5Z-75-vFO"/>
                 <outlet property="joinedClubCollectionView" destination="i4U-66-9CN" id="hEO-En-Vuj"/>
@@ -106,7 +107,6 @@
                 </searchBar>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="i4U-66-9CN">
                     <rect key="frame" x="0.0" y="307" width="402" height="567"/>
-                    <color key="backgroundColor" name="AccentColor"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="fYq-Xo-l8y">
                         <size key="itemSize" width="128" height="128"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -144,6 +144,20 @@
                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     </collectionViewFlowLayout>
                 </collectionView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="70q-Rw-j1Y">
+                    <rect key="frame" x="315" y="702" width="60" height="60"/>
+                    <color key="backgroundColor" name="AccentColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="9qX-zo-MaG"/>
+                        <constraint firstAttribute="width" constant="60" id="hnh-Nn-GVR"/>
+                    </constraints>
+                    <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="" image="plus" catalog="system"/>
+                    <connections>
+                        <action selector="createClubButtonPressed:" destination="-1" eventType="touchUpInside" id="ccZ-dI-GCs"/>
+                    </connections>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -159,8 +173,10 @@
                 <constraint firstItem="D1J-4K-o7n" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="46" id="8Y8-ko-dJX"/>
                 <constraint firstItem="dKE-91-srN" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="8di-qr-Lit"/>
                 <constraint firstItem="dKE-91-srN" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="B2J-0I-LY1"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="70q-Rw-j1Y" secondAttribute="bottom" constant="44" id="BHE-ft-Il3"/>
                 <constraint firstItem="bDJ-s7-eTs" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="90" id="GeY-VO-LyA"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="vyM-ru-Mgt" secondAttribute="trailing" constant="20" id="LEv-vf-Fhr"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="70q-Rw-j1Y" secondAttribute="trailing" constant="27" id="LIB-Ov-ZNl"/>
                 <constraint firstItem="ARY-lh-bYp" firstAttribute="top" secondItem="RLc-jZ-AhE" secondAttribute="bottom" constant="15" id="P8G-wk-sc0"/>
                 <constraint firstItem="i4U-66-9CN" firstAttribute="top" secondItem="ARY-lh-bYp" secondAttribute="bottom" constant="10" id="Pd8-lO-Bq5"/>
                 <constraint firstItem="vyM-ru-Mgt" firstAttribute="top" secondItem="bDJ-s7-eTs" secondAttribute="bottom" constant="20" id="TmI-C7-nkh"/>
@@ -181,6 +197,7 @@
         </view>
     </objects>
     <resources>
+        <image name="plus" catalog="system" width="128" height="113"/>
         <namedColor name="AccentColor">
             <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
