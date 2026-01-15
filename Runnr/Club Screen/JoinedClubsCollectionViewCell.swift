@@ -28,5 +28,6 @@ class JoinedClubsCollectionViewCell: UICollectionViewCell {
         NumberOfRunners.text = data.numberOfMembers
         ClubProfileImage.image = data.clubProfileImg
     }
+   
 }
 

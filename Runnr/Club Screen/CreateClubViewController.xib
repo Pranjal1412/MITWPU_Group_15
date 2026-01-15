@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24128" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -19,7 +19,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CreateClubViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
                 <outlet property="buttonNext" destination="97n-47-BdF" id="a8N-2o-Vos"/>
+                <outlet property="clubDescriptionTextField" destination="90A-AJ-xEz" id="hZO-tP-syB"/>
                 <outlet property="clubDescriptionView" destination="O4v-WM-5le" id="Ivl-i4-fdQ"/>
+                <outlet property="clubNameTextField" destination="sOZ-bN-4Vm" id="kMr-PC-xNs"/>
                 <outlet property="clubNameView" destination="eVy-lv-AyM" id="6Jl-aq-UDX"/>
                 <outlet property="collectionViewClubActivity" destination="D0N-uX-vXH" id="sOb-b5-hHB"/>
                 <outlet property="labelCreateClub" destination="4ZV-l3-kZv" id="A8A-3T-Pgb"/>

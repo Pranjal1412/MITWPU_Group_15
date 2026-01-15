@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CreateClubViewController: UIViewController {
+class CreateClubViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet var labelCreateClub: UILabel!
     @IBOutlet var modalView: UIView!
@@ -21,10 +21,18 @@ class CreateClubViewController: UIViewController {
     @IBOutlet var clubNameView: UIView!
     @IBOutlet var clubDescriptionView: UIView!
     
+    
+    @IBOutlet var clubNameTextField: UITextField!
+    @IBOutlet var clubDescriptionTextField: UITextView!
+    
+    
     var currentPage = 1
+    var clubDraft = CreateClubDraft()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+       
 
         view.backgroundColor = .clear
         
@@ -56,6 +64,9 @@ class CreateClubViewController: UIViewController {
         
         lastpageView.isHidden = true
         
+        
+        clubNameTextField.delegate = self
+        clubDescriptionTextField.delegate = self
     }
 
     @IBAction func nextButtonPressed(_ sender: UIButton) {
@@ -64,13 +75,22 @@ class CreateClubViewController: UIViewController {
             currentPage += 1
             updateUI()
         }
+        
         else {
             if let presenter = self.presentingViewController {
                 self.dismiss(animated: true) {
                     let rootVC = ClubProfileViewController(nibName: "ClubProfileViewController", bundle: nil)
                     let destinationVC = UINavigationController(rootViewController: rootVC)
                    
-                    let nextClub = MyClubData(clubProfileImg: UIImage(named: "club1")!, clubName: "Slow Sundays", numberOfMembers: "11k", sport: "Running", isPublic: true, clubMotive: "Just for Fun", clubDescription: "United we RUN. GROW. NETWORK & HAVE FUN.")
+                    let nextClub = MyClubData(
+                        clubProfileImg: UIImage(named: "club1")!,
+                        clubName: self.clubDraft.clubName ?? "",
+                        numberOfMembers: "0",
+                        sport: self.clubDraft.activity ?? "",
+                        isPublic: true,
+                        clubMotive: self.clubDraft.motive ?? "",
+                        clubDescription: self.clubDraft.clubDescription ?? ""
+                    )
                     
                     myClubs.append(nextClub)
                     
@@ -279,6 +299,7 @@ extension CreateClubViewController: UICollectionViewDataSource, UICollectionView
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if self.currentPage == 1 {
+            clubDraft.activity = clubActivityOptions[indexPath.row].title
             let cell = collectionView.cellForItem(at: indexPath) as! SelectActivityCollectionViewCell
             
             if cell.viewCellBackground.layer.borderColor == UIColor.accent.cgColor {
@@ -288,6 +309,7 @@ extension CreateClubViewController: UICollectionViewDataSource, UICollectionView
                 cell.viewCellBackground.layer.borderWidth = 1
             }
             else {
+               
                 cell.viewCellBackground.layer.borderColor = UIColor.accent.cgColor
                 cell.imageActivity.tintColor = .accent
                 cell.labelActivityTitle.textColor = .accent
@@ -296,6 +318,7 @@ extension CreateClubViewController: UICollectionViewDataSource, UICollectionView
         }
         
         else {
+            clubDraft.motive = clubDescriptions[indexPath.row]
             let cell = collectionView.cellForItem(at: indexPath) as! ClubDescriptionCollectionViewCell
             
             if cell.imageSelected.isHidden {
@@ -335,4 +358,11 @@ extension CreateClubViewController {
     
     @objc private func keyboardWillHide(notification: NSNotification){}
 }
+
+extension CreateClubViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        clubDraft.clubDescription = textView.text
+    }
+}
+
 

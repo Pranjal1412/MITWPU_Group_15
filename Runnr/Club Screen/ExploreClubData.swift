@@ -54,6 +54,14 @@ enum LeaderboardMode {
     case points
 }
 
+struct CreateClubDraft {
+    var activity: String?
+    var motive: String?
+    var clubName: String?
+    var clubDescription: String?
+}
+
+
 struct ClubActivity {
     let image : UIImage?
     let title : String
