@@ -67,6 +67,7 @@ class ActivitySummaryViewController: UIViewController {
                 
 //                here we are now adjusting map such that it cover the entire track
                 mapView.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 70))
+                
                 self.topGradientView.frame.size.height = 100
                 self.topGradientView.frame.size.width = mapView.frame.size.width
                 self.topGradientView.frame.origin.y = mapView.frame.origin.y - 5

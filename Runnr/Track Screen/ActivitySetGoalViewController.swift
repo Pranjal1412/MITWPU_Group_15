@@ -61,21 +61,13 @@ class ActivitySetGoalViewController: UIViewController {
         let lightFont = UIFont(name: "SF-Pro-Display-Bold", size: 13) ?? UIFont.systemFont(ofSize: 13, weight: .light)
         
         
-        var regularText = NSAttributedString(string: "Distance ", attributes: [.font: regularFont , .foregroundColor: UIColor.white])
-        var lightText = NSAttributedString(string: "(km)", attributes: [.font: lightFont , .foregroundColor: UIColor.white])
+        let regularText = NSAttributedString(string: "Distance ", attributes: [.font: regularFont , .foregroundColor: UIColor.white])
+        let lightText = NSAttributedString(string: "(km)", attributes: [.font: lightFont , .foregroundColor: UIColor.white])
         
         let fullDistancetext = NSMutableAttributedString()
         fullDistancetext.append(regularText)
         fullDistancetext.append(lightText)
         labelDistance.attributedText = fullDistancetext
-        
-//        regularText = NSAttributedString(string: "Time ", attributes: [.font: regularFont , .foregroundColor: UIColor.white])
-//        lightText = NSAttributedString(string: "(hrs)", attributes: [.font: lightFont , .foregroundColor: UIColor.white])
-//        
-//        let fullTimetext = NSMutableAttributedString()
-//        fullTimetext.append(regularText)
-//        fullTimetext.append(lightText)
-//        labelTime.attributedText = fullTimetext
         
         buttonStart.layer.cornerRadius = buttonStart.frame.height / 2
         

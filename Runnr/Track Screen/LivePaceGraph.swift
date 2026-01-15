@@ -194,3 +194,18 @@ struct FitnessChartsView: View {
 #Preview {
     FitnessChartsView()
 }
+
+
+//    let pacePoints: [LivePaceGraphData] = [
+//        LivePaceGraphData(paceValue: 6, distance: 0.5, symbol: false),
+//        LivePaceGraphData(paceValue: 4, distance: 1, symbol: true),
+//        LivePaceGraphData(paceValue: 6, distance: 1.5, symbol: false),
+//        LivePaceGraphData(paceValue: 6, distance: 2, symbol: true),
+//        LivePaceGraphData(paceValue: 5, distance: 2.5, symbol: false),
+//        LivePaceGraphData(paceValue: 5, distance: 3, symbol: true),
+//        LivePaceGraphData(paceValue: 5.5, distance: 3.5, symbol: false),
+//        LivePaceGraphData(paceValue: 5.75, distance: 4, symbol: true),
+//        LivePaceGraphData(paceValue: 6, distance: 4.5, symbol: false),
+//        LivePaceGraphData(paceValue: 7, distance: 5, symbol: true),
+//        LivePaceGraphData(paceValue: 8, distance: 7.5, symbol: false)
+//    ]

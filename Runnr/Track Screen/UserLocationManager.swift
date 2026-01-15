@@ -12,7 +12,7 @@ class UserLocationManager: NSObject, CLLocationManagerDelegate {
     
     let locationManager = CLLocationManager()
     var onLocationUpdate: ((CLLocation) -> Void)?
-    var activityStarted : Bool = false
+//    var activityStarted : Bool = false
     
     override init() {
         super.init()

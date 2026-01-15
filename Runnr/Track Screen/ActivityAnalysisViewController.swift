@@ -22,10 +22,8 @@ class ActivityAnalysisViewController: UIViewController {
     @IBOutlet weak var labelCalories: UILabel!
     @IBOutlet weak var labelSteps: UILabel!
     @IBOutlet weak var labelPhotosHeading: UILabel!
-    
     @IBOutlet weak var viewActivityStats: UIView!
     @IBOutlet weak var collectionViewPhotos: UICollectionView!
-    
     @IBOutlet weak var labelDistanceValue: UILabel!
     @IBOutlet weak var labelPaceValue: UILabel!
     @IBOutlet weak var labelTimeValue: UILabel!
@@ -41,6 +39,10 @@ class ActivityAnalysisViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        settingCollectioView()
+        settingAttributedText()
+        settingUpActivityAnalysisScreenElements()
+
         let graphView = GraphView(paceData: self.activityData!.paceGraphData)
 
         let hostingController = UIHostingController(rootView: graphView)
@@ -57,10 +59,6 @@ class ActivityAnalysisViewController: UIViewController {
         
         hostingController.didMove(toParent: self)
                 
-        setElements()
-        settingCollectioView()
-        settingAttributedText()
-        
     }
     
     @IBAction func cancelButtonPressed(_ sender: UIButton) {
@@ -68,7 +66,7 @@ class ActivityAnalysisViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    func setElements() {
+    func settingUpActivityAnalysisScreenElements() {
         
         if self.activityData?.activityPhotos.count == 0 {
             self.labelPhotosHeading.isHidden = true
@@ -199,21 +197,9 @@ extension ActivityAnalysisViewController : UICollectionViewDataSource, UICollect
 // MARK: - Setting up Pace Graph
 
 struct GraphView: View {
-//    let pacePoints: [LivePaceGraphData] = [
-//        LivePaceGraphData(paceValue: 6, distance: 0.5, symbol: false),
-//        LivePaceGraphData(paceValue: 4, distance: 1, symbol: true),
-//        LivePaceGraphData(paceValue: 6, distance: 1.5, symbol: false),
-//        LivePaceGraphData(paceValue: 6, distance: 2, symbol: true),
-//        LivePaceGraphData(paceValue: 5, distance: 2.5, symbol: false),
-//        LivePaceGraphData(paceValue: 5, distance: 3, symbol: true),
-//        LivePaceGraphData(paceValue: 5.5, distance: 3.5, symbol: false),
-//        LivePaceGraphData(paceValue: 5.75, distance: 4, symbol: true),
-//        LivePaceGraphData(paceValue: 6, distance: 4.5, symbol: false),
-//        LivePaceGraphData(paceValue: 7, distance: 5, symbol: true),
-//        LivePaceGraphData(paceValue: 8, distance: 7.5, symbol: false)
-//    ]
-
+    
     let paceData: [LivePaceGraphData]
+    
     var maxXValue : LivePaceGraphData? {
         paceData.max { $0.distance < $1.distance }
     }

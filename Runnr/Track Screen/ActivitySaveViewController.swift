@@ -19,12 +19,10 @@ class ActivitySaveViewController: UIViewController {
     @IBOutlet weak var labelPhotos: UILabel!
     @IBOutlet weak var imageViewMap: UIImageView!
     @IBOutlet weak var buttonAddPhotos: UIButton!
-    
     @IBOutlet weak var switchIsActivityPublic: UISwitch!
     @IBOutlet weak var textViewRemark: UITextView!
     @IBOutlet weak var textFieldActivityTitle: UITextField!
     @IBOutlet weak var viewRemark: UIView!
-    
     @IBOutlet weak var labelRunSummary: UILabel!
     @IBOutlet weak var labelPublicActivity: UILabel!
     @IBOutlet weak var labelDescription: UILabel!
@@ -38,7 +36,6 @@ class ActivitySaveViewController: UIViewController {
     @IBOutlet weak var labelCaloriesValue: UILabel!
     @IBOutlet weak var labelTimeStamp: UILabel!
     @IBOutlet weak var labelAddPhotos: UILabel!
-    
     @IBOutlet weak var stackAddPhotos: UIStackView!
     @IBOutlet weak var collectionViewAddPhotos: UICollectionView!
     @IBOutlet weak var containerViewHeightConstraint: NSLayoutConstraint!
@@ -76,7 +73,6 @@ class ActivitySaveViewController: UIViewController {
         let cancelAction = UIAlertAction(title: String(localized: "Cancel"), style: .cancel)
         
         let deleteAction = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive, handler: {_ in
-//            self.dataSource.deleteMyActivity(self.dataSource.deleteMyActivity(atIndex: ))
             print("After passing count: \(self.dataSource.getMyActivityData().count)")
             self.navigationController?.dismiss(animated: true, completion: nil)
         })

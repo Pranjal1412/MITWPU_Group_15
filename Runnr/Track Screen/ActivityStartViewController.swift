@@ -82,7 +82,6 @@ class ActivityStartViewController: UIViewController {
                 mapView.settings.scrollGestures = false
                 mapView.settings.zoomGestures = false
                 mapView.settings.rotateGestures = false
-//                mapManger.mapBehavior(isEnabled: false)
                 self.topGradientView.frame.size.height = 100
                 self.topGradientView.frame.size.width = mapView.frame.width
                 self.topGradientView.frame.origin.y = mapView.frame.origin.y - 5

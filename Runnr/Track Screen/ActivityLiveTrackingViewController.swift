@@ -22,23 +22,19 @@ class ActivityLiveTrackingViewController: UIViewController {
     @IBOutlet weak var buttonLockScroll: UIButton!
     @IBOutlet weak var labelTimeCountdown: UILabel!
     @IBOutlet weak var labelQuote: UILabel!
-    
     @IBOutlet weak var labelDistance: UILabel!
     @IBOutlet weak var labelTime: UILabel!
     @IBOutlet weak var labelPace: UILabel!
     @IBOutlet weak var labelHeartRate: UILabel!
-    
     @IBOutlet weak var labelTimeCounter: UILabel!
     @IBOutlet weak var labelPaceCounter: UILabel!
     @IBOutlet weak var labelHeartRateCounter: UILabel!
     @IBOutlet weak var labelDistanceCounter: UILabel!
-    
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet var viewActivityProgress: UIView!
     @IBOutlet var viewActivitySettings: UIView!
     @IBOutlet var viewActivityTrack: UIView!
     @IBOutlet weak var pageControl: UIPageControl!
-    
     @IBOutlet weak var switchAudioFeedback: UISwitch!
     
     let userLocation = UserLocationManager()
@@ -59,21 +55,12 @@ class ActivityLiveTrackingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        navigationItem.hidesBackButton = true
-        
-        scrollView.delegate = self
-        scrollView.isScrollEnabled = false
-        pageControl.isHidden = true
         
         settingScreenElements()
         settingPauseButtonImg()
-        buttonEndRun.isHidden = true
         
         userLocation.locationManager.startUpdatingLocation()
-        userLocation.activityStarted = true
-        
-        self.switchAudioFeedback.isOn = isAudioFeedbackOn
+//        userLocation.activityStarted = true
         
         activityManager = UserActivityManager(timerLabel: self.labelTimeCounter)
         self.activityStartTime = Date()
@@ -85,8 +72,8 @@ class ActivityLiveTrackingViewController: UIViewController {
             if self.isMapInitialized == false {
                                 
                 let mapView = self.mapManager.initializeMaps(withX: 20.0, withY: 70.0,
-                                                             withWidth: self.view.frame.width - 40.0,
-                                                             withHeight: self.view.frame.height - 100.0,
+                                                             withWidth: self.view.frame.width - 60.0,
+                                                             withHeight: self.view.frame.height - 140.0,
                                                              location: location.coordinate)
               
                 self.mapManager.userLocationMarkerSetting(isEnabled: true)
@@ -97,7 +84,7 @@ class ActivityLiveTrackingViewController: UIViewController {
                 
                 self.mapManager.setRouteLineStyle()
                 
-                self.userLocation.locationManager.distanceFilter = 5
+                self.userLocation.locationManager.distanceFilter = 6
                 self.isMapInitialized = true
                 
             }
@@ -121,8 +108,7 @@ class ActivityLiveTrackingViewController: UIViewController {
         self.topGradientView.frame.origin.x = 0.0
         addTopGradient(to: self.topGradientView)
         viewActivityTrack.addSubview(self.topGradientView)
-        
-        
+
     }
         
     override func viewDidAppear(_ animated: Bool) {
@@ -181,9 +167,7 @@ class ActivityLiveTrackingViewController: UIViewController {
             let cameraView = GMSCameraPosition(latitude: lastCoordinate.latitude, longitude: lastCoordinate.longitude, zoom: 15.0)
             
             mapManager.mapView.animate(to: cameraView)
-            
             buttonPause.tag = 0
-
         }
         
     }
@@ -200,7 +184,7 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         let end = UIAlertAction(title: String(localized: "End Anyway"), style: .destructive, handler: { _ in
             
-            self.userLocation.activityStarted = false
+//            self.userLocation.activityStarted = false
                         
             let newActivity = MyRunActivity(
                 userName: "Ava Brooks",
@@ -262,25 +246,16 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         counter -= 1
     }
-    
-    func addCoordinateIfValid(_ newLocation: CLLocation) -> Bool {
-        if mapManager.path.count() == 0 {
-               return true
-        }
-
-        let lastCoordinate = mapManager.path.coordinate(at: mapManager.path.count() - 1)
-        let lastLocation = CLLocation(latitude: lastCoordinate.latitude,
-                                     longitude: lastCoordinate.longitude)
-
-        let distance = newLocation.distance(from: lastLocation)  // distance here is in meters
-        if distance > 5 {
-            return true
-        }
         
-        return false
-    }
-    
     func settingScreenElements() {
+        navigationItem.hidesBackButton = true
+        buttonEndRun.isHidden = true
+
+        scrollView.delegate = self
+        scrollView.isScrollEnabled = false
+        pageControl.isHidden = true
+        self.switchAudioFeedback.isOn = isAudioFeedbackOn
+        
         viewAllData.layer.cornerRadius = 20
         viewPace.layer.cornerRadius = 20
         viewHeartRate.layer.cornerRadius = 20
