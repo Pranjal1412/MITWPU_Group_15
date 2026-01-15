@@ -1,10 +1,3 @@
-//
-//  GameScreenViewController.swift
-//  Runnr
-//
-//  Created by Pranjal Shinde on 26/10/25.
-//
-
 import UIKit
 
 class GameScreenViewController: UIViewController {
@@ -114,8 +107,6 @@ class GameScreenViewController: UIViewController {
         self.present(destinationVC, animated: true, completion: nil)
     }
 }
-
-// MARK: - CollectionView Settings
 
 extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDataSource,
                                     UICollectionViewDelegateFlowLayout {

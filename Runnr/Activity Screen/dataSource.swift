@@ -1,9 +1,3 @@
-//
-//  dataSource.swift
-//  Runnr
-//
-//  Created by Archit Kankaria on 16/12/25.
-//
 import UIKit
         
 class DataSource {
@@ -89,7 +83,7 @@ class DataSource {
     }
     
     func shareActivity(atIndex index: Int, presentingViewController: UIViewController) {
-        let shareMessage = "Check out my run on Runnr! 🏃‍♂️"
+        let shareMessage = "Check out my run on Runnr!"
         let itemsToShare: [Any] = [shareMessage]
         let activityVC = UIActivityViewController(activityItems: itemsToShare, applicationActivities: nil)
         presentingViewController.present(activityVC, animated: true)

@@ -1,10 +1,3 @@
-//
-//  TableViewCell.swift
-//  Runnr
-//
-//  Created by Archit Kankaria on 18/11/25.
-//
-
 import UIKit
 
 class MyActivityTableViewCell: UITableViewCell {
@@ -41,11 +34,9 @@ class MyActivityTableViewCell: UITableViewCell {
         imageRun.layer.cornerRadius = 10
         imageProfile.layer.cornerRadius = imageProfile.frame.height / 2
         
-        // SF Pro fonts
         let valueFont = UIFont(name: "SFProText-Medium", size: 20) ?? UIFont.systemFont(ofSize: 20, weight: .medium)
         let unitFont = UIFont(name: "SFProText-Light", size: 11) ?? UIFont.systemFont(ofSize: 11, weight: .light)
 
-        // Distance
         let distanceText = NSMutableAttributedString(
             string: String(format: "%.2f", activity.distanceValue),
             attributes: [.font: valueFont, .foregroundColor: UIColor.accent])
@@ -53,7 +44,6 @@ class MyActivityTableViewCell: UITableViewCell {
         distanceText.append(NSAttributedString(string: " " + activity.distanceUnit, attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
         labelDistanceContent.attributedText = distanceText
 
-        // Pace
         let paceText = NSMutableAttributedString(string: String(format: "%.2f", activity.paceValue),attributes: [.font: valueFont, .foregroundColor: UIColor.accent])
         paceText.append(NSAttributedString(string: " " + activity.paceUnit,attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
         labelPaceContent.attributedText = paceText
