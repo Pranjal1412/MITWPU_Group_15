@@ -9,10 +9,11 @@ import UIKit
 
 class AllActivitiesViewController: UIViewController {
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableViewMyActivity: UITableView!
+
+    let label = UILabel()
     
     var dataSource = DataSource.shared
-    let label = UILabel()
     var myActivity: [MyRunActivity] {
         dataSource.getMyActivityData()
     }
@@ -30,10 +31,10 @@ class AllActivitiesViewController: UIViewController {
     }
     
     func settingTableView() {
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(UINib(nibName: "MyActivityTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
-        tableView.showsVerticalScrollIndicator = false
+        tableViewMyActivity.delegate = self
+        tableViewMyActivity.dataSource = self
+        tableViewMyActivity.register(UINib(nibName: "MyActivityTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
+        tableViewMyActivity.showsVerticalScrollIndicator = false
     }
     
     func settingLabel() {
@@ -66,10 +67,12 @@ extension AllActivitiesViewController : UITableViewDelegate, UITableViewDataSour
 
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MyActivityTableViewCell
+            
             let activity = myActivity[indexPath.section]
             cell.configure(with: activity)
             cell.buttonMoreOptions.tag = indexPath.section
             cell.buttonMoreOptions.addTarget(self, action: #selector(didTapOnMoreOptions(_:)), for: .touchUpInside)
+            
             return cell
         }
 
@@ -84,7 +87,17 @@ extension AllActivitiesViewController : UITableViewDelegate, UITableViewDataSour
         }
     
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            print("selected")
+            if tableView == tableViewMyActivity {
+                let activity = myActivity[indexPath.section]
+                
+                let destinationVC = ActivitySummaryViewController()
+                destinationVC.activityData = activity
+                destinationVC.showAlert = false
+                
+                destinationVC.modalPresentationStyle = .overFullScreen
+                self.present(destinationVC, animated: true)
+                
+            }
         }
 
     
@@ -105,7 +118,7 @@ extension AllActivitiesViewController : UITableViewDelegate, UITableViewDataSour
     }
     
     func updateScreenElements() {
-        tableView.reloadData()
+        tableViewMyActivity.reloadData()
         
         if myActivity.isEmpty {
             label.isHidden = false

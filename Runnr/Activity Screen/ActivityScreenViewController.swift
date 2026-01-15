@@ -27,29 +27,28 @@ class ActivityScreenViewController: UIViewController {
         super.viewDidLoad()
         view.overrideUserInterfaceStyle = .dark
         
-        settingSegmentedControl()
-        settingLabelStyle()
         settingTableView()
+        settingLabelStyle()
+        settingSegmentedControl()
+        
         tableViewMyActivity.isHidden = false
         tableViewFriendsActivity.isHidden = true
-        
+
         label.frame = CGRect(x: 0, y: view.frame.height / 2 + 20.0, width: view.frame.width, height: 50)
         label.textAlignment = .center
         view.addSubview(label)
         
-        self.labelScreenTitle.text = String(localized: "Activities")
-        labelScreenTitle.sizeToFit()
-        tableViewFriendsActivity.showsVerticalScrollIndicator = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
-                
         updateScreenElements()
-        print(myActivity.count)
         self.labelTotalPoints.text = "\(totalPoints)"
     }
     
     func settingLabelStyle() {
+        self.labelScreenTitle.text = String(localized: "Activities")
+        labelScreenTitle.sizeToFit()
+        
         let thinFont = UIFont(name: "SFProText-Thin", size: 25) ?? UIFont.systemFont(ofSize: 25, weight: .thin)
         let boldFont = UIFont(name: "SFProText-Bold", size: 25) ?? UIFont.boldSystemFont(ofSize: 25)
         let recentText = NSAttributedString(string: "Recent ", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
@@ -74,11 +73,14 @@ class ActivityScreenViewController: UIViewController {
     func settingTableView() {
         tableViewMyActivity.delegate = self
         tableViewMyActivity.dataSource = self
+        tableViewMyActivity.showsVerticalScrollIndicator = false
+        tableViewMyActivity.register(UINib(nibName: "MyActivityTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
+        
         tableViewFriendsActivity.delegate = self
         tableViewFriendsActivity.dataSource = self
-        tableViewMyActivity.register(UINib(nibName: "MyActivityTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
-        tableViewMyActivity.showsVerticalScrollIndicator = false
+        tableViewFriendsActivity.showsVerticalScrollIndicator = false
         tableViewFriendsActivity.register(UINib(nibName: "FriendsActivityTableViewCell", bundle: nil), forCellReuseIdentifier: "cellFriends")
+
     }
 
     func settingSegmentedControl() {
@@ -113,7 +115,6 @@ class ActivityScreenViewController: UIViewController {
         }
         else {
             self.updateScreenElements()
-            
             tableViewMyActivity.isHidden = false
             tableViewFriendsActivity.isHidden = true
         }
@@ -137,12 +138,11 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
         return 1
     }
 
-    func tableView(_ tableView: UITableView,
-                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if tableView == tableViewMyActivity {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell",
-                                                     for: indexPath) as! MyActivityTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MyActivityTableViewCell
+            
             let activity = myActivity[indexPath.section]
             cell.configure(with: activity)
             
@@ -151,15 +151,17 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
             
             return cell
 
-        } else { // tableViewfriendsActivity
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cellFriends",
-                                                     for: indexPath) as! FriendsActivityTableViewCell
+        } else {
+            // tableViewfriendsActivity
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cellFriends", for: indexPath) as! FriendsActivityTableViewCell
+            
             let activity = friendsActivity[indexPath.section]
             cell.configure(with: activity)
             return cell
         }
 
     }
+    
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 30
     }
@@ -186,6 +188,7 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
 }
 
 extension ActivityScreenViewController {
+    
     @objc func didTapOnMoreOptions(_ sender: UIButton) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
@@ -203,6 +206,7 @@ extension ActivityScreenViewController {
         alert.addAction(deleteAction)
         present(alert, animated: true, completion: nil)
     }
+    
 }
 
 

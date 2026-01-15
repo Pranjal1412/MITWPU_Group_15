@@ -74,7 +74,6 @@ class MyActivityTableViewCell: UITableViewCell {
         timeText.append(NSAttributedString(string: "sec", attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
         
         labelTimeContent.attributedText = timeText
-
     }
 
 }
