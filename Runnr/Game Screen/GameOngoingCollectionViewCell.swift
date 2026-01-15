@@ -7,29 +7,27 @@
 
 import UIKit
 
-class GameOngoingCollectionViewCell: UICollectionViewCell{
+class GameOngoingCollectionViewCell: UICollectionViewCell {
+    
     @IBOutlet weak var labelYou: UILabel!
     @IBOutlet weak var labelFriendOngoing: UILabel!
-    
     @IBOutlet weak var labelBattleRun: UILabel!
     @IBOutlet weak var progressViewOngoing: UIProgressView!
-    
     @IBOutlet weak var labelTimeLeft: UILabel!
-    
     @IBOutlet weak var viewBattleRun: UIView!
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
+    
     func configure(with model: CurrentGameCard) {
-        labelBattleRun.text = model.title
-        labelYou.text = model.youName
-        labelFriendOngoing.text = model.friendName
-        progressViewOngoing.progress = model.progress
-        labelTimeLeft.text = model.timeLeftText
-        viewBattleRun.layer.cornerRadius = 15
-        viewBattleRun.clipsToBounds = true
-        viewBattleRun.backgroundColor = .cardLightBlack
+        self.labelBattleRun.text = model.title
+        self.labelYou.text = model.youName
+        self.labelFriendOngoing.text = model.friendName
+        self.progressViewOngoing.progress = model.progress
+        self.labelTimeLeft.text = model.timeLeftText
+        self.viewBattleRun.layer.cornerRadius = 15
+        self.viewBattleRun.clipsToBounds = true
+        self.viewBattleRun.backgroundColor = .cardLightBlack
     }
 
 }

@@ -15,7 +15,6 @@ class GameSetOneViewController: UIViewController {
     @IBOutlet weak var viewChoose: UIView!
     @IBOutlet weak var durationSlider: UISlider!
     @IBOutlet weak var nextButton: UIButton!
-    
     @IBOutlet weak var buttonCloseAndBack: UIButton!
     @IBOutlet weak var buttonAddFriend: UIButton!
     @IBOutlet weak var stackDuration: UIStackView!
@@ -29,17 +28,16 @@ class GameSetOneViewController: UIViewController {
     @IBOutlet weak var buttonCyan: UIButton!
     @IBOutlet weak var buttonMint: UIButton!
     @IBOutlet weak var buttonDropDown: UIButton!
-    
     @IBOutlet weak var labelYourSport: UILabel!
+    
     override func viewDidLoad() {
-            super.viewDidLoad()
-            setupUI()
-            setupMenu()
-            view.backgroundColor = UIColor(named: "modalBackground")
-        }
+        super.viewDidLoad()
+        setupUI()
+        setupMenu()
+        view.backgroundColor = UIColor(named: "modalBackground")
+    }
         
-    private func setupUI() {
-        overrideUserInterfaceStyle = .dark
+    func setupUI() {
         viewName.layer.cornerRadius = 15
         viewName.layer.borderWidth = 1
         viewName.layer.borderColor = UIColor.white.cgColor
@@ -48,10 +46,10 @@ class GameSetOneViewController: UIViewController {
         viewChoose.layer.borderColor = UIColor.white.cgColor
         nextButton.layer.cornerRadius = 45
         let today = Date()
-            datePicker.minimumDate = today
-            if let nextYear = Calendar.current.date(byAdding: .year, value: 1, to: today) {
-                datePicker.maximumDate = nextYear
-            }
+        datePicker.minimumDate = today
+        if let nextYear = Calendar.current.date(byAdding: .year, value: 1, to: today) {
+            datePicker.maximumDate = nextYear
+        }
         buttonCloseAndBack.setImage(UIImage(systemName: "multiply"), for: .normal)
         buttonRed.isHidden = true
         buttonCyan.isHidden = true
@@ -67,7 +65,8 @@ class GameSetOneViewController: UIViewController {
         labelTitle.text = "Set your Game"
         viewGameDetails.backgroundColor = .accent
         viewChooseColour.backgroundColor = .gray
-}
+    }
+    
     @IBAction func pickerDate(_ sender: UIDatePicker) {
         let selectedDate = sender.date
         print(selectedDate)
@@ -75,9 +74,9 @@ class GameSetOneViewController: UIViewController {
     
     @IBAction func pickerSlider(_ sender: UISlider) {
         let selectedValue = round(sender.value / 10) * 10
-            sender.setValue(selectedValue, animated: true)
-            print("Game Duration: \(Int(selectedValue))")
-        }
+        sender.setValue(selectedValue, animated: true)
+        print("Game Duration: \(Int(selectedValue))")
+    }
     
     @IBAction func buttonAddFriend(_ sender: UIButton) {
         print("Button pressed")
@@ -125,15 +124,14 @@ class GameSetOneViewController: UIViewController {
     }
         
     private func showAlert(message: String) {
-            let alert = UIAlertController(title: "Missing Information", message: message, preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-            alert.addAction(okAction)
-            
-            // Ensure the alert respects the dark theme
-            alert.view.tintColor = UIColor(red: 0.68, green: 1.0, blue: 0.0, alpha: 1.0) // Your lime green color
-            
-            self.present(alert, animated: true, completion: nil)
-        }
+        let alert = UIAlertController(title: "Missing Information", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(okAction)
+        
+        alert.view.tintColor = .accent
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     @IBAction func buttonClose(_ sender: Any) {
         
         if buttonCloseAndBack.currentImage == UIImage(systemName: "multiply") {

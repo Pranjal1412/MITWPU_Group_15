@@ -18,24 +18,23 @@ class GameCompletedCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var labelCompleted: UILabel!
     
     override func awakeFromNib() {
-            super.awakeFromNib()
-        viewCompleted.backgroundColor = .cardLightBlack
-        viewCompleted.layer.cornerRadius = 15
-        viewCompleted.clipsToBounds = true
+        super.awakeFromNib()
+        self.viewCompleted.backgroundColor = .cardLightBlack
+        self.viewCompleted.layer.cornerRadius = 15
+        self.viewCompleted.clipsToBounds = true
         
-        labelYourBlocks.sizeToFit()
-        labelFriendBlocks.sizeToFit()
+        self.labelYourBlocks.sizeToFit()
+        self.labelFriendBlocks.sizeToFit()
     }
     
     func configure(with model: CompletedGameCard) {
-        labelTitle.text = model.title
-        labelCompleted.text = model.completed
-        labelYou.text = model.youName
-        labelFriend.text = model.friendName
-        labelYourBlocks.text = model.yourBlocks
-        labelFriendBlocks.text = model.friendBlocks
-        labelWinner.text = model.Winner
-
+        self.labelTitle.text = model.title
+        self.labelCompleted.text = model.completed
+        self.labelYou.text = model.youName
+        self.labelFriend.text = model.friendName
+        self.labelYourBlocks.text = model.yourBlocks
+        self.labelFriendBlocks.text = model.friendBlocks
+        self.labelWinner.text = model.Winner
     }
 
 }

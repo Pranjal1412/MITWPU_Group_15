@@ -15,7 +15,6 @@ class GameScreenViewController: UIViewController {
     @IBOutlet weak var button1V1: UIButton!
     @IBOutlet weak var collectionViewCompleted: UICollectionView!
     @IBOutlet weak var segmentedControlGame: UISegmentedControl!
-
     @IBOutlet weak var labelScreenTitle: UILabel!
     
     private let sideInset: CGFloat = 15
@@ -24,30 +23,17 @@ class GameScreenViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        configureLayout()
         setupSegmentedControl()
         setupCollectionView()
         setupButtons()
+        
         collectionViewOngoing.isHidden = false
         collectionViewUpcoming.isHidden = true
         collectionViewCompleted.isHidden = true
         labelScreenTitle.sizeToFit()
     }
 
-    // MARK: - Layout
-
-    private func configureLayout() {
-        if let layout = collectionViewOngoing.collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.scrollDirection = .vertical
-            layout.sectionInset = .zero
-            layout.minimumLineSpacing = 16
-            layout.estimatedItemSize = .zero
-        }
-    }
-
-    // MARK: - Setup
-
-    private func setupCollectionView() {
+    func setupCollectionView() {
         collectionViewOngoing.delegate = self
         collectionViewOngoing.dataSource = self
         collectionViewOngoing.showsVerticalScrollIndicator = false
@@ -60,32 +46,28 @@ class GameScreenViewController: UIViewController {
         collectionViewCompleted.dataSource = self
         collectionViewCompleted.showsVerticalScrollIndicator = false
 
-        collectionViewOngoing.register(
-            UINib(nibName: "GameOngoingCollectionViewCell", bundle: nil),
-            forCellWithReuseIdentifier: "cellGame"
-        )
+        collectionViewOngoing.register(UINib(nibName: "GameOngoingCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "cellGame")
 
-        collectionViewUpcoming.register(
-            UINib(nibName: "GameUpcomingCollectionViewCell", bundle: nil),
-            forCellWithReuseIdentifier: "upcomingCell"
-        )
+        collectionViewUpcoming.register(UINib(nibName: "GameUpcomingCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "upcomingCell")
 
-        collectionViewCompleted.register(
-            UINib(nibName: "GameCompletedCollectionViewCell", bundle: nil),
-            forCellWithReuseIdentifier: "CompletedCell"
-        )
+        collectionViewCompleted.register(UINib(nibName: "GameCompletedCollectionViewCell", bundle: nil),
+            forCellWithReuseIdentifier: "CompletedCell")
+        
+        if let layout = collectionViewOngoing.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.scrollDirection = .vertical
+            layout.sectionInset = .zero
+            layout.minimumLineSpacing = 16
+            layout.estimatedItemSize = .zero
+        }
     }
 
-    private func setupSegmentedControl() {
+    func setupSegmentedControl() {
         segmentedControlGame.layer.borderColor = UIColor.accent.cgColor
         segmentedControlGame.layer.borderWidth = 0.5
-        segmentedControlGame.setTitleTextAttributes(
-            [.foregroundColor: UIColor.black],
-            for: .selected
-        )
+        segmentedControlGame.setTitleTextAttributes([.foregroundColor: UIColor.black],for: .selected)
     }
 
-    private func setupButtons() {
+    func setupButtons() {
         button1V1.layer.cornerRadius = button1V1.frame.height / 2
         buttonClub.layer.cornerRadius = buttonClub.frame.height / 2
     }
@@ -112,14 +94,12 @@ class GameScreenViewController: UIViewController {
     }
 }
 
-// MARK: - Collection View Delegates
+// MARK: - CollectionView Settings
 
-extension GameScreenViewController: UICollectionViewDelegate,
-                                     UICollectionViewDataSource,
-                                     UICollectionViewDelegateFlowLayout {
+extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDataSource,
+                                    UICollectionViewDelegateFlowLayout {
 
-    func collectionView(_ collectionView: UICollectionView,
-                        numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == collectionViewOngoing {
             return currentGame.count
         } else if collectionView == collectionViewUpcoming {
@@ -135,30 +115,21 @@ extension GameScreenViewController: UICollectionViewDelegate,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         if collectionView == collectionViewOngoing {
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "cellGame",
-                for: indexPath
-            ) as! GameOngoingCollectionViewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellGame", for: indexPath) as! GameOngoingCollectionViewCell
 
             let game = currentGame[indexPath.item]
             cell.configure(with: game)
             return cell
 
         } else if collectionView == collectionViewUpcoming {
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "upcomingCell",
-                for: indexPath
-            ) as! GameUpcomingCollectionViewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "upcomingCell", for: indexPath) as! GameUpcomingCollectionViewCell
 
             let game = upcomingGame[indexPath.item]
             cell.configure(with: game)
             return cell
 
         } else {
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "CompletedCell",
-                for: indexPath
-            ) as! GameCompletedCollectionViewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CompletedCell", for: indexPath) as! GameCompletedCollectionViewCell
 
             let game = completedGame[indexPath.item]
             cell.configure(with: game)
@@ -166,8 +137,7 @@ extension GameScreenViewController: UICollectionViewDelegate,
         }
     }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
 
         let width = collectionView.bounds.width - (sideInset * 2)
@@ -178,27 +148,18 @@ extension GameScreenViewController: UICollectionViewDelegate,
         return CGSize(width: width, height: cellHeight)
     }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
 
-        return UIEdgeInsets(
-            top: 0,
-            left: sideInset,
-            bottom: 25,
-            right: sideInset
-        )
+        return UIEdgeInsets(top: 0, left: sideInset, bottom: 25, right: sideInset)
     }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 15
     }
 
-    // navigate to game image view controller
-    func collectionView(_ collectionView: UICollectionView,
-                        didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
         guard collectionView == collectionViewOngoing else { return }
 

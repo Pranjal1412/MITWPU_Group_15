@@ -69,17 +69,17 @@ let upcomingGame: [UpcomingGameCard] = [
 
 let completedGame: [CompletedGameCard] = [
     CompletedGameCard(title: "Battle Run",
-             completed: "Completed",
-             youName: "You",
-             friendName: "John",
-             yourBlocks: "Area Captured: 5 blocks",
-             friendBlocks: "Area Captured: 8 blocks",
-             Winner: "John Wins!"),
+            completed: "Completed",
+            youName: "You",
+            friendName: "John",
+            yourBlocks: "Area Captured: 5 blocks",
+            friendBlocks: "Area Captured: 8 blocks",
+            Winner: "John Wins!"),
     CompletedGameCard(title: "Battle Run",
-                      completed: "Completed",
-                      youName: "You",
-                      friendName: "Rhea",
-                      yourBlocks: "Area Captured: 10 blocks",
-                      friendBlocks: "Area Captured: 8 blocks",
-                      Winner: "You Win!")
+            completed: "Completed",
+            youName: "You",
+            friendName: "Rhea",
+            yourBlocks: "Area Captured: 10 blocks",
+            friendBlocks: "Area Captured: 8 blocks",
+            Winner: "You Win!")
 ]
