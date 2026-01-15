@@ -2,7 +2,7 @@ import UIKit
 
 class CaloriesViewController: UIViewController {
 
-    // MARK: - IBOutlets
+   
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var weekRangeLabel: UILabel!
@@ -13,7 +13,7 @@ class CaloriesViewController: UIViewController {
     @IBOutlet weak var collectionViewCalories: UICollectionView!
     @IBOutlet weak var viewYAxis: UIView!
 
-    // MARK: - Graph Data
+   
     private let daysPerWeek = 7
     private let barSpacing: CGFloat = 26
     private let barWidth: CGFloat = 30
@@ -28,7 +28,7 @@ class CaloriesViewController: UIViewController {
         "S","M","T","W","T","F","S"
     ]
 
-    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -68,7 +68,7 @@ class CaloriesViewController: UIViewController {
         collectionViewCalories.frame.origin.y + 100
     }
 
-    // MARK: - Label Styling
+   
     func settingLabelStyle() {
         let mediumFont = UIFont.systemFont(ofSize: 15, weight: .bold)
         let thinFont = UIFont.systemFont(ofSize: 10)
@@ -221,7 +221,7 @@ class CaloriesViewController: UIViewController {
     }
 }
 
-// MARK: - UICollectionView
+
 extension CaloriesViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

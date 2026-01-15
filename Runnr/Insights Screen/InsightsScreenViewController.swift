@@ -64,7 +64,7 @@ class InsightsScreenViewController: UIViewController {
         previousActivity = sorted.count > 1 ? sorted[1] : nil
     }
 
-    // MARK: - GREEN DATES FROM ACTIVITY DATA
+    // MARK: - green dates from activity data
     private func prepareGreenDates() {
         let calendar = Calendar.current
         greenDates.removeAll()
@@ -84,14 +84,12 @@ class InsightsScreenViewController: UIViewController {
     }
 
 
-    // MARK: - ScrollView
     private func setupScrollView() {
         scrollViewInsights.alwaysBounceHorizontal = false
         scrollViewInsights.showsHorizontalScrollIndicator = false
         scrollViewInsights.isDirectionalLockEnabled = true
     }
 
-    // MARK: - CollectionView
     private func setupCollectionView() {
         collectionViewInsightsCards.dataSource = self
         collectionViewInsightsCards.delegate = self
@@ -105,7 +103,7 @@ class InsightsScreenViewController: UIViewController {
         collectionViewInsightsCards.register(nib, forCellWithReuseIdentifier: "cell")
     }
 
-    // MARK: - Calendar
+    // MARK: - Setup Calendar
     private func setupCalendar() {
         calendarView = UICalendarView()
         calendarView.translatesAutoresizingMaskIntoConstraints = false
@@ -141,7 +139,7 @@ class InsightsScreenViewController: UIViewController {
         }
     }
 
-    // MARK: - Chevron Update
+    // MARK: - Update Chevron
     private func updateChevron(cell: InsightsScreenCollectionViewCell,
                                current: Double,
                                previous: Double) {

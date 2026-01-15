@@ -2,7 +2,6 @@ import UIKit
 
 class AveragePaceViewController: UIViewController {
 
-    // MARK: - IBOutlets
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var weekRangeLabel: UILabel!
@@ -29,7 +28,6 @@ class AveragePaceViewController: UIViewController {
         "S","M","T","W","T","F","S"
     ]
 
-    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -58,7 +56,7 @@ class AveragePaceViewController: UIViewController {
         segmentControlAveragePace.layer.borderColor = UIColor.accent.cgColor
         segmentControlAveragePace.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
 
-        // normalizeDataForFullWeeks()
+        
         setupGraph()
         setupYAxis()
         settingLabelStyle()
@@ -70,7 +68,6 @@ class AveragePaceViewController: UIViewController {
         scrollViewMain.contentSize.height = collectionViewPace.frame.height + collectionViewPace.frame.origin.y + 100
     }
 
-    // MARK: - Label Styling
     func settingLabelStyle() {
         let mediumFont = UIFont(name: "SFProText-Bold", size: 15) ?? UIFont.systemFont(ofSize: 15, weight: .bold)
         let thinFont = UIFont(name: "SFProText-Light", size: 10) ?? UIFont.systemFont(ofSize: 10)
@@ -91,16 +88,6 @@ class AveragePaceViewController: UIViewController {
         labelNumber.attributedText = fullTexts
     }
 
-//    // MARK: - Normalize Data
-//    private func normalizeDataForFullWeeks() {
-//        let remainder = barValues.count % daysPerWeek
-//        if remainder == 0 { return }
-//        let paddingNeeded = daysPerWeek - remainder
-//        for _ in 0..<paddingNeeded {
-//            barValues.append(0)
-//            dayLabels.append("")
-//        }
-//    }
 
     // MARK: - Graph Setup
     func setupGraph() {
@@ -181,7 +168,7 @@ class AveragePaceViewController: UIViewController {
         contentView.frame.size.width = scrollView.contentSize.width
     }
 
-    // MARK: - Y-axis Setup
+    // MARK: - Y-axis
     private func setupYAxis() {
         viewYAxis.subviews.forEach { $0.removeFromSuperview() } // Clear previous
         let maxValue = barValues.max() ?? 200
@@ -206,7 +193,6 @@ class AveragePaceViewController: UIViewController {
     }
 }
 
-// MARK: - UICollectionView
 extension AveragePaceViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return averagePaceTrends.count
