@@ -104,7 +104,6 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
                     
                     rootVC.isMyClub = true
                     rootVC.myClubProfileData = nextClub
-                    
                     rootVC.buttonTitle = "Edit Club Profile"
                     destinationVC.modalPresentationStyle = .fullScreen
                     presenter.present(destinationVC, animated: true)
