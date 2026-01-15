@@ -22,33 +22,25 @@ class LeaderBoardViewController: UIViewController {
     var users: [LeaderboardUser] = leaderboardUsersArray
     private(set) var currentMode: LeaderboardMode = .kilometer
 
-   
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-
-
-//        navigationItem.hidesBackButton = true
-        view.overrideUserInterfaceStyle = .dark
-        
+                
         tableView.delegate = self
         tableView.dataSource = self
-        // Do any additional setup after loading the view.
-        
         tableView.showsVerticalScrollIndicator = false
         
         tableView.register(UINib(nibName: "LeaderboardListTableViewCell", bundle: nil), forCellReuseIdentifier: "LeaderboardListTableViewCell")
         
         setMode(.kilometer)
     }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-
         makeCircular(GoldRunner)
         makeCircular(SilverRunner)
         makeCircular(BronzeRunner)
     }
+    
     private func makeCircular(_ imageView: UIImageView) {
         imageView.layer.cornerRadius = imageView.frame.width / 2
         imageView.clipsToBounds = true
@@ -100,11 +92,9 @@ class LeaderBoardViewController: UIViewController {
         }
     }
 
-    }
+}
 
-
- 
-
+//MARK: - TableView Settings
 
 extension LeaderBoardViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -1,20 +1,16 @@
+
 import UIKit
 
-class ClubProfileViewController: UIViewController,
-                                 UICollectionViewDelegate,
-                                 UICollectionViewDataSource,
-                                 UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate {
+class ClubProfileViewController: UIViewController {
     
-    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var collectionViewPostImages: UICollectionView!
     @IBOutlet weak var viewLine: UIView!
     @IBOutlet weak var clubDescription: UILabel!
     @IBOutlet var clubMotive: UILabel!
-    
     @IBOutlet weak var clubProfileImage: UIImageView!
     @IBOutlet weak var joinNowButton: UIButton!
     @IBOutlet weak var labelSportType: UILabel!
     @IBOutlet weak var labelNumberOfMembers: UILabel!
-    
     @IBOutlet weak var labelClubName: UILabel!
     @IBOutlet var tableViewLeaderBoard: UITableView!
     @IBOutlet var viewPosts: UIView!
@@ -22,7 +18,6 @@ class ClubProfileViewController: UIViewController,
     @IBOutlet var viewTagged: UIView!
     
     var buttonTitle : String?
-    
     var isMyClub: Bool = false
     var myClubProfileData: MyClubData?
     var clubProfileData: ExploreClubData?
@@ -30,10 +25,43 @@ class ClubProfileViewController: UIViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupCollectionView()
+        settingUpProfileScreenElements()
+        settingCollectionAndTableView()
+                
+        collectionViewPostImages.isHidden = false
+        tableViewLeaderBoard.isHidden = true
+    }
 
-        view.overrideUserInterfaceStyle = .dark
+    override func viewWillAppear(_ animated: Bool) {
+        if clubProfileData?.postImages.count == nil {
+            collectionViewPostImages.isHidden = true
+        }
+        else {
+            collectionViewPostImages.isHidden = false
+            collectionViewPostImages.reloadData()
+        }
+    }
+    
+    func settingCollectionAndTableView() {
+        collectionViewPostImages.delegate = self
+        collectionViewPostImages.dataSource = self
 
+        let nib = UINib(nibName: "ClubProfileCollectionViewCell", bundle: nil)
+        collectionViewPostImages.register(nib, forCellWithReuseIdentifier: "cell")
+        
+        if let layout = collectionViewPostImages.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.minimumInteritemSpacing = 4
+            layout.minimumLineSpacing = 4
+            layout.sectionInset = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+        }
+        
+        tableViewLeaderBoard.dataSource = self
+        tableViewLeaderBoard.delegate = self
+        tableViewLeaderBoard.register(UINib(nibName: "ClubLeaderboardTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
+
+    }
+    
+    func settingUpProfileScreenElements() {
         if isMyClub {
             labelClubName.text = myClubProfileData?.clubName
             labelSportType.text = myClubProfileData?.sport
@@ -41,7 +69,6 @@ class ClubProfileViewController: UIViewController,
             clubDescription.text = myClubProfileData?.clubDescription
             clubProfileImage.image = myClubProfileData?.clubProfileImg
             clubMotive.text = myClubProfileData?.clubMotive
-
         }
         else {
             labelClubName.text = clubProfileData?.clubName
@@ -49,7 +76,7 @@ class ClubProfileViewController: UIViewController,
             labelNumberOfMembers.text = clubProfileData?.numberOfMembers ?? "No" + " Members"
             clubDescription.text = clubProfileData?.clubDescription
             clubProfileImage.image = clubProfileData?.clubProfileImg
-            //clubMotive.text = MyClubData.clubMotive
+            clubMotive.text = clubProfileData?.clubMotive
         }
         
         clubProfileImage.layer.cornerRadius = 15
@@ -65,44 +92,7 @@ class ClubProfileViewController: UIViewController,
             joinNowButton.layer.borderWidth = 1
         }
         
-        tableViewLeaderBoard.dataSource = self
-        tableViewLeaderBoard.delegate = self
-        tableViewLeaderBoard.register(UINib(nibName: "ClubLeaderboardTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
-        
-        collectionView.isHidden = false
-        tableViewLeaderBoard.isHidden = true
         viewPosts.backgroundColor = .accent
-
-        if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.minimumInteritemSpacing = 4
-            layout.minimumLineSpacing = 4
-            layout.sectionInset = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
-            
-        
-        }
-
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        if clubProfileData?.postImages.count == nil {
-            
-            collectionView.isHidden = true
-        }
-        else {
-            collectionView.isHidden = false
-            collectionView.reloadData()
-        }
-    }
-    
-    private func setupCollectionView() {
-        collectionView.delegate = self
-        collectionView.dataSource = self
-
-        let nib = UINib(
-            nibName: "ClubProfileCollectionViewCell",
-            bundle: nil
-        )
-        collectionView.register(nib,forCellWithReuseIdentifier: "cell")
     }
     
     @IBAction func taggedButtonPressed(_ sender: UIButton) {
@@ -127,9 +117,8 @@ class ClubProfileViewController: UIViewController,
         self.dismiss(animated: true)
     }
     
-    
     func showPosts() {
-        collectionView.isHidden = false
+        collectionViewPostImages.isHidden = false
         tableViewLeaderBoard.isHidden = true
         viewPosts.backgroundColor = .accent
         viewTagged.backgroundColor = .white
@@ -137,7 +126,7 @@ class ClubProfileViewController: UIViewController,
     }
 
     func showLeaderBoard() {
-        collectionView.isHidden = true
+        collectionViewPostImages.isHidden = true
         tableViewLeaderBoard.isHidden = false
         viewLeaderBoard.backgroundColor = .accent
         viewPosts.backgroundColor = .white
@@ -145,7 +134,7 @@ class ClubProfileViewController: UIViewController,
     }
 
     func showTagged() {
-        collectionView.isHidden = false
+        collectionViewPostImages.isHidden = false
         tableViewLeaderBoard.isHidden = true
         viewTagged.backgroundColor = .accent
         viewPosts.backgroundColor = .white
@@ -154,9 +143,9 @@ class ClubProfileViewController: UIViewController,
 }
 
 
-// MARK: - Table View
+// MARK: - TableView Settings
 
-extension ClubProfileViewController {
+extension ClubProfileViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 4
     }
@@ -174,33 +163,24 @@ extension ClubProfileViewController {
     }
 }
 
-// MARK: - Collection View
+// MARK: - CollectionView Settings
 
-extension ClubProfileViewController {
-    func collectionView(_ collectionView: UICollectionView,
-                        numberOfItemsInSection section: Int) -> Int {
+extension ClubProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource,
+                                     UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return clubProfileData?.postImages.count ?? 0
     }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath)
-    -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: "cell",
-            for: indexPath
-        ) as! ClubProfileCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ClubProfileCollectionViewCell
 
         cell.configureCell(with: clubProfileData!.postImages[indexPath.row]!)
-       
-
         return cell
     }
 
-
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
 
         let width = (collectionView.frame.width - 20) / 3

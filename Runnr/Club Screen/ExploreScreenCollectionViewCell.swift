@@ -20,9 +20,7 @@ class ExploreScreenCollectionViewCell: UICollectionViewCell {
 
         viewExploreClub.layer.cornerRadius = 10
         viewExploreClub.clipsToBounds = true
-
         buttonJoinClub.layer.cornerRadius = buttonJoinClub.frame.height / 2
-
         clubProfile.layer.cornerRadius = 11.89
         clubProfile.clipsToBounds = true
     }
@@ -34,14 +32,3 @@ class ExploreScreenCollectionViewCell: UICollectionViewCell {
         clubProfile.image = data.clubProfileImg
     }
 }
-
-//    settingLabelStyle(withValue: data.number, withUnit: data.unit)
-//    labelCardTitle.text = data.title
-//    labelTrend.text = data.trend
-//    imageViewChevron.image = UIImage(systemName: data.trendChevron)
-//    struct clubData: Codable {
-//        let image: String
-//        let clubName: String
-//        let numberOfMembers: String
-//        let sport: String
-//    }

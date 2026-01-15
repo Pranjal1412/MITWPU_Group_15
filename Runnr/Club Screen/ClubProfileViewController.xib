@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24128" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24127" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
@@ -21,7 +21,7 @@
                 <outlet property="clubDescription" destination="93K-4g-izn" id="wpi-35-goM"/>
                 <outlet property="clubMotive" destination="X4f-2R-uVP" id="om3-zb-ENR"/>
                 <outlet property="clubProfileImage" destination="UCV-Fx-SPe" id="0sy-AZ-nCR"/>
-                <outlet property="collectionView" destination="vhk-bF-3kY" id="WYE-dS-nQj"/>
+                <outlet property="collectionViewPostImages" destination="vhk-bF-3kY" id="WYE-dS-nQj"/>
                 <outlet property="joinNowButton" destination="Dac-f5-gxu" id="yZM-th-SkO"/>
                 <outlet property="labelClubName" destination="Fac-YU-G64" id="t2a-uH-o14"/>
                 <outlet property="labelNumberOfMembers" destination="r2E-Fe-2B5" id="b7u-87-oJB"/>
@@ -146,7 +146,7 @@
                     <rect key="frame" x="20" y="345.66666666666669" width="362" height="62"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Just for fun" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X4f-2R-uVP">
-                            <rect key="frame" x="0.0" y="0.0" width="128.66666666666666" height="30"/>
+                            <rect key="frame" x="0.0" y="0.0" width="126.66666666666667" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="db0-Xx-6OM"/>
                             </constraints>
@@ -155,7 +155,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="United we RUN. GROW. NETWORK &amp; HAVE FUN. " textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="93K-4g-izn">
-                            <rect key="frame" x="0.0" y="32" width="323" height="30"/>
+                            <rect key="frame" x="0.0" y="32" width="339.33333333333331" height="30"/>
                             <fontDescription key="fontDescription" name="SFPro-Thin" family="SF Pro" pointSize="15"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>

@@ -10,16 +10,14 @@ import UIKit
 class ClubProfileCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet var imageView: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        imageView.contentMode = .scaleAspectFill
-        
-        
+//        imageView.contentMode = .scaleAspectFill
     }
+    
     func configureCell(with data: UIImage) {
         imageView.image = data
     }
-    
-    
-    
+
 }

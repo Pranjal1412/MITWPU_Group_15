@@ -14,29 +14,28 @@ class JoinedClubsCollectionViewCell: UICollectionViewCell {
     @IBOutlet var NumberOfRunners: UILabel!
     @IBOutlet var Sport: UILabel!
     @IBOutlet var joinedClubView: UIView!
-    
     @IBOutlet var viewJoinedClub: UIView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
         joinedClubView.layer.cornerRadius = 10
         joinedClubView.clipsToBounds = true
     }
     
     private func shortForm(for activity: String) -> String {
-            switch activity {
-            case "Hiking":
-                return "Hike"
-            case "Running":
-                return "Run"
-            case "Walking":
-                return "Walk"
-            case "Marathons":
-                return "Mar"
-            default:
-                return activity
-            }
+        switch activity {
+        case "Hiking":
+            return "Hike"
+        case "Running":
+            return "Run"
+        case "Walking":
+            return "Walk"
+        case "Marathons":
+            return "Mar"
+        default:
+            return activity
         }
+    }
         
     func configureCell(with data: MyClubData) {
         ClubName.text = data.clubName

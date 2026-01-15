@@ -16,21 +16,19 @@ class LeaderboardListTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
-  
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
         profileImageView.clipsToBounds = true
-        
     }
+    
     func configure(rank: Int, name: String, value: String) {
-            labelRank.text = "\(rank)"
-            labelName.text = name
-            labelValue.text = value
-        }
+        labelRank.text = "\(rank)"
+        labelName.text = name
+        labelValue.text = value
+    }
     
 }

@@ -20,50 +20,23 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var lastpageView: UIView!
     @IBOutlet var clubNameView: UIView!
     @IBOutlet var clubDescriptionView: UIView!
-    
-    
     @IBOutlet var clubNameTextField: UITextField!
     @IBOutlet var clubDescriptionTextField: UITextView!
-    
     
     var currentPage = 1
     var clubDraft = CreateClubDraft()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-       
 
-        view.backgroundColor = .clear
-        
-        modalView.layer.cornerRadius = 20
-        modalView.clipsToBounds = true
-        
-        buttonNext.layer.cornerRadius = buttonNext.frame.height / 2.0
-        buttonNext.titleLabel?.textColor = UIColor.black
-        
-        settingAttributedTextCreateClub()
-        settingSubtitleCreateClub()
-        settingPageProgress()
+        updateUI()
+        settingUpCreateClubScreenElements()
         
         self.collectionViewClubActivity.dataSource = self
         self.collectionViewClubActivity.delegate = self
         
         self.collectionViewClubActivity.register(UINib(nibName: "SelectActivityCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "SelectActivityCollectionViewCell")
         self.collectionViewClubActivity.register(UINib(nibName: "ClubDescriptionCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ClubDescriptionCollectionViewCell")
-               
-        clubNameView.layer.cornerRadius = 10
-        clubNameView.clipsToBounds = true
-        clubNameView.layer.borderColor = UIColor.gray.cgColor
-        clubNameView.layer.borderWidth = 1.0
-        
-        clubDescriptionView.layer.cornerRadius = 10
-        clubDescriptionView.clipsToBounds = true
-        clubDescriptionView.layer.borderColor = UIColor.gray.cgColor
-        clubDescriptionView.layer.borderWidth = 1.0
-        
-        lastpageView.isHidden = true
-        
         
         clubNameTextField.delegate = self
         clubDescriptionTextField.delegate = self
@@ -71,10 +44,10 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
 
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-            if textField == clubNameTextField {
-                clubDraft.clubName = textField.text
-            }
+        if textField == clubNameTextField {
+            clubDraft.clubName = textField.text
         }
+    }
     
     @IBAction func nextButtonPressed(_ sender: UIButton) {
         
@@ -118,53 +91,74 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
         self.dismiss(animated: true, completion: nil)
     }
     
-    
     func updateUI() {
         switch currentPage {
         case 1:
-            settingAttributedTextCreateClub()
-            settingSubtitleCreateClub()
+            setFirstPageText()
             pageIndicator(p1: .accent, p2: .gray, p3: .gray)
             buttonNext.setTitle("Next", for: .normal)
-            collectionViewClubActivity.isHidden = false
-            self.collectionViewClubActivity.reloadData()
-            lastpageView.isHidden = true
             
+            self.collectionViewClubActivity.isHidden = false
+            self.collectionViewClubActivity.reloadData()
+            self.lastpageView.isHidden = true
             
         case 2:
             setSecondPageText()
             pageIndicator(p1: .gray, p2: .accent, p3: .gray)
             buttonNext.setTitle("Next", for: .normal)
-            collectionViewClubActivity.isHidden = false
+            
+            self.collectionViewClubActivity.isHidden = false
             self.collectionViewClubActivity.reloadData()
-            lastpageView.isHidden = true
+            self.lastpageView.isHidden = true
             
         case 3:
             setThirdPageText()
             pageIndicator(p1: .gray, p2: .gray, p3: .accent)
             buttonNext.setTitle("Complete", for: .normal)
-            collectionViewClubActivity.isHidden = true
+            
+            self.collectionViewClubActivity.isHidden = true
             lastpageView.isHidden = false
             
             registerNotifications()
             hideKeyboardWhenTappedAround()
             
-        default: break
+        default:
+            break
         }
         
+    }
+
+    func settingUpCreateClubScreenElements() {
         
-    }
+        view.backgroundColor = .clear
+        
+        modalView.layer.cornerRadius = 20
+        modalView.clipsToBounds = true
 
-    func pageIndicator(p1: UIColor, p2: UIColor, p3: UIColor) {
-        page1.backgroundColor = p1
-        page2.backgroundColor = p2
-        page3.backgroundColor = p3
+        buttonNext.layer.cornerRadius = buttonNext.frame.height / 2.0
+        buttonNext.titleLabel?.textColor = UIColor.black
+        
+        labelSubtitleCreateClub.textAlignment = .center
+        labelSubtitleCreateClub.textColor = .white
+        labelSubtitleCreateClub.numberOfLines = 2
+        labelSubtitleCreateClub.sizeToFit()
+        
+        clubNameView.layer.cornerRadius = 10
+        clubNameView.clipsToBounds = true
+        clubNameView.layer.borderColor = UIColor.gray.cgColor
+        clubNameView.layer.borderWidth = 1.0
+        
+        clubDescriptionView.layer.cornerRadius = 10
+        clubDescriptionView.clipsToBounds = true
+        clubDescriptionView.layer.borderColor = UIColor.gray.cgColor
+        clubDescriptionView.layer.borderWidth = 1.0
+        
+        page1.layer.cornerRadius = page1.frame.height / 2.0
+        page2.layer.cornerRadius = page2.frame.height / 2.0
+        page3.layer.cornerRadius = page3.frame.height / 2.0
     }
-
     
-    func settingAttributedTextCreateClub() {
-
-       
+    func setFirstPageText() {
         labelCreateClub.numberOfLines = 1
         labelCreateClub.textAlignment = .center
         
@@ -179,21 +173,9 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
         attributedText.append(secondPart)
         
         labelCreateClub.attributedText = attributedText
-     
-    }
-    
-  
-    
-    func settingSubtitleCreateClub() {
         labelSubtitleCreateClub.text = "Launch your club with your favourite sport!"
-        
-        labelSubtitleCreateClub.textAlignment = .center
-        labelSubtitleCreateClub.textColor = .white
-        labelSubtitleCreateClub.numberOfLines = 2
-        
-        labelSubtitleCreateClub.sizeToFit()
+
     }
-    
     
     func setSecondPageText() {
             
@@ -208,11 +190,10 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
             let final = NSMutableAttributedString()
             final.append(firstPart)
             final.append(secondPart)
+        
             labelCreateClub.attributedText = final
-            
             labelSubtitleCreateClub.text = "Unlock your club’s identity, pick any one"
         }
-    
     
     func setThirdPageText() {
            
@@ -227,19 +208,15 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
            let final = NSMutableAttributedString()
            final.append(firstPart)
            final.append(secondPart)
+        
            labelCreateClub.attributedText = final
-           
            labelSubtitleCreateClub.text = "Shape your club and bring it to life!"
        }
-       
     
-    func settingPageProgress() {
-        page1.layer.cornerRadius = page1.frame.height / 2.0
-        page2.layer.cornerRadius = page2.frame.height / 2.0
-        page3.layer.cornerRadius = page3.frame.height / 2.0
-        
-        pageIndicator(p1: .accent, p2: .gray, p3: .gray)
-
+    func pageIndicator(p1: UIColor, p2: UIColor, p3: UIColor) {
+        page1.backgroundColor = p1
+        page2.backgroundColor = p2
+        page3.backgroundColor = p3
     }
    
 }
