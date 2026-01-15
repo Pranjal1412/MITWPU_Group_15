@@ -12,16 +12,12 @@ class ClubProfileCollectionViewCell: UICollectionViewCell {
     @IBOutlet var imageView: UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        
-        //imageView.layer.cornerRadius = 8
-        //imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
         
         
     }
-    func configureCell(with data: posts) {
-        imageView.image = UIImage(named: data.images)
+    func configureCell(with data: UIImage) {
+        imageView.image = data
     }
     
     

@@ -30,10 +30,13 @@ class JoinUsViewController: UIViewController {
     
     @IBAction func signUpButtonPressed(_ sender: UIButton) {
         isSignUpComplete = true
-        self.navigationController?.popToRootViewController(animated: false)
+        //self.navigationController?.popToRootViewController(animated: false)
+        let destinationVC = YourInformationViewController()
+        self.navigationController?.pushViewController(destinationVC, animated: true)
     }
     
     @IBAction func backButtonPressed(_ sender: UIButton) {
+        isSignUpComplete = false
         self.navigationController?.popViewController(animated: true)
         
     }
@@ -75,7 +78,7 @@ class JoinUsViewController: UIViewController {
         buttonApple.setTitle(String(localized: "Sign Up with Apple ID"), for: .normal)
         
         buttonGoogle.layer.cornerRadius = buttonGoogle.frame.height / 2
-        buttonGoogle.setTitle(String(localized: "Sign Up with Google"), for: .normal)
+        //buttonGoogle.setTitle(String(localized: "Sign Up with Google"), for: .normal)
         
         if #available(iOS 26.0, *) {
             self.buttonBack.configuration = .glass()
@@ -112,6 +115,7 @@ class JoinUsViewController: UIViewController {
     func proceedAfterLogin() {
         // Option A: If you want to pop back to the root like your Sign Up button does
         isSignUpComplete = true
-        self.navigationController?.popToRootViewController(animated: true)
+        let destinationVC = YourInformationViewController()
+        self.navigationController?.pushViewController(destinationVC, animated: true)
     }
 }

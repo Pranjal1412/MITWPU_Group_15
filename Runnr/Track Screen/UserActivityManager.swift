@@ -128,7 +128,7 @@ class UserActivityManager {
                 self.liveTime += deltaTime
                 print("liveDistance: \(liveDistance), liveTime: \(liveTime) -> outside if")
 
-                if self.liveTime >= 10 && self.liveDistance > 0 {
+                if self.liveTime >= 30 && self.liveDistance > 1 {
                     self.currentPace = (self.liveTime / self.liveDistance) * 1000 / 60
                     print("liveDistance: \(liveDistance), liveTime: \(liveTime) -> inside if")
 
@@ -174,11 +174,15 @@ class UserActivityManager {
             case 1..<4:
                 return 100
                 
-            case 4..<6:
+            case 4..<7:
                 return 50
                 
-            case 6..<8:
+            case 7..<9:
                 return 30
+            
+            case 9..<17:
+                return 10
+            
             default:
                 return 10
         }

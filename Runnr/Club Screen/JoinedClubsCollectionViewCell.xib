@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24128" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -23,14 +23,9 @@
                 <rect key="frame" x="0.0" y="0.0" width="161" height="211"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hd2-zB-ZsB">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aiL-H0-3j9">
                         <rect key="frame" x="0.0" y="0.0" width="161" height="211"/>
-                        <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="161" id="LTV-QT-5nR"/>
-                            <constraint firstAttribute="height" constant="211" id="iEM-Cr-4te"/>
-                        </constraints>
+                        <color key="backgroundColor" name="CardLightBlack"/>
                     </view>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="club4" translatesAutoresizingMaskIntoConstraints="NO" id="M29-zx-iTy">
                         <rect key="frame" x="15" y="15" width="131" height="131"/>
@@ -57,10 +52,14 @@
                                     <constraint firstAttribute="height" constant="20" id="Fk5-5P-fvR"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="SFPro-Light" family="SF Pro" pointSize="12"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="1C5-q0-CmR"/>
+                            <constraint firstAttribute="width" constant="51" id="wkj-Jw-wuK"/>
+                        </constraints>
                     </stackView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lc6-4L-PB8">
                         <rect key="frame" x="15" y="151" width="131" height="20"/>
@@ -69,7 +68,7 @@
                             <constraint firstAttribute="height" constant="20" id="m1Y-x9-HAi"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="SFPro-Bold" family="SF Pro" pointSize="14"/>
-                        <nil key="textColor"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="evx-q5-5SD">
@@ -90,15 +89,13 @@
                                     <constraint firstAttribute="height" constant="20" id="yjA-2U-hAY"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="SFPro-Light" family="SF Pro" pointSize="12"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="width" constant="60" id="3cJ-CZ-c8a"/>
-                            <constraint firstItem="HTa-WI-brN" firstAttribute="leading" secondItem="evx-q5-5SD" secondAttribute="leading" id="flc-WB-M7P"/>
                             <constraint firstAttribute="height" constant="20" id="hHn-qu-oKC"/>
-                            <constraint firstItem="HTa-WI-brN" firstAttribute="top" secondItem="evx-q5-5SD" secondAttribute="top" id="zdP-4l-2gc"/>
                         </constraints>
                     </stackView>
                 </subviews>
@@ -107,28 +104,28 @@
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="lc6-4L-PB8" secondAttribute="trailing" constant="15" id="AkX-fE-jMZ"/>
                 <constraint firstItem="lc6-4L-PB8" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="BCz-d2-xcf"/>
-                <constraint firstItem="Hd2-zB-ZsB" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="BIB-Gp-3IE"/>
-                <constraint firstItem="CsA-Ex-fEu" firstAttribute="top" secondItem="lc6-4L-PB8" secondAttribute="bottom" constant="5" id="Fex-QN-RKF"/>
-                <constraint firstAttribute="bottom" secondItem="Hd2-zB-ZsB" secondAttribute="bottom" id="JLn-KD-4bo"/>
                 <constraint firstItem="lc6-4L-PB8" firstAttribute="top" secondItem="M29-zx-iTy" secondAttribute="bottom" constant="5" id="Xrb-4B-CiE"/>
-                <constraint firstItem="CsA-Ex-fEu" firstAttribute="leading" secondItem="evx-q5-5SD" secondAttribute="trailing" constant="26" id="bdH-kf-dkV"/>
-                <constraint firstAttribute="trailing" secondItem="Hd2-zB-ZsB" secondAttribute="trailing" id="cAG-QA-eba"/>
-                <constraint firstItem="Hd2-zB-ZsB" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="l9o-xd-vJe"/>
+                <constraint firstAttribute="bottom" secondItem="CsA-Ex-fEu" secondAttribute="bottom" constant="15" id="dPy-aL-3Q0"/>
                 <constraint firstItem="M29-zx-iTy" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="15" id="nn7-cD-rxV"/>
+                <constraint firstItem="aiL-H0-3j9" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="oS6-Mx-6LI"/>
                 <constraint firstItem="evx-q5-5SD" firstAttribute="top" secondItem="lc6-4L-PB8" secondAttribute="bottom" constant="5" id="rDA-Y4-dle"/>
                 <constraint firstAttribute="trailing" secondItem="M29-zx-iTy" secondAttribute="trailing" constant="15" id="rH6-M1-mkd"/>
+                <constraint firstAttribute="bottom" secondItem="aiL-H0-3j9" secondAttribute="bottom" id="s2R-0X-gYD"/>
+                <constraint firstAttribute="trailing" secondItem="aiL-H0-3j9" secondAttribute="trailing" id="sNz-zz-TmF"/>
+                <constraint firstItem="CsA-Ex-fEu" firstAttribute="leading" secondItem="evx-q5-5SD" secondAttribute="trailing" constant="26" id="tmd-XG-MmA"/>
                 <constraint firstItem="evx-q5-5SD" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="v1b-Ul-FIJ"/>
+                <constraint firstItem="aiL-H0-3j9" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="vda-LV-EUO"/>
                 <constraint firstItem="M29-zx-iTy" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="xGn-ci-OqS"/>
-                <constraint firstAttribute="bottom" secondItem="CsA-Ex-fEu" secondAttribute="bottom" constant="15" id="xVp-0s-9og"/>
+                <constraint firstItem="CsA-Ex-fEu" firstAttribute="top" secondItem="lc6-4L-PB8" secondAttribute="bottom" constant="5" id="zeK-1E-htv"/>
             </constraints>
             <connections>
                 <outlet property="ClubName" destination="lc6-4L-PB8" id="0DI-wp-vBl"/>
                 <outlet property="ClubProfileImage" destination="M29-zx-iTy" id="jaO-JC-uqE"/>
                 <outlet property="NumberOfRunners" destination="2Fa-Zw-TCm" id="EAF-aU-7ef"/>
                 <outlet property="Sport" destination="LLQ-9i-4q3" id="3EY-E3-5gl"/>
-                <outlet property="viewJoinedClub" destination="Hd2-zB-ZsB" id="km5-91-x9b"/>
+                <outlet property="joinedClubView" destination="aiL-H0-3j9" id="ANW-VT-vr1"/>
             </connections>
-            <point key="canvasLocation" x="-13" y="-56"/>
+            <point key="canvasLocation" x="-25.190839694656489" y="-59.507042253521128"/>
         </collectionViewCell>
     </objects>
     <resources>
@@ -137,6 +134,9 @@
         <image name="person.2.fill" catalog="system" width="128" height="86"/>
         <namedColor name="AccentColor">
             <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="CardLightBlack">
+            <color red="0.10199999809265137" green="0.10199999809265137" blue="0.10199999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

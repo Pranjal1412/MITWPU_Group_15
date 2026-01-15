@@ -106,6 +106,7 @@
                             </subviews>
                         </stackView>
                     </subviews>
+                    <color key="backgroundColor" red="1" green="0.43817897839999997" blue="0.1705680742" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4JN-Ga-dLa">
                     <rect key="frame" x="219" y="681" width="140" height="60"/>
@@ -142,6 +143,7 @@
                             </subviews>
                         </stackView>
                     </subviews>
+                    <color key="backgroundColor" red="1" green="0.43817897839999997" blue="0.1705680742" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TzH-UP-2xT">
                     <rect key="frame" x="20" y="70" width="30" height="30"/>

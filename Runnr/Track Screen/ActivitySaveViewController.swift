@@ -382,29 +382,29 @@ extension ActivitySaveViewController : UICollectionViewDataSource, UICollectionV
 
 extension ActivitySaveViewController : UITextViewDelegate {
     
-    func textViewDidChange(_ textView: UITextView) {
-        
-        let inset = textView.textContainerInset.top + textView.textContainerInset.bottom
-        let lineHeight = textView.font?.lineHeight ?? 0
-        
-        let minHeight = lineHeight * 2 + inset
-        let maxHeight = lineHeight * 5 + inset
-
+//    func textViewDidChange(_ textView: UITextView) {
+//        
+//        let inset = textView.textContainerInset.top + textView.textContainerInset.bottom
+//        let lineHeight = textView.font?.lineHeight ?? 0
+//        
+//        let minHeight = lineHeight * 2 + inset
+//        let maxHeight = lineHeight * 5 + inset
+//
 //        .infinity is used because we are allowing text view to use as much of height it requires, but if the height exceeds maximum
 //        we are enabling scrolling
-        let size = CGSize(width: textView.frame.width - 20.0, height: .infinity)
-        let contentHeight = textView.sizeThatFits(size).height
-        let newHeight = min(max(contentHeight, minHeight), maxHeight)
-
-        if containerViewHeightConstraint.constant != newHeight {
-            containerViewHeightConstraint.constant = newHeight
-        }
-
-        textView.isScrollEnabled = contentHeight > maxHeight
-        UIView.animate(withDuration: 0.2) {
-                self.view.layoutIfNeeded()
-        }
-
-    }
+//        let size = CGSize(width: textView.frame.width - 20.0, height: .infinity)
+//        let contentHeight = textView.sizeThatFits(size).height
+//        let newHeight = min(max(contentHeight, minHeight), maxHeight)
+//
+//        if containerViewHeightConstraint.constant != newHeight {
+//            containerViewHeightConstraint.constant = newHeight
+//        }
+//
+//        textView.isScrollEnabled = contentHeight > maxHeight
+//        UIView.animate(withDuration: 0.2) {
+//                self.view.layoutIfNeeded()
+//        }
+//
+//    }
     
 }

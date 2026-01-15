@@ -32,6 +32,7 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func backButtonPressed(_ sender: UIButton) {
+        isSignUpComplete = false
         self.navigationController?.popViewController(animated: true)
         
     }

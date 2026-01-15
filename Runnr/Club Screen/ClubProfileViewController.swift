@@ -10,13 +10,17 @@ class ClubProfileViewController: UIViewController,
     @IBOutlet weak var clubDescription: UILabel!
     @IBOutlet weak var clubProfileImage: UIImageView!
     @IBOutlet weak var joinNowButton: UIButton!
-
+    @IBOutlet weak var labelSportType: UILabel!
+    @IBOutlet weak var labelNumberOfMembers: UILabel!
+    
+    @IBOutlet weak var labelClubName: UILabel!
     @IBOutlet var tableViewLeaderBoard: UITableView!
     @IBOutlet var viewPosts: UIView!
     @IBOutlet var viewLeaderBoard: UIView!
     @IBOutlet var viewTagged: UIView!
     
     var buttonTitle : String?
+    var clubProfileData: ExploreClubData?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,10 +29,14 @@ class ClubProfileViewController: UIViewController,
 
         view.overrideUserInterfaceStyle = .dark
 
-        clubDescription.numberOfLines = 2
-        clubDescription.lineBreakMode = .byWordWrapping
+        labelClubName.text = clubProfileData?.clubName
+        labelSportType.text = clubProfileData?.sport
+        labelNumberOfMembers.text = clubProfileData?.numberOfMembers ?? "No" + " Members"
+        
+        clubDescription.text = clubProfileData?.clubDescription
 
-        clubProfileImage.layer.cornerRadius = 12
+        clubProfileImage.image = clubProfileData?.clubProfileImg
+        clubProfileImage.layer.cornerRadius = 15
         clubProfileImage.clipsToBounds = true
 
         joinNowButton.setTitle(buttonTitle, for: .normal)
@@ -43,7 +51,7 @@ class ClubProfileViewController: UIViewController,
         
         tableViewLeaderBoard.dataSource = self
         tableViewLeaderBoard.delegate = self
-        tableViewLeaderBoard.register(UINib(nibName: "ClubProfileTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
+        tableViewLeaderBoard.register(UINib(nibName: "ClubLeaderboardTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
         
         collectionView.isHidden = false
         tableViewLeaderBoard.isHidden = true
@@ -53,11 +61,23 @@ class ClubProfileViewController: UIViewController,
             layout.minimumInteritemSpacing = 4
             layout.minimumLineSpacing = 4
             layout.sectionInset = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+            
+        
         }
 
     }
 
-   
+    override func viewWillAppear(_ animated: Bool) {
+        if clubProfileData?.postImages.count == nil {
+            
+            collectionView.isHidden = true
+        }
+        else {
+            collectionView.isHidden = false
+            collectionView.reloadData()
+        }
+    }
+    
     private func setupCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -129,7 +149,6 @@ extension ClubProfileViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ClubLeaderboardTableViewCell
         
         cell.configureCell(with: leaderBoardArray[indexPath.row])
-//        cell.configureCell(with: friendsDataArray[indexPath.row])
         return cell
     }
     
@@ -144,7 +163,7 @@ extension ClubProfileViewController {
 extension ClubProfileViewController {
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return clubProfileData?.postImages.count ?? 0
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -156,7 +175,7 @@ extension ClubProfileViewController {
             for: indexPath
         ) as! ClubProfileCollectionViewCell
 
-        cell.configureCell(with: postImagesArray[indexPath.row])
+        cell.configureCell(with: clubProfileData!.postImages[indexPath.row]!)
        
 
         return cell
