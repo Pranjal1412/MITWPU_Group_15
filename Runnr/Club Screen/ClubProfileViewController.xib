@@ -39,9 +39,9 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Club" translatesAutoresizingMaskIntoConstraints="NO" id="v4x-TB-JuJ">
-                    <rect key="frame" x="0.0" y="20" width="402" height="173"/>
+                    <rect key="frame" x="0.0" y="0.0" width="402" height="193"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="173" id="Crv-Nv-Gxn"/>
+                        <constraint firstAttribute="height" constant="193" id="Crv-Nv-Gxn"/>
                     </constraints>
                 </imageView>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="club1" translatesAutoresizingMaskIntoConstraints="NO" id="UCV-Fx-SPe">
@@ -302,8 +302,8 @@
                 <constraint firstItem="FIH-uE-sCG" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="TEy-aL-aaJ"/>
                 <constraint firstItem="pJP-i3-Nov" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="45" id="V6y-xG-iUL"/>
                 <constraint firstItem="6hN-p3-JnI" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="Vfj-8Y-05x"/>
-                <constraint firstItem="v4x-TB-JuJ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="WtP-vp-o8Q"/>
                 <constraint firstItem="XCW-n3-5sD" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="bvL-XZ-Bku"/>
+                <constraint firstItem="v4x-TB-JuJ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="cOh-Rj-qiE"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="FIH-uE-sCG" secondAttribute="trailing" constant="20" id="cUK-Z8-YAx"/>
                 <constraint firstItem="qcs-9F-Bhc" firstAttribute="top" secondItem="6hN-p3-JnI" secondAttribute="bottom" constant="20" id="dxv-5H-aex"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Fac-YU-G64" secondAttribute="trailing" constant="10" id="epP-yH-Hre"/>

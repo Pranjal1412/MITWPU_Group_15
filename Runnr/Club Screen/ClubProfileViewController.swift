@@ -20,6 +20,9 @@ class ClubProfileViewController: UIViewController,
     @IBOutlet var viewTagged: UIView!
     
     var buttonTitle : String?
+    
+    var isMyClub: Bool = false
+    var myClubProfileData: MyClubData?
     var clubProfileData: ExploreClubData?
     
     override func viewDidLoad() {
@@ -29,13 +32,22 @@ class ClubProfileViewController: UIViewController,
 
         view.overrideUserInterfaceStyle = .dark
 
-        labelClubName.text = clubProfileData?.clubName
-        labelSportType.text = clubProfileData?.sport
-        labelNumberOfMembers.text = clubProfileData?.numberOfMembers ?? "No" + " Members"
-        
-        clubDescription.text = clubProfileData?.clubDescription
+        if isMyClub {
+            labelClubName.text = myClubProfileData?.clubName
+            labelSportType.text = myClubProfileData?.sport
+            labelNumberOfMembers.text = myClubProfileData?.numberOfMembers ?? "No" + " Members"
+            clubDescription.text = myClubProfileData?.clubDescription
+            clubProfileImage.image = myClubProfileData?.clubProfileImg
 
-        clubProfileImage.image = clubProfileData?.clubProfileImg
+        }
+        else {
+            labelClubName.text = clubProfileData?.clubName
+            labelSportType.text = clubProfileData?.sport
+            labelNumberOfMembers.text = clubProfileData?.numberOfMembers ?? "No" + " Members"
+            clubDescription.text = clubProfileData?.clubDescription
+            clubProfileImage.image = clubProfileData?.clubProfileImg
+        }
+        
         clubProfileImage.layer.cornerRadius = 15
         clubProfileImage.clipsToBounds = true
 

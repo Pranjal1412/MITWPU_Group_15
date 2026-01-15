@@ -19,7 +19,7 @@ struct ExploreClubData {
 }
 
 struct MyClubData {
-    let clubProfileImg: String
+    let clubProfileImg: UIImage
     let clubName: String
     let numberOfMembers: String
     let sport: String

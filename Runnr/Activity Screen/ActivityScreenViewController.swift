@@ -196,11 +196,11 @@ extension ActivityScreenViewController {
             self.dataSource.deleteMyActivity(atIndex: sender.tag)
             self.updateScreenElements()
         }
-        let cancelAction = UIAlertAction(title: String(localized: "Cancel"), style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: String(localized: "Edit Activity"), style: .default, handler: nil)
         
         alert.addAction(shareAction)
-        alert.addAction(deleteAction)
         alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
         present(alert, animated: true, completion: nil)
     }
 }
