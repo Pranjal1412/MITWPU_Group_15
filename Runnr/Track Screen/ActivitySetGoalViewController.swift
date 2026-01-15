@@ -23,7 +23,6 @@ class ActivitySetGoalViewController: UIViewController {
     @IBOutlet weak var viewBackgroundAudio: UIView!
     
     @IBOutlet weak var switchAudioFeedback: UISwitch!
-    @IBOutlet weak var sliderSetTime: UISlider!
     @IBOutlet weak var buttonActivity: UIButton!
     @IBOutlet weak var labelSelectedTime: UILabel!
     
@@ -43,7 +42,6 @@ class ActivitySetGoalViewController: UIViewController {
         hideKeyboardWhenTappedAround()
         labelAudioFeedback.sizeToFit()
         
-        sliderSetTime.isEnabled = false
     }
     
     func settingScreen() {
@@ -71,13 +69,13 @@ class ActivitySetGoalViewController: UIViewController {
         fullDistancetext.append(lightText)
         labelDistance.attributedText = fullDistancetext
         
-        regularText = NSAttributedString(string: "Time ", attributes: [.font: regularFont , .foregroundColor: UIColor.white])
-        lightText = NSAttributedString(string: "(hrs)", attributes: [.font: lightFont , .foregroundColor: UIColor.white])
-        
-        let fullTimetext = NSMutableAttributedString()
-        fullTimetext.append(regularText)
-        fullTimetext.append(lightText)
-        labelTime.attributedText = fullTimetext
+//        regularText = NSAttributedString(string: "Time ", attributes: [.font: regularFont , .foregroundColor: UIColor.white])
+//        lightText = NSAttributedString(string: "(hrs)", attributes: [.font: lightFont , .foregroundColor: UIColor.white])
+//        
+//        let fullTimetext = NSMutableAttributedString()
+//        fullTimetext.append(regularText)
+//        fullTimetext.append(lightText)
+//        labelTime.attributedText = fullTimetext
         
         buttonStart.layer.cornerRadius = buttonStart.frame.height / 2
         
@@ -85,25 +83,6 @@ class ActivitySetGoalViewController: UIViewController {
         viewBackgroundAudio.layer.cornerRadius = 15
         viewBackgroundDistance.layer.cornerRadius = 15
         viewBackgroungActivity.layer.cornerRadius = 15
-    }
-    
-    @IBAction func sliderValueChanged(_ sender: UISlider) {
-        let selectedValue = sender.value
-        self.labelSelectedTime.text = String(format: "%.2f", selectedValue)
-        
-    }
-    
-    @IBAction func distanceGoalSet(_ sender: UITextField) {
-        if sender.hasText {
-            self.sliderSetTime.minimumValue = 1
-            self.sliderSetTime.maximumValue = 2
-            
-            self.labelMinTime.text = "1.00"
-            self.labelMaxTime.text = "2.00"
-            self.labelMidTime.text = "1.50"
-            
-            self.sliderSetTime.isEnabled = true
-        }
     }
     
     @IBAction func buttonStartActivityPressed(_ sender: UIButton) {
