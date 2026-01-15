@@ -13,6 +13,7 @@ class ActivityStartViewController: UIViewController {
     
     @IBOutlet weak var labelScreenTitle: UILabel!
     @IBOutlet weak var labelTotalPoints: UILabel!
+    @IBOutlet weak var buttonUserProfile: UIButton!
     
     let userLocation = UserLocationManager()
     var isMapInitialized = false
@@ -36,8 +37,8 @@ class ActivityStartViewController: UIViewController {
         labelScreenTitle.text = NSLocalizedString("Runnr.", comment: "")
         labelScreenTitle.textColor = .accent
         labelScreenTitle.sizeToFit()
-        self.createStartButton()
-
+        self.buttonUserProfile.layer.cornerRadius = self.buttonUserProfile.frame.height / 2
+        self.buttonUserProfile.clipsToBounds = true
     }
 
     override func viewWillAppear(_ animated: Bool) {

@@ -9,6 +9,7 @@ class ActivityScreenViewController: UIViewController {
     @IBOutlet weak var labelScreenTitle: UILabel!
     @IBOutlet weak var stackRecentActivities: UIStackView!
     @IBOutlet weak var labelTotalPoints: UILabel!
+    @IBOutlet weak var buttonUserProfile: UIImageView!
     
     let label = UILabel()
 
@@ -25,7 +26,6 @@ class ActivityScreenViewController: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        view.overrideUserInterfaceStyle = .dark
         
         settingTableView()
         settingLabelStyle()
@@ -38,6 +38,7 @@ class ActivityScreenViewController: UIViewController {
         label.textAlignment = .center
         view.addSubview(label)
         
+        self.buttonUserProfile.layer.cornerRadius = self.buttonUserProfile.frame.height / 2
     }
     
     override func viewWillAppear(_ animated: Bool) {
