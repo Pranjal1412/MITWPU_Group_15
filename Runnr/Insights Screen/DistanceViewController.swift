@@ -2,7 +2,7 @@ import UIKit
 
 class DistanceViewController: UIViewController {
 
-    // MARK: - IBOutlets
+ 
     @IBOutlet weak var scrollViewMain: UIScrollView!
     @IBOutlet weak var scrollViewGraph: UIScrollView!
     @IBOutlet weak var segmentControlDistance: UISegmentedControl!
@@ -13,7 +13,7 @@ class DistanceViewController: UIViewController {
     @IBOutlet weak var labelDistanceCovered: UILabel!
     @IBOutlet weak var weekRangeLabel: UILabel!
 
-    // MARK: - Graph Data
+   
     private let daysPerWeek = 7
     private let barSpacing: CGFloat = 26
     private let barWidth: CGFloat = 30
@@ -30,7 +30,7 @@ class DistanceViewController: UIViewController {
         "S","M","T","W","T","F","S"
     ]
 
-    // MARK: - Lifecycle
+   
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -70,7 +70,6 @@ class DistanceViewController: UIViewController {
         collectionViewDistance.frame.origin.y + 100
     }
 
-    // MARK: - Label Styling
     func settingLabelStyle() {
         let mediumFont = UIFont.systemFont(ofSize: 15, weight: .bold)
         let thinFont = UIFont.systemFont(ofSize: 10)
@@ -223,7 +222,6 @@ class DistanceViewController: UIViewController {
     }
 }
 
-// MARK: - UICollectionView
 extension DistanceViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

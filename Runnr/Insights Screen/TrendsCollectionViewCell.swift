@@ -17,7 +17,7 @@ class TrendsCollectionViewCell: UICollectionViewCell {
         viewDistanceCell.layer.masksToBounds = false
         viewDistanceCell.clipsToBounds = false
         
-        // Initialization code
+       
     }
     func configureCell(with data: DistanceCardData) {
         labelDistanceTrends.text = data.trends

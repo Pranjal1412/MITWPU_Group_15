@@ -2,7 +2,6 @@ import UIKit
 
 class StepsViewController: UIViewController {
 
-    // MARK: - IBOutlets
     @IBOutlet weak var segmentControlSteps: UISegmentedControl!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var contentView: UIView!
@@ -13,7 +12,6 @@ class StepsViewController: UIViewController {
     @IBOutlet weak var labelNumber: UILabel!
     @IBOutlet weak var weekRangeLabel: UILabel!
 
-    // MARK: - Graph Data
     private let daysPerWeek = 7
     private let barSpacing: CGFloat = 26
     private let barWidth: CGFloat = 30
@@ -69,7 +67,6 @@ class StepsViewController: UIViewController {
         collectionViewSteps.frame.height + collectionViewSteps.frame.origin.y + 100
     }
 
-    // MARK: - Label Styling
     func settingLabelStyle() {
         let mediumFont = UIFont.systemFont(ofSize: 15, weight: .bold)
         let thinFont = UIFont.systemFont(ofSize: 10)
@@ -106,7 +103,6 @@ class StepsViewController: UIViewController {
         labelNumber.attributedText = fullNumber
     }
 
-    // MARK: - Graph Setup (IDENTICAL TO AVERAGE PACE)
     func setupGraph() {
         contentView.subviews.forEach { $0.removeFromSuperview() }
 
@@ -194,7 +190,6 @@ class StepsViewController: UIViewController {
         contentView.frame.size.width = scrollView.contentSize.width
     }
 
-    // MARK: - Y Axis (IDENTICAL TO AVERAGE PACE)
     private func setupYAxis() {
         viewYAxis.subviews.forEach { $0.removeFromSuperview() }
 
@@ -222,7 +217,6 @@ class StepsViewController: UIViewController {
     }
 }
 
-// MARK: - UICollectionView
 extension StepsViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         stepsCoveredTrends.count
@@ -241,7 +235,6 @@ extension StepsViewController: UICollectionViewDataSource, UICollectionViewDeleg
     }
 }
 
-// MARK: - Scroll Handling
 extension StepsViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard scrollView == self.scrollView else { return }
