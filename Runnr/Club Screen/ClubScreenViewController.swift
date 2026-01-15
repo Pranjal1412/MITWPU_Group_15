@@ -22,6 +22,7 @@ class ClubScreenViewController: UIViewController {
     
     
     
+    
     let systemOS = UIDevice.current.systemVersion
     
     var friendsDataArray: [friendsData] = [
@@ -258,13 +259,19 @@ extension ClubScreenViewController : UICollectionViewDataSource, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 20
     }
-    
+    /////markkkkk
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let destinationVC = ClubProfileViewController()
         let navigationController = UINavigationController(rootViewController: destinationVC)
-        destinationVC.clubProfileData = clubDataArray[indexPath.row]
-        
-        destinationVC.buttonTitle = "Join Now"
+        if collectionView == collectionViewExplore {
+                destinationVC.clubProfileData = clubDataArray[indexPath.row]
+                destinationVC.buttonTitle = "Join Now"
+            } else {
+                destinationVC.myClubProfileData = myClubs[indexPath.row]
+                destinationVC.isMyClub = true
+                destinationVC.buttonTitle = "Edit Club Profile"
+            }
+       
         navigationController.modalPresentationStyle = .fullScreen
         self.present(navigationController, animated: true)
     }

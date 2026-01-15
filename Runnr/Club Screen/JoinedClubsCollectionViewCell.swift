@@ -22,9 +22,25 @@ class JoinedClubsCollectionViewCell: UICollectionViewCell {
         joinedClubView.layer.cornerRadius = 10
         joinedClubView.clipsToBounds = true
     }
+    
+    private func shortForm(for activity: String) -> String {
+            switch activity {
+            case "Hiking":
+                return "Hike"
+            case "Running":
+                return "Run"
+            case "Walking":
+                return "Walk"
+            case "Marathons":
+                return "Mar"
+            default:
+                return activity
+            }
+        }
+        
     func configureCell(with data: MyClubData) {
         ClubName.text = data.clubName
-        Sport.text = data.sport
+        Sport.text = shortForm(for: data.sport)
         NumberOfRunners.text = data.numberOfMembers
         ClubProfileImage.image = data.clubProfileImg
     }

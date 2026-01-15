@@ -55,11 +55,13 @@ enum LeaderboardMode {
 }
 
 struct CreateClubDraft {
-    var activity: String?
-    var motive: String?
     var clubName: String?
     var clubDescription: String?
+    var activity: String?
+    var sportShortForm: String?
+    var motive: String?
 }
+
 
 
 struct ClubActivity {

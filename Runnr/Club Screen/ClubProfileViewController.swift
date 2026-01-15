@@ -8,6 +8,8 @@ class ClubProfileViewController: UIViewController,
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var viewLine: UIView!
     @IBOutlet weak var clubDescription: UILabel!
+    @IBOutlet var clubMotive: UILabel!
+    
     @IBOutlet weak var clubProfileImage: UIImageView!
     @IBOutlet weak var joinNowButton: UIButton!
     @IBOutlet weak var labelSportType: UILabel!
@@ -38,6 +40,7 @@ class ClubProfileViewController: UIViewController,
             labelNumberOfMembers.text = myClubProfileData?.numberOfMembers ?? "No" + " Members"
             clubDescription.text = myClubProfileData?.clubDescription
             clubProfileImage.image = myClubProfileData?.clubProfileImg
+            clubMotive.text = myClubProfileData?.clubMotive
 
         }
         else {
@@ -46,6 +49,7 @@ class ClubProfileViewController: UIViewController,
             labelNumberOfMembers.text = clubProfileData?.numberOfMembers ?? "No" + " Members"
             clubDescription.text = clubProfileData?.clubDescription
             clubProfileImage.image = clubProfileData?.clubProfileImg
+            //clubMotive.text = MyClubData.clubMotive
         }
         
         clubProfileImage.layer.cornerRadius = 15
