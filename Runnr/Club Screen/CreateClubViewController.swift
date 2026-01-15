@@ -69,6 +69,13 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
         clubDescriptionTextField.delegate = self
     }
 
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+            if textField == clubNameTextField {
+                clubDraft.clubName = textField.text
+            }
+        }
+    
     @IBAction func nextButtonPressed(_ sender: UIButton) {
         
         if currentPage < 3 {
@@ -83,7 +90,7 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
                     let destinationVC = UINavigationController(rootViewController: rootVC)
                    
                     let nextClub = MyClubData(
-                        clubProfileImg: UIImage(named: "club1")!,
+                        clubProfileImg: UIImage(named: "club4")!,
                         clubName: self.clubDraft.clubName ?? "",
                         numberOfMembers: "0",
                         sport: self.clubDraft.activity ?? "",
@@ -93,6 +100,7 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
                     )
                     
                     myClubs.append(nextClub)
+                    //joinedClubCollectionView.reloadData()
                     
                     rootVC.isMyClub = true
                     rootVC.myClubProfileData = nextClub
@@ -345,6 +353,9 @@ extension CreateClubViewController {
         view.addGestureRecognizer(tapGesture)
     }
 
+    
+
+    
     @objc func hideKeyboard() {
         view.endEditing(true)
     }
@@ -364,5 +375,6 @@ extension CreateClubViewController: UITextViewDelegate {
         clubDraft.clubDescription = textView.text
     }
 }
+
 
 
