@@ -38,7 +38,6 @@ class ActivitySaveViewController: UIViewController {
     @IBOutlet weak var labelAddPhotos: UILabel!
     @IBOutlet weak var stackAddPhotos: UIStackView!
     @IBOutlet weak var collectionViewAddPhotos: UICollectionView!
-    @IBOutlet weak var containerViewHeightConstraint: NSLayoutConstraint!
     
     var activityData: MyRunActivity!
     var dataSource = DataSource.shared
@@ -49,16 +48,14 @@ class ActivitySaveViewController: UIViewController {
 
         SettingLabels()
         settingCardView()
-        scrollViewSaveActivity.contentSize.height = stackAddPhotos.frame.origin.y + stackAddPhotos.frame.size.height + 20
+        scrollViewSaveActivity.contentSize.height = stackAddPhotos.frame.origin.y + stackAddPhotos.frame.size.height + 30
 
         collectionViewAddPhotos.isHidden = true
         collectionViewAddPhotos.register(UINib(nibName: "AddPhotosCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AddPhotosCollectionViewCell")
         collectionViewAddPhotos.dataSource = self
         
         self.textViewRemark.delegate = self
-
-        let lineHeight = self.textViewRemark.font!.lineHeight
-        containerViewHeightConstraint.constant = lineHeight * 2 + 20.0
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         
         registerNotifications()
         hideKeyboardWhenTappedAround()
@@ -377,12 +374,38 @@ extension ActivitySaveViewController : UICollectionViewDataSource, UICollectionV
 }
 
 extension ActivitySaveViewController : UITextViewDelegate {
+
+    func textViewDidChange(_ textView: UITextView) {
+        let size = CGSize(width: textView.frame.size.width, height: .infinity)
+        let estimatedsize = textView.sizeThatFits(size)
+        
+        if estimatedsize.height < 100 {
+            textView.isScrollEnabled = false
+            self.viewRemark.frame.size.height = estimatedsize.height + 20
+            
+        } else {
+            textView.isScrollEnabled = true
+            self.viewRemark.frame.size.height = 100 + 10
+        }
+        
+        if self.stackAddPhotos.isHidden {
+            self.scrollViewSaveActivity.contentSize.height = self.collectionViewAddPhotos.frame.origin.y + self.collectionViewAddPhotos.frame.size.height + 30
+
+        }
+        else {
+            self.scrollViewSaveActivity.contentSize.height = self.stackAddPhotos.frame.origin.y + self.stackAddPhotos.frame.size.height + 30
+        }
+        
+    }
     
+}
+
+
 //    func textViewDidChange(_ textView: UITextView) {
-//        
+//
 //        let inset = textView.textContainerInset.top + textView.textContainerInset.bottom
 //        let lineHeight = textView.font?.lineHeight ?? 0
-//        
+//
 //        let minHeight = lineHeight * 2 + inset
 //        let maxHeight = lineHeight * 5 + inset
 //
@@ -402,5 +425,3 @@ extension ActivitySaveViewController : UITextViewDelegate {
 //        }
 //
 //    }
-    
-}
