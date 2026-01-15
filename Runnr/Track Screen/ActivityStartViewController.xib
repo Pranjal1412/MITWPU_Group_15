@@ -35,16 +35,16 @@
                     <size key="shadowOffset" width="4" height="-1"/>
                 </label>
                 <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="hZH-yQ-OnW">
-                    <rect key="frame" x="293" y="90" width="89" height="40"/>
+                    <rect key="frame" x="288.66666666666669" y="90" width="93.333333333333314" height="40"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ud6-ud-XK5">
-                            <rect key="frame" x="0.0" y="0.0" width="39" height="40"/>
-                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                            <rect key="frame" x="0.0" y="0.0" width="43.333333333333336" height="40"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Gf-fZ-d3D">
-                            <rect key="frame" x="49" y="0.0" width="40" height="40"/>
+                            <rect key="frame" x="53.333333333333314" y="0.0" width="40" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="6QO-Cn-Gfn"/>
                                 <constraint firstAttribute="width" constant="40" id="YS2-hu-pww"/>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24127" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -16,6 +16,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="InsightsScreenViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
+                <outlet property="buttonUserProfile" destination="e3J-RG-qPA" id="5Dg-qC-o9p"/>
                 <outlet property="collectionViewHeightConstraint" destination="GhM-lb-Pv0" id="tjT-XL-Gw1"/>
                 <outlet property="collectionViewInsightsCards" destination="6A4-Va-OoK" id="rMQ-6o-RpX"/>
                 <outlet property="labelStreak" destination="rbJ-Vz-FHC" id="k2N-Uz-A6w"/>
@@ -30,7 +31,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Insights" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dDs-5u-QI8">
-                    <rect key="frame" x="25" y="90" width="119" height="40"/>
+                    <rect key="frame" x="25" y="90" width="115" height="40"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="DOa-6q-YGF"/>
                     </constraints>
@@ -88,16 +89,16 @@
                     <viewLayoutGuide key="frameLayoutGuide" id="baY-ae-sga"/>
                 </scrollView>
                 <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="6jZ-nn-cvY">
-                    <rect key="frame" x="290.66666666666669" y="90" width="91.333333333333314" height="40"/>
+                    <rect key="frame" x="288.66666666666669" y="90" width="93.333333333333314" height="40"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x2z-SB-2Cu">
-                            <rect key="frame" x="0.0" y="0.0" width="41.333333333333336" height="40"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <rect key="frame" x="0.0" y="0.0" width="43.333333333333336" height="40"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e3J-RG-qPA">
-                            <rect key="frame" x="51.333333333333314" y="0.0" width="40" height="40"/>
+                            <rect key="frame" x="53.333333333333314" y="0.0" width="40" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="UWA-S1-DhS"/>
                                 <constraint firstAttribute="width" constant="40" id="cjL-ez-Ouk"/>
@@ -129,7 +130,7 @@
         </view>
     </objects>
     <resources>
-        <image name="user3" width="120" height="120"/>
+        <image name="user3" width="40" height="40"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

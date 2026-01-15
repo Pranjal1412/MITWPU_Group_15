@@ -9,7 +9,7 @@ class ActivityScreenViewController: UIViewController {
     @IBOutlet weak var labelScreenTitle: UILabel!
     @IBOutlet weak var stackRecentActivities: UIStackView!
     @IBOutlet weak var labelTotalPoints: UILabel!
-    @IBOutlet weak var buttonUserProfile: UIImageView!
+    @IBOutlet weak var buttonUserProfile: UIButton!
     
     let label = UILabel()
 
@@ -39,6 +39,7 @@ class ActivityScreenViewController: UIViewController {
         view.addSubview(label)
         
         self.buttonUserProfile.layer.cornerRadius = self.buttonUserProfile.frame.height / 2
+        self.buttonUserProfile.clipsToBounds = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -119,6 +120,14 @@ class ActivityScreenViewController: UIViewController {
             tableViewMyActivity.isHidden = false
             tableViewFriendsActivity.isHidden = true
         }
+    }
+    
+    @IBAction func profileButtonPressed(_ sender: UIButton) {
+        
+        let destinationVC = UserProfileViewController()
+        destinationVC.modalPresentationStyle = .fullScreen
+        self.present(destinationVC, animated: true, completion: nil)
+        
     }
 }
 

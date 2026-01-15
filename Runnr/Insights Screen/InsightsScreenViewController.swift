@@ -6,7 +6,8 @@ class InsightsScreenViewController: UIViewController {
     @IBOutlet weak var labelTotalPoints: UILabel!
     @IBOutlet weak var collectionViewInsightsCards: UICollectionView!
     @IBOutlet weak var scrollViewInsights: UIScrollView!
-
+    @IBOutlet weak var buttonUserProfile: UIButton!
+    
     @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!
 
     private var calendarView: UICalendarView!
@@ -34,6 +35,9 @@ class InsightsScreenViewController: UIViewController {
         setupScrollView()
         setupCollectionView()
         setupCalendar()
+        
+        self.buttonUserProfile.layer.cornerRadius = self.buttonUserProfile.layer.frame.height / 2
+        self.buttonUserProfile.clipsToBounds = true
     }
 
     override func viewWillAppear(_ animated: Bool) {

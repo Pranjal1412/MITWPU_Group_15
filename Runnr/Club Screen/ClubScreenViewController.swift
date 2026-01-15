@@ -20,7 +20,14 @@ class ClubScreenViewController: UIViewController {
     @IBOutlet var labelYourClubs: UILabel!
     @IBOutlet var buttonAddMoreClubs: UIButton!
     
+    @IBOutlet weak var labelTotalPoints: UILabel!
+    @IBOutlet weak var buttonUserProfile: UIButton!
+    
     let systemOS = UIDevice.current.systemVersion
+    var dataSource = DataSource.shared
+    var totalPoints: Int {
+        dataSource.getTotalRunnrPoints()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +39,9 @@ class ClubScreenViewController: UIViewController {
         tableViewFriends.dataSource = self
         tableViewFriends.delegate = self
         tableViewFriends.register(UINib(nibName: "FriendListTableViewCell", bundle: nil), forCellReuseIdentifier: "CustomCell")
+        
+        self.buttonUserProfile.layer.cornerRadius = self.buttonUserProfile.frame.height / 2
+        self.buttonUserProfile.clipsToBounds = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -45,6 +55,8 @@ class ClubScreenViewController: UIViewController {
         collectionViewJoinedClub.reloadData()
         tableViewFriends.reloadData()
         collectionViewExplore.reloadData()
+        
+        self.labelTotalPoints.text = "\(totalPoints)"
     }
     
     @IBAction func segmentShiftAction(_ sender: UISegmentedControl) {
@@ -98,6 +110,14 @@ class ClubScreenViewController: UIViewController {
          default:
              break
          }
+        
+    }
+    
+    @IBAction func profileButtonPressed(_ sender: UIButton) {
+        
+        let destinationVC = UserProfileViewController()
+        destinationVC.modalPresentationStyle = .fullScreen
+        self.present(destinationVC, animated: true, completion: nil)
         
     }
     

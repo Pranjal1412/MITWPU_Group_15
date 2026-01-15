@@ -16,10 +16,16 @@ class GameScreenViewController: UIViewController {
     @IBOutlet weak var collectionViewCompleted: UICollectionView!
     @IBOutlet weak var segmentedControlGame: UISegmentedControl!
     @IBOutlet weak var labelScreenTitle: UILabel!
+    @IBOutlet weak var labelTotalPoints: UILabel!
+    @IBOutlet weak var buttonUserProfile: UIButton!
     
     private let sideInset: CGFloat = 15
     private let cellHeight: CGFloat = 166
-
+    var dataSource = DataSource.shared
+    var totalPoints: Int {
+        dataSource.getTotalRunnrPoints()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -31,8 +37,15 @@ class GameScreenViewController: UIViewController {
         collectionViewUpcoming.isHidden = true
         collectionViewCompleted.isHidden = true
         labelScreenTitle.sizeToFit()
+        
+        self.buttonUserProfile.layer.cornerRadius = self.buttonUserProfile.frame.height / 2
+        self.buttonUserProfile.clipsToBounds = true
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        self.labelTotalPoints.text = "\(totalPoints)"
+    }
+    
     func setupCollectionView() {
         collectionViewOngoing.delegate = self
         collectionViewOngoing.dataSource = self
@@ -71,7 +84,15 @@ class GameScreenViewController: UIViewController {
         button1V1.layer.cornerRadius = button1V1.frame.height / 2
         buttonClub.layer.cornerRadius = buttonClub.frame.height / 2
     }
-
+    
+    @IBAction func profileButtonPressed(_ sender: UIButton) {
+        
+        let destinationVC = UserProfileViewController()
+        destinationVC.modalPresentationStyle = .fullScreen
+        self.present(destinationVC, animated: true, completion: nil)
+        
+    }
+    
     @IBAction func segmentControlChange(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 1 {
             collectionViewOngoing.isHidden = true

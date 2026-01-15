@@ -18,10 +18,12 @@
             <connections>
                 <outlet property="button1V1" destination="Md5-ni-0UJ" id="fAU-iV-aDj"/>
                 <outlet property="buttonClub" destination="VYr-bE-GIx" id="IUj-Fg-fCr"/>
+                <outlet property="buttonUserProfile" destination="oKs-Ma-NWb" id="Z0u-de-nXi"/>
                 <outlet property="collectionViewCompleted" destination="CGv-op-xny" id="5Bt-ov-XxJ"/>
                 <outlet property="collectionViewOngoing" destination="hTm-UN-AV2" id="C3b-tG-Qjw"/>
                 <outlet property="collectionViewUpcoming" destination="1Xe-8Q-paj" id="i3t-i9-GtD"/>
                 <outlet property="labelScreenTitle" destination="ak8-md-SGm" id="9zm-C3-sGm"/>
+                <outlet property="labelTotalPoints" destination="190-d9-XHs" id="YhW-l3-Tat"/>
                 <outlet property="segmentedControlGame" destination="0Gq-Ps-LxO" id="pkN-pB-XEf"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -47,7 +49,7 @@
                     </connections>
                 </segmentedControl>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Game" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ak8-md-SGm">
-                    <rect key="frame" x="24.999999999999993" y="90" width="88.333333333333314" height="40"/>
+                    <rect key="frame" x="25.000000000000007" y="90" width="88.666666666666686" height="40"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="nW9-oC-wXg"/>
                     </constraints>
@@ -139,6 +141,29 @@
                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     </collectionViewFlowLayout>
                 </collectionView>
+                <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="JTb-tV-eWT">
+                    <rect key="frame" x="288.66666666666669" y="90" width="93.333333333333314" height="40"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="190-d9-XHs">
+                            <rect key="frame" x="0.0" y="0.0" width="43.333333333333336" height="40"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oKs-Ma-NWb">
+                            <rect key="frame" x="53.333333333333314" y="0.0" width="40" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="40" id="9cK-ui-fzW"/>
+                                <constraint firstAttribute="height" constant="40" id="PeU-bH-TcJ"/>
+                            </constraints>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" image="user3"/>
+                            <connections>
+                                <action selector="profileButtonPressed:" destination="-1" eventType="touchUpInside" id="VEG-DH-oU6"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                </stackView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -152,12 +177,14 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Vh0-T3-Pzc" secondAttribute="trailing" id="TQC-9Q-Njh"/>
                 <constraint firstItem="1Xe-8Q-paj" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="TwB-2o-dCF"/>
                 <constraint firstItem="0Gq-Ps-LxO" firstAttribute="top" secondItem="ak8-md-SGm" secondAttribute="bottom" constant="18.329999999999998" id="XIO-eI-mSg"/>
+                <constraint firstItem="JTb-tV-eWT" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="90" id="bMp-Je-4Jo"/>
                 <constraint firstItem="CGv-op-xny" firstAttribute="top" secondItem="Vh0-T3-Pzc" secondAttribute="bottom" constant="15" id="bvW-bB-KOj"/>
                 <constraint firstItem="1Xe-8Q-paj" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="c1u-q8-HPY"/>
                 <constraint firstItem="1Xe-8Q-paj" firstAttribute="top" secondItem="Vh0-T3-Pzc" secondAttribute="bottom" constant="15" id="cZA-8k-diq"/>
                 <constraint firstItem="hTm-UN-AV2" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="fxc-cf-bqK"/>
                 <constraint firstItem="CGv-op-xny" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="j1g-X3-Rdv"/>
                 <constraint firstItem="0Gq-Ps-LxO" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="l6D-CM-1s0"/>
+                <constraint firstAttribute="trailing" secondItem="JTb-tV-eWT" secondAttribute="trailing" constant="20" id="lua-ZN-mJl"/>
                 <constraint firstAttribute="bottom" secondItem="hTm-UN-AV2" secondAttribute="bottom" id="qH9-eh-06m"/>
                 <constraint firstItem="hTm-UN-AV2" firstAttribute="top" secondItem="Vh0-T3-Pzc" secondAttribute="bottom" constant="15" id="rvw-hf-Rim"/>
                 <constraint firstAttribute="bottom" secondItem="1Xe-8Q-paj" secondAttribute="bottom" id="vGN-qf-bku"/>
@@ -170,6 +197,7 @@
     </objects>
     <resources>
         <image name="GameBackground" width="1206" height="885"/>
+        <image name="user3" width="40" height="40"/>
         <namedColor name="AccentColor">
             <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
