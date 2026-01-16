@@ -50,6 +50,8 @@ class ActivityLiveTrackingViewController: UIViewController {
     var isMapInitialized = false
     var isAudioFeedbackOn = false
     let topGradientView = UIView()
+    let bottomGradientView = UIView()
+    let leftGradientView = UIView()
     var activityTypeSelected : String = ""
     
     var activityStartTime: Date?
@@ -75,9 +77,9 @@ class ActivityLiveTrackingViewController: UIViewController {
         
             if self.isMapInitialized == false {
                                 
-                let mapView = self.mapManager.initializeMaps(withX: 20.0, withY: 70.0,
-                                                             withWidth: self.view.frame.width - 60.0,
-                                                             withHeight: self.view.frame.height - 140.0,
+                let mapView = self.mapManager.initializeMaps(withX: 5, withY: 0,
+                                                             withWidth: self.viewActivityTrack.frame.width - 10.0,
+                                                             withHeight: self.viewActivityTrack.frame.height - 5,
                                                              location: location.coordinate)
               
                 self.mapManager.userLocationMarkerSetting(isEnabled: true)
@@ -85,9 +87,9 @@ class ActivityLiveTrackingViewController: UIViewController {
                 mapView.settings.zoomGestures = true
                 mapView.settings.scrollGestures = true
                 self.viewActivityTrack.addSubview(mapView)
-                
+                self.settingMapGradients()
+
                 self.mapManager.setRouteLineStyle()
-                
                 self.userLocation.locationManager.distanceFilter = 6
                 self.isMapInitialized = true
                 
@@ -112,15 +114,7 @@ class ActivityLiveTrackingViewController: UIViewController {
             print("Path Count: \(self.mapManager.path.count())")
             
         }
-        
-        self.topGradientView.frame.size.width = self.view.bounds.width
-        self.topGradientView.frame.size.height = 100.0
-        self.topGradientView.frame.origin.y = 0.0
-        self.topGradientView.frame.origin.x = 0.0
-        addTopGradient(to: self.topGradientView)
-        viewActivityTrack.addSubview(self.topGradientView)
-
-        
+  
         do {
             try AVAudioSession.sharedInstance().setCategory(
                 .playback,
@@ -356,6 +350,29 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         buttonPause.imageEdgeInsets = UIEdgeInsets(top: 32, left: 35, bottom: 32, right: 35)
         buttonEndRun.imageEdgeInsets = UIEdgeInsets(top: 38, left: 38, bottom: 38, right: 38)
+    }
+    
+    func settingMapGradients() {
+        self.topGradientView.frame.size.height = 200
+        self.topGradientView.frame.size.width = self.view.frame.size.width
+        self.topGradientView.frame.origin.y = 0
+        self.topGradientView.frame.origin.x = 0
+        addTopGradient(to: self.topGradientView)
+        self.viewActivityTrack.addSubview(self.topGradientView)
+        
+        self.bottomGradientView.frame.size.height = 10
+        self.bottomGradientView.frame.size.width = self.view.frame.size.width
+        self.bottomGradientView.frame.origin.y = view.frame.height - 10
+        self.bottomGradientView.frame.origin.x = 0
+        addBottomGradient(to: self.bottomGradientView)
+        self.viewActivityTrack.addSubview(self.bottomGradientView)
+        
+        self.leftGradientView.frame.size.height = self.view.frame.size.height
+        self.leftGradientView.frame.size.width = 100
+        self.leftGradientView.frame.origin.y = 0
+        self.leftGradientView.frame.origin.x = 0
+        addLeadingToTrailingGradient(to: self.leftGradientView)
+        self.viewActivityTrack.addSubview(self.leftGradientView)
     }
     
     func convertPathToCoordinates(_ path: GMSMutablePath) -> [CLLocationCoordinate2D] {

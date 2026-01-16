@@ -39,6 +39,9 @@ class ActivityStartViewController: UIViewController {
         labelScreenTitle.sizeToFit()
         self.buttonUserProfile.layer.cornerRadius = self.buttonUserProfile.frame.height / 2
         self.buttonUserProfile.clipsToBounds = true
+        
+        self.createStartButton()
+
     }
 
     override func viewWillAppear(_ animated: Bool) {

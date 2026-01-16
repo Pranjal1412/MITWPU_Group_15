@@ -57,16 +57,16 @@ class FriendsActivityTableViewCell: UITableViewCell {
         
         if activity.timeHour != 0 {
             timeText = NSMutableAttributedString(string: String(format: "%02d", activity.timeHour), attributes: [.font: valueFont, .foregroundColor: UIColor.accent])
-            timeText.append(NSAttributedString(string: " hr ", attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
+            timeText.append(NSAttributedString(string: "hr ", attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
         }
         
         timeText.append(NSAttributedString(string: String(format: "%02d", activity.timeMin), attributes: [.font: valueFont, .foregroundColor: UIColor.accent]))
         
-        timeText.append(NSAttributedString(string: " min ", attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
+        timeText.append(NSAttributedString(string: "min ", attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
         
         timeText.append(NSAttributedString(string: " " + String(format: "%02d", activity.timeSec), attributes: [.font: valueFont, .foregroundColor: UIColor.accent]))
         
-        timeText.append(NSAttributedString(string: " sec", attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
+        timeText.append(NSAttributedString(string: "sec", attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
         
         labelTimeContent.attributedText = timeText
         
