@@ -107,7 +107,6 @@ class ActivitySetGoalViewController: UIViewController {
     }
     
     @IBAction func cancelButtonPressed(_ sender: UIButton) {
-        
         self.dismiss(animated: true)
     }
     

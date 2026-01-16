@@ -38,7 +38,6 @@ class ActivityLiveTrackingViewController: UIViewController {
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var switchAudioFeedback: UISwitch!
     
-    
     let speechSynthesizer = AVSpeechSynthesizer()   //adding synthesizer
     var lastAnnouncedKm = 0
 
@@ -157,6 +156,18 @@ class ActivityLiveTrackingViewController: UIViewController {
         speechSynthesizer.speak(utterance)
     }
 
+    func announceKilometer(_ km: Int) {
+        guard isAudioFeedbackOn else { return }
+
+        let utterance = AVSpeechUtterance(
+            string: "You have completed \(km) kilometers"
+        )
+        utterance.voice = AVSpeechSynthesisVoice(language: "en-IN")
+        utterance.rate = 0.5
+        utterance.pitchMultiplier = 1.1
+
+        speechSynthesizer.speak(utterance)
+    }
     
     @IBAction func pauseButtonPressed(_ sender: UIButton) {
                 
@@ -259,20 +270,6 @@ class ActivityLiveTrackingViewController: UIViewController {
         
     }
     
-    func announceKilometer(_ km: Int) {
-        guard isAudioFeedbackOn else { return }
-
-        let utterance = AVSpeechUtterance(
-            string: "You have completed \(km) kilometers"
-        )
-        utterance.voice = AVSpeechSynthesisVoice(language: "en-IN")
-        utterance.rate = 0.5
-        utterance.pitchMultiplier = 1.1
-
-        speechSynthesizer.speak(utterance)
-    }
-
-    
     @objc func updateTimer() {
         if counter < 0 {
             self.viewCountdown.isHidden = true
@@ -280,8 +277,7 @@ class ActivityLiveTrackingViewController: UIViewController {
             pageControl.isHidden = false
             
             self.activityManager.startTimer()
-            activityManager.startStepsTracking()
-            
+            self.activityManager.startStepsTracking()
             self.announceRunStarted()
             
             timer?.invalidate()

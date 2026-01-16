@@ -46,7 +46,7 @@ class AllActivitiesViewController: UIViewController {
     
 }
 
-//MARK: - TableView Settings
+//TableView Settings
 extension AllActivitiesViewController : UITableViewDelegate, UITableViewDataSource {
         
         func numberOfSections(in tableView: UITableView) -> Int {

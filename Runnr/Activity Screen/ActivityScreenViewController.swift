@@ -131,8 +131,7 @@ class ActivityScreenViewController: UIViewController {
     }
 }
 
-
-//MARK: - TableView Settings
+//TableView Settings
 extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -198,7 +197,7 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
     }
 }
 
-//MARK: - Activity Settings
+//Activity Settings
 extension ActivityScreenViewController {
     
     @objc func didTapOnMoreOptions(_ sender: UIButton) {

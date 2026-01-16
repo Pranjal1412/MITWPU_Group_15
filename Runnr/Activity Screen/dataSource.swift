@@ -15,29 +15,31 @@ class DataSource {
     
     func loadSampleData() {
         let friendsSampleData : [FriendsRunActivity] = [ FriendsRunActivity(
-            name: "Ava Brooks",
-            date: "September 7, 6:15 am",
+            userName: "Ava Brooks",
+            timeStamp: "September 7, 6:15 am",
             runTitle: "Morning Run!",
             distanceValue: 7.2,
             distanceUnit: "km",
             paceValue: "7:45",
             paceUnit: "/km",
-            timeValue: "01 hr 34 min",
-            timeUnit: "50 sec",
-            photos: ["run1", "run2", "mapSample"],
+            timeHour: 1,
+            timeMin: 34,
+            timeSec: 47,
+            activityPhotos: ["run1", "run2", "mapSample"],
             note: "First run in a while, tough, but refreshing excited to rebuild step-by-step."
         ),
         FriendsRunActivity(
-            name: "Ava Brooks",
-            date: "September 8, 6:20 am",
+            userName: "Ava Brooks",
+            timeStamp: "September 8, 6:20 am",
             runTitle: "Steady Run",
             distanceValue: 8.8,
             distanceUnit: "km",
             paceValue: "6:40",
             paceUnit: "/km",
-            timeValue: "01 hr 18 min",
-            timeUnit: "14 sec",
-            photos: ["run1", "run2", "mapSample"],
+            timeHour: 0,
+            timeMin: 52,
+            timeSec: 13,
+            activityPhotos: ["run1", "run2", "mapSample"],
             note: "Tough start, but refreshing to get moving again. Excited to rebuild consistency, step by step."
         )]
         

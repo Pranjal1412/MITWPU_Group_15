@@ -130,7 +130,7 @@ class InsightsScreenViewController: UIViewController {
         ])
     }
 
-    // MARK: - Trend Text
+    // Trend Text
     private func trendText(current: Double, previous: Double, unit: String) -> String {
         let diff = current - previous
 

@@ -26,16 +26,17 @@ struct MyRunActivity {
 }
 
 struct FriendsRunActivity {
-    let name: String
-    let date: String
+    let userName: String
+    let timeStamp: String
     let runTitle: String
     let distanceValue: Double
     let distanceUnit: String
     let paceValue: String      
     let paceUnit: String
-    let timeValue: String
-    let timeUnit: String
-    let photos: [String]
+    let timeHour: Int
+    let timeMin: Int
+    let timeSec: Int
+    let activityPhotos: [String]
     let note: String
 }
 

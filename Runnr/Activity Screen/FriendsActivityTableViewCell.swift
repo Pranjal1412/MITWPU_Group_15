@@ -29,8 +29,8 @@ class FriendsActivityTableViewCell: UITableViewCell {
     }
 
     func configure(with activity: FriendsRunActivity) {
-        labelName.text = activity.name
-        labelDate.text = activity.date
+        labelName.text = activity.userName
+        labelDate.text = activity.timeStamp
         labelRunTitle.text = activity.runTitle
         labelNote.text = activity.note
         labelDistance.text = "Distance"
@@ -53,46 +53,26 @@ class FriendsActivityTableViewCell: UITableViewCell {
         paceText.append(NSAttributedString(string: " " + activity.paceUnit,
                                            attributes: [.font: unitFont, .foregroundColor: highlightColor]))
         labelPaceContent.attributedText = paceText
-        let timeText = NSMutableAttributedString()
-        let timeValueComponents = activity.timeValue.components(separatedBy: " ")
-        var i = 0
-        while i < timeValueComponents.count {
-            let part = timeValueComponents[i]
-            if Int(part) != nil {
-                timeText.append(NSAttributedString(
-                    string: part + " ",
-                    attributes: [.font: valueFont, .foregroundColor: highlightColor]
-                ))
-            } else {
-                timeText.append(NSAttributedString(
-                    string: part + " ",
-                    attributes: [.font: unitFont, .foregroundColor: highlightColor]
-                ))
-            }
-            i += 1
+        var timeText = NSMutableAttributedString()
+        
+        if activity.timeHour != 0 {
+            timeText = NSMutableAttributedString(string: String(format: "%02d", activity.timeHour), attributes: [.font: valueFont, .foregroundColor: UIColor.accent])
+            timeText.append(NSAttributedString(string: " hr ", attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
         }
         
-        let timeUnitComponents = activity.timeUnit.components(separatedBy: " ")
-        i = 0
-        while i < timeUnitComponents.count {
-            let part = timeUnitComponents[i]
-            if Int(part) != nil {
-                timeText.append(NSAttributedString(
-                    string: part + " ",
-                    attributes: [.font: valueFont, .foregroundColor: highlightColor]
-                ))
-            } else {
-                timeText.append(NSAttributedString(
-                    string: part + " ",
-                    attributes: [.font: unitFont, .foregroundColor: highlightColor]
-                ))
-            }
-            i += 1
-        }
+        timeText.append(NSAttributedString(string: String(format: "%02d", activity.timeMin), attributes: [.font: valueFont, .foregroundColor: UIColor.accent]))
+        
+        timeText.append(NSAttributedString(string: " min ", attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
+        
+        timeText.append(NSAttributedString(string: " " + String(format: "%02d", activity.timeSec), attributes: [.font: valueFont, .foregroundColor: UIColor.accent]))
+        
+        timeText.append(NSAttributedString(string: " sec", attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
+        
         labelTimeContent.attributedText = timeText
+        
         labelPaceContent.minimumScaleFactor = 0.5
         collectionViewPhotos.backgroundColor = .clear
-        setPhotos(activity.photos)
+        setPhotos(activity.activityPhotos)
     }
 
     func setPhotos(_ names: [String]) {
@@ -101,8 +81,7 @@ class FriendsActivityTableViewCell: UITableViewCell {
     }
 }
 
-//MARK: - CollectionView Settings
-
+// CollectionView Settings
 extension FriendsActivityTableViewCell: UICollectionViewDataSource,
                                         UICollectionViewDelegate,
                                         UICollectionViewDelegateFlowLayout {
