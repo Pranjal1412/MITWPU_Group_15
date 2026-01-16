@@ -1,10 +1,3 @@
-//
-//  GameSetOneViewController.swift
-//  Runnr
-//
-//  Created by Archit Kankaria on 05/01/26.
-//
-
 import UIKit
 
 class GameSetOneViewController: UIViewController {
@@ -168,15 +161,11 @@ class GameSetOneViewController: UIViewController {
  
     @IBAction func colorSelection(_ sender: UIButton) {
         let colorButtons = [buttonMint, buttonCyan, buttonRed]
-            
-            // 2. Loop through all buttons to reset them to a "deselected" state
             colorButtons.forEach { button in
                 button?.tag = 0
                 button?.layer.borderWidth = 0.0
-                button?.layer.cornerRadius = 0 // Or your default radius
+                button?.layer.cornerRadius = 0
             }
-            
-            // 3. Select only the button that was tapped
             sender.tag = 1
             sender.layer.borderWidth = 4.0
             sender.layer.borderColor = UIColor.white.cgColor

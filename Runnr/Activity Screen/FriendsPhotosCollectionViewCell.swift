@@ -1,10 +1,3 @@
-//
-//  CollectionViewCell.swift
-//  Runnr
-//
-//  Created by Archit Kankaria on 16/12/25.
-//
-
 import UIKit
 
 class FriendsPhotosCollectionViewCell: UICollectionViewCell {

@@ -1,10 +1,3 @@
-//
-//  YourInformationViewController.swift
-//  Runnr
-//
-//  Created by Archit Kankaria on 12/01/26.
-//
-
 import UIKit
 import PhotosUI
 class YourInformationViewController: UIViewController {

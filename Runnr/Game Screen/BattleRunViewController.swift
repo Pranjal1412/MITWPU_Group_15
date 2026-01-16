@@ -1,14 +1,7 @@
-    //
-    //  BattleRunViewController.swift
-    //  Runnr
-    //
-    //  Created by Archit Kankaria on 17/12/25.
-    //
-
-    import UIKit
-    import RealityKit
-    import ARKit
-    import Combine
+import UIKit
+import RealityKit
+import ARKit
+import Combine
 
 class BattleRunViewController: UIViewController {
 
@@ -98,7 +91,7 @@ class BattleRunViewController: UIViewController {
            boardController = BoardController(root: root, game: game)
            updateCaptureCounter()
        } catch {
-           print("❌ Load failed: \(error)")
+           print("Load failed: \(error)")
        }
    }
 
@@ -141,19 +134,15 @@ class BattleRunViewController: UIViewController {
    func updateTileMaterial(id: String, controller: BoardController) {
        guard let model = controller.tileEntities[id], let tileData = game.tiles[id] else { return }
        let color = ownerColor(for: tileData.owner)
-       
-       // Use material blending instead of OpacityComponent to keep children opaque
        var material = UnlitMaterial(color: color)
        material.blending = .transparent(opacity: 0.75)
        
        if var modelComponent = model.model {
            modelComponent.materials = [material]
            model.model = modelComponent
-           // Ensure child entities (flags) aren't affected by parent transparency
            if #available(iOS 18.0, *) {
                model.components.remove(OpacityComponent.self)
            } else {
-               // Fallback on earlier versions
            }
        }
    }
@@ -217,8 +206,6 @@ class BattleRunViewController: UIViewController {
 
 }
 
-// MARK: - Safe Animations Extension
-
 extension Entity {
    func playPopAnimation() {
        let originalScale = self.scale
@@ -234,7 +221,6 @@ extension Entity {
    }
 }
 
-// MARK: - Game Classes
 
 enum Player { case me, lea }
 enum TileOwner { case none, player(Player) }

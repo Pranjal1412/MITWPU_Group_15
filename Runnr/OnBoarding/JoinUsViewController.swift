@@ -30,7 +30,6 @@ class JoinUsViewController: UIViewController {
     
     @IBAction func signUpButtonPressed(_ sender: UIButton) {
         isSignUpComplete = true
-        //self.navigationController?.popToRootViewController(animated: false)
         let destinationVC = YourInformationViewController()
         self.navigationController?.pushViewController(destinationVC, animated: true)
     }
@@ -78,8 +77,6 @@ class JoinUsViewController: UIViewController {
         buttonApple.setTitle(String(localized: "Sign Up with Apple ID"), for: .normal)
         
         buttonGoogle.layer.cornerRadius = buttonGoogle.frame.height / 2
-        //buttonGoogle.setTitle(String(localized: "Sign Up with Google"), for: .normal)
-        
         if #available(iOS 26.0, *) {
             self.buttonBack.configuration = .glass()
         }
@@ -99,8 +96,6 @@ class JoinUsViewController: UIViewController {
                     print("Sign in failed: \(error.localizedDescription)")
                     return
                 }
-                
-                // Success!
                 let user = signInResult?.user
                 let emailAddress = user?.profile?.email
                 print("Successfully signed in as: \(emailAddress ?? "Unknown")")

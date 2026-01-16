@@ -1,10 +1,3 @@
-//
-//  FriendsActivityTableViewCell.swift
-//  Runnr
-//
-//  Created by Archit Kankaria on 27/11/25.
-//
-
 import UIKit
 
 class FriendsActivityTableViewCell: UITableViewCell {
@@ -44,30 +37,22 @@ class FriendsActivityTableViewCell: UITableViewCell {
         labelPace.text = "Pace"
         labelTime.text = "Time"
         imageProfile.layer.cornerRadius = imageProfile.frame.height / 2
-
-        // Fonts/colors
         let valueFont = UIFont(name: "SFProText-Medium", size: 20)
             ?? UIFont.systemFont(ofSize: 20, weight: .medium)
         let unitFont = UIFont(name: "SFProText-Light", size: 11)
             ?? UIFont.systemFont(ofSize: 11, weight: .light)
         let highlightColor = UIColor(red: 173/255, green: 248/255, blue: 69/255, alpha: 1)
-
-        // Distance
         let distanceValue = String(format: "%.1f", activity.distanceValue)
         let distanceText = NSMutableAttributedString(string: distanceValue,
                                                      attributes: [.font: valueFont, .foregroundColor: highlightColor])
         distanceText.append(NSAttributedString(string: " " + activity.distanceUnit,
                                                attributes: [.font: unitFont, .foregroundColor: highlightColor]))
         labelDistanceContent.attributedText = distanceText
-
-        // Pace
         let paceText = NSMutableAttributedString(string: activity.paceValue,
                                                  attributes: [.font: valueFont, .foregroundColor: highlightColor])
         paceText.append(NSAttributedString(string: " " + activity.paceUnit,
                                            attributes: [.font: unitFont, .foregroundColor: highlightColor]))
         labelPaceContent.attributedText = paceText
-
-        // Time
         let timeText = NSMutableAttributedString()
         let timeValueComponents = activity.timeValue.components(separatedBy: " ")
         var i = 0
@@ -115,8 +100,6 @@ class FriendsActivityTableViewCell: UITableViewCell {
         print("photos in cell:", photos)
     }
 }
-
-// MARK: - Collection view
 
 extension FriendsActivityTableViewCell: UICollectionViewDataSource,
                                         UICollectionViewDelegate,

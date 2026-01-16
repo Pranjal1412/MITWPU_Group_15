@@ -131,7 +131,6 @@ class ActivityScreenViewController: UIViewController {
     }
 }
 
-//MARK: - Table View Settings
 extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {

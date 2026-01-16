@@ -1,10 +1,3 @@
-//
-//  AllActivitiesViewController.swift
-//  Runnr
-//
-//  Created by Archit Kankaria on 26/11/25.
-//
-
 import UIKit
 
 class AllActivitiesViewController: UIViewController {
@@ -52,8 +45,6 @@ class AllActivitiesViewController: UIViewController {
     }
     
 }
-
-// MARK: - Table View code
 
 extension AllActivitiesViewController : UITableViewDelegate, UITableViewDataSource {
         
