@@ -8,7 +8,7 @@
 import UIKit
 import GoogleMaps
 import CoreMotion
-import AVFoundation
+import AVFoundation     //for audio feedback
 
 class ActivityLiveTrackingViewController: UIViewController {
 
@@ -39,7 +39,7 @@ class ActivityLiveTrackingViewController: UIViewController {
     @IBOutlet weak var switchAudioFeedback: UISwitch!
     
     
-    let speechSynthesizer = AVSpeechSynthesizer()
+    let speechSynthesizer = AVSpeechSynthesizer()   //adding synthesizer
     var lastAnnouncedKm = 0
 
     let userLocation = UserLocationManager()
