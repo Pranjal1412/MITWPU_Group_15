@@ -8,6 +8,7 @@
 import UIKit
 import GoogleMaps
 import CoreMotion
+import AVFoundation
 
 class ActivityLiveTrackingViewController: UIViewController {
 
@@ -37,6 +38,10 @@ class ActivityLiveTrackingViewController: UIViewController {
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var switchAudioFeedback: UISwitch!
     
+    
+    let speechSynthesizer = AVSpeechSynthesizer()
+    var lastAnnouncedKm = 0
+
     let userLocation = UserLocationManager()
     let mapManager = MapManager()
     var bounds = GMSCoordinateBounds()
@@ -95,6 +100,13 @@ class ActivityLiveTrackingViewController: UIViewController {
             self.activityManager.startUpdatingDistance(with: location)
             self.labelDistanceCounter.text = String(format: "%.2f", self.activityManager.totalDistance)
             
+            let currentKm = Int(self.activityManager.totalDistance)
+
+            if currentKm > self.lastAnnouncedKm {
+                self.lastAnnouncedKm = currentKm
+                self.announceKilometer(currentKm)
+            }
+            
             self.activityManager.showLivePace(using: location)
             self.labelPaceCounter.text = String(format: "%.2f", self.activityManager.currentPace)
 
@@ -109,6 +121,18 @@ class ActivityLiveTrackingViewController: UIViewController {
         addTopGradient(to: self.topGradientView)
         viewActivityTrack.addSubview(self.topGradientView)
 
+        
+        do {
+            try AVAudioSession.sharedInstance().setCategory(
+                .playback,
+                mode: .spokenAudio,
+                options: [.duckOthers]
+            )
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+            print("Audio session error")
+        }
+
     }
         
     override func viewDidAppear(_ animated: Bool) {
@@ -119,6 +143,20 @@ class ActivityLiveTrackingViewController: UIViewController {
         }
         
     }
+    
+    func announceRunStarted() {
+        guard isAudioFeedbackOn else { return }
+
+        let utterance = AVSpeechUtterance(
+            string: "Run started. All the best!"
+        )
+        utterance.voice = AVSpeechSynthesisVoice(language: "en-IN")
+        utterance.rate = 0.5
+        utterance.pitchMultiplier = 1.1
+
+        speechSynthesizer.speak(utterance)
+    }
+
     
     @IBAction func pauseButtonPressed(_ sender: UIButton) {
                 
@@ -221,6 +259,20 @@ class ActivityLiveTrackingViewController: UIViewController {
         
     }
     
+    func announceKilometer(_ km: Int) {
+        guard isAudioFeedbackOn else { return }
+
+        let utterance = AVSpeechUtterance(
+            string: "You have completed \(km) kilometers"
+        )
+        utterance.voice = AVSpeechSynthesisVoice(language: "en-IN")
+        utterance.rate = 0.5
+        utterance.pitchMultiplier = 1.1
+
+        speechSynthesizer.speak(utterance)
+    }
+
+    
     @objc func updateTimer() {
         if counter < 0 {
             self.viewCountdown.isHidden = true
@@ -229,6 +281,8 @@ class ActivityLiveTrackingViewController: UIViewController {
             
             self.activityManager.startTimer()
             activityManager.startStepsTracking()
+            
+            self.announceRunStarted()
             
             timer?.invalidate()
             timer = nil

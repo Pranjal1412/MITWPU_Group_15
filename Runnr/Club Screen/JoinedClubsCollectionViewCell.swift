@@ -20,6 +20,9 @@ class JoinedClubsCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         joinedClubView.layer.cornerRadius = 10
         joinedClubView.clipsToBounds = true
+        
+        ClubProfileImage.layer.cornerRadius = 10
+        ClubProfileImage.clipsToBounds = true
     }
     
     private func shortForm(for activity: String) -> String {
