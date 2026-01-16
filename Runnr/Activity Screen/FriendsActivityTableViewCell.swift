@@ -101,6 +101,8 @@ class FriendsActivityTableViewCell: UITableViewCell {
     }
 }
 
+//MARK: - CollectionView Settings
+
 extension FriendsActivityTableViewCell: UICollectionViewDataSource,
                                         UICollectionViewDelegate,
                                         UICollectionViewDelegateFlowLayout {

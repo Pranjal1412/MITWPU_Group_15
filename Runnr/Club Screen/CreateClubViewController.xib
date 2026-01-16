@@ -267,6 +267,11 @@
                         <constraint firstAttribute="bottom" secondItem="97n-47-BdF" secondAttribute="bottom" constant="53" id="tno-yx-rfu"/>
                         <constraint firstItem="Hn6-bU-9ha" firstAttribute="leading" secondItem="Biy-ss-bQ1" secondAttribute="leading" constant="25" id="zjn-QC-qcb"/>
                     </constraints>
+                    <variation key="default">
+                        <mask key="subviews">
+                            <exclude reference="D0N-uX-vXH"/>
+                        </mask>
+                    </variation>
                 </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>

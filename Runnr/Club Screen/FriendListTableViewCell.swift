@@ -18,6 +18,9 @@ class FriendListTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         buttonFollow.layer.cornerRadius = buttonFollow.frame.height / 2
+        
+        imageProfileFriends.layer.cornerRadius = imageProfileFriends.frame.height / 2
+        imageProfileFriends.clipsToBounds = true
     }
 
     func configureCell(with data: friendsData) {
