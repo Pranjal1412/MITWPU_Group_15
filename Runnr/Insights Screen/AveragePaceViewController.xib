@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24127" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -17,14 +17,12 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AveragePaceViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
                 <outlet property="collectionViewPace" destination="7pI-oX-NaV" id="doF-fo-Phd"/>
-                <outlet property="contentView" destination="emV-PJ-g5T" id="R7k-yl-Cfo"/>
                 <outlet property="labelAveragePace" destination="Fap-bn-E0y" id="Kzu-DI-UGJ"/>
                 <outlet property="labelNumber" destination="Ka2-4c-AO0" id="ntq-Em-L3P"/>
-                <outlet property="scrollView" destination="qpc-sI-Lbb" id="Vcr-do-0TL"/>
                 <outlet property="scrollViewMain" destination="Ezg-9O-IIZ" id="Ahc-ih-pwj"/>
                 <outlet property="segmentControlAveragePace" destination="MHi-Tx-JgM" id="X2L-eP-MEf"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
-                <outlet property="viewYAxis" destination="azE-0m-9kB" id="XY4-oH-S73"/>
+                <outlet property="viewGraphContainer" destination="b70-Vw-0DW" id="2Fr-gK-VQC"/>
                 <outlet property="weekRangeLabel" destination="vk2-72-EXv" id="YfE-i1-f6S"/>
             </connections>
         </placeholder>
@@ -37,7 +35,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Average Pace Trends" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0un-TE-uoR">
-                            <rect key="frame" x="16" y="492" width="370" height="30"/>
+                            <rect key="frame" x="16" y="490" width="370" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="GTK-QX-ZU3"/>
                             </constraints>
@@ -45,20 +43,6 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qpc-sI-Lbb">
-                            <rect key="frame" x="25" y="192" width="377" height="250"/>
-                            <subviews>
-                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="emV-PJ-g5T" customClass="AveragePaceGraph" customModule="Runnr" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="0.0" width="377" height="250"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                </view>
-                            </subviews>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="250" id="7kD-sJ-QvG"/>
-                            </constraints>
-                            <viewLayoutGuide key="contentLayoutGuide" id="bhh-mD-0Db"/>
-                            <viewLayoutGuide key="frameLayoutGuide" id="7dt-Sm-92R"/>
-                        </scrollView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Average Pace" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fap-bn-E0y">
                             <rect key="frame" x="16" y="97" width="370" height="20"/>
                             <constraints>
@@ -80,6 +64,9 @@
                                 <segment title="Y"/>
                             </segments>
                             <color key="selectedSegmentTintColor" name="AccentColor"/>
+                            <connections>
+                                <action selector="segmentControlClicked:" destination="-1" eventType="valueChanged" id="632-VE-bBI"/>
+                            </connections>
                         </segmentedControl>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7:90" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ka2-4c-AO0">
                             <rect key="frame" x="16" y="115" width="370" height="40"/>
@@ -91,7 +78,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="7pI-oX-NaV">
-                            <rect key="frame" x="16" y="542" width="370" height="311"/>
+                            <rect key="frame" x="16" y="540" width="370" height="313"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ncZ-wU-cbS">
                                 <size key="itemSize" width="128" height="128"/>
@@ -109,10 +96,12 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="azE-0m-9kB">
-                            <rect key="frame" x="0.0" y="192" width="25" height="250"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b70-Vw-0DW">
+                            <rect key="frame" x="16" y="215" width="370" height="250"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="250" id="jg9-da-hVP"/>
+                            </constraints>
                         </view>
                     </subviews>
                     <constraints>
@@ -121,10 +110,11 @@
                         <constraint firstItem="Ka2-4c-AO0" firstAttribute="top" secondItem="Fap-bn-E0y" secondAttribute="bottom" constant="-2" id="699-1h-f6t"/>
                         <constraint firstItem="Fap-bn-E0y" firstAttribute="top" secondItem="MHi-Tx-JgM" secondAttribute="bottom" constant="30" id="6NI-i3-A2Y"/>
                         <constraint firstItem="rpY-I8-euq" firstAttribute="bottom" secondItem="7pI-oX-NaV" secondAttribute="bottom" constant="21" id="9gK-ut-BhT"/>
-                        <constraint firstItem="qpc-sI-Lbb" firstAttribute="top" secondItem="Ka2-4c-AO0" secondAttribute="bottom" constant="37" id="9qd-K4-oF4"/>
+                        <constraint firstItem="b70-Vw-0DW" firstAttribute="leading" secondItem="rpY-I8-euq" secondAttribute="leading" constant="16" id="DaX-6C-cwg"/>
                         <constraint firstItem="MHi-Tx-JgM" firstAttribute="leading" secondItem="U8c-Qi-N9a" secondAttribute="leading" constant="16" id="E2d-QA-GLU"/>
                         <constraint firstItem="Fap-bn-E0y" firstAttribute="leading" secondItem="rpY-I8-euq" secondAttribute="leading" constant="16" id="ENM-FV-GRx"/>
-                        <constraint firstItem="0un-TE-uoR" firstAttribute="top" secondItem="qpc-sI-Lbb" secondAttribute="bottom" constant="50" id="FQI-2b-cNa"/>
+                        <constraint firstItem="rpY-I8-euq" firstAttribute="trailing" secondItem="b70-Vw-0DW" secondAttribute="trailing" constant="16" id="EO5-Q1-AsV"/>
+                        <constraint firstItem="0un-TE-uoR" firstAttribute="top" secondItem="b70-Vw-0DW" secondAttribute="bottom" constant="25" id="IUP-Qg-nmf"/>
                         <constraint firstItem="7pI-oX-NaV" firstAttribute="top" secondItem="0un-TE-uoR" secondAttribute="bottom" constant="20" id="Ieo-DE-qjD"/>
                         <constraint firstItem="rpY-I8-euq" firstAttribute="trailing" secondItem="7pI-oX-NaV" secondAttribute="trailing" constant="16" id="MFR-Xr-opc"/>
                         <constraint firstItem="U8c-Qi-N9a" firstAttribute="trailing" secondItem="MHi-Tx-JgM" secondAttribute="trailing" constant="-386" id="RQE-nm-UL4"/>
@@ -132,10 +122,9 @@
                         <constraint firstItem="rpY-I8-euq" firstAttribute="trailing" secondItem="Fap-bn-E0y" secondAttribute="trailing" constant="16" id="Z8f-h7-ZvK"/>
                         <constraint firstItem="vk2-72-EXv" firstAttribute="leading" secondItem="rpY-I8-euq" secondAttribute="leading" constant="16" id="hHb-J8-5mz"/>
                         <constraint firstItem="rpY-I8-euq" firstAttribute="trailing" secondItem="Ka2-4c-AO0" secondAttribute="trailing" constant="16" id="mQU-Xh-BoY"/>
+                        <constraint firstItem="b70-Vw-0DW" firstAttribute="top" secondItem="vk2-72-EXv" secondAttribute="bottom" constant="20" id="ngg-z3-hEW"/>
                         <constraint firstItem="7pI-oX-NaV" firstAttribute="leading" secondItem="rpY-I8-euq" secondAttribute="leading" constant="16" id="sgK-UD-EYb"/>
-                        <constraint firstItem="qpc-sI-Lbb" firstAttribute="leading" secondItem="rpY-I8-euq" secondAttribute="leading" id="u4B-6z-vMA"/>
                         <constraint firstItem="Ka2-4c-AO0" firstAttribute="leading" secondItem="rpY-I8-euq" secondAttribute="leading" constant="16" id="ugP-cM-Rbc"/>
-                        <constraint firstItem="qpc-sI-Lbb" firstAttribute="trailing" secondItem="rpY-I8-euq" secondAttribute="trailing" id="vTw-qa-dI3"/>
                         <constraint firstItem="rpY-I8-euq" firstAttribute="trailing" secondItem="vk2-72-EXv" secondAttribute="trailing" constant="16" id="xdx-lL-I0p"/>
                         <constraint firstItem="rpY-I8-euq" firstAttribute="trailing" secondItem="0un-TE-uoR" secondAttribute="trailing" constant="16" id="yNo-Bp-dwr"/>
                     </constraints>
