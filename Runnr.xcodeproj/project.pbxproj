@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3EFF282D2F1A5D4300D7F427 /* JTAppleCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 3EFF282C2F1A5D4300D7F427 /* JTAppleCalendar */; };
 		C9E277EB2F12697F0024A853 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = C9E277EA2F12697F0024A853 /* GoogleSignIn */; };
 		C9E277ED2F12697F0024A853 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C9E277EC2F12697F0024A853 /* GoogleSignInSwift */; };
 		F903F4572EB653FC0066B9A1 /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = F903F4562EB653FC0066B9A1 /* GoogleMaps */; };
@@ -43,6 +44,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9E277ED2F12697F0024A853 /* GoogleSignInSwift in Frameworks */,
+				3EFF282D2F1A5D4300D7F427 /* JTAppleCalendar in Frameworks */,
 				F903F4572EB653FC0066B9A1 /* GoogleMaps in Frameworks */,
 				C9E277EB2F12697F0024A853 /* GoogleSignIn in Frameworks */,
 			);
@@ -82,6 +84,7 @@
 				F903F4562EB653FC0066B9A1 /* GoogleMaps */,
 				C9E277EA2F12697F0024A853 /* GoogleSignIn */,
 				C9E277EC2F12697F0024A853 /* GoogleSignInSwift */,
+				3EFF282C2F1A5D4300D7F427 /* JTAppleCalendar */,
 			);
 			productName = Runnr;
 			productReference = 19FDEE992EEBCC2E00AF027C /* Runnr.app */;
@@ -115,6 +118,7 @@
 			packageReferences = (
 				F903F4552EB653FC0066B9A1 /* XCRemoteSwiftPackageReference "ios-maps-sdk" */,
 				C9E277E92F12697F0024A853 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				3EFF282B2F1A5D4300D7F427 /* XCRemoteSwiftPackageReference "JTAppleCalendar" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 19217CBC2EA0E064009AFC93;
@@ -382,6 +386,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		3EFF282B2F1A5D4300D7F427 /* XCRemoteSwiftPackageReference "JTAppleCalendar" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/patchthecode/JTAppleCalendar";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.5;
+			};
+		};
 		C9E277E92F12697F0024A853 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
@@ -401,6 +413,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		3EFF282C2F1A5D4300D7F427 /* JTAppleCalendar */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3EFF282B2F1A5D4300D7F427 /* XCRemoteSwiftPackageReference "JTAppleCalendar" */;
+			productName = JTAppleCalendar;
+		};
 		C9E277EA2F12697F0024A853 /* GoogleSignIn */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C9E277E92F12697F0024A853 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
