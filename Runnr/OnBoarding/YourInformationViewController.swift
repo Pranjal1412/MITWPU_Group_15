@@ -75,7 +75,7 @@ class YourInformationViewController: UIViewController {
         }
     
     @IBAction func pickDate(_ sender: UIDatePicker) {
-        let selectedDate = sender.date
+        var selectedDate = sender.date
     }
     
     @IBAction func continueToTrack(_ sender: Any) {

@@ -172,7 +172,7 @@ class AveragePaceViewController: UIViewController {
     private func setupYAxis() {
         viewYAxis.subviews.forEach { $0.removeFromSuperview() } // Clear previous
         let maxValue = barValues.max() ?? 200
-        let maxDisplayHeight: CGFloat = 200
+//        let maxDisplayHeight: CGFloat = 200
         let intervals = 5
 
         for i in 0...intervals {
