@@ -30,13 +30,13 @@ class ActivityStartViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
                 
-        userLocation.locationManager.requestWhenInUseAuthorization()
-        userLocation.locationManager.startUpdatingLocation()
+        self.userLocation.locationManager.requestWhenInUseAuthorization()
+        self.userLocation.locationManager.startUpdatingLocation()
         
         
-        labelScreenTitle.text = NSLocalizedString("Runnr.", comment: "")
-        labelScreenTitle.textColor = .accent
-        labelScreenTitle.sizeToFit()
+        self.labelScreenTitle.text = NSLocalizedString("Runnr.", comment: "")
+        self.labelScreenTitle.textColor = .accent
+        self.labelScreenTitle.sizeToFit()
         self.buttonUserProfile.layer.cornerRadius = self.buttonUserProfile.frame.height / 2
         self.buttonUserProfile.clipsToBounds = true
         
@@ -57,11 +57,11 @@ class ActivityStartViewController: UIViewController {
             self.newUserAlert = false
         }
         
-        labelTotalPoints.text = "\(totalPoints)"
+        self.labelTotalPoints.text = "\(totalPoints)"
     }
     
     override func viewDidLayoutSubviews() {
-        userLocation.onLocationUpdate = { location in
+        self.userLocation.onLocationUpdate = { location in
             
             if self.isMapInitialized == false {
                 
@@ -129,7 +129,7 @@ class ActivityStartViewController: UIViewController {
         
         startButton.addTarget(self, action: #selector(startButtonPressed), for: .touchUpInside)
         
-        view.addSubview(startButton)
+        self.view.addSubview(startButton)
         
     }
     

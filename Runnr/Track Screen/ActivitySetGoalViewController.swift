@@ -24,23 +24,22 @@ class ActivitySetGoalViewController: UIViewController {
     
     @IBOutlet weak var switchAudioFeedback: UISwitch!
     @IBOutlet weak var buttonActivity: UIButton!
-    @IBOutlet weak var labelSelectedTime: UILabel!
     
-    @IBOutlet weak var labelMinTime: UILabel!
-    @IBOutlet weak var labelMidTime: UILabel!
-    @IBOutlet weak var labelMaxTime: UILabel!
+    var originalYValue: CGFloat = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .clear
-        viewMainBackground.layer.cornerRadius = 20
-        viewSubBackground.layer.cornerRadius = 15
+        self.viewMainBackground.layer.cornerRadius = 20
+        self.viewSubBackground.layer.cornerRadius = 15
         
-        settingScreen()
-        setupMenu()
-        hideKeyboardWhenTappedAround()
-        labelAudioFeedback.sizeToFit()
+        self.originalYValue = view.frame.origin.y
+        
+        self.settingScreen()
+        self.setupMenu()
+        self.registerNotifications()
+        self.labelAudioFeedback.sizeToFit()
         
     }
     
@@ -54,7 +53,7 @@ class ActivitySetGoalViewController: UIViewController {
         let attributedString = NSMutableAttributedString()
         attributedString.append(thinText)
         attributedString.append(boldText)
-        labelScreenTitle.attributedText = attributedString
+        self.labelScreenTitle.attributedText = attributedString
         
         
         let regularFont = UIFont(name: "SF-Pro-Display-Thin", size: 20) ?? UIFont.systemFont(ofSize: 20, weight: .regular)
@@ -67,14 +66,14 @@ class ActivitySetGoalViewController: UIViewController {
         let fullDistancetext = NSMutableAttributedString()
         fullDistancetext.append(regularText)
         fullDistancetext.append(lightText)
-        labelDistance.attributedText = fullDistancetext
+        self.labelDistance.attributedText = fullDistancetext
         
-        buttonStart.layer.cornerRadius = buttonStart.frame.height / 2
+        self.buttonStart.layer.cornerRadius = buttonStart.frame.height / 2
         
-        viewBackgroundTime.layer.cornerRadius = 15
-        viewBackgroundAudio.layer.cornerRadius = 15
-        viewBackgroundDistance.layer.cornerRadius = 15
-        viewBackgroungActivity.layer.cornerRadius = 15
+        self.viewBackgroundTime.layer.cornerRadius = 15
+        self.viewBackgroundAudio.layer.cornerRadius = 15
+        self.viewBackgroundDistance.layer.cornerRadius = 15
+        self.viewBackgroungActivity.layer.cornerRadius = 15
     }
     
     @IBAction func buttonStartActivityPressed(_ sender: UIButton) {
@@ -135,20 +134,39 @@ class ActivitySetGoalViewController: UIViewController {
 
         }
 
-        buttonActivity.menu = UIMenu(children: [defaultActivity, run, walk, cycle])
-        buttonActivity.showsMenuAsPrimaryAction = true
+        let marathon = UIAction(title: "Marathon") { _ in
+            self.buttonActivity.setTitle("Marathon", for: .normal)
+            self.buttonActivity.setTitleColor(.accent, for: .normal)
+
+        }
+        
+        self.buttonActivity.menu = UIMenu(children: [defaultActivity, run, walk, marathon, cycle])
+        self.buttonActivity.showsMenuAsPrimaryAction = true
         self.buttonActivity.setTitleColor(.accent, for: .normal)
     }
     
 }
 
-extension ActivitySetGoalViewController {
-    func hideKeyboardWhenTappedAround() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
-        view.addGestureRecognizer(tapGesture)
-    }
+// MARK: - Keyboard Settings
 
-    @objc func hideKeyboard() {
+extension ActivitySetGoalViewController {
+    
+    @IBAction func viewBackgroundClicked(_ sender: UIControl) {
         view.endEditing(true)
     }
+    
+    
+    func registerNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
+    @objc private func keyboardWillShow(notification: NSNotification) {
+        self.view.frame.origin.y -= 100
+    }
+    
+    @objc private func keyboardWillHide(notification: NSNotification) {
+        self.view.frame.origin.y = self.originalYValue
+    }
+    
 }

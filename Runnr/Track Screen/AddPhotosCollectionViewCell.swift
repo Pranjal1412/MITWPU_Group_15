@@ -22,21 +22,21 @@ class AddPhotosCollectionViewCell: UICollectionViewCell {
             self.buttonDeletePhoto.isHidden = value
             
             if #available(iOS 26.0, *) {
-                buttonDeletePhoto.configuration = .glass()
-                buttonDeletePhoto.tintColor = .accent
-                buttonDeletePhoto.setImage(UIImage(systemName: "multiply"), for: .normal)
+                self.buttonDeletePhoto.configuration = .glass()
+                self.buttonDeletePhoto.tintColor = .accent
+                self.buttonDeletePhoto.setImage(UIImage(systemName: "multiply"), for: .normal)
             }
             else {
-                buttonDeletePhoto.tintColor = .accent
-                buttonDeletePhoto.setImage(UIImage(systemName: "multiply.circle"), for: .normal)
+                self.buttonDeletePhoto.tintColor = .accent
+                self.buttonDeletePhoto.setImage(UIImage(systemName: "multiply.circle"), for: .normal)
             }
         }
         else {
             self.buttonDeletePhoto.isHidden = value
         }
                 
-        imagePhotos.image = image
-        imagePhotos.layer.cornerRadius = 10
-        imagePhotos.clipsToBounds = true
+        self.imagePhotos.image = image
+        self.imagePhotos.layer.cornerRadius = 10
+        self.imagePhotos.clipsToBounds = true
     }
 }
