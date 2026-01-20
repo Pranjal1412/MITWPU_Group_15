@@ -15,6 +15,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ActivityStartViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
+                <outlet property="buttonStart" destination="tbv-5J-IPA" id="880-IT-iRM"/>
                 <outlet property="buttonUserProfile" destination="8Gf-fZ-d3D" id="Cvf-F7-lom"/>
                 <outlet property="labelScreenTitle" destination="u5t-gV-e1p" id="Utj-Cu-x4P"/>
                 <outlet property="labelTotalPoints" destination="ud6-ud-XK5" id="BBO-st-hwc"/>
@@ -57,6 +58,15 @@
                         </button>
                     </subviews>
                 </stackView>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tbv-5J-IPA">
+                    <rect key="frame" x="163" y="476" width="76" height="35"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="START"/>
+                    <connections>
+                        <action selector="startButtonPressed" destination="-1" eventType="touchUpInside" id="jCA-SH-Tk6"/>
+                    </connections>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -71,7 +81,7 @@
     <resources>
         <image name="user3" width="40" height="40"/>
         <namedColor name="AccentColor">
-            <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.79199999570846558" blue="0.15700000524520874" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

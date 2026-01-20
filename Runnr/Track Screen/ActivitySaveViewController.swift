@@ -90,13 +90,13 @@ class ActivitySaveViewController: UIViewController {
             textViewRemark.text = ""
         }
         
-        activityData.runTitle = self.textFieldActivityTitle.text!
-        activityData.note = self.textViewRemark.text
-        activityData.isPublic = self.switchIsActivityPublic.isOn
-        activityData.activityPhotos = self.selectedImages
+        self.activityData.runTitle = self.textFieldActivityTitle.text!
+        self.activityData.note = self.textViewRemark.text
+        self.activityData.isPublic = self.switchIsActivityPublic.isOn
+        self.activityData.activityPhotos = self.selectedImages
         
-        self.dataSource.addMyActivity(activityData)
-        self.dataSource.updateTotalRunnrPoints(with: activityData.basePoints + activityData.skillPoints)
+        self.dataSource.addMyActivity(self.activityData)
+        self.dataSource.updateTotalRunnrPoints(with: self.activityData.basePoints + self.activityData.skillPoints)
         self.dataSource.updateTotalDistance(with: activityData.distanceValue)
         
         print("After passing count: \(self.dataSource.getMyActivityData().count)")
@@ -127,26 +127,7 @@ class ActivitySaveViewController: UIViewController {
         
         self.present(alert, animated: true)
     }
-    
-    @IBAction func AddMorePhotos(_ sender: UIButton) {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let cameraButton = UIAlertAction(title: String(localized: "Camera"), style: .default, handler: {_ in
-            self.openCamera()
-        })
-        let photoLibraryButton = UIAlertAction(title: String(localized: "Gallery"), style: .default, handler: {_ in
-            self.openPhotoLibrary()
-        })
-        let cancelButton = UIAlertAction(title: String("Cancel"), style: .cancel)
-
-        alert.addAction(cameraButton)
-        alert.addAction(photoLibraryButton)
-        alert.addAction(cancelButton)
-        
-        self.present(alert, animated: true)
-    }
-    
-    
     func settingCardView() {
         viewDistance.layer.cornerRadius = 15
         viewPace.layer.cornerRadius = 15
@@ -198,7 +179,6 @@ class ActivitySaveViewController: UIViewController {
         }
     }
 
-    
 }
 
 // MARK: - KeyBoard Settings
@@ -235,7 +215,7 @@ extension ActivitySaveViewController {
 
 // MARK: - Camera & Photos
 
-extension ActivitySaveViewController : PHPickerViewControllerDelegate, UIImagePickerControllerDelegate & UINavigationControllerDelegate  {
+extension ActivitySaveViewController : PHPickerViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
     
     func openPhotoLibrary() {
         var config = PHPickerConfiguration()

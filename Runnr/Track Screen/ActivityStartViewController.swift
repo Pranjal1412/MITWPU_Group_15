@@ -14,6 +14,7 @@ class ActivityStartViewController: UIViewController {
     @IBOutlet weak var labelScreenTitle: UILabel!
     @IBOutlet weak var labelTotalPoints: UILabel!
     @IBOutlet weak var buttonUserProfile: UIButton!
+    @IBOutlet weak var buttonStart: UIButton!
     
     let userLocation = UserLocationManager()
     var isMapInitialized = false
@@ -22,7 +23,6 @@ class ActivityStartViewController: UIViewController {
     var newUserAlert : Bool?
     
     var dataSource = DataSource.shared
-    var buttonStart: UIButton!
     var totalPoints: Int {
         dataSource.getTotalRunnrPoints()
     }
@@ -33,15 +33,12 @@ class ActivityStartViewController: UIViewController {
         self.userLocation.locationManager.requestWhenInUseAuthorization()
         self.userLocation.locationManager.startUpdatingLocation()
         
-        
+        self.setStartButton()
         self.labelScreenTitle.text = NSLocalizedString("Runnr.", comment: "")
         self.labelScreenTitle.textColor = .accent
         self.labelScreenTitle.sizeToFit()
         self.buttonUserProfile.layer.cornerRadius = self.buttonUserProfile.frame.height / 2
         self.buttonUserProfile.clipsToBounds = true
-        
-        self.createStartButton()
-
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -96,7 +93,7 @@ class ActivityStartViewController: UIViewController {
                 self.view.addSubview(mapView)
                 self.view.addSubview(self.topGradientView)
                 
-                self.createStartButton()
+                self.view.bringSubviewToFront(self.buttonStart)
                 self.userLocation.locationManager.stopUpdatingLocation()
                 self.isMapInitialized = true
                 
@@ -114,26 +111,20 @@ class ActivityStartViewController: UIViewController {
     }
     
     
-    func createStartButton() {
-        let startButton = UIButton()
-        
-        startButton.frame = CGRect(x: (UIScreen.main.bounds.width - 150)/2.0,
+    func setStartButton() {
+        buttonStart.frame = CGRect(x: (UIScreen.main.bounds.width - 150)/2.0,
                                    y: (UIScreen.main.bounds.height - 150)/2.0,
                                    width: 150, height: 150)
-        startButton.backgroundColor = .accent
+        buttonStart.backgroundColor = .accent
         
-        startButton.setTitle(NSLocalizedString("START", comment: ""), for: .normal)
-        startButton.setTitleColor(.black, for: .normal)
-        startButton.titleLabel?.font = UIFont.systemFont(ofSize: 30, weight: .heavy)
-        startButton.layer.cornerRadius = startButton.bounds.height / 2.0
-        
-        startButton.addTarget(self, action: #selector(startButtonPressed), for: .touchUpInside)
-        
-        self.view.addSubview(startButton)
-        
+        buttonStart.setTitle(NSLocalizedString("START", comment: ""), for: .normal)
+        buttonStart.setTitleColor(.black, for: .normal)
+        buttonStart.titleLabel?.font = UIFont.systemFont(ofSize: 30, weight: .heavy)
+        buttonStart.layer.cornerRadius = buttonStart.bounds.height / 2.0
+                    
     }
     
-    @objc func startButtonPressed() {
+    @IBAction func startButtonPressed() {
         
         let destinationVC = ActivitySetGoalViewController()
         

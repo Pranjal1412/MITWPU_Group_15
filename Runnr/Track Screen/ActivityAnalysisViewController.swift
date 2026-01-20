@@ -39,7 +39,7 @@ class ActivityAnalysisViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        settingCollectioView()
+        settingCollectionView()
         settingAttributedText()
         settingUpActivityAnalysisScreenElements()
 
@@ -166,7 +166,7 @@ class ActivityAnalysisViewController: UIViewController {
 
 extension ActivityAnalysisViewController : UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    func settingCollectioView() {
+    func settingCollectionView() {
         collectionViewPhotos.dataSource = self
         collectionViewPhotos.delegate = self
         collectionViewPhotos.register(UINib(nibName: "AddPhotosCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AddPhotosCollectionViewCell")
@@ -235,7 +235,7 @@ struct GraphView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .chartXAxis {
-            AxisMarks(values: Array(stride(from: 0.0, through: (maxXValue?.distance ?? 5.0) + 0.5, by: 1.0))) { value in
+            AxisMarks(values: Array(stride(from: 0.0, through: (maxXValue?.distance ?? 5.0), by: 1.0))) { value in
                 AxisGridLine()
                     .foregroundStyle(.white.opacity(1))
                 AxisTick()
@@ -244,7 +244,7 @@ struct GraphView: View {
                     .foregroundStyle(.white)
             }
         }
-        .chartXScale(domain: 0...(maxXValue?.distance ?? 5) + 0.5)
+        .chartXScale(domain: 0...(maxXValue?.distance ?? 5))
         .chartYScale(domain: 0...(maxYValue?.paceValue ?? 5))
         .chartYAxis {
             AxisMarks(position: .leading) { _ in

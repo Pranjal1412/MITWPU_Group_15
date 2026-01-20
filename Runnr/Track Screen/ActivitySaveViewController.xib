@@ -424,7 +424,7 @@
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system"/>
                             <connections>
-                                <action selector="AddMorePhotos:" destination="-1" eventType="touchUpInside" id="Rvn-oa-UTW"/>
+                                <action selector="addPhotosButtonPressed:" destination="-1" eventType="touchUpInside" id="bpt-fY-vsf"/>
                             </connections>
                         </button>
                     </subviews>
@@ -483,7 +483,7 @@
         <image name="point.bottomleft.forward.to.point.topright.scurvepath" catalog="system" width="117" height="128"/>
         <image name="stopwatch" catalog="system" width="121" height="128"/>
         <namedColor name="AccentColor">
-            <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.79199999570846558" blue="0.15700000524520874" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="CardLightBlack">
             <color red="0.10199999809265137" green="0.10199999809265137" blue="0.10199999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
