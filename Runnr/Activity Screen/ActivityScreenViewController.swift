@@ -131,7 +131,7 @@ class ActivityScreenViewController: UIViewController {
     }
 }
 
-//TableView Settings
+//MARK: - TableView Settings
 extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -197,7 +197,7 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
     }
 }
 
-//Activity Settings
+//MARK: - Activity Settings
 extension ActivityScreenViewController {
     
     @objc func didTapOnMoreOptions(_ sender: UIButton) {
@@ -210,7 +210,7 @@ extension ActivityScreenViewController {
             self.dataSource.deleteMyActivity(atIndex: sender.tag)
             self.updateScreenElements()
         }
-        let cancelAction = UIAlertAction(title: String(localized: "Edit Activity"), style: .default, handler: nil)
+        let cancelAction = UIAlertAction(title: String(localized: "Canel"), style: .cancel, handler: nil)
         
         alert.addAction(shareAction)
         alert.addAction(cancelAction)

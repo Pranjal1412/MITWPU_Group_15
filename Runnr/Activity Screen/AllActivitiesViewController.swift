@@ -13,7 +13,6 @@ class AllActivitiesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.overrideUserInterfaceStyle = .dark
         
         settingLabel()
         settingTableView()
@@ -46,7 +45,7 @@ class AllActivitiesViewController: UIViewController {
     
 }
 
-//TableView Settings
+//MARK: - TableView Settings
 extension AllActivitiesViewController : UITableViewDelegate, UITableViewDataSource {
         
         func numberOfSections(in tableView: UITableView) -> Int {
