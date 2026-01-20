@@ -56,6 +56,7 @@ class ClubScreenViewController: UIViewController {
         tableViewFriends.reloadData()
         collectionViewExplore.reloadData()
         
+        
         self.labelTotalPoints.text = "\(totalPoints)"
     }
     
@@ -230,11 +231,13 @@ extension ClubScreenViewController : UICollectionViewDataSource, UICollectionVie
         if collectionView == collectionViewExplore {
             let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ExploreScreenCollectionViewCell
             cell.configureCell(with: clubDataArray[indexPath.row])
+            
             return cell
         }
         else {
             let cell =  collectionViewJoinedClub.dequeueReusableCell(withReuseIdentifier: "JoinedClubsCollectionViewCell", for: indexPath) as! JoinedClubsCollectionViewCell
             cell.configureCell(with: myClubs[indexPath.row])
+            
             return cell
         }
 
@@ -274,12 +277,13 @@ extension ClubScreenViewController : UICollectionViewDataSource, UICollectionVie
             destinationVC.clubProfileData = clubDataArray[indexPath.row]
             destinationVC.buttonTitle = "Join Now"
             destinationVC.isMyClub = false
+            //destinationVC.NoPostLabel.isHidden = true
 
         } else {
             destinationVC.myClubProfileData = myClubs[indexPath.row]
             destinationVC.buttonTitle = "Edit Club Profile"
             destinationVC.isMyClub = true
-
+            //destinationVC.NoPostLabel.isHidden = false
         }
        
         navigationController.modalPresentationStyle = .fullScreen

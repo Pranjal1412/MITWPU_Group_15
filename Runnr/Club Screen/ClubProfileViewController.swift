@@ -16,6 +16,8 @@ class ClubProfileViewController: UIViewController {
     @IBOutlet var viewPosts: UIView!
     @IBOutlet var viewLeaderBoard: UIView!
     @IBOutlet var viewTagged: UIView!
+    @IBOutlet var buttonBack: UIButton!
+    @IBOutlet var NoPostLabel: UILabel!
     
     var buttonTitle : String?
     var isMyClub: Bool = false
@@ -30,6 +32,16 @@ class ClubProfileViewController: UIViewController {
                 
         collectionViewPostImages.isHidden = false
         tableViewLeaderBoard.isHidden = true
+        
+        if #available(iOS 26.0, *) {
+            buttonBack.configuration = .glass()
+            buttonBack.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
+            buttonBack.tintColor = .white
+        } else {
+            buttonBack.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
+            buttonBack.frame.origin.x = 100.0
+            buttonBack.tintColor = .white
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {

@@ -90,8 +90,8 @@ let clubDataArray: [ExploreClubData] = [
     ExploreClubData(
         clubProfileImg: UIImage(named: "club2"),
         clubName: "Happy Trails",
-        numberOfMembers: "11.2k",
-        sport: "Hiking",
+        numberOfMembers: "11k",
+        sport: "Hike",
         clubMotive: "Explore more, worry less.",
         clubDescription: "Weekend hikers and nature lovers who enjoy discovering scenic trails and peaceful escapes."
     ),
@@ -107,7 +107,7 @@ let clubDataArray: [ExploreClubData] = [
         clubProfileImg: UIImage(named: "club4"),
         clubName: "Fast Wheels",
         numberOfMembers: "1.5k",
-        sport: "Hiking",
+        sport: "Hike",
         clubMotive: "Adventure at full speed.",
         clubDescription: "For thrill-seekers who love fast-paced hikes, elevation challenges, and rugged terrains."
     ),
@@ -123,7 +123,7 @@ let clubDataArray: [ExploreClubData] = [
         clubProfileImg: UIImage(named: "club2"),
         clubName: "Happy Trails",
         numberOfMembers: "11.2k",
-        sport: "Hiking",
+        sport: "Hike",
         clubMotive: "Nature is the best therapy.",
         clubDescription: "A friendly hiking group focused on mental wellness, exploration, and community bonding."
     )

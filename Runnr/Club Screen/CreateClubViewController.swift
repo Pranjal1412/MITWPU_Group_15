@@ -22,6 +22,7 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var clubDescriptionView: UIView!
     @IBOutlet var clubNameTextField: UITextField!
     @IBOutlet var clubDescriptionTextField: UITextView!
+    @IBOutlet var buttonBack: UIButton!
     
     var currentPage = 1
     var clubDraft = CreateClubDraft()
@@ -88,9 +89,19 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
     }
 
     @IBAction func dismissModalPressed(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        if currentPage == 1 {
+            self.dismiss(animated: true, completion: nil)
+        }
+        else if currentPage == 2 {
+            currentPage = 1
+            updateUI()
+        }
+        else if currentPage == 3 {
+            currentPage = 2
+            updateUI()
+        }
     }
-    
+        
     func updateUI() {
         switch currentPage {
         case 1:
@@ -106,7 +117,7 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
             setSecondPageText()
             pageIndicator(p1: .gray, p2: .accent, p3: .gray)
             buttonNext.setTitle("Next", for: .normal)
-            
+            buttonBack.setImage(UIImage(systemName: "chevron.left"), for: .normal)
             self.collectionViewClubActivity.isHidden = false
             self.collectionViewClubActivity.reloadData()
             self.lastpageView.isHidden = true
@@ -115,7 +126,7 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
             setThirdPageText()
             pageIndicator(p1: .gray, p2: .gray, p3: .accent)
             buttonNext.setTitle("Complete", for: .normal)
-            
+            buttonBack.setImage(UIImage(systemName: "chevron.left"), for: .normal)
             self.collectionViewClubActivity.isHidden = true
             lastpageView.isHidden = false
             
