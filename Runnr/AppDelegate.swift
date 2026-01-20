@@ -7,6 +7,7 @@
 
 import UIKit
 import GoogleMaps
+import Firebase
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         GMSServices.provideAPIKey("AIzaSyAUgJgB9iqP2RzDO25TliEF_Qn77P1I5QQ")
 //        self.window?.overrideUserInterfaceStyle = .dark
-        
+        FirebaseApp.configure()
         return true
     }
 
