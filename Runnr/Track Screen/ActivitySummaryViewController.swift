@@ -24,20 +24,20 @@ class ActivitySummaryViewController: UIViewController {
         super.viewDidLoad()
                         
         if #available(iOS 26.0, *) {
-            buttonBack.configuration = .glass()
-            buttonBack.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
-            buttonBack.tintColor = .white
+            self.buttonBack.configuration = .glass()
+            self.buttonBack.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
+            self.buttonBack.tintColor = .white
         } else {
-            buttonBack.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
-            buttonBack.frame.origin.x = 100.0
-            buttonBack.tintColor = .white
+            self.buttonBack.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
+            self.buttonBack.frame.origin.x = 100.0
+            self.buttonBack.tintColor = .white
         }
         
-        buttonShowAnalysis.layer.cornerRadius = buttonShowAnalysis.frame.height / 2.0
-        labelActivityHeading.text = activityData?.runTitle
+        self.buttonShowAnalysis.layer.cornerRadius = buttonShowAnalysis.frame.height / 2.0
+        self.labelActivityHeading.text = activityData?.runTitle
         
-        userLocation.locationManager.startUpdatingLocation()
-        userLocation.onLocationUpdate = { location in
+        self.userLocation.locationManager.startUpdatingLocation()
+        self.userLocation.onLocationUpdate = { location in
             
             if self.isMapInitialized == false {
                 let mapManager = MapManager()
@@ -93,7 +93,7 @@ class ActivitySummaryViewController: UIViewController {
         
             alert.addAction(claimPointsAction)
             
-            present(alert, animated: true , completion: nil)
+            self.present(alert, animated: true , completion: nil)
         }
         
     }

@@ -51,9 +51,7 @@ class UserProfileViewController: UIViewController {
 
         self.collectionViewBestActivity.dataSource = self
         
-        self.collectionViewBestActivity.register(UINib(nibName: "SectionHeaderView", bundle: nil),
-                                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                                 withReuseIdentifier: "SectionHeaderView")
+        self.collectionViewBestActivity.register(UINib(nibName: "SectionHeaderView", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "SectionHeaderView")
         
         self.collectionViewBestActivity.register(UINib(nibName: "BestActivitiesCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "BestActivitiesCollectionViewCell")
         self.collectionViewBestActivity.register(UINib(nibName: "BadgeCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "BadgeCollectionViewCell")
