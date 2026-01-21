@@ -352,9 +352,13 @@ extension CreateClubViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
-    @objc private func keyboardWillShow(notification: NSNotification){}
+    @objc private func keyboardWillShow(notification: NSNotification){
+        
+    }
     
-    @objc private func keyboardWillHide(notification: NSNotification){}
+    @objc private func keyboardWillHide(notification: NSNotification){
+        
+    }
 }
 
 extension CreateClubViewController: UITextViewDelegate {

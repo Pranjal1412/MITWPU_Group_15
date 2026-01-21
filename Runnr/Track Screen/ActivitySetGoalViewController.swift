@@ -26,6 +26,7 @@ class ActivitySetGoalViewController: UIViewController {
     @IBOutlet weak var buttonActivity: UIButton!
     
     var originalYValue: CGFloat = 0
+    var keyboardTappedCount = 2
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -162,11 +163,15 @@ extension ActivitySetGoalViewController {
     }
 
     @objc private func keyboardWillShow(notification: NSNotification) {
-        self.view.frame.origin.y -= 100
+        if self.keyboardTappedCount > 0{
+            self.view.frame.origin.y -= 70
+            self.keyboardTappedCount -= 1
+        }
     }
     
     @objc private func keyboardWillHide(notification: NSNotification) {
         self.view.frame.origin.y = self.originalYValue
+        self.keyboardTappedCount = 2
     }
     
 }
