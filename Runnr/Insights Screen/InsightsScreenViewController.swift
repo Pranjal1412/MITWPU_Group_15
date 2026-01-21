@@ -252,15 +252,15 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
         case 0: // Distance
             let current = latest?.distanceValue ?? 0
             cell.labelCardTitle.text = "Distance"
-            cell.settingLabelStyle(withValue: String(format: "%.2f", current), withUnit: "km")
-            cell.labelTrend.text = latest == nil ? "No recorded distance" : previous != nil ? trendText(current: current, previous: previous!.distanceValue, unit: "km") : "First run"
+            cell.settingLabelStyle(withValue: String(format: "%.2f", current), withUnit: "Km")
+            cell.labelTrend.text = latest == nil ? "No recorded distance" : previous != nil ? trendText(current: current, previous: previous!.distanceValue, unit: "Km") : "First run"
             updateChevron(cell: cell, current: latest?.distanceValue, previous: previous?.distanceValue)
             
         case 1: // Calories
             let current = Double(latest?.caloriesValue ?? 0)
             cell.labelCardTitle.text = "Calories"
-            cell.settingLabelStyle(withValue: "\(Int(current))", withUnit: "kcal")
-            cell.labelTrend.text = latest == nil ? "No recorded calories" : previous != nil ? trendText(current: current, previous: Double(previous!.caloriesValue), unit: "kcal") : "First run"
+            cell.settingLabelStyle(withValue: "\(Int(current))", withUnit: "Kcal")
+            cell.labelTrend.text = latest == nil ? "No recorded calories" : previous != nil ? trendText(current: current, previous: Double(previous!.caloriesValue), unit: "Kcal") : "First run"
             updateChevron(cell: cell, current: current, previous: previous.map { Double($0.caloriesValue) })
             
         case 2: // Steps
