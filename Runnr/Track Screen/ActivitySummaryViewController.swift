@@ -16,7 +16,7 @@ class ActivitySummaryViewController: UIViewController {
     
     var isMapInitialized: Bool = false
     let userLocation = UserLocationManager()
-    var activityData : MyRunActivity?
+    var activityData : UserActivity?
     var showAlert : Bool = false
     let topGradientView = UIView()
 

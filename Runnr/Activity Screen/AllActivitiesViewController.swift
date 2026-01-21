@@ -7,7 +7,7 @@ class AllActivitiesViewController: UIViewController {
     let label = UILabel()
     
     var dataSource = DataSource.shared
-    var myActivity: [MyRunActivity] {
+    var myActivity: [UserActivity] {
         dataSource.getMyActivityData()
     }
     

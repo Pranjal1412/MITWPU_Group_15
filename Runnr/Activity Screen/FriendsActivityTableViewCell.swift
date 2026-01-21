@@ -14,7 +14,7 @@ class FriendsActivityTableViewCell: UITableViewCell {
     @IBOutlet weak var labelTimeContent: UILabel!
     @IBOutlet weak var labelNote: UILabel!
     @IBOutlet weak var collectionViewPhotos: UICollectionView!
-    private var photos: [String] = []
+    private var photos: [UIImage] = []
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -28,9 +28,9 @@ class FriendsActivityTableViewCell: UITableViewCell {
         collectionViewPhotos.register(nib,forCellWithReuseIdentifier: "friendCell")
     }
 
-    func configure(with activity: FriendsRunActivity) {
+    func configure(with activity: UserActivity) {
         labelName.text = activity.userName
-        labelDate.text = activity.timeStamp
+        labelDate.text = formatDate(with: activity.timeStamp)
         labelRunTitle.text = activity.runTitle
         labelNote.text = activity.note
         labelDistance.text = "Distance"
@@ -48,7 +48,7 @@ class FriendsActivityTableViewCell: UITableViewCell {
         distanceText.append(NSAttributedString(string: " " + activity.distanceUnit,
                                                attributes: [.font: unitFont, .foregroundColor: highlightColor]))
         labelDistanceContent.attributedText = distanceText
-        let paceText = NSMutableAttributedString(string: activity.paceValue,
+        let paceText = NSMutableAttributedString(string: String(format: "%.1f", activity.paceValue),
                                                  attributes: [.font: valueFont, .foregroundColor: highlightColor])
         paceText.append(NSAttributedString(string: " " + activity.paceUnit,
                                            attributes: [.font: unitFont, .foregroundColor: highlightColor]))
@@ -75,7 +75,7 @@ class FriendsActivityTableViewCell: UITableViewCell {
         setPhotos(activity.activityPhotos)
     }
 
-    func setPhotos(_ names: [String]) {
+    func setPhotos(_ names: [UIImage]) {
         photos = names
         print("photos in cell:", photos)
     }

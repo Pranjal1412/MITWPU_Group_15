@@ -22,7 +22,7 @@ class MyActivityTableViewCell: UITableViewCell {
         selectionStyle = .none
     }
     
-    func configure(with activity: MyRunActivity) {
+    func configure(with activity: UserActivity) {
         labelName.text = activity.userName
         labelDate.text = formatDate(with: activity.timeStamp)
         labelRunTitle.text = activity.runTitle

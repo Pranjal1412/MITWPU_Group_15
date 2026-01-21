@@ -34,7 +34,7 @@ class ActivityAnalysisViewController: UIViewController {
     @IBOutlet weak var labelTotalPoints: UILabel!
     @IBOutlet weak var viewGraphContainer: UIView!
     
-    var activityData : MyRunActivity?
+    var activityData : UserActivity?
 
     override func viewDidLoad() {
         super.viewDidLoad()

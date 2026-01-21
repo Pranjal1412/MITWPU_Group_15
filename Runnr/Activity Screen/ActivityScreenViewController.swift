@@ -17,11 +17,11 @@ class ActivityScreenViewController: UIViewController {
     var totalPoints: Int {
         dataSource.getTotalRunnrPoints()
     }
-    var myActivity: [MyRunActivity] {
+    var myActivity: [UserActivity] {
         dataSource.getMyActivityData()
     }
     
-    let friendsActivity : [FriendsRunActivity] = DataSource.shared.getFriendsActivityData()
+    let friendsActivity : [UserActivity] = DataSource.shared.getFriendsActivityData()
     
     override func viewDidLoad() {
         

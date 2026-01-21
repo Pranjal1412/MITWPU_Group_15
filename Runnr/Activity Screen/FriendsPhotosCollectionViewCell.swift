@@ -8,8 +8,8 @@ class FriendsPhotosCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
     }
     
-    func configure(with image: String) {
-        imageCellFriends.image = UIImage(named: image)
+    func configure(with image: UIImage) {
+        imageCellFriends.image = image
         imageCellFriends.clipsToBounds = true
         imageCellFriends.layer.cornerRadius = 10
     }

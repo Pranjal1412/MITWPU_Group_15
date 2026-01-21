@@ -7,17 +7,11 @@
 
 import UIKit
 
-struct Category {
-    let name : String
-    let goal : Int
-    let badge : String
-}
-
-let runnrCategories: [Category] = [
-    Category(name: "Starter", goal: 50, badge: "badge 1"),
-    Category(name: "Pacer", goal: 250, badge: "badge 2"),
-    Category(name: "Achiever", goal: 600, badge: "badge 3"),
-    Category(name: "Champions", goal: 1000, badge: "badge 4")]
+let runnrCategories: [UserCategory] = [
+    UserCategory(name: "Starter", goal: 50, badge: "badge 1"),
+    UserCategory(name: "Pacer", goal: 250, badge: "badge 2"),
+    UserCategory(name: "Achiever", goal: 600, badge: "badge 3"),
+    UserCategory(name: "Champions", goal: 1000, badge: "badge 4")]
 
 
 struct Settings {

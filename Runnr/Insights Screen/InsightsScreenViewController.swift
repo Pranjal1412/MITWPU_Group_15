@@ -24,12 +24,12 @@ class InsightsScreenViewController: UIViewController {
 
     // Data source references
     var dataSource = DataSource.shared
-    var myActivities: [MyRunActivity] {
+    var myActivities: [UserActivity] {
         dataSource.getMyActivityData()
     }
     
-    private var latestActivity: MyRunActivity?
-    private var previousActivity: MyRunActivity?
+    private var latestActivity: UserActivity?
+    private var previousActivity: UserActivity?
     private var greenDates: Set<Date> = []
 
     var totalPoints: Int {

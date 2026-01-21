@@ -1,7 +1,20 @@
 import UIKit
 import GoogleMaps
 
-struct MyRunActivity {
+struct UserProfile {
+    let userID = UUID()
+    var userName: String
+    var emailID: String
+    var profileImage: UIImage
+    var gender: String
+    var totalFollwers: Int = 0
+    var totalFollowing: Int = 0
+    var totalRunnrPoints: Int = 100
+    var totalDistance: Double = 0
+}
+
+struct UserActivity {
+    let id: UUID
     let userName: String
     let timeStamp: Date
     var runTitle: String
@@ -25,21 +38,6 @@ struct MyRunActivity {
     var routeCoordinates: [CLLocationCoordinate2D]
 }
 
-struct FriendsRunActivity {
-    let userName: String
-    let timeStamp: String
-    let runTitle: String
-    let distanceValue: Double
-    let distanceUnit: String
-    let paceValue: String      
-    let paceUnit: String
-    let timeHour: Int
-    let timeMin: Int
-    let timeSec: Int
-    let activityPhotos: [String]
-    let note: String
-}
-
 struct LivePaceGraphData: Identifiable {
     let id: UUID = UUID()
     let paceValue: Double
@@ -47,5 +45,9 @@ struct LivePaceGraphData: Identifiable {
     let symbol: Bool
 }
 
-
+struct UserCategory {
+    let name : String
+    let goal : Int
+    let badge : String
+}
 

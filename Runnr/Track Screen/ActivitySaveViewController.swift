@@ -39,7 +39,7 @@ class ActivitySaveViewController: UIViewController {
     @IBOutlet weak var stackAddPhotos: UIStackView!
     @IBOutlet weak var collectionViewAddPhotos: UICollectionView!
     
-    var activityData: MyRunActivity!
+    var activityData: UserActivity!
     var dataSource = DataSource.shared
     private var selectedImages: [UIImage] = []
     

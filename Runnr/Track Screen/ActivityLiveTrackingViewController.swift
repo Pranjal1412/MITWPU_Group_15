@@ -38,13 +38,15 @@ class ActivityLiveTrackingViewController: UIViewController {
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var switchAudioFeedback: UISwitch!
     
-    let speechSynthesizer = AVSpeechSynthesizer()   //adding synthesizer
+    let speechSynthesizer = AVSpeechSynthesizer()   
     var lastAnnouncedKm = 0
 
+    let userID = DataSource.shared.getUserID()
     let userLocation = UserLocationManager()
     let mapManager = MapManager()
-    var bounds = GMSCoordinateBounds()
     var activityManager: UserActivityManager!
+    var bounds = GMSCoordinateBounds()
+
     
     var scrollViewInitialized = false
     var isMapInitialized = false
@@ -58,6 +60,7 @@ class ActivityLiveTrackingViewController: UIViewController {
     var timer : Timer?
     var counter = 3
     var quotes: [String] = [String(localized: "You Got This"), String(localized: "Lock in"), String(localized: "Lace Up")]
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,7 +81,7 @@ class ActivityLiveTrackingViewController: UIViewController {
             if self.isMapInitialized == false {
                                 
                 let mapView = self.mapManager.initializeMaps(withX: 5, withY: 0,
-                                                             withWidth: self.viewActivityTrack.frame.width - 10.0,
+                                                             withWidth: self.viewActivityTrack.frame.width - 40.0,
                                                              withHeight: self.viewActivityTrack.frame.height - 5,
                                                              location: location.coordinate)
               
@@ -229,7 +232,8 @@ class ActivityLiveTrackingViewController: UIViewController {
             
 //            self.userLocation.activityStarted = false
                         
-            let newActivity = MyRunActivity(
+            let newActivity = UserActivity(
+                id: self.userID,
                 userName: "Ava Brooks",
                 timeStamp: self.activityStartTime!,
                 runTitle: "",
