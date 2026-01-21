@@ -18,7 +18,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ClubProfileViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
-                <outlet property="NoPostLabel" destination="f8n-lT-YDR" id="cu9-yv-rfL"/>
                 <outlet property="buttonBack" destination="pJP-i3-Nov" id="W5N-y7-ziN"/>
                 <outlet property="clubDescription" destination="93K-4g-izn" id="wpi-35-goM"/>
                 <outlet property="clubMotive" destination="X4f-2R-uVP" id="om3-zb-ENR"/>
@@ -286,12 +285,6 @@
                         </stackView>
                     </subviews>
                 </stackView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Posts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f8n-lT-YDR">
-                    <rect key="frame" x="167" y="662" width="68.333333333333314" height="20.333333333333371"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -307,7 +300,6 @@
                 <constraint firstItem="v4x-TB-JuJ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Ieq-kK-64X"/>
                 <constraint firstItem="UCV-Fx-SPe" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="JNd-ww-I0I"/>
                 <constraint firstItem="pJP-i3-Nov" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="15" id="KgJ-aK-Wyk"/>
-                <constraint firstItem="f8n-lT-YDR" firstAttribute="top" secondItem="FIH-uE-sCG" secondAttribute="bottom" constant="152.33000000000001" id="RKf-fk-fWT"/>
                 <constraint firstItem="v4x-TB-JuJ" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="RyC-L4-qRg"/>
                 <constraint firstItem="FIH-uE-sCG" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="TEy-aL-aaJ"/>
                 <constraint firstItem="pJP-i3-Nov" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="45" id="V6y-xG-iUL"/>
@@ -330,15 +322,8 @@
                 <constraint firstItem="XCW-n3-5sD" firstAttribute="top" secondItem="FIH-uE-sCG" secondAttribute="bottom" constant="5" id="xso-Hn-DKt"/>
                 <constraint firstItem="vhk-bF-3kY" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="y5c-Zi-2uy"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="qcs-9F-Bhc" secondAttribute="trailing" constant="20" id="yK7-07-RPe"/>
-                <constraint firstItem="f8n-lT-YDR" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="167" id="yuq-Vt-qKY"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <variation key="default">
-                <mask key="subviews">
-                    <exclude reference="vhk-bF-3kY"/>
-                    <exclude reference="XCW-n3-5sD"/>
-                </mask>
-            </variation>
             <point key="canvasLocation" x="1085" y="124"/>
         </view>
     </objects>

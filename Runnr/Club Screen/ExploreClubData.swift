@@ -122,7 +122,7 @@ let clubDataArray: [ExploreClubData] = [
     ExploreClubData(
         clubProfileImg: UIImage(named: "club2"),
         clubName: "Happy Trails",
-        numberOfMembers: "11.2k",
+        numberOfMembers: "10k",
         sport: "Hike",
         clubMotive: "Nature is the best therapy.",
         clubDescription: "A friendly hiking group focused on mental wellness, exploration, and community bonding."
