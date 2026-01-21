@@ -105,11 +105,32 @@ class BattleRunViewController: UIViewController {
                if current.name.hasPrefix("Tile_") {
                    handleTileTap(id: current.name)
                    return
-               }
+               }//Tile_12
+               //└─ Mesh
+                   //└─ Geometry
                entity = current.parent
            }
        }
    }
+    @objc private func handlePinch(_ recognizer: UIPinchGestureRecognizer) {
+        let scale = Float(recognizer.scale)
+        recognizer.scale = 1
+        let zoomSpeed: Float = 4.0
+        let delta = (1.0 - scale) * zoomSpeed
+        let forward = cameraRig.orientation.act([0, 0, -1])
+        cameraRig.position += forward * delta
+
+    }
+
+    @objc private func handlePan(_ recognizer: UIPanGestureRecognizer) {
+        let translation = recognizer.translation(in: arView)
+        recognizer.setTranslation(.zero, in: arView)
+
+        let rot = simd_quatf(angle: Float(translation.x) * 0.005, axis: [0, 1, 0]) * simd_quatf(angle: Float(translation.y) * 0.005, axis: cameraRig.orientation.act([1, 0, 0]))
+        
+        cameraRig.position = orbitCenter + rot.act(cameraRig.position - orbitCenter)
+        cameraRig.orientation = rot * cameraRig.orientation
+    }
    
    private func handleTileTap(id: String) {
        guard let controller = boardController, let tile = game.tiles[id] else { return }
@@ -174,25 +195,7 @@ class BattleRunViewController: UIViewController {
        }
    }
 
-   @objc private func handlePinch(_ recognizer: UIPinchGestureRecognizer) {
-       let scale = Float(recognizer.scale)
-       recognizer.scale = 1
-       let zoomSpeed: Float = 4.0
-       let delta = (1.0 - scale) * zoomSpeed
-       let forward = cameraRig.orientation.act([0, 0, -1])
-       cameraRig.position += forward * delta
 
-   }
-
-   @objc private func handlePan(_ recognizer: UIPanGestureRecognizer) {
-       let translation = recognizer.translation(in: arView)
-       recognizer.setTranslation(.zero, in: arView)
-
-       let rot = simd_quatf(angle: Float(translation.x) * 0.005, axis: [0, 1, 0]) * simd_quatf(angle: Float(translation.y) * 0.005, axis: cameraRig.orientation.act([1, 0, 0]))
-       
-       cameraRig.position = orbitCenter + rot.act(cameraRig.position - orbitCenter)
-       cameraRig.orientation = rot * cameraRig.orientation
-   }
 
    private func frame(entity: Entity) {
        let bounds = entity.visualBounds(relativeTo: nil)
