@@ -92,7 +92,7 @@ class CaloriesViewController: UIViewController {
             attributes: [.font: mediumFont, .foregroundColor: UIColor.white]
         )
         let unitsText = NSAttributedString(
-            string: "(kcal)",
+            string: "(Kcal)",
             attributes: [.font: thinFont, .foregroundColor: UIColor.white]
         )
 
@@ -109,7 +109,7 @@ class CaloriesViewController: UIViewController {
             attributes: [.font: boldFont, .foregroundColor: UIColor.accent]
         )
         let unitText = NSAttributedString(
-            string: "kcal",
+            string: "Kcal",
             attributes: [.font: thin2Font, .foregroundColor: UIColor.accent]
         )
 

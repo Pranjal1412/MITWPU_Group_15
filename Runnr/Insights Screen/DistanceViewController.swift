@@ -89,7 +89,7 @@ class DistanceViewController: UIViewController {
             attributes: [.font: mediumFont, .foregroundColor: UIColor.white]
         )
         let unitsText = NSAttributedString(
-            string: "(km)",
+            string: "(Km)",
             attributes: [.font: thinFont, .foregroundColor: UIColor.white]
         )
         
@@ -106,7 +106,7 @@ class DistanceViewController: UIViewController {
             attributes: [.font: boldFont, .foregroundColor: UIColor.accent]
         )
         let unitText = NSAttributedString(
-            string: "km",
+            string: "Km",
             attributes: [.font: thin2Font, .foregroundColor: UIColor.accent]
         )
         
