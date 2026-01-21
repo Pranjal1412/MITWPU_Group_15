@@ -84,12 +84,11 @@ class JoinUsViewController: UIViewController {
         self.buttonBack.tintColor = UIColor.white
         self.buttonBack.setImage(UIImage(systemName: "chevron.left"), for: .normal)
         buttonGoogle.isUserInteractionEnabled = true
-        // Ensure the button isn't covered by its own label
         buttonGoogle.bringSubviewToFront(buttonGoogle.titleLabel!)
     }
     
     @IBAction func buttonGooglePressed(_ sender: UIButton) {
-        print("Google Button Tapped") // Add this to debug in the console
+        print("Google Button Tapped")
             
             GIDSignIn.sharedInstance.signIn(withPresenting: self) { signInResult, error in
                 if let error = error {
@@ -99,8 +98,6 @@ class JoinUsViewController: UIViewController {
                 let user = signInResult?.user
                 let emailAddress = user?.profile?.email
                 print("Successfully signed in as: \(emailAddress ?? "Unknown")")
-                
-                // IMPORTANT: Call your proceed function here
                 DispatchQueue.main.async {
                     self.proceedAfterLogin()
                 }
@@ -108,7 +105,6 @@ class JoinUsViewController: UIViewController {
     }
     
     func proceedAfterLogin() {
-        // Option A: If you want to pop back to the root like your Sign Up button does
         isSignUpComplete = true
         let destinationVC = YourInformationViewController()
         self.navigationController?.pushViewController(destinationVC, animated: true)
