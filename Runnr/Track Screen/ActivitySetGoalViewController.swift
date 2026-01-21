@@ -62,7 +62,7 @@ class ActivitySetGoalViewController: UIViewController {
         
         
         let regularText = NSAttributedString(string: "Distance ", attributes: [.font: regularFont , .foregroundColor: UIColor.white])
-        let lightText = NSAttributedString(string: "(km)", attributes: [.font: lightFont , .foregroundColor: UIColor.white])
+        let lightText = NSAttributedString(string: "(Km)", attributes: [.font: lightFont , .foregroundColor: UIColor.white])
         
         let fullDistancetext = NSMutableAttributedString()
         fullDistancetext.append(regularText)

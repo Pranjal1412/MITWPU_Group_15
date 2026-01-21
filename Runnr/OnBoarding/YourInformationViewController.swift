@@ -56,7 +56,7 @@ class YourInformationViewController: UIViewController {
     func showPhotoLibrary() {
             var config = PHPickerConfiguration()
             config.filter = .images
-            config.selectionLimit = 1
+            config.selectionLimit = 1//here we set the limit to 1
             
             let picker = PHPickerViewController(configuration: config)
             picker.delegate = self
