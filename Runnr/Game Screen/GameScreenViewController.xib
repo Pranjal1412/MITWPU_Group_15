@@ -49,7 +49,7 @@
                     </connections>
                 </segmentedControl>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Game" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ak8-md-SGm">
-                    <rect key="frame" x="25.000000000000007" y="90" width="88.666666666666686" height="40"/>
+                    <rect key="frame" x="24.999999999999993" y="90" width="88.333333333333314" height="40"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="nW9-oC-wXg"/>
                     </constraints>
@@ -199,7 +199,7 @@
         <image name="GameBackground" width="1206" height="885"/>
         <image name="user3" width="40" height="40"/>
         <namedColor name="AccentColor">
-            <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.79199999570846558" blue="0.15700000524520874" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

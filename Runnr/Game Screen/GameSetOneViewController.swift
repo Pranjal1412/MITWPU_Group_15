@@ -59,6 +59,30 @@ class GameSetOneViewController: UIViewController {
         viewGameDetails.backgroundColor = .accent
         viewChooseColour.backgroundColor = .gray
     }
+    func setupMenu() {
+
+        let run = UIAction(title: "Running") { _ in
+            self.labelYourSport.text="Running"
+            self.labelYourSport.textColor = .white
+        }
+
+        let walk = UIAction(title: "Walking") { _ in
+            self.labelYourSport.text="Walking"
+            self.labelYourSport.textColor = .white
+
+        }
+
+        let cycle = UIAction(title: "Hiking") { _ in
+            self.labelYourSport.text="Hiking"
+            self.labelYourSport.textColor = .white
+
+        }
+
+        buttonDropDown.menu = UIMenu(children: [run, walk, cycle])
+        buttonDropDown.showsMenuAsPrimaryAction = true
+        self.buttonDropDown.setTitleColor(.accent, for: .normal)
+    }
+ 
     
     @IBAction func pickerDate(_ sender: UIDatePicker) {
         let selectedDate = sender.date
@@ -135,30 +159,7 @@ class GameSetOneViewController: UIViewController {
         }
 
     }
-    func setupMenu() {
 
-        let run = UIAction(title: "Running") { _ in
-            self.labelYourSport.text="Running"
-            self.labelYourSport.textColor = .white
-        }
-
-        let walk = UIAction(title: "Walking") { _ in
-            self.labelYourSport.text="Walking"
-            self.labelYourSport.textColor = .white
-
-        }
-
-        let cycle = UIAction(title: "Hiking") { _ in
-            self.labelYourSport.text="Hiking"
-            self.labelYourSport.textColor = .white
-
-        }
-
-        buttonDropDown.menu = UIMenu(children: [run, walk, cycle])
-        buttonDropDown.showsMenuAsPrimaryAction = true
-        self.buttonDropDown.setTitleColor(.accent, for: .normal)
-    }
- 
     @IBAction func colorSelection(_ sender: UIButton) {
         let colorButtons = [buttonMint, buttonCyan, buttonRed]
             colorButtons.forEach { button in
