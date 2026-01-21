@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24127" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -18,6 +18,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CreateClubViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
+                <outlet property="buttonBack" destination="REJ-hB-PMH" id="IWt-yM-J9p"/>
                 <outlet property="buttonNext" destination="97n-47-BdF" id="a8N-2o-Vos"/>
                 <outlet property="clubDescriptionTextField" destination="90A-AJ-xEz" id="hZO-tP-syB"/>
                 <outlet property="clubDescriptionView" destination="O4v-WM-5le" id="Ivl-i4-fdQ"/>
@@ -270,6 +271,7 @@
                 </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="tertiarySystemFillColor"/>
             <constraints>
                 <constraint firstItem="Biy-ss-bQ1" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="C07-WJ-82d"/>
                 <constraint firstAttribute="bottom" secondItem="Biy-ss-bQ1" secondAttribute="bottom" id="QJU-Lp-wM0"/>
@@ -290,6 +292,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="tertiarySystemFillColor">
+            <color red="0.46274509800000002" green="0.46274509800000002" blue="0.50196078430000002" alpha="0.12" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
