@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_3" orientation="portrait" appearance="dark"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="SF-Pro.ttf">
+            <string>SFPro-Heavy</string>
+            <string>SFPro-Medium</string>
+            <string>SFPro-Semibold</string>
+            <string>SFPro-Thin</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SetProfileViewController" customModule="Runnr" customModuleProvider="target">
+            <connections>
+                <outlet property="buttonNext" destination="xPW-g9-Q1t" id="qit-a9-ewX"/>
+                <outlet property="buttonUserProfile" destination="OUx-lk-Uce" id="L8K-u6-w66"/>
+                <outlet property="labelFullName" destination="yF2-UG-7N6" id="dXe-Nm-eIY"/>
+                <outlet property="labelHeading" destination="u2y-Al-6i2" id="vf4-J1-Mne"/>
+                <outlet property="labelSubHeading" destination="U6n-c8-nBq" id="Hkd-NC-a0U"/>
+                <outlet property="progressBar" destination="bbS-ew-Wem" id="vlG-Rf-OMb"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="viewBioBackground" destination="pLQ-i2-cKg" id="4Kb-PN-LFb"/>
+                <outlet property="viewMainOne" destination="GDt-ML-l5F" id="pGe-FP-Ute"/>
+                <outlet property="viewMainTwo" destination="WYw-aD-AZ9" id="2Nv-1H-Y98"/>
+                <outlet property="viewTextBackground" destination="hnu-LH-0ph" id="lUd-j4-PA1"/>
+                <outlet property="viewTextHeight" destination="keU-Hv-TVn" id="bZj-Nl-1Tz"/>
+                <outlet property="viewTextWeight" destination="IFh-wG-hFO" id="vw2-up-LJM"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="bbS-ew-Wem">
+                    <rect key="frame" x="25" y="148.33333333333334" width="352" height="4"/>
+                    <color key="progressTintColor" name="AccentColor"/>
+                </progressView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Set Your Identity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u2y-Al-6i2">
+                    <rect key="frame" x="25" y="182.33333333333334" width="357" height="35"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="35" id="YGK-zu-dDe"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="30"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose a name that will lead the leaderboard" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U6n-c8-nBq">
+                    <rect key="frame" x="25" y="222.33333333333334" width="363" height="20.333333333333343"/>
+                    <fontDescription key="fontDescription" name="SFPro-Thin" family="SF Pro" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GDt-ML-l5F">
+                    <rect key="frame" x="25" y="272" width="352" height="440"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Full Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yF2-UG-7N6">
+                            <rect key="frame" x="15" y="205" width="322" height="18"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hnu-LH-0ph">
+                            <rect key="frame" x="15" y="233" width="322" height="50"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Your Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XaX-aO-r8V">
+                                    <rect key="frame" x="10" y="5" width="304" height="40"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </textField>
+                            </subviews>
+                            <color key="backgroundColor" name="CardDarkBlack"/>
+                        </view>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Bio" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XuI-fK-kCH">
+                            <rect key="frame" x="15" y="313" width="322" height="18"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pLQ-i2-cKg">
+                            <rect key="frame" x="15" y="341" width="322" height="70"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                            <subviews>
+                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="gC8-Ay-qZM">
+                                    <rect key="frame" x="10" y="5" width="304" height="60"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <color key="textColor" systemColor="labelColor"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                </textView>
+                            </subviews>
+                            <color key="backgroundColor" name="CardDarkBlack"/>
+                        </view>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OUx-lk-Uce">
+                            <rect key="frame" x="111" y="41" width="130" height="130"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" name="CardLightBlack"/>
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal">
+                                <imageReference key="image" image="camera.fill" catalog="system" symbolScale="large"/>
+                            </state>
+                        </button>
+                    </subviews>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xPW-g9-Q1t">
+                    <rect key="frame" x="45" y="742" width="312" height="54"/>
+                    <color key="backgroundColor" name="AccentColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="54" id="NnI-Tr-DlU"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="18"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="Next">
+                        <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="buttonNextClicked:" destination="-1" eventType="touchUpInside" id="kaO-oD-Lnv"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 OF 2" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3B5-xV-6W3">
+                    <rect key="frame" x="25" y="129" width="352" height="14.333333333333343"/>
+                    <fontDescription key="fontDescription" name="SFPro-Heavy" family="SF Pro" pointSize="12"/>
+                    <color key="textColor" systemColor="systemGray2Color"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WYw-aD-AZ9">
+                    <rect key="frame" x="25" y="272" width="352" height="440"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" distribution="fillEqually" alignment="center" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="emz-UB-4oP">
+                            <rect key="frame" x="15" y="81" width="322" height="40"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hkq-EE-LyS">
+                                    <rect key="frame" x="0.0" y="0.0" width="86" height="40"/>
+                                    <color key="backgroundColor" name="CardDarkBlack"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="40" id="zcm-qZ-kdg"/>
+                                    </constraints>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    <state key="normal" title="   Male   "/>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L8R-ZE-dzO">
+                                    <rect key="frame" x="118" y="0.0" width="86" height="40"/>
+                                    <color key="backgroundColor" name="CardDarkBlack"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="40" id="WRQ-ZP-Fch"/>
+                                    </constraints>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    <state key="normal" title="   Female   "/>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L8p-VF-Eaq">
+                                    <rect key="frame" x="236" y="0.0" width="86" height="40"/>
+                                    <color key="backgroundColor" name="CardDarkBlack"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="40" id="RUt-bZ-C4I"/>
+                                    </constraints>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    <state key="normal" title="   Other   "/>
+                                </button>
+                            </subviews>
+                        </stackView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Height" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jEO-AJ-9Y7">
+                            <rect key="frame" x="15" y="166" width="322" height="18"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="keU-Hv-TVn">
+                            <rect key="frame" x="15" y="195" width="322" height="50"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Your Height" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uzI-5k-3OT">
+                                    <rect key="frame" x="10" y="5" width="304" height="40"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </textField>
+                            </subviews>
+                            <color key="backgroundColor" name="CardDarkBlack"/>
+                        </view>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Weight" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0H5-9N-1gk">
+                            <rect key="frame" x="15" y="289" width="322" height="18"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IFh-wG-hFO">
+                            <rect key="frame" x="15" y="318" width="322" height="50"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Your Weight" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jfK-AA-7b8">
+                                    <rect key="frame" x="10" y="5" width="304" height="40"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </textField>
+                            </subviews>
+                            <color key="backgroundColor" name="CardDarkBlack"/>
+                        </view>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Gender" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YyN-by-ghD">
+                            <rect key="frame" x="15" y="55" width="322" height="18"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="U6n-c8-nBq" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="7O9-0o-EdF"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="xPW-g9-Q1t" secondAttribute="bottom" constant="10" id="BYg-2d-7dj"/>
+                <constraint firstItem="U6n-c8-nBq" firstAttribute="top" secondItem="u2y-Al-6i2" secondAttribute="bottom" constant="5" id="Bn7-op-XsT"/>
+                <constraint firstItem="3B5-xV-6W3" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="EWa-Ja-Px4"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="xPW-g9-Q1t" secondAttribute="trailing" constant="45" id="IXO-X4-KbD"/>
+                <constraint firstAttribute="trailing" secondItem="bbS-ew-Wem" secondAttribute="trailing" constant="25" id="XV6-lr-J5f"/>
+                <constraint firstItem="u2y-Al-6i2" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="25" id="YBq-64-KCB"/>
+                <constraint firstAttribute="trailing" secondItem="u2y-Al-6i2" secondAttribute="trailing" constant="20" id="gDU-BD-mq0"/>
+                <constraint firstItem="bbS-ew-Wem" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="25" id="iLm-Qh-aqW"/>
+                <constraint firstItem="3B5-xV-6W3" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="5" id="mTA-ig-d3f"/>
+                <constraint firstItem="bbS-ew-Wem" firstAttribute="top" secondItem="3B5-xV-6W3" secondAttribute="bottom" constant="5" id="oAb-eD-az1"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="U6n-c8-nBq" secondAttribute="trailing" constant="14" id="oSo-pO-Yza"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="3B5-xV-6W3" secondAttribute="trailing" constant="25" id="rea-cl-a7l"/>
+                <constraint firstItem="xPW-g9-Q1t" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="45" id="vVR-wR-NkG"/>
+                <constraint firstItem="u2y-Al-6i2" firstAttribute="top" secondItem="bbS-ew-Wem" secondAttribute="bottom" constant="30" id="z5T-YV-Xw8"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="subviews">
+                    <exclude reference="GDt-ML-l5F"/>
+                </mask>
+            </variation>
+            <point key="canvasLocation" x="137.31343283582089" y="153.77574370709382"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="camera.fill" catalog="system" width="128" height="93"/>
+        <namedColor name="AccentColor">
+            <color red="1" green="0.79199999570846558" blue="0.15700000524520874" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="CardDarkBlack">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="CardLightBlack">
+            <color red="0.10199999809265137" green="0.10199999809265137" blue="0.10199999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray2Color">
+            <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

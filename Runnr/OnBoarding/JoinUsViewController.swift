@@ -30,7 +30,7 @@ class JoinUsViewController: UIViewController {
     
     @IBAction func signUpButtonPressed(_ sender: UIButton) {
         isSignUpComplete = true
-        let destinationVC = YourInformationViewController()
+        let destinationVC = SetProfileViewController()
         self.navigationController?.pushViewController(destinationVC, animated: true)
     }
     
@@ -106,7 +106,7 @@ class JoinUsViewController: UIViewController {
     
     func proceedAfterLogin() {
         isSignUpComplete = true
-        let destinationVC = YourInformationViewController()
+        let destinationVC = SetProfileViewController()
         self.navigationController?.pushViewController(destinationVC, animated: true)
     }
 }

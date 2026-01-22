@@ -41,7 +41,7 @@ class ViewController: UIViewController {
             itemOne.tabBarItem = iconOne
             
             let itemTwo = ClubScreenViewController()
-            let iconTwo = UITabBarItem(title:NSLocalizedString("Clubs", comment: ""), image: UIImage(systemName: "person.2.fill"), selectedImage: UIImage(systemName: "person.2.fill"))
+            let iconTwo = UITabBarItem(title:NSLocalizedString("Community", comment: ""), image: UIImage(systemName: "person.2.fill"), selectedImage: UIImage(systemName: "person.2.fill"))
             itemTwo.tabBarItem = iconTwo
 
             let itemThree = ActivityStartViewController()
@@ -58,7 +58,7 @@ class ViewController: UIViewController {
             let iconFive = UITabBarItem(title:NSLocalizedString("Insights", comment: ""), image: UIImage(systemName: "chart.bar.fill"), selectedImage: UIImage(systemName: "chart.bar.fill"))
             itemFive.tabBarItem = iconFive
             
-            let tabBarControllerArray = [itemOne, itemTwo, itemThree, itemFour, itemFive]
+            let tabBarControllerArray = [itemOne, itemFive, itemThree, itemFour, itemTwo]
             tabBar.setViewControllers(tabBarControllerArray, animated: false)
             tabBar.selectedIndex = 2
             tabBar.modalPresentationStyle = .fullScreen
