@@ -121,6 +121,9 @@ class ActivityStartViewController: UIViewController {
         buttonStart.setTitleColor(.black, for: .normal)
         buttonStart.titleLabel?.font = UIFont.systemFont(ofSize: 30, weight: .heavy)
         buttonStart.layer.cornerRadius = buttonStart.bounds.height / 2.0
+        buttonStart.layer.shadowColor = UIColor.accent.withAlphaComponent(0.5).cgColor
+        buttonStart.layer.shadowOpacity = 0.5
+        buttonStart.layer.shadowRadius = self.buttonUserProfile.frame.height / 2
                     
     }
     

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import GoogleSignIn
 
 class LoginViewController: UIViewController {
 
@@ -32,9 +33,7 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func backButtonPressed(_ sender: UIButton) {
-        isSignUpComplete = false
         self.navigationController?.popViewController(animated: true)
-        
     }
     
     func settingTitle() {
@@ -80,4 +79,25 @@ class LoginViewController: UIViewController {
         self.buttonBack.setImage(UIImage(systemName: "chevron.left"), for: .normal)
     }
     
+    @IBAction func buttonGooglePressed(_ sender: UIButton) {
+        print("Google Button Tapped")
+            
+            GIDSignIn.sharedInstance.signIn(withPresenting: self) { signInResult, error in
+                if let error = error {
+                    print("Sign in failed: \(error.localizedDescription)")
+                    return
+                }
+                let user = signInResult?.user
+                let emailAddress = user?.profile?.email
+                print("Successfully signed in as: \(emailAddress ?? "Unknown")")
+                DispatchQueue.main.async {
+                    self.proceedAfterLogin()
+                }
+            }
+    }
+    
+    func proceedAfterLogin() {
+        isSignUpComplete = true
+        self.navigationController?.popToRootViewController(animated: false)
+    }
 }

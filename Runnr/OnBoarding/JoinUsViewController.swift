@@ -29,13 +29,12 @@ class JoinUsViewController: UIViewController {
     }
     
     @IBAction func signUpButtonPressed(_ sender: UIButton) {
-        isSignUpComplete = true
         let destinationVC = SetProfileViewController()
-        self.navigationController?.pushViewController(destinationVC, animated: true)
+        destinationVC.modalPresentationStyle = .fullScreen
+        self.present(destinationVC, animated: true)
     }
     
     @IBAction func backButtonPressed(_ sender: UIButton) {
-        isSignUpComplete = false
         self.navigationController?.popViewController(animated: true)
         
     }
@@ -105,8 +104,8 @@ class JoinUsViewController: UIViewController {
     }
     
     func proceedAfterLogin() {
-        isSignUpComplete = true
         let destinationVC = SetProfileViewController()
-        self.navigationController?.pushViewController(destinationVC, animated: true)
+        destinationVC.modalPresentationStyle = .fullScreen
+        self.present(destinationVC, animated: true)
     }
 }
