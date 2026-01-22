@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSHealthShareUsageDescription</key>
+	<string>We read Apple Watch heart rate and calorie data to show post-run insights.</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
