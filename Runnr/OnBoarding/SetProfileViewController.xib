@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24127" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -13,6 +13,7 @@
         <array key="SF-Pro.ttf">
             <string>SFPro-Heavy</string>
             <string>SFPro-Medium</string>
+            <string>SFPro-Regular</string>
             <string>SFPro-Semibold</string>
             <string>SFPro-Thin</string>
         </array>
@@ -45,11 +46,11 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="bbS-ew-Wem">
-                    <rect key="frame" x="25" y="144" width="352" height="4"/>
+                    <rect key="frame" x="25" y="144.33333333333334" width="352" height="4"/>
                     <color key="progressTintColor" name="AccentColor"/>
                 </progressView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Set Your Identity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u2y-Al-6i2">
-                    <rect key="frame" x="25" y="178" width="357" height="35"/>
+                    <rect key="frame" x="25" y="178.33333333333334" width="357" height="35"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="35" id="YGK-zu-dDe"/>
                     </constraints>
@@ -58,7 +59,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose a name that will lead the leaderboard" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U6n-c8-nBq">
-                    <rect key="frame" x="25" y="218" width="363" height="20"/>
+                    <rect key="frame" x="25" y="218.33333333333334" width="363" height="20.333333333333343"/>
                     <fontDescription key="fontDescription" name="SFPro-Thin" family="SF Pro" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -81,7 +82,8 @@
                                 <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Your Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XaX-aO-r8V">
                                     <rect key="frame" x="10" y="5" width="304" height="40"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <color key="textColor" name="AccentColor"/>
+                                    <fontDescription key="fontDescription" name="SFPro-Regular" family="SF Pro" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
                             </subviews>
@@ -136,7 +138,7 @@
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 OF 2" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3B5-xV-6W3">
-                    <rect key="frame" x="25" y="125" width="352" height="14"/>
+                    <rect key="frame" x="25" y="124.99999999999999" width="352" height="14.333333333333329"/>
                     <fontDescription key="fontDescription" name="SFPro-Heavy" family="SF Pro" pointSize="12"/>
                     <color key="textColor" systemColor="systemGray2Color"/>
                     <nil key="highlightedColor"/>

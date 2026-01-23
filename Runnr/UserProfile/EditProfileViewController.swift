@@ -10,7 +10,7 @@ import UIKit
 class EditProfileViewController: UIViewController {
 
     @IBOutlet weak var imageViewProfilePhoto: UIImageView!
-    @IBOutlet weak var buttonEditProfilePhoto: UIButton!
+//    @IBOutlet weak var buttonEditProfilePhoto: UIButton!
     @IBOutlet weak var labelUsername: UILabel!
     @IBOutlet weak var labelDisplayName: UILabel!
     @IBOutlet weak var viewUsername: UIView!
@@ -31,7 +31,7 @@ class EditProfileViewController: UIViewController {
     
     func setup() {
         imageViewProfilePhoto.layer.cornerRadius = imageViewProfilePhoto.frame.size.height / 2
-        buttonEditProfilePhoto.layer.cornerRadius = buttonEditProfilePhoto.frame.size.height / 2
+//        buttonEditProfilePhoto.layer.cornerRadius = buttonEditProfilePhoto.frame.size.height / 2
         viewUsername.layer.cornerRadius = 10
         viewDisplayName.layer.cornerRadius = 10
         viewUsername.clipsToBounds = true

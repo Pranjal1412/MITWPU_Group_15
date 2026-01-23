@@ -52,7 +52,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pk1-g8-qQL" userLabel="Settings">
-                    <rect key="frame" x="352" y="70" width="45" height="45"/>
+                    <rect key="frame" x="347" y="70" width="45" height="45"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="45" id="jAw-Qd-d1S"/>
                         <constraint firstAttribute="width" constant="45" id="jrf-6n-CJw"/>
@@ -65,7 +65,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uin-Ul-OqL" userLabel="Cancel">
-                    <rect key="frame" x="1" y="70" width="45" height="45"/>
+                    <rect key="frame" x="10" y="70" width="45" height="45"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="45" id="7tM-c2-iyO"/>
                         <constraint firstAttribute="height" constant="45" id="PP3-IB-NtS"/>
@@ -332,9 +332,9 @@
                 <constraint firstItem="qOI-zw-rkj" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="bli-1r-lf9"/>
                 <constraint firstItem="uin-Ul-OqL" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="70" id="h6L-eb-Ntd"/>
                 <constraint firstAttribute="bottom" secondItem="qOI-zw-rkj" secondAttribute="bottom" id="hY1-ej-oFV"/>
-                <constraint firstItem="uin-Ul-OqL" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="1" id="hff-qu-P69"/>
+                <constraint firstItem="uin-Ul-OqL" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="hff-qu-P69"/>
                 <constraint firstItem="4h5-tk-7iD" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="70" id="kXJ-NF-8N5"/>
-                <constraint firstAttribute="trailing" secondItem="pk1-g8-qQL" secondAttribute="trailing" constant="5" id="qC2-4q-odT"/>
+                <constraint firstAttribute="trailing" secondItem="pk1-g8-qQL" secondAttribute="trailing" constant="10" id="qC2-4q-odT"/>
                 <constraint firstItem="qOI-zw-rkj" firstAttribute="top" secondItem="uin-Ul-OqL" secondAttribute="bottom" id="uXm-4Z-sm4"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
