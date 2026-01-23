@@ -61,12 +61,14 @@ class UserProfileViewController: UIViewController {
         self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.collectionViewBestActivity.frame.height + self.collectionViewBestActivity.frame.origin.y + 30)
         settingsElements()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         self.loadAllData()
     }
 
     @IBAction func editProfilePressed(_ sender: UIButton) {
+        let destinationVC = EditProfileViewController()
+        self.present(destinationVC, animated: true, completion: nil)
         
     }
     
