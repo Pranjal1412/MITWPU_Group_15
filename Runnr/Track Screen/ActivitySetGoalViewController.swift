@@ -16,6 +16,7 @@ class ActivitySetGoalViewController: UIViewController {
     @IBOutlet weak var labelAudioFeedback: UILabel!
     @IBOutlet weak var labelDistance: UILabel!
     @IBOutlet weak var labelTime: UILabel!
+    @IBOutlet weak var buttonCancel: UIButton!
     
     @IBOutlet weak var viewBackgroungActivity: UIView!
     @IBOutlet weak var viewBackgroundDistance: UIView!
@@ -41,6 +42,8 @@ class ActivitySetGoalViewController: UIViewController {
         self.setupMenu()
         self.registerNotifications()
         self.labelAudioFeedback.sizeToFit()
+        
+        setGlassEffect(for: self.buttonCancel, withImage: "multiply")
         
     }
     

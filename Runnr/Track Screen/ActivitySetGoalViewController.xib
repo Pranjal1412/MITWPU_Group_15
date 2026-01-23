@@ -19,6 +19,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ActivitySetGoalViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
                 <outlet property="buttonActivity" destination="amk-i3-LWg" id="rlA-iv-B8o"/>
+                <outlet property="buttonCancel" destination="VXE-42-Ogw" id="M5V-30-xcd"/>
                 <outlet property="buttonStart" destination="gzs-Np-AhN" id="PNM-5G-546"/>
                 <outlet property="labelAudioFeedback" destination="qPU-ae-qn0" id="9OV-fc-ISs"/>
                 <outlet property="labelDistance" destination="K07-cz-d2z" id="wCX-rf-2Z2"/>
@@ -307,10 +308,10 @@
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VXE-42-Ogw">
-                            <rect key="frame" x="25" y="25" width="30" height="30"/>
+                            <rect key="frame" x="15" y="25" width="45" height="45"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="30" id="YFI-vZ-kxT"/>
-                                <constraint firstAttribute="width" constant="30" id="p0u-Gs-xwC"/>
+                                <constraint firstAttribute="height" constant="45" id="YFI-vZ-kxT"/>
+                                <constraint firstAttribute="width" constant="45" id="p0u-Gs-xwC"/>
                             </constraints>
                             <color key="tintColor" name="AccentColor"/>
                             <state key="normal" title="Button"/>
@@ -339,7 +340,7 @@
                     <constraints>
                         <constraint firstItem="gzs-Np-AhN" firstAttribute="top" secondItem="neH-Pi-m9v" secondAttribute="bottom" constant="25" id="A5O-aN-jbd"/>
                         <constraint firstItem="hSZ-0b-JWD" firstAttribute="top" secondItem="hsK-Vy-pe3" secondAttribute="top" constant="55" id="AU0-5V-wmj"/>
-                        <constraint firstItem="VXE-42-Ogw" firstAttribute="leading" secondItem="hsK-Vy-pe3" secondAttribute="leading" constant="25" id="BKY-q4-YBw"/>
+                        <constraint firstItem="VXE-42-Ogw" firstAttribute="leading" secondItem="hsK-Vy-pe3" secondAttribute="leading" constant="15" id="BKY-q4-YBw"/>
                         <constraint firstAttribute="height" constant="661" id="Rff-GR-XTu"/>
                         <constraint firstAttribute="trailing" secondItem="gzs-Np-AhN" secondAttribute="trailing" constant="25" id="Rwn-RM-2Y9"/>
                         <constraint firstAttribute="trailing" secondItem="neH-Pi-m9v" secondAttribute="trailing" constant="25" id="d9M-7p-92X"/>
