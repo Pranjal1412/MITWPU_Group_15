@@ -132,10 +132,13 @@ class InsightsScreenViewController: UIViewController {
 
     // MARK: - Green Dates Based on Actual Activities
     private func prepareGreenDates() {
-        greenDates.removeAll()
+        greenDates.removeAll() //revents old or duplicate dates, empties the set
         let calendar = Calendar.current
         for activity in myActivities {
             let activityDate = calendar.startOfDay(for: activity.timeStamp)
+            /* Removes time (hours, minutes, seconds)
+             2026-01-21 18:42 → 2026-01-21 00:00
+             */
             greenDates.insert(activityDate)
         }
         calendarView.reloadData()
@@ -191,25 +194,40 @@ extension InsightsScreenViewController: JTACMonthViewDelegate, JTACMonthViewData
             generateOutDates: .tillEndOfGrid
         )
     }
-
+    
+    //create and configure cell
     func calendar(_ calendar: JTACMonthView, cellForItemAt date: Date, cellState: CellState, indexPath: IndexPath) -> JTACDayCell {
         let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: "dateCell", for: indexPath) as! CalendarDayCell
         self.configureCell(view: cell, cellState: cellState, date: date)
         return cell
     }
-
+    
+    //reapply UI before showing (for final correctness)
     func calendar(_ calendar: JTACMonthView, willDisplay cell: JTACDayCell, forItemAt date: Date, cellState: CellState, indexPath: IndexPath) {
         configureCell(view: cell, cellState: cellState, date: date)
     }
     
+    //to update month header
     func calendar(_ calendar: JTACMonthView, didScrollToDateSegmentWith visibleDates: DateSegmentInfo) {
         updateHeader(visibleDates: visibleDates)
     }
+    /*
+     Scroll calendar
+        ↓
+     Calendar requests cells
+        ↓
+     cellForItemAt → create & configure
+        ↓
+     willDisplay → reconfigure (safety)
+        ↓
+     didScroll → update month label
+     */
 
     private func configureCell(view: JTACDayCell?, cellState: CellState, date: Date) {
         guard let cell = view as? CalendarDayCell else { return }
 
         let calendar = Calendar.current
+        //normalized date: A date where the time part is removed, so only the calendar day matters.
         let normalizedDate = calendar.startOfDay(for: date)
         let today = calendar.startOfDay(for: Date())
 
@@ -306,12 +324,41 @@ class CalendarDayCell: JTACDayCell {
     let flameImageView = UIImageView()
 
     override init(frame: CGRect) {
+        /*
+        JTACDayCell already has an init frame,replacing(overriding) to add your own setup
+         JTACDayCell inheritance chain is : JTACDayCell -> UICollectionViewCell -> UIView
+         UIView already defines an initializer: init(frame: CGRect)
+         which means every Every UIView
+         Every UICollectionViewCell
+         Every JTACDayCell
+         automatically has init(frame:), even if you never write it yourself.
+         So JTACDayCell doesn’t “create” it — it inherits it from UIKit.
+         */
         super.init(frame: frame)
+        /*
+        1)creates space in memory to store this view,
+        2)UIKit sets up all the hidden machinery every view needs: Touch handling
+        Drawing system
+        Layout system
+        Event system
+        Sets frame, bounds, layer, etc.
+        3) UIKit sets:
+         frame → where the view is on screen
+         bounds → its internal coordinate system
+         layer → the visual backing (rounded corners, shadows, borders)
+         */
+        
         setupUI()
     }
+    
+    
+    //init(coder:) is the initializer used when a view is loaded from a storyboard or XIB.
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+        /*
+         init(coder:) is required by UIKit for storyboard-based views, and we include it with fatalError only to satisfy the compiler and to crash loudly if someone accidentally uses the wrong initialization path.
+         */
     }
 
     private func setupUI() {
