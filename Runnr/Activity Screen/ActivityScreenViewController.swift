@@ -156,9 +156,6 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
             let activity = myActivity[indexPath.section]
             cell.configure(with: activity)
             
-            cell.buttonMoreOptions.tag = indexPath.section
-            cell.buttonMoreOptions.addTarget(self, action: #selector(didTapOnMoreOptions(_:)), for: .touchUpInside)
-            
             return cell
 
         } else {
@@ -198,27 +195,27 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
 }
 
 //MARK: - Activity Settings
-extension ActivityScreenViewController {
-    
-    @objc func didTapOnMoreOptions(_ sender: UIButton) {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        let shareAction = UIAlertAction(title: String(localized: "Share Activity"), style: .default){
-            _ in self.dataSource.shareActivity(atIndex: sender.tag, presentingViewController: self)
-        }
-        let deleteAction = UIAlertAction(title: String(localized: "Delete Activity"), style: .destructive) { _ in
-            self.dataSource.deleteMyActivity(atIndex: sender.tag)
-            self.updateScreenElements()
-        }
-        let cancelAction = UIAlertAction(title: String(localized: "Canel"), style: .cancel, handler: nil)
-        
-        alert.addAction(shareAction)
-        alert.addAction(cancelAction)
-        alert.addAction(deleteAction)
-        present(alert, animated: true, completion: nil)
-    }
-    
-}
+//extension ActivityScreenViewController {
+//    
+//    @objc func didTapOnMoreOptions(_ sender: UIButton) {
+//        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+//        
+//        let shareAction = UIAlertAction(title: String(localized: "Share Activity"), style: .default){
+//            _ in self.dataSource.shareActivity(atIndex: sender.tag, presentingViewController: self)
+//        }
+//        let deleteAction = UIAlertAction(title: String(localized: "Delete Activity"), style: .destructive) { _ in
+//            self.dataSource.deleteMyActivity(atIndex: sender.tag)
+//            self.updateScreenElements()
+//        }
+//        let cancelAction = UIAlertAction(title: String(localized: "Canel"), style: .cancel, handler: nil)
+//        
+//        alert.addAction(shareAction)
+//        alert.addAction(cancelAction)
+//        alert.addAction(deleteAction)
+//        present(alert, animated: true, completion: nil)
+//    }
+//    
+//}
 
 
 
