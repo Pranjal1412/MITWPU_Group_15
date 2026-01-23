@@ -26,6 +26,8 @@ class JoinUsViewController: UIViewController {
         SettingViews()
         settingButton()
         print("View appeared")
+        
+        
     }
     
     @IBAction func signUpButtonPressed(_ sender: UIButton) {

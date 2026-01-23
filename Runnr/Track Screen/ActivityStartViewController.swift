@@ -39,6 +39,7 @@ class ActivityStartViewController: UIViewController {
         self.labelScreenTitle.sizeToFit()
         self.buttonUserProfile.layer.cornerRadius = self.buttonUserProfile.frame.height / 2
         self.buttonUserProfile.clipsToBounds = true
+
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -55,6 +56,12 @@ class ActivityStartViewController: UIViewController {
         }
         
         self.labelTotalPoints.text = "\(totalPoints)"
+        
+        
+        let destinationVC = IntroductionViewController()
+        destinationVC.modalPresentationStyle = .overCurrentContext
+        destinationVC.modalTransitionStyle = .crossDissolve
+        self.present(destinationVC, animated: true , completion: nil)
     }
     
     override func viewDidLayoutSubviews() {
