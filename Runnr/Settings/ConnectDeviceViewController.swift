@@ -9,21 +9,32 @@ import UIKit
 
 class ConnectDeviceViewController: UIViewController {
 
+    @IBOutlet weak var viewImageBackground: UIView!
+    @IBOutlet weak var buttonConnectDevice: UIButton!
+    @IBOutlet weak var buttonSkip: UIButton!
+    @IBOutlet weak var imageWatch: UIImageView!
+    @IBOutlet weak var viewImageSubBackground: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        settingUpElements()
     }
 
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    func settingUpElements() {
+        self.viewImageBackground.layer.cornerRadius = 50
+        self.viewImageBackground.backgroundColor = .modalBackground
+        self.viewImageBackground.layer.borderColor = UIColor.gray.cgColor
+        self.viewImageBackground.layer.borderWidth = 1.5
+        
+        self.viewImageSubBackground.layer.cornerRadius = 50
+        self.viewImageSubBackground.layer.borderColor = UIColor.accentColorLight.cgColor
+        self.viewImageSubBackground.layer.borderWidth = 2
+        self.viewImageSubBackground.layer.shadowColor = UIColor.accent.withAlphaComponent(0.3).cgColor
+        self.viewImageSubBackground.layer.shadowOpacity = 0.5
+        self.viewImageSubBackground.layer.shadowRadius = 50
+        
+        self.buttonConnectDevice.layer.cornerRadius = self.buttonConnectDevice.frame.height / 2
     }
-    */
-
 }

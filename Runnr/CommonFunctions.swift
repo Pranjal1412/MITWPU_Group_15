@@ -102,3 +102,12 @@ func formatDate(with date: Date) -> String {
     formatter.timeStyle = .short
     return formatter.string(from: date)
 }
+
+func setGlassEffect(for button: UIButton, withImage image: String) {
+    if #available(iOS 26.0, *) {
+        button.configuration = .glass()
+    }
+    
+    button.setImage(UIImage(systemName: image), for: .normal)
+    button.tintColor = .white
+}

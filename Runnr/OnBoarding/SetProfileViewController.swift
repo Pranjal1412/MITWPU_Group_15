@@ -68,10 +68,7 @@ class SetProfileViewController: UIViewController {
         
         self.buttonNext.layer.cornerRadius = self.buttonNext.frame.height / 2
         
-        if #available(iOS 26.0, *) {
-            self.buttonBack.configuration = .glass()
-            self.buttonBack.setImage(UIImage(systemName: "chevron.left"), for: .normal)
-        }
+        setGlassEffect(for: self.buttonBack, withImage: "chevron.backward")
 
         [buttonMale, buttonFemale, buttonOther].forEach {
             $0?.layer.cornerRadius = 10

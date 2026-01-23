@@ -71,12 +71,7 @@ class LoginViewController: UIViewController {
         buttonApple.layer.cornerRadius = buttonApple.frame.height / 2
         buttonGoogle.layer.cornerRadius = buttonGoogle.frame.height / 2
         
-        if #available(iOS 26.0, *) {
-            self.buttonBack.configuration = .glass()
-        }
-        
-        self.buttonBack.tintColor = UIColor.white
-        self.buttonBack.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        setGlassEffect(for: self.buttonBack, withImage: "chevron.backward")
     }
     
     @IBAction func buttonGooglePressed(_ sender: UIButton) {

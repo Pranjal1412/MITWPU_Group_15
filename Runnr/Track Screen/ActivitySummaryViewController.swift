@@ -23,15 +23,7 @@ class ActivitySummaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
                         
-        if #available(iOS 26.0, *) {
-            self.buttonBack.configuration = .glass()
-            self.buttonBack.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
-            self.buttonBack.tintColor = .white
-        } else {
-            self.buttonBack.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
-            self.buttonBack.frame.origin.x = 100.0
-            self.buttonBack.tintColor = .white
-        }
+        setGlassEffect(for: self.buttonBack, withImage: "chevron.backward")
         
         self.buttonShowAnalysis.layer.cornerRadius = buttonShowAnalysis.frame.height / 2.0
         self.labelActivityHeading.text = activityData?.runTitle

@@ -83,7 +83,11 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         tableView.deselectRow(at: indexPath, animated: true)
         let cellSelected = settingsArray[indexPath.section]![indexPath.row]
         
-        if cellSelected.title == "Logout" {
+        switch cellSelected.title {
+        case "Connect a Device" :
+            self.present(ConnectDeviceViewController(), animated: true)
+            
+        case "Logout" :
             let alert = UIAlertController(title: "Logout", message: "Are you sure you want to logout?", preferredStyle: .alert)
             
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
@@ -99,6 +103,13 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             alert.addAction(cancelAction)
             alert.addAction(logoutAction)
             present(alert, animated: true, completion: nil)
+            
+        default:
+            break
+        }
+        
+        if cellSelected.title == "Logout" {
+            
         }
         
     }

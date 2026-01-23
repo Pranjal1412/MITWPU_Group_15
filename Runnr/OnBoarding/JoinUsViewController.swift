@@ -76,9 +76,7 @@ class JoinUsViewController: UIViewController {
         buttonApple.setTitle(String(localized: "Sign Up with Apple ID"), for: .normal)
         
         buttonGoogle.layer.cornerRadius = buttonGoogle.frame.height / 2
-        if #available(iOS 26.0, *) {
-            self.buttonBack.configuration = .glass()
-        }
+        setGlassEffect(for: self.buttonBack, withImage: "chevron.backward")
         
         self.buttonBack.tintColor = UIColor.white
         self.buttonBack.setImage(UIImage(systemName: "chevron.left"), for: .normal)
