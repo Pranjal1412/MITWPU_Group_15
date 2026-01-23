@@ -45,21 +45,16 @@ class EditProfileViewController: UIViewController {
         viewDisplayName.layer.borderColor = UIColor.cardLightBlack.cgColor
         viewBio.layer.borderWidth = 1
         viewBio.layer.borderColor = UIColor.cardLightBlack.cgColor
+        
+        setGlassEffect(for: self.buttonCancel, withImage: "multiply")
+        setGlassEffect(for: self.buttonSaveChanges, withImage: "checkmark")
     }
     
     @IBAction func buttonSave(_ sender: Any) {
     }
     
     @IBAction func buttonCancel(_ sender: Any) {
+        self.dismiss(animated: true)
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
