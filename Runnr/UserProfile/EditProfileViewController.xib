@@ -45,7 +45,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HX1-bJ-3Gc">
                     <rect key="frame" x="25" y="303" width="352" height="60"/>
                     <subviews>
-                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter you Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZwT-Uz-gD2">
+                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter your name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZwT-Uz-gD2">
                             <rect key="frame" x="10" y="0.0" width="342" height="60"/>
                             <color key="textColor" name="AccentColor"/>
                             <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="17"/>
@@ -70,7 +70,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CZc-Bw-ZEf">
                     <rect key="frame" x="25" y="421" width="352" height="60"/>
                     <subviews>
-                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Your Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Icq-IQ-41f">
+                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter your email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Icq-IQ-41f">
                             <rect key="frame" x="10" y="0.0" width="342" height="60"/>
                             <color key="textColor" name="AccentColor"/>
                             <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="17"/>
