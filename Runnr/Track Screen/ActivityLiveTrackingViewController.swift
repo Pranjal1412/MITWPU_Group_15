@@ -46,6 +46,7 @@ class ActivityLiveTrackingViewController: UIViewController {
     let userLocation = UserLocationManager()
     let mapManager = MapManager()
     var activityManager: UserActivityManager!
+    let healthKitManager = HealthKitManager.shared
     var bounds = GMSCoordinateBounds()
     
     
@@ -58,6 +59,7 @@ class ActivityLiveTrackingViewController: UIViewController {
     var activityTypeSelected : String = ""
     
     var activityStartTime: Date?
+    var activityEndTime: Date?
     var timer : Timer?
     var counter = 3
     var quotes: [String] = [String(localized: "You Got This"), String(localized: "Lock in"), String(localized: "Lace Up")]
@@ -255,12 +257,13 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         let end = UIAlertAction(title: String(localized: "End Anyway"), style: .destructive, handler: { _ in
             
-//            self.userLocation.activityStarted = false
-            self.playAudioFile(named: "runCompleted")
-            let newActivity = UserActivity(
+            self.activityEndTime = Date()
+            
+            var newActivity = UserActivity(
                 id: self.userID,
                 userName: "Ava Brooks",
-                timeStamp: self.activityStartTime!,
+                activityStartTime: self.activityStartTime!,
+                activityEndTime: self.activityEndTime!,
                 runTitle: "",
                 activityType: self.activityTypeSelected,
                 distanceValue: self.activityManager.totalDistance,
@@ -270,6 +273,7 @@ class ActivityLiveTrackingViewController: UIViewController {
                 paceUnit: "/Km",
                 stepsValue: self.activityManager.totalSteps,
                 caloriesValue: 123,
+                avgHR: nil,
                 timeHour: self.activityManager.hours,
                 timeMin: self.activityManager.minutes,
                 timeSec: self.activityManager.seconds,
@@ -280,11 +284,17 @@ class ActivityLiveTrackingViewController: UIViewController {
                 note: "",
                 isPublic: false,
                 routeCoordinates: self.convertPathToCoordinates(self.mapManager.path))
-
-            let destinationVC = ActivitySaveViewController()
-            destinationVC.activityData = newActivity
-            destinationVC.modalPresentationStyle = .fullScreen
-            self.navigationController?.pushViewController(destinationVC, animated: true)
+            
+            //            the reason why navigation code is inside fetchAverageHeartRate is async, pushViewController runs immediately so majority of times avgHR will remain nil
+            self.healthKitManager.fetchAverageHeartRate(from: self.activityStartTime!, to: self.activityEndTime!) {
+                avgHR in
+                
+                newActivity.avgHR = avgHR
+                let destinationVC = ActivitySaveViewController()
+                destinationVC.activityData = newActivity
+                destinationVC.modalPresentationStyle = .fullScreen
+                self.navigationController?.pushViewController(destinationVC, animated: true)
+            }
         })
         
         alert.addAction(end)
