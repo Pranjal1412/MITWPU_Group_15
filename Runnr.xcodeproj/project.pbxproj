@@ -13,6 +13,12 @@
 		C9DFB2422F1F8B870002325C /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = C9DFB2412F1F8B870002325C /* FirebaseFirestore */; };
 		C9DFB2442F1F8B870002325C /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = C9DFB2432F1F8B870002325C /* FirebaseMessaging */; };
 		C9DFB2462F1F8B870002325C /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C9DFB2452F1F8B870002325C /* FirebaseStorage */; };
+		C9DFB4A42F24C08F0002325C /* runResumed.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9DFB4A12F24BF6F0002325C /* runResumed.mp3 */; };
+		C9DFB4A52F24C08F0002325C /* youHaveCompleted.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9DFB4A32F24BF6F0002325C /* youHaveCompleted.mp3 */; };
+		C9DFB4A62F24C08F0002325C /* runStarted.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9DFB4A22F24BF6F0002325C /* runStarted.mp3 */; };
+		C9DFB4A72F24C08F0002325C /* runPaused.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9DFB4A02F24BF6F0002325C /* runPaused.mp3 */; };
+		C9DFB4A82F24C08F0002325C /* keepGoing.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9DFB49E2F24BF6F0002325C /* keepGoing.mp3 */; };
+		C9DFB4A92F24C08F0002325C /* runCompleted.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9DFB49F2F24BF6F0002325C /* runCompleted.mp3 */; };
 		C9E277EB2F12697F0024A853 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = C9E277EA2F12697F0024A853 /* GoogleSignIn */; };
 		C9E277ED2F12697F0024A853 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C9E277EC2F12697F0024A853 /* GoogleSignInSwift */; };
 		F903F4572EB653FC0066B9A1 /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = F903F4562EB653FC0066B9A1 /* GoogleMaps */; };
@@ -20,6 +26,12 @@
 
 /* Begin PBXFileReference section */
 		19FDEE992EEBCC2E00AF027C /* Runnr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Runnr.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9DFB49E2F24BF6F0002325C /* keepGoing.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = keepGoing.mp3; sourceTree = "<group>"; };
+		C9DFB49F2F24BF6F0002325C /* runCompleted.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = runCompleted.mp3; sourceTree = "<group>"; };
+		C9DFB4A02F24BF6F0002325C /* runPaused.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = runPaused.mp3; sourceTree = "<group>"; };
+		C9DFB4A12F24BF6F0002325C /* runResumed.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = runResumed.mp3; sourceTree = "<group>"; };
+		C9DFB4A22F24BF6F0002325C /* runStarted.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = runStarted.mp3; sourceTree = "<group>"; };
+		C9DFB4A32F24BF6F0002325C /* youHaveCompleted.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = youHaveCompleted.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -66,9 +78,31 @@
 		19217CBC2EA0E064009AFC93 = {
 			isa = PBXGroup;
 			children = (
+				C9DFB49C2F24BF470002325C /* Resources */,
 				19217CC72EA0E064009AFC93 /* Runnr */,
 				19FDEE992EEBCC2E00AF027C /* Runnr.app */,
 			);
+			sourceTree = "<group>";
+		};
+		C9DFB49C2F24BF470002325C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C9DFB49D2F24BF5B0002325C /* Audio */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		C9DFB49D2F24BF5B0002325C /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				C9DFB49E2F24BF6F0002325C /* keepGoing.mp3 */,
+				C9DFB49F2F24BF6F0002325C /* runCompleted.mp3 */,
+				C9DFB4A02F24BF6F0002325C /* runPaused.mp3 */,
+				C9DFB4A12F24BF6F0002325C /* runResumed.mp3 */,
+				C9DFB4A22F24BF6F0002325C /* runStarted.mp3 */,
+				C9DFB4A32F24BF6F0002325C /* youHaveCompleted.mp3 */,
+			);
+			path = Audio;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -151,6 +185,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9DFB4A42F24C08F0002325C /* runResumed.mp3 in Resources */,
+				C9DFB4A52F24C08F0002325C /* youHaveCompleted.mp3 in Resources */,
+				C9DFB4A62F24C08F0002325C /* runStarted.mp3 in Resources */,
+				C9DFB4A72F24C08F0002325C /* runPaused.mp3 in Resources */,
+				C9DFB4A82F24C08F0002325C /* keepGoing.mp3 in Resources */,
+				C9DFB4A92F24C08F0002325C /* runCompleted.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

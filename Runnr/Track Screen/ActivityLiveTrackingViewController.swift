@@ -8,7 +8,7 @@
 import UIKit
 import GoogleMaps
 import CoreMotion
-import AVFoundation     //for audio feedback
+import AVFoundation
 
 class ActivityLiveTrackingViewController: UIViewController {
 
@@ -38,7 +38,8 @@ class ActivityLiveTrackingViewController: UIViewController {
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var switchAudioFeedback: UISwitch!
     
-    let speechSynthesizer = AVSpeechSynthesizer()   
+    let speechSynthesizer = AVSpeechSynthesizer()
+    var audioPlayer: AVAudioPlayer?
     var lastAnnouncedKm = 0
 
     let userID = DataSource.shared.getUserID()
@@ -139,37 +140,45 @@ class ActivityLiveTrackingViewController: UIViewController {
         }
         
     }
-    
+    func playAudioFile(named name: String) {
+        guard isAudioFeedbackOn else { return }
+
+        guard let url = Bundle.main.url(forResource: name, withExtension: "mp3") else {
+            print("Missing audio file:", name)
+            return
+        }
+
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer?.prepareToPlay()
+            audioPlayer?.play()
+        } catch {
+            print("Audio playback error")
+        }
+    }
+
     func announceRunStarted() {
-        guard isAudioFeedbackOn else { return }
-
-        let utterance = AVSpeechUtterance(
-            string: "Run started. All the best!"
-        )
-        utterance.voice = AVSpeechSynthesisVoice(language: "en-IN")
-        utterance.rate = 0.5
-        utterance.pitchMultiplier = 1.1
-
-        speechSynthesizer.speak(utterance)
+        playAudioFile(named: "runStarted")
     }
-
     func announceKilometer(_ km: Int) {
-        guard isAudioFeedbackOn else { return }
+        playAudioFile(named: "youHaveCompleted")
 
-        let utterance = AVSpeechUtterance(
-            string: "You have completed \(km) kilometers"
-        )
-        utterance.voice = AVSpeechSynthesisVoice(language: "en-IN")
-        utterance.rate = 0.5
-        utterance.pitchMultiplier = 1.1
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            guard self.isAudioFeedbackOn else { return }
 
-        speechSynthesizer.speak(utterance)
+            let utterance = AVSpeechUtterance(string: "\(km) kilometers")
+            utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
+            utterance.rate = 0.5
+            self.speechSynthesizer.speak(utterance)
+        }
     }
+
     
     @IBAction func pauseButtonPressed(_ sender: UIButton) {
-                
+        
         if buttonPause.tag == 0 {
-            
+            // Pause the run
+            playAudioFile(named: "runPaused")
             self.userLocation.locationManager.stopUpdatingLocation()
             self.activityManager.stopTimer()
             self.activityManager.stopStepsTracking()
@@ -182,6 +191,7 @@ class ActivityLiveTrackingViewController: UIViewController {
                 self.buttonEndRun.frame.origin.x = (self.buttonPause.frame.origin.x + self.buttonPause.frame.width + 70.0)
             }
             
+            // Fit map to route
             self.convertPathToCoordinates(mapManager.path).forEach { coordinate in
                 bounds = bounds.includingCoordinate(coordinate)
             }
@@ -193,26 +203,28 @@ class ActivityLiveTrackingViewController: UIViewController {
         }
         
         else if buttonPause.tag == 1 {
-            
+            // Resume the run
+            playAudioFile(named: "runResumed")
             self.userLocation.locationManager.startUpdatingLocation()
             self.activityManager.startTimer()
             self.activityManager.startStepsTracking()
-            
             self.mapManager.mapView.isMyLocationEnabled = true
             
             UIView.animate(withDuration: 0.5) {
                 self.buttonPause.frame.origin.x = (UIScreen.main.bounds.width - self.buttonPause.frame.width)/2.0
                 self.buttonPause.setImage(UIImage(systemName: "pause.fill"), for: .normal)
-                
                 self.buttonEndRun.frame.origin.x = (UIScreen.main.bounds.width - self.buttonPause.frame.width)/2.0
-                
             }
-
-            let lastCoordinate = self.mapManager.path.coordinate(at: self.mapManager.path.count() - 1)
             
-            let cameraView = GMSCameraPosition(latitude: lastCoordinate.latitude, longitude: lastCoordinate.longitude, zoom: 15.0)
+            // Safe check for last coordinate
+            if self.mapManager.path.count() > 0 {
+                let lastCoordinate = self.mapManager.path.coordinate(at: self.mapManager.path.count() - 1)
+                let cameraView = GMSCameraPosition(latitude: lastCoordinate.latitude, longitude: lastCoordinate.longitude, zoom: 15.0)
+                mapManager.mapView.animate(to: cameraView)
+            } else {
+                print("Warning: No coordinates in path yet.")
+            }
             
-            mapManager.mapView.animate(to: cameraView)
             buttonPause.tag = 0
         }
         
@@ -221,7 +233,7 @@ class ActivityLiveTrackingViewController: UIViewController {
     @IBAction func EndRunButtonPressed(_ sender: UIButton) {
         
         self.userLocation.locationManager.stopUpdatingLocation()
-        
+        playAudioFile(named: "runCompleted")
         let alert = UIAlertController(title: String(localized: "End Run"),
                                       message: String(localized: "Are you sure you want to end this run?"), preferredStyle: .alert)
         
