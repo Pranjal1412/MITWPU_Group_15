@@ -47,6 +47,7 @@ class ConnectDeviceViewController: UIViewController {
                 self.buttonConnectDevice.isEnabled = false
                 self.buttonConnectDevice.setTitle("Connected", for: .disabled)
                 self.buttonConnectDevice.backgroundColor = .darkGray
+                self.dismiss(animated: true)
             }
         }
         
