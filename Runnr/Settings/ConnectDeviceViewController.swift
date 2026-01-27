@@ -15,6 +15,8 @@ class ConnectDeviceViewController: UIViewController {
     @IBOutlet weak var imageWatch: UIImageView!
     @IBOutlet weak var viewImageSubBackground: UIView!
     
+    let healthKitManager = HealthKitManager.shared
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -37,4 +39,18 @@ class ConnectDeviceViewController: UIViewController {
         
         self.buttonConnectDevice.layer.cornerRadius = self.buttonConnectDevice.frame.height / 2
     }
+    
+    @IBAction func connectWatchClicked(_ sender: UIButton) {
+        
+        healthKitManager.requestPermission { granted in
+            if granted {
+                self.buttonConnectDevice.isEnabled = false
+                self.buttonConnectDevice.setTitle("Connected", for: .disabled)
+                self.buttonConnectDevice.backgroundColor = .darkGray
+            }
+        }
+        
+    }
+    
+    
 }

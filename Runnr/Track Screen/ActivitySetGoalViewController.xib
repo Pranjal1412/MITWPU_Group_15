@@ -126,6 +126,9 @@
                                                             <color key="textColor" name="AccentColor"/>
                                                             <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="17"/>
                                                             <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                            <connections>
+                                                                <action selector="distanceGoalSet:" destination="-1" eventType="editingChanged" id="7vb-RJ-rMg"/>
+                                                            </connections>
                                                         </textField>
                                                     </subviews>
                                                     <constraints>
@@ -168,11 +171,14 @@
                                                                     <color key="textColor" systemColor="underPageBackgroundColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="00" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hdG-tW-YG2">
+                                                                <textField opaque="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="00" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hdG-tW-YG2">
                                                                     <rect key="frame" x="0.0" y="19" width="90.666666666666671" height="36"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
                                                                     <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                                    <connections>
+                                                                        <action selector="distanceGoalSet:" destination="-1" eventType="editingChanged" id="0VT-rG-7td"/>
+                                                                    </connections>
                                                                 </textField>
                                                             </subviews>
                                                             <constraints>
@@ -217,11 +223,14 @@
                                                                     <color key="textColor" systemColor="underPageBackgroundColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="00" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xHZ-7c-h2S">
+                                                                <textField opaque="NO" tag="2" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="00" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xHZ-7c-h2S">
                                                                     <rect key="frame" x="0.0" y="19" width="90.666666666666671" height="36"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
                                                                     <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                                    <connections>
+                                                                        <action selector="distanceGoalSet:" destination="-1" eventType="editingChanged" id="7Zn-Ch-2BQ"/>
+                                                                    </connections>
                                                                 </textField>
                                                             </subviews>
                                                             <constraints>
@@ -351,9 +360,6 @@
                         <constraint firstItem="hSZ-0b-JWD" firstAttribute="leading" secondItem="hsK-Vy-pe3" secondAttribute="leading" constant="25" id="tey-Ag-XWF"/>
                         <constraint firstItem="neH-Pi-m9v" firstAttribute="leading" secondItem="hsK-Vy-pe3" secondAttribute="leading" constant="25" id="zfb-EF-cn2"/>
                     </constraints>
-                    <connections>
-                        <action selector="viewBackgroundClicked:" destination="-1" eventType="touchUpInside" id="ll6-FP-dlF"/>
-                    </connections>
                 </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
@@ -369,7 +375,7 @@
     <resources>
         <image name="xmark" catalog="system" width="128" height="113"/>
         <namedColor name="AccentColor">
-            <color red="1" green="0.79199999570846558" blue="0.15700000524520874" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="CardLightBlack">
             <color red="0.10199999809265137" green="0.10199999809265137" blue="0.10199999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
