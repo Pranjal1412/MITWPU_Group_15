@@ -94,6 +94,11 @@ class ActivitySetGoalViewController: UIViewController {
                     let rootController = ActivityLiveTrackingViewController(nibName: "ActivityLiveTrackingViewController", bundle: nil)
                     rootController.isAudioFeedbackOn = self.switchAudioFeedback.isOn
                     rootController.activityTypeSelected = self.buttonActivity.titleLabel!.text!
+                    rootController.distanceGoalSet = self.distanceGoal
+                    rootController.minGoalSet = self.minuteGoal
+                    rootController.hourGoalSet = self.hourGoal
+                    
+                    
                     let navigationController = UINavigationController(rootViewController: rootController)
 
                     navigationController.modalPresentationStyle = .fullScreen

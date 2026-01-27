@@ -61,7 +61,9 @@ class ActivityLiveTrackingViewController: UIViewController {
     var timer : Timer?
     var counter = 3
     var quotes: [String] = [String(localized: "You Got This"), String(localized: "Lock in"), String(localized: "Lace Up")]
-    
+    var distanceGoalSet : Double?
+    var minGoalSet : Int?
+    var hourGoalSet : Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
