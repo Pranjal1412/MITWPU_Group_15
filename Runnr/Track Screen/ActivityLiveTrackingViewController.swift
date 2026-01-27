@@ -165,30 +165,30 @@ class ActivityLiveTrackingViewController: UIViewController {
     func announceRunStarted() {
         playAudioFile(named: "runStarted")
     }
-        func announceAveragePace(_ pace: Double){
-            playAudioFile(named: "yourAveragePaceIs")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                guard self.isAudioFeedbackOn else { return }
-    
-                let utterance = AVSpeechUtterance(string: "\(pace) per kilometer")
-                utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
-                utterance.rate = 0.5
-                self.speechSynthesizer.speak(utterance)
-        }
-}
-    func announceKilometer(_ km: Int) {
-        playAudioFile(named: "youHaveCompleted")
-
+    func announceAveragePace(_ pace: Double){
+        playAudioFile(named: "yourAveragePaceIs")
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
             guard self.isAudioFeedbackOn else { return }
-
+            
+            let utterance = AVSpeechUtterance(string: "\(pace) per kilometer")
+            utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
+            utterance.rate = 0.5
+            self.speechSynthesizer.speak(utterance)
+        }
+    }
+    func announceKilometer(_ km: Int) {
+        playAudioFile(named: "youHaveCompleted")
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            guard self.isAudioFeedbackOn else { return }
+            
             let utterance = AVSpeechUtterance(string: "\(km) kilometers")
             utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
             utterance.rate = 0.5
             self.speechSynthesizer.speak(utterance)
         }
     }
-
+    
     
     @IBAction func pauseButtonPressed(_ sender: UIButton) {
         
@@ -249,14 +249,15 @@ class ActivityLiveTrackingViewController: UIViewController {
     @IBAction func EndRunButtonPressed(_ sender: UIButton) {
         
         self.userLocation.locationManager.stopUpdatingLocation()
+        self.checkIfGoalSetAndCompleted()
+        
         let alert = UIAlertController(title: String(localized: "End Run"),
                                       message: String(localized: "Are you sure you want to end this run?"), preferredStyle: .alert)
-        
         let cancel = UIAlertAction(title: String(localized: "Cancel"), style: .cancel, handler: nil)
         alert.addAction(cancel)
-        
+
         let end = UIAlertAction(title: String(localized: "End Anyway"), style: .destructive, handler: { _ in
-            
+            self.playAudioFile(named: "runCompleted")
             self.activityEndTime = Date()
             
             var newActivity = UserActivity(
@@ -329,11 +330,11 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         counter -= 1
     }
-        
+    
     func settingScreenElements() {
         navigationItem.hidesBackButton = true
         buttonEndRun.isHidden = true
-
+        
         scrollView.delegate = self
         scrollView.isScrollEnabled = false
         pageControl.isHidden = true
@@ -344,7 +345,7 @@ class ActivityLiveTrackingViewController: UIViewController {
         viewHeartRate.layer.cornerRadius = 20
         viewTime.layer.cornerRadius = 20
         viewDistance.layer.cornerRadius = 20
-
+        
         buttonLockScroll.layer.cornerRadius = buttonLockScroll.frame.height / 2
         
         buttonEndRun.frame.origin.x = (view.frame.width - buttonPause.frame.width) / 2
@@ -426,15 +427,57 @@ class ActivityLiveTrackingViewController: UIViewController {
     
     func captureMapImage(from mapView: GMSMapView) -> UIImage? {
         let renderer = UIGraphicsImageRenderer(size: mapView.bounds.size)
-
+        
         return renderer.image { _ in
             mapView.drawHierarchy(in: mapView.bounds,afterScreenUpdates: true)
         }
     }
-
-    
+    func checkIfGoalSetAndCompleted() {
+        if self.distanceGoalSet! > 0.0 {
+            let totalTimeSet = hourGoalSet! * 60 + minGoalSet!
+            
+            if totalTimeSet > 0 {
+                let totalTimeElapsed = activityManager.minutes + activityManager.hours * 60 + activityManager.seconds/60
+                
+                if totalTimeElapsed <= totalTimeSet && activityManager.totalDistance >= distanceGoalSet!{
+                    self.playAudioFile(named: "youHaveCompletedTodaysGoal")
+                }
+                else{
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                        guard self.isAudioFeedbackOn else { return }
+                        let utterance = AVSpeechUtterance(string: "You have not met your goal")
+                        utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
+                        utterance.rate = 0.5
+                        self.speechSynthesizer.speak(utterance)
+                    }
+                }
+            }
+            else{
+                if activityManager.totalDistance >= distanceGoalSet! {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                        guard self.isAudioFeedbackOn else { return }
+                        let utterance = AVSpeechUtterance(string: "Distance goal met!")
+                        utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
+                        utterance.rate = 0.5
+                        self.speechSynthesizer.speak(utterance)
+                    }
+                    //self.playAudioFile(named: "keepGoing")
+                }
+                else{
+                    let remainingDistance = distanceGoalSet! - activityManager.totalDistance
+                    self.playAudioFile(named: "youAreAlmostThere")
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                        guard self.isAudioFeedbackOn else { return }
+                        let utterance = AVSpeechUtterance(string: "\(remainingDistance) left")
+                        utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
+                        utterance.rate = 0.5
+                        self.speechSynthesizer.speak(utterance)
+                    }
+                }
+            }
+        }
+    }
 }
-
 // MARK: - Page Control Code & Scroll View Setting
 
 extension ActivityLiveTrackingViewController : UIScrollViewDelegate {
