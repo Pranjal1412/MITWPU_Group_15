@@ -16,7 +16,8 @@ struct UserProfile {
 struct UserActivity {
     let id: UUID
     let userName: String
-    let timeStamp: Date
+    let activityStartTime: Date
+    let activityEndTime: Date
     var runTitle: String
     let activityType: String
     let distanceValue: Double
@@ -26,6 +27,7 @@ struct UserActivity {
     let paceUnit: String
     let stepsValue: Int
     let caloriesValue: Int
+    var avgHR: Double?
     let timeHour: Int
     let timeMin: Int
     let timeSec: Int

@@ -30,7 +30,7 @@ class FriendsActivityTableViewCell: UITableViewCell {
 
     func configure(with activity: UserActivity) {
         labelName.text = activity.userName
-        labelDate.text = formatDate(with: activity.timeStamp)
+        labelDate.text = formatDate(with: activity.activityStartTime)
         labelRunTitle.text = activity.runTitle
         labelNote.text = activity.note
         labelDistance.text = "Distance"
