@@ -2,7 +2,8 @@ import UIKit
 
 class MyActivityTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var labelName: UILabel!
+    @IBOutlet weak var labelRunPoints: UILabel!
+    @IBOutlet weak var imageCurrency: UIImageView!
     @IBOutlet weak var imageProfile: UIImageView!
     @IBOutlet weak var labelDate: UILabel!
     @IBOutlet weak var labelRunTitle: UILabel!
@@ -13,7 +14,6 @@ class MyActivityTableViewCell: UITableViewCell {
     @IBOutlet weak var labelPaceContent: UILabel!
     @IBOutlet weak var labelTimeContent: UILabel!
     @IBOutlet weak var imageRun: UIImageView!
-    @IBOutlet weak var buttonMoreOptions: UIButton!
     @IBOutlet weak var labelNote: UILabel!
     
     override func awakeFromNib() {
@@ -23,7 +23,6 @@ class MyActivityTableViewCell: UITableViewCell {
     }
     
     func configure(with activity: UserActivity) {
-        labelName.text = activity.userName
         labelDate.text = formatDate(with: activity.timeStamp)
         labelRunTitle.text = activity.runTitle
         imageRun.image = activity.mapImage
@@ -33,7 +32,9 @@ class MyActivityTableViewCell: UITableViewCell {
         labelTime.text = NSLocalizedString("Time", comment: "")
         imageRun.layer.cornerRadius = 10
         imageProfile.layer.cornerRadius = imageProfile.frame.height / 2
-        
+        imageCurrency.layer.cornerRadius = imageCurrency.frame.height / 2
+        let totalPoints = activity.basePoints + activity.skillPoints
+        labelRunPoints.text = String(totalPoints)
         let valueFont = UIFont(name: "SFProText-Medium", size: 20) ?? UIFont.systemFont(ofSize: 20, weight: .medium)
         let unitFont = UIFont(name: "SFProText-Light", size: 11) ?? UIFont.systemFont(ofSize: 11, weight: .light)
 
