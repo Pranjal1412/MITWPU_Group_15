@@ -23,7 +23,7 @@ class UserActivityManager {
     var hours: Int = 0
     
     private var distanceLastLocation: CLLocation?
-    var totalDistance: Double = 0.0
+    var totalDistance: Double = 1.0
     
     private let pedometer = CMPedometer()
     private var steps : Int = 0
