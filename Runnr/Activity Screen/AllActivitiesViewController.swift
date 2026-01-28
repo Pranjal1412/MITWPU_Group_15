@@ -61,9 +61,6 @@ extension AllActivitiesViewController : UITableViewDelegate, UITableViewDataSour
             
             let activity = myActivity[indexPath.section]
             cell.configure(with: activity)
-            cell.buttonMoreOptions.tag = indexPath.section
-            cell.buttonMoreOptions.addTarget(self, action: #selector(didTapOnMoreOptions(_:)), for: .touchUpInside)
-            
             return cell
         }
 

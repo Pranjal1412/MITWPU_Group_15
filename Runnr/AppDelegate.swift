@@ -7,18 +7,13 @@
 
 import UIKit
 import GoogleMaps
-import Firebase
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-//    var window: UIWindow?
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         GMSServices.provideAPIKey("AIzaSyAUgJgB9iqP2RzDO25TliEF_Qn77P1I5QQ")
-//        self.window?.overrideUserInterfaceStyle = .dark
-        FirebaseApp.configure()
         return true
     }
 

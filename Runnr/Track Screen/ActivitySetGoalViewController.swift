@@ -28,6 +28,9 @@ class ActivitySetGoalViewController: UIViewController {
     
     var originalYValue: CGFloat = 0
     var keyboardTappedCount = 2
+    var distanceGoal = 0.0
+    var hourGoal = 0
+    var minuteGoal = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,6 +94,11 @@ class ActivitySetGoalViewController: UIViewController {
                     let rootController = ActivityLiveTrackingViewController(nibName: "ActivityLiveTrackingViewController", bundle: nil)
                     rootController.isAudioFeedbackOn = self.switchAudioFeedback.isOn
                     rootController.activityTypeSelected = self.buttonActivity.titleLabel!.text!
+                    rootController.distanceGoalSet = self.distanceGoal
+                    rootController.minGoalSet = self.minuteGoal
+                    rootController.hourGoalSet = self.hourGoal
+                    
+                    
                     let navigationController = UINavigationController(rootViewController: rootController)
 
                     navigationController.modalPresentationStyle = .fullScreen
@@ -112,6 +120,25 @@ class ActivitySetGoalViewController: UIViewController {
     @IBAction func cancelButtonPressed(_ sender: UIButton) {
         self.dismiss(animated: true)
     }
+    
+    @IBAction func distanceGoalSet(_ sender: UITextField) {
+        if let text = sender.text {
+            let value = Double(text) ?? 0.0
+            if sender.tag == 0 {
+                distanceGoal = value
+            }
+            else if sender.tag == 1 {
+                self.hourGoal = Int(value)
+            }
+            else if sender.tag == 2 {
+                self.minuteGoal = Int(value)
+            }
+            
+        } else {
+            distanceGoal = 0.0
+        }
+    }
+    
     
     func setupMenu() {
 

@@ -8,10 +8,10 @@
 import UIKit
 import GoogleMaps
 import CoreMotion
-import AVFoundation     //for audio feedback
+import AVFoundation
 
 class ActivityLiveTrackingViewController: UIViewController {
-
+    
     @IBOutlet weak var viewCountdown: UIView!
     @IBOutlet weak var viewAllData: UIView!
     @IBOutlet weak var viewTime: UIView!
@@ -38,15 +38,17 @@ class ActivityLiveTrackingViewController: UIViewController {
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var switchAudioFeedback: UISwitch!
     
-    let speechSynthesizer = AVSpeechSynthesizer()   
+    let speechSynthesizer = AVSpeechSynthesizer()
+    var audioPlayer: AVAudioPlayer?
     var lastAnnouncedKm = 0
-
+    
     let userID = DataSource.shared.getUserID()
     let userLocation = UserLocationManager()
     let mapManager = MapManager()
     var activityManager: UserActivityManager!
+    let healthKitManager = HealthKitManager.shared
     var bounds = GMSCoordinateBounds()
-
+    
     
     var scrollViewInitialized = false
     var isMapInitialized = false
@@ -57,10 +59,13 @@ class ActivityLiveTrackingViewController: UIViewController {
     var activityTypeSelected : String = ""
     
     var activityStartTime: Date?
+    var activityEndTime: Date?
     var timer : Timer?
     var counter = 3
     var quotes: [String] = [String(localized: "You Got This"), String(localized: "Lock in"), String(localized: "Lace Up")]
-    
+    var distanceGoalSet : Double?
+    var minGoalSet : Int?
+    var hourGoalSet : Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,7 +74,7 @@ class ActivityLiveTrackingViewController: UIViewController {
         settingPauseButtonImg()
         
         userLocation.locationManager.startUpdatingLocation()
-//        userLocation.activityStarted = true
+        //        userLocation.activityStarted = true
         
         activityManager = UserActivityManager(timerLabel: self.labelTimeCounter)
         self.activityStartTime = Date()
@@ -77,27 +82,27 @@ class ActivityLiveTrackingViewController: UIViewController {
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
         
         userLocation.onLocationUpdate = { location in
-        
+            
             if self.isMapInitialized == false {
-                                
+                
                 let mapView = self.mapManager.initializeMaps(withX: 5, withY: 0,
                                                              withWidth: self.viewActivityTrack.frame.width - 40.0,
                                                              withHeight: self.viewActivityTrack.frame.height - 5,
                                                              location: location.coordinate)
-              
+                
                 self.mapManager.userLocationMarkerSetting(isEnabled: true)
                 mapView.settings.rotateGestures = true
                 mapView.settings.zoomGestures = true
                 mapView.settings.scrollGestures = true
                 self.viewActivityTrack.addSubview(mapView)
                 self.settingMapGradients()
-
+                
                 self.mapManager.setRouteLineStyle()
                 self.userLocation.locationManager.distanceFilter = 6
                 self.isMapInitialized = true
                 
             }
-
+            
             self.mapManager.path.add(location.coordinate)
             self.mapManager.routeLine.path = self.mapManager.path
             
@@ -105,19 +110,20 @@ class ActivityLiveTrackingViewController: UIViewController {
             self.labelDistanceCounter.text = String(format: "%.2f", self.activityManager.totalDistance)
             
             let currentKm = Int(self.activityManager.totalDistance)
-
+            
             if currentKm > self.lastAnnouncedKm {
                 self.lastAnnouncedKm = currentKm
                 self.announceKilometer(currentKm)
+                self.announceAveragePace(self.activityManager.getAveragePace())
             }
             
             self.activityManager.showLivePace(using: location)
             self.labelPaceCounter.text = String(format: "%.2f", self.activityManager.currentPace)
-
+            
             print("Path Count: \(self.mapManager.path.count())")
             
         }
-  
+        
         do {
             try AVAudioSession.sharedInstance().setCategory(
                 .playback,
@@ -128,9 +134,9 @@ class ActivityLiveTrackingViewController: UIViewController {
         } catch {
             print("Audio session error")
         }
-
-    }
         
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         
         if self.scrollViewInitialized == false {
@@ -139,37 +145,56 @@ class ActivityLiveTrackingViewController: UIViewController {
         }
         
     }
+    func playAudioFile(named name: String) {
+        guard isAudioFeedbackOn else { return }
+        
+        guard let url = Bundle.main.url(forResource: name, withExtension: "mp3") else {
+            print("Missing audio file:", name)
+            return
+        }
+        
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer?.prepareToPlay()
+            audioPlayer?.play()
+        } catch {
+            print("Audio playback error")
+        }
+    }
     
     func announceRunStarted() {
-        guard isAudioFeedbackOn else { return }
-
-        let utterance = AVSpeechUtterance(
-            string: "Run started. All the best!"
-        )
-        utterance.voice = AVSpeechSynthesisVoice(language: "en-IN")
-        utterance.rate = 0.5
-        utterance.pitchMultiplier = 1.1
-
-        speechSynthesizer.speak(utterance)
+        playAudioFile(named: "runStarted")
     }
-
+    func announceAveragePace(_ pace: Double){
+        playAudioFile(named: "yourAveragePaceIs")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            guard self.isAudioFeedbackOn else { return }
+            
+            let utterance = AVSpeechUtterance(string: "\(pace) per kilometer")
+            utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
+            utterance.rate = 0.5
+            self.speechSynthesizer.speak(utterance)
+        }
+    }
     func announceKilometer(_ km: Int) {
-        guard isAudioFeedbackOn else { return }
-
-        let utterance = AVSpeechUtterance(
-            string: "You have completed \(km) kilometers"
-        )
-        utterance.voice = AVSpeechSynthesisVoice(language: "en-IN")
-        utterance.rate = 0.5
-        utterance.pitchMultiplier = 1.1
-
-        speechSynthesizer.speak(utterance)
+        playAudioFile(named: "youHaveCompleted")
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            guard self.isAudioFeedbackOn else { return }
+            
+            let utterance = AVSpeechUtterance(string: "\(km) kilometers")
+            utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
+            utterance.rate = 0.5
+            self.speechSynthesizer.speak(utterance)
+        }
     }
     
+    
     @IBAction func pauseButtonPressed(_ sender: UIButton) {
-                
+        
         if buttonPause.tag == 0 {
-            
+            // Pause the run
+            playAudioFile(named: "runPaused")
             self.userLocation.locationManager.stopUpdatingLocation()
             self.activityManager.stopTimer()
             self.activityManager.stopStepsTracking()
@@ -182,6 +207,7 @@ class ActivityLiveTrackingViewController: UIViewController {
                 self.buttonEndRun.frame.origin.x = (self.buttonPause.frame.origin.x + self.buttonPause.frame.width + 70.0)
             }
             
+            // Fit map to route
             self.convertPathToCoordinates(mapManager.path).forEach { coordinate in
                 bounds = bounds.includingCoordinate(coordinate)
             }
@@ -193,26 +219,28 @@ class ActivityLiveTrackingViewController: UIViewController {
         }
         
         else if buttonPause.tag == 1 {
-            
+            // Resume the run
+            playAudioFile(named: "runResumed")
             self.userLocation.locationManager.startUpdatingLocation()
             self.activityManager.startTimer()
             self.activityManager.startStepsTracking()
-            
             self.mapManager.mapView.isMyLocationEnabled = true
             
             UIView.animate(withDuration: 0.5) {
                 self.buttonPause.frame.origin.x = (UIScreen.main.bounds.width - self.buttonPause.frame.width)/2.0
                 self.buttonPause.setImage(UIImage(systemName: "pause.fill"), for: .normal)
-                
                 self.buttonEndRun.frame.origin.x = (UIScreen.main.bounds.width - self.buttonPause.frame.width)/2.0
-                
             }
-
-            let lastCoordinate = self.mapManager.path.coordinate(at: self.mapManager.path.count() - 1)
             
-            let cameraView = GMSCameraPosition(latitude: lastCoordinate.latitude, longitude: lastCoordinate.longitude, zoom: 15.0)
+            // Safe check for last coordinate
+            if self.mapManager.path.count() > 0 {
+                let lastCoordinate = self.mapManager.path.coordinate(at: self.mapManager.path.count() - 1)
+                let cameraView = GMSCameraPosition(latitude: lastCoordinate.latitude, longitude: lastCoordinate.longitude, zoom: 15.0)
+                mapManager.mapView.animate(to: cameraView)
+            } else {
+                print("Warning: No coordinates in path yet.")
+            }
             
-            mapManager.mapView.animate(to: cameraView)
             buttonPause.tag = 0
         }
         
@@ -221,21 +249,22 @@ class ActivityLiveTrackingViewController: UIViewController {
     @IBAction func EndRunButtonPressed(_ sender: UIButton) {
         
         self.userLocation.locationManager.stopUpdatingLocation()
+        self.checkIfGoalSetAndCompleted()
         
         let alert = UIAlertController(title: String(localized: "End Run"),
                                       message: String(localized: "Are you sure you want to end this run?"), preferredStyle: .alert)
-        
         let cancel = UIAlertAction(title: String(localized: "Cancel"), style: .cancel, handler: nil)
         alert.addAction(cancel)
-        
+
         let end = UIAlertAction(title: String(localized: "End Anyway"), style: .destructive, handler: { _ in
+            self.playAudioFile(named: "runCompleted")
+            self.activityEndTime = Date()
             
-//            self.userLocation.activityStarted = false
-                        
-            let newActivity = UserActivity(
+            var newActivity = UserActivity(
                 id: self.userID,
                 userName: "Ava Brooks",
-                timeStamp: self.activityStartTime!,
+                activityStartTime: self.activityStartTime!,
+                activityEndTime: self.activityEndTime!,
                 runTitle: "",
                 activityType: self.activityTypeSelected,
                 distanceValue: self.activityManager.totalDistance,
@@ -245,6 +274,7 @@ class ActivityLiveTrackingViewController: UIViewController {
                 paceUnit: "/Km",
                 stepsValue: self.activityManager.totalSteps,
                 caloriesValue: 123,
+                avgHR: nil,
                 timeHour: self.activityManager.hours,
                 timeMin: self.activityManager.minutes,
                 timeSec: self.activityManager.seconds,
@@ -255,11 +285,17 @@ class ActivityLiveTrackingViewController: UIViewController {
                 note: "",
                 isPublic: false,
                 routeCoordinates: self.convertPathToCoordinates(self.mapManager.path))
-
-            let destinationVC = ActivitySaveViewController()
-            destinationVC.activityData = newActivity
-            destinationVC.modalPresentationStyle = .fullScreen
-            self.navigationController?.pushViewController(destinationVC, animated: true)
+            
+            //            the reason why navigation code is inside fetchAverageHeartRate is async, pushViewController runs immediately so majority of times avgHR will remain nil
+            self.healthKitManager.fetchAverageHeartRate(from: self.activityStartTime!, to: self.activityEndTime!) {
+                avgHR in
+                
+                newActivity.avgHR = avgHR
+                let destinationVC = ActivitySaveViewController()
+                destinationVC.activityData = newActivity
+                destinationVC.modalPresentationStyle = .fullScreen
+                self.navigationController?.pushViewController(destinationVC, animated: true)
+            }
         })
         
         alert.addAction(end)
@@ -294,11 +330,11 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         counter -= 1
     }
-        
+    
     func settingScreenElements() {
         navigationItem.hidesBackButton = true
         buttonEndRun.isHidden = true
-
+        
         scrollView.delegate = self
         scrollView.isScrollEnabled = false
         pageControl.isHidden = true
@@ -309,7 +345,7 @@ class ActivityLiveTrackingViewController: UIViewController {
         viewHeartRate.layer.cornerRadius = 20
         viewTime.layer.cornerRadius = 20
         viewDistance.layer.cornerRadius = 20
-
+        
         buttonLockScroll.layer.cornerRadius = buttonLockScroll.frame.height / 2
         
         buttonEndRun.frame.origin.x = (view.frame.width - buttonPause.frame.width) / 2
@@ -391,15 +427,57 @@ class ActivityLiveTrackingViewController: UIViewController {
     
     func captureMapImage(from mapView: GMSMapView) -> UIImage? {
         let renderer = UIGraphicsImageRenderer(size: mapView.bounds.size)
-
+        
         return renderer.image { _ in
             mapView.drawHierarchy(in: mapView.bounds,afterScreenUpdates: true)
         }
     }
-
-    
+    func checkIfGoalSetAndCompleted() {
+        if self.distanceGoalSet! > 0.0 {
+            let totalTimeSet = hourGoalSet! * 60 + minGoalSet!
+            
+            if totalTimeSet > 0 {
+                let totalTimeElapsed = activityManager.minutes + activityManager.hours * 60 + activityManager.seconds/60
+                
+                if totalTimeElapsed <= totalTimeSet && activityManager.totalDistance >= distanceGoalSet!{
+                    self.playAudioFile(named: "youHaveCompletedTodaysGoal")
+                }
+                else{
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                        guard self.isAudioFeedbackOn else { return }
+                        let utterance = AVSpeechUtterance(string: "You have not met your goal")
+                        utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
+                        utterance.rate = 0.5
+                        self.speechSynthesizer.speak(utterance)
+                    }
+                }
+            }
+            else{
+                if activityManager.totalDistance >= distanceGoalSet! {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                        guard self.isAudioFeedbackOn else { return }
+                        let utterance = AVSpeechUtterance(string: "Distance goal met!")
+                        utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
+                        utterance.rate = 0.5
+                        self.speechSynthesizer.speak(utterance)
+                    }
+                    //self.playAudioFile(named: "keepGoing")
+                }
+                else{
+                    let remainingDistance = distanceGoalSet! - activityManager.totalDistance
+                    self.playAudioFile(named: "youAreAlmostThere")
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                        guard self.isAudioFeedbackOn else { return }
+                        let utterance = AVSpeechUtterance(string: "\(remainingDistance) left")
+                        utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
+                        utterance.rate = 0.5
+                        self.speechSynthesizer.speak(utterance)
+                    }
+                }
+            }
+        }
+    }
 }
-
 // MARK: - Page Control Code & Scroll View Setting
 
 extension ActivityLiveTrackingViewController : UIScrollViewDelegate {

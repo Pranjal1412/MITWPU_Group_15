@@ -25,9 +25,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
         // Log to confirm GIDClientID is being read correctly from Info.plist
         if let clientID = Bundle.main.infoDictionary?["GIDClientID"] as? String {
-            print("✅ Google Sign-In Client ID found: \(clientID)")
+            print("Google Sign-In Client ID found: \(clientID)")
         } else {
-            print("❌ Error: GIDClientID not found in Info.plist. Button will not work.")
+            print("Error: GIDClientID not found in Info.plist. Button will not work.")
         }
     }
 

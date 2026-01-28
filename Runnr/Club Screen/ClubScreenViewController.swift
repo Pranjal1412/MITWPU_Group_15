@@ -19,7 +19,6 @@ class ClubScreenViewController: UIViewController {
     @IBOutlet var collectionViewJoinedClub: UICollectionView!
     @IBOutlet var labelYourClubs: UILabel!
     @IBOutlet var buttonAddMoreClubs: UIButton!
-    
     @IBOutlet weak var labelTotalPoints: UILabel!
     @IBOutlet weak var buttonUserProfile: UIButton!
     

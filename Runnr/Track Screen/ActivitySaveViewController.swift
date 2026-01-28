@@ -147,7 +147,7 @@ class ActivitySaveViewController: UIViewController {
         labelDescription.text = String(localized: "Anyone on Runnr can see your activity")
         labelRunSummary.text = String(localized: "Run Summary")
         labelPublicActivity.text = String(localized: "Public Activity")
-        labelTimeStamp.text = formatDate(with: self.activityData.timeStamp)
+        labelTimeStamp.text = formatDate(with: self.activityData.activityStartTime)
         
         labelDescription.sizeToFit()
         

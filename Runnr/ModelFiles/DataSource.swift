@@ -17,7 +17,8 @@ class DataSource {
             UserActivity(
                 id: UUID(),
                 userName: "Thomas Crook",
-                timeStamp: Date(),
+                activityStartTime: Date(),
+                activityEndTime: Date(),
                 runTitle: "Morning Run!",
                 activityType: "Run",
                 distanceValue: 7.2,
@@ -45,7 +46,8 @@ class DataSource {
             UserActivity(
                 id: UUID(),
                 userName: "Jane Doe",
-                timeStamp: Date(),
+                activityStartTime: Date(),
+                activityEndTime: Date(),
                 runTitle: "Steady Run",
                 activityType: "Run",
                 distanceValue: 8.8,

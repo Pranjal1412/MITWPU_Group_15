@@ -125,7 +125,7 @@ class InsightsScreenViewController: UIViewController {
     }
 
     private func prepareActivities() {
-        let sorted = myActivities.sorted { $0.timeStamp > $1.timeStamp }
+        let sorted = myActivities.sorted { $0.activityStartTime > $1.activityStartTime }
         latestActivity = sorted.first
         previousActivity = sorted.count > 1 ? sorted[1] : nil
     }
@@ -135,7 +135,7 @@ class InsightsScreenViewController: UIViewController {
         greenDates.removeAll() //revents old or duplicate dates, empties the set
         let calendar = Calendar.current
         for activity in myActivities {
-            let activityDate = calendar.startOfDay(for: activity.timeStamp)
+            let activityDate = calendar.startOfDay(for: activity.activityStartTime)
             /* Removes time (hours, minutes, seconds)
              2026-01-21 18:42 → 2026-01-21 00:00
              */

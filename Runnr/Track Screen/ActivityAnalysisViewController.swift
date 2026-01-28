@@ -21,6 +21,7 @@ class ActivityAnalysisViewController: UIViewController {
     @IBOutlet weak var labelTime: UILabel!
     @IBOutlet weak var labelCalories: UILabel!
     @IBOutlet weak var labelSteps: UILabel!
+    @IBOutlet weak var labelHeartRate: UILabel!
     @IBOutlet weak var labelPhotosHeading: UILabel!
     @IBOutlet weak var viewActivityStats: UIView!
     @IBOutlet weak var collectionViewPhotos: UICollectionView!
@@ -29,10 +30,12 @@ class ActivityAnalysisViewController: UIViewController {
     @IBOutlet weak var labelTimeValue: UILabel!
     @IBOutlet weak var labelCaloriesValue: UILabel!
     @IBOutlet weak var labelStepsValue: UILabel!
+    @IBOutlet weak var labelAvgHRValue: UILabel!
     @IBOutlet weak var labelBasePoints: UILabel!
     @IBOutlet weak var labelSkillPoints: UILabel!
     @IBOutlet weak var labelTotalPoints: UILabel!
     @IBOutlet weak var viewGraphContainer: UIView!
+    @IBOutlet weak var viewHRGraphContainer: UIView!
     
     var activityData : UserActivity?
 
@@ -61,6 +64,39 @@ class ActivityAnalysisViewController: UIViewController {
                 
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        if self.activityData?.avgHR == nil {
+            self.labelHeartRate.isHidden = true
+            self.labelAvgHRValue.isHidden = true
+            self.viewHRGraphContainer.isHidden = true
+            
+            if self.activityData?.activityPhotos.count == 0 {
+                self.labelPhotosHeading.isHidden = true
+                scrollView.contentSize.height = self.viewGraphContainer.frame.origin.y + self.viewGraphContainer.frame.height + 10
+            }
+            else {
+                self.labelPhotosHeading.frame.origin.y = self.viewGraphContainer.frame.origin.y + self.viewGraphContainer.frame.height + 10
+                self.collectionViewPhotos.frame.origin.y = self.labelPhotosHeading.frame.origin.y + self.labelPhotosHeading.frame.height + 10
+                self.scrollView.contentSize.height = self.collectionViewPhotos.frame.origin.y + self.collectionViewPhotos.frame.height + 10
+            }
+        }
+        else {
+            self.labelHeartRate.isHidden = false
+            self.labelAvgHRValue.isHidden = false
+            self.viewHRGraphContainer.isHidden = false
+            
+            if self.activityData?.activityPhotos.count == 0 {
+                self.labelPhotosHeading.isHidden = true
+                scrollView.contentSize.height = self.viewHRGraphContainer.frame.origin.y + self.viewHRGraphContainer.frame.height + 10
+            }
+            else {
+                self.labelPhotosHeading.frame.origin.y = self.viewHRGraphContainer.frame.origin.y + self.viewHRGraphContainer.frame.height + 10
+                self.collectionViewPhotos.frame.origin.y = self.labelPhotosHeading.frame.origin.y + self.labelPhotosHeading.frame.height + 10
+                self.scrollView.contentSize.height = self.collectionViewPhotos.frame.origin.y + self.collectionViewPhotos.frame.height + 10
+            }
+        }
+    }
+    
     @IBAction func cancelButtonPressed(_ sender: UIButton) {
         
         self.dismiss(animated: true, completion: nil)
@@ -68,13 +104,8 @@ class ActivityAnalysisViewController: UIViewController {
     
     func settingUpActivityAnalysisScreenElements() {
         
-        if self.activityData?.activityPhotos.count == 0 {
-            self.labelPhotosHeading.isHidden = true
-            scrollView.contentSize.height = self.viewGraphContainer.frame.origin.y + self.viewGraphContainer.frame.height + 10
-        }
-        else {
-            scrollView.contentSize.height = self.collectionViewPhotos.frame.origin.y + self.collectionViewPhotos.frame.height + 10
-        }
+        
+        
         
         labelUserName.text = activityData!.userName
         labelUserName.sizeToFit()
@@ -82,7 +113,7 @@ class ActivityAnalysisViewController: UIViewController {
         labelActivityTitle.text = activityData!.runTitle
         labelActivityTitle.sizeToFit()
         
-        labelActivityDate.text = formatDate(with: activityData!.timeStamp)
+        labelActivityDate.text = formatDate(with: activityData!.activityStartTime)
         labelActivityDate.sizeToFit()
         
         labelActivityRemark.text = activityData!.note
@@ -153,11 +184,13 @@ class ActivityAnalysisViewController: UIViewController {
         labelCaloriesValue.textColor = .accent
         
         labelStepsValue.text = String(self.activityData!.stepsValue)
+        self.labelAvgHRValue.text = "Average Heart Rate: " + String(format: "%0.2d", self.activityData!.avgHR ?? 0.0)
         
         self.labelTimeValue.sizeToFit()
         self.labelDistanceValue.sizeToFit()
         self.labelPaceValue.sizeToFit()
         self.labelCaloriesValue.sizeToFit()
+        self.labelAvgHRValue.sizeToFit()
     }
 
 }

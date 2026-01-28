@@ -39,22 +39,23 @@ class ActivityStartViewController: UIViewController {
         self.labelScreenTitle.sizeToFit()
         self.buttonUserProfile.layer.cornerRadius = self.buttonUserProfile.frame.height / 2
         self.buttonUserProfile.clipsToBounds = true
+
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        
-        if self.newUserAlert ?? false {
-            let alert = UIAlertController(title: String(localized: "Welcome to Runnr."), message: String(localized: "Congratulations! You’ve earned 100 points!"), preferredStyle: .alert)
+        self.labelTotalPoints.text = "\(totalPoints)"
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if self.newUserAlert! {
             
-            let claimAction = UIAlertAction(title: String(localized: "Claim!"), style: .default, handler: nil)
-            alert.addAction(claimAction)
-            alert.view.tintColor = .accent
-            self.present(alert, animated: true, completion: nil)
+            let destinationVC = IntroductionViewController()
+            destinationVC.modalPresentationStyle = .overCurrentContext
+            destinationVC.modalTransitionStyle = .crossDissolve
+            self.present(destinationVC, animated: true , completion: nil)
             
             self.newUserAlert = false
         }
-        
-        self.labelTotalPoints.text = "\(totalPoints)"
     }
     
     override func viewDidLayoutSubviews() {
