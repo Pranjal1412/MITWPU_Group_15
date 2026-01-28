@@ -257,7 +257,14 @@ class ActivityLiveTrackingViewController: UIViewController {
         alert.addAction(cancel)
 
         let end = UIAlertAction(title: String(localized: "End Anyway"), style: .destructive, handler: { _ in
-            self.playAudioFile(named: "runCompleted")
+            let completionAudios = [
+                "runCompleted",
+                "niceWork"
+            ]
+            if let randomAudio = completionAudios.randomElement() {
+                self.playAudioFile(named: randomAudio)
+            }
+            
             self.activityEndTime = Date()
             
             var newActivity = UserActivity(
@@ -433,50 +440,61 @@ class ActivityLiveTrackingViewController: UIViewController {
         }
     }
     func checkIfGoalSetAndCompleted() {
-        if self.distanceGoalSet! > 0.0 {
-            let totalTimeSet = hourGoalSet! * 60 + minGoalSet!
-            
-            if totalTimeSet > 0 {
-                let totalTimeElapsed = activityManager.minutes + activityManager.hours * 60 + activityManager.seconds/60
-                
-                if totalTimeElapsed <= totalTimeSet && activityManager.totalDistance >= distanceGoalSet!{
-                    self.playAudioFile(named: "youHaveCompletedTodaysGoal")
-                }
-                else{
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                        guard self.isAudioFeedbackOn else { return }
-                        let utterance = AVSpeechUtterance(string: "You have not met your goal")
-                        utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
-                        utterance.rate = 0.5
-                        self.speechSynthesizer.speak(utterance)
-                    }
-                }
+
+        let distanceGoal = distanceGoalSet ?? 0.0
+        let timeGoalMinutes = (hourGoalSet ?? 0) * 60 + (minGoalSet ?? 0)
+
+        let elapsedMinutes =
+            activityManager.hours * 60 +
+            activityManager.minutes +
+            activityManager.seconds / 60
+
+        // CASE 1: Distance + Time goal
+        if distanceGoal > 0 && timeGoalMinutes > 0 {
+
+            if activityManager.totalDistance >= distanceGoal &&
+                elapsedMinutes <= timeGoalMinutes {
+
+                playAudioFile(named: "youHaveCompletedTodaysGoal")
+            } else {
+                playAudioFile(named: "youHaveNotAchievedTodaysGoal")
             }
-            else{
-                if activityManager.totalDistance >= distanceGoalSet! {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                        guard self.isAudioFeedbackOn else { return }
-                        let utterance = AVSpeechUtterance(string: "Distance goal met!")
-                        utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
-                        utterance.rate = 0.5
-                        self.speechSynthesizer.speak(utterance)
-                    }
-                    //self.playAudioFile(named: "keepGoing")
+        }
+
+        // CASE 2: Only distance goal
+        else if distanceGoal > 0 {
+
+            if activityManager.totalDistance >= distanceGoal {
+                playAudioFile(named: "distanceGoalMet")
+            } else {
+
+                let remainingDistance = distanceGoalSet! - activityManager.totalDistance
+                playAudioFile(named: "youAreAlmostThere")
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    guard self.isAudioFeedbackOn else { return }
+                    let utterance = AVSpeechUtterance(string: String(format: "%.2f", remainingDistance))
+                    utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
+                    utterance.rate = 0.5
+                    self.speechSynthesizer.speak(utterance)
                 }
-                else{
-                    let remainingDistance = distanceGoalSet! - activityManager.totalDistance
-                    self.playAudioFile(named: "youAreAlmostThere")
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                        guard self.isAudioFeedbackOn else { return }
-                        let utterance = AVSpeechUtterance(string: "\(remainingDistance) left")
-                        utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
-                        utterance.rate = 0.5
-                        self.speechSynthesizer.speak(utterance)
-                    }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3.75){
+                    self.playAudioFile(named: "kilometersLeft")
                 }
             }
         }
+
+        // CASE 3: Only time goal
+        else if timeGoalMinutes > 0 {
+
+            if elapsedMinutes >= timeGoalMinutes {
+                playAudioFile(named: "youHaveCompletedTodaysGoal")
+            } else {
+                playAudioFile(named: "youHaveNotAchievedTodaysGoal")
+            }
+        }
     }
+
 }
 // MARK: - Page Control Code & Scroll View Setting
 

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3EFF282D2F1A5D4300D7F427 /* JTAppleCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 3EFF282C2F1A5D4300D7F427 /* JTAppleCalendar */; };
+		C9A4188C2F29E0C600896840 /* kilometersLeft.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9A4188B2F29E0C600896840 /* kilometersLeft.mp3 */; };
+		C9A4188E2F29EA5200896840 /* niceWork.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9A4188D2F29EA5200896840 /* niceWork.mp3 */; };
 		C9DFB4A42F24C08F0002325C /* runResumed.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9DFB4A12F24BF6F0002325C /* runResumed.mp3 */; };
 		C9DFB4A52F24C08F0002325C /* youHaveCompleted.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9DFB4A32F24BF6F0002325C /* youHaveCompleted.mp3 */; };
 		C9DFB4A62F24C08F0002325C /* runStarted.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9DFB4A22F24BF6F0002325C /* runStarted.mp3 */; };
@@ -17,6 +19,8 @@
 		C9DFB4B32F28922F0002325C /* yourAveragePaceIs.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9DFB4B22F28922F0002325C /* yourAveragePaceIs.mp3 */; };
 		C9DFB4BB2F28CC270002325C /* youAreAlmostThere.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9DFB4BA2F28CC270002325C /* youAreAlmostThere.mp3 */; };
 		C9DFB4BD2F28CC3B0002325C /* youHaveCompletedTodaysGoal.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9DFB4BC2F28CC3B0002325C /* youHaveCompletedTodaysGoal.mp3 */; };
+		C9DFB5D42F293A350002325C /* distanceGoalMet.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9DFB5D32F293A350002325C /* distanceGoalMet.mp3 */; };
+		C9DFB5D62F293B2E0002325C /* youHaveNotAchievedTodaysGoal.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9DFB5D52F293B2E0002325C /* youHaveNotAchievedTodaysGoal.mp3 */; };
 		C9E277EB2F12697F0024A853 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = C9E277EA2F12697F0024A853 /* GoogleSignIn */; };
 		C9E277ED2F12697F0024A853 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C9E277EC2F12697F0024A853 /* GoogleSignInSwift */; };
 		F903F4572EB653FC0066B9A1 /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = F903F4562EB653FC0066B9A1 /* GoogleMaps */; };
@@ -24,6 +28,8 @@
 
 /* Begin PBXFileReference section */
 		19FDEE992EEBCC2E00AF027C /* Runnr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Runnr.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9A4188B2F29E0C600896840 /* kilometersLeft.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = kilometersLeft.mp3; sourceTree = "<group>"; };
+		C9A4188D2F29EA5200896840 /* niceWork.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = niceWork.mp3; sourceTree = "<group>"; };
 		C9DFB49E2F24BF6F0002325C /* keepGoing.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = keepGoing.mp3; sourceTree = "<group>"; };
 		C9DFB49F2F24BF6F0002325C /* runCompleted.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = runCompleted.mp3; sourceTree = "<group>"; };
 		C9DFB4A02F24BF6F0002325C /* runPaused.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = runPaused.mp3; sourceTree = "<group>"; };
@@ -33,6 +39,8 @@
 		C9DFB4B22F28922F0002325C /* yourAveragePaceIs.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = yourAveragePaceIs.mp3; sourceTree = "<group>"; };
 		C9DFB4BA2F28CC270002325C /* youAreAlmostThere.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = youAreAlmostThere.mp3; sourceTree = "<group>"; };
 		C9DFB4BC2F28CC3B0002325C /* youHaveCompletedTodaysGoal.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = youHaveCompletedTodaysGoal.mp3; sourceTree = "<group>"; };
+		C9DFB5D32F293A350002325C /* distanceGoalMet.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = distanceGoalMet.mp3; sourceTree = "<group>"; };
+		C9DFB5D52F293B2E0002325C /* youHaveNotAchievedTodaysGoal.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = youHaveNotAchievedTodaysGoal.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -100,6 +108,10 @@
 				C9DFB4B22F28922F0002325C /* yourAveragePaceIs.mp3 */,
 				C9DFB4BC2F28CC3B0002325C /* youHaveCompletedTodaysGoal.mp3 */,
 				C9DFB4BA2F28CC270002325C /* youAreAlmostThere.mp3 */,
+				C9DFB5D32F293A350002325C /* distanceGoalMet.mp3 */,
+				C9DFB5D52F293B2E0002325C /* youHaveNotAchievedTodaysGoal.mp3 */,
+				C9A4188D2F29EA5200896840 /* niceWork.mp3 */,
+				C9A4188B2F29E0C600896840 /* kilometersLeft.mp3 */,
 			);
 			path = Audio;
 			sourceTree = "<group>";
@@ -183,10 +195,14 @@
 				C9DFB4A42F24C08F0002325C /* runResumed.mp3 in Resources */,
 				C9DFB4A52F24C08F0002325C /* youHaveCompleted.mp3 in Resources */,
 				C9DFB4A62F24C08F0002325C /* runStarted.mp3 in Resources */,
+				C9A4188C2F29E0C600896840 /* kilometersLeft.mp3 in Resources */,
+				C9A4188E2F29EA5200896840 /* niceWork.mp3 in Resources */,
 				C9DFB4A72F24C08F0002325C /* runPaused.mp3 in Resources */,
 				C9DFB4A82F24C08F0002325C /* keepGoing.mp3 in Resources */,
 				C9DFB4A92F24C08F0002325C /* runCompleted.mp3 in Resources */,
 				C9DFB4BB2F28CC270002325C /* youAreAlmostThere.mp3 in Resources */,
+				C9DFB5D62F293B2E0002325C /* youHaveNotAchievedTodaysGoal.mp3 in Resources */,
+				C9DFB5D42F293A350002325C /* distanceGoalMet.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
