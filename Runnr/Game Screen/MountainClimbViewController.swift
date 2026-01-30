@@ -9,11 +9,38 @@ import UIKit
 
 class MountainClimbViewController: UIViewController {
 
+    
+    @IBOutlet var kmField: UITextField!
+    @IBOutlet weak var climbButton: UIButton!
+    @IBOutlet weak var stickman: UIImageView!   // if you have one
+
+    var totalKm = 0.0
+    let climbPerKm: CGFloat = 50
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        _ = 0.0
+        let _: CGFloat = 50
 
-        // Do any additional setup after loading the view.
     }
+   
+    
+    @IBAction func climbTapped(_ sender: UIButton) {
+        let km = CGFloat(Double(kmField.text ?? "") ?? 0)
+           let climb = km * climbPerKm
+
+           totalKm += Double(km)
+
+        UIView.animate(withDuration: 1) {
+            self.stickman.center.y -= climb
+        }
+        print("stickman")
+        }
+
+    }
+
 
 
     /*
@@ -26,4 +53,4 @@ class MountainClimbViewController: UIViewController {
     }
     */
 
-}
+
