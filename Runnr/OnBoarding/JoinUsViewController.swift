@@ -92,11 +92,11 @@ class JoinUsViewController: UIViewController {
     @IBAction func buttonGooglePressed(_ sender: UIButton) {
         Task {
             do {
-    //            let url = try await supabase.auth.signInWithOAuth(provider: .google, redirectTo: URL(string: "DevTeamRunnr://"))
-                let url = try supabase.auth.getOAuthSignInURL(provider: .google, redirectTo: URL(string: "DevTeamRunnr://"))
-                if UIApplication.shared.canOpenURL(url) {
-                    await UIApplication.shared.open(url)
-                }
+                try await supabase.auth.signInWithOAuth(provider: .google, redirectTo: URL(string: "DevTeamRunnr://"))
+//                let url = try supabase.auth.getOAuthSignInURL(provider: .google, redirectTo: URL(string: "DevTeamRunnr://"))
+//                if UIApplication.shared.canOpenURL(url) {
+//                    await UIApplication.shared.open(url)
+//                }
             }
             catch {
                 print("error : \(error)")
