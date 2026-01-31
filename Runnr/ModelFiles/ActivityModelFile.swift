@@ -15,7 +15,7 @@ struct UserProfile {
 
 struct UserActivity {
     let id: UUID
-    let userName: String
+    let userName: String // needs to removed from this struct
     let activityStartTime: Date
     let activityEndTime: Date
     var runTitle: String
