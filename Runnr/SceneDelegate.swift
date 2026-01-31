@@ -32,34 +32,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // THIS IS CRITICAL: This handles the redirect back from Google to your app
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         guard let url = URLContexts.first?.url else { return }
-
-//        if url.scheme == "DevTeamRunnr" {
-//            Task {
-//                do {
-//                    // Use .session(from: url) instead of getSessionFromUrl
-//                    let session = try await supabase.auth.session(from: url)
-//                    
-//                    print("Login Successful! User: \(session.user.email ?? "Unknown")")
-//                    
-//                    await MainActor.run {
-//                        self.proceedAfterLogin()
-//                    }
-//                } catch {
-//                    print("Auth error: \(error.localizedDescription)")
-//                }
-//            }
-//        }
+        
+        if url.scheme == "DevTeamRunnr" {
+            print("SceneDelegate caught the URL: \(url)")
+            Task {
+                do {
+                    // 2. Hand the URL to Supabase to extract the session
+                    try await SupabaseManager.shared.client.auth.session(from: url)
+                    print("Successfully parsed session from URL!")
+                } catch {
+                    print("Failed to get session: \(error)")
+                }
+            }
+        }
     }
     
-//    func proceedAfterLogin() {
-//        // 1. Get the current window's root view controller
-//        guard let rootVC = self.window?.rootViewController else { return }
-//        
-//        // 2. Setup your destination
-//        let destinationVC = SetProfileViewController()
-//        destinationVC.modalPresentationStyle = .fullScreen
-//        
-//        // 3. Call present on the rootVC instead of self
-//        rootVC.present(destinationVC, animated: true)
-//    }
 }

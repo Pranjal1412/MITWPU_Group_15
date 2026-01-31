@@ -93,10 +93,6 @@ class JoinUsViewController: UIViewController {
         Task {
             do {
                 try await supabase.auth.signInWithOAuth(provider: .google, redirectTo: URL(string: "DevTeamRunnr://"))
-//                let url = try supabase.auth.getOAuthSignInURL(provider: .google, redirectTo: URL(string: "DevTeamRunnr://"))
-//                if UIApplication.shared.canOpenURL(url) {
-//                    await UIApplication.shared.open(url)
-//                }
             }
             catch {
                 print("error : \(error)")

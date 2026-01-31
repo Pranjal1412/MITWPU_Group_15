@@ -7,10 +7,13 @@
 
 import UIKit
 import GoogleMaps
+import Supabase
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    let supabase = SupabaseManager.shared
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         GMSServices.provideAPIKey("AIzaSyAUgJgB9iqP2RzDO25TliEF_Qn77P1I5QQ")
@@ -31,6 +34,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
 
+//    func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+//        if url.scheme == "DevTeamRunnr" {
+//            Task {
+//                do {
+//                    // 2. Hand the URL to Supabase to extract the session
+//                    try await SupabaseManager.shared.client.auth.session(from: url)
+//                    print("Successfully parsed session from URL!")
+//                } catch {
+//                    print("Failed to get session: \(error)")
+//                }
+//            }
+//            return true
+//        }
+//        
+//        return false
+//    }
 
 }
 
