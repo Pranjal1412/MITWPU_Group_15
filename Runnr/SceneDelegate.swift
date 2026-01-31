@@ -31,25 +31,35 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     // THIS IS CRITICAL: This handles the redirect back from Google to your app
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-        guard let url = URLContexts.first?.url else { return } // Check if the URL is from our auth flow
-        if url.scheme == "DevTeamRunnr://" {
+        guard let url = URLContexts.first?.url else { return }
+
+        if url.scheme == "DevTeamRunnr" {
             Task {
-                do
-                {// This converts the URL fragment into a session
-                    let temp = try await supabase.auth.exchangeCodeForSession(authCode: String(contentsOf: url))
-                    print("Login Successful! \(temp)")
-                    // Transition to your main app screen
-//                    self.proceedAfterLogin()
+                do {
+                    // Use .session(from: url) instead of getSessionFromUrl
+                    let session = try await supabase.auth.session(from: url)
+                    
+                    print("Login Successful! User: \(session.user.email ?? "Unknown")")
+                    
+                    await MainActor.run {
+                        self.proceedAfterLogin()
+                    }
                 } catch {
-                    print("Auth error: \(error)")
+                    print("Auth error: \(error.localizedDescription)")
                 }
             }
         }
     }
     
-//    func proceedAfterLogin() {
-//        let destinationVC = SetProfileViewController()
-//        destinationVC.modalPresentationStyle = .fullScreen
-//        self.present(destinationVC, animated: true)
-//    }
+    func proceedAfterLogin() {
+        // 1. Get the current window's root view controller
+        guard let rootVC = self.window?.rootViewController else { return }
+        
+        // 2. Setup your destination
+        let destinationVC = SetProfileViewController()
+        destinationVC.modalPresentationStyle = .fullScreen
+        
+        // 3. Call present on the rootVC instead of self
+        rootVC.present(destinationVC, animated: true)
+    }
 }
