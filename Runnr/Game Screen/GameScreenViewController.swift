@@ -6,6 +6,7 @@ class GameScreenViewController: UIViewController {
     @IBOutlet weak var labelScreenTitle: UILabel!
     @IBOutlet weak var labelTotalPoints: UILabel!
     @IBOutlet weak var buttonUserProfile: UIButton!
+    @IBOutlet var buttonTemp: UIButton!
     
     private let sideInset: CGFloat = 15
     private let cellHeight: CGFloat = 166
@@ -46,6 +47,11 @@ class GameScreenViewController: UIViewController {
 
     }
     
+    @IBAction func buttonTapped(_ sender: UIButton) {
+        let destinationVC = MountainClimbViewController()
+        destinationVC.modalPresentationStyle = .fullScreen
+        self.present(destinationVC, animated: true, completion: nil)
+    }
     @IBAction func buttonToGame(_ sender: UIButton) {
 //        let destinationVC = GameSetOneViewController()
 //        self.present(destinationVC, animated: true, completion: nil)
