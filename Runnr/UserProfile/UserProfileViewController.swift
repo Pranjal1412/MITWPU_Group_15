@@ -114,19 +114,19 @@ class UserProfileViewController: UIViewController {
         if totalDistance <= 600 {
             if totalDistance == 0 && totalDistance < 50 {
                 self.imageCategoryBadge.image = UIImage(named: runnrCategories[0].badge)
-                self.labelCategory.text = runnrCategories[0].name
+                self.labelCategory.text = runnrCategories[0].name.rawValue
                 self.labelCategoryGoal.text = "\(runnrCategories[0].goal) Km"
                 self.labelCategory.tag = 0
             }
             else if totalDistance >= 50 && totalDistance < 250 {
                 self.imageCategoryBadge.image = UIImage(named: runnrCategories[1].badge)
-                self.labelCategory.text = runnrCategories[1].name
+                self.labelCategory.text = runnrCategories[1].name.rawValue
                 self.labelCategory.tag = 1
                 self.labelCategoryGoal.text = "\(runnrCategories[1].goal) Km"
             }
             else if totalDistance >= 250 && totalDistance < 600 {
                 self.imageCategoryBadge.image = UIImage(named: runnrCategories[2].badge)
-                self.labelCategory.text = runnrCategories[2].name
+                self.labelCategory.text = runnrCategories[2].name.rawValue
                 self.labelCategoryGoal.text = "\(runnrCategories[2].goal) Km"
                 self.labelCategory.tag = 2
             }
@@ -144,7 +144,7 @@ class UserProfileViewController: UIViewController {
         
         else {
             self.imageCategoryBadge.image = UIImage(named: runnrCategories[3].badge)
-            self.labelCategory.text = runnrCategories[3].name
+            self.labelCategory.text = runnrCategories[3].name.rawValue
             
             self.progressView.progress = 1
             self.labelCategoryGoalLeft.text = String(localized: "Goal Completed!")

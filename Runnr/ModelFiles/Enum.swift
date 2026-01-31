@@ -1,0 +1,39 @@
+//
+//  Enum.swift
+//  Runnr
+//
+//  Created by SDC-USER on 29/01/26.
+//
+
+
+enum Gender: String {
+    case male, female, other
+}
+
+enum ActivityType: String, Codable {
+    case running
+    case walking
+    case marathon
+    case hiking
+}
+
+enum DistanceUnit: String, Codable {
+    case kilometers = "km"
+    case miles = "mi"
+}
+
+enum PaceUnit: String, Codable {
+    case minPerKm = "min/km"
+    case minPerMile = "min/mi"
+}
+
+enum RunnrCategory: String {
+    case Starter = "Starter"
+    case Pacer = "Pacer"
+    case Achiever = "Achiever"
+    case Champion = "Champion"
+}
+
+enum ClubRoleType {
+    case owner, member
+}

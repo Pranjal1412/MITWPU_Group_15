@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		19DB1F762F2DE362009EDAFD /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = 19DB1F752F2DE362009EDAFD /* Auth */; };
+		19DB1F782F2DE362009EDAFD /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = 19DB1F772F2DE362009EDAFD /* Functions */; };
+		19DB1F7A2F2DE362009EDAFD /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = 19DB1F792F2DE362009EDAFD /* PostgREST */; };
+		19DB1F7C2F2DE362009EDAFD /* Realtime in Frameworks */ = {isa = PBXBuildFile; productRef = 19DB1F7B2F2DE362009EDAFD /* Realtime */; };
+		19DB1F7E2F2DE362009EDAFD /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = 19DB1F7D2F2DE362009EDAFD /* Storage */; };
+		19DB1F802F2DE362009EDAFD /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 19DB1F7F2F2DE362009EDAFD /* Supabase */; };
 		3EFF282D2F1A5D4300D7F427 /* JTAppleCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 3EFF282C2F1A5D4300D7F427 /* JTAppleCalendar */; };
 		C9DFB4A42F24C08F0002325C /* runResumed.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9DFB4A12F24BF6F0002325C /* runResumed.mp3 */; };
 		C9DFB4A52F24C08F0002325C /* youHaveCompleted.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9DFB4A32F24BF6F0002325C /* youHaveCompleted.mp3 */; };
@@ -17,8 +23,6 @@
 		C9DFB4B32F28922F0002325C /* yourAveragePaceIs.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9DFB4B22F28922F0002325C /* yourAveragePaceIs.mp3 */; };
 		C9DFB4BB2F28CC270002325C /* youAreAlmostThere.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9DFB4BA2F28CC270002325C /* youAreAlmostThere.mp3 */; };
 		C9DFB4BD2F28CC3B0002325C /* youHaveCompletedTodaysGoal.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9DFB4BC2F28CC3B0002325C /* youHaveCompletedTodaysGoal.mp3 */; };
-		C9E277EB2F12697F0024A853 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = C9E277EA2F12697F0024A853 /* GoogleSignIn */; };
-		C9E277ED2F12697F0024A853 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C9E277EC2F12697F0024A853 /* GoogleSignInSwift */; };
 		F903F4572EB653FC0066B9A1 /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = F903F4562EB653FC0066B9A1 /* GoogleMaps */; };
 /* End PBXBuildFile section */
 
@@ -61,10 +65,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9E277ED2F12697F0024A853 /* GoogleSignInSwift in Frameworks */,
 				3EFF282D2F1A5D4300D7F427 /* JTAppleCalendar in Frameworks */,
 				F903F4572EB653FC0066B9A1 /* GoogleMaps in Frameworks */,
-				C9E277EB2F12697F0024A853 /* GoogleSignIn in Frameworks */,
+				19DB1F7E2F2DE362009EDAFD /* Storage in Frameworks */,
+				19DB1F782F2DE362009EDAFD /* Functions in Frameworks */,
+				19DB1F802F2DE362009EDAFD /* Supabase in Frameworks */,
+				19DB1F7C2F2DE362009EDAFD /* Realtime in Frameworks */,
+				19DB1F762F2DE362009EDAFD /* Auth in Frameworks */,
+				19DB1F7A2F2DE362009EDAFD /* PostgREST in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,9 +133,13 @@
 			name = Runnr;
 			packageProductDependencies = (
 				F903F4562EB653FC0066B9A1 /* GoogleMaps */,
-				C9E277EA2F12697F0024A853 /* GoogleSignIn */,
-				C9E277EC2F12697F0024A853 /* GoogleSignInSwift */,
 				3EFF282C2F1A5D4300D7F427 /* JTAppleCalendar */,
+				19DB1F752F2DE362009EDAFD /* Auth */,
+				19DB1F772F2DE362009EDAFD /* Functions */,
+				19DB1F792F2DE362009EDAFD /* PostgREST */,
+				19DB1F7B2F2DE362009EDAFD /* Realtime */,
+				19DB1F7D2F2DE362009EDAFD /* Storage */,
+				19DB1F7F2F2DE362009EDAFD /* Supabase */,
 			);
 			productName = Runnr;
 			productReference = 19FDEE992EEBCC2E00AF027C /* Runnr.app */;
@@ -160,8 +172,8 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				F903F4552EB653FC0066B9A1 /* XCRemoteSwiftPackageReference "ios-maps-sdk" */,
-				C9E277E92F12697F0024A853 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				3EFF282B2F1A5D4300D7F427 /* XCRemoteSwiftPackageReference "JTAppleCalendar" */,
+				19DB1F742F2DE362009EDAFD /* XCRemoteSwiftPackageReference "supabase-swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 19217CBC2EA0E064009AFC93;
@@ -216,6 +228,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Runnr/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app needs camera access";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "We read Apple Watch heart rate and calorie data to show post-run insights.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Your location is needed even when the screen is locked.";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Your location is needed even when the screen is locked.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is used to track your running path.";
@@ -262,6 +275,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Runnr/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app needs camera access";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "We read Apple Watch heart rate and calorie data to show post-run insights.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Your location is needed even when the screen is locked.";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Your location is needed even when the screen is locked.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is used to track your running path.";
@@ -440,20 +454,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		19DB1F742F2DE362009EDAFD /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.1;
+			};
+		};
 		3EFF282B2F1A5D4300D7F427 /* XCRemoteSwiftPackageReference "JTAppleCalendar" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/patchthecode/JTAppleCalendar";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 8.0.5;
-			};
-		};
-		C9E277E92F12697F0024A853 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 9.1.0;
 			};
 		};
 		F903F4552EB653FC0066B9A1 /* XCRemoteSwiftPackageReference "ios-maps-sdk" */ = {
@@ -467,20 +481,40 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		19DB1F752F2DE362009EDAFD /* Auth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 19DB1F742F2DE362009EDAFD /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Auth;
+		};
+		19DB1F772F2DE362009EDAFD /* Functions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 19DB1F742F2DE362009EDAFD /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Functions;
+		};
+		19DB1F792F2DE362009EDAFD /* PostgREST */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 19DB1F742F2DE362009EDAFD /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = PostgREST;
+		};
+		19DB1F7B2F2DE362009EDAFD /* Realtime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 19DB1F742F2DE362009EDAFD /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Realtime;
+		};
+		19DB1F7D2F2DE362009EDAFD /* Storage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 19DB1F742F2DE362009EDAFD /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Storage;
+		};
+		19DB1F7F2F2DE362009EDAFD /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 19DB1F742F2DE362009EDAFD /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
 		3EFF282C2F1A5D4300D7F427 /* JTAppleCalendar */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3EFF282B2F1A5D4300D7F427 /* XCRemoteSwiftPackageReference "JTAppleCalendar" */;
 			productName = JTAppleCalendar;
-		};
-		C9E277EA2F12697F0024A853 /* GoogleSignIn */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C9E277E92F12697F0024A853 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
-			productName = GoogleSignIn;
-		};
-		C9E277EC2F12697F0024A853 /* GoogleSignInSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C9E277E92F12697F0024A853 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
-			productName = GoogleSignInSwift;
 		};
 		F903F4562EB653FC0066B9A1 /* GoogleMaps */ = {
 			isa = XCSwiftPackageProductDependency;

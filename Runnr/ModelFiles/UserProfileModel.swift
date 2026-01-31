@@ -7,11 +7,42 @@
 
 import UIKit
 
+struct UserProfile {
+    let userID: UUID
+    var emailAddress: String
+    var userProfileImageURL: String?
+    var userName: String
+    var gender: Gender
+    var height: Int?
+    var weight: Int?
+    var userLevel: RunnrCategory
+}
+
+struct UserStats {
+    let ID : UUID
+    var totalPointsEarned: Int
+    var totalDistanceCovered: Double
+    var totalActivities: Int
+    var longestStreak: Int
+}
+
+struct UserFriendList {
+    let followerID: UUID
+    let followingID: UUID
+    let timestamp: Date
+}
+
+struct UserCategory {
+    let name : RunnrCategory
+    let goal : Int
+    let badge : String
+}
+
 let runnrCategories: [UserCategory] = [
-    UserCategory(name: "Starter", goal: 50, badge: "badge 1"),
-    UserCategory(name: "Pacer", goal: 250, badge: "badge 2"),
-    UserCategory(name: "Achiever", goal: 600, badge: "badge 3"),
-    UserCategory(name: "Champions", goal: 1000, badge: "badge 4")]
+    UserCategory(name: .Starter, goal: 50, badge: "badge 1"),
+    UserCategory(name: .Pacer, goal: 250, badge: "badge 2"),
+    UserCategory(name: .Achiever, goal: 600, badge: "badge 3"),
+    UserCategory(name: .Champion, goal: 1000, badge: "badge 4")]
 
 
 struct Settings {

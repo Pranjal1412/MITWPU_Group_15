@@ -1,17 +1,17 @@
 import UIKit
 import GoogleMaps
 
-struct UserProfile {
-    let userID = UUID()
-    var userName: String
-    var emailID: String
-    var profileImage: UIImage
-    var gender: String
-    var totalFollwers: Int = 0
-    var totalFollowing: Int = 0
-    var totalRunnrPoints: Int = 100
-    var totalDistance: Double = 0
-}
+//struct UserProfile {
+//    let userID = UUID()
+//    var userName: String
+//    var emailID: String
+//    var profileImage: UIImage
+//    var gender: String
+//    var totalFollwers: Int = 0
+//    var totalFollowing: Int = 0
+//    var totalRunnrPoints: Int = 100
+//    var totalDistance: Double = 0
+//}
 
 struct UserActivity {
     let id: UUID
@@ -47,9 +47,9 @@ struct LivePaceGraphData: Identifiable {
     let symbol: Bool
 }
 
-struct UserCategory {
-    let name : String
-    let goal : Int
-    let badge : String
-}
+//struct UserCategory {
+//    let name : String
+//    let goal : Int
+//    let badge : String
+//}
 

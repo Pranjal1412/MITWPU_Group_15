@@ -2,7 +2,8 @@ import UIKit
         
 class DataSource {
     
-    private var user : UserProfile = UserProfile(userName: "Ava Brooks", emailID: "avabrook@gmail.com", profileImage: UIImage(named: "user3")!, gender: "Female")
+//    private var user : UserProfile = UserProfile(userName: "Ava Brooks", emailID: "avabrook@gmail.com", profileImage: UIImage(named: "user3")!, gender: "Female")
+    private var user = UserStats(ID: UUID(), totalPointsEarned: 0, totalDistanceCovered: 0, totalActivities: 0, longestStreak: 0)
     private var myActivities: [UserActivity] = []
     private var friendActivities: [UserActivity] = []
     
@@ -78,7 +79,7 @@ class DataSource {
     }
     
     func getUserID() -> UUID {
-        return user.userID
+        return user.ID
     }
     
     func getFriendsActivityData() -> [UserActivity] {
@@ -99,11 +100,11 @@ class DataSource {
     }
     
     func updateTotalRunnrPoints(with points: Int) {
-        user.totalRunnrPoints += points
+        user.totalPointsEarned += points
     }
     
     func getTotalRunnrPoints() -> Int {
-        return user.totalRunnrPoints
+        return user.totalPointsEarned
     }
     
     func getTotalActivities() -> Int {
@@ -111,11 +112,11 @@ class DataSource {
     }
     
     func updateTotalDistance(with distance: Double) {
-        user.totalDistance += distance
+        user.totalDistanceCovered += distance
     }
     
     func getTotalKms() -> Double {
-        return user.totalDistance
+        return user.totalDistanceCovered
     }
     
     func shareActivity(atIndex index: Int, presentingViewController: UIViewController) {

@@ -6,7 +6,8 @@
 //
 
 import UIKit
-import GoogleSignIn
+import Auth
+import Supabase
 
 class JoinUsViewController: UIViewController {
     
@@ -17,6 +18,8 @@ class JoinUsViewController: UIViewController {
     @IBOutlet weak var buttonApple: UIButton!
     @IBOutlet weak var buttonSignUp: UIButton!
     @IBOutlet weak var buttonBack: UIButton!
+    
+    let supabase = SupabaseManager.shared.client
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,25 +90,19 @@ class JoinUsViewController: UIViewController {
     }
     
     @IBAction func buttonGooglePressed(_ sender: UIButton) {
-        print("Google Button Tapped")
-            
-            GIDSignIn.sharedInstance.signIn(withPresenting: self) { signInResult, error in
-                if let error = error {
-                    print("Sign in failed: \(error.localizedDescription)")
-                    return
-                }
-                let user = signInResult?.user
-                let emailAddress = user?.profile?.email
-                print("Successfully signed in as: \(emailAddress ?? "Unknown")")
-                DispatchQueue.main.async {
-                    self.proceedAfterLogin()
+        Task {
+            do {
+    //            let url = try await supabase.auth.signInWithOAuth(provider: .google, redirectTo: URL(string: "DevTeamRunnr://"))
+                let url = try supabase.auth.getOAuthSignInURL(provider: .google, redirectTo: URL(string: "DevTeamRunnr://"))
+                if UIApplication.shared.canOpenURL(url) {
+                    await UIApplication.shared.open(url)
                 }
             }
+            catch {
+                print("error : \(error)")
+            }
+        }
     }
     
-    func proceedAfterLogin() {
-        let destinationVC = SetProfileViewController()
-        destinationVC.modalPresentationStyle = .fullScreen
-        self.present(destinationVC, animated: true)
-    }
+
 }

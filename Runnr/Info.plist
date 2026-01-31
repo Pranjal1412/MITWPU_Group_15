@@ -2,23 +2,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSHealthShareUsageDescription</key>
-	<string>We read Apple Watch heart rate and calorie data to show post-run insights.</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>CFBundleURLIconFile</key>
+			<string></string>
 			<key>CFBundleURLName</key>
 			<string>com.DevTeam.Runnr</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.385257113334-qkujdlf4dtg32hi356o3t703tahm4ml7</string>
+				<string>DevTeamRunnr://</string>
 			</array>
 		</dict>
 	</array>
-	<key>GIDClientID</key>
-	<string>385257113334-qkujdlf4dtg32hi356o3t703tahm4ml7.apps.googleusercontent.com</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>SF-Pro-Display-Ultralight.otf</string>
