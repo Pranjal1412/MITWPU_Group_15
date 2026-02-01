@@ -18,6 +18,28 @@ var isSignUpComplete : Bool {
     }
 }
 
+func isValidEmail(_ email: UITextField?) -> Bool {
+    if email != nil {
+        let email = email!
+        let email_string = email.text!
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        
+        if emailPred.evaluate(with: email_string) {
+            email.textColor = .accent
+            return true
+        }
+        else {
+            email.textColor = .red
+            return false
+        }
+    }
+    else{
+        return false
+    }
+    
+}
+
 func addTopGradient(to view: UIView) {
     let gradient = CAGradientLayer()
     gradient.frame = view.bounds
