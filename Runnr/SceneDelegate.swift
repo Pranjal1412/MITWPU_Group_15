@@ -13,6 +13,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let _ = (scene as? UIWindowScene) else { return }
         
         window?.overrideUserInterfaceStyle = .dark
+            
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -31,20 +32,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     // THIS IS CRITICAL: This handles the redirect back from Google to your app
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-        guard let url = URLContexts.first?.url else { return }
+        guard (URLContexts.first?.url) != nil else { return }
         
-        if url.scheme == "DevTeamRunnr" {
-            print("SceneDelegate caught the URL: \(url)")
-            Task {
-                do {
-                    // 2. Hand the URL to Supabase to extract the session
-                    try await SupabaseManager.shared.client.auth.session(from: url)
-                    print("Successfully parsed session from URL!")
-                } catch {
-                    print("Failed to get session: \(error)")
-                }
-            }
-        }
     }
     
 }

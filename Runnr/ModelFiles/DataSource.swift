@@ -2,7 +2,7 @@ import UIKit
         
 class DataSource {
     
-//    private var user : UserProfile = UserProfile(userName: "Ava Brooks", emailID: "avabrook@gmail.com", profileImage: UIImage(named: "user3")!, gender: "Female")
+    private var userProfile = UserProfile()
     private var user = UserStats(ID: UUID(), totalPointsEarned: 0, totalDistanceCovered: 0, totalActivities: 0, longestStreak: 0)
     private var myActivities: [UserActivity] = []
     private var friendActivities: [UserActivity] = []
@@ -76,6 +76,14 @@ class DataSource {
         ]
 
         self.friendActivities = friendsSampleData
+    }
+    
+    func getUserProfile() -> UserProfile {
+        return userProfile
+    }
+    
+    func setUserProfile(_ userProfile: UserProfile) {
+        self.userProfile = userProfile
     }
     
     func getUserID() -> UUID {

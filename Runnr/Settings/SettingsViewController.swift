@@ -6,9 +6,12 @@
 //
 
 import UIKit
+import Supabase
 
 class SettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
+    let supabase = SupabaseManager.shared.client
+    
     @IBOutlet weak var tableViewSettings: UITableView!
     
     override func viewDidLoad() {
@@ -92,12 +95,23 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
             let logoutAction = UIAlertAction(title: "Logout", style: .destructive) { (action) in
-                isSignUpComplete = false
-                if let presenter = self.presentingViewController {
-                    self.dismiss(animated: true) {
-                        presenter.dismiss(animated: false, completion: nil)
+                
+                Task {
+                    do {
+                        try await self.supabase.auth.signOut()
+                        print("Session deleted successfully")
+                        
+                        if let presenter = self.presentingViewController {
+                            self.dismiss(animated: true) {
+                                presenter.dismiss(animated: false, completion: nil)
+                            }
+                        }
+                        
+                    } catch {
+                        print("Error signing out:", error)
                     }
                 }
+                
             }
             
             alert.addAction(cancelAction)
@@ -113,5 +127,6 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         
     }
+    
 }
 

@@ -14,6 +14,7 @@ class UserProfileViewController: UIViewController {
     @IBOutlet weak var imageCategoryBadge: UIImageView!
     @IBOutlet weak var buttonEditProfile: UIButton!
     
+    @IBOutlet weak var labelUserName: UILabel!
     @IBOutlet weak var labelScreenTitle: UILabel!
     @IBOutlet weak var labelTotalPoints: UILabel!
     @IBOutlet weak var labelTotalPointsCount: UILabel!
@@ -33,6 +34,10 @@ class UserProfileViewController: UIViewController {
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var stackProgress: UIStackView!
     @IBOutlet weak var collectionViewBestActivity: UICollectionView!
+    
+    var userProfileDetails : UserProfile {
+        DataSource.shared.getUserProfile()
+    }
     
     var totalRunnrPoints : Int {
         DataSource.shared.getTotalRunnrPoints()
@@ -93,6 +98,7 @@ class UserProfileViewController: UIViewController {
     
     func settingsElements() {
         
+        self.labelUserName.text = self.userProfileDetails.userName
         self.labelScreenTitle.text = String(localized: "Profile")
         self.labelFollower.text = String(localized: "Followers")
         self.labelFollowing.text = String(localized: "Following")

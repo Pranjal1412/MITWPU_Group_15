@@ -7,15 +7,15 @@
 
 import UIKit
 
-struct UserProfile {
-    let userID: UUID
-    var emailAddress: String
+struct UserProfile: Codable {
+    var userID: UUID?
+    var emailAddress: String?
     var userProfileImageURL: String?
-    var userName: String
-    var gender: Gender
-    var height: Int?
-    var weight: Int?
-    var userLevel: RunnrCategory
+    var userName: String?
+    var gender: Gender?
+    var height: Double?
+    var weight: Double?
+    var userLevel: RunnrCategory?
 }
 
 struct UserStats {

@@ -6,7 +6,7 @@
 //
 
 
-enum Gender: String {
+enum Gender: String, Codable {
     case male, female, other
 }
 
@@ -27,7 +27,7 @@ enum PaceUnit: String, Codable {
     case minPerMile = "min/mi"
 }
 
-enum RunnrCategory: String {
+enum RunnrCategory: String, Codable {
     case Starter = "Starter"
     case Pacer = "Pacer"
     case Achiever = "Achiever"

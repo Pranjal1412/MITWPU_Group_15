@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Supabase
 
 class LoginViewController: UIViewController {
 
@@ -16,6 +17,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var buttonApple: UIButton!
     @IBOutlet weak var buttonLogin: UIButton!
     @IBOutlet weak var buttonBack: UIButton!
+
+    let supabase = SupabaseManager.shared.client
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,10 +78,24 @@ class LoginViewController: UIViewController {
     
     @IBAction func buttonGooglePressed(_ sender: UIButton) {
         print("Google Button Tapped")
+        Task {
+            do {
+                try await supabase.auth.signInWithOAuth(provider: .google, redirectTo: URL(string: "DevTeamRunnr://login-callback"))
+                await self.checkSession()
+            }
+            catch {
+                print("error : \(error)")
+            }
+        }
     }
     
-    func proceedAfterLogin() {
-        isSignUpComplete = true
-        self.navigationController?.popToRootViewController(animated: false)
+    func checkSession() async {
+        if let session = supabase.auth.currentSession {
+            let user = session.user
+            let userProfile = await fetchUserProfile(userId: user.id) ?? UserProfile()
+            DataSource.shared.setUserProfile(userProfile)
+            
+            self.navigationController?.popToRootViewController(animated: false)
+        }
     }
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24127" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -41,16 +41,16 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT" customClass="UIControl">
             <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="bbS-ew-Wem">
-                    <rect key="frame" x="25" y="144.33333333333334" width="352" height="4"/>
+                    <rect key="frame" x="25" y="144" width="352" height="4"/>
                     <color key="progressTintColor" name="AccentColor"/>
                 </progressView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Set Your Identity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u2y-Al-6i2">
-                    <rect key="frame" x="25" y="178.33333333333334" width="357" height="35"/>
+                    <rect key="frame" x="25" y="178" width="357" height="35"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="35" id="YGK-zu-dDe"/>
                     </constraints>
@@ -59,12 +59,12 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose a name that will lead the leaderboard" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U6n-c8-nBq">
-                    <rect key="frame" x="25" y="218.33333333333334" width="363" height="20.333333333333343"/>
+                    <rect key="frame" x="25" y="218" width="363" height="20"/>
                     <fontDescription key="fontDescription" name="SFPro-Thin" family="SF Pro" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GDt-ML-l5F">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GDt-ML-l5F">
                     <rect key="frame" x="25" y="272" width="352" height="440"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                     <subviews>
@@ -85,6 +85,9 @@
                                     <color key="textColor" name="AccentColor"/>
                                     <fontDescription key="fontDescription" name="SFPro-Regular" family="SF Pro" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
+                                    <connections>
+                                        <action selector="valueEnteredInTextField:" destination="-1" eventType="editingDidEnd" id="LYV-aU-xUe"/>
+                                    </connections>
                                 </textField>
                             </subviews>
                             <color key="backgroundColor" name="CardDarkBlack"/>
@@ -138,7 +141,7 @@
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 OF 2" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3B5-xV-6W3">
-                    <rect key="frame" x="25" y="124.99999999999999" width="352" height="14.333333333333329"/>
+                    <rect key="frame" x="25" y="125" width="352" height="14"/>
                     <fontDescription key="fontDescription" name="SFPro-Heavy" family="SF Pro" pointSize="12"/>
                     <color key="textColor" systemColor="systemGray2Color"/>
                     <nil key="highlightedColor"/>
@@ -163,7 +166,7 @@
                                         <action selector="genderTapped:" destination="-1" eventType="touchUpInside" id="hCe-GS-fBU"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L8R-ZE-dzO">
+                                <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L8R-ZE-dzO">
                                     <rect key="frame" x="118" y="0.0" width="86" height="40"/>
                                     <color key="backgroundColor" name="CardDarkBlack"/>
                                     <constraints>
@@ -175,7 +178,7 @@
                                         <action selector="genderTapped:" destination="-1" eventType="touchUpInside" id="UDV-k3-Jut"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L8p-VF-Eaq">
+                                <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L8p-VF-Eaq">
                                     <rect key="frame" x="236" y="0.0" width="86" height="40"/>
                                     <color key="backgroundColor" name="CardDarkBlack"/>
                                     <constraints>
@@ -200,11 +203,14 @@
                             <rect key="frame" x="15" y="195" width="322" height="50"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Your Height" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uzI-5k-3OT">
+                                <textField opaque="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Your Height" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uzI-5k-3OT">
                                     <rect key="frame" x="10" y="5" width="304" height="40"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
+                                    <connections>
+                                        <action selector="valueEnteredInTextField:" destination="-1" eventType="editingDidEnd" id="zPX-Xa-Q0J"/>
+                                    </connections>
                                 </textField>
                             </subviews>
                             <color key="backgroundColor" name="CardDarkBlack"/>
@@ -220,11 +226,14 @@
                             <rect key="frame" x="15" y="318" width="322" height="50"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Your Weight" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jfK-AA-7b8">
+                                <textField opaque="NO" tag="2" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Your Weight" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jfK-AA-7b8">
                                     <rect key="frame" x="10" y="5" width="304" height="40"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
+                                    <connections>
+                                        <action selector="valueEnteredInTextField:" destination="-1" eventType="editingDidEnd" id="tDL-kb-fyx"/>
+                                    </connections>
                                 </textField>
                             </subviews>
                             <color key="backgroundColor" name="CardDarkBlack"/>
@@ -274,6 +283,14 @@
                 <constraint firstItem="u2y-Al-6i2" firstAttribute="top" secondItem="bbS-ew-Wem" secondAttribute="bottom" constant="30" id="z5T-YV-Xw8"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="subviews">
+                    <exclude reference="GDt-ML-l5F"/>
+                </mask>
+            </variation>
+            <connections>
+                <action selector="viewTapped:" destination="-1" eventType="touchUpInside" id="thO-uN-hKS"/>
+            </connections>
             <point key="canvasLocation" x="450.74626865671638" y="149.65675057208236"/>
         </view>
     </objects>
@@ -281,7 +298,7 @@
         <image name="camera.fill" catalog="system" width="128" height="93"/>
         <image name="chevron.left" catalog="system" width="97" height="128"/>
         <namedColor name="AccentColor">
-            <color red="1" green="0.79199999570846558" blue="0.15700000524520874" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="CardDarkBlack">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -296,7 +313,7 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray2Color">
-            <color red="0.68235294120000001" green="0.68235294120000001" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

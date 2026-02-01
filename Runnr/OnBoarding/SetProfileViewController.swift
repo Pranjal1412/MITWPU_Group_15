@@ -27,6 +27,10 @@ class SetProfileViewController: UIViewController {
     @IBOutlet weak var buttonOther: UIButton!
     
     private var selectedButton: UIButton?
+    var userProfile = DataSource.shared.getUserProfile()
+    var username: String = ""
+    var height: String = ""
+    var weight: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,9 +44,99 @@ class SetProfileViewController: UIViewController {
         self.buttonBack.isHidden = true
         
         setScreenElements()
-
+        
+        print(self.userProfile.emailAddress!)
     }
 
+    @IBAction func viewTapped(_ sender: UIControl) {
+        view.endEditing(true)
+    }
+    
+    @IBAction func valueEnteredInTextField(_ sender: UITextField) {
+        
+        switch sender.tag {
+        case 0:
+            self.username = sender.text ?? ""
+            
+        case 1:
+            self.height = sender.text ?? ""
+            
+        case 2:
+            self.weight = sender.text ?? ""
+            
+        default:
+            break
+        }
+    }
+    
+    @IBAction func genderTapped(_ sender: UIButton) {
+        selectButton(sender)
+    }
+    
+    @IBAction func backButtonPressed(_ sender: UIButton) {
+        
+        self.buttonNext.setTitle(String(localized: "Next"), for: .normal)
+        
+        self.progressBar.setProgress(0.5, animated: true)
+        
+        self.buttonBack.isHidden = true
+        
+        UIView.animate(withDuration: 0.5) {
+            self.viewMainOne.frame.origin.x += self.viewMainOne.frame.width + 50
+            self.viewMainTwo.frame.origin.x += self.viewMainTwo.frame.width + 25
+        }
+        
+    }
+    
+    @IBAction func buttonNextClicked(_ sender: UIButton) {
+        if self.buttonNext.titleLabel?.text == "Next" {
+            self.buttonNext.setTitle(String(localized: "Complete Profile"), for: .normal)
+            self.progressBar.setProgress(1, animated: true)
+            self.buttonBack.isHidden = false
+            
+            UIView.animate(withDuration: 0.5) {
+                self.viewMainOne.frame.origin.x -= self.viewMainOne.frame.width + 50
+                self.viewMainTwo.frame.origin.x -= self.viewMainTwo.frame.width + 25
+            }
+            
+            
+        }
+        else if self.buttonNext.titleLabel?.text == "Complete Profile" {
+            self.completeUserProfile()
+            
+            Task {
+                await insertUserProfile(self.userProfile)
+                
+                if let presenter = self.presentingViewController as? UINavigationController {
+                    self.dismiss(animated: true) {
+                        presenter.popToRootViewController(animated: true)
+                    }
+                }
+            }
+            
+        }
+        
+    }
+    
+    func completeUserProfile() {
+        switch selectedButton?.tag {
+            case 0:
+            self.userProfile.gender = .male
+            case 1:
+            self.userProfile.gender = .female
+            case 2:
+            self.userProfile.gender = .other
+        default:
+            self.userProfile.gender = nil
+        }
+        
+        self.userProfile.userName = self.username
+        self.userProfile.height = Double(self.height)
+        self.userProfile.weight = Double(self.weight)
+        self.userProfile.userLevel = .none
+        
+    }
+    
     func setScreenElements() {
         self.labelHeading.text = String(localized: "Set Your Identity")
         self.labelSubHeading.text = String(localized: "Choose a name that will lead the leaderboard")
@@ -92,49 +186,5 @@ class SetProfileViewController: UIViewController {
         button.layer.borderColor = button.backgroundColor?.cgColor
 
         selectedButton = button
-    }
-
-    @IBAction func genderTapped(_ sender: UIButton) {
-        selectButton(sender)
-    }
-    
-    @IBAction func backButtonPressed(_ sender: UIButton) {
-        
-        self.buttonNext.setTitle(String(localized: "Next"), for: .normal)
-        
-        self.progressBar.setProgress(0.5, animated: true)
-        
-        self.buttonBack.isHidden = true
-        
-        UIView.animate(withDuration: 0.5) {
-            self.viewMainOne.frame.origin.x += self.viewMainOne.frame.width + 50
-            self.viewMainTwo.frame.origin.x += self.viewMainTwo.frame.width + 25
-        }
-        
-    }
-    
-    @IBAction func buttonNextClicked(_ sender: UIButton) {
-        if self.buttonNext.titleLabel?.text == "Next" {
-            self.buttonNext.setTitle(String(localized: "Complete Profile"), for: .normal)
-            self.progressBar.setProgress(1, animated: true)
-            self.buttonBack.isHidden = false
-            
-            UIView.animate(withDuration: 0.5) {
-                self.viewMainOne.frame.origin.x -= self.viewMainOne.frame.width + 50
-                self.viewMainTwo.frame.origin.x -= self.viewMainTwo.frame.width + 25
-            }
-        }
-        else if self.buttonNext.titleLabel?.text == "Complete Profile" {
-            
-            isSignUpComplete = true
-            
-            if let presenter = self.presentingViewController as? UINavigationController {
-                self.dismiss(animated: true) {
-                    presenter.popToRootViewController(animated: true)
-                }
-            }
-            
-        }
-        
     }
 }
