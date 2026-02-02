@@ -16,7 +16,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GameScreenViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
+                <outlet property="buttonTemp" destination="S4q-mx-P8F" id="xa8-hn-iRa"/>
                 <outlet property="buttonUserProfile" destination="oKs-Ma-NWb" id="Z0u-de-nXi"/>
+                <outlet property="collectionViewChallenges" destination="K2z-qr-zcq" id="q6L-mc-Bgb"/>
                 <outlet property="labelScreenTitle" destination="ak8-md-SGm" id="9zm-C3-sGm"/>
                 <outlet property="labelTotalPoints" destination="190-d9-XHs" id="YhW-l3-Tat"/>
                 <outlet property="segmentedControlGame" destination="0Gq-Ps-LxO" id="pkN-pB-XEf"/>
