@@ -9,6 +9,7 @@
     </dependencies>
     <customFonts key="customFonts">
         <array key="SF-Pro.ttf">
+            <string>SFPro-Bold</string>
             <string>SFPro-Medium</string>
         </array>
     </customFonts>
@@ -19,14 +20,11 @@
                 <outlet property="buttonSaveChanges" destination="Zfc-NJ-8bG" id="kTE-N4-Dio"/>
                 <outlet property="imageViewProfilePhoto" destination="dfT-zs-rfN" id="tps-Lg-g5U"/>
                 <outlet property="labelBio" destination="LcB-mv-TEZ" id="EOx-T1-lJh"/>
-                <outlet property="labelDisplayName" destination="oTN-lo-xAM" id="RCl-Mx-wYC"/>
                 <outlet property="labelUsername" destination="FFY-JM-g1a" id="k0n-Zp-p4v"/>
                 <outlet property="textFieldBio" destination="93Z-Ok-XrB" id="Hho-gx-yWN"/>
-                <outlet property="textFieldDisplayName" destination="Icq-IQ-41f" id="zmo-nb-gwc"/>
                 <outlet property="textFieldUsername" destination="ZwT-Uz-gD2" id="1xQ-tG-fPp"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="viewBio" destination="RQd-1H-6Dv" id="YDs-p0-pYj"/>
-                <outlet property="viewDisplayName" destination="CZc-Bw-ZEf" id="biS-Tj-EVb"/>
                 <outlet property="viewUsername" destination="HX1-bJ-3Gc" id="TzI-t9-MKQ"/>
             </connections>
         </placeholder>
@@ -35,82 +33,10 @@
             <rect key="frame" x="0.0" y="0.0" width="402" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="run1" translatesAutoresizingMaskIntoConstraints="NO" id="dfT-zs-rfN">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="run1" translatesAutoresizingMaskIntoConstraints="NO" id="dfT-zs-rfN">
                     <rect key="frame" x="136" y="100" width="130" height="130"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="130" id="8by-Hg-Rqs"/>
-                        <constraint firstAttribute="width" constant="130" id="Hcq-P8-Jhs"/>
-                    </constraints>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HX1-bJ-3Gc">
-                    <rect key="frame" x="25" y="303" width="352" height="60"/>
-                    <subviews>
-                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter you Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZwT-Uz-gD2">
-                            <rect key="frame" x="10" y="0.0" width="342" height="60"/>
-                            <color key="textColor" name="AccentColor"/>
-                            <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="17"/>
-                            <textInputTraits key="textInputTraits"/>
-                        </textField>
-                    </subviews>
-                    <color key="backgroundColor" name="CardDarkBlack"/>
-                    <constraints>
-                        <constraint firstAttribute="bottom" secondItem="ZwT-Uz-gD2" secondAttribute="bottom" id="AxD-uB-FPI"/>
-                        <constraint firstAttribute="trailing" secondItem="ZwT-Uz-gD2" secondAttribute="trailing" id="VHC-Yv-ZCg"/>
-                        <constraint firstItem="ZwT-Uz-gD2" firstAttribute="leading" secondItem="HX1-bJ-3Gc" secondAttribute="leading" constant="10" id="VKA-Db-rvB"/>
-                        <constraint firstAttribute="height" constant="60" id="j7O-Yi-zed"/>
-                        <constraint firstItem="ZwT-Uz-gD2" firstAttribute="top" secondItem="HX1-bJ-3Gc" secondAttribute="top" id="qdU-N0-rdd"/>
-                    </constraints>
-                </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email Adress" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oTN-lo-xAM">
-                    <rect key="frame" x="25" y="393" width="352" height="18"/>
-                    <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CZc-Bw-ZEf">
-                    <rect key="frame" x="25" y="421" width="352" height="60"/>
-                    <subviews>
-                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Your Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Icq-IQ-41f">
-                            <rect key="frame" x="10" y="0.0" width="342" height="60"/>
-                            <color key="textColor" name="AccentColor"/>
-                            <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="17"/>
-                            <textInputTraits key="textInputTraits"/>
-                        </textField>
-                    </subviews>
-                    <color key="backgroundColor" name="CardDarkBlack"/>
-                    <constraints>
-                        <constraint firstAttribute="bottom" secondItem="Icq-IQ-41f" secondAttribute="bottom" id="3gl-37-Inp"/>
-                        <constraint firstItem="Icq-IQ-41f" firstAttribute="top" secondItem="CZc-Bw-ZEf" secondAttribute="top" id="Y5f-CR-myV"/>
-                        <constraint firstAttribute="height" constant="60" id="edx-xm-OC2"/>
-                        <constraint firstItem="Icq-IQ-41f" firstAttribute="leading" secondItem="CZc-Bw-ZEf" secondAttribute="leading" constant="10" id="hT2-9W-HzL"/>
-                        <constraint firstAttribute="trailing" secondItem="Icq-IQ-41f" secondAttribute="trailing" id="pek-xF-Lly"/>
-                    </constraints>
-                </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bio" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LcB-mv-TEZ">
-                    <rect key="frame" x="25" y="511" width="352" height="18"/>
-                    <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RQd-1H-6Dv">
-                    <rect key="frame" x="25" y="539" width="352" height="70"/>
-                    <subviews>
-                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="93Z-Ok-XrB">
-                            <rect key="frame" x="10" y="0.0" width="342" height="70"/>
-                            <color key="textColor" name="AccentColor"/>
-                            <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="17"/>
-                            <textInputTraits key="textInputTraits"/>
-                        </textField>
-                    </subviews>
-                    <color key="backgroundColor" name="CardDarkBlack"/>
-                    <constraints>
-                        <constraint firstAttribute="trailing" secondItem="93Z-Ok-XrB" secondAttribute="trailing" id="WCQ-SP-4It"/>
-                        <constraint firstAttribute="height" constant="70" id="b17-bI-sqa"/>
-                        <constraint firstItem="93Z-Ok-XrB" firstAttribute="top" secondItem="RQd-1H-6Dv" secondAttribute="top" id="f0t-aT-uMt"/>
-                        <constraint firstAttribute="bottom" secondItem="93Z-Ok-XrB" secondAttribute="bottom" id="kxH-6L-J2v"/>
-                        <constraint firstItem="93Z-Ok-XrB" firstAttribute="leading" secondItem="RQd-1H-6Dv" secondAttribute="leading" constant="10" id="pHB-3c-EGJ"/>
-                    </constraints>
-                </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zfc-NJ-8bG">
                     <rect key="frame" x="337" y="25" width="45" height="45"/>
                     <constraints>
@@ -139,43 +65,197 @@
                         <action selector="buttonCancel:" destination="-1" eventType="touchUpInside" id="A9h-ff-UWK"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FFY-JM-g1a">
-                    <rect key="frame" x="25" y="275" width="352" height="18"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Edit picture" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ray-hT-kK7">
+                    <rect key="frame" x="165" y="240.33333333333334" width="73" height="15.666666666666657"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="13"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Edit Profile" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fGG-eU-kHG">
+                    <rect key="frame" x="140" y="32" width="123" height="30"/>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="25"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sport" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bch-me-wC4">
+                    <rect key="frame" x="23" y="663" width="75" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="ACCOUNT" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nZW-6j-Vco">
+                    <rect key="frame" x="23" y="268" width="90" height="22"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="SFPro-Bold" family="SF Pro" pointSize="18"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="ABOUT" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A9F-RI-ke2">
+                    <rect key="frame" x="24" y="620" width="63" height="22"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="SFPro-Bold" family="SF Pro" pointSize="18"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Height" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bbl-bS-vQ4">
+                    <rect key="frame" x="25" y="512" width="75" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Weight" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fup-Ok-6jp">
+                    <rect key="frame" x="25" y="556" width="75" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w64-59-duq">
+                    <rect key="frame" x="108" y="502" width="172" height="39"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="  in cm " minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="p1Y-Rs-RNu">
+                            <rect key="frame" x="0.0" y="0.0" width="172" height="37"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="textColor" name="AccentColor"/>
+                            <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                    </subviews>
+                    <color key="backgroundColor" name="CardLightBlack"/>
+                </view>
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="c4k-8D-iV5">
+                    <rect key="frame" x="108" y="551" width="172" height="39"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" name="CardLightBlack"/>
+                </view>
+                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="  in kgs" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TCy-aB-SDh">
+                    <rect key="frame" x="108" y="553" width="172" height="37"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="textColor" name="AccentColor"/>
+                    <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Bio" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LcB-mv-TEZ">
+                    <rect key="frame" x="25" y="703" width="352" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RQd-1H-6Dv">
+                    <rect key="frame" x="25" y="731" width="352" height="70"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="93Z-Ok-XrB">
+                            <rect key="frame" x="5" y="0.0" width="342" height="70"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="textColor" name="AccentColor"/>
+                            <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="17"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                    </subviews>
+                    <color key="backgroundColor" name="CardLightBlack"/>
+                </view>
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HX1-bJ-3Gc">
+                    <rect key="frame" x="105" y="298" width="267" height="39"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" name="modalBackground"/>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FFY-JM-g1a">
+                    <rect key="frame" x="22" y="308" width="75" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Enter you Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZwT-Uz-gD2">
+                    <rect key="frame" x="105" y="300" width="267" height="37"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="textColor" name="AccentColor"/>
+                    <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x5X-NK-h1P">
+                    <rect key="frame" x="104" y="352" width="266" height="39"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Enter you Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="F7h-Bx-HQD">
+                            <rect key="frame" x="-1" y="8" width="267" height="22"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="textColor" name="AccentColor"/>
+                            <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                    </subviews>
+                    <color key="backgroundColor" name="CardLightBlack"/>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZSM-vI-lgV">
+                    <rect key="frame" x="21" y="363" width="75" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Uhg-3h-Waj">
+                    <rect key="frame" x="103" y="405" width="266" height="39"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="  Add email address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ndt-xZ-Fv3">
+                            <rect key="frame" x="0.0" y="2" width="267" height="37"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="textColor" name="AccentColor"/>
+                            <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                    </subviews>
+                    <color key="backgroundColor" name="CardLightBlack"/>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vGe-Th-KKE">
+                    <rect key="frame" x="20" y="416" width="75" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="BODY STATS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="biF-Md-2jT">
+                    <rect key="frame" x="21" y="469" width="111" height="22"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="SFPro-Bold" family="SF Pro" pointSize="18"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GyH-nj-ZUZ">
+                    <rect key="frame" x="103" y="653" width="266" height="39"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="  Add Sport" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fA9-no-9HN">
+                            <rect key="frame" x="0.0" y="2" width="267" height="37"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="textColor" name="AccentColor"/>
+                            <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                    </subviews>
+                    <color key="backgroundColor" name="CardLightBlack"/>
+                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" name="modalBackground"/>
             <constraints>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="oTN-lo-xAM" secondAttribute="trailing" constant="25" id="1nl-QT-HkV"/>
                 <constraint firstItem="Zbg-id-3k1" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="25" id="55A-za-GRb"/>
-                <constraint firstItem="oTN-lo-xAM" firstAttribute="top" secondItem="HX1-bJ-3Gc" secondAttribute="bottom" constant="30" id="F9p-S0-WGb"/>
-                <constraint firstItem="FFY-JM-g1a" firstAttribute="top" secondItem="dfT-zs-rfN" secondAttribute="bottom" constant="45" id="FEc-02-1MP"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="HX1-bJ-3Gc" secondAttribute="trailing" constant="25" id="L6F-UG-EbS"/>
-                <constraint firstItem="HX1-bJ-3Gc" firstAttribute="top" secondItem="FFY-JM-g1a" secondAttribute="bottom" constant="10" id="LBe-Er-Orc"/>
-                <constraint firstItem="LcB-mv-TEZ" firstAttribute="top" secondItem="CZc-Bw-ZEf" secondAttribute="bottom" constant="30" id="QMe-8C-Y8c"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="FFY-JM-g1a" secondAttribute="trailing" constant="25" id="QNY-cg-Hby"/>
-                <constraint firstItem="dfT-zs-rfN" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="S21-Z2-S3r"/>
-                <constraint firstItem="dfT-zs-rfN" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="100" id="WVi-1l-ucG"/>
+                <constraint firstItem="Zfc-NJ-8bG" firstAttribute="leading" secondItem="fGG-eU-kHG" secondAttribute="trailing" constant="74" id="Oi4-Sc-YYj"/>
                 <constraint firstItem="Zbg-id-3k1" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="X40-ud-6E7"/>
-                <constraint firstItem="RQd-1H-6Dv" firstAttribute="top" secondItem="LcB-mv-TEZ" secondAttribute="bottom" constant="10" id="ZCb-2t-pHl"/>
-                <constraint firstItem="FFY-JM-g1a" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="aIX-qZ-QlW"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="CZc-Bw-ZEf" secondAttribute="trailing" constant="25" id="drj-aD-oZJ"/>
                 <constraint firstAttribute="trailing" secondItem="Zfc-NJ-8bG" secondAttribute="trailing" constant="20" id="e6f-58-53P"/>
-                <constraint firstItem="RQd-1H-6Dv" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="lQL-72-W9c"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="RQd-1H-6Dv" secondAttribute="trailing" constant="25" id="lW6-Qm-myc"/>
-                <constraint firstItem="HX1-bJ-3Gc" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="nrW-Fo-HSv"/>
+                <constraint firstItem="fGG-eU-kHG" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="32" id="kmx-zw-1rG"/>
                 <constraint firstItem="Zfc-NJ-8bG" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="25" id="r2g-Vb-Btp"/>
-                <constraint firstItem="LcB-mv-TEZ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="rPu-GY-KPb"/>
-                <constraint firstItem="CZc-Bw-ZEf" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="sQy-0L-Wnb"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="LcB-mv-TEZ" secondAttribute="trailing" constant="25" id="u2G-do-uV1"/>
-                <constraint firstItem="oTN-lo-xAM" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="vRL-ZP-SKa"/>
-                <constraint firstItem="CZc-Bw-ZEf" firstAttribute="top" secondItem="oTN-lo-xAM" secondAttribute="bottom" constant="10" id="y8P-qi-bXU"/>
+                <constraint firstItem="fGG-eU-kHG" firstAttribute="leading" secondItem="Zbg-id-3k1" secondAttribute="trailing" constant="75" id="weg-j8-njc"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-160.90909090909091" y="112.97071129707113"/>
+            <point key="canvasLocation" x="379" y="29"/>
         </view>
     </objects>
     <resources>
@@ -185,8 +265,8 @@
         <namedColor name="AccentColor">
             <color red="1" green="0.79199999570846558" blue="0.15700000524520874" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="CardDarkBlack">
-            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="CardLightBlack">
+            <color red="0.10199999809265137" green="0.10199999809265137" blue="0.10199999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="modalBackground">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
