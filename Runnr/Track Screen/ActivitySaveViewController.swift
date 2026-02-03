@@ -90,14 +90,17 @@ class ActivitySaveViewController: UIViewController {
             textViewRemark.text = ""
         }
         
-        self.activityData.runTitle = self.textFieldActivityTitle.text!
-        self.activityData.note = self.textViewRemark.text
-        self.activityData.isPublic = self.switchIsActivityPublic.isOn
-        self.activityData.activityPhotos = self.selectedImages
+        self.activityData.activityTitle = self.textFieldActivityTitle.text!
+        self.activityData.activityRemark = self.textViewRemark.text
         
-        self.dataSource.addMyActivity(self.activityData)
-        self.dataSource.updateTotalRunnrPoints(with: self.activityData.basePoints + self.activityData.skillPoints)
-        self.dataSource.updateTotalDistance(with: activityData.distanceValue)
+        Task{
+            await updateUserActivity(userID: activityData.userID, activityID: activityData.activityID!, newActivity: activityData)
+        }
+        //MARK: - Still yet to be implmented
+//        self.activityData.activityPhotos = self.selectedImages
+//        self.dataSource.addMyActivity(self.activityData)
+//        self.dataSource.updateTotalRunnrPoints(with: self.activityData.basePoints + self.activityData.skillPoints)
+//        self.dataSource.updateTotalDistance(with: activityData.distanceValue)
         
         print("After passing count: \(self.dataSource.getMyActivityData().count)")
         
@@ -137,8 +140,9 @@ class ActivitySaveViewController: UIViewController {
         self.viewRemark.layer.cornerRadius = 15
         self.viewRemark.layer.borderColor = UIColor.white.cgColor
         self.viewRemark.layer.borderWidth = 0.5
-        
-        imageViewMap.image = self.activityData.mapImage
+        Task{
+            imageViewMap.image = await loadUIImage(from: activityData.mapImageURL!)
+        }
         imageViewMap.layer.cornerRadius = 15
     }
     
@@ -152,8 +156,9 @@ class ActivitySaveViewController: UIViewController {
         labelDescription.sizeToFit()
         
         labelPace.text = NSLocalizedString( "Pace", comment: "")
-        labelPaceValue.text = String(format: "%.2f", self.activityData.paceValue) + " " + self.activityData.paceUnit
+        labelPaceValue.text = String(format: "%.2f", self.activityData.avgPace) + " " + self.activityData.paceUnit.rawValue
         labelTime.text = NSLocalizedString( "Time", comment: "")
+        UserActivityManager.formatTime(self.activityData.timeTakenSeconds)
         labelTimeValue.text = String(format: "%02d : %02d : %02d", self.activityData.timeHour, self.activityData.timeMin, self.activityData.timeSec)
         labelTimeValue.sizeToFit()
         labelCalories.text = NSLocalizedString( "Calories", comment: "")

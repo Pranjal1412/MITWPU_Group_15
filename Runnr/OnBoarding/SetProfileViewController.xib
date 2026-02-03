@@ -122,6 +122,9 @@
                             <state key="normal">
                                 <imageReference key="image" image="camera.fill" catalog="system" symbolScale="large"/>
                             </state>
+                            <connections>
+                                <action selector="selectProfileImage:" destination="-1" eventType="touchUpInside" id="gKH-qY-z3W"/>
+                            </connections>
                         </button>
                     </subviews>
                 </view>
@@ -146,7 +149,7 @@
                     <color key="textColor" systemColor="systemGray2Color"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WYw-aD-AZ9">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WYw-aD-AZ9">
                     <rect key="frame" x="25" y="272" width="352" height="440"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                     <subviews>
@@ -283,6 +286,11 @@
                 <constraint firstItem="u2y-Al-6i2" firstAttribute="top" secondItem="bbS-ew-Wem" secondAttribute="bottom" constant="30" id="z5T-YV-Xw8"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="subviews">
+                    <exclude reference="WYw-aD-AZ9"/>
+                </mask>
+            </variation>
             <connections>
                 <action selector="viewTapped:" destination="-1" eventType="touchUpInside" id="thO-uN-hKS"/>
             </connections>

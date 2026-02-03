@@ -42,7 +42,7 @@ class ActivityLiveTrackingViewController: UIViewController {
     var audioPlayer: AVAudioPlayer?
     var lastAnnouncedKm = 0
     
-    let userID = DataSource.shared.getUserID()
+    let userProfile = DataSource.shared.getUserProfile()
     let userLocation = UserLocationManager()
     let mapManager = MapManager()
     var activityManager: UserActivityManager!
@@ -56,7 +56,7 @@ class ActivityLiveTrackingViewController: UIViewController {
     let topGradientView = UIView()
     let bottomGradientView = UIView()
     let leftGradientView = UIView()
-    var activityTypeSelected : String = ""
+    var activityTypeSelected : ActivityType?
     
     var activityStartTime: Date?
     var activityEndTime: Date?
@@ -66,6 +66,8 @@ class ActivityLiveTrackingViewController: UIViewController {
     var distanceGoalSet : Double?
     var minGoalSet : Int?
     var hourGoalSet : Int?
+    
+    var newActivity: UserActivity?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -260,39 +262,55 @@ class ActivityLiveTrackingViewController: UIViewController {
             self.playAudioFile(named: "runCompleted")
             self.activityEndTime = Date()
             
-            var newActivity = UserActivity(
-                id: self.userID,
-                userName: "Ava Brooks",
+            self.newActivity = UserActivity(
+                userID: self.userProfile.userID!,
+                activityID: nil,
+                
                 activityStartTime: self.activityStartTime!,
                 activityEndTime: self.activityEndTime!,
-                runTitle: "",
-                activityType: self.activityTypeSelected,
-                distanceValue: self.activityManager.totalDistance,
-                distanceUnit: "Km",
-                paceValue: self.activityManager.getAveragePace(),
-                paceGraphData: self.activityManager.paceGraphData,
-                paceUnit: "/Km",
-                stepsValue: self.activityManager.totalSteps,
-                caloriesValue: 123,
-                avgHR: nil,
-                timeHour: self.activityManager.hours,
-                timeMin: self.activityManager.minutes,
-                timeSec: self.activityManager.seconds,
+                activityTitle: "",
+                activityType: self.activityTypeSelected!,
+                activityRemark: "",
+                isPublic: false,
+
+                distanceCovered: self.activityManager.totalDistance,
+                distanceUnit: .kilometers,
+                
+                timeTakenSeconds: self.activityManager.getTotalTime(),
+                caloriesBurnt: 123,
+                stepsTaken: self.activityManager.totalSteps,
+
+                avgHeartRate: nil,
+                avgPace: self.activityManager.getAveragePace(),
+                paceUnit: .minPerKm,
+                
+                mapImageURL: "",
                 basePoints: self.activityManager.basePointsEarned(),
                 skillPoints: self.activityManager.skillPointsEarned(),
-                mapImage: self.captureMapImage(from: self.mapManager.mapView)!,
-                activityPhotos: [],
-                note: "",
-                isPublic: false,
-                routeCoordinates: self.convertPathToCoordinates(self.mapManager.path))
+            )
             
-            //            the reason why navigation code is inside fetchAverageHeartRate is async, pushViewController runs immediately so majority of times avgHR will remain nil
+            Task {
+                
+//                inserting activity
+                self.newActivity = await insertActivity(self.newActivity!)!
+                
+//                getting map image url - not updated in database yet
+                self.newActivity!.mapImageURL = try await SupabaseManager.shared.getMapImageURL(self.captureMapImage(from: self.mapManager.mapView)!,
+                                                                                                activityID: self.newActivity!.activityID!)
+                
+                
+            }
+            
+            
+//      the reason why navigation code is inside fetchAverageHeartRate is async, pushViewController runs immediately so majority of times avgHR will remain nil
             self.healthKitManager.fetchAverageHeartRate(from: self.activityStartTime!, to: self.activityEndTime!) {
                 avgHR in
                 
-                newActivity.avgHR = avgHR
+//                getting avgHeartRate - not updated in database yet
+
+                self.newActivity!.avgHeartRate = avgHR
                 let destinationVC = ActivitySaveViewController()
-                destinationVC.activityData = newActivity
+                destinationVC.activityData = self.newActivity!
                 destinationVC.modalPresentationStyle = .fullScreen
                 self.navigationController?.pushViewController(destinationVC, animated: true)
             }
@@ -330,100 +348,21 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         counter -= 1
     }
-    
-    func settingScreenElements() {
-        navigationItem.hidesBackButton = true
-        buttonEndRun.isHidden = true
         
-        scrollView.delegate = self
-        scrollView.isScrollEnabled = false
-        pageControl.isHidden = true
-        self.switchAudioFeedback.isOn = isAudioFeedbackOn
-        
-        viewAllData.layer.cornerRadius = 20
-        viewPace.layer.cornerRadius = 20
-        viewHeartRate.layer.cornerRadius = 20
-        viewTime.layer.cornerRadius = 20
-        viewDistance.layer.cornerRadius = 20
-        
-        buttonLockScroll.layer.cornerRadius = buttonLockScroll.frame.height / 2
-        
-        buttonEndRun.frame.origin.x = (view.frame.width - buttonPause.frame.width) / 2
-        buttonEndRun.frame.origin.y = viewDistance.frame.origin.y + viewDistance.frame.height + 50
-        
-        buttonPause.frame.origin.x = (view.frame.width - buttonPause.frame.width) / 2
-        buttonPause.frame.origin.y = viewDistance.frame.origin.y + viewDistance.frame.height + 50
-        
-        labelDistance.font = UIFont(name: "SF Pro Medium", size: 18.0)
-        labelDistance.text = String(localized: "Distance (Km)")
-        labelDistance.sizeToFit()
-        
-        labelTime.font = UIFont(name: "SF Pro Medium", size: 18.0)
-        labelTime.text = String(localized: "Time")
-        labelTime.sizeToFit()
-        
-        labelPace.font = UIFont(name: "SF Pro Medium", size: 18.0)
-        labelPace.text = String(localized: "Pace")
-        labelPace.sizeToFit()
-        
-        labelHeartRate.font = UIFont(name: "SF Pro Medium", size: 18.0)
-        labelHeartRate.text = String(localized: "Heart Rate")
-        labelHeartRate.sizeToFit()
-        
-        labelPaceCounter.font = UIFont(name: "SF Pro Regular", size: 20)
-        labelTimeCounter.font = UIFont(name: "SF Pro Regular", size: 55)
-        labelDistanceCounter.font = UIFont(name: "SF Pro Regular", size: 128)
-        labelHeartRateCounter.font = UIFont(name: "SF Pro Regular", size: 20)
-        
-    }
-    
-    func settingPauseButtonImg() {
-        buttonPause.contentVerticalAlignment = .fill
-        buttonPause.contentHorizontalAlignment = .fill
-        buttonPause.layer.cornerRadius = buttonPause.frame.height / 2
-        
-        buttonEndRun.contentVerticalAlignment = .fill
-        buttonEndRun.contentHorizontalAlignment = .fill
-        buttonEndRun.layer.borderWidth = 1
-        buttonEndRun.layer.borderColor = UIColor.accent.cgColor
-        buttonEndRun.layer.cornerRadius = buttonEndRun.frame.height / 2
-        
-        buttonPause.imageEdgeInsets = UIEdgeInsets(top: 32, left: 35, bottom: 32, right: 35)
-        buttonEndRun.imageEdgeInsets = UIEdgeInsets(top: 38, left: 38, bottom: 38, right: 38)
-    }
-    
-    func settingMapGradients() {
-        self.topGradientView.frame.size.height = 200
-        self.topGradientView.frame.size.width = self.view.frame.size.width
-        self.topGradientView.frame.origin.y = 0
-        self.topGradientView.frame.origin.x = 0
-        addTopGradient(to: self.topGradientView)
-        self.viewActivityTrack.addSubview(self.topGradientView)
-        
-        self.bottomGradientView.frame.size.height = 10
-        self.bottomGradientView.frame.size.width = self.view.frame.size.width
-        self.bottomGradientView.frame.origin.y = view.frame.height - 10
-        self.bottomGradientView.frame.origin.x = 0
-        addBottomGradient(to: self.bottomGradientView)
-        self.viewActivityTrack.addSubview(self.bottomGradientView)
-        
-        self.leftGradientView.frame.size.height = self.view.frame.size.height
-        self.leftGradientView.frame.size.width = 100
-        self.leftGradientView.frame.origin.y = 0
-        self.leftGradientView.frame.origin.x = 0
-        addLeadingToTrailingGradient(to: self.leftGradientView)
-        self.viewActivityTrack.addSubview(self.leftGradientView)
-    }
-    
-    func convertPathToCoordinates(_ path: GMSMutablePath) -> [CLLocationCoordinate2D] {
-        var coordinates: [CLLocationCoordinate2D] = []
-        
+    func convertPathToCoordinates(_ path: GMSMutablePath, activityID: UUID) async -> [ActivityRouteCoordinates] {
+
+        var routeCoordinates: [ActivityRouteCoordinates] = []
+
         for i in 0..<path.count() {
-            coordinates.append(path.coordinate(at: i))
+            let coordinate = path.coordinate(at: i)
+
+            routeCoordinates.append(
+                ActivityRouteCoordinates(activityID: activityID, latitude: coordinate.latitude, longitude: coordinate.longitude, sequence: Int(i)))
         }
-        
-        return coordinates
+
+        await insertRouteCoordinates(routeCoordinates)
     }
+
     
     func captureMapImage(from mapView: GMSMapView) -> UIImage? {
         let renderer = UIGraphicsImageRenderer(size: mapView.bounds.size)
@@ -432,6 +371,7 @@ class ActivityLiveTrackingViewController: UIViewController {
             mapView.drawHierarchy(in: mapView.bounds,afterScreenUpdates: true)
         }
     }
+    
     func checkIfGoalSetAndCompleted() {
         if self.distanceGoalSet! > 0.0 {
             let totalTimeSet = hourGoalSet! * 60 + minGoalSet!
@@ -540,4 +480,90 @@ extension ActivityLiveTrackingViewController : UIScrollViewDelegate {
     }
     
     
+}
+
+extension ActivityLiveTrackingViewController {
+    func settingScreenElements() {
+        navigationItem.hidesBackButton = true
+        buttonEndRun.isHidden = true
+        
+        scrollView.delegate = self
+        scrollView.isScrollEnabled = false
+        pageControl.isHidden = true
+        self.switchAudioFeedback.isOn = isAudioFeedbackOn
+        
+        viewAllData.layer.cornerRadius = 20
+        viewPace.layer.cornerRadius = 20
+        viewHeartRate.layer.cornerRadius = 20
+        viewTime.layer.cornerRadius = 20
+        viewDistance.layer.cornerRadius = 20
+        
+        buttonLockScroll.layer.cornerRadius = buttonLockScroll.frame.height / 2
+        
+        buttonEndRun.frame.origin.x = (view.frame.width - buttonPause.frame.width) / 2
+        buttonEndRun.frame.origin.y = viewDistance.frame.origin.y + viewDistance.frame.height + 50
+        
+        buttonPause.frame.origin.x = (view.frame.width - buttonPause.frame.width) / 2
+        buttonPause.frame.origin.y = viewDistance.frame.origin.y + viewDistance.frame.height + 50
+        
+        labelDistance.font = UIFont(name: "SF Pro Medium", size: 18.0)
+        labelDistance.text = String(localized: "Distance (Km)")
+        labelDistance.sizeToFit()
+        
+        labelTime.font = UIFont(name: "SF Pro Medium", size: 18.0)
+        labelTime.text = String(localized: "Time")
+        labelTime.sizeToFit()
+        
+        labelPace.font = UIFont(name: "SF Pro Medium", size: 18.0)
+        labelPace.text = String(localized: "Pace")
+        labelPace.sizeToFit()
+        
+        labelHeartRate.font = UIFont(name: "SF Pro Medium", size: 18.0)
+        labelHeartRate.text = String(localized: "Heart Rate")
+        labelHeartRate.sizeToFit()
+        
+        labelPaceCounter.font = UIFont(name: "SF Pro Regular", size: 20)
+        labelTimeCounter.font = UIFont(name: "SF Pro Regular", size: 55)
+        labelDistanceCounter.font = UIFont(name: "SF Pro Regular", size: 128)
+        labelHeartRateCounter.font = UIFont(name: "SF Pro Regular", size: 20)
+        
+    }
+    
+    func settingPauseButtonImg() {
+        buttonPause.contentVerticalAlignment = .fill
+        buttonPause.contentHorizontalAlignment = .fill
+        buttonPause.layer.cornerRadius = buttonPause.frame.height / 2
+        
+        buttonEndRun.contentVerticalAlignment = .fill
+        buttonEndRun.contentHorizontalAlignment = .fill
+        buttonEndRun.layer.borderWidth = 1
+        buttonEndRun.layer.borderColor = UIColor.accent.cgColor
+        buttonEndRun.layer.cornerRadius = buttonEndRun.frame.height / 2
+        
+        buttonPause.imageEdgeInsets = UIEdgeInsets(top: 32, left: 35, bottom: 32, right: 35)
+        buttonEndRun.imageEdgeInsets = UIEdgeInsets(top: 38, left: 38, bottom: 38, right: 38)
+    }
+    
+    func settingMapGradients() {
+        self.topGradientView.frame.size.height = 200
+        self.topGradientView.frame.size.width = self.view.frame.size.width
+        self.topGradientView.frame.origin.y = 0
+        self.topGradientView.frame.origin.x = 0
+        addTopGradient(to: self.topGradientView)
+        self.viewActivityTrack.addSubview(self.topGradientView)
+        
+        self.bottomGradientView.frame.size.height = 10
+        self.bottomGradientView.frame.size.width = self.view.frame.size.width
+        self.bottomGradientView.frame.origin.y = view.frame.height - 10
+        self.bottomGradientView.frame.origin.x = 0
+        addBottomGradient(to: self.bottomGradientView)
+        self.viewActivityTrack.addSubview(self.bottomGradientView)
+        
+        self.leftGradientView.frame.size.height = self.view.frame.size.height
+        self.leftGradientView.frame.size.width = 100
+        self.leftGradientView.frame.origin.y = 0
+        self.leftGradientView.frame.origin.x = 0
+        addLeadingToTrailingGradient(to: self.leftGradientView)
+        self.viewActivityTrack.addSubview(self.leftGradientView)
+    }
 }

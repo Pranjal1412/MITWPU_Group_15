@@ -86,10 +86,6 @@ class DataSource {
         self.userProfile = userProfile
     }
     
-    func getUserID() -> UUID {
-        return user.ID
-    }
-    
     func getFriendsActivityData() -> [UserActivity] {
         return friendActivities
     }

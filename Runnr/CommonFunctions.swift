@@ -134,5 +134,20 @@ func setGlassEffect(for button: UIButton, withImage image: String) {
     button.tintColor = .white
 }
 
+func loadUIImage(from urlString: String) async -> UIImage? {
+    guard let url = URL(string: urlString) else {
+        print("Invalid URL")
+        return nil
+    }
+
+    do {
+        let (data, _) = try await URLSession.shared.data(from: url)
+        return UIImage(data: data)
+    } catch {
+        print("Failed to load image:", error)
+        return nil
+    }
+}
+
 
 

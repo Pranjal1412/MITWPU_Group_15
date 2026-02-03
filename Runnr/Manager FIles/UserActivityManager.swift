@@ -51,6 +51,10 @@ class UserActivityManager {
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
     }
 
+    func getTotalTime() -> Int {
+        return Int(totalTime)
+    }
+    
     // same function for completely stopping the timer after activity is been ended
     func stopTimer() {
         if let start = startTime {
@@ -66,18 +70,18 @@ class UserActivityManager {
     @objc func updateTime() {
         if let start = startTime {
             totalTime = accumulatedTime + Date().timeIntervalSince(start)
-            timerLabel.text = formatTime(totalTime)
+            let formattedTime = formatTime(Int(totalTime))
+            
+            timerLabel.text = String(format: "%02d:%02d:%02d", formattedTime.hour, formattedTime.minute, formattedTime.second)
         }
     }
 
-    func formatTime(_ interval: TimeInterval) -> String {
-        let totalSeconds = Int(interval)
+    func formatTime(_ interval: Int) -> FormatTime {
+        seconds = interval % 60
+        minutes = (interval % 3600) / 60
+        hours = interval / 3600
         
-        seconds = totalSeconds % 60
-        minutes = (totalSeconds % 3600) / 60
-        hours = totalSeconds / 3600
-        
-        return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+        return FormatTime(hour: hours, minute: minutes, second: seconds)
 
     }
     

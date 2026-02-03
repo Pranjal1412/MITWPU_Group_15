@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PhotosUI
 
 class SetProfileViewController: UIViewController {
 
@@ -28,9 +29,11 @@ class SetProfileViewController: UIViewController {
     
     private var selectedButton: UIButton?
     var userProfile = DataSource.shared.getUserProfile()
+    let supabase = SupabaseManager.shared
     var username: String = ""
     var height: String = ""
     var weight: String = ""
+    var profileURl: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,6 +91,11 @@ class SetProfileViewController: UIViewController {
         
     }
     
+    @IBAction func selectProfileImage(_ sender: UIButton) {
+        
+    }
+    
+    
     @IBAction func buttonNextClicked(_ sender: UIButton) {
         if self.buttonNext.titleLabel?.text == "Next" {
             self.buttonNext.setTitle(String(localized: "Complete Profile"), for: .normal)
@@ -134,6 +142,7 @@ class SetProfileViewController: UIViewController {
         self.userProfile.height = Double(self.height)
         self.userProfile.weight = Double(self.weight)
         self.userProfile.userLevel = .none
+        self.userProfile.userProfileImageURL = self.profileURl
         
     }
     
@@ -186,5 +195,74 @@ class SetProfileViewController: UIViewController {
         button.layer.borderColor = button.backgroundColor?.cgColor
 
         selectedButton = button
+    }
+}
+
+
+extension SetProfileViewController : PHPickerViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func openPhotoLibrary() {
+        var config = PHPickerConfiguration()
+        config.filter = .images
+        config.selectionLimit = 1
+
+        let picker = PHPickerViewController(configuration: config)
+        picker.delegate = self
+        present(picker, animated: true)
+    }
+
+    func openCamera() {
+        guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
+            print("Camera not available")
+            return
+        }
+
+        let picker = UIImagePickerController()
+        picker.sourceType = .camera
+        picker.delegate = self
+        present(picker, animated: true)
+    }
+
+    
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+
+        for result in results {
+            let provider = result.itemProvider
+            
+            if provider.canLoadObject(ofClass: UIImage.self) {
+                provider.loadObject(ofClass: UIImage.self) { image, _ in
+                    DispatchQueue.main.async {
+                        if let image = image as? UIImage {
+                            Task {
+                                do {
+                                    self.profileURl = try await self.supabase.createProfileImageURL(image, self.userProfile.userID!)
+                                    print("Uploaded URl: ", self.profileURl)
+                                }
+                                catch {
+                                    print("Upload Failed")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+                
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true)
+
+        if let image = info[.originalImage] as? UIImage {
+            Task {
+                do {
+                    self.profileURl = try await self.supabase.createProfileImageURL(image, self.userProfile.userID!)
+                    print("Uploaded URl: ", self.profileURl)
+                }
+                catch {
+                    print("Upload Failed")
+                }
+            }
+        }
     }
 }

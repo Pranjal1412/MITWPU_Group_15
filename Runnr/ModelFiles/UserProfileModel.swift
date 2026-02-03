@@ -19,7 +19,7 @@ struct UserProfile: Codable {
 }
 
 struct UserStats {
-    let ID : UUID
+    let userID : UUID
     var totalPointsEarned: Int
     var totalDistanceCovered: Double
     var totalActivities: Int
