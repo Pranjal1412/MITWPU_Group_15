@@ -91,9 +91,9 @@ class LoginViewController: UIViewController {
     
     func checkSession() async {
         if let session = supabase.auth.currentSession {
-            let user = session.user
-            let userProfile = await fetchUserProfile(userId: user.id) ?? UserProfile()
-            DataSource.shared.setUserProfile(userProfile)
+//            let user = session.user
+//            let userProfile = await fetchUserProfile(userId: user.id) ?? UserProfile()
+//            DataSource.shared.setUserProfile(userProfile)
             
             self.navigationController?.popToRootViewController(animated: false)
         }

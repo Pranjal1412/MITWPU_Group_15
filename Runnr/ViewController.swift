@@ -39,8 +39,11 @@ class ViewController: UIViewController {
         
         Task { @MainActor in
             do {
-                _ = try await SupabaseManager.shared.client.auth.session
+                let session = try await SupabaseManager.shared.client.auth.session
                 self.setUpTabBar()
+                let user = session.user
+                let userProfile = await fetchUserProfile(userId: user.id) ?? UserProfile()
+                DataSource.shared.setUserProfile(userProfile)
                 
             } catch {
                 print("User has not logged in")
