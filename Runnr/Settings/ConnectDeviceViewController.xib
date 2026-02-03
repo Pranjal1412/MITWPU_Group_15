@@ -93,7 +93,7 @@
                     </state>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sync you watch for deeper run Insights." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JMX-e7-cZr">
-                    <rect key="frame" x="45" y="582.66666666666663" width="312" height="42"/>
+                    <rect key="frame" x="45" y="582.66666666666663" width="312" height="43"/>
                     <fontDescription key="fontDescription" name="SFPro-Regular" family="SF Pro" pointSize="18"/>
                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>

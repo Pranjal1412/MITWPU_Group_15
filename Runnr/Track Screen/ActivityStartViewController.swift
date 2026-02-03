@@ -47,7 +47,7 @@ class ActivityStartViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if self.newUserAlert! {
+       if self.newUserAlert! {
             
             let destinationVC = IntroductionViewController()
             destinationVC.modalPresentationStyle = .overCurrentContext
@@ -55,7 +55,7 @@ class ActivityStartViewController: UIViewController {
             self.present(destinationVC, animated: true , completion: nil)
             
             self.newUserAlert = false
-        }
+       }
     }
     
     override func viewDidLayoutSubviews() {
