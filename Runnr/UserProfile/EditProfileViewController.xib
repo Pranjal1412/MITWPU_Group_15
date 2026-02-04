@@ -18,14 +18,9 @@
             <connections>
                 <outlet property="buttonCancel" destination="Zbg-id-3k1" id="85A-OP-Yxr"/>
                 <outlet property="buttonSaveChanges" destination="Zfc-NJ-8bG" id="kTE-N4-Dio"/>
+                <outlet property="editProfileScrollview" destination="1aX-YS-ygq" id="EJE-eQ-OTa"/>
                 <outlet property="imageViewProfilePhoto" destination="dfT-zs-rfN" id="tps-Lg-g5U"/>
-                <outlet property="labelBio" destination="LcB-mv-TEZ" id="EOx-T1-lJh"/>
-                <outlet property="labelUsername" destination="FFY-JM-g1a" id="k0n-Zp-p4v"/>
-                <outlet property="textFieldBio" destination="93Z-Ok-XrB" id="Hho-gx-yWN"/>
-                <outlet property="textFieldUsername" destination="ZwT-Uz-gD2" id="1xQ-tG-fPp"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
-                <outlet property="viewBio" destination="RQd-1H-6Dv" id="YDs-p0-pYj"/>
-                <outlet property="viewUsername" destination="HX1-bJ-3Gc" id="TzI-t9-MKQ"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -33,10 +28,6 @@
             <rect key="frame" x="0.0" y="0.0" width="402" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="run1" translatesAutoresizingMaskIntoConstraints="NO" id="dfT-zs-rfN">
-                    <rect key="frame" x="136" y="100" width="130" height="130"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zfc-NJ-8bG">
                     <rect key="frame" x="337" y="25" width="45" height="45"/>
                     <constraints>
@@ -65,19 +56,31 @@
                         <action selector="buttonCancel:" destination="-1" eventType="touchUpInside" id="A9h-ff-UWK"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Edit picture" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ray-hT-kK7">
-                    <rect key="frame" x="165" y="240.33333333333334" width="73" height="15.666666666666657"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="13"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Edit Profile" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fGG-eU-kHG">
                     <rect key="frame" x="140" y="32" width="123" height="30"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="25"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1aX-YS-ygq">
+                    <rect key="frame" x="0.0" y="79" width="402" height="766"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="run1" translatesAutoresizingMaskIntoConstraints="NO" id="dfT-zs-rfN">
+                            <rect key="frame" x="136" y="25" width="130" height="130"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="130" id="3uV-CQ-Cue"/>
+                                <constraint firstAttribute="height" constant="130" id="ens-eZ-MBu"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="dfT-zs-rfN" firstAttribute="centerX" secondItem="1aX-YS-ygq" secondAttribute="centerX" id="MRh-GP-J7G"/>
+                        <constraint firstAttribute="width" constant="402" id="UJ2-a0-RNq"/>
+                        <constraint firstItem="dfT-zs-rfN" firstAttribute="top" secondItem="Hh3-FP-Nkw" secondAttribute="top" constant="25" id="qbl-Dc-nO2"/>
+                    </constraints>
+                    <viewLayoutGuide key="contentLayoutGuide" id="Hh3-FP-Nkw"/>
+                    <viewLayoutGuide key="frameLayoutGuide" id="xD9-0s-iry"/>
+                </scrollView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sport" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bch-me-wC4">
                     <rect key="frame" x="23" y="663" width="75" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -163,6 +166,15 @@
                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HX1-bJ-3Gc">
                     <rect key="frame" x="105" y="298" width="267" height="39"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Enter you Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZwT-Uz-gD2">
+                            <rect key="frame" x="8" y="0.0" width="267" height="37"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="textColor" name="AccentColor"/>
+                            <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                    </subviews>
                     <color key="backgroundColor" name="modalBackground"/>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FFY-JM-g1a">
@@ -172,13 +184,6 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Enter you Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZwT-Uz-gD2">
-                    <rect key="frame" x="105" y="300" width="267" height="37"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="textColor" name="AccentColor"/>
-                    <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
-                    <textInputTraits key="textInputTraits"/>
-                </textField>
                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x5X-NK-h1P">
                     <rect key="frame" x="104" y="352" width="266" height="39"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -242,20 +247,30 @@
                     </subviews>
                     <color key="backgroundColor" name="CardLightBlack"/>
                 </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Edit picture" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ray-hT-kK7">
+                    <rect key="frame" x="165" y="238" width="73" height="15.666666666666657"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="13"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" name="modalBackground"/>
             <constraints>
+                <constraint firstItem="1aX-YS-ygq" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="0b2-M4-0ZB"/>
                 <constraint firstItem="Zbg-id-3k1" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="25" id="55A-za-GRb"/>
                 <constraint firstItem="Zfc-NJ-8bG" firstAttribute="leading" secondItem="fGG-eU-kHG" secondAttribute="trailing" constant="74" id="Oi4-Sc-YYj"/>
                 <constraint firstItem="Zbg-id-3k1" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="X40-ud-6E7"/>
                 <constraint firstAttribute="trailing" secondItem="Zfc-NJ-8bG" secondAttribute="trailing" constant="20" id="e6f-58-53P"/>
                 <constraint firstItem="fGG-eU-kHG" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="32" id="kmx-zw-1rG"/>
+                <constraint firstItem="1aX-YS-ygq" firstAttribute="top" secondItem="Zfc-NJ-8bG" secondAttribute="bottom" constant="10" id="mdg-pZ-gJ2"/>
+                <constraint firstItem="1aX-YS-ygq" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="pag-3S-knh"/>
                 <constraint firstItem="Zfc-NJ-8bG" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="25" id="r2g-Vb-Btp"/>
                 <constraint firstItem="fGG-eU-kHG" firstAttribute="leading" secondItem="Zbg-id-3k1" secondAttribute="trailing" constant="75" id="weg-j8-njc"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="379" y="29"/>
+            <point key="canvasLocation" x="377.72727272727275" y="28.87029288702929"/>
         </view>
     </objects>
     <resources>
@@ -263,7 +278,7 @@
         <image name="multiply" catalog="system" width="128" height="111"/>
         <image name="run1" width="406" height="522"/>
         <namedColor name="AccentColor">
-            <color red="1" green="0.79199999570846558" blue="0.15700000524520874" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="CardLightBlack">
             <color red="0.10199999809265137" green="0.10199999809265137" blue="0.10199999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
