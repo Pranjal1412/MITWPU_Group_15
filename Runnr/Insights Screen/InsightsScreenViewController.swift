@@ -125,7 +125,7 @@ class InsightsScreenViewController: UIViewController {
     }
 
     private func prepareActivities() {
-        let sorted = myActivities.sorted { $0.activityStartTime > $1.activityStartTime }
+        let sorted = myActivities.sorted { $0.activityStartTime! > $1.activityStartTime! }
         latestActivity = sorted.first
         previousActivity = sorted.count > 1 ? sorted[1] : nil
     }
@@ -135,7 +135,7 @@ class InsightsScreenViewController: UIViewController {
         greenDates.removeAll() //revents old or duplicate dates, empties the set
         let calendar = Calendar.current
         for activity in myActivities {
-            let activityDate = calendar.startOfDay(for: activity.activityStartTime)
+            let activityDate = calendar.startOfDay(for: activity.activityStartTime!)
             /* Removes time (hours, minutes, seconds)
              2026-01-21 18:42 → 2026-01-21 00:00
              */
@@ -268,35 +268,38 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
         
         switch indexPath.row {
         case 0: // Distance
-            let current = latest?.distanceValue ?? 0
+            let current = latest?.distanceCovered ?? 0
             cell.labelCardTitle.text = "Distance"
             cell.settingLabelStyle(withValue: String(format: "%.2f", current), withUnit: "Km")
-            cell.labelTrend.text = latest == nil ? "No recorded distance" : previous != nil ? trendText(current: current, previous: previous!.distanceValue, unit: "Km") : "First run"
-            updateChevron(cell: cell, current: latest?.distanceValue, previous: previous?.distanceValue)
+            cell.labelTrend.text = latest == nil ? "No recorded distance" : previous != nil ? trendText(current: current, previous: previous!.distanceCovered!, unit: "Km") : "First run"
+            updateChevron(cell: cell, current: latest?.distanceCovered, previous: previous?.distanceCovered)
             
         case 1: // Calories
-            let current = Double(latest?.caloriesValue ?? 0)
+            let current = Double(latest?.caloriesBurnt ?? 0)
             cell.labelCardTitle.text = "Calories"
             cell.settingLabelStyle(withValue: "\(Int(current))", withUnit: "Kcal")
-            cell.labelTrend.text = latest == nil ? "No recorded calories" : previous != nil ? trendText(current: current, previous: Double(previous!.caloriesValue), unit: "Kcal") : "First run"
-            updateChevron(cell: cell, current: current, previous: previous.map { Double($0.caloriesValue) })
+            cell.labelTrend.text = latest == nil ? "No recorded calories" : previous != nil ? trendText(current: current, previous: Double(previous!.caloriesBurnt!), unit: "Kcal") : "First run"
+            updateChevron(cell: cell, current: current, previous: previous.map { Double($0.caloriesBurnt!) })
             
         case 2: // Steps
-            let current = Double(latest?.stepsValue ?? 0)
+            let current = Double(latest?.stepsTaken ?? 0)
             cell.labelCardTitle.text = "Steps"
             cell.settingLabelStyle(withValue: "\(Int(current))", withUnit: "steps")
-            cell.labelTrend.text = latest == nil ? "No recorded steps" : previous != nil ? trendText(current: current, previous: Double(previous!.stepsValue), unit: "steps") : "First run"
-            updateChevron(cell: cell, current: current, previous: previous.map { Double($0.stepsValue) })
+            cell.labelTrend.text = latest == nil ? "No recorded steps" : previous != nil ? trendText(current: current, previous: Double(previous!.stepsTaken!), unit: "steps") : "First run"
+            updateChevron(cell: cell, current: current, previous: previous.map { Double($0.stepsTaken!) })
             
         case 3: // Average Pace
-            let curMin = latest?.timeMin ?? 0
-            let curSec = latest?.timeSec ?? 0
+            let newFormattedTime = formatTime((latest?.timeTakenSeconds!)!)
+            let formattedTime = formatTime((previous?.timeTakenSeconds!)!)
+            
+            let curMin = newFormattedTime.minute
+            let curSec = newFormattedTime.second
             let current = Double(curMin * 60 + curSec)
             cell.labelCardTitle.text = "Average Pace"
             let displayText = String(format: "%d:%02d", curMin, curSec)
             cell.settingLabelStyle(withValue: displayText, withUnit: "min/km")
-            cell.labelTrend.text = latest == nil ? "No recorded pace" : previous != nil ? trendText(current: current, previous: Double(previous!.timeMin * 60 + previous!.timeSec), unit: "s") : "First run"
-            updateChevron(cell: cell, current: latest.map { _ in current }, previous: previous.map { Double($0.timeMin * 60 + $0.timeSec) })
+            cell.labelTrend.text = latest == nil ? "No recorded pace" : previous != nil ? trendText(current: current, previous: Double(formattedTime.minute * 60 + formattedTime.second), unit: "s") : "First run"
+//            updateChevron(cell: cell, current: latest.map { _ in current }, previous: previous.map { Double($0.timeMin * 60 + $0.timeSec) })
             
         default:
             break

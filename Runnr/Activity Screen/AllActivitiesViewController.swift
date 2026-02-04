@@ -94,7 +94,7 @@ extension AllActivitiesViewController : UITableViewDelegate, UITableViewDataSour
         
         let shareAction = UIAlertAction(title: String(localized: "Share Activity"), style: .default)
         let deleteAction = UIAlertAction(title: String(localized: "Delete Activity"), style: .default) { _ in
-            self.dataSource.deleteMyActivity(atIndex: sender.tag)
+//            self.dataSource.deleteMyActivity(atIndex: sender.tag)
             self.updateScreenElements()
         }
         let cancelAction = UIAlertAction(title: String(localized: "Cancel"), style: .cancel, handler: nil)

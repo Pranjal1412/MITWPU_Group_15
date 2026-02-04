@@ -8,6 +8,7 @@
 import Foundation
 import Supabase
 
+// MARK: - User Profile Queries
 func insertUserProfile(_ profile: UserProfile) async {
     do {
         try await SupabaseManager.shared.client
@@ -36,24 +37,7 @@ func fetchUserProfile(userId: UUID) async -> UserProfile? {
     }
 }
 
-func uploadImageFetchURL(_ filepath: String, _ image: Data) async -> String? {
-    do {
-        try await SupabaseManager.shared.client.storage
-            .from("IMAGES")
-            .upload(filepath, data: image, options: FileOptions(contentType: "image/jpeg", upsert: true))
-        
-        let publicURL = try? SupabaseManager.shared.client.storage
-            .from("IMAGES")
-            .getPublicURL(path: filepath)
-        
-        return publicURL!.absoluteString
-    }
-    catch {
-        print("Upload Failed")
-        return nil
-    }
-}
-
+// MARK: - User Activity Queries
 func insertActivity(_ activity: UserActivity) async -> UserActivity? {
     do {
         let insertedActivity: UserActivity = try await SupabaseManager.shared.client
@@ -72,19 +56,6 @@ func insertActivity(_ activity: UserActivity) async -> UserActivity? {
     }
 }
 
-func insertRouteCoordinates(_ coordinates: [ActivityRouteCoordinates]) async {
-
-    do {
-        guard !coordinates.isEmpty else { return }
-        try await SupabaseManager.shared.client
-            .from("ActivityRouteCoordinates")
-            .insert(coordinates)
-            .execute()
-
-    } catch {
-        print("Insertion failed: \(error)")
-    }
-}
 func updateUserActivity(userID : UUID, activityID : UUID, newActivity: UserActivity) async {
     
     do {
@@ -97,6 +68,40 @@ func updateUserActivity(userID : UUID, activityID : UUID, newActivity: UserActiv
 
     } catch {
         print("Updation failed: \(error)")
+    }
+}
+
+func deleteUserActivity(userID : UUID, activityID : UUID) async {
+    do {
+        
+        try await SupabaseManager.shared.client
+            .from("UserActivity")
+            .delete()
+            .eq("userID", value: userID)
+            .eq("activityID", value: activityID)
+            .execute()
+    }
+    catch {
+        print("Deletion failed: \(error)")
+    }
+}
+
+func fetchAllActivity(userID : UUID) async -> [UserActivity]? {
+    do {
+        
+        let response: [UserActivity] = try await SupabaseManager.shared.client
+            .from("UserActivity")
+            .select()
+            .eq("userID", value: userID)
+            .order("activityStartTime", ascending: false)
+            .execute()
+            .value
+        
+        return response
+    }
+    catch {
+        print("Data not found")
+         return nil
     }
 }
 
@@ -113,3 +118,73 @@ func fetchActivityMapImageURL(activityID: UUID , userID : UUID) async throws -> 
 
     return response
 }
+
+// MARK: - User Activity Route Coordinates
+func insertActivityRouteCoordinates(_ coordinates: [ActivityRouteCoordinates]) async {
+
+    do {
+        guard !coordinates.isEmpty else { return }
+        try await SupabaseManager.shared.client
+            .from("ActivityRouteCoordinates")
+            .insert(coordinates)
+            .execute()
+
+    } catch {
+        print("Insertion failed: \(error)")
+    }
+}
+
+func fetchActivityRouteCoordinates(_ activityID: UUID) async -> [ActivityRouteCoordinates] {
+    
+    do {
+        let coordinates: [ActivityRouteCoordinates] = try await SupabaseManager.shared.client
+          .from("ActivityRouteCoordinates")
+          .select()
+          .eq("activityID", value: activityID)
+          .order("sequence", ascending: true)
+          .execute()
+          .value
+
+        return coordinates
+    } catch {
+        print("Failed to fetch route coordinates:", error)
+        return []
+    }
+    
+}
+
+// MARK: - User Activity Pace Graph Activity
+func insertActivityPaceGraphData(_ graphData: [ActivityPaceGraphData]) async {
+
+    do {
+        guard !graphData.isEmpty else { return }
+        try await SupabaseManager.shared.client
+            .from("ActivityRouteCoordinates")
+            .insert(graphData)
+            .execute()
+
+    } catch {
+        print("Insertion failed: \(error)")
+    }
+}
+
+// MARK: - Other
+func uploadImageFetchURL(_ filepath: String, _ image: Data) async -> String? {
+    do {
+        try await SupabaseManager.shared.client.storage
+            .from("IMAGES")
+            .upload(filepath, data: image, options: FileOptions(contentType: "image/jpeg", upsert: true))
+        
+        let publicURL = try? SupabaseManager.shared.client.storage
+            .from("IMAGES")
+            .getPublicURL(path: filepath)
+        
+        return publicURL!.absoluteString
+    }
+    catch {
+        print("Upload Failed")
+        return nil
+    }
+}
+
+

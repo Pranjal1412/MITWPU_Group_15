@@ -19,17 +19,18 @@ class ActivitySummaryViewController: UIViewController {
     var activityData : UserActivity?
     var showAlert : Bool = false
     let topGradientView = UIView()
-
+    var routeCoordinates: [CLLocationCoordinate2D] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
                         
         setGlassEffect(for: self.buttonBack, withImage: "chevron.backward")
         
         self.buttonShowAnalysis.layer.cornerRadius = buttonShowAnalysis.frame.height / 2.0
-        self.labelActivityHeading.text = activityData?.runTitle
+        self.labelActivityHeading.text = activityData?.activityTitle
         
         self.userLocation.locationManager.startUpdatingLocation()
-        self.userLocation.onLocationUpdate = { location in
+        self.userLocation.onLocationUpdate = { [self] location in
             
             if self.isMapInitialized == false {
                 let mapManager = MapManager()
@@ -44,21 +45,25 @@ class ActivitySummaryViewController: UIViewController {
                 mapView.settings.zoomGestures = true
                 mapView.settings.rotateGestures = true
                 
-                mapManager.path = self.convertCoordinatesToPath(from: self.activityData?.routeCoordinates ?? [])
-                mapManager.routeLine.path = mapManager.path
-                mapManager.setRouteLineStyle()
-                
-//                GMSCoordinateBounds() consider like it creates an imaginary rectangle such that it covers every coordinate
-//                the list of coordinates are being set using bounds = bounds.includingCoordinate(coordinate)
-                var bounds = GMSCoordinateBounds()
-//                to pass the entire track you need to loop through it
-                self.activityData?.routeCoordinates.forEach { coordinate in
-                    bounds = bounds.includingCoordinate(coordinate)
-                }
+                Task {
+                    routeCoordinates = await self.convertToCLLocationCoordinate2D(for: (self.activityData?.activityID)!)
+                    
+                    mapManager.path = self.convertCoordinatesToGMSMutablePath(from: routeCoordinates)
+                    mapManager.routeLine.path = mapManager.path
+                    mapManager.setRouteLineStyle()
+                    
+    //                GMSCoordinateBounds() consider like it creates an imaginary rectangle such that it covers every coordinate
+    //                the list of coordinates are being set using bounds = bounds.includingCoordinate(coordinate)
+                    var bounds = GMSCoordinateBounds()
+    //                to pass the entire track you need to loop through it
+                    routeCoordinates.forEach { coordinate in
+                        bounds = bounds.includingCoordinate(coordinate)
+                    }
+                    
+    //                here we are now adjusting map such that it cover the entire track
+                    mapView.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 70))
 
-                
-//                here we are now adjusting map such that it cover the entire track
-                mapView.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 70))
+                }
                 
                 self.topGradientView.frame.size.height = 100
                 self.topGradientView.frame.size.width = mapView.frame.size.width
@@ -80,7 +85,7 @@ class ActivitySummaryViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         
         if self.showAlert {
-            let alert = UIAlertController(title: String(localized: "Congratulations!"), message: "You have earned \(activityData!.basePoints + activityData!.skillPoints) points. Claim them now!", preferredStyle: .alert)
+            let alert = UIAlertController(title: String(localized: "Congratulations!"), message: "You have earned \(activityData!.basePoints! + activityData!.skillPoints!) points. Claim them now!", preferredStyle: .alert)
             let claimPointsAction = UIAlertAction(title: String(localized: "Claim Points"), style: .default)
         
             alert.addAction(claimPointsAction)
@@ -109,11 +114,34 @@ class ActivitySummaryViewController: UIViewController {
     }
     
     
-    func convertCoordinatesToPath(from coordinates: [CLLocationCoordinate2D]) -> GMSMutablePath {
+//    func convertCoordinatesToPath(from coordinates: [CLLocationCoordinate2D]) -> GMSMutablePath {
+//        let path = GMSMutablePath()
+//            for coordinate in coordinates {
+//                path.add(coordinate)
+//            }
+//            return path
+//    }
+    
+    func convertToCLLocationCoordinate2D(for activityID: UUID) async -> [CLLocationCoordinate2D] {
+        
+        let routeCoordinates = await fetchActivityRouteCoordinates(activityID)
+        
+        var coordinates: [CLLocationCoordinate2D] = []
+        for coordinate in routeCoordinates {
+            let gmsCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
+            coordinates.append(gmsCoordinate)
+        }
+        
+        return coordinates
+    }
+    
+    func convertCoordinatesToGMSMutablePath(from coordinates: [CLLocationCoordinate2D]) -> GMSMutablePath {
         let path = GMSMutablePath()
-            for coordinate in coordinates {
-                path.add(coordinate)
-            }
-            return path
+        
+        for coordinate in coordinates {
+            path.add(coordinate)
+        }
+        
+        return path
     }
 }

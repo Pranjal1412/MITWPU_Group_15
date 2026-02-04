@@ -70,8 +70,13 @@ class ActivitySaveViewController: UIViewController {
         let cancelAction = UIAlertAction(title: String(localized: "Cancel"), style: .cancel)
         
         let deleteAction = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive, handler: {_ in
-            print("After passing count: \(self.dataSource.getMyActivityData().count)")
-            self.navigationController?.dismiss(animated: true, completion: nil)
+            Task {
+                await deleteUserActivity(userID: self.activityData.userID!, activityID: self.activityData.activityID!)
+                await MainActor.run {
+                    self.navigationController?.dismiss(animated: true)
+                }
+
+            }
         })
         
         alert.addAction(cancelAction)
@@ -92,13 +97,13 @@ class ActivitySaveViewController: UIViewController {
         
         self.activityData.activityTitle = self.textFieldActivityTitle.text!
         self.activityData.activityRemark = self.textViewRemark.text
+        self.activityData.isPublic = self.switchIsActivityPublic.isOn
         
-        Task{
-            await updateUserActivity(userID: activityData.userID, activityID: activityData.activityID!, newActivity: activityData)
+        Task {
+            await updateUserActivity(userID: activityData.userID!, activityID: activityData.activityID!, newActivity: activityData)
         }
         //MARK: - Still yet to be implmented
 //        self.activityData.activityPhotos = self.selectedImages
-//        self.dataSource.addMyActivity(self.activityData)
 //        self.dataSource.updateTotalRunnrPoints(with: self.activityData.basePoints + self.activityData.skillPoints)
 //        self.dataSource.updateTotalDistance(with: activityData.distanceValue)
         
@@ -140,9 +145,9 @@ class ActivitySaveViewController: UIViewController {
         self.viewRemark.layer.cornerRadius = 15
         self.viewRemark.layer.borderColor = UIColor.white.cgColor
         self.viewRemark.layer.borderWidth = 0.5
-        Task{
-            imageViewMap.image = await loadUIImage(from: activityData.mapImageURL!)
-        }
+//        Task{
+//            imageViewMap.image = await loadUIImage(from: activityData.mapImageURL!)
+//        }
         imageViewMap.layer.cornerRadius = 15
     }
     
@@ -151,20 +156,21 @@ class ActivitySaveViewController: UIViewController {
         labelDescription.text = String(localized: "Anyone on Runnr can see your activity")
         labelRunSummary.text = String(localized: "Run Summary")
         labelPublicActivity.text = String(localized: "Public Activity")
-        labelTimeStamp.text = formatDate(with: self.activityData.activityStartTime)
+        labelTimeStamp.text = formatDate(with: self.activityData.activityStartTime!)
         
         labelDescription.sizeToFit()
         
         labelPace.text = NSLocalizedString( "Pace", comment: "")
-        labelPaceValue.text = String(format: "%.2f", self.activityData.avgPace) + " " + self.activityData.paceUnit.rawValue
+        labelPaceValue.text = String(format: "%.2f", self.activityData.avgPace!) + " " + self.activityData.paceUnit!.rawValue
         labelTime.text = NSLocalizedString( "Time", comment: "")
-        UserActivityManager.formatTime(self.activityData.timeTakenSeconds)
-        labelTimeValue.text = String(format: "%02d : %02d : %02d", self.activityData.timeHour, self.activityData.timeMin, self.activityData.timeSec)
+        
+        let formattedTime = formatTime(self.activityData.timeTakenSeconds!)
+        labelTimeValue.text = String(format: "%02d : %02d : %02d", formattedTime.hour, formattedTime.minute, formattedTime.second)
         labelTimeValue.sizeToFit()
         labelCalories.text = NSLocalizedString( "Calories", comment: "")
-        labelCaloriesValue.text = String(format: "%.0f", self.activityData.caloriesValue) + " kcal"
+        labelCaloriesValue.text = String(format: "%.0f", self.activityData.caloriesBurnt!) + " kcal"
         labelDistance.text = NSLocalizedString( "Distance", comment: "")
-        labelDistanceValue.text = String(format: "%.2f", self.activityData.distanceValue) + " " + self.activityData.distanceUnit
+        labelDistanceValue.text = String(format: "%.2f", self.activityData.distanceCovered!) + " " + self.activityData.distanceUnit!.rawValue
         
         labelAddPhotos.text = String(localized: "Tap here to upload photos")
     }
@@ -384,29 +390,3 @@ extension ActivitySaveViewController : UITextViewDelegate {
     }
     
 }
-
-
-//    func textViewDidChange(_ textView: UITextView) {
-//
-//        let inset = textView.textContainerInset.top + textView.textContainerInset.bottom
-//        let lineHeight = textView.font?.lineHeight ?? 0
-//
-//        let minHeight = lineHeight * 2 + inset
-//        let maxHeight = lineHeight * 5 + inset
-//
-//        .infinity is used because we are allowing text view to use as much of height it requires, but if the height exceeds maximum
-//        we are enabling scrolling
-//        let size = CGSize(width: textView.frame.width - 20.0, height: .infinity)
-//        let contentHeight = textView.sizeThatFits(size).height
-//        let newHeight = min(max(contentHeight, minHeight), maxHeight)
-//
-//        if containerViewHeightConstraint.constant != newHeight {
-//            containerViewHeightConstraint.constant = newHeight
-//        }
-//
-//        textView.isScrollEnabled = contentHeight > maxHeight
-//        UIView.animate(withDuration: 0.2) {
-//                self.view.layoutIfNeeded()
-//        }
-//
-//    }

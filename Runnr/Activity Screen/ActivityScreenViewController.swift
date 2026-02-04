@@ -43,8 +43,11 @@ class ActivityScreenViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        updateScreenElements()
-        self.labelTotalPoints.text = "\(totalPoints)"
+        Task {
+            await dataSource.fetchMyActivities()
+            updateScreenElements()
+            labelTotalPoints.text = "\(totalPoints)"
+        }
     }
     
     func settingLabelStyle() {

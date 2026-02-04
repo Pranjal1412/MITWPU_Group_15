@@ -149,5 +149,12 @@ func loadUIImage(from urlString: String) async -> UIImage? {
     }
 }
 
+func formatTime(_ interval: Int) -> FormatTime {
+    let seconds = interval % 60
+    let minutes = (interval % 3600) / 60
+    let hours = interval / 3600
+
+    return FormatTime(hour: hours, minute: minutes, second: seconds)
+}
 
 

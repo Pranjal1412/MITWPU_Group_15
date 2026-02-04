@@ -29,10 +29,10 @@ class FriendsActivityTableViewCell: UITableViewCell {
     }
 
     func configure(with activity: UserActivity) {
-        labelName.text = activity.userName
-        labelDate.text = formatDate(with: activity.activityStartTime)
-        labelRunTitle.text = activity.runTitle
-        labelNote.text = activity.note
+        labelName.text = "Ava Brooks"
+        labelDate.text = formatDate(with: activity.activityStartTime!)
+        labelRunTitle.text = activity.activityTitle
+        labelNote.text = activity.activityRemark
         labelDistance.text = "Distance"
         labelPace.text = "Pace"
         labelTime.text = "Time"
@@ -42,29 +42,31 @@ class FriendsActivityTableViewCell: UITableViewCell {
         let unitFont = UIFont(name: "SFProText-Light", size: 11)
             ?? UIFont.systemFont(ofSize: 11, weight: .light)
         let highlightColor = UIColor(red: 173/255, green: 248/255, blue: 69/255, alpha: 1)
-        let distanceValue = String(format: "%.1f", activity.distanceValue)
+        let distanceValue = String(format: "%.1f", activity.distanceCovered!)
         let distanceText = NSMutableAttributedString(string: distanceValue,
                                                      attributes: [.font: valueFont, .foregroundColor: highlightColor])
-        distanceText.append(NSAttributedString(string: " " + activity.distanceUnit,
+        distanceText.append(NSAttributedString(string: " " + activity.distanceUnit!.rawValue,
                                                attributes: [.font: unitFont, .foregroundColor: highlightColor]))
         labelDistanceContent.attributedText = distanceText
-        let paceText = NSMutableAttributedString(string: String(format: "%.1f", activity.paceValue),
+        let paceText = NSMutableAttributedString(string: String(format: "%.1f", activity.avgPace!),
                                                  attributes: [.font: valueFont, .foregroundColor: highlightColor])
-        paceText.append(NSAttributedString(string: " " + activity.paceUnit,
+        paceText.append(NSAttributedString(string: " " + activity.paceUnit!.rawValue,
                                            attributes: [.font: unitFont, .foregroundColor: highlightColor]))
         labelPaceContent.attributedText = paceText
         var timeText = NSMutableAttributedString()
         
-        if activity.timeHour != 0 {
-            timeText = NSMutableAttributedString(string: String(format: "%02d", activity.timeHour), attributes: [.font: valueFont, .foregroundColor: UIColor.accent])
+        let formattedTime = formatTime(activity.timeTakenSeconds!)
+
+        if formattedTime.hour != 0 {
+            timeText = NSMutableAttributedString(string: String(format: "%02d", formattedTime.hour), attributes: [.font: valueFont, .foregroundColor: UIColor.accent])
             timeText.append(NSAttributedString(string: "hr ", attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
         }
         
-        timeText.append(NSAttributedString(string: String(format: "%02d", activity.timeMin), attributes: [.font: valueFont, .foregroundColor: UIColor.accent]))
+        timeText.append(NSAttributedString(string: String(format: "%02d", formattedTime.minute), attributes: [.font: valueFont, .foregroundColor: UIColor.accent]))
         
         timeText.append(NSAttributedString(string: "min ", attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
         
-        timeText.append(NSAttributedString(string: " " + String(format: "%02d", activity.timeSec), attributes: [.font: valueFont, .foregroundColor: UIColor.accent]))
+        timeText.append(NSAttributedString(string: " " + String(format: "%02d", formattedTime.second), attributes: [.font: valueFont, .foregroundColor: UIColor.accent]))
         
         timeText.append(NSAttributedString(string: "sec", attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
         
@@ -72,7 +74,7 @@ class FriendsActivityTableViewCell: UITableViewCell {
         
         labelPaceContent.minimumScaleFactor = 0.5
         collectionViewPhotos.backgroundColor = .clear
-        setPhotos(activity.activityPhotos)
+//        setPhotos(activity.activityPhotos)
     }
 
     func setPhotos(_ names: [UIImage]) {

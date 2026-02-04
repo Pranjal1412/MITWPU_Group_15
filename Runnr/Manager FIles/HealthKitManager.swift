@@ -30,7 +30,7 @@ final class HealthKitManager {
         }
     }
     
-    func fetchAverageHeartRate(from start: Date, to end: Date, completion: @escaping (Double?) -> Void) {
+    private func fetchAverageHeartRate(from start: Date, to end: Date, completion: @escaping (Double?) -> Void) {
 
         guard let type = HKQuantityType.quantityType(forIdentifier: .heartRate) else {
             completion(nil)
@@ -54,4 +54,14 @@ final class HealthKitManager {
 
         healthStore.execute(query)
     }
+    
+    func fetchAverageHeartRateAsync(from start: Date, to end: Date) async -> Double? {
+
+        await withCheckedContinuation { continuation in
+            fetchAverageHeartRate(from: start, to: end) { avgHR in
+                continuation.resume(returning: avgHR)
+            }
+        }
+    }
+
 }

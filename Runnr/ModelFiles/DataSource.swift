@@ -3,7 +3,8 @@ import UIKit
 class DataSource {
     
     private var userProfile = UserProfile()
-    private var user = UserStats(ID: UUID(), totalPointsEarned: 0, totalDistanceCovered: 0, totalActivities: 0, longestStreak: 0)
+    private var currentActivityID: UUID?
+    private var user = UserStats(userID: UUID(), totalPointsEarned: 0, totalDistanceCovered: 0, totalActivities: 0, longestStreak: 0)
     private var myActivities: [UserActivity] = []
     private var friendActivities: [UserActivity] = []
     
@@ -15,66 +16,55 @@ class DataSource {
     
     func loadSampleData() {
         let friendsSampleData : [UserActivity]  = [
-            UserActivity(
-                id: UUID(),
-                userName: "Thomas Crook",
-                activityStartTime: Date(),
+            UserActivity(                
+                activityStartTime: Date(timeIntervalSinceNow: -3600), // 1 hour ago
                 activityEndTime: Date(),
-                runTitle: "Morning Run!",
-                activityType: "Run",
-                distanceValue: 7.2,
-                distanceUnit: "Km",
-                paceValue: 7.75,
-                paceGraphData: [],
-                paceUnit: "/Km",
-                stepsValue: 9340,
-                caloriesValue: 420,
-                timeHour: 1,
-                timeMin: 34,
-                timeSec: 47,
-                basePoints: 120,
-                skillPoints: 35,
-                mapImage: UIImage(named: "mapSample")!,
-                activityPhotos: [
-                    UIImage(named: "run1")!,
-                    UIImage(named: "run2")!,
-                    UIImage(named: "mapSample")!],
-                note: "First run in a while, tough but refreshing. Excited to rebuild step-by-step.",
+                
+                activityTitle: "Morning Run",
+                activityType: .running,
+                activityRemark: "Felt great, cool weather",
                 isPublic: true,
-                routeCoordinates: []
+                
+                distanceCovered: 5.2,
+                distanceUnit: .kilometers,
+                
+                timeTakenSeconds: 1800, // 30 mins
+                caloriesBurnt: 420,
+                stepsTaken: 6500,
+                
+                avgHeartRate: 148.5,
+                avgPace: 5.45,
+                paceUnit: .minPerKm,
+                
+                mapImageURL: "https://example.com/maps/run1.png",
+                basePoints: 50,
+                skillPoints: 20
             ),
-
             UserActivity(
-                id: UUID(),
-                userName: "Jane Doe",
-                activityStartTime: Date(),
-                activityEndTime: Date(),
-                runTitle: "Steady Run",
-                activityType: "Run",
-                distanceValue: 8.8,
-                distanceUnit: "Km",
-                paceValue: 6.66,
-                paceGraphData: [],
-                paceUnit: "/Km",
-                stepsValue: 10850,
-                caloriesValue: 510,
-                timeHour: 0,
-                timeMin: 52,
-                timeSec: 13,
-                basePoints: 150,
-                skillPoints: 50,
-                mapImage: UIImage(named: "mapSample")!,
-                activityPhotos: [
-                    UIImage(named: "run1")!,
-                    UIImage(named: "run2")!,
-                    UIImage(named: "mapSample")!
-                ],
-                note: "Tough start, but refreshing to get moving again. Working on consistency.",
-                isPublic: true,
-                routeCoordinates: []
+                activityStartTime: Date(timeIntervalSinceNow: -5400), // 1.5 hours ago
+                activityEndTime: Date(timeIntervalSinceNow: -3600),
+                
+                activityTitle: "Evening Walk",
+                activityType: .walking,
+                activityRemark: "Relaxing walk after dinner",
+                isPublic: false,
+                
+                distanceCovered: 2.8,
+                distanceUnit: .kilometers,
+                
+                timeTakenSeconds: 2400, // 40 mins
+                caloriesBurnt: 180,
+                stepsTaken: 4200,
+                
+                avgHeartRate: 102.3,
+                avgPace: 8.55,
+                paceUnit: .minPerKm,
+                
+                mapImageURL: nil,
+                basePoints: 25,
+                skillPoints: 10
             )
         ]
-
         self.friendActivities = friendsSampleData
     }
     
@@ -86,21 +76,27 @@ class DataSource {
         self.userProfile = userProfile
     }
     
+    func setCurrentActivityID(_ id: UUID) {
+        self.currentActivityID = id
+    }
+    
+    func getCurrentActivityID() -> UUID? {
+        return currentActivityID
+    }
+    
     func getFriendsActivityData() -> [UserActivity] {
         return friendActivities
     }
+    
+    func fetchMyActivities() async {
+        guard let userID = userProfile.userID else { return }
+        if let activities = await fetchAllActivity(userID: userID) {
+            self.myActivities = activities
+        }
+    }
+    
     func getMyActivityData() -> [UserActivity] {
         return myActivities
-    }
-    
-    func addMyActivity(_ activity: UserActivity) {
-        myActivities.append(activity)
-    }
-    
-    func deleteMyActivity(atIndex index: Int) {
-        if !myActivities.isEmpty {
-            myActivities.remove(at: index)
-        }
     }
     
     func updateTotalRunnrPoints(with points: Int) {

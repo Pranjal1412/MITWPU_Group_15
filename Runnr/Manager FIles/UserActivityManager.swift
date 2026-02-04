@@ -23,7 +23,7 @@ class UserActivityManager {
     var hours: Int = 0
     
     private var distanceLastLocation: CLLocation?
-    var totalDistance: Double = 1.0
+    var totalDistance: Double = 0.0
     
     private let pedometer = CMPedometer()
     private var steps : Int = 0
@@ -39,7 +39,7 @@ class UserActivityManager {
     private var graphDistance: Double = 0
     private var graphTime: TimeInterval = 0
     private var graphDistancePoint: Int = 0
-    var paceGraphData: [LivePaceGraphData] = []
+    var paceGraphData: [ActivityPaceGraphData] = []
     
     init (timerLabel: UILabel) {
         self.timerLabel = timerLabel
@@ -74,15 +74,6 @@ class UserActivityManager {
             
             timerLabel.text = String(format: "%02d:%02d:%02d", formattedTime.hour, formattedTime.minute, formattedTime.second)
         }
-    }
-
-    func formatTime(_ interval: Int) -> FormatTime {
-        seconds = interval % 60
-        minutes = (interval % 3600) / 60
-        hours = interval / 3600
-        
-        return FormatTime(hour: hours, minute: minutes, second: seconds)
-
     }
     
     func startUpdatingDistance(with location: CLLocation) {
@@ -148,7 +139,8 @@ class UserActivityManager {
                     let pace = (self.graphTime / self.graphDistance) * 1000 / 60
 
                     self.graphDistancePoint += 100
-                    self.paceGraphData.append(LivePaceGraphData(paceValue: pace, distance: Double(graphDistancePoint) / 1000, symbol: graphDistancePoint % 1000 == 0))
+                    self.paceGraphData.append(ActivityPaceGraphData(activityID: DataSource.shared.getCurrentActivityID()!, distanceValue: pace, paceValue: Double(graphDistancePoint) / 1000))
+                    
                     print("graphDistance: \(graphDistance), graphTime: \(graphTime) -> inside if")
                     self.graphDistance = 0
                     self.graphTime = 0
