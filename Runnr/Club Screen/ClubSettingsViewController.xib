@@ -8,136 +8,353 @@
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="SF-Pro.ttf">
+            <string>SFPro-Bold</string>
+            <string>SFPro-Light</string>
+            <string>SFPro-Medium</string>
+        </array>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ClubSettingsViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
                 <outlet property="buttonCancel" destination="KgF-34-pAQ" id="EMh-VV-2Tb"/>
                 <outlet property="buttonSave" destination="6bF-JI-fWm" id="GOB-Gw-GmL"/>
-                <outlet property="imageViewClubProfilePicture" destination="pEx-Nl-t5s" id="WGP-XV-xxN"/>
-                <outlet property="labelClubName" destination="oU4-6s-DsV" id="EdC-b4-tbO"/>
-                <outlet property="labelClubPrivacy" destination="rWK-rO-3OG" id="uYx-Ul-1Xy"/>
-                <outlet property="labelDescription" destination="dRS-Sg-6Ds" id="Vse-E5-c3s"/>
-                <outlet property="labelTermsClubPrivacy" destination="DTh-eg-jwc" id="JpX-ru-VlN"/>
-                <outlet property="switchClubPrivacy" destination="Qum-tm-PcE" id="TDB-67-gj6"/>
-                <outlet property="textFieldClubName" destination="4Ji-Lg-Piy" id="hWI-4O-wPb"/>
-                <outlet property="textViewDescription" destination="wbk-vN-e9V" id="q33-ZF-Mjq"/>
+                <outlet property="scrollView" destination="SKQ-Fm-7aa" id="NjZ-ju-DgX"/>
+                <outlet property="stackJoinApproval" destination="Yj3-v3-RMT" id="J8i-0D-CHX"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
-                <outlet property="viewClubName" destination="yCF-Pr-wzD" id="1az-yl-IFg"/>
-                <outlet property="viewClubPrivacy" destination="Xls-uh-ZAJ" id="pLV-Af-I4L"/>
-                <outlet property="viewDescription" destination="ccz-fj-3Gp" id="Z3K-0V-i2Q"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="402" height="908"/>
+            <rect key="frame" x="0.0" y="0.0" width="402" height="1108"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KgF-34-pAQ">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KgF-34-pAQ">
                     <rect key="frame" x="20" y="25" width="45" height="45"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="45" id="Dj4-xa-bbj"/>
+                        <constraint firstAttribute="height" constant="45" id="fT9-Ta-fGX"/>
+                    </constraints>
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="plain" image="multiply" catalog="system"/>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6bF-JI-fWm">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6bF-JI-fWm">
                     <rect key="frame" x="337" y="26" width="45" height="45"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="Hvo-qR-2yZ"/>
+                        <constraint firstAttribute="width" constant="45" id="NTY-Lm-IlN"/>
+                    </constraints>
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="plain" image="checkmark" catalog="system"/>
                 </button>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="club1" translatesAutoresizingMaskIntoConstraints="NO" id="pEx-Nl-t5s">
-                    <rect key="frame" x="136" y="100" width="130" height="130"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Club Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oU4-6s-DsV">
-                    <rect key="frame" x="25" y="275" width="78" height="18"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yCF-Pr-wzD">
-                    <rect key="frame" x="25" y="303" width="342" height="60"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SKQ-Fm-7aa">
+                    <rect key="frame" x="0.0" y="78" width="402" height="1030"/>
                     <subviews>
-                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter your club name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4Ji-Lg-Piy">
-                            <rect key="frame" x="0.0" y="0.0" width="342" height="60"/>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GyM-hf-6NB">
+                            <rect key="frame" x="0.0" y="7" width="402" height="193"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="193" id="89A-9R-vUx"/>
+                            </constraints>
+                        </imageView>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pEx-Nl-t5s">
+                            <rect key="frame" x="20" y="155" width="100" height="100"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="100" id="APD-08-JEX"/>
+                                <constraint firstAttribute="width" constant="100" id="eXq-W1-MhO"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Edit banner" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Va-eQ-9i6">
+                            <rect key="frame" x="294" y="205" width="73" height="15.666666666666657"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                            <textInputTraits key="textInputTraits"/>
-                        </textField>
-                    </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dRS-Sg-6Ds">
-                    <rect key="frame" x="25" y="388" width="81" height="18"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ccz-fj-3Gp">
-                    <rect key="frame" x="25" y="421" width="342" height="80"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="wbk-vN-e9V">
-                            <rect key="frame" x="0.0" y="0.0" width="342" height="80"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            <color key="textColor" systemColor="labelColor"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                        </textView>
-                    </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Club Privacy" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rWK-rO-3OG">
-                    <rect key="frame" x="25" y="526" width="88" height="18"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xls-uh-ZAJ">
-                    <rect key="frame" x="25" y="559" width="342" height="90"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="When private, members must be approved and activities are hidden from non members" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DTh-eg-jwc">
-                            <rect key="frame" x="0.0" y="10" width="229" height="21"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" systemColor="systemGray4Color"/>
+                            <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="13"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qum-tm-PcE">
-                            <rect key="frame" x="270" y="31" width="61" height="28"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="onTintColor" name="AccentColor"/>
-                        </switch>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Edit picture" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1wv-dM-dMS">
+                            <rect key="frame" x="35.000000000000007" y="260" width="71.666666666666686" height="15.666666666666686"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="71.670000000000002" id="f9P-5A-FHO"/>
+                                <constraint firstAttribute="height" constant="15.67" id="pDn-pk-l2x"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="13"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ACCOUNT" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DpD-rI-hKH">
+                            <rect key="frame" x="15" y="300.66666666666669" width="352" height="22"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="352" id="B0B-mA-6w4"/>
+                                <constraint firstAttribute="height" constant="22" id="FK2-ND-XGE"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="SFPro-Bold" family="SF Pro" pointSize="18"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <stackView opaque="NO" contentMode="scaleToFill" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="ocn-fb-yh5">
+                            <rect key="frame" x="20" y="337.66666666666669" width="359" height="18"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Club Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yS0-JR-K1e">
+                                    <rect key="frame" x="0.0" y="0.0" width="78" height="18"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="78" id="8Kv-yD-K7C"/>
+                                        <constraint firstAttribute="height" constant="18" id="MQK-9Q-NWo"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Enter your club name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nYb-BO-6vc">
+                                    <rect key="frame" x="92" y="0.0" width="267" height="18"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="267" id="0YS-aY-Rp9"/>
+                                    </constraints>
+                                    <color key="textColor" name="AccentColor"/>
+                                    <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </textField>
+                            </subviews>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="18" id="ZAT-tS-OC6"/>
+                                <constraint firstAttribute="width" constant="359" id="yxy-yO-ojg"/>
+                            </constraints>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="wPY-GX-Xk0">
+                            <rect key="frame" x="20" y="379.66666666666669" width="359" height="18"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CfW-Tn-B8L">
+                                    <rect key="frame" x="0.0" y="0.0" width="78" height="18"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="18" id="0ug-g9-XoG"/>
+                                        <constraint firstAttribute="width" constant="78" id="No4-Ds-JwB"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Add email address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="f2f-iy-l6Y">
+                                    <rect key="frame" x="92" y="0.0" width="267" height="18"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="267" id="6fT-W7-QwO"/>
+                                    </constraints>
+                                    <color key="textColor" name="AccentColor"/>
+                                    <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </textField>
+                            </subviews>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="eYt-HX-sJ8">
+                            <rect key="frame" x="20" y="421.66666666666669" width="359" height="18"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tagline" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x2Q-eb-xQv">
+                                    <rect key="frame" x="0.0" y="0.0" width="78" height="18"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="18" id="Gy1-qq-tN7"/>
+                                        <constraint firstAttribute="width" constant="78" id="HUJ-mb-5U7"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="  Add Tagline" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OuK-5i-4S9">
+                                    <rect key="frame" x="92" y="0.0" width="267" height="18"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="267" id="9Bo-c9-Syp"/>
+                                    </constraints>
+                                    <color key="textColor" name="AccentColor"/>
+                                    <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </textField>
+                            </subviews>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="QWw-zj-hK5">
+                            <rect key="frame" x="20" y="463.66666666666663" width="359" height="108"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bio / Description" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HDb-k9-hSq">
+                                    <rect key="frame" x="0.0" y="0.0" width="359" height="18"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="18" id="w80-IQ-32E"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Add Bio" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7b9-2k-bZH">
+                                    <rect key="frame" x="0.0" y="38" width="359" height="70"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="359" id="TBv-I7-k5d"/>
+                                        <constraint firstAttribute="height" constant="70" id="UxR-j6-jLb"/>
+                                    </constraints>
+                                    <color key="textColor" name="AccentColor"/>
+                                    <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="17"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </textField>
+                            </subviews>
+                        </stackView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RUNNING STYLE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2f8-Qm-YzD">
+                            <rect key="frame" x="15" y="606.66666666666663" width="144.33333333333334" height="21.666666666666629"/>
+                            <fontDescription key="fontDescription" name="SFPro-Bold" family="SF Pro" pointSize="18"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <stackView opaque="NO" contentMode="scaleToFill" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="Fap-Ri-jBA">
+                            <rect key="frame" x="20" y="643.33333333333337" width="359" height="18"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sport" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oY8-0P-b1H">
+                                    <rect key="frame" x="0.0" y="0.0" width="78" height="18"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="78" id="na7-jO-Ck0"/>
+                                        <constraint firstAttribute="height" constant="18" id="tmj-SD-UX3"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Choose Sport" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2FJ-hQ-Z6H">
+                                    <rect key="frame" x="92" y="0.0" width="267" height="18"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="267" id="8qS-38-c2i"/>
+                                    </constraints>
+                                    <color key="textColor" name="AccentColor"/>
+                                    <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </textField>
+                            </subviews>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="Ye0-hL-U0n">
+                            <rect key="frame" x="20" y="685.33333333333337" width="359" height="18"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Level" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pLS-Zm-b8v">
+                                    <rect key="frame" x="0.0" y="0.0" width="78" height="18"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="78" id="gDz-nf-amB"/>
+                                        <constraint firstAttribute="height" constant="18" id="hLd-V7-qeh"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Choose Club level" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="idH-y7-pOv">
+                                    <rect key="frame" x="92" y="0.0" width="267" height="18"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="267" id="BOI-ms-Ups"/>
+                                    </constraints>
+                                    <color key="textColor" name="AccentColor"/>
+                                    <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </textField>
+                            </subviews>
+                        </stackView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RULES" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ahg-9W-Cd0">
+                            <rect key="frame" x="15" y="738.33333333333337" width="58" height="21.666666666666629"/>
+                            <fontDescription key="fontDescription" name="SFPro-Bold" family="SF Pro" pointSize="18"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="236" translatesAutoresizingMaskIntoConstraints="NO" id="GtB-0W-cuX">
+                            <rect key="frame" x="20" y="775" width="348.66666666666669" height="28"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Privacy" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kxt-v7-LIS">
+                                    <rect key="frame" x="0.0" y="0.0" width="51.666666666666664" height="18"/>
+                                    <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6ac-XW-5by">
+                                    <rect key="frame" x="287.66666666666669" y="0.0" width="63" height="28"/>
+                                </switch>
+                            </subviews>
+                        </stackView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Anyone on Runnr can see your activity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oW3-wp-gWg">
+                            <rect key="frame" x="24.999999999999986" y="803" width="228.66666666666663" height="15.666666666666629"/>
+                            <fontDescription key="fontDescription" name="SFPro-Light" family="SF Pro" pointSize="13"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="192" translatesAutoresizingMaskIntoConstraints="NO" id="Yj3-v3-RMT">
+                            <rect key="frame" x="20" y="842.66666666666663" width="349" height="28"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Join Approval" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MNr-d6-ulK">
+                                    <rect key="frame" x="0.0" y="0.0" width="96" height="18"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="96" id="AXn-2w-sUO"/>
+                                        <constraint firstAttribute="height" constant="18" id="T2X-jw-7CO"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="15"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZOi-G7-2A6">
+                                    <rect key="frame" x="288" y="0.0" width="63" height="28"/>
+                                </switch>
+                            </subviews>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="349" id="YQN-ec-wSv"/>
+                                <constraint firstAttribute="height" constant="28" id="dXd-14-7V4"/>
+                            </constraints>
+                        </stackView>
                     </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                </view>
+                    <constraints>
+                        <constraint firstItem="eYt-HX-sJ8" firstAttribute="top" secondItem="wPY-GX-Xk0" secondAttribute="bottom" constant="24" id="07F-2s-1jl"/>
+                        <constraint firstItem="2f8-Qm-YzD" firstAttribute="leading" secondItem="XmL-dN-54m" secondAttribute="leading" constant="15" id="4Rq-k9-JBe"/>
+                        <constraint firstItem="1wv-dM-dMS" firstAttribute="top" secondItem="pEx-Nl-t5s" secondAttribute="bottom" constant="5" id="6X6-xQ-ZjH"/>
+                        <constraint firstItem="DpD-rI-hKH" firstAttribute="leading" secondItem="XmL-dN-54m" secondAttribute="leading" constant="15" id="76g-zc-xhe"/>
+                        <constraint firstItem="QWw-zj-hK5" firstAttribute="leading" secondItem="XmL-dN-54m" secondAttribute="leading" constant="20" id="AoX-T3-eWT"/>
+                        <constraint firstItem="QWw-zj-hK5" firstAttribute="top" secondItem="eYt-HX-sJ8" secondAttribute="bottom" constant="24" id="AvC-Xn-SLA"/>
+                        <constraint firstItem="Fap-Ri-jBA" firstAttribute="leading" secondItem="XmL-dN-54m" secondAttribute="leading" constant="20" id="BPy-Dd-Mpz"/>
+                        <constraint firstItem="Ahg-9W-Cd0" firstAttribute="leading" secondItem="XmL-dN-54m" secondAttribute="leading" constant="15" id="D7T-W1-1hp"/>
+                        <constraint firstItem="Ye0-hL-U0n" firstAttribute="leading" secondItem="XmL-dN-54m" secondAttribute="leading" constant="20" id="DNn-rA-EkD"/>
+                        <constraint firstItem="wPY-GX-Xk0" firstAttribute="leading" secondItem="XmL-dN-54m" secondAttribute="leading" constant="20" id="DwT-qk-hS8"/>
+                        <constraint firstItem="oW3-wp-gWg" firstAttribute="top" secondItem="GtB-0W-cuX" secondAttribute="bottom" id="FNN-fv-aMj"/>
+                        <constraint firstItem="GyM-hf-6NB" firstAttribute="top" secondItem="5a6-KM-MV6" secondAttribute="top" constant="7" id="FSk-ds-2fe"/>
+                        <constraint firstItem="Ye0-hL-U0n" firstAttribute="top" secondItem="Fap-Ri-jBA" secondAttribute="bottom" constant="24" id="HPy-nH-GTT"/>
+                        <constraint firstItem="GyM-hf-6NB" firstAttribute="trailing" secondItem="XmL-dN-54m" secondAttribute="trailing" id="JIn-wm-LAI"/>
+                        <constraint firstItem="GyM-hf-6NB" firstAttribute="leading" secondItem="XmL-dN-54m" secondAttribute="leading" id="KNw-li-NpD"/>
+                        <constraint firstItem="eYt-HX-sJ8" firstAttribute="leading" secondItem="XmL-dN-54m" secondAttribute="leading" constant="20" id="PGR-Wv-sjk"/>
+                        <constraint firstItem="DpD-rI-hKH" firstAttribute="top" secondItem="1wv-dM-dMS" secondAttribute="bottom" constant="25" id="Qjh-Lf-nqf"/>
+                        <constraint firstItem="ocn-fb-yh5" firstAttribute="top" secondItem="DpD-rI-hKH" secondAttribute="bottom" constant="15" id="RzA-Wt-r9n"/>
+                        <constraint firstItem="GtB-0W-cuX" firstAttribute="top" secondItem="Ahg-9W-Cd0" secondAttribute="bottom" constant="15" id="SfE-o0-wfx"/>
+                        <constraint firstItem="oW3-wp-gWg" firstAttribute="leading" secondItem="XmL-dN-54m" secondAttribute="leading" constant="25" id="TS5-x2-bos"/>
+                        <constraint firstItem="Yj3-v3-RMT" firstAttribute="leading" secondItem="XmL-dN-54m" secondAttribute="leading" constant="20" id="aGW-Sj-qlE"/>
+                        <constraint firstItem="1wv-dM-dMS" firstAttribute="leading" secondItem="XmL-dN-54m" secondAttribute="leading" constant="35" id="be5-2c-msR"/>
+                        <constraint firstItem="2f8-Qm-YzD" firstAttribute="top" secondItem="QWw-zj-hK5" secondAttribute="bottom" constant="35" id="bmh-6j-LkO"/>
+                        <constraint firstItem="Ahg-9W-Cd0" firstAttribute="top" secondItem="Ye0-hL-U0n" secondAttribute="bottom" constant="35" id="dpm-kj-Hzn"/>
+                        <constraint firstItem="Fap-Ri-jBA" firstAttribute="top" secondItem="2f8-Qm-YzD" secondAttribute="bottom" constant="15" id="gN7-oN-xXI"/>
+                        <constraint firstItem="pEx-Nl-t5s" firstAttribute="top" secondItem="5a6-KM-MV6" secondAttribute="top" constant="155" id="gcf-dS-A0K"/>
+                        <constraint firstItem="ocn-fb-yh5" firstAttribute="leading" secondItem="XmL-dN-54m" secondAttribute="leading" constant="20" id="hZ7-iR-EvJ"/>
+                        <constraint firstItem="wPY-GX-Xk0" firstAttribute="top" secondItem="ocn-fb-yh5" secondAttribute="bottom" constant="24" id="hnK-bh-F62"/>
+                        <constraint firstItem="GtB-0W-cuX" firstAttribute="leading" secondItem="XmL-dN-54m" secondAttribute="leading" constant="20" id="kyE-1b-lps"/>
+                        <constraint firstItem="pEx-Nl-t5s" firstAttribute="leading" secondItem="XmL-dN-54m" secondAttribute="leading" constant="20" id="lyy-cT-Pqy"/>
+                        <constraint firstItem="Yj3-v3-RMT" firstAttribute="top" secondItem="oW3-wp-gWg" secondAttribute="bottom" constant="24" id="slm-1G-vf7"/>
+                    </constraints>
+                    <viewLayoutGuide key="contentLayoutGuide" id="5a6-KM-MV6"/>
+                    <viewLayoutGuide key="frameLayoutGuide" id="XmL-dN-54m"/>
+                </scrollView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="6bF-JI-fWm" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="26" id="DC8-RW-GOV"/>
+                <constraint firstItem="KgF-34-pAQ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" symbolic="YES" id="Dgv-Ey-X21"/>
+                <constraint firstItem="SKQ-Fm-7aa" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Mkw-Dn-OxU"/>
+                <constraint firstAttribute="trailing" secondItem="6bF-JI-fWm" secondAttribute="trailing" constant="20" symbolic="YES" id="jfE-eG-owi"/>
+                <constraint firstItem="KgF-34-pAQ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="25" id="lpz-be-Ahe"/>
+                <constraint firstItem="SKQ-Fm-7aa" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="nhv-Ms-KMY"/>
+                <constraint firstItem="SKQ-Fm-7aa" firstAttribute="top" secondItem="6bF-JI-fWm" secondAttribute="bottom" constant="7" id="oRo-ZR-Zob"/>
+                <constraint firstAttribute="bottom" secondItem="SKQ-Fm-7aa" secondAttribute="bottom" id="xAZ-Vi-QoW"/>
+            </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="699.23664122137404" y="581.69014084507046"/>
         </view>
     </objects>
     <resources>
         <image name="checkmark" catalog="system" width="128" height="114"/>
-        <image name="club1" width="171" height="171"/>
         <image name="multiply" catalog="system" width="128" height="111"/>
         <namedColor name="AccentColor">
-            <color red="1" green="0.79199999570846558" blue="0.15700000524520874" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <systemColor name="labelColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemGray4Color">
-            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

@@ -118,6 +118,15 @@ class ClubProfileViewController: UIViewController {
         
     }
     
+    @IBAction func editClubProfilePressed(_ sender: UIButton) {
+       
+           let destinationVC = ClubSettingsViewController()
+        destinationVC.modalPresentationStyle = .fullScreen
+           self.present(destinationVC, animated: true)
+        
+    }
+    
+    
     @IBAction func backButtonPressed(_ sender: UIButton) {
         self.dismiss(animated: true)
     }
