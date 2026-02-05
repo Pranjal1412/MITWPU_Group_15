@@ -113,11 +113,11 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
 
         if segmentedControlGame.selectedSegmentIndex == 0 {
-            return CGSize(width: collectionView.frame.width, height: 40)
+            return CGSize(width: collectionView.frame.width, height: 45)
         }
 
         if segmentedControlGame.selectedSegmentIndex == 1 && section == 1 {
-            return CGSize(width: collectionView.frame.width, height: 40)
+            return CGSize(width: collectionView.frame.width, height: 45)
         }
 
         return .zero
@@ -140,9 +140,7 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
         return CGSize(width: width, height: 262)       // Duel
     }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10
     }
 }

@@ -117,6 +117,38 @@ func addLeadingToTrailingGradient(to view: UIView) {
     view.layer.insertSublayer(gradient, at: 0)
 }
 
+func addBlurAndGradient(to view: UIView) {
+    // Blur
+    let blurEffect = UIBlurEffect(style: .systemThinMaterialDark)
+    let blurView = UIVisualEffectView(effect: blurEffect)
+    blurView.frame = view.bounds
+    blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    view.insertSubview(blurView, at: 0)
+}
+
+func addHorizontalCardGradient(to view: UIView) {
+    let gradient = CAGradientLayer()
+    gradient.frame = view.bounds
+
+    gradient.colors = [
+        UIColor.black.withAlphaComponent(0.75).cgColor,
+        UIColor.black.withAlphaComponent(0.55).cgColor,
+        UIColor.black.withAlphaComponent(0.45).cgColor,
+        UIColor.black.withAlphaComponent(0.45).cgColor,
+        UIColor.black.withAlphaComponent(0.45).cgColor,
+        UIColor.black.withAlphaComponent(0.55).cgColor,
+        UIColor.black.withAlphaComponent(0.75).cgColor
+
+    ]
+
+    gradient.locations = [0.0, 0.15, 0.35, 0.5, 0.65, 0.85, 1.0]
+
+    gradient.startPoint = CGPoint(x: 0.0, y: 0.5)
+    gradient.endPoint   = CGPoint(x: 1.0, y: 0.5)
+
+    view.layer.insertSublayer(gradient, at: 0)
+}
+
 
 func formatDate(with date: Date) -> String {
     let formatter = DateFormatter()

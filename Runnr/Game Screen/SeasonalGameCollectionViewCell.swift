@@ -23,14 +23,21 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var labelNowLive: UILabel!
     @IBOutlet weak var imageViewGameBackground: UIImageView!
     @IBOutlet weak var labelBattleRun: UILabel!
+    @IBOutlet weak var viewCountDown: UIView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         configure()
         // Initialization code
     }
     func configure() {
-        viewMonthlyEvent.layer.cornerRadius = 10
+        viewCellBackground.layer.cornerRadius = 15
+        viewCountDown.layer.cornerRadius = 15
+        viewCellBackground.clipsToBounds = true
+        
+        viewMonthlyEvent.layer.cornerRadius = viewMonthlyEvent.frame.height / 2
         viewMonthlyEvent.clipsToBounds = true
+        
         buttonInviteFriend.layer.cornerRadius = 10
         buttonInviteFriend.clipsToBounds = true
         imageView1.layer.cornerRadius = imageView1.frame.size.height / 2
