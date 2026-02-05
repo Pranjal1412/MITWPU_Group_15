@@ -26,6 +26,10 @@ class MyActivityTableViewCell: UITableViewCell {
         labelDate.text = formatDate(with: activity.activityStartTime!)
         labelRunTitle.text = activity.activityTitle
 //        imageRun.image = activity.mapImage
+        
+        if activity.activityRemark == "" {
+            self.labelNote.isHidden = true
+        }
         labelNote.text = activity.activityRemark
         labelDistance.text = NSLocalizedString("Distance", comment: "")
         labelPace.text = NSLocalizedString("Pace", comment: "")
