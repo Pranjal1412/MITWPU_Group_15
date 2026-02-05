@@ -4,7 +4,9 @@ class DataSource {
     
     private var userProfile = UserProfile()
     private var currentActivityID: UUID?
+    
     private var user = UserStats(userID: UUID(), totalPointsEarned: 0, totalDistanceCovered: 0, totalActivities: 0, longestStreak: 0)
+    
     private var myActivities: [UserActivity] = []
     private var friendActivities: [UserActivity] = []
     
@@ -88,9 +90,9 @@ class DataSource {
         return friendActivities
     }
     
-    func fetchMyActivities() async {
+    func fetchAllMyActivities() async {
         guard let userID = userProfile.userID else { return }
-        if let activities = await fetchAllActivity(userID: userID) {
+        if let activities = await fetchAllActivities(userID: userID) {
             self.myActivities = activities
         }
     }

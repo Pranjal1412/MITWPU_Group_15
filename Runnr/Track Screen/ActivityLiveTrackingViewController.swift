@@ -313,10 +313,8 @@ class ActivityLiveTrackingViewController: UIViewController {
                     }
                 }
             }
-
             
             alert.addAction(end)
-            
             present(alert, animated: true , completion: nil)
         }
         

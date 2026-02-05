@@ -86,7 +86,7 @@ func deleteUserActivity(userID : UUID, activityID : UUID) async {
     }
 }
 
-func fetchAllActivity(userID : UUID) async -> [UserActivity]? {
+func fetchAllActivities(userID : UUID) async -> [UserActivity]? {
     do {
         
         let response: [UserActivity] = try await SupabaseManager.shared.client
