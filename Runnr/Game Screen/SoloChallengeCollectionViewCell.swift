@@ -57,8 +57,8 @@ class SoloChallengeCollectionViewCell: UICollectionViewCell {
         self.labelRewardPoints.clipsToBounds = true
         
         labelChallengeDescription.text = String(localized: "Goal: Run before 7 AM three days in a week")
-        progressChallengeCompletion.progress = 1
-        labelCompletionPercent.text = "100%"
+        progressChallengeCompletion.progress = 0.2
+        labelCompletionPercent.text = "20%"
         labelCompletionNumber.text = "5.0/5.0 Km"
         
     }
@@ -89,6 +89,12 @@ class SoloChallengeCollectionViewCell: UICollectionViewCell {
         self.buttonClaimPoints.backgroundColor = .lightGray
         self.buttonClaimPoints.setTitle("CLAIMED", for: .normal)
         self.buttonClaimPoints.isEnabled = false
-        
+        self.viewChallenge.backgroundColor = .darkGray
+        self.labelChallengeHeading.textColor = .darkGray
+        self.progressChallengeCompletion.progressTintColor = .darkGray
+        self.labelCompletionPercent.textColor = .darkGray
+        self.viewCellBackground.layer.borderColor = UIColor.darkGray.cgColor
+        self.viewCellBackground.layer.borderWidth = 1
+
     }
 }

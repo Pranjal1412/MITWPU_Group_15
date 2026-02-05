@@ -16,23 +16,28 @@ class GameSectionHeaderView: UICollectionReusableView {
         
     }
     
-    func configureHeader(for selectedSegment: Int) {
+    func configureHeader(for selectedSegment: Int, tableSection: Int = 0) {
         let thinFont = UIFont(name: "SFProText-Thin", size: 25) ?? UIFont.systemFont(ofSize: 25, weight: .thin)
         let boldFont = UIFont(name: "SFProText-Bold", size: 25) ?? UIFont.boldSystemFont(ofSize: 25)
         
         let activeText = NSAttributedString(string: "Active ", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
         let challengeText = NSAttributedString(string: "Challenges", attributes: [.font: boldFont, .foregroundColor: UIColor.white])
-
+        
+        let duelText = NSAttributedString(string: "Duel ", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
+        
         let fullText = NSMutableAttributedString()
         fullText.append(activeText)
         fullText.append(challengeText)
         
+        let newText = NSMutableAttributedString()
+        newText.append(duelText)
+        newText.append(challengeText)
+        
         if selectedSegment == 0 {
             labelSectionHeading.attributedText = fullText
-        } else if selectedSegment == 1 {
-            labelSectionHeading.text = "Active Games"
-        } else {
-            labelSectionHeading.text = ""
+        }
+        else if selectedSegment == 1 && tableSection == 0 {
+            labelSectionHeading.attributedText = newText
         }
     }
     

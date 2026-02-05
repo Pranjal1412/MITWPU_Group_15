@@ -105,19 +105,23 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
 
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "GameHeaderView", for: indexPath) as! GameSectionHeaderView
         
-        header.configureHeader(for: segmentedControlGame.selectedSegmentIndex)
-
+        if segmentedControlGame.selectedSegmentIndex == 0 {
+            header.configureHeader(for: segmentedControlGame.selectedSegmentIndex)
+        } else {
+            header.configureHeader(for: segmentedControlGame.selectedSegmentIndex, tableSection: indexPath.section)
+        }
+        
         return header
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
 
         if segmentedControlGame.selectedSegmentIndex == 0 {
-            return CGSize(width: collectionView.frame.width, height: 45)
+            return CGSize(width: collectionView.frame.width, height: 50)
         }
 
         if segmentedControlGame.selectedSegmentIndex == 1 && section == 1 {
-            return CGSize(width: collectionView.frame.width, height: 45)
+            return CGSize(width: collectionView.frame.width, height: 50)
         }
 
         return .zero
