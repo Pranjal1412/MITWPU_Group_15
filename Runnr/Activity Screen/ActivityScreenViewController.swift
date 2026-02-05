@@ -195,6 +195,7 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
             
         }
     }
+    
 }
 
 //MARK: - Activity Settings

@@ -290,6 +290,7 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
             
         case 3: // Average Pace
             let newFormattedTime = formatTime((latest?.timeTakenSeconds!)!)
+//            MARK: - App Crashes here
             let formattedTime = formatTime((previous?.timeTakenSeconds!)!)
             
             let curMin = newFormattedTime.minute
