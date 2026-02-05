@@ -13,6 +13,7 @@ class UserProfileViewController: UIViewController {
     @IBOutlet weak var imageProfile: UIImageView!
     @IBOutlet weak var imageCategoryBadge: UIImageView!
     @IBOutlet weak var buttonEditProfile: UIButton!
+    @IBOutlet weak var labelUsername: UILabel!
     
     @IBOutlet weak var labelScreenTitle: UILabel!
     @IBOutlet weak var labelTotalPoints: UILabel!
@@ -45,6 +46,8 @@ class UserProfileViewController: UIViewController {
     var totalDistance : Int {
         Int(DataSource.shared.getTotalKms())
     }
+    
+    let userProfile = DataSource.shared.getUserProfile()
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -107,6 +110,8 @@ class UserProfileViewController: UIViewController {
     }
     
     func loadAllData() {
+        self.labelUsername.text = userProfile.userName
+        
         self.labelTotalPointsCount.text = "\(self.totalRunnrPoints)"
         self.labelTotalActivitiesCount.text = "\(self.totalActivities)"
         self.labelTotalDistanceCount.text = "\(self.totalDistance)"
