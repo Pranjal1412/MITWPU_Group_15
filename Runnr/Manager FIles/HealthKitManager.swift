@@ -1,35 +1,43 @@
-//
-//  HealthKitManager.swift
-//  Runnr
-//
-//  Created by SDC-USER on 27/01/26.
-//
-
 import HealthKit
 
 final class HealthKitManager {
-
+    
     static let shared = HealthKitManager()
     private let healthStore = HKHealthStore()
-
+    
+    // 1. Request Permission (Read-only)
     func requestPermission(completion: @escaping (Bool) -> Void) {
         guard HKHealthStore.isHealthDataAvailable() else {
             completion(false)
             return
         }
-
-//        the data app wants to get
-        let readTypes: [HKObjectType] = [HKObjectType.quantityType(forIdentifier: .heartRate)!
-            /*HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!*/]
-
-//        toShare parameter is empty as there is no data that app needs to write to healthKit, while read has the data app wants access
-        healthStore.requestAuthorization(toShare: [], read: Set(readTypes)) { success, _ in
-            DispatchQueue.main.async {
-                completion(success)
-            }
+        
+        let typesToRead: Set = [
+            HKObjectType.quantityType(forIdentifier: .heartRate)!,
+            HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!
+        ]
+        
+        healthStore.requestAuthorization(toShare: nil, read: typesToRead) { success, _ in
+            DispatchQueue.main.async { completion(success) }
         }
     }
     
+    // 2. Fetch Calories (Sum for the run duration)
+    func fetchCalories(from start: Date, to end: Date, completion: @escaping (Double) -> Void) {
+        guard let calorieType = HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned) else {
+            completion(0)
+            return
+        }
+        
+        let predicate = HKQuery.predicateForSamples(withStart: start, end: end, options: .strictStartDate)
+        let query = HKStatisticsQuery(quantityType: calorieType, quantitySamplePredicate: predicate, options: .cumulativeSum) { _, result, _ in
+            let total = result?.sumQuantity()?.doubleValue(for: .kilocalorie()) ?? 0
+            DispatchQueue.main.async { completion(total) }
+        }
+        healthStore.execute(query)
+    }
+    
+    // 3. Fetch Heart Rate (Average for the run duration)
     private func fetchAverageHeartRate(from start: Date, to end: Date, completion: @escaping (Double?) -> Void) {
 
         guard let type = HKQuantityType.quantityType(forIdentifier: .heartRate) else {
@@ -63,5 +71,11 @@ final class HealthKitManager {
             }
         }
     }
-
+    func fetchCaloriesAsync(from start: Date, to end: Date) async -> Double {
+        await withCheckedContinuation { continuation in
+            fetchCalories(from: start, to: end) { calories in
+                continuation.resume(returning: calories)
+            }
+        }
+    }
 }

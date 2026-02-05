@@ -303,7 +303,11 @@ class ActivityLiveTrackingViewController: UIViewController {
                     // get Heart rate
                     let avgHR = await self.healthKitManager.fetchAverageHeartRateAsync(from: self.activityStartTime!, to: self.activityEndTime!)
                     self.currentActivity!.avgHeartRate = avgHR
-
+                    
+                    let caloriesBurnt = await
+                        self.healthKitManager.fetchCaloriesAsync(from: self.activityStartTime!, to: self.activityEndTime!)
+                    self.currentActivity!.caloriesBurnt = Int(caloriesBurnt)
+                    
                     await self.convertGMSMutablePathAndInsert(self.mapManager.path, activityID: self.currentActivity!.activityID!)
                     
                     DispatchQueue.main.async {
