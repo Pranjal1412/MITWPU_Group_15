@@ -46,15 +46,16 @@ class ActivitySaveViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        SettingLabels()
-        settingCardView()
+        self.settingLabels()
+        self.settingCardView()
+        self.collectionViewAddPhotos.isHidden = true
+        self.collectionViewAddPhotos.dataSource = self
+        self.textViewRemark.delegate = self
+
+
         scrollViewSaveActivity.contentSize.height = stackAddPhotos.frame.origin.y + stackAddPhotos.frame.size.height + 30
 
-        collectionViewAddPhotos.isHidden = true
         collectionViewAddPhotos.register(UINib(nibName: "AddPhotosCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AddPhotosCollectionViewCell")
-        collectionViewAddPhotos.dataSource = self
-        
-        self.textViewRemark.delegate = self
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         
         registerNotifications()
@@ -101,20 +102,18 @@ class ActivitySaveViewController: UIViewController {
         
         Task {
             await updateUserActivity(userID: activityData.userID!, activityID: activityData.activityID!, newActivity: activityData)
+            self.dataSource.setCurrentActivity(activityData)
+            
+            let destinationVC = ActivitySummaryViewController()
+            destinationVC.showAlert = true
+            
+            destinationVC.modalPresentationStyle = .fullScreen
+            navigationController?.present(destinationVC, animated: true)
         }
         //MARK: - Still yet to be implmented
 //        self.activityData.activityPhotos = self.selectedImages
 //        self.dataSource.updateTotalRunnrPoints(with: self.activityData.basePoints + self.activityData.skillPoints)
 //        self.dataSource.updateTotalDistance(with: activityData.distanceValue)
-        
-        print("After passing count: \(self.dataSource.getMyActivityData().count)")
-        
-        let destinationVC = ActivitySummaryViewController()
-        destinationVC.activityData = self.activityData
-        destinationVC.showAlert = true
-        
-        destinationVC.modalPresentationStyle = .fullScreen
-        navigationController?.present(destinationVC, animated: true)
         
     }
     
@@ -151,7 +150,7 @@ class ActivitySaveViewController: UIViewController {
         imageViewMap.layer.cornerRadius = 15
     }
     
-    func SettingLabels() {
+    func settingLabels() {
         labelPhotos.text = String(localized: "Photos")
         labelDescription.text = String(localized: "Anyone on Runnr can see your activity")
         labelRunSummary.text = String(localized: "Run Summary")
@@ -363,6 +362,8 @@ extension ActivitySaveViewController : UICollectionViewDataSource, UICollectionV
         return 10.0
     }
 }
+
+// MARK: - Text View dynammic height Settings
 
 extension ActivitySaveViewController : UITextViewDelegate {
 

@@ -13,14 +13,18 @@ class ActivityScreenViewController: UIViewController {
     
     let label = UILabel()
 
-    var dataSource = DataSource.shared
     var totalPoints: Int {
         dataSource.getTotalRunnrPoints()
     }
-    var myActivity: [UserActivity] {
-        dataSource.getMyActivityData()
-    }
     
+    private var dataSource = DataSource.shared
+    
+    private var userProfile: UserProfile {
+        DataSource.shared.getUserProfile()
+    }
+    private var myActivity: [UserActivity] {
+        dataSource.getAllActivities()
+    }
     let friendsActivity : [UserActivity] = DataSource.shared.getFriendsActivityData()
     
     override func viewDidLoad() {
@@ -44,7 +48,10 @@ class ActivityScreenViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         Task {
-            await dataSource.fetchAllMyActivities()
+            
+            let activities = await fetchAllMyActivities(userID: userProfile.userID!)
+            self.dataSource.setAllActivities(activities)
+            
             updateScreenElements()
             labelTotalPoints.text = "\(totalPoints)"
         }
@@ -185,13 +192,23 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == tableViewMyActivity {
             let activity = myActivity[indexPath.section]
-            
-            let destinationVC = ActivitySummaryViewController()
-            destinationVC.activityData = activity
-            destinationVC.showAlert = false
-            
-            destinationVC.modalPresentationStyle = .overFullScreen
-            self.present(destinationVC, animated: true)
+
+                Task {
+                    self.dataSource.setCurrentActivity(activity)
+
+                    let routeCoordinates = await fetchActivityRouteCoordinates(activity.activityID!)
+                    self.dataSource.setCurrentActivityCoordinates(routeCoordinates)
+
+                    let paceData = await fetchActivityPaceGraphData(activity.activityID!)
+                    self.dataSource.setCurrentActivityPaceData(paceData)
+                    
+                    await MainActor.run {
+                        let destinationVC = ActivitySummaryViewController()
+                        destinationVC.showAlert = false
+                        destinationVC.modalPresentationStyle = .overFullScreen
+                        self.present(destinationVC, animated: true)
+                    }
+                }
             
         }
     }

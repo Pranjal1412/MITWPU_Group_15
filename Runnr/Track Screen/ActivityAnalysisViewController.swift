@@ -38,6 +38,7 @@ class ActivityAnalysisViewController: UIViewController {
     @IBOutlet weak var viewHRGraphContainer: UIView!
     
     var activityData : UserActivity?
+    private var datasource = DataSource.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,7 +47,7 @@ class ActivityAnalysisViewController: UIViewController {
         settingAttributedText()
         settingUpActivityAnalysisScreenElements()
 
-//        let graphView = GraphView(paceData: self.activityData!.paceGraphData)
+//        let graphView = GraphView(paceData: self.datasource.getCurrentActivityPaceData())
 //
 //        let hostingController = UIHostingController(rootView: graphView)
 //        addChild(hostingController)
@@ -103,10 +104,7 @@ class ActivityAnalysisViewController: UIViewController {
     }
     
     func settingUpActivityAnalysisScreenElements() {
-        
-        
-        
-        
+                
         //labelUserName.text = activityData!.userName
         labelUserName.sizeToFit()
     
@@ -244,53 +242,56 @@ class ActivityAnalysisViewController: UIViewController {
 //        paceData.min { $0.paceValue < $1.paceValue }
 //    }
 //
-//    //    var body: some View {
-//    //        Chart {
-//    //
-//    //            ForEach(paceData) { data in
-//    //
-//    //                if data.symbol {
-//    //                    LineMark(x: .value("Distance", data.distance), y: .value("Pace", data.paceValue))
-//    //                        .symbol(.circle)
-//    //                        .symbolSize(70)
-//    //                }
-//    //                else {
-//    //                    LineMark(x: .value("Distance", data.distance), y: .value("Pace", data.paceValue))
-//    //                }
-//    //
-//    //                AreaMark(
-//    //                    x: .value("Distance", data.distance), y: .value("Pace", data.paceValue)
-//    //                )
-//    //                .foregroundStyle(.accent.opacity(0.2))
-//    //
-//    //            }
-//    //
-//    //        }
-//    //        .frame(maxWidth: .infinity, maxHeight: .infinity)
-//    //        .chartXAxis {
-//    //            AxisMarks(values: Array(stride(from: 0.0, through: (maxXValue?.distance ?? 5.0), by: 1.0))) { value in
-//    //                AxisGridLine()
-//    //                    .foregroundStyle(.white.opacity(1))
-//    //                AxisTick()
-//    //                    .foregroundStyle(.white)
-//    //                AxisValueLabel()
-//    //                    .foregroundStyle(.white)
-//    //            }
-//    //        }
-//    //        .chartXScale(domain: 0...(maxXValue?.distance ?? 5))
-//    //        .chartYScale(domain: 0...(maxYValue?.paceValue ?? 5))
-//    //        .chartYAxis {
-//    //            AxisMarks(position: .leading) { _ in
-//    //                AxisGridLine()
-//    //                    .foregroundStyle(.white.opacity(1))
-//    //                AxisTick()
-//    //                    .foregroundStyle(.white)
-//    //                AxisValueLabel()
-//    //                    .foregroundStyle(.white)
-//    //            }
-//    //        }
-//    //        .background(Color(.black))
-//    //
-//    //    }
-//    //}
+//    var body: some View {
+//        Chart {
+//
+//            ForEach(paceData) { data in
+//
+//                if data.symbol {
+//                    LineMark(x: .value("Distance", data.distance), y: .value("Pace", data.paceValue))
+//                        .symbol(.circle)
+//                        .symbolSize(70)
+//                }
+//                else {
+//                    LineMark(x: .value("Distance", data.distance), y: .value("Pace", data.paceValue))
+//                }
+//
+//                AreaMark(
+//                    x: .value("Distance", data.distance), y: .value("Pace", data.paceValue)
+//                )
+//                .foregroundStyle(.accent.opacity(0.2))
+//
+//            }
+//
+//        }
+//        .frame(maxWidth: .infinity, maxHeight: .infinity)
+//        .chartXAxis {
+//            AxisMarks(values: Array(stride(from: 0.0, through: (maxXValue?.distance ?? 5.0), by: 1.0))) { value in
+//                AxisGridLine()
+//                    .foregroundStyle(.white.opacity(1))
+//                AxisTick()
+//                    .foregroundStyle(.white)
+//                AxisValueLabel()
+//                    .foregroundStyle(.white)
+//            }
+//        }
+//        .chartXScale(domain: 0...(maxXValue?.distance ?? 5))
+//        .chartYScale(domain: 0...(maxYValue?.paceValue ?? 5))
+//        .chartYAxis {
+//            AxisMarks(position: .leading) { _ in
+//                AxisGridLine()
+//                    .foregroundStyle(.white.opacity(1))
+//                AxisTick()
+//                    .foregroundStyle(.white)
+//                AxisValueLabel()
+//                    .foregroundStyle(.white)
+//            }
+//        }
+//        .background(Color(.black))
+//
+//    }
+//    
+//    
+//    
 //}
+

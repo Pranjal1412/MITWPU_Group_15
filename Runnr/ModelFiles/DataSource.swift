@@ -3,9 +3,11 @@ import UIKit
 class DataSource {
     
     private var userProfile = UserProfile()
-    private var currentActivityID: UUID?
-    
     private var user = UserStats(userID: UUID(), totalPointsEarned: 0, totalDistanceCovered: 0, totalActivities: 0, longestStreak: 0)
+    
+    private var currentActivity: UserActivity?
+    private var currentActivityCoordinates: [ActivityRouteCoordinates] = []
+    private var currentActivityPaceData: [ActivityPaceGraphData] = []
     
     private var myActivities: [UserActivity] = []
     private var friendActivities: [UserActivity] = []
@@ -78,25 +80,50 @@ class DataSource {
         self.userProfile = userProfile
     }
     
-    func setCurrentActivityID(_ id: UUID) {
-        self.currentActivityID = id
+    func setAllActivities(_ activities: [UserActivity]) {
+        self.myActivities = activities
     }
     
-    func getCurrentActivityID() -> UUID? {
-        return currentActivityID
+    func getAllActivities() -> [UserActivity] {
+        return self.myActivities
     }
     
+    func setCurrentActivity(_ activity: UserActivity) {
+        self.currentActivity = activity
+    }
+    
+    func getCurrentActivity() -> UserActivity? {
+        return currentActivity
+    }
+    
+    func setCurrentActivityCoordinates(_ coordinates: [ActivityRouteCoordinates]) {
+        self.currentActivityCoordinates = coordinates
+    }
+    
+    func getCurrentActivityCoordinates() -> [ActivityRouteCoordinates] {
+        return self.currentActivityCoordinates
+    }
+    
+    func setCurrentActivityPaceData(_ paceData: [ActivityPaceGraphData]) {
+        self.currentActivityPaceData = paceData
+    }
+    
+    func getCurrentActivityPaceData() -> [ActivityPaceGraphData] {
+        return self.currentActivityPaceData
+    }
+    
+//    func fetchAllMyActivities() async {
+//        guard let userID = userProfile.userID else { return }
+//        if let activities = await fetchAllActivities(userID: userID) {
+//            self.myActivities = activities
+//        }
+//    }
+    
+//    MARK: - Below functions are yet to check and corrected
     func getFriendsActivityData() -> [UserActivity] {
         return friendActivities
     }
-    
-    func fetchAllMyActivities() async {
-        guard let userID = userProfile.userID else { return }
-        if let activities = await fetchAllActivities(userID: userID) {
-            self.myActivities = activities
-        }
-    }
-    
+        
     func getMyActivityData() -> [UserActivity] {
         return myActivities
     }

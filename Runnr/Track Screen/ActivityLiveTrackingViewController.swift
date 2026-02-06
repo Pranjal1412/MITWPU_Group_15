@@ -38,14 +38,15 @@ class ActivityLiveTrackingViewController: UIViewController {
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var switchAudioFeedback: UISwitch!
     
-    let speechSynthesizer = AVSpeechSynthesizer()
-    var audioPlayer: AVAudioPlayer?
     var lastAnnouncedKm = 0
+    var audioPlayer: AVAudioPlayer?
+    let speechSynthesizer = AVSpeechSynthesizer()
+    
+    let mapManager = MapManager()
+    let userLocation = UserLocationManager()
+    let userProfile = DataSource.shared.getUserProfile()
     
     let datasource = DataSource.shared
-    let userProfile = DataSource.shared.getUserProfile()
-    let userLocation = UserLocationManager()
-    let mapManager = MapManager()
     var activityManager: UserActivityManager!
     let healthKitManager = HealthKitManager.shared
 //    var bounds = GMSCoordinateBounds()
@@ -59,14 +60,15 @@ class ActivityLiveTrackingViewController: UIViewController {
     let leftGradientView = UIView()
     var activityTypeSelected : ActivityType?
     
-    var activityStartTime: Date?
-    var activityEndTime: Date?
-    var timer : Timer?
     var counter = 3
-    var quotes: [String] = [String(localized: "You Got This"), String(localized: "Lock in"), String(localized: "Lace Up")]
-    var distanceGoalSet : Double?
+    var activityEndTime: Date?
+    var activityStartTime: Date?
+    var timer : Timer?
     var minGoalSet : Int?
     var hourGoalSet : Int?
+    var distanceGoalSet : Double?
+    
+    var quotes: [String] = [String(localized: "You Got This"), String(localized: "Lock in"), String(localized: "Lace Up")]
     
     private var currentActivity: UserActivity?
     var isActivityInserted = false
@@ -79,13 +81,12 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         userLocation.locationManager.startUpdatingLocation()
         
-        
         self.currentActivity = UserActivity()
         self.currentActivity?.userID = self.userProfile.userID
         
         Task {
             self.currentActivity = await insertActivity(self.currentActivity!)
-            self.datasource.setCurrentActivityID((self.currentActivity?.activityID!)!)
+            self.datasource.setCurrentActivity((self.currentActivity!))
             self.isActivityInserted = true
         }
         
@@ -158,50 +159,6 @@ class ActivityLiveTrackingViewController: UIViewController {
         }
         
     }
-    func playAudioFile(named name: String) {
-        guard isAudioFeedbackOn else { return }
-        
-        guard let url = Bundle.main.url(forResource: name, withExtension: "mp3") else {
-            print("Missing audio file:", name)
-            return
-        }
-        
-        do {
-            audioPlayer = try AVAudioPlayer(contentsOf: url)
-            audioPlayer?.prepareToPlay()
-            audioPlayer?.play()
-        } catch {
-            print("Audio playback error")
-        }
-    }
-    
-    func announceRunStarted() {
-        playAudioFile(named: "runStarted")
-    }
-    func announceAveragePace(_ pace: Double){
-        playAudioFile(named: "yourAveragePaceIs")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-            guard self.isAudioFeedbackOn else { return }
-            
-            let utterance = AVSpeechUtterance(string: "\(pace) per kilometer")
-            utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
-            utterance.rate = 0.5
-            self.speechSynthesizer.speak(utterance)
-        }
-    }
-    func announceKilometer(_ km: Int) {
-        playAudioFile(named: "youHaveCompleted")
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-            guard self.isAudioFeedbackOn else { return }
-            
-            let utterance = AVSpeechUtterance(string: "\(km) kilometers")
-            utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
-            utterance.rate = 0.5
-            self.speechSynthesizer.speak(utterance)
-        }
-    }
-    
     
     @IBAction func pauseButtonPressed(_ sender: UIButton) {
         
@@ -220,14 +177,6 @@ class ActivityLiveTrackingViewController: UIViewController {
                 self.buttonEndRun.frame.origin.x = (self.buttonPause.frame.origin.x + self.buttonPause.frame.width + 70.0)
             }
             
-//            Fit map to route
-//            self.convertPathToCoordinates(mapManager.path).forEach { coordinate in
-//                bounds = bounds.includingCoordinate(coordinate)
-//            }
-//            
-//            mapManager.mapView.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 70))
-//            self.mapManager.mapView.isMyLocationEnabled = false
-//            
             buttonPause.tag = 1
         }
         
@@ -385,6 +334,7 @@ class ActivityLiveTrackingViewController: UIViewController {
         }
 
         await insertActivityRouteCoordinates(routeCoordinates)
+        self.datasource.setCurrentActivityCoordinates(routeCoordinates)
     }
 
     
@@ -396,51 +346,6 @@ class ActivityLiveTrackingViewController: UIViewController {
         }
     }
     
-    func checkIfGoalSetAndCompleted() {
-        if self.distanceGoalSet! > 0.0 {
-            let totalTimeSet = hourGoalSet! * 60 + minGoalSet!
-            
-            if totalTimeSet > 0 {
-                let totalTimeElapsed = activityManager.minutes + activityManager.hours * 60 + activityManager.seconds/60
-                
-                if totalTimeElapsed <= totalTimeSet && activityManager.totalDistance >= distanceGoalSet!{
-                    self.playAudioFile(named: "youHaveCompletedTodaysGoal")
-                }
-                else{
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                        guard self.isAudioFeedbackOn else { return }
-                        let utterance = AVSpeechUtterance(string: "You have not met your goal")
-                        utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
-                        utterance.rate = 0.5
-                        self.speechSynthesizer.speak(utterance)
-                    }
-                }
-            }
-            else{
-                if activityManager.totalDistance >= distanceGoalSet! {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                        guard self.isAudioFeedbackOn else { return }
-                        let utterance = AVSpeechUtterance(string: "Distance goal met!")
-                        utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
-                        utterance.rate = 0.5
-                        self.speechSynthesizer.speak(utterance)
-                    }
-                    //self.playAudioFile(named: "keepGoing")
-                }
-                else{
-                    let remainingDistance = distanceGoalSet! - activityManager.totalDistance
-                    self.playAudioFile(named: "youAreAlmostThere")
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                        guard self.isAudioFeedbackOn else { return }
-                        let utterance = AVSpeechUtterance(string: "\(remainingDistance) left")
-                        utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
-                        utterance.rate = 0.5
-                        self.speechSynthesizer.speak(utterance)
-                    }
-                }
-            }
-        }
-    }
 }
 // MARK: - Page Control Code & Scroll View Setting
 
@@ -506,6 +411,7 @@ extension ActivityLiveTrackingViewController : UIScrollViewDelegate {
     
 }
 
+//MARK: - UI Elements Setting Functions
 extension ActivityLiveTrackingViewController {
     func settingScreenElements() {
         navigationItem.hidesBackButton = true
@@ -590,4 +496,101 @@ extension ActivityLiveTrackingViewController {
         addLeadingToTrailingGradient(to: self.leftGradientView)
         self.viewActivityTrack.addSubview(self.leftGradientView)
     }
+}
+
+//MARK: - Audio Feedback Functions
+extension ActivityLiveTrackingViewController {
+    
+    func playAudioFile(named name: String) {
+        guard isAudioFeedbackOn else { return }
+        
+        guard let url = Bundle.main.url(forResource: name, withExtension: "mp3") else {
+            print("Missing audio file:", name)
+            return
+        }
+        
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer?.prepareToPlay()
+            audioPlayer?.play()
+        } catch {
+            print("Audio playback error")
+        }
+    }
+    
+    func announceRunStarted() {
+        playAudioFile(named: "runStarted")
+    }
+    
+    func announceAveragePace(_ pace: Double){
+        playAudioFile(named: "yourAveragePaceIs")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            guard self.isAudioFeedbackOn else { return }
+            
+            let utterance = AVSpeechUtterance(string: "\(pace) per kilometer")
+            utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
+            utterance.rate = 0.5
+            self.speechSynthesizer.speak(utterance)
+        }
+    }
+    
+    func announceKilometer(_ km: Int) {
+        playAudioFile(named: "youHaveCompleted")
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            guard self.isAudioFeedbackOn else { return }
+            
+            let utterance = AVSpeechUtterance(string: "\(km) kilometers")
+            utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
+            utterance.rate = 0.5
+            self.speechSynthesizer.speak(utterance)
+        }
+    }
+    
+    func checkIfGoalSetAndCompleted() {
+        if self.distanceGoalSet! > 0.0 {
+            let totalTimeSet = hourGoalSet! * 60 + minGoalSet!
+            
+            if totalTimeSet > 0 {
+                let totalTimeElapsed = activityManager.minutes + activityManager.hours * 60 + activityManager.seconds/60
+                
+                if totalTimeElapsed <= totalTimeSet && activityManager.totalDistance >= distanceGoalSet!{
+                    self.playAudioFile(named: "youHaveCompletedTodaysGoal")
+                }
+                else{
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                        guard self.isAudioFeedbackOn else { return }
+                        let utterance = AVSpeechUtterance(string: "You have not met your goal")
+                        utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
+                        utterance.rate = 0.5
+                        self.speechSynthesizer.speak(utterance)
+                    }
+                }
+            }
+            else{
+                if activityManager.totalDistance >= distanceGoalSet! {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                        guard self.isAudioFeedbackOn else { return }
+                        let utterance = AVSpeechUtterance(string: "Distance goal met!")
+                        utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
+                        utterance.rate = 0.5
+                        self.speechSynthesizer.speak(utterance)
+                    }
+                    //self.playAudioFile(named: "keepGoing")
+                }
+                else{
+                    let remainingDistance = distanceGoalSet! - activityManager.totalDistance
+                    self.playAudioFile(named: "youAreAlmostThere")
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                        guard self.isAudioFeedbackOn else { return }
+                        let utterance = AVSpeechUtterance(string: "\(remainingDistance) left")
+                        utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
+                        utterance.rate = 0.5
+                        self.speechSynthesizer.speak(utterance)
+                    }
+                }
+            }
+        }
+    }
+
 }

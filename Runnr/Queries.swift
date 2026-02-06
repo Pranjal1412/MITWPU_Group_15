@@ -86,7 +86,7 @@ func deleteUserActivity(userID : UUID, activityID : UUID) async {
     }
 }
 
-func fetchAllActivities(userID : UUID) async -> [UserActivity]? {
+func fetchAllMyActivities(userID : UUID) async -> [UserActivity] {
     do {
         
         let response: [UserActivity] = try await SupabaseManager.shared.client
@@ -101,7 +101,7 @@ func fetchAllActivities(userID : UUID) async -> [UserActivity]? {
     }
     catch {
         print("Data not found")
-         return nil
+         return []
     }
 }
 
@@ -165,6 +165,25 @@ func insertActivityPaceGraphData(_ graphData: [ActivityPaceGraphData]) async {
 
     } catch {
         print("Insertion failed: \(error)")
+    }
+}
+
+func fetchActivityPaceGraphData(_ activityID: UUID) async -> [ActivityPaceGraphData] {
+    
+    do {
+        let graphData: [ActivityPaceGraphData] = try await SupabaseManager.shared.client
+            .from("ActivityRouteCoordinates")
+            .select()
+            .eq("activityID", value: activityID)
+            .order("sequence", ascending: true)
+            .execute()
+            .value
+        
+        return graphData
+    }
+    catch {
+        print("Failed to fetch route coordinates:", error)
+        return []
     }
 }
 

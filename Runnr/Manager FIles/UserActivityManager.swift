@@ -12,6 +12,8 @@ import CoreMotion
 
 class UserActivityManager {
 
+    let datasource = DataSource.shared
+    
     private var timer: Timer?
     private var startTime: Date?
     private var accumulatedTime: TimeInterval = 0
@@ -139,7 +141,8 @@ class UserActivityManager {
                     let pace = (self.graphTime / self.graphDistance) * 1000 / 60
 
                     self.graphDistancePoint += 100
-                    self.paceGraphData.append(ActivityPaceGraphData(activityID: DataSource.shared.getCurrentActivityID()!, distanceValue: pace, paceValue: Double(graphDistancePoint) / 1000))
+//                    self.paceGraphData.append(ActivityPaceGraphData(activityID: datasource.getCurrentActivity()!.activityID!, distanceValue: Double(graphDistancePoint) / 1000, paceValue: pace))
+                    
                     
                     print("graphDistance: \(graphDistance), graphTime: \(graphTime) -> inside if")
                     self.graphDistance = 0
@@ -152,8 +155,13 @@ class UserActivityManager {
         self.paceLastLocation = location
     }
 
-
     func getAveragePace() -> Double {
+        
+        Task {
+            self.paceGraphData.append(ActivityPaceGraphData(activityID: datasource.getCurrentActivity()!.activityID!, distanceValue: 1, paceValue: 5.34))
+            await insertActivityPaceGraphData(self.paceGraphData)
+            self.datasource.setCurrentActivityPaceData(self.paceGraphData)
+        }
         
         if totalDistance > 0 && totalTime >= 60 {
             self.avgPace = (totalTime / 60) / totalDistance

@@ -14,13 +14,15 @@ class ActivitySummaryViewController: UIViewController {
     @IBOutlet weak var buttonShowAnalysis: UIButton!
     @IBOutlet weak var labelActivityHeading: UILabel!
     
-    var isMapInitialized: Bool = false
-    let userLocation = UserLocationManager()
-    var activityData : UserActivity?
     var showAlert : Bool = false
+    var isMapInitialized: Bool = false
+
     let topGradientView = UIView()
-    var routeCoordinates: [CLLocationCoordinate2D] = []
     
+    private let userLocation = UserLocationManager()
+    private var activityData = DataSource.shared.getCurrentActivity()
+    private var routeCoordinates = DataSource.shared.getCurrentActivityCoordinates()
+
     override func viewDidLoad() {
         super.viewDidLoad()
                         
@@ -30,7 +32,7 @@ class ActivitySummaryViewController: UIViewController {
         self.labelActivityHeading.text = activityData?.activityTitle
         
         self.userLocation.locationManager.startUpdatingLocation()
-        self.userLocation.onLocationUpdate = { [self] location in
+        self.userLocation.onLocationUpdate = { location in
             
             if self.isMapInitialized == false {
                 let mapManager = MapManager()
@@ -46,9 +48,9 @@ class ActivitySummaryViewController: UIViewController {
                 mapView.settings.rotateGestures = true
                 
                 Task {
-                    routeCoordinates = await self.convertToCLLocationCoordinate2D(for: (self.activityData?.activityID)!)
+                    let CLcoordinates = self.convertToCLLocationCoordinate2D(for: self.routeCoordinates)
                     
-                    mapManager.path = self.convertCoordinatesToGMSMutablePath(from: routeCoordinates)
+                    mapManager.path = self.convertCoordinatesToGMSMutablePath(from: CLcoordinates)
                     mapManager.routeLine.path = mapManager.path
                     mapManager.setRouteLineStyle()
                     
@@ -56,7 +58,7 @@ class ActivitySummaryViewController: UIViewController {
     //                the list of coordinates are being set using bounds = bounds.includingCoordinate(coordinate)
                     var bounds = GMSCoordinateBounds()
     //                to pass the entire track you need to loop through it
-                    routeCoordinates.forEach { coordinate in
+                    CLcoordinates.forEach { coordinate in
                         bounds = bounds.includingCoordinate(coordinate)
                     }
                     
@@ -122,10 +124,8 @@ class ActivitySummaryViewController: UIViewController {
 //            return path
 //    }
     
-    func convertToCLLocationCoordinate2D(for activityID: UUID) async -> [CLLocationCoordinate2D] {
-        
-        let routeCoordinates = await fetchActivityRouteCoordinates(activityID)
-        
+    func convertToCLLocationCoordinate2D(for coordinates: [ActivityRouteCoordinates]) -> [CLLocationCoordinate2D] {
+                
         var coordinates: [CLLocationCoordinate2D] = []
         for coordinate in routeCoordinates {
             let gmsCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
