@@ -112,6 +112,9 @@ class DataSource {
         return self.currentActivityPaceData
     }
     
+    func resetMyActivities() {
+        self.myActivities.removeAll()
+    }
 //    func fetchAllMyActivities() async {
 //        guard let userID = userProfile.userID else { return }
 //        if let activities = await fetchAllActivities(userID: userID) {

@@ -103,6 +103,7 @@ class ActivitySaveViewController: UIViewController {
         Task {
             await updateUserActivity(userID: activityData.userID!, activityID: activityData.activityID!, newActivity: activityData)
             self.dataSource.setCurrentActivity(activityData)
+            self.dataSource.resetMyActivities()
             
             let destinationVC = ActivitySummaryViewController()
             destinationVC.showAlert = true

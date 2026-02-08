@@ -39,12 +39,14 @@ class ViewController: UIViewController {
         
         Task { @MainActor in
             do {
-//                I NEED A LOADER HERE DONT LAND ON TABBAR UNTIL DATASOURCE GETS THE User info
                 let session = try await SupabaseManager.shared.client.auth.session
-                self.setUpTabBar()
+                
                 let user = session.user
                 let userProfile = await fetchUserProfile(userId: user.id) ?? UserProfile()
                 DataSource.shared.setUserProfile(userProfile)
+                
+                self.setUpTabBar()
+
                 
             } catch {
                 print("User has not logged in")
