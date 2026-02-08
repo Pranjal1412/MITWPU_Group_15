@@ -167,31 +167,31 @@ class UserProfileViewController: UIViewController {
 extension UserProfileViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section == 0 {
+//        if section == 0 {
+//            return 2
+//        }
+//        else {
             return 2
-        }
-        else {
-            return 2
-        }
+//        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if indexPath.section == 0 {
+//        if indexPath.section == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BestActivitiesCollectionViewCell", for: indexPath) as! BestActivitiesCollectionViewCell
             
             cell.configureCell()
             return cell
-        }
-        else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BadgeCollectionViewCell", for: indexPath) as! BadgeCollectionViewCell
-            
-            return cell
-        }
+//        }
+//        else {
+//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BadgeCollectionViewCell", for: indexPath) as! BadgeCollectionViewCell
+//            
+//            return cell
+//        }
 
     }
     
@@ -203,14 +203,14 @@ extension UserProfileViewController: UICollectionViewDataSource {
         
         let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SectionHeaderView", for: indexPath) as! SectionHeaderView
         
-        if indexPath.section == 0 {
+//        if indexPath.section == 0 {
             sectionHeader.imageSection.image = UIImage(systemName: "trophy.fill")
             sectionHeader.labelSectionHeading.text = "Best Activities"
-        }
-        else if indexPath.section == 1 {
-            sectionHeader.imageSection.image = UIImage(systemName: "medal.fill")
-            sectionHeader.labelSectionHeading.text = "Badges Earned"
-        }
+//        }
+//        else if indexPath.section == 1 {
+//            sectionHeader.imageSection.image = UIImage(systemName: "medal.fill")
+//            sectionHeader.labelSectionHeading.text = "Badges Earned"
+//        }
         
         return sectionHeader
     }
@@ -225,7 +225,7 @@ extension UserProfileViewController: UICollectionViewDataSource {
             // parameter elementKind should match with forSupplementaryViewOfKind in register
             let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
             
-            if section == 0 {
+//            if section == 0 {
                 let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
@@ -242,26 +242,26 @@ extension UserProfileViewController: UICollectionViewDataSource {
                 
                 return section
                 
-            }
-            
-            else {
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
-                let item = NSCollectionLayoutItem(layoutSize: itemSize)
-                
-                item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 15)
-                
-                let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(100), heightDimension: .absolute(100))
-                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 1)
-                
-                let section = NSCollectionLayoutSection(group: group)
-                section.orthogonalScrollingBehavior = .continuous
-                
-                section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 10, bottom: 10, trailing: 10)
-                section.boundarySupplementaryItems = [headerItem]
-                
-                return section
-                
-            }
+//            }
+//            
+//            else {
+//                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+//                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+//                
+//                item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 15)
+//                
+//                let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(100), heightDimension: .absolute(100))
+//                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 1)
+//                
+//                let section = NSCollectionLayoutSection(group: group)
+//                section.orthogonalScrollingBehavior = .continuous
+//                
+//                section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 10, bottom: 10, trailing: 10)
+//                section.boundarySupplementaryItems = [headerItem]
+//                
+//                return section
+//                
+//            }
 
         }
     

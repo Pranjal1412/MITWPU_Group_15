@@ -141,7 +141,7 @@ class UserActivityManager {
                     let pace = (self.graphTime / self.graphDistance) * 1000 / 60
 
                     self.graphDistancePoint += 100
-//                    self.paceGraphData.append(ActivityPaceGraphData(activityID: datasource.getCurrentActivity()!.activityID!, distanceValue: Double(graphDistancePoint) / 1000, paceValue: pace))
+                    self.paceGraphData.append(ActivityPaceGraphData(activityID: datasource.getCurrentActivity()!.activityID!, distanceValue: Double(graphDistancePoint) / 1000, paceValue: pace))
                     
                     
                     print("graphDistance: \(graphDistance), graphTime: \(graphTime) -> inside if")
@@ -158,7 +158,7 @@ class UserActivityManager {
     func getAveragePace() -> Double {
         
         Task {
-            self.paceGraphData.append(ActivityPaceGraphData(activityID: datasource.getCurrentActivity()!.activityID!, distanceValue: 1, paceValue: 5.34))
+//            self.paceGraphData.append(ActivityPaceGraphData(activityID: datasource.getCurrentActivity()!.activityID!, distanceValue: 1, paceValue: 5.34))
             await insertActivityPaceGraphData(self.paceGraphData)
             self.datasource.setCurrentActivityPaceData(self.paceGraphData)
         }

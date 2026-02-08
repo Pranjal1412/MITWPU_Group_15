@@ -159,7 +159,7 @@ func insertActivityPaceGraphData(_ graphData: [ActivityPaceGraphData]) async {
     do {
         guard !graphData.isEmpty else { return }
         try await SupabaseManager.shared.client
-            .from("ActivityRouteCoordinates")
+            .from("ActivityPaceGraphData")
             .insert(graphData)
             .execute()
 
@@ -172,10 +172,10 @@ func fetchActivityPaceGraphData(_ activityID: UUID) async -> [ActivityPaceGraphD
     
     do {
         let graphData: [ActivityPaceGraphData] = try await SupabaseManager.shared.client
-            .from("ActivityRouteCoordinates")
+            .from("ActivityPaceGraphData")
             .select()
             .eq("activityID", value: activityID)
-            .order("sequence", ascending: true)
+            .order("distanceValue", ascending: true)
             .execute()
             .value
         

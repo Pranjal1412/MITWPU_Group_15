@@ -169,7 +169,7 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
             // tableViewfriendsActivity
             let cell = tableView.dequeueReusableCell(withIdentifier: "cellFriends", for: indexPath) as! FriendsActivityTableViewCell
             
-            let activity = friendsActivity[indexPath.section]
+            let activity = friendsActivity[indexPath.row]
             cell.configure(with: activity)
             return cell
         }

@@ -47,21 +47,21 @@ class ActivityAnalysisViewController: UIViewController {
         settingAttributedText()
         settingUpActivityAnalysisScreenElements()
 
-//        let graphView = GraphView(paceData: self.datasource.getCurrentActivityPaceData())
-//
-//        let hostingController = UIHostingController(rootView: graphView)
-//        addChild(hostingController)
-//        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
-//        viewGraphContainer.addSubview(hostingController.view)
-//        
-//        NSLayoutConstraint.activate([
-//            hostingController.view.topAnchor.constraint(equalTo: self.viewGraphContainer.topAnchor),
-//            hostingController.view.bottomAnchor.constraint(equalTo: self.viewGraphContainer.bottomAnchor),
-//            hostingController.view.leadingAnchor.constraint(equalTo: self.viewGraphContainer.leadingAnchor),
-//            hostingController.view.trailingAnchor.constraint(equalTo: self.viewGraphContainer.trailingAnchor)
-//        ])
-//        
-//        hostingController.didMove(toParent: self)
+        let graphView = GraphView(paceData: self.datasource.getCurrentActivityPaceData())
+
+        let hostingController = UIHostingController(rootView: graphView)
+        addChild(hostingController)
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+        viewGraphContainer.addSubview(hostingController.view)
+        
+        NSLayoutConstraint.activate([
+            hostingController.view.topAnchor.constraint(equalTo: self.viewGraphContainer.topAnchor),
+            hostingController.view.bottomAnchor.constraint(equalTo: self.viewGraphContainer.bottomAnchor),
+            hostingController.view.leadingAnchor.constraint(equalTo: self.viewGraphContainer.leadingAnchor),
+            hostingController.view.trailingAnchor.constraint(equalTo: self.viewGraphContainer.trailingAnchor)
+        ])
+        
+        hostingController.didMove(toParent: self)
                 
     }
     
@@ -227,71 +227,70 @@ class ActivityAnalysisViewController: UIViewController {
 
 // MARK: - Setting up Pace Graph
 
-//struct GraphView: View {
-//
-//    let paceData: [ActivityPaceGraphData]
-//
-//    var maxXValue : ActivityPaceGraphData? {
-//        paceData.max { $0.distanceValue < $1.distanceValue }
-//    }
-//
-//    var maxYValue : ActivityPaceGraphData? {
-//        paceData.max { $0.paceValue < $1.paceValue }
-//    }
-//    var minYValue : ActivityPaceGraphData? {
-//        paceData.min { $0.paceValue < $1.paceValue }
-//    }
-//
-//    var body: some View {
-//        Chart {
-//
-//            ForEach(paceData) { data in
-//
-//                if data.symbol {
-//                    LineMark(x: .value("Distance", data.distance), y: .value("Pace", data.paceValue))
-//                        .symbol(.circle)
-//                        .symbolSize(70)
-//                }
-//                else {
-//                    LineMark(x: .value("Distance", data.distance), y: .value("Pace", data.paceValue))
-//                }
-//
-//                AreaMark(
-//                    x: .value("Distance", data.distance), y: .value("Pace", data.paceValue)
-//                )
-//                .foregroundStyle(.accent.opacity(0.2))
-//
-//            }
-//
-//        }
-//        .frame(maxWidth: .infinity, maxHeight: .infinity)
-//        .chartXAxis {
-//            AxisMarks(values: Array(stride(from: 0.0, through: (maxXValue?.distance ?? 5.0), by: 1.0))) { value in
-//                AxisGridLine()
-//                    .foregroundStyle(.white.opacity(1))
-//                AxisTick()
-//                    .foregroundStyle(.white)
-//                AxisValueLabel()
-//                    .foregroundStyle(.white)
-//            }
-//        }
-//        .chartXScale(domain: 0...(maxXValue?.distance ?? 5))
-//        .chartYScale(domain: 0...(maxYValue?.paceValue ?? 5))
-//        .chartYAxis {
-//            AxisMarks(position: .leading) { _ in
-//                AxisGridLine()
-//                    .foregroundStyle(.white.opacity(1))
-//                AxisTick()
-//                    .foregroundStyle(.white)
-//                AxisValueLabel()
-//                    .foregroundStyle(.white)
-//            }
-//        }
-//        .background(Color(.black))
-//
-//    }
-//    
-//    
-//    
-//}
+struct GraphView: View {
+
+    let paceData: [ActivityPaceGraphData]
+
+    var maxXValue : ActivityPaceGraphData? {
+        paceData.max { $0.distanceValue < $1.distanceValue }
+    }
+
+    var maxYValue : ActivityPaceGraphData? {
+        paceData.max { $0.paceValue < $1.paceValue }
+    }
+    var minYValue : ActivityPaceGraphData? {
+        paceData.min { $0.paceValue < $1.paceValue }
+    }
+
+    var body: some View {
+        Chart {
+            iteratePaceData(paceData)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .chartXAxis {
+            AxisMarks(values: Array(stride(from: 0.0, through: (maxXValue?.distanceValue ?? 5.0), by: 1.0))) { value in
+                AxisGridLine()
+                    .foregroundStyle(.white.opacity(1))
+                AxisTick()
+                    .foregroundStyle(.white)
+                AxisValueLabel()
+                    .foregroundStyle(.white)
+            }
+        }
+        .chartXScale(domain: 0...(maxXValue?.distanceValue ?? 5))
+        .chartYScale(domain: 0...(maxYValue?.paceValue ?? 5))
+        .chartYAxis {
+            AxisMarks(position: .leading) { _ in
+                AxisGridLine()
+                    .foregroundStyle(.white.opacity(1))
+                AxisTick()
+                    .foregroundStyle(.white)
+                AxisValueLabel()
+                    .foregroundStyle(.white)
+            }
+        }
+        .background(Color(.black))
+
+    }
+    
+    @ChartContentBuilder
+    func iteratePaceData(_ paceData: [ActivityPaceGraphData]) -> some ChartContent {
+        ForEach(paceData, id: \.activityID) { data in
+
+            LineMark(
+                x: .value("Distance", data.distanceValue),
+                y: .value("Pace", data.paceValue)
+            )
+            .symbol(.circle)
+            .symbolSize(70)
+
+            AreaMark(
+                x: .value("Distance", data.distanceValue),
+                y: .value("Pace", data.paceValue)
+            )
+            .foregroundStyle(.accent.opacity(0.2))
+        }
+    }
+
+}
 
