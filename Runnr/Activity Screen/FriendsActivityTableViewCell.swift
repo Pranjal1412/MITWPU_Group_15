@@ -2,6 +2,7 @@ import UIKit
 
 class FriendsActivityTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var viewMainBackground: UIView!
     @IBOutlet weak var labelName: UILabel!
     @IBOutlet weak var imageProfile: UIImageView!
     @IBOutlet weak var labelDate: UILabel!
@@ -13,6 +14,7 @@ class FriendsActivityTableViewCell: UITableViewCell {
     @IBOutlet weak var labelPaceContent: UILabel!
     @IBOutlet weak var labelTimeContent: UILabel!
     @IBOutlet weak var labelNote: UILabel!
+    @IBOutlet weak var labelDummy: UILabel!
     @IBOutlet weak var collectionViewPhotos: UICollectionView!
     private var photos: [UIImage] = []
 
@@ -26,12 +28,20 @@ class FriendsActivityTableViewCell: UITableViewCell {
 
         let nib = UINib(nibName: "FriendsPhotosCollectionViewCell", bundle: nil)
         collectionViewPhotos.register(nib,forCellWithReuseIdentifier: "friendCell")
+        
+        self.viewMainBackground.layer.cornerRadius = 20
     }
 
     func configure(with activity: UserActivity) {
         labelName.text = "Ava Brooks"
         labelDate.text = formatDate(with: activity.activityStartTime!)
         labelRunTitle.text = activity.activityTitle
+        
+        self.labelDummy.text = ""
+        if activity.activityRemark != "" {
+            self.labelDummy.text = "Dummy Text"
+        }
+        
         labelNote.text = activity.activityRemark
         labelDistance.text = "Distance"
         labelPace.text = "Pace"

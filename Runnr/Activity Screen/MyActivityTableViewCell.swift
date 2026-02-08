@@ -3,7 +3,7 @@ import UIKit
 class MyActivityTableViewCell: UITableViewCell {
 
     @IBOutlet weak var labelRunPoints: UILabel!
-    @IBOutlet weak var imageCurrency: UIImageView!
+    @IBOutlet weak var labelCurrency: UILabel!
     @IBOutlet weak var imageProfile: UIImageView!
     @IBOutlet weak var labelDate: UILabel!
     @IBOutlet weak var labelRunTitle: UILabel!
@@ -15,20 +15,26 @@ class MyActivityTableViewCell: UITableViewCell {
     @IBOutlet weak var labelTimeContent: UILabel!
     @IBOutlet weak var imageRun: UIImageView!
     @IBOutlet weak var labelNote: UILabel!
+    @IBOutlet weak var labelDummy: UILabel!
+    @IBOutlet weak var viewMainBackground: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        contentView.layer.cornerRadius = 20
         selectionStyle = .none
+        self.viewMainBackground.layer.cornerRadius = 20
+
     }
     
     func configure(with activity: UserActivity) {
+        self.labelCurrency.layer.cornerRadius = self.labelCurrency.frame.height / 2
+        
         labelDate.text = formatDate(with: activity.activityStartTime!)
         labelRunTitle.text = activity.activityTitle
 //        imageRun.image = activity.mapImage
         
-        if activity.activityRemark == "" {
-            self.labelNote.isHidden = true
+        self.labelDummy.text = ""
+        if activity.activityRemark != "" {
+            self.labelDummy.text = "Dummy Text"
         }
         labelNote.text = activity.activityRemark
         labelDistance.text = NSLocalizedString("Distance", comment: "")
@@ -36,7 +42,7 @@ class MyActivityTableViewCell: UITableViewCell {
         labelTime.text = NSLocalizedString("Time", comment: "")
         imageRun.layer.cornerRadius = 10
         imageProfile.layer.cornerRadius = imageProfile.frame.height / 2
-        imageCurrency.layer.cornerRadius = imageCurrency.frame.height / 2
+        labelCurrency.layer.cornerRadius = labelCurrency.frame.height / 2
         let totalPoints = activity.basePoints! + activity.skillPoints!
         labelRunPoints.text = String(totalPoints)
         let valueFont = UIFont(name: "SFProText-Medium", size: 20) ?? UIFont.systemFont(ofSize: 20, weight: .medium)

@@ -92,6 +92,7 @@ class ActivityScreenViewController: UIViewController {
         tableViewFriendsActivity.dataSource = self
         tableViewFriendsActivity.showsVerticalScrollIndicator = false
         tableViewFriendsActivity.register(UINib(nibName: "FriendsActivityTableViewCell", bundle: nil), forCellReuseIdentifier: "cellFriends")
+        tableViewMyActivity.separatorStyle = .none
 
     }
 
@@ -144,7 +145,7 @@ class ActivityScreenViewController: UIViewController {
 //MARK: - TableView Settings
 extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSource {
 
-    func numberOfSections(in tableView: UITableView) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == tableViewMyActivity {
             return min(myActivity.count, 3)
         } else if tableView == tableViewFriendsActivity {
@@ -154,16 +155,12 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
         }
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if tableView == tableViewMyActivity {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MyActivityTableViewCell
             
-            let activity = myActivity[indexPath.section]
+            let activity = myActivity[indexPath.row]
             cell.configure(with: activity)
             
             return cell
@@ -179,19 +176,23 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
 
     }
     
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 30
-    }
+//    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+//        return 30
+//    }
 
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let spacer = UIView()
-        spacer.backgroundColor = .clear
-        return spacer
-    }
+//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+//        let spacer = UIView()
+//        spacer.backgroundColor = .clear
+//        return spacer
+//    }
 
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == tableViewMyActivity {
-            let activity = myActivity[indexPath.section]
+            let activity = myActivity[indexPath.row]
 
                 Task {
                     self.dataSource.setCurrentActivity(activity)
