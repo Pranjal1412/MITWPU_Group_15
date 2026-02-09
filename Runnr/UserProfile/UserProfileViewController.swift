@@ -114,10 +114,10 @@ class UserProfileViewController: UIViewController {
         self.labelUsername.text = userProfile.userName
         
         self.labelTotalPointsCount.text = String(self.userStats?.totalPointsEarned ?? 0)
-        self.labelTotalActivitiesCount.text = String(self.userStats?.totalDistanceCovered ?? 0)
-        self.labelTotalDistanceCount.text = String(self.userStats?.totalActivities ?? 0)
+        self.labelTotalActivitiesCount.text = String(self.userStats?.totalActivities ?? 0)
+        self.labelTotalDistanceCount.text = String(format: "%.2f", (self.userStats?.totalDistanceCovered ?? 0.0) + 10)
         
-        let totalDistance = self.userStats?.totalPointsEarned ?? 0
+        let totalDistance = Int(self.userStats?.totalDistanceCovered ?? 0.0) 
         
         if totalDistance <= 600 {
             if totalDistance == 0 && totalDistance < 50 {
