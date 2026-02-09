@@ -16,6 +16,7 @@ struct UserProfile: Codable {
     var height: Double?
     var weight: Double?
     var userLevel: RunnrCategory?
+    var userBio: String?
 }
 
 struct UserStats : Codable {

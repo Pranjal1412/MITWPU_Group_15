@@ -9,11 +9,12 @@ import UIKit
 
 class UserProfileViewController: UIViewController {
 
-    @IBOutlet weak var buttonBack: UIButton!
     @IBOutlet weak var imageProfile: UIImageView!
     @IBOutlet weak var imageCategoryBadge: UIImageView!
     @IBOutlet weak var buttonEditProfile: UIButton!
     @IBOutlet weak var labelUsername: UILabel!
+    @IBOutlet weak var labelBiography: UILabel!
+    @IBOutlet weak var labelSpacing: UILabel!
     
     @IBOutlet weak var labelScreenTitle: UILabel!
     @IBOutlet weak var labelTotalPoints: UILabel!
@@ -94,8 +95,12 @@ class UserProfileViewController: UIViewController {
         
     }
     
-    
     func settingsElements() {
+        
+        if userProfile.userBio != nil || userProfile.userBio != "" {
+            self.labelBiography.text = userProfile.userBio
+            self.labelSpacing.text = "Spacing"
+        }
         
         self.labelScreenTitle.text = String(localized: "Profile")
         self.labelFollower.text = String(localized: "Followers")
@@ -108,6 +113,9 @@ class UserProfileViewController: UIViewController {
         
         imageProfile.layer.cornerRadius = imageProfile.frame.size.width / 2
         buttonEditProfile.layer.cornerRadius = 10.0
+        
+//        setGlassEffect(for: self.buttonBack, withImage: "multiply")
+//        setGlassEffect(for: self.buttonSettings, withImage: "gearshape")
     }
     
     func loadAllData() {
