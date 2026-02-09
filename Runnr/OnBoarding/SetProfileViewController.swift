@@ -116,7 +116,7 @@ class SetProfileViewController: UIViewController {
                 await insertUserProfile(self.userProfile)
                 
                 if self.userProfile.userID != nil {
-                    await insertUserStats(UserStats(userID: self.userProfile.userID!, totalPointsEarned: 0, totalDistanceCovered: 0, totalActivities: 0, longestStreak: 0))
+                    await insertUserStats(UserStats(userID: self.userProfile.userID!, totalPointsEarned: 100, totalDistanceCovered: 0, totalActivities: 0, longestStreak: 0))
                 }
                 
                 if let presenter = self.presentingViewController as? UINavigationController {
