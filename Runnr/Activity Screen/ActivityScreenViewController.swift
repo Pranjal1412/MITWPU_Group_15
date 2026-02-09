@@ -14,7 +14,7 @@ class ActivityScreenViewController: UIViewController {
     let label = UILabel()
 
     var totalPoints: Int {
-        dataSource.getTotalRunnrPoints()
+        dataSource.getUserStats()?.totalPointsEarned ?? 0
     }
     
     private var dataSource = DataSource.shared

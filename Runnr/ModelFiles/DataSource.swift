@@ -123,34 +123,12 @@ class DataSource {
     func resetMyActivities() {
         self.myActivities.removeAll()
     }
-//    func fetchAllMyActivities() async {
-//        guard let userID = userProfile.userID else { return }
-//        if let activities = await fetchAllActivities(userID: userID) {
-//            self.myActivities = activities
-//        }
-//    }
     
 //    MARK: - Below functions are yet to check and corrected
     func getFriendsActivityData() -> [UserActivity] {
         return friendActivities
     }
         
-//    func getMyActivityData() -> [UserActivity] {
-//        return myActivities
-//    }
-    
-//    func updateTotalRunnrPoints(with points: Int) {
-//        if userStats != nil {
-//            userStats!.totalPointsEarned += points
-//        }
-//    }
-//    
-//    func updateTotalDistance(with distance: Double) {
-//        if userStats != nil {
-//            userStats!.totalDistanceCovered += distance
-//        }
-//    }
-    
     func getTotalActivities() -> Int {
         return myActivities.count
     }
@@ -158,13 +136,6 @@ class DataSource {
     func getTotalRunnrPoints() -> Int {
         if userStats != nil {
           return userStats!.totalPointsEarned
-        }
-        return 0
-    }
-    
-    func getTotalKms() -> Double {
-        if userStats != nil {
-          return userStats!.totalDistanceCovered
         }
         return 0
     }
@@ -177,3 +148,25 @@ class DataSource {
     }
 }
 
+//    func getMyActivityData() -> [UserActivity] {
+//        return myActivities
+//    }
+    
+//    func updateTotalRunnrPoints(with points: Int) {
+//        if userStats != nil {
+//            userStats!.totalPointsEarned += points
+//        }
+//    }
+//
+//    func updateTotalDistance(with distance: Double) {
+//        if userStats != nil {
+//            userStats!.totalDistanceCovered += distance
+//        }
+//    }
+
+//    func fetchAllMyActivities() async {
+//        guard let userID = userProfile.userID else { return }
+//        if let activities = await fetchAllActivities(userID: userID) {
+//            self.myActivities = activities
+//        }
+//    }
