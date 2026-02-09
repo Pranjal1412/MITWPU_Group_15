@@ -135,14 +135,24 @@ class DataSource {
         return friendActivities
     }
         
-    func getMyActivityData() -> [UserActivity] {
-        return myActivities
-    }
+//    func getMyActivityData() -> [UserActivity] {
+//        return myActivities
+//    }
     
-    func updateTotalRunnrPoints(with points: Int) {
-        if userStats != nil {
-            userStats!.totalPointsEarned += points
-        }
+//    func updateTotalRunnrPoints(with points: Int) {
+//        if userStats != nil {
+//            userStats!.totalPointsEarned += points
+//        }
+//    }
+//    
+//    func updateTotalDistance(with distance: Double) {
+//        if userStats != nil {
+//            userStats!.totalDistanceCovered += distance
+//        }
+//    }
+    
+    func getTotalActivities() -> Int {
+        return myActivities.count
     }
     
     func getTotalRunnrPoints() -> Int {
@@ -150,16 +160,6 @@ class DataSource {
           return userStats!.totalPointsEarned
         }
         return 0
-    }
-    
-    func getTotalActivities() -> Int {
-        return myActivities.count
-    }
-    
-    func updateTotalDistance(with distance: Double) {
-        if userStats != nil {
-            userStats!.totalDistanceCovered += distance
-        }
     }
     
     func getTotalKms() -> Double {

@@ -35,19 +35,20 @@ class UserProfileViewController: UIViewController {
     @IBOutlet weak var stackProgress: UIStackView!
     @IBOutlet weak var collectionViewBestActivity: UICollectionView!
     
-    var totalRunnrPoints : Int {
-        DataSource.shared.getTotalRunnrPoints()
-    }
-    
-    var totalActivities : Int {
-        DataSource.shared.getTotalActivities()
-    }
-    
-    var totalDistance : Int {
-        Int(DataSource.shared.getTotalKms())
-    }
+//    var totalRunnrPoints : Int {
+//        DataSource.shared.getTotalRunnrPoints()
+//    }
+//    
+//    var totalActivities : Int {
+//        DataSource.shared.getTotalActivities()
+//    }
+//    
+//    var totalDistance : Int {
+//        Int(DataSource.shared.getTotalKms())
+//    }
     
     let userProfile = DataSource.shared.getUserProfile()
+    let userStats = DataSource.shared.getUserStats()
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,9 +113,11 @@ class UserProfileViewController: UIViewController {
     func loadAllData() {
         self.labelUsername.text = userProfile.userName
         
-        self.labelTotalPointsCount.text = "\(self.totalRunnrPoints)"
-        self.labelTotalActivitiesCount.text = "\(self.totalActivities)"
-        self.labelTotalDistanceCount.text = "\(self.totalDistance)"
+        self.labelTotalPointsCount.text = String(self.userStats?.totalPointsEarned ?? 0)
+        self.labelTotalActivitiesCount.text = String(self.userStats?.totalDistanceCovered ?? 0)
+        self.labelTotalDistanceCount.text = String(self.userStats?.totalActivities ?? 0)
+        
+        let totalDistance = self.userStats?.totalPointsEarned ?? 0
         
         if totalDistance <= 600 {
             if totalDistance == 0 && totalDistance < 50 {
@@ -136,12 +139,12 @@ class UserProfileViewController: UIViewController {
                 self.labelCategory.tag = 2
             }
             
-            self.progressView.progress = Float((self.totalDistance/runnrCategories[self.labelCategory.tag].goal) * 100)
+            self.progressView.progress = Float((totalDistance/runnrCategories[self.labelCategory.tag].goal) * 100)
             
             let thinFont = UIFont(name: "SFProText-Light", size: 15) ?? UIFont.systemFont(ofSize: 15, weight: .light)
             let boldFont = UIFont(name: "SFProText-Bold", size: 17) ?? UIFont.systemFont(ofSize: 17, weight: .medium)
             
-            let text = NSMutableAttributedString(string: "\(runnrCategories[self.labelCategory.tag].goal - self.totalDistance) km to ", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
+            let text = NSMutableAttributedString(string: "\(runnrCategories[self.labelCategory.tag].goal - totalDistance) km to ", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
             text.append(NSAttributedString(string: "\(runnrCategories[self.labelCategory.tag+1].name)", attributes: [.font: boldFont, .foregroundColor: UIColor.white]))
             self.labelCategoryGoalLeft.attributedText = text
 

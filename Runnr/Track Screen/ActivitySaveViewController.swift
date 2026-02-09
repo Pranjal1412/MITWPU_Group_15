@@ -40,7 +40,9 @@ class ActivitySaveViewController: UIViewController {
     @IBOutlet weak var collectionViewAddPhotos: UICollectionView!
     
     var activityData: UserActivity!
-    var dataSource = DataSource.shared
+    private var dataSource = DataSource.shared
+    private var userStats = DataSource.shared.getUserStats()
+    
     private var selectedImages: [UIImage] = []
     
     override func viewDidLoad() {
@@ -102,8 +104,15 @@ class ActivitySaveViewController: UIViewController {
         
         Task {
             await updateUserActivity(userID: activityData.userID!, activityID: activityData.activityID!, newActivity: activityData)
+            
+            self.userStats?.totalPointsEarned += (self.activityData.basePoints ?? 0) + (self.activityData.skillPoints ?? 0) + 100
+            self.userStats?.totalDistanceCovered += self.activityData.distanceCovered ?? 0 + 10
+
             self.dataSource.setCurrentActivity(activityData)
             self.dataSource.resetMyActivities()
+            self.dataSource.setUserStats(self.userStats!)
+
+            await updateUserStats(userID: activityData.userID!, newStats: self.userStats!)
             
             let destinationVC = ActivitySummaryViewController()
             destinationVC.showAlert = true
@@ -113,8 +122,9 @@ class ActivitySaveViewController: UIViewController {
         }
         //MARK: - Still yet to be implmented
 //        self.activityData.activityPhotos = self.selectedImages
-//        self.dataSource.updateTotalRunnrPoints(with: self.activityData.basePoints + self.activityData.skillPoints)
-//        self.dataSource.updateTotalDistance(with: activityData.distanceValue)
+        
+        
+        
         
     }
     

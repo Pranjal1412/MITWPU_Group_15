@@ -8,7 +8,7 @@ class AllActivitiesViewController: UIViewController {
     
     var dataSource = DataSource.shared
     var myActivity: [UserActivity] {
-        dataSource.getMyActivityData()
+        dataSource.getAllActivities()
     }
     
     override func viewDidLoad() {

@@ -19,7 +19,7 @@ class InsightsScreenViewController: UIViewController {
     }()
 
     private var myActivities: [UserActivity] {
-        dataSource.getMyActivityData()
+        dataSource.getAllActivities()
     }
     
     private var calendarView: JTACMonthView!
