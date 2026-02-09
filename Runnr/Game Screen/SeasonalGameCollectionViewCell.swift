@@ -38,7 +38,7 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
         viewMonthlyEvent.layer.cornerRadius = viewMonthlyEvent.frame.height / 2
         viewMonthlyEvent.clipsToBounds = true
         
-        buttonInviteFriend.layer.cornerRadius = 10
+        buttonInviteFriend.layer.cornerRadius = buttonInviteFriend.frame.size.height / 2
         buttonInviteFriend.clipsToBounds = true
         imageView1.layer.cornerRadius = imageView1.frame.size.height / 2
         imageView1.clipsToBounds = true

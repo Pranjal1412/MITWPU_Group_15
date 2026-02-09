@@ -64,12 +64,6 @@ class GameScreenViewController: UIViewController {
     @IBAction func segmentControlChange(_ sender: UISegmentedControl) {
         collectionViewChallenges.reloadData()
     }
-    
-    @IBAction func buttonTapped(_ sender: UIButton) {
-//        let destinationVC = MountainClimbViewController()
-//        destinationVC.modalPresentationStyle = .fullScreen
-//        self.present(destinationVC, animated: true)
-    }
 }
 
 extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -116,22 +110,25 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
 
-        if segmentedControlGame.selectedSegmentIndex == 0 {
-            return CGSize(width: collectionView.frame.width, height: 50)
-        }
+//        if segmentedControlGame.selectedSegmentIndex == 0 {
+//            return CGSize(width: collectionView.frame.width, height: 50)
+//        }
+//        
+//        if segmentedControlGame.selectedSegmentIndex == 1 && section == 0 {
+//            return CGSize(width: collectionView.frame.width, height: 50)
+//        }
+//
+//        if segmentedControlGame.selectedSegmentIndex == 1 && section == 1 {
+//        }
 
-        if segmentedControlGame.selectedSegmentIndex == 1 && section == 1 {
-            return CGSize(width: collectionView.frame.width, height: 50)
-        }
-
-        return .zero
+        return CGSize(width: collectionView.frame.width, height: 50)
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        let width = collectionView.frame.width - 10
+        let width = collectionView.frame.width
 
         if segmentedControlGame.selectedSegmentIndex == 0 {
             return CGSize(width: width, height: 140)   // Solo
@@ -145,7 +142,7 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
+        return 15
     }
 }
 
