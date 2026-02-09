@@ -43,6 +43,7 @@ class ViewController: UIViewController {
                 
                 let user = session.user
                 let userProfile = await fetchUserProfile(userId: user.id) ?? UserProfile()
+                let userStats = await fetchUserStats(userId: user.id) ?? UserStats(userID: user.id, totalPointsEarned: 1, totalDistanceCovered: 1, totalActivities: 1, longestStreak: 1)
                 DataSource.shared.setUserProfile(userProfile)
                 
                 self.setUpTabBar()

@@ -21,6 +21,18 @@ func insertUserProfile(_ profile: UserProfile) async {
     }
 }
 
+func insertUserStats(_ stats: UserStats) async {
+    do {
+        try await SupabaseManager.shared.client
+            .from("UserStats")
+            .insert(stats)
+            .execute()
+    }
+    catch {
+        print("Insertion failed: \(error)")
+    }
+}
+
 func fetchUserProfile(userId: UUID) async -> UserProfile? {
     do {
         let profile: UserProfile? = try await SupabaseManager.shared.client
@@ -34,6 +46,36 @@ func fetchUserProfile(userId: UUID) async -> UserProfile? {
     } catch {
         print("User does not have an account")
         return nil
+    }
+}
+
+func fetchUserStats(userId: UUID) async -> UserStats? {
+    do {
+        let stats: UserStats? = try await SupabaseManager.shared.client
+            .from("UserStats")
+            .select()
+            .eq("userID", value: userId)
+            .single()
+            .execute()
+            .value
+        return stats
+    }
+    catch {
+        print("User Stats fetch failed \(error)")
+        return nil
+    }
+}
+
+func updateUserStats(userID: UUID, newStats: UserStats) async {
+    do {
+        try await SupabaseManager.shared.client
+            .from("UserStats")
+            .update(newStats)
+            .eq("userID", value: userID)
+            .execute()
+    }
+    catch {
+        print("Updation failed: \(error)")
     }
 }
 

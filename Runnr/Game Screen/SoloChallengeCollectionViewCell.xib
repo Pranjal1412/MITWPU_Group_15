@@ -36,18 +36,18 @@
                                 <color key="textColor" systemColor="systemGrayColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="181" id="CUD-cA-OU3">
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="20" id="CUD-cA-OU3">
                                 <rect key="frame" x="20" y="95" width="322" height="16"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5.0/5.0 Km" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UpG-di-kRI">
-                                        <rect key="frame" x="0.0" y="0.33333333333333304" width="70.666666666666671" height="15.666666666666668"/>
+                                        <rect key="frame" x="0.0" y="0.33333333333333304" width="151" height="15.666666666666668"/>
                                         <fontDescription key="fontDescription" name="SFPro-Bold" family="SF Pro" pointSize="13"/>
                                         <color key="textColor" systemColor="systemGrayColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100%" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g7p-9y-DyR">
-                                        <rect key="frame" x="251.66666666666666" y="0.33333333333333304" width="70.333333333333343" height="15.666666666666668"/>
+                                        <rect key="frame" x="171" y="0.33333333333333304" width="151" height="15.666666666666668"/>
                                         <fontDescription key="fontDescription" name="SFPro-Bold" family="SF Pro" pointSize="13"/>
                                         <color key="textColor" name="AccentColor"/>
                                         <nil key="highlightedColor"/>

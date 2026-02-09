@@ -3,7 +3,7 @@ import UIKit
 class DataSource {
     
     private var userProfile = UserProfile()
-    private var user = UserStats(userID: UUID(), totalPointsEarned: 0, totalDistanceCovered: 0, totalActivities: 0, longestStreak: 0)
+    private var userStats : UserStats?
     
     private var currentActivity: UserActivity?
     private var currentActivityCoordinates: [ActivityRouteCoordinates] = []
@@ -80,6 +80,14 @@ class DataSource {
         self.userProfile = userProfile
     }
     
+    func getUserStats() -> UserStats? {
+        return userStats
+    }
+    
+    func setUserStats(_ userStats: UserStats) {
+        self.userStats = userStats
+    }
+    
     func setAllActivities(_ activities: [UserActivity]) {
         self.myActivities = activities
     }
@@ -132,11 +140,16 @@ class DataSource {
     }
     
     func updateTotalRunnrPoints(with points: Int) {
-        user.totalPointsEarned += points
+        if userStats != nil {
+            userStats!.totalPointsEarned += points
+        }
     }
     
     func getTotalRunnrPoints() -> Int {
-        return user.totalPointsEarned
+        if userStats != nil {
+          return userStats!.totalPointsEarned
+        }
+        return 0
     }
     
     func getTotalActivities() -> Int {
@@ -144,11 +157,16 @@ class DataSource {
     }
     
     func updateTotalDistance(with distance: Double) {
-        user.totalDistanceCovered += distance
+        if userStats != nil {
+            userStats!.totalDistanceCovered += distance
+        }
     }
     
     func getTotalKms() -> Double {
-        return user.totalDistanceCovered
+        if userStats != nil {
+          return userStats!.totalDistanceCovered
+        }
+        return 0
     }
     
     func shareActivity(atIndex index: Int, presentingViewController: UIViewController) {

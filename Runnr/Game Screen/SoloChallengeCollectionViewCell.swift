@@ -47,7 +47,7 @@ class SoloChallengeCollectionViewCell: UICollectionViewCell {
         labelChallengeHeading.text = String(localized: "Sunrise Run")
         labelRewardPoints.text = "+50"
         labelRewardPoints.sizeToFit()
-        labelRewardPoints.frame.size.width += 5
+        labelRewardPoints.frame.size.width += 10
         labelRewardPoints.frame.size.height += 10
         labelRewardPoints.frame.origin.x = viewCellBackground.frame.origin.x + viewCellBackground.frame.width - 20 - labelRewardPoints.frame.width
         

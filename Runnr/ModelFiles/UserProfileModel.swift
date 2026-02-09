@@ -18,7 +18,7 @@ struct UserProfile: Codable {
     var userLevel: RunnrCategory?
 }
 
-struct UserStats {
+struct UserStats : Codable {
     let userID : UUID
     var totalPointsEarned: Int
     var totalDistanceCovered: Double
