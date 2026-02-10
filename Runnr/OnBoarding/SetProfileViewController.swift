@@ -8,7 +8,7 @@
 import UIKit
 import PhotosUI
 
-class SetProfileViewController: UIViewController {
+class SetProfileViewController: UIViewController, UITextViewDelegate {
 
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var labelHeading: UILabel!
@@ -26,6 +26,8 @@ class SetProfileViewController: UIViewController {
     @IBOutlet weak var buttonMale: UIButton!
     @IBOutlet weak var buttonFemale: UIButton!
     @IBOutlet weak var buttonOther: UIButton!
+    @IBOutlet weak var textViewBio: UITextView!
+    @IBOutlet weak var textFieldUsername: UITextField!
     
     private var selectedButton: UIButton?
     var userProfile = DataSource.shared.getUserProfile()
@@ -45,10 +47,10 @@ class SetProfileViewController: UIViewController {
         self.viewMainTwo.frame.origin.y = self.labelSubHeading.frame.height + self.labelSubHeading.frame.origin.y + 30
         
         self.buttonBack.isHidden = true
-        
+        self.textViewBio.delegate = self
+        self.textFieldUsername.text = self.userProfile.userName
         setScreenElements()
         
-        print(self.userProfile.emailAddress!)
     }
 
     @IBAction func viewTapped(_ sender: UIControl) {
@@ -94,6 +96,7 @@ class SetProfileViewController: UIViewController {
     @IBAction func selectProfileImage(_ sender: UIButton) {
         
     }
+    
     
     
     @IBAction func buttonNextClicked(_ sender: UIButton) {
@@ -147,6 +150,7 @@ class SetProfileViewController: UIViewController {
         self.userProfile.weight = Double(self.weight)
         self.userProfile.userLevel = .none
         self.userProfile.userProfileImageURL = self.profileURl
+        self.userProfile.userBio = self.textViewBio.text ?? ""
         
     }
     

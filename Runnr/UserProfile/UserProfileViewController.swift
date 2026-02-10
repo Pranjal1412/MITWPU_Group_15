@@ -123,7 +123,7 @@ class UserProfileViewController: UIViewController {
         
         self.labelTotalPointsCount.text = String(self.userStats?.totalPointsEarned ?? 0)
         self.labelTotalActivitiesCount.text = String(self.userStats?.totalActivities ?? 0)
-        self.labelTotalDistanceCount.text = String(format: "%.2f", (self.userStats?.totalDistanceCovered ?? 0.0) + 10)
+        self.labelTotalDistanceCount.text = String(format: "%.1f", (self.userStats?.totalDistanceCovered ?? 0.0))
         
         let totalDistance = Int(self.userStats?.totalDistanceCovered ?? 0.0) 
         

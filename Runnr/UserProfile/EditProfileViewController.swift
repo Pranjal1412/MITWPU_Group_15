@@ -51,8 +51,8 @@ class EditProfileViewController: UIViewController {
         viewUsername.layer.cornerRadius = 10
         
         labelEmail.text = self.userProfile.emailAddress
-        textFieldHeight.text = String(self.userProfile.height!)
-        textFieldWeight.text = String(self.userProfile.weight!)
+        textFieldHeight.text = String(self.userProfile.height ?? 0)
+        textFieldWeight.text = String(self.userProfile.weight ?? 0)
         textFieldUsername.text = self.userProfile.userName
         textViewBio.text = self.userProfile.userBio
         

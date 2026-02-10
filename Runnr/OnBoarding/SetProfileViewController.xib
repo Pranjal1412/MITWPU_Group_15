@@ -31,6 +31,8 @@
                 <outlet property="labelHeading" destination="u2y-Al-6i2" id="vf4-J1-Mne"/>
                 <outlet property="labelSubHeading" destination="U6n-c8-nBq" id="Hkd-NC-a0U"/>
                 <outlet property="progressBar" destination="bbS-ew-Wem" id="vlG-Rf-OMb"/>
+                <outlet property="textFieldUsername" destination="XaX-aO-r8V" id="0m8-w7-Sgu"/>
+                <outlet property="textViewBio" destination="gC8-Ay-qZM" id="vpb-2f-Cuc"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="viewBioBackground" destination="pLQ-i2-cKg" id="4Kb-PN-LFb"/>
                 <outlet property="viewMainOne" destination="GDt-ML-l5F" id="pGe-FP-Ute"/>
