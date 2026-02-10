@@ -23,10 +23,19 @@ class ClubScreenViewController: UIViewController {
     @IBOutlet weak var buttonUserProfile: UIButton!
     
     let systemOS = UIDevice.current.systemVersion
+    
     var dataSource = DataSource.shared
     var totalPoints: Int {
         dataSource.getTotalRunnrPoints()
     }
+    var userProfile = DataSource.shared.getUserProfile()
+    var clubsArray: [Club] {
+        DataSource.shared.getclubsArray()
+    }
+    var myClubArray: [ClubRoleAndData] {
+        DataSource.shared.getMyClubs()
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,17 +54,25 @@ class ClubScreenViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         
-        if myClubs.isEmpty == false {
-            collectionViewJoinedClub.isHidden = false
-            labelYourClubs.isHidden = false
-            buttonAddMoreClubs.isHidden = false
+        Task{
+            let exploreClubs = await fetchExploreClubData()
+            self.dataSource.setclubsArray(exploreClubs)
+            let userClubs = await fetchMyClubsWithRoles(userID: userProfile.userID!)
+            self.dataSource.setMyClubs(userClubs)
+            
+            
+            if myClubArray.isEmpty == false {
+                collectionViewJoinedClub.isHidden = false
+                labelYourClubs.isHidden = false
+                buttonAddMoreClubs.isHidden = false
+            }
+            
+            collectionViewJoinedClub.reloadData()
+            collectionViewExplore.reloadData()
+            
         }
         
-        collectionViewJoinedClub.reloadData()
         tableViewFriends.reloadData()
-        collectionViewExplore.reloadData()
-        
-        
         self.labelTotalPoints.text = "\(totalPoints)"
     }
     
@@ -84,7 +101,7 @@ class ClubScreenViewController: UIViewController {
            
             buttonAddMoreClubs.isHidden = true
          case 2:
-            if myClubs.isEmpty {
+            if myClubArray.isEmpty {
                 buttonCreateClub.isHidden = false
                 labelCreateyourOwnClub.isHidden = false
                 collectionViewExplore.isHidden = true
@@ -92,8 +109,6 @@ class ClubScreenViewController: UIViewController {
                 labelYourClubs.isHidden = true
                 tableViewFriends.isHidden = true
                 buttonAddMoreClubs.isHidden = true
-               
-                print(myClubs.count)
             }
             else {
                 buttonCreateClub.isHidden = true
@@ -217,9 +232,9 @@ extension ClubScreenViewController : UICollectionViewDataSource, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == collectionViewExplore {
-                   return clubDataArray.count
+                   return clubsArray.count
                } else if collectionView == collectionViewJoinedClub {
-                   return myClubs.count
+                   return myClubArray.count
                }
                return 0
            }
@@ -229,13 +244,13 @@ extension ClubScreenViewController : UICollectionViewDataSource, UICollectionVie
         
         if collectionView == collectionViewExplore {
             let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ExploreScreenCollectionViewCell
-            cell.configureCell(with: clubDataArray[indexPath.row])
+            cell.configureCell(with: clubsArray[indexPath.row])
             
             return cell
         }
         else {
             let cell =  collectionViewJoinedClub.dequeueReusableCell(withReuseIdentifier: "JoinedClubsCollectionViewCell", for: indexPath) as! JoinedClubsCollectionViewCell
-            cell.configureCell(with: myClubs[indexPath.row])
+            cell.configureCell(with: myClubArray[indexPath.row])
             
             return cell
         }
@@ -273,13 +288,13 @@ extension ClubScreenViewController : UICollectionViewDataSource, UICollectionVie
         let navigationController = UINavigationController(rootViewController: destinationVC)
         
         if collectionView == collectionViewExplore {
-            destinationVC.clubProfileData = clubDataArray[indexPath.row]
+            destinationVC.clubProfileData = clubsArray[indexPath.row]
             destinationVC.buttonTitle = "Join Now"
             destinationVC.isMyClub = false
             //destinationVC.NoPostLabel.isHidden = true
 
         } else {
-            destinationVC.myClubProfileData = myClubs[indexPath.row]
+            destinationVC.myClubProfileData = myClubArray[indexPath.row]
             destinationVC.buttonTitle = "Edit Club Profile"
             destinationVC.isMyClub = true
             //destinationVC.NoPostLabel.isHidden = false

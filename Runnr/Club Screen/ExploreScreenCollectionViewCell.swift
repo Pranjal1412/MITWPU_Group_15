@@ -15,9 +15,10 @@ class ExploreScreenCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var ClubSport: UILabel!
     @IBOutlet weak var LabelTitle: UILabel!
 
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-
+        
         viewExploreClub.layer.cornerRadius = 10
         viewExploreClub.clipsToBounds = true
         buttonJoinClub.layer.cornerRadius = buttonJoinClub.frame.height / 2
@@ -25,10 +26,10 @@ class ExploreScreenCollectionViewCell: UICollectionViewCell {
         clubProfile.clipsToBounds = true
     }
 
-    func configureCell(with data: ExploreClubData) {
+    func configureCell(with data: Club) {
         LabelTitle.text = data.clubName
-        ClubSport.text = data.sport
-        NumberOfRunners.text = data.numberOfMembers
-        clubProfile.image = data.clubProfileImg
+        ClubSport.text = data.clubSport.rawValue
+        //NumberOfRunners.text = data.numberOfMembers
+        //clubProfile.image = data.clubProfileImg
     }
 }

@@ -248,4 +248,56 @@ func uploadImageFetchURL(_ filepath: String, _ image: Data) async -> String? {
     }
 }
 
+// MARK: - Club Data
 
+func fetchExploreClubData() async -> [Club] {
+    do {
+        
+        let response: [Club] = try await SupabaseManager.shared.client
+            .from("Club")
+            .select()
+            .eq("isPublic" , value: true)
+            .limit(15)
+            .execute()
+            .value
+        
+        return response
+    }
+    catch {
+        print("Data not found")
+         return []
+    }
+}
+
+func fetchMyClubsWithRoles(userID: UUID) async -> [ClubRoleAndData] {
+    do {
+        let response: [ClubRoleAndData] = try await SupabaseManager.shared.client
+            .from("ClubMemberRole")
+            .select("""
+                role,
+                Clubs (*)
+            """)
+            .eq("userID", value: userID)
+            .execute()
+            .value
+        
+        return response
+    } catch {
+        print("Error fetching joined data: \(error)")
+        return []
+    }
+}
+
+func createClub(newClub: Club) async {
+    do {
+        // Because of the trigger, this ONE insert updates TWO tables
+        try await SupabaseManager.shared.client
+            .from("Clubs")
+            .insert(newClub)
+            .execute()
+        
+        print("Club created and ownership assigned automatically!")
+    } catch {
+        print("Error creating club: \(error)")
+    }
+}
