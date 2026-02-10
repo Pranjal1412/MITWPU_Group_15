@@ -289,15 +289,13 @@ extension ClubScreenViewController : UICollectionViewDataSource, UICollectionVie
         
         if collectionView == collectionViewExplore {
             destinationVC.clubProfileData = clubsArray[indexPath.row]
-            destinationVC.buttonTitle = "Join Now"
+//            destinationVC.buttonTitle = "Join Now"
             destinationVC.isMyClub = false
-            //destinationVC.NoPostLabel.isHidden = true
 
         } else {
             destinationVC.myClubProfileData = myClubArray[indexPath.row]
-            destinationVC.buttonTitle = "Edit Club Profile"
+//            destinationVC.buttonTitle = "Edit Club Profile"
             destinationVC.isMyClub = true
-            //destinationVC.NoPostLabel.isHidden = false
         }
        
         navigationController.modalPresentationStyle = .fullScreen

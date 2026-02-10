@@ -23,6 +23,7 @@ class ClubProfileViewController: UIViewController {
     var isMyClub: Bool = false
     var clubProfileData: Club?
     var myClubProfileData : ClubRoleAndData?
+    private var userProfileData = DataSource.shared.getCurrentActivity()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,6 +75,18 @@ class ClubProfileViewController: UIViewController {
             clubDescription.text = myClubProfileData?.club.clubDescription
             //clubProfileImage.image = myClubProfileData?.clubProfileImg
             clubMotive.text = myClubProfileData?.club.clubMotive
+            
+            if myClubProfileData?.role == .owner {
+                joinNowButton.setTitle("Edit Club Profile", for: .normal)
+            }
+            else {
+                joinNowButton.setTitle("Joined", for: .normal)
+            }
+            joinNowButton.setTitleColor(.accent, for: .normal)
+            joinNowButton.backgroundColor = .black
+            joinNowButton.layer.borderColor = UIColor.accent.cgColor
+            joinNowButton.layer.borderWidth = 1
+
         }
         else {
             labelClubName.text = clubProfileData?.clubName
@@ -82,21 +95,18 @@ class ClubProfileViewController: UIViewController {
             clubDescription.text = clubProfileData?.clubDescription
             //clubProfileImage.image = clubProfileData?.clubProfileImg
             clubMotive.text = clubProfileData?.clubMotive
+            
+            joinNowButton.setTitle("Join Now", for: .normal)
+            
+            joinNowButton.setTitleColor(.black, for: .normal)
+            joinNowButton.backgroundColor = .accent
         }
         
         clubProfileImage.layer.cornerRadius = 15
         clubProfileImage.clipsToBounds = true
-
-        joinNowButton.setTitle(buttonTitle, for: .normal)
+        
         joinNowButton.layer.cornerRadius = joinNowButton.frame.height / 2.0
-        
-        if joinNowButton.titleLabel?.text == "Edit Club Profile" {
-            joinNowButton.setTitleColor(.accent, for: .normal)
-            joinNowButton.backgroundColor = .black
-            joinNowButton.layer.borderColor = UIColor.accent.cgColor
-            joinNowButton.layer.borderWidth = 1
-        }
-        
+                
         viewPosts.backgroundColor = .accent
     }
     
@@ -120,9 +130,19 @@ class ClubProfileViewController: UIViewController {
     
     @IBAction func editClubProfilePressed(_ sender: UIButton) {
        
-           let destinationVC = ClubSettingsViewController()
-        destinationVC.modalPresentationStyle = .fullScreen
-           self.present(destinationVC, animated: true)
+        Task {
+            
+            if joinNowButton.titleLabel?.text == "Edit Club Profile" {
+                let destinationVC = ClubSettingsViewController()
+                destinationVC.modalPresentationStyle = .fullScreen
+                self.present(destinationVC, animated: true)
+            }
+            
+            else if joinNowButton.titleLabel?.text == "Join Now" {
+                await insertNewClubMember(newMember: ClubMemberRole(userID: self.userProfileData?.userID, clubID: self.clubProfileData?.clubID, role: .member))
+                joinNowButton.setTitle("Joined", for: .normal)
+            }
+        }
         
     }
     

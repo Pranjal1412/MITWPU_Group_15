@@ -42,7 +42,7 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
         clubNameTextField.delegate = self
         clubDescriptionTextField.delegate = self
         
-        self.clubDraft = ClubRoleAndData(role: .owner, club: Club(clubName: "", clubMotive: "", clubDescription: "", isPublic: true, clubSport: .running))
+        self.clubDraft = ClubRoleAndData(role: .owner, club: Club(clubName: "", clubMotive: "", clubDescription: "", isPublic: true, clubSport: .running, memberCount: 0))
         
     }
 
@@ -78,7 +78,7 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
 //                    )
                     
                     Task{
-                        await createClub(newClub: self.clubDraft!.club)
+                        await insertNewClubData(newClub: self.clubDraft!.club)
                         rootVC.isMyClub = true
                         rootVC.buttonTitle = "Edit Club Profile"
                         rootVC.myClubProfileData = self.clubDraft!

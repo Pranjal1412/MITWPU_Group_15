@@ -16,12 +16,13 @@ struct Club : Codable{
     var clubDescription : String
     var isPublic : Bool
     var clubSport : ActivityType
+    var memberCount: Int
 }
 
 struct ClubMemberRole : Codable {
     var userID : UUID?
     var clubID : UUID?
-    var role : String
+    var role : ClubRoleType
 }
 
 struct ClubPost : Codable {

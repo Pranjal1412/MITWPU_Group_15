@@ -44,10 +44,10 @@ class ClubSettingsViewController: UIViewController {
         setGlassEffect(for: self.buttonSave, withImage: "checkmark")
     }
     
-    @IBAction func buttonSave(_ sender: Any) {
+    @IBAction func buttonSave(_ sender: UIButton) {
     }
     
-    @IBAction func buttonCancel(_ sender: Any) {
+    @IBAction func buttonCancel(_ sender: UIButton) {
         self.dismiss(animated: true)
     }
 

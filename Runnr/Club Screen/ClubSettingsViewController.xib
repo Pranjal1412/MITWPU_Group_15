@@ -38,6 +38,9 @@
                     </constraints>
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="plain" image="multiply" catalog="system"/>
+                    <connections>
+                        <action selector="buttonCancel:" destination="-1" eventType="touchUpInside" id="Rph-Pa-Nrw"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6bF-JI-fWm">
                     <rect key="frame" x="337" y="26" width="45" height="45"/>
@@ -47,6 +50,9 @@
                     </constraints>
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="plain" image="checkmark" catalog="system"/>
+                    <connections>
+                        <action selector="buttonSave:" destination="-1" eventType="touchUpInside" id="LRD-8q-3VW"/>
+                    </connections>
                 </button>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SKQ-Fm-7aa">
                     <rect key="frame" x="0.0" y="78" width="402" height="1030"/>

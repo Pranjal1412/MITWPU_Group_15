@@ -288,7 +288,7 @@ func fetchMyClubsWithRoles(userID: UUID) async -> [ClubRoleAndData] {
     }
 }
 
-func createClub(newClub: Club) async {
+func insertNewClubData(newClub: Club) async {
     do {
         // Because of the trigger, this ONE insert updates TWO tables
         try await SupabaseManager.shared.client
@@ -301,3 +301,54 @@ func createClub(newClub: Club) async {
         print("Error creating club: \(error)")
     }
 }
+
+func insertNewClubMember(newMember: ClubMemberRole) async {
+    do {
+        try await SupabaseManager.shared.client
+            .from("ClubMemberRole")
+            .insert(newMember)
+            .execute()
+        
+        print("Insert Successfull!")
+    }
+    catch {
+        print("Error creating club: \(error)")
+    }
+}
+
+//func fetchExploreClubData(userID: UUID) async -> [Club] {
+//    do {
+//       guard let currentUserID = SupabaseManager.shared.client.auth.currentUser?.id else {
+//            return []
+//        }
+//
+//        let joinedClubs: [ClubMemberRole] = try await SupabaseManager.shared.client
+//            .from("ClubMemberRole")
+//            .select()
+//            .eq("userID", value: userID)
+//            .execute()
+//            .value
+//
+//        let excludedIDs = joinedClubs.compactMap { $0.clubID }
+//
+//        var query = SupabaseManager.shared.client
+//            .from("Club")
+//            .select()
+//            .eq("isPublic", value: true)
+//
+//        if !excludedIDs.isEmpty {
+//            query = query.not("clubID", operator: .in, value: excludedIDs)
+//        }
+//
+//        let response: [Club] = try await query
+//            .limit(15)
+//            .execute()
+//            .value
+//
+//        
+//        return response
+//    } catch {
+//        print("Error fetching explore data: \(error)")
+//        return []
+//    }
+//}
