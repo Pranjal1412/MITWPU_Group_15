@@ -25,7 +25,7 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var buttonBack: UIButton!
     
     var currentPage = 1
-    var clubDraft = CreateClubDraft()
+    var clubDraft : Club?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,7 +46,7 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField == clubNameTextField {
-            clubDraft.clubName = textField.text
+            clubDraft!.clubName = textField.text ?? ""
         }
     }
     
@@ -63,24 +63,28 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
                     let rootVC = ClubProfileViewController(nibName: "ClubProfileViewController", bundle: nil)
                     let destinationVC = UINavigationController(rootViewController: rootVC)
                    
-                    let nextClub = MyClubData(
-                        clubProfileImg: UIImage(named: "club4")!,
-                        clubName: self.clubDraft.clubName ?? "",
-                        numberOfMembers: "0",
-                        sport: self.clubDraft.activity ?? "",
-                        isPublic: true,
-                        clubMotive: self.clubDraft.motive ?? "",
-                        clubDescription: self.clubDraft.clubDescription ?? ""
-                    )
+//                    let nextClub = Club(
+//                        //clubProfileImg: UIImage(named: "club4")!,
+//                        clubName: self.clubDraft?.clubName ?? "",
+//                        //numberOfMembers: "0",
+//                        clubMotive: self.clubDraft?.clubMotive ?? "",
+//                        clubDescription: self.clubDraft?.clubDescription ?? "",
+//                        isPublic: true,
+//                        clubSport: self.clubDraft!.clubSport
+//                        
+//                    )
                     
-                    myClubs.append(nextClub)
+                    Task{
+                        await createClub(newClub: self.clubDraft!)
+                        rootVC.isMyClub = true
+                        //rootVC.myClubProfileData = nextClub
+                        rootVC.buttonTitle = "Edit Club Profile"
+                        destinationVC.modalPresentationStyle = .fullScreen
+                        presenter.present(destinationVC, animated: true)
+                    }
                     //joinedClubCollectionView.reloadData()
                     
-                    rootVC.isMyClub = true
-                    rootVC.myClubProfileData = nextClub
-                    rootVC.buttonTitle = "Edit Club Profile"
-                    destinationVC.modalPresentationStyle = .fullScreen
-                    presenter.present(destinationVC, animated: true)
+                    
                     
                 }
             }
@@ -294,7 +298,7 @@ extension CreateClubViewController: UICollectionViewDataSource, UICollectionView
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if self.currentPage == 1 {
-            clubDraft.activity = clubActivityOptions[indexPath.row].title
+            clubDraft?.clubSport = clubActivityOptions[indexPath.row].title
             let cell = collectionView.cellForItem(at: indexPath) as! SelectActivityCollectionViewCell
             
             if cell.viewCellBackground.layer.borderColor == UIColor.accent.cgColor {
@@ -313,7 +317,7 @@ extension CreateClubViewController: UICollectionViewDataSource, UICollectionView
         }
         
         else {
-            clubDraft.motive = clubDescriptions[indexPath.row]
+            clubDraft!.clubMotive = clubDescriptions[indexPath.row]
             let cell = collectionView.cellForItem(at: indexPath) as! ClubDescriptionCollectionViewCell
             
             if cell.imageSelected.isHidden {
@@ -363,7 +367,7 @@ extension CreateClubViewController {
 
 extension CreateClubViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
-        clubDraft.clubDescription = textView.text
+        clubDraft!.clubDescription = textView.text
     }
 }
 

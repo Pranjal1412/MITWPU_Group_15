@@ -40,11 +40,11 @@ class JoinedClubsCollectionViewCell: UICollectionViewCell {
         }
     }
         
-    func configureCell(with data: MyClubData) {
-        ClubName.text = data.clubName
-        Sport.text = shortForm(for: data.sport)
-        NumberOfRunners.text = data.numberOfMembers
-        ClubProfileImage.image = data.clubProfileImg
+    func configureCell(with data: ClubRoleAndData) {
+        ClubName.text = data.club.clubName
+        Sport.text = shortForm(for: data.club.clubSport.rawValue)
+        //NumberOfRunners.text = data.numberOfMembers
+        //ClubProfileImage.image = data.clubProfileImg
     }
    
 }

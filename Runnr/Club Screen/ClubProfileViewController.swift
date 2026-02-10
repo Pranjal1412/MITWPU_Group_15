@@ -21,8 +21,8 @@ class ClubProfileViewController: UIViewController {
     
     var buttonTitle : String?
     var isMyClub: Bool = false
-    var myClubProfileData: MyClubData?
-    var clubProfileData: ExploreClubData?
+    var clubProfileData: Club?
+    var myClubProfileData : ClubRoleAndData?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,27 +38,27 @@ class ClubProfileViewController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        if clubProfileData?.postImages.count == nil {
-            collectionViewPostImages.isHidden = true
-        }
-        else {
-            collectionViewPostImages.isHidden = false
-            collectionViewPostImages.reloadData()
-        }
+//        if clubProfileData?.postImages.count == nil {
+//            collectionViewPostImages.isHidden = true
+//        }
+//        else {
+//            collectionViewPostImages.isHidden = false
+//            collectionViewPostImages.reloadData()
+//        }
     }
     
     func settingCollectionAndTableView() {
-        collectionViewPostImages.delegate = self
-        collectionViewPostImages.dataSource = self
+        //collectionViewPostImages.delegate = self
+        //collectionViewPostImages.dataSource = self
 
-        let nib = UINib(nibName: "ClubProfileCollectionViewCell", bundle: nil)
-        collectionViewPostImages.register(nib, forCellWithReuseIdentifier: "cell")
-        
-        if let layout = collectionViewPostImages.collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.minimumInteritemSpacing = 4
-            layout.minimumLineSpacing = 4
-            layout.sectionInset = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
-        }
+//        let nib = UINib(nibName: "ClubProfileCollectionViewCell", bundle: nil)
+//        collectionViewPostImages.register(nib, forCellWithReuseIdentifier: "cell")
+//        
+//        if let layout = collectionViewPostImages.collectionViewLayout as? UICollectionViewFlowLayout {
+//            layout.minimumInteritemSpacing = 4
+//            layout.minimumLineSpacing = 4
+//            layout.sectionInset = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+//        }
         
         tableViewLeaderBoard.dataSource = self
         tableViewLeaderBoard.delegate = self
@@ -68,19 +68,19 @@ class ClubProfileViewController: UIViewController {
     
     func settingUpProfileScreenElements() {
         if isMyClub {
-            labelClubName.text = myClubProfileData?.clubName
-            labelSportType.text = myClubProfileData?.sport
-            labelNumberOfMembers.text = myClubProfileData?.numberOfMembers ?? "No" + " Members"
-            clubDescription.text = myClubProfileData?.clubDescription
-            clubProfileImage.image = myClubProfileData?.clubProfileImg
-            clubMotive.text = myClubProfileData?.clubMotive
+            labelClubName.text = myClubProfileData?.club.clubName
+            labelSportType.text = myClubProfileData?.club.clubSport.rawValue
+            //labelNumberOfMembers.text = myClubProfileData?.numberOfMembers ?? "No" + " Members"
+            clubDescription.text = myClubProfileData?.club.clubDescription
+            //clubProfileImage.image = myClubProfileData?.clubProfileImg
+            clubMotive.text = myClubProfileData?.club.clubMotive
         }
         else {
             labelClubName.text = clubProfileData?.clubName
-            labelSportType.text = clubProfileData?.sport
-            labelNumberOfMembers.text = clubProfileData?.numberOfMembers ?? "No" + " Members"
+            labelSportType.text = clubProfileData?.clubSport.rawValue
+            //labelNumberOfMembers.text = clubProfileData?.numberOfMembers ?? "No" + " Members"
             clubDescription.text = clubProfileData?.clubDescription
-            clubProfileImage.image = clubProfileData?.clubProfileImg
+            //clubProfileImage.image = clubProfileData?.clubProfileImg
             clubMotive.text = clubProfileData?.clubMotive
         }
         
@@ -179,25 +179,25 @@ extension ClubProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
 // MARK: - CollectionView Settings
 
-extension ClubProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource,
-                                     UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return clubProfileData?.postImages.count ?? 0
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ClubProfileCollectionViewCell
-
-        cell.configureCell(with: clubProfileData!.postImages[indexPath.row]!)
-        return cell
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-
-        let width = (collectionView.frame.width - 20) / 3
-        return CGSize(width: width, height: width)
-    }
-}
+//extension ClubProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource,
+//                                     UICollectionViewDelegateFlowLayout {
+//    
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        return clubProfileData?.postImages.count ?? 0
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//
+//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ClubProfileCollectionViewCell
+//
+//        cell.configureCell(with: clubProfileData!.postImages[indexPath.row]!)
+//        return cell
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+//                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+//
+//        let width = (collectionView.frame.width - 20) / 3
+//        return CGSize(width: width, height: width)
+//    }
+//}

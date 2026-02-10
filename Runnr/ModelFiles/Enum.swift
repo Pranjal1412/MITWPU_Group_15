@@ -33,6 +33,7 @@ enum RunnrCategory: String, Codable {
     case Champion = "Champion"
 }
 
-enum ClubRoleType {
-    case owner, member
+enum ClubRoleType : String, Codable{
+    case owner = "Owner"
+    case member = "Member"
 }

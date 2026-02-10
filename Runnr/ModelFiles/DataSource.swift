@@ -11,7 +11,8 @@ class DataSource {
     
     private var myActivities: [UserActivity] = []
     private var friendActivities: [UserActivity] = []
-    
+    private var clubsArray : [Club] = []
+    private var myClubsArray : [ClubRoleAndData] = []
     static let shared = DataSource()
     
     private init() {
@@ -123,6 +124,23 @@ class DataSource {
     func resetMyActivities() {
         self.myActivities.removeAll()
     }
+    
+    func setclubsArray(_ clubData: [Club]) {
+        self.clubsArray = clubData
+    }
+    
+    func getclubsArray() -> [Club] {
+        return self.clubsArray
+    }
+    
+    func setMyClubs(_ myClub: [ClubRoleAndData]) {
+        return self.myClubsArray = myClub
+    }
+    
+    func getMyClubs() -> [ClubRoleAndData] {
+        return self.myClubsArray
+    }
+    
     
 //    MARK: - Below functions are yet to check and corrected
     func getFriendsActivityData() -> [UserActivity] {
