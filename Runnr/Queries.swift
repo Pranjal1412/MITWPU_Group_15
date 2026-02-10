@@ -275,7 +275,7 @@ func fetchMyClubsWithRoles(userID: UUID) async -> [ClubRoleAndData] {
             .from("ClubMemberRole")
             .select("""
                 role,
-                Clubs (*)
+                club:Club (*)
             """)
             .eq("userID", value: userID)
             .execute()
@@ -292,7 +292,7 @@ func createClub(newClub: Club) async {
     do {
         // Because of the trigger, this ONE insert updates TWO tables
         try await SupabaseManager.shared.client
-            .from("Clubs")
+            .from("Club")
             .insert(newClub)
             .execute()
         

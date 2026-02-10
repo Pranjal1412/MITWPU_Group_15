@@ -25,7 +25,7 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var buttonBack: UIButton!
     
     var currentPage = 1
-    var clubDraft : Club?
+    var clubDraft : ClubRoleAndData?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,12 +41,15 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
         
         clubNameTextField.delegate = self
         clubDescriptionTextField.delegate = self
+        
+        self.clubDraft = ClubRoleAndData(role: .owner, club: Club(clubName: "", clubMotive: "", clubDescription: "", isPublic: true, clubSport: .running))
+        
     }
 
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField == clubNameTextField {
-            clubDraft!.clubName = textField.text ?? ""
+            clubDraft?.club.clubName = textField.text ?? ""
         }
     }
     
@@ -75,16 +78,13 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
 //                    )
                     
                     Task{
-                        await createClub(newClub: self.clubDraft!)
+                        await createClub(newClub: self.clubDraft!.club)
                         rootVC.isMyClub = true
-                        //rootVC.myClubProfileData = nextClub
                         rootVC.buttonTitle = "Edit Club Profile"
+                        rootVC.myClubProfileData = self.clubDraft!
                         destinationVC.modalPresentationStyle = .fullScreen
                         presenter.present(destinationVC, animated: true)
                     }
-                    //joinedClubCollectionView.reloadData()
-                    
-                    
                     
                 }
             }
@@ -92,6 +92,10 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
+    @IBAction func clubPrivacy(_ sender: UISwitch) {
+        self.clubDraft?.club.isPublic = sender.isOn
+    }
+    
     @IBAction func dismissModalPressed(_ sender: Any) {
         if currentPage == 1 {
             self.dismiss(animated: true, completion: nil)
@@ -298,7 +302,7 @@ extension CreateClubViewController: UICollectionViewDataSource, UICollectionView
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if self.currentPage == 1 {
-            clubDraft?.clubSport = clubActivityOptions[indexPath.row].title
+            clubDraft?.club.clubSport = clubActivityOptions[indexPath.row].title
             let cell = collectionView.cellForItem(at: indexPath) as! SelectActivityCollectionViewCell
             
             if cell.viewCellBackground.layer.borderColor == UIColor.accent.cgColor {
@@ -317,7 +321,7 @@ extension CreateClubViewController: UICollectionViewDataSource, UICollectionView
         }
         
         else {
-            clubDraft!.clubMotive = clubDescriptions[indexPath.row]
+            clubDraft?.club.clubMotive = clubDescriptions[indexPath.row]
             let cell = collectionView.cellForItem(at: indexPath) as! ClubDescriptionCollectionViewCell
             
             if cell.imageSelected.isHidden {
@@ -367,7 +371,7 @@ extension CreateClubViewController {
 
 extension CreateClubViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
-        clubDraft!.clubDescription = textView.text
+        clubDraft?.club.clubDescription = textView.text
     }
 }
 

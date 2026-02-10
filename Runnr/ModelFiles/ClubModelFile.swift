@@ -24,20 +24,20 @@ struct ClubMemberRole : Codable {
     var role : String
 }
 
-struct ClubPost : Codable{
+struct ClubPost : Codable {
     var postID : UUID?
     var clubID : UUID?
     var caption : String
 }
 
-struct ClubPostImage : Codable{
+struct ClubPostImage : Codable {
     var imageID : UUID?
     var postID : UUID?
     var imageURL : String?
     var sequence : Int
 }
 
-struct ClubTaggedPost : Codable{
+struct ClubTaggedPost : Codable {
     var activityID : UUID?
     var clubID : UUID?
 }

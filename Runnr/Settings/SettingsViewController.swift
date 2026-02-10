@@ -118,6 +118,9 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             alert.addAction(logoutAction)
             present(alert, animated: true, completion: nil)
             
+        case "Privacy Controls" :
+            self.present(PrivacyControlsViewController(), animated: true)
+            
         default:
             break
         }
