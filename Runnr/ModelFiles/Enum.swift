@@ -11,8 +11,8 @@ enum Gender: String, Codable {
 }
 
 enum ActivityType: String, Codable {
-    case running = "Run"
-    case walking = "Walk"
+    case running = "Running"
+    case walking = "Walking"
     case marathon = "Marathon"
 }
 
