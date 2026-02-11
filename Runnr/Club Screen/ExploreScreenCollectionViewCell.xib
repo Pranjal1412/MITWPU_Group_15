@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24127" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
         <array key="SF-Pro.ttf">
-            <string>SFPro-Light</string>
             <string>SFPro-Regular</string>
             <string>SFPro-Semibold</string>
         </array>
@@ -24,104 +23,69 @@
                 <rect key="frame" x="0.0" y="0.0" width="161" height="246"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fPf-hD-fHP">
+                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fPf-hD-fHP">
                         <rect key="frame" x="0.0" y="0.0" width="161" height="246"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="club1" translatesAutoresizingMaskIntoConstraints="NO" id="jE4-pj-esh">
+                                <rect key="frame" x="15" y="15" width="131" height="136"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="The Sunday Club" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7nn-Oc-17v">
+                                <rect key="frame" x="15" y="157" width="131" height="17"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cOS-Xn-hHr">
+                                <rect key="frame" x="20" y="206" width="121" height="28"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" name="AccentColor"/>
+                                <fontDescription key="fontDescription" name="SFPro-Regular" family="SF Pro" pointSize="13"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Join">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="person.2.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="dA7-yO-L0C">
+                                <rect key="frame" x="9" y="178.66666666666663" width="27" height="17.999999999999972"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                <color key="tintColor" name="AccentColor"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="11.2k" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Vo-LQ-OHM">
+                                <rect key="frame" x="36" y="180" width="39" height="18"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="SFPro-Regular" family="SF Pro" pointSize="10"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Run" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zeV-Gu-G5W">
+                                <rect key="frame" x="95" y="180" width="56" height="18"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="SFPro-Regular" family="SF Pro" pointSize="10"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="figure.run" catalog="system" id="vkz-V3-8Px">
+                                <rect key="frame" x="76" y="178.66666666666663" width="18.333333333333314" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                <color key="tintColor" name="AccentColor"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" name="CardLightBlack"/>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The Sunday Club" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7nn-Oc-17v">
-                        <rect key="frame" x="15" y="155.66666666666666" width="131" height="16.333333333333343"/>
-                        <fontDescription key="fontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="14"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="CQK-g4-Dxf">
-                        <rect key="frame" x="15" y="177" width="131" height="20.333333333333343"/>
-                        <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="mQ1-yQ-LB6">
-                                <rect key="frame" x="0.0" y="0.0" width="58" height="20.333333333333332"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.2.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="JZd-lG-cHS">
-                                        <rect key="frame" x="0.0" y="1.6666666666666661" width="27" height="18.333333333333336"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="20.329999999999998" id="6FW-pg-jnF"/>
-                                            <constraint firstAttribute="width" constant="27" id="PHu-kQ-O8L"/>
-                                        </constraints>
-                                    </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="9.3k" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CEr-YI-dHB">
-                                        <rect key="frame" x="32" y="0.0" width="26" height="20.333333333333332"/>
-                                        <fontDescription key="fontDescription" name="SFPro-Light" family="SF Pro" pointSize="12"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                            </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="JJ2-3c-jf7">
-                                <rect key="frame" x="73" y="0.0" width="58" height="20.333333333333332"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="figure.run" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Va2-k1-B0o">
-                                        <rect key="frame" x="0.0" y="0.0" width="18.333333333333332" height="20.333333333333332"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="20.329999999999998" id="EyQ-fC-Ntd"/>
-                                            <constraint firstAttribute="width" constant="18.329999999999998" id="hZj-MH-nsD"/>
-                                        </constraints>
-                                    </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Run" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iC9-Xg-xcd">
-                                        <rect key="frame" x="23.333333333333325" y="0.0" width="34.666666666666657" height="20.333333333333332"/>
-                                        <fontDescription key="fontDescription" name="SFPro-Light" family="SF Pro" pointSize="12"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                            </stackView>
-                        </subviews>
-                    </stackView>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="club1" translatesAutoresizingMaskIntoConstraints="NO" id="jE4-pj-esh">
-                        <rect key="frame" x="15" y="15" width="131" height="135.66666666666666"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="135.66999999999999" id="HfF-bz-ilr"/>
-                            <constraint firstAttribute="width" constant="131" id="uJ2-iO-lq4"/>
-                        </constraints>
-                    </imageView>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cOS-Xn-hHr">
-                        <rect key="frame" x="20" y="202.33333333333334" width="121" height="28.666666666666657"/>
-                        <color key="backgroundColor" name="AccentColor"/>
-                        <fontDescription key="fontDescription" name="SFPro-Regular" family="SF Pro" pointSize="13"/>
-                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                        <state key="normal" title="Join">
-                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </state>
-                    </button>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
-            <constraints>
-                <constraint firstItem="fPf-hD-fHP" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="1D0-EJ-54O"/>
-                <constraint firstItem="CQK-g4-Dxf" firstAttribute="top" secondItem="7nn-Oc-17v" secondAttribute="bottom" constant="5" id="1Fz-e5-Jwg"/>
-                <constraint firstItem="CQK-g4-Dxf" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="7cR-NR-7Ag"/>
-                <constraint firstAttribute="trailing" secondItem="CQK-g4-Dxf" secondAttribute="trailing" constant="15" id="DKw-Rs-tAS"/>
-                <constraint firstItem="cOS-Xn-hHr" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="20" id="K3i-xW-DHn"/>
-                <constraint firstItem="jE4-pj-esh" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="MQf-8Y-EpN"/>
-                <constraint firstAttribute="trailing" secondItem="jE4-pj-esh" secondAttribute="trailing" constant="15" id="Oyy-zn-Zt8"/>
-                <constraint firstItem="7nn-Oc-17v" firstAttribute="top" secondItem="jE4-pj-esh" secondAttribute="bottom" constant="5" id="QAX-Gf-pxw"/>
-                <constraint firstAttribute="bottom" secondItem="fPf-hD-fHP" secondAttribute="bottom" id="WF3-qo-GsO"/>
-                <constraint firstAttribute="trailing" secondItem="cOS-Xn-hHr" secondAttribute="trailing" constant="20" id="abr-rw-4JJ"/>
-                <constraint firstAttribute="trailing" secondItem="fPf-hD-fHP" secondAttribute="trailing" id="bDk-pO-Chd"/>
-                <constraint firstItem="7nn-Oc-17v" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="cXK-wq-xxj"/>
-                <constraint firstItem="fPf-hD-fHP" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="gNC-Q2-DQf"/>
-                <constraint firstAttribute="trailing" secondItem="7nn-Oc-17v" secondAttribute="trailing" constant="15" id="gy7-ji-ChB"/>
-                <constraint firstItem="cOS-Xn-hHr" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="ikt-bx-ixq"/>
-                <constraint firstItem="jE4-pj-esh" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="15" id="mjQ-t7-DVR"/>
-                <constraint firstItem="cOS-Xn-hHr" firstAttribute="top" secondItem="CQK-g4-Dxf" secondAttribute="bottom" constant="5" id="n9t-zu-Nwj"/>
-                <constraint firstAttribute="bottom" secondItem="cOS-Xn-hHr" secondAttribute="bottom" constant="15" id="nWh-Db-aXC"/>
-                <constraint firstItem="CQK-g4-Dxf" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="wWE-PZ-pNw"/>
-            </constraints>
             <size key="customSize" width="364" height="372"/>
             <connections>
-                <outlet property="ClubSport" destination="iC9-Xg-xcd" id="pKh-BJ-k7I"/>
+                <outlet property="ClubSport" destination="zeV-Gu-G5W" id="dv1-fP-MnU"/>
                 <outlet property="LabelTitle" destination="7nn-Oc-17v" id="eBS-XF-NqV"/>
-                <outlet property="NumberOfRunners" destination="CEr-YI-dHB" id="xzF-S2-mjn"/>
+                <outlet property="NumberOfRunners" destination="2Vo-LQ-OHM" id="hEM-cg-Ubv"/>
                 <outlet property="buttonJoinClub" destination="cOS-Xn-hHr" id="JdU-HU-x9d"/>
                 <outlet property="clubProfile" destination="jE4-pj-esh" id="YVv-kO-NGk"/>
+                <outlet property="imageSportType" destination="vkz-V3-8Px" id="ayZ-d1-7Gz"/>
                 <outlet property="viewExploreClub" destination="fPf-hD-fHP" id="uZn-03-zsg"/>
             </connections>
             <point key="canvasLocation" x="-596.18320610687022" y="-102.11267605633803"/>

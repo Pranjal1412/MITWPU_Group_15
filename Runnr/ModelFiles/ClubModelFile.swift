@@ -47,32 +47,13 @@ struct ClubRoleAndData : Codable {
     var role : ClubRoleType
     var club : Club
 }
-//struct ExploreClubData {
-//    let clubProfileImg: UIImage?
-//    let clubName: String
-//    let numberOfMembers: String
-//    let sport: String
-//    let clubMotive: String
-//    let clubDescription: String
-//    let postImages = [UIImage(named: "post 1"), UIImage(named: "post 2"), UIImage(named: "post 3"), UIImage(named: "post 4")]
-//}
-//
-//struct MyClubData {
-//    let clubProfileImg: UIImage
-//    let clubName: String
-//    let numberOfMembers: String
-//    let sport: String
-//    let isPublic: Bool
-//    let clubMotive: String
-//    let clubDescription: String
-//}
-//
+
 struct friendsData {
     let profilePhoto: String
     let name: String
     var isFollowing: Bool
 }
-//
+
 struct LeaderBoard {
     let badge: String
     let levelName: String
@@ -92,17 +73,7 @@ enum LeaderboardMode {
     case streak
     case points
 }
-//
-//struct CreateClubDraft {
-//    var clubName: String?
-//    var clubDescription: String?
-//    var activity: String?
-//    var sportShortForm: String?
-//    var motive: String?
-//}
-//
-//
-//
+
 struct ClubActivityOptions {
     let image : UIImage
     let title :  ActivityType
@@ -215,7 +186,7 @@ let leaderboardUsersArray: [LeaderboardUser] = [
 
 let clubActivityOptions : [ClubActivityOptions] = [
     ClubActivityOptions(image: UIImage(systemName: "figure.run")!, title: .running),
-    ClubActivityOptions(image: UIImage(systemName: "figure.hiking")!, title: .marathon),
+    ClubActivityOptions(image: UIImage(systemName: "figure.hiking")!, title: .hiking),
     ClubActivityOptions(image: UIImage(systemName: "figure.walk")!, title: .walking),
     ClubActivityOptions(image: UIImage(systemName: "figure.highintensity.intervaltraining")!, title: .marathon)]
 

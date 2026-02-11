@@ -35,6 +35,7 @@ class ClubProfileViewController: UIViewController {
         tableViewLeaderBoard.isHidden = true
         
         setGlassEffect(for: self.buttonBack, withImage: "chevron.backward")
+        buttonBack.layer.cornerRadius = 20
 
     }
 

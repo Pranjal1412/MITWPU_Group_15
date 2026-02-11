@@ -14,7 +14,7 @@ class ExploreScreenCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var NumberOfRunners: UILabel!
     @IBOutlet weak var ClubSport: UILabel!
     @IBOutlet weak var LabelTitle: UILabel!
-
+    @IBOutlet weak var imageSportType: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -29,7 +29,8 @@ class ExploreScreenCollectionViewCell: UICollectionViewCell {
     func configureCell(with data: Club) {
         LabelTitle.text = data.clubName
         ClubSport.text = data.clubSport.rawValue
-        //NumberOfRunners.text = data.numberOfMembers
+        NumberOfRunners.text = String(data.memberCount)
+//        imageSportType.image = UIImage(systemName: setSportImage(for: data.clubSport.rawValue))
         //clubProfile.image = data.clubProfileImg
     }
 }

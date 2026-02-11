@@ -14,6 +14,7 @@ enum ActivityType: String, Codable {
     case running = "Running"
     case walking = "Walking"
     case marathon = "Marathon"
+    case hiking = "Hiking"
 }
 
 enum DistanceUnit: String, Codable {

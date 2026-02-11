@@ -190,14 +190,30 @@ func formatTime(_ interval: Int) -> FormatTime {
 }
 
 func formatMemberCount(_ count: Int) -> String {
-    if count >= 1000000 {
-        let formatted = Double(count) / 1000000.0
-        return String(format: "%.1fM", formatted).replacingOccurrences(of: ".0", with: "")
-    } else if count >= 1000 {
-        let formatted = Double(count) / 1000.0
-        return String(format: "%.1fk", formatted).replacingOccurrences(of: ".0", with: "")
+    if count >= 1_000_000 {
+        let formatted = Double(count) / 1_000_000
+        return String(format: "%.1fM", formatted)
+            .replacingOccurrences(of: ".0", with: "")
+    } else if count >= 1_000 {
+        let formatted = Double(count) / 1_000
+        return String(format: "%.1fk", formatted)
+            .replacingOccurrences(of: ".0", with: "")
     } else {
         return "\(count)"
     }
 }
 
+func setSportImage(for activity: String) -> String {
+    switch activity {
+    case "Hiking":
+        return "figure.hiking"
+    case "Running":
+        return "figure.run"
+    case "Walking":
+        return "figure.walk"
+    case "Marathon":
+        return "figure.highintensity.intervaltraining"
+    default:
+        return activity
+    }
+}

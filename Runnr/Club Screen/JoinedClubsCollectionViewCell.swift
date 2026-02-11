@@ -14,7 +14,7 @@ class JoinedClubsCollectionViewCell: UICollectionViewCell {
     @IBOutlet var NumberOfRunners: UILabel!
     @IBOutlet var Sport: UILabel!
     @IBOutlet var joinedClubView: UIView!
-    @IBOutlet var viewJoinedClub: UIView!
+    @IBOutlet weak var imageSportType: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,28 +24,15 @@ class JoinedClubsCollectionViewCell: UICollectionViewCell {
         ClubProfileImage.layer.cornerRadius = 10
         ClubProfileImage.clipsToBounds = true
     }
-    
-    private func shortForm(for activity: String) -> String {
-        switch activity {
-        case "Hiking":
-            return "Hike"
-        case "Running":
-            return "Run"
-        case "Walking":
-            return "Walk"
-        case "Marathons":
-            return "Mar"
-        default:
-            return activity
-        }
-    }
-        
+            
     func configureCell(with data: ClubRoleAndData) {
         ClubName.text = data.club.clubName
         Sport.text = data.club.clubSport.rawValue
+        
         let formattedNumberOfMembers = formatMemberCount(data.club.memberCount)
         NumberOfRunners.text = String(formattedNumberOfMembers)
 
+        imageSportType.image = UIImage(systemName: setSportImage(for: data.club.clubSport.rawValue))
         //ClubProfileImage.image = data.clubProfileImg
     }
    
