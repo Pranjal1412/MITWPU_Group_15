@@ -9,7 +9,6 @@ import UIKit
 
 class ClubScreenViewController: UIViewController {
 
-
     @IBOutlet weak var segmentControlClubScreen: UISegmentedControl!
     @IBOutlet weak var searchBarFriendsScreen: UISearchBar!
     @IBOutlet weak var collectionViewExplore: UICollectionView!
@@ -25,10 +24,11 @@ class ClubScreenViewController: UIViewController {
     let systemOS = UIDevice.current.systemVersion
     
     var dataSource = DataSource.shared
+    var userProfile = DataSource.shared.getUserProfile()
+
     var totalPoints: Int {
         dataSource.getTotalRunnrPoints()
     }
-    var userProfile = DataSource.shared.getUserProfile()
     var clubsArray: [Club] {
         DataSource.shared.getclubsArray()
     }
@@ -55,7 +55,7 @@ class ClubScreenViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         
         Task{
-            let exploreClubs = await fetchExploreClubData()
+            let exploreClubs = await fetchExploreClubData(userID: self.userProfile.userID!)
             self.dataSource.setclubsArray(exploreClubs)
             let userClubs = await fetchMyClubsWithRoles(userID: userProfile.userID!)
             self.dataSource.setMyClubs(userClubs)
@@ -69,7 +69,8 @@ class ClubScreenViewController: UIViewController {
             
             collectionViewJoinedClub.reloadData()
             collectionViewExplore.reloadData()
-            
+            buttonAddMoreClubs.isHidden = true
+
         }
         
         tableViewFriends.reloadData()
@@ -115,10 +116,11 @@ class ClubScreenViewController: UIViewController {
                 labelCreateyourOwnClub.isHidden = true
                 collectionViewExplore.isHidden = true
                 tableViewFriends.isHidden = true
+                
                 collectionViewJoinedClub.isHidden = false
                 labelYourClubs.isHidden = false
-              
                 buttonAddMoreClubs.isHidden = false
+                
                 collectionViewJoinedClub.reloadData()
             }
             
@@ -209,7 +211,7 @@ class ClubScreenViewController: UIViewController {
         
         attributedTextYourClub.append(NSMutableAttributedString(string: " clubs", attributes: [.font: boldFont, .foregroundColor: UIColor.white]))
         
-        labelYourClubs.attributedText = attributedText
+        labelYourClubs.attributedText = attributedTextYourClub
      
     }
 
@@ -289,12 +291,10 @@ extension ClubScreenViewController : UICollectionViewDataSource, UICollectionVie
         
         if collectionView == collectionViewExplore {
             destinationVC.clubProfileData = clubsArray[indexPath.row]
-//            destinationVC.buttonTitle = "Join Now"
             destinationVC.isMyClub = false
 
         } else {
             destinationVC.myClubProfileData = myClubArray[indexPath.row]
-//            destinationVC.buttonTitle = "Edit Club Profile"
             destinationVC.isMyClub = true
         }
        

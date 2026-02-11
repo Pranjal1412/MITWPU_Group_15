@@ -250,22 +250,42 @@ func uploadImageFetchURL(_ filepath: String, _ image: Data) async -> String? {
 
 // MARK: - Club Data
 
-func fetchExploreClubData() async -> [Club] {
+func fetchExploreClubData(userID: UUID) async -> [Club] {
+
     do {
-        
-        let response: [Club] = try await SupabaseManager.shared.client
-            .from("Club")
+        let joinedClubs: [ClubMemberRole] = try await SupabaseManager.shared.client
+            .from("ClubMemberRole")
             .select()
-            .eq("isPublic" , value: true)
-            .limit(15)
+            .eq("userID", value: userID)
             .execute()
             .value
         
-        return response
+        let clubIDs = joinedClubs.map { $0.clubID }
+        
+        // If user has no clubs, return all clubs
+        if clubIDs.isEmpty {
+            return try await SupabaseManager.shared.client
+                .from("Club")
+                .select("*")
+                .execute()
+                .value
+        }
+
+        // Convert UUIDs into SQL array string
+        let formattedIDs = clubIDs.map { "\"\($0!.uuidString)\"" }.joined(separator: ",")
+
+        let clubs: [Club] = try await SupabaseManager.shared.client
+            .from("Club")
+            .select("*")
+            .not("clubID", operator: .in, value: "(\(formattedIDs))")
+            .execute()
+            .value
+        
+        return clubs
     }
     catch {
-        print("Data not found")
-         return []
+        print("Failed to fetch \(error)")
+        return []
     }
 }
 
@@ -315,40 +335,3 @@ func insertNewClubMember(newMember: ClubMemberRole) async {
         print("Error creating club: \(error)")
     }
 }
-
-//func fetchExploreClubData(userID: UUID) async -> [Club] {
-//    do {
-//       guard let currentUserID = SupabaseManager.shared.client.auth.currentUser?.id else {
-//            return []
-//        }
-//
-//        let joinedClubs: [ClubMemberRole] = try await SupabaseManager.shared.client
-//            .from("ClubMemberRole")
-//            .select()
-//            .eq("userID", value: userID)
-//            .execute()
-//            .value
-//
-//        let excludedIDs = joinedClubs.compactMap { $0.clubID }
-//
-//        var query = SupabaseManager.shared.client
-//            .from("Club")
-//            .select()
-//            .eq("isPublic", value: true)
-//
-//        if !excludedIDs.isEmpty {
-//            query = query.not("clubID", operator: .in, value: excludedIDs)
-//        }
-//
-//        let response: [Club] = try await query
-//            .limit(15)
-//            .execute()
-//            .value
-//
-//        
-//        return response
-//    } catch {
-//        print("Error fetching explore data: \(error)")
-//        return []
-//    }
-//}

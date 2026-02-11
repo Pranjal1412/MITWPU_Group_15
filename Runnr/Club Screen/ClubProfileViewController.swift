@@ -19,10 +19,10 @@ class ClubProfileViewController: UIViewController {
     @IBOutlet var buttonBack: UIButton!
     @IBOutlet var NoPostLabel: UILabel!
     
-    var buttonTitle : String?
     var isMyClub: Bool = false
     var clubProfileData: Club?
     var myClubProfileData : ClubRoleAndData?
+    
     private var userProfileData = DataSource.shared.getCurrentActivity()
     
     override func viewDidLoad() {
@@ -71,7 +71,7 @@ class ClubProfileViewController: UIViewController {
         if isMyClub {
             labelClubName.text = myClubProfileData?.club.clubName
             labelSportType.text = myClubProfileData?.club.clubSport.rawValue
-            //labelNumberOfMembers.text = myClubProfileData?.numberOfMembers ?? "No" + " Members"
+            labelNumberOfMembers.text = String(myClubProfileData!.club.memberCount) + "Members"
             clubDescription.text = myClubProfileData?.club.clubDescription
             //clubProfileImage.image = myClubProfileData?.clubProfileImg
             clubMotive.text = myClubProfileData?.club.clubMotive
@@ -82,6 +82,7 @@ class ClubProfileViewController: UIViewController {
             else {
                 joinNowButton.setTitle("Joined", for: .normal)
             }
+            
             joinNowButton.setTitleColor(.accent, for: .normal)
             joinNowButton.backgroundColor = .black
             joinNowButton.layer.borderColor = UIColor.accent.cgColor
@@ -91,7 +92,7 @@ class ClubProfileViewController: UIViewController {
         else {
             labelClubName.text = clubProfileData?.clubName
             labelSportType.text = clubProfileData?.clubSport.rawValue
-            //labelNumberOfMembers.text = clubProfileData?.numberOfMembers ?? "No" + " Members"
+            labelNumberOfMembers.text = String(clubProfileData!.memberCount) + " Members"
             clubDescription.text = clubProfileData?.clubDescription
             //clubProfileImage.image = clubProfileData?.clubProfileImg
             clubMotive.text = clubProfileData?.clubMotive
@@ -141,6 +142,10 @@ class ClubProfileViewController: UIViewController {
             else if joinNowButton.titleLabel?.text == "Join Now" {
                 await insertNewClubMember(newMember: ClubMemberRole(userID: self.userProfileData?.userID, clubID: self.clubProfileData?.clubID, role: .member))
                 joinNowButton.setTitle("Joined", for: .normal)
+                joinNowButton.setTitleColor(.accent, for: .normal)
+                joinNowButton.backgroundColor = .black
+                joinNowButton.layer.borderColor = UIColor.accent.cgColor
+                joinNowButton.layer.borderWidth = 1
             }
         }
         

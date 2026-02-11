@@ -80,7 +80,6 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
                     Task{
                         await insertNewClubData(newClub: self.clubDraft!.club)
                         rootVC.isMyClub = true
-                        rootVC.buttonTitle = "Edit Club Profile"
                         rootVC.myClubProfileData = self.clubDraft!
                         destinationVC.modalPresentationStyle = .fullScreen
                         presenter.present(destinationVC, animated: true)
