@@ -189,4 +189,15 @@ func formatTime(_ interval: Int) -> FormatTime {
     return FormatTime(hour: hours, minute: minutes, second: seconds)
 }
 
+func formatMemberCount(_ count: Int) -> String {
+    if count >= 1000000 {
+        let formatted = Double(count) / 1000000.0
+        return String(format: "%.1fM", formatted).replacingOccurrences(of: ".0", with: "")
+    } else if count >= 1000 {
+        let formatted = Double(count) / 1000.0
+        return String(format: "%.1fk", formatted).replacingOccurrences(of: ".0", with: "")
+    } else {
+        return "\(count)"
+    }
+}
 

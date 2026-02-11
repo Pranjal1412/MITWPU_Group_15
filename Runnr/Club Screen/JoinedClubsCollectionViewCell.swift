@@ -42,8 +42,10 @@ class JoinedClubsCollectionViewCell: UICollectionViewCell {
         
     func configureCell(with data: ClubRoleAndData) {
         ClubName.text = data.club.clubName
-        Sport.text = /*shortForm(for: data.club.clubSport.rawValue)*/ data.club.clubSport.rawValue
-        NumberOfRunners.text = String(data.club.memberCount)
+        Sport.text = data.club.clubSport.rawValue
+        let formattedNumberOfMembers = formatMemberCount(data.club.memberCount)
+        NumberOfRunners.text = String(formattedNumberOfMembers)
+
         //ClubProfileImage.image = data.clubProfileImg
     }
    
