@@ -1,18 +1,6 @@
 import UIKit
 import GoogleMaps
 
-//struct UserProfile {
-//    let userID = UUID()
-//    var userName: String
-//    var emailID: String
-//    var profileImage: UIImage
-//    var gender: String
-//    var totalFollwers: Int = 0
-//    var totalFollowing: Int = 0
-//    var totalRunnrPoints: Int = 100
-//    var totalDistance: Double = 0
-//}
-
 struct UserActivity: Codable {
     var userID: UUID?
     var activityID: UUID?

@@ -23,7 +23,7 @@ class ClubProfileViewController: UIViewController {
     var clubProfileData: Club?
     var myClubProfileData : ClubRoleAndData?
     
-    private var userProfileData = DataSource.shared.getCurrentActivity()
+    private var userProfileData = DataSource.shared.getUserProfile()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -141,7 +141,7 @@ class ClubProfileViewController: UIViewController {
             }
             
             else if joinNowButton.titleLabel?.text == "Join Now" {
-                await insertNewClubMember(newMember: ClubMemberRole(userID: self.userProfileData?.userID, clubID: self.clubProfileData?.clubID, role: .member))
+                await insertNewClubMember(newMember: ClubMemberRole(userID: self.userProfileData.userID, clubID: self.clubProfileData?.clubID, role: .member))
                 joinNowButton.setTitle("Joined", for: .normal)
                 joinNowButton.setTitleColor(.accent, for: .normal)
                 joinNowButton.backgroundColor = .black
