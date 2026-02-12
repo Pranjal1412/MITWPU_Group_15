@@ -154,16 +154,16 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4ku-4b-OFd">
-                            <rect key="frame" x="16" y="25" width="45" height="45"/>
+                            <rect key="frame" x="20" y="25" width="45" height="45"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" image="multiply" catalog="system"/>
+                            <buttonConfiguration key="configuration" style="plain" image="multiply" catalog="system" title="Button"/>
                             <connections>
                                 <action selector="buttonCancelTapped:" destination="-1" eventType="touchUpInside" id="LqU-gs-IcM"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lkL-zf-6an">
-                            <rect key="frame" x="342" y="25" width="45" height="45"/>
+                            <rect key="frame" x="337" y="25" width="45" height="45"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="plain" image="checkmark" catalog="system"/>

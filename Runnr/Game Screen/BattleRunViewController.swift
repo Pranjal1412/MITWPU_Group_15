@@ -35,7 +35,7 @@ class BattleRunViewController: UIViewController {
     func setupUI() {
             viewEnds.layer.cornerRadius = viewEnds.bounds.height / 2
             viewEnds.layer.borderWidth = 1
-            viewEnds.layer.borderColor = UIColor.cyan.cgColor
+            viewEnds.layer.borderColor = UIColor.accent.cgColor
             
             [imageYour, imageFriends].forEach {
                 $0?.layer.cornerRadius = ($0?.bounds.height ?? 0) / 2
@@ -45,10 +45,21 @@ class BattleRunViewController: UIViewController {
             }
 
             updatePointsLabels()
-            viewYou.backgroundColor = .systemCyan
-            viewFriend.backgroundColor = .systemPurple
-            viewYou.layer.cornerRadius = 10
-            viewFriend.layer.cornerRadius = 10
+//            viewYou.backgroundColor = .systemCyan
+//            viewFriend.backgroundColor = .systemPurple
+        viewYou.layer.borderWidth = 1
+        viewYou.layer.borderColor = UIColor.cyan.cgColor
+        viewFriend.layer.borderWidth = 1
+        viewFriend.layer.borderColor = UIColor.purple.cgColor
+            viewYou.layer.cornerRadius = 15
+            viewFriend.layer.cornerRadius = 15
+        
+        viewYou.layer.shadowColor = UIColor.accent.withAlphaComponent(0.5).cgColor
+        viewYou.layer.shadowOpacity = 0.5
+        viewYou.layer.shadowRadius = self.viewYou.frame.height / 2
+        viewFriend.layer.shadowColor = UIColor.accent.withAlphaComponent(0.5).cgColor
+        viewFriend.layer.shadowOpacity = 0.5
+        viewFriend.layer.shadowRadius = self.viewFriend.frame.height / 2
         }
         
         func setupAR() {

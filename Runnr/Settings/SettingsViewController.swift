@@ -9,8 +9,6 @@ import UIKit
 import Supabase
 
 class SettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-
-    let supabase = SupabaseManager.shared.client
     
     @IBOutlet weak var tableViewSettings: UITableView!
     
@@ -98,7 +96,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 
                 Task {
                     do {
-                        try await self.supabase.auth.signOut()
+//                        try await self.supabase.auth.signOut()
                         print("Session deleted successfully")
                         
                         if let presenter = self.presentingViewController {

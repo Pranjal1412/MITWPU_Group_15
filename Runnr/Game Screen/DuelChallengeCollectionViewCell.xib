@@ -25,9 +25,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="382" height="262"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zqg-fV-7vE">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zqg-fV-7vE">
                         <rect key="frame" x="0.0" y="0.0" width="382" height="262"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Weekly Clash" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VQt-Az-138">
                                 <rect key="frame" x="5" y="19" width="189" height="28"/>
@@ -107,17 +106,31 @@
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Dh-ch-N44">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Dh-ch-N44">
                                 <rect key="frame" x="20" y="209" width="340" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" name="CardLightBlack"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="eda-Bj-4ZN"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" name="CardLightBlack"/>
+                        <constraints>
+                            <constraint firstItem="9Dh-ch-N44" firstAttribute="top" secondItem="Zqg-fV-7vE" secondAttribute="top" constant="209" id="6ya-f1-QCd"/>
+                            <constraint firstItem="9Dh-ch-N44" firstAttribute="leading" secondItem="Zqg-fV-7vE" secondAttribute="leading" constant="20" symbolic="YES" id="Sn9-3D-acQ"/>
+                            <constraint firstAttribute="trailing" secondItem="9Dh-ch-N44" secondAttribute="trailing" constant="22" id="UG0-JE-bEc"/>
+                            <constraint firstAttribute="bottom" secondItem="9Dh-ch-N44" secondAttribute="bottom" constant="18" id="Uzl-7I-0F9"/>
+                        </constraints>
                     </view>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="Zqg-fV-7vE" secondAttribute="trailing" id="Ws5-RI-p8K"/>
+                <constraint firstAttribute="bottom" secondItem="Zqg-fV-7vE" secondAttribute="bottom" id="XOo-dk-YsE"/>
+                <constraint firstItem="Zqg-fV-7vE" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="YGS-RR-9rt"/>
+                <constraint firstItem="Zqg-fV-7vE" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="lOc-yk-R1T"/>
+            </constraints>
             <size key="customSize" width="389" height="162"/>
             <connections>
                 <outlet property="imageViewOpponent" destination="1aD-pb-pgI" id="ZXv-mA-LQ7"/>

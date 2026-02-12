@@ -60,7 +60,6 @@ class SoloChallengeCollectionViewCell: UICollectionViewCell {
         progressChallengeCompletion.progress = 0.2
         labelCompletionPercent.text = "20%"
         labelCompletionNumber.text = "5.0/5.0 Km"
-        
     }
     
     func applyGradientIfNeeded() {
@@ -83,6 +82,22 @@ class SoloChallengeCollectionViewCell: UICollectionViewCell {
             viewGradient.isHidden = true
         }
     }
+    
+    private func addHorizontalCardGradient(to view: UIView) {
+        // Create gradient layer
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = view.bounds
+        gradientLayer.colors = [
+            UIColor.accentColorLight.cgColor,
+            UIColor.clear.cgColor
+        ]
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)  // Left center
+        gradientLayer.endPoint = CGPoint(x: 1, y: 0.5)    // Right center
+        gradientLayer.locations = [0.0, 1.0]
+        
+        // Insert at the bottom so it doesn't cover content
+        view.layer.insertSublayer(gradientLayer, at: 0)
+    }
         
     @IBAction func claimPointsPressed(_ sender: UIButton) {
         
@@ -95,6 +110,5 @@ class SoloChallengeCollectionViewCell: UICollectionViewCell {
         self.labelCompletionPercent.textColor = .darkGray
         self.viewCellBackground.layer.borderColor = UIColor.darkGray.cgColor
         self.viewCellBackground.layer.borderWidth = 1
-
     }
 }
