@@ -230,20 +230,28 @@ func fetchActivityPaceGraphData(_ activityID: UUID) async -> [ActivityPaceGraphD
 }
 
 // MARK: - Other
-func uploadImageFetchURL(_ filepath: String, _ image: Data) async -> String? {
+func uploadFetchProfileImageURL(with filepath: String, imageData: Data) async -> String? {
     do {
         try await SupabaseManager.shared.client.storage
-            .from("IMAGES")
-            .upload(filepath, data: image, options: FileOptions(contentType: "image/jpeg", upsert: true))
+            .from("publicMedia")
+            .upload(
+                filepath,
+                data: imageData,
+                options: FileOptions(
+                    contentType: "image/jpeg",
+                    upsert: true   // replaces old image
+                )
+            )
         
-        let publicURL = try? SupabaseManager.shared.client.storage
-            .from("IMAGES")
+        let publicURL = try SupabaseManager.shared.client.storage
+            .from("publicMedia")
             .getPublicURL(path: filepath)
-        
-        return publicURL!.absoluteString
+
+        return publicURL.absoluteString
+
     }
     catch {
-        print("Upload Failed")
+        print("Upload Failed: \(error)")
         return nil
     }
 }
