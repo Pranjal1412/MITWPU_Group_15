@@ -147,23 +147,23 @@ class ActivitySetGoalViewController: UIViewController {
             self.buttonActivity.setTitleColor(.darkGray, for: .normal)
         }
         
-        let run = UIAction(title: "Run") { _ in
-            self.buttonActivity.setTitle("Run", for: .normal)
+        let run = UIAction(title: "Running") { _ in
+            self.buttonActivity.setTitle("Running", for: .normal)
             self.buttonActivity.setTitleColor(.accent, for: .normal)
 
         }
 
-        let walk = UIAction(title: "Walk") { _ in
-            self.buttonActivity.setTitle("Walk", for: .normal)
+        let walk = UIAction(title: "Walking") { _ in
+            self.buttonActivity.setTitle("Walking", for: .normal)
             self.buttonActivity.setTitleColor(.accent, for: .normal)
 
         }
 
-//        let cycle = UIAction(title: "Cycle") { _ in
-//            self.buttonActivity.setTitle("Cycle", for: .normal)
-//            self.buttonActivity.setTitleColor(.accent, for: .normal)
-//
-//        }
+        let hike = UIAction(title: "Hiking") { _ in
+            self.buttonActivity.setTitle("Hiking", for: .normal)
+            self.buttonActivity.setTitleColor(.accent, for: .normal)
+
+        }
 
         let marathon = UIAction(title: "Marathon") { _ in
             self.buttonActivity.setTitle("Marathon", for: .normal)
@@ -171,7 +171,7 @@ class ActivitySetGoalViewController: UIViewController {
 
         }
         
-        self.buttonActivity.menu = UIMenu(children: [defaultActivity, run, walk, marathon/*, cycle*/])
+        self.buttonActivity.menu = UIMenu(children: [defaultActivity, run, walk, marathon, hike])
         self.buttonActivity.showsMenuAsPrimaryAction = true
         self.buttonActivity.setTitleColor(.accent, for: .normal)
     }

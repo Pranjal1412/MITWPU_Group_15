@@ -13,6 +13,7 @@ class ActivitySummaryViewController: UIViewController {
     @IBOutlet weak var buttonBack: UIButton!
     @IBOutlet weak var buttonShowAnalysis: UIButton!
     @IBOutlet weak var labelActivityHeading: UILabel!
+    @IBOutlet weak var buttonMoreOptions: UIButton!
     
     var showAlert : Bool = false
     var isMapInitialized: Bool = false
@@ -27,6 +28,7 @@ class ActivitySummaryViewController: UIViewController {
         super.viewDidLoad()
                         
         setGlassEffect(for: self.buttonBack, withImage: "chevron.backward")
+        setGlassEffect(for: self.buttonMoreOptions, withImage: "ellipsis")
         
         self.buttonShowAnalysis.layer.cornerRadius = buttonShowAnalysis.frame.height / 2.0
         self.labelActivityHeading.text = activityData?.activityTitle
@@ -115,7 +117,39 @@ class ActivitySummaryViewController: UIViewController {
         self.present(destinationVC, animated: true)
     }
     
+    @IBAction func didTapOnMoreOptions(_ sender: UIButton) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+        let shareAction = UIAlertAction(title: String(localized: "Share Activity"), style: .default){
+            _ in
+//            self.dataSource.shareActivity(atIndex: sender.tag, presentingViewController: self)
+        }
+        let deleteAction = UIAlertAction(title: String(localized: "Delete Activity"), style: .destructive) { _ in
+            self.deleteActivityAlert()
+        }
+        let cancelAction = UIAlertAction(title: String(localized: "Canel"), style: .cancel, handler: nil)
+
+        alert.addAction(shareAction)
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+        present(alert, animated: true, completion: nil)
+
+    }
     
+    func deleteActivityAlert() {
+        let alert = UIAlertController(title: "Delete Activity", message: "Are you sure you want to delete this activity?", preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+        }
+        
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+        
+        present(alert, animated: true, completion: nil)
+
+    }
+  
 //    func convertCoordinatesToPath(from coordinates: [CLLocationCoordinate2D]) -> GMSMutablePath {
 //        let path = GMSMutablePath()
 //            for coordinate in coordinates {
@@ -144,4 +178,5 @@ class ActivitySummaryViewController: UIViewController {
         
         return path
     }
+
 }

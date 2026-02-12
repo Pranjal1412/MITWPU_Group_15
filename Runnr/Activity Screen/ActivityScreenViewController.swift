@@ -175,16 +175,6 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
         }
 
     }
-    
-//    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-//        return 30
-//    }
-
-//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-//        let spacer = UIView()
-//        spacer.backgroundColor = .clear
-//        return spacer
-//    }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
@@ -215,29 +205,5 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
     }
     
 }
-
-//MARK: - Activity Settings
-//extension ActivityScreenViewController {
-//    
-//    @objc func didTapOnMoreOptions(_ sender: UIButton) {
-//        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-//        
-//        let shareAction = UIAlertAction(title: String(localized: "Share Activity"), style: .default){
-//            _ in self.dataSource.shareActivity(atIndex: sender.tag, presentingViewController: self)
-//        }
-//        let deleteAction = UIAlertAction(title: String(localized: "Delete Activity"), style: .destructive) { _ in
-//            self.dataSource.deleteMyActivity(atIndex: sender.tag)
-//            self.updateScreenElements()
-//        }
-//        let cancelAction = UIAlertAction(title: String(localized: "Canel"), style: .cancel, handler: nil)
-//        
-//        alert.addAction(shareAction)
-//        alert.addAction(cancelAction)
-//        alert.addAction(deleteAction)
-//        present(alert, animated: true, completion: nil)
-//    }
-//    
-//}
-
 
 
