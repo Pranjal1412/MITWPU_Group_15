@@ -9,14 +9,30 @@ import UIKit
 
 class PrivacyControlsViewController: UIViewController {
 
+    @IBOutlet weak var scrollViewMainScreen: UIScrollView!
+    @IBOutlet weak var buttonSave: UIButton!
     @IBOutlet weak var segmentControlProfileVisibilty: UISegmentedControl!
     @IBOutlet weak var viewSocial: UIView!
+    @IBOutlet weak var buttonCancel: UIButton!
     @IBOutlet weak var segmentControlActivityPrivacy: UISegmentedControl!
     override func viewDidLoad() {
         super.viewDidLoad()
+        configure()
+        setGlassEffect(for: buttonSave, withImage: "checkmark")
+        setGlassEffect(for: buttonCancel, withImage: "multiply")
+        scrollViewMainScreen.contentSize.height = 900
 
         // Do any additional setup after loading the view.
     }
+    
+    @IBAction func buttonSaveTapped(_ sender: Any) {
+    }
+    
+    
+    @IBAction func buttonCancelTapped(_ sender: Any) {
+        self.dismiss(animated: true)
+    }
+    
     
     func configure() {
         viewSocial.layer.cornerRadius = 15

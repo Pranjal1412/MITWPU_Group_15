@@ -243,7 +243,7 @@ extension SetProfileViewController : PHPickerViewControllerDelegate, UIImagePick
                         if let image = image as? UIImage {
                             Task {
                                 do {
-                                    self.profileURl = try await self.supabase.createProfileImageURL(image, self.userProfile.userID!)
+//                                    self.profileURl = try await self.supabase.createProfileImageURL(image, self.userProfile.userID!)
                                     print("Uploaded URl: ", self.profileURl)
                                 }
                                 catch {
@@ -264,7 +264,7 @@ extension SetProfileViewController : PHPickerViewControllerDelegate, UIImagePick
         if let image = info[.originalImage] as? UIImage {
             Task {
                 do {
-                    self.profileURl = try await self.supabase.createProfileImageURL(image, self.userProfile.userID!)
+//                    self.profileURl = try await self.supabase.createProfileImageURL(image, self.userProfile.userID!)
                     print("Uploaded URl: ", self.profileURl)
                 }
                 catch {

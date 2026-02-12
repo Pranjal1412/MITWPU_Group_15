@@ -26,7 +26,7 @@ class SupabaseManager {
 
         let filePath = "profiles/\(userID).jpg"
         
-        return await uploadFetchProfileImageURL(with: filePath, imageData: imageData)
+        return await insertProfileImageURL(with: filePath, imageData: imageData)
     }
 
 }
