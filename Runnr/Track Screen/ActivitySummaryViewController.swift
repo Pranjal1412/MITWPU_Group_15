@@ -118,37 +118,61 @@ class ActivitySummaryViewController: UIViewController {
     }
     
     @IBAction func didTapOnMoreOptions(_ sender: UIButton) {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+//                 let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+//        
+//                 let shareAction = UIAlertAction(title: String(localized: "Share Activity"), style: .default){
+//                     _ in
+//         //            self.dataSource.shareActivity(atIndex: sender.tag, presentingViewController: self)
+//                 }
+//                 let deleteAction = UIAlertAction(title: String(localized: "Delete Activity"), style: .destructive) { _ in
+//                     self.deleteActivityAlert()
+//                 }
+//                 let cancelAction = UIAlertAction(title: String(localized: "Canel"), style: .cancel, handler: nil)
+//        
+//                 alert.addAction(shareAction)
+//                 alert.addAction(cancelAction)
+//                 alert.addAction(deleteAction)
+//                 present(alert, animated: true, completion: nil)
+//        
+//             }
+        let activities = DataSource.shared.getAllActivities()
+            let selectedActivity = activities[sender.tag]
 
-        let shareAction = UIAlertAction(title: String(localized: "Share Activity"), style: .default){
-            _ in
-//            self.dataSource.shareActivity(atIndex: sender.tag, presentingViewController: self)
+            guard let activityID = selectedActivity.activityID else { return }
+
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+            let shareAction = UIAlertAction(title: "Share Activity", style: .default)
+
+            let deleteAction = UIAlertAction(title: "Delete Activity", style: .destructive) { _ in
+                self.deleteActivityAlert(activityID: activityID)
+            }
+
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+
+            alert.addAction(shareAction)
+            alert.addAction(deleteAction)
+            alert.addAction(cancelAction)
+
+            present(alert, animated: true)
         }
-        let deleteAction = UIAlertAction(title: String(localized: "Delete Activity"), style: .destructive) { _ in
-            self.deleteActivityAlert()
-        }
-        let cancelAction = UIAlertAction(title: String(localized: "Canel"), style: .cancel, handler: nil)
+     
+    func deleteActivityAlert(activityID : UUID) {
+         let alert = UIAlertController(title: "Delete Activity", message: "Are you sure you want to delete this activity?", preferredStyle: .alert)
+         
+         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+             Task {
+                 await deleteActivity(activityID: activityID)
+             }
+         }
+         
+         alert.addAction(cancelAction)
+         alert.addAction(deleteAction)
+         
+         present(alert, animated: true, completion: nil)
 
-        alert.addAction(shareAction)
-        alert.addAction(cancelAction)
-        alert.addAction(deleteAction)
-        present(alert, animated: true, completion: nil)
-
-    }
-    
-    func deleteActivityAlert() {
-        let alert = UIAlertController(title: "Delete Activity", message: "Are you sure you want to delete this activity?", preferredStyle: .alert)
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-        }
-        
-        alert.addAction(cancelAction)
-        alert.addAction(deleteAction)
-        
-        present(alert, animated: true, completion: nil)
-
-    }
+     }
   
 //    func convertCoordinatesToPath(from coordinates: [CLLocationCoordinate2D]) -> GMSMutablePath {
 //        let path = GMSMutablePath()

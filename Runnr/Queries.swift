@@ -348,3 +348,19 @@ func insertNewClubMember(newMember: ClubMemberRole) async {
         print("Error creating club: \(error)")
     }
 }
+
+func deleteActivity(activityID: UUID) async {
+    do {
+        try await SupabaseManager.shared.client
+            .from("UserActivity")
+            .delete()
+            .eq("activityID", value: activityID)
+            .execute()
+        print("Deleted successfully")
+
+    } catch {
+        print("Delete failed: \(error)")
+    }
+}
+
+

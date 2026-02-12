@@ -164,6 +164,10 @@ class DataSource {
         let activityVC = UIActivityViewController(activityItems: itemsToShare, applicationActivities: nil)
         presentingViewController.present(activityVC, animated: true)
     }
+    func deleteActivityFromLocalArray(activityID: UUID) {
+        myActivities.removeAll { $0.activityID == activityID }
+    }
+
 }
 
 //    func getMyActivityData() -> [UserActivity] {
