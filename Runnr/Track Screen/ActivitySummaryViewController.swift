@@ -118,44 +118,23 @@ class ActivitySummaryViewController: UIViewController {
     }
     
     @IBAction func didTapOnMoreOptions(_ sender: UIButton) {
-//                 let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-//        
-//                 let shareAction = UIAlertAction(title: String(localized: "Share Activity"), style: .default){
-//                     _ in
-//         //            self.dataSource.shareActivity(atIndex: sender.tag, presentingViewController: self)
-//                 }
-//                 let deleteAction = UIAlertAction(title: String(localized: "Delete Activity"), style: .destructive) { _ in
-//                     self.deleteActivityAlert()
-//                 }
-//                 let cancelAction = UIAlertAction(title: String(localized: "Canel"), style: .cancel, handler: nil)
-//        
-//                 alert.addAction(shareAction)
-//                 alert.addAction(cancelAction)
-//                 alert.addAction(deleteAction)
-//                 present(alert, animated: true, completion: nil)
-//        
-//             }
-        let activities = DataSource.shared.getAllActivities()
-            let selectedActivity = activities[sender.tag]
-
-            guard let activityID = selectedActivity.activityID else { return }
-
-            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-
-            let shareAction = UIAlertAction(title: "Share Activity", style: .default)
-
-            let deleteAction = UIAlertAction(title: "Delete Activity", style: .destructive) { _ in
-                self.deleteActivityAlert(activityID: activityID)
+        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let shareAction = UIAlertAction(title: "Share Activity", style: .default)
+        let deleteAction = UIAlertAction(title: "Delete Activity", style: .destructive) { _ in
+            if self.activityData != nil {
+                self.deleteActivityAlert(activityID: (self.activityData!.activityID)!)
             }
-
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-
-            alert.addAction(shareAction)
-            alert.addAction(deleteAction)
-            alert.addAction(cancelAction)
-
-            present(alert, animated: true)
         }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+
+        alert.addAction(shareAction)
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+
+        present(alert, animated: true)
+    }
      
     func deleteActivityAlert(activityID : UUID) {
          let alert = UIAlertController(title: "Delete Activity", message: "Are you sure you want to delete this activity?", preferredStyle: .alert)
@@ -164,6 +143,7 @@ class ActivitySummaryViewController: UIViewController {
          let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
              Task {
                  await deleteActivity(activityID: activityID)
+                 self.dismiss(animated: true)
              }
          }
          
