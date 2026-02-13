@@ -233,8 +233,9 @@ func fetchActivityPaceGraphData(_ activityID: UUID) async -> [ActivityPaceGraphD
 // MARK: - Image Uploading
 
 func saveProfileImage(userID: UUID, with image: UIImage) async -> String? {
+    let resizedImage = resizeImageIfNeeded(image, maxDimension: 500)
     
-    if let imageData = image.jpegData(compressionQuality: 0.8) {
+    if let imageData = resizedImage.jpegData(compressionQuality: 0.8) {
         let filePath = "profiles/\(userID).jpg"
         
         if let url = await saveAndFetchImageURL(with: filePath, imageData: imageData) {

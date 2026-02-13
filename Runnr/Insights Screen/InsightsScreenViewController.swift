@@ -43,6 +43,7 @@ class InsightsScreenViewController: UIViewController {
         setupCalendar()
         
         buttonUserProfile.layer.cornerRadius = buttonUserProfile.frame.height / 2
+        self.buttonUserProfile.setImage(dataSource.getProfileImage(), for: .normal)
         buttonUserProfile.clipsToBounds = true
     }
 

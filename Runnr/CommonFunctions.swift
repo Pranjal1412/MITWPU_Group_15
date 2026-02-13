@@ -217,3 +217,24 @@ func setSportImage(for activity: String) -> String {
         return activity
     }
 }
+
+func resizeImageIfNeeded(_ image: UIImage, maxDimension: CGFloat) -> UIImage {
+    
+    let size = image.size
+    
+    if max(size.width, size.height) <= maxDimension {
+        return image
+    }
+    
+    let scale = maxDimension / max(size.width, size.height)
+    
+    let newSize = CGSize(
+        width: size.width * scale,
+        height: size.height * scale
+    )
+    
+    let renderer = UIGraphicsImageRenderer(size: newSize)
+    return renderer.image { _ in
+        image.draw(in: CGRect(origin: .zero, size: newSize))
+    }
+}

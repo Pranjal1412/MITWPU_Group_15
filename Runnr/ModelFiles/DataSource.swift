@@ -3,6 +3,7 @@ import UIKit
 class DataSource {
     
     private var userProfile = UserProfile()
+    private var userProfileImage : UIImage?
     private var userStats : UserStats?
     
     private var currentActivity: UserActivity?
@@ -79,6 +80,14 @@ class DataSource {
     
     func setUserProfile(_ userProfile: UserProfile) {
         self.userProfile = userProfile
+    }
+    
+    func setProfileImage(_ image: UIImage) {
+        self.userProfileImage = image
+    }
+    
+    func getProfileImage() -> UIImage? {
+        return userProfileImage
     }
     
     func getUserStats() -> UserStats? {

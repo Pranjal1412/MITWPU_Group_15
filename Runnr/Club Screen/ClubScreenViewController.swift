@@ -49,6 +49,7 @@ class ClubScreenViewController: UIViewController {
         tableViewFriends.register(UINib(nibName: "FriendListTableViewCell", bundle: nil), forCellReuseIdentifier: "CustomCell")
         
         self.buttonUserProfile.layer.cornerRadius = self.buttonUserProfile.frame.height / 2
+        self.buttonUserProfile.setImage(dataSource.getProfileImage(), for: .normal)
         self.buttonUserProfile.clipsToBounds = true
     }
     

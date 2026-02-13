@@ -45,6 +45,7 @@ class ActivityStartViewController: UIViewController {
         Task {
                 if let image = await convertURLToImage(urlString: self.profileImageURL!) {
                     print("Image downloaded")
+                    dataSource.setProfileImage(image)
                     self.buttonUserProfile.setImage(image, for: .normal)
                 } else {
                     print("Image conversion failed")

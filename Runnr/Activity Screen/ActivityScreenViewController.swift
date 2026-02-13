@@ -43,6 +43,7 @@ class ActivityScreenViewController: UIViewController {
         view.addSubview(label)
         
         self.buttonUserProfile.layer.cornerRadius = self.buttonUserProfile.frame.height / 2
+        self.buttonUserProfile.setImage(dataSource.getProfileImage(), for: .normal)
         self.buttonUserProfile.clipsToBounds = true
     }
     

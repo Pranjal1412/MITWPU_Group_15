@@ -24,6 +24,7 @@ class GameScreenViewController: UIViewController {
         labelScreenTitle.sizeToFit()
         
         self.buttonUserProfile.layer.cornerRadius = self.buttonUserProfile.frame.height / 2
+        self.buttonUserProfile.setImage(dataSource.getProfileImage(), for: .normal)
         self.buttonUserProfile.clipsToBounds = true
         
         collectionViewChallenges.delegate = self

@@ -112,6 +112,8 @@ class UserProfileViewController: UIViewController {
         self.labelTotalActivities.text = String(localized: "Total Activities")
         
         imageProfile.layer.cornerRadius = imageProfile.frame.size.width / 2
+        self.imageProfile.image = DataSource.shared.getProfileImage()
+
         buttonEditProfile.layer.cornerRadius = 10.0
         
 //        setGlassEffect(for: self.buttonBack, withImage: "multiply")
