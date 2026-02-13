@@ -67,6 +67,19 @@ func fetchUserStats(userId: UUID) async -> UserStats? {
     }
 }
 
+func updateUserProfile(userID: UUID, newProfile: UserProfile) async {
+    do {
+        try await SupabaseManager.shared.client
+            .from("UserProfile")
+            .update(newProfile)
+            .eq("userID", value: userID)
+            .execute()
+    }
+    catch {
+        print("Updation failed: \(error)")
+    }
+}
+
 func updateUserStats(userID: UUID, newStats: UserStats) async {
     do {
         try await SupabaseManager.shared.client
@@ -236,7 +249,7 @@ func saveProfileImage(userID: UUID, with image: UIImage) async -> String? {
     
     let resizedImage = resizeImageIfNeeded(image, maxDimension: 500)
     if let imageData = resizedImage.jpegData(compressionQuality: 0.8) {
-        let filePath = "profiles/\(userID).jpg"
+        let filePath = "profiles/\(userID)_\(Int(Date().timeIntervalSince1970)).jpg"
         
         if let url = await saveAndFetchImageURL(with: filePath, imageData: imageData) {
             return url

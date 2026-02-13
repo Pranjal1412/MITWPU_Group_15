@@ -29,6 +29,7 @@ class EditProfileViewController: UIViewController {
     @IBOutlet weak var textViewBio: UITextView!
     
     private var userProfile = DataSource.shared.getUserProfile()
+    private var newProfileData = UserProfile()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,7 +67,24 @@ class EditProfileViewController: UIViewController {
         
     }
     
-    @IBAction func buttonSave(_ sender: Any) {
+    @IBAction func buttonSave(_ sender: UIButton) {
+        
+        Task {
+            if let newURL = await saveProfileImage(userID: self.userProfile.userID!, with: self.imageViewProfilePhoto.image!) {
+                self.newProfileData.userProfileImageURL = newURL
+            }
+            else {
+                self.newProfileData.userProfileImageURL = self.userProfile.userProfileImageURL!
+            }
+            
+            self.newProfileData.height = Double(textFieldHeight.text ?? String(self.userProfile.height!))
+            self.newProfileData.weight = Double(textFieldWeight.text ?? String(self.userProfile.weight!))
+            self.newProfileData.userBio = textViewBio.text ?? self.userProfile.userBio!
+            self.newProfileData.userName = textFieldUsername.text ?? self.userProfile.userName!
+            
+            await updateUserProfile(userID: self.userProfile.userID!, newProfile: self.newProfileData)
+
+        }
     }
     
     @IBAction func buttonCancel(_ sender: Any) {
@@ -160,9 +178,7 @@ extension EditProfileViewController: PHPickerViewControllerDelegate, UIImagePick
                 provider.loadObject(ofClass: UIImage.self) { image, _ in
                     DispatchQueue.main.async {
                         if let image = image as? UIImage {
-                            Task {
-                                self.imageViewProfilePhoto.image = image
-                            }
+                            self.imageViewProfilePhoto.image = image
                         }
                     }
                 }
@@ -177,11 +193,7 @@ extension EditProfileViewController: PHPickerViewControllerDelegate, UIImagePick
         if let image = info[.originalImage] as? UIImage {
             Task {
                 if let url = await saveProfileImage(userID: self.userProfile.userID!, with: image) {
-//                    self.profileURl = url
-//                    
-//                    self.buttonProfileImage.setImage(image, for: .normal)
                 }
-//                print("Uploaded URl: ", self.profileURl)
             }
         }
     }
