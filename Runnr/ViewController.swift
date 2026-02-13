@@ -42,14 +42,14 @@ class ViewController: UIViewController {
                 let session = try await SupabaseManager.shared.client.auth.session
                 
                 let user = session.user
-                let userProfile = await fetchUserProfile(userId: user.id) ?? UserProfile()
-                let userStats = await fetchUserStats(userId: user.id) ?? UserStats(userID: user.id, totalPointsEarned: 1, totalDistanceCovered: 1, totalActivities: 1, longestStreak: 1)
-                DataSource.shared.setUserProfile(userProfile)
-                DataSource.shared.setUserStats(userStats)
-                
-                self.setUpTabBar()
+                if let userProfile = await fetchUserProfile(userId: user.id) {
+                    let userStats = await fetchUserStats(userId: user.id) ?? UserStats(userID: user.id, totalPointsEarned: 1, totalDistanceCovered: 1, totalActivities: 1, longestStreak: 1)
+                    DataSource.shared.setUserProfile(userProfile)
+                    DataSource.shared.setUserStats(userStats)
+                    self.setUpTabBar()
 
-                
+                }
+                                            
             } catch {
                 print("User has not logged in")
             }

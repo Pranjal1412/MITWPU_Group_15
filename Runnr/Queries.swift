@@ -7,6 +7,7 @@
 
 import Foundation
 import Supabase
+import UIKit
 
 // MARK: - User Profile Queries
 func insertUserProfile(_ profile: UserProfile) async {
@@ -229,21 +230,39 @@ func fetchActivityPaceGraphData(_ activityID: UUID) async -> [ActivityPaceGraphD
     }
 }
 
-// MARK: - Other
-func insertProfileImageURL(with filepath: String, imageData: Data) async -> String? {
+// MARK: - Image Uploading
+
+func saveProfileImage(userID: UUID, with image: UIImage) async -> String? {
+    
+    if let imageData = image.jpegData(compressionQuality: 0.8) {
+        let filePath = "profiles/\(userID).jpg"
+        
+        if let url = await saveAndFetchImageURL(with: filePath, imageData: imageData) {
+            return url
+            
+        } else {
+            print("Upload failed")
+            return nil
+        }
+    }
+    else {
+        print("Image compression failed")
+        return nil
+    }
+}
+
+// Add the image to supabase Storage
+func saveAndFetchImageURL(with filepath: String, imageData: Data) async -> String? {
     do {
         try await SupabaseManager.shared.client.storage
             .from("publicMedia")
-            .upload(
-                filepath,
-                data: imageData,
-                options: FileOptions(
-                    contentType: "image/jpeg",
-                    upsert: true   // replaces old image
-                )
-            )
+            .upload(filepath, data: imageData, options: FileOptions(contentType: "image/jpeg", upsert: true))
         
-        return try getImageURL(withPath: filepath)
+        let publicURL = try SupabaseManager.shared.client.storage
+            .from("publicMedia")
+            .getPublicURL(path: filepath)
+        
+        return publicURL.absoluteString
 
     }
     catch {
@@ -252,13 +271,20 @@ func insertProfileImageURL(with filepath: String, imageData: Data) async -> Stri
     }
 }
 
-func getImageURL(withPath path: String) throws -> String {
-    let publicURL = try SupabaseManager.shared.client.storage
-        .from("publicMedia")
-        .getPublicURL(path: path)
+func convertURLToImage(urlString: String) async -> UIImage?{
+    guard let url = URL(string: urlString) else {
+        print("Invalid URL")
+        return nil
+    }
     
-    return publicURL.absoluteString
-
+    do {
+        let (data, _) = try await URLSession.shared.data(from: url)
+        return UIImage(data: data)
+        
+    } catch {
+        print("Failed to download image:", error)
+        return nil
+    }
 }
 
 // MARK: - Club Data

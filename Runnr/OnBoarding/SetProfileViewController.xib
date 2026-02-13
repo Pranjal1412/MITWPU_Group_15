@@ -26,6 +26,7 @@
                 <outlet property="buttonMale" destination="hkq-EE-LyS" id="lVt-9r-3wT"/>
                 <outlet property="buttonNext" destination="xPW-g9-Q1t" id="qit-a9-ewX"/>
                 <outlet property="buttonOther" destination="L8p-VF-Eaq" id="iH3-D1-wlM"/>
+                <outlet property="buttonProfileImage" destination="OUx-lk-Uce" id="jpm-fw-KLX"/>
                 <outlet property="buttonUserProfile" destination="OUx-lk-Uce" id="L8K-u6-w66"/>
                 <outlet property="labelFullName" destination="yF2-UG-7N6" id="dXe-Nm-eIY"/>
                 <outlet property="labelHeading" destination="u2y-Al-6i2" id="vf4-J1-Mne"/>

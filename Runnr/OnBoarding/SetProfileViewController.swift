@@ -28,6 +28,7 @@ class SetProfileViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var buttonOther: UIButton!
     @IBOutlet weak var textViewBio: UITextView!
     @IBOutlet weak var textFieldUsername: UITextField!
+    @IBOutlet weak var buttonProfileImage: UIButton!
     
     private var selectedButton: UIButton?
     var userProfile = DataSource.shared.getUserProfile()
@@ -94,10 +95,23 @@ class SetProfileViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func selectProfileImage(_ sender: UIButton) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let cameraButton = UIAlertAction(title: String(localized: "Camera"), style: .default, handler: {_ in
+            self.openCamera()
+        })
+        let photoLibraryButton = UIAlertAction(title: String(localized: "Gallery"), style: .default, handler: {_ in
+            self.openPhotoLibrary()
+        })
+        let cancelButton = UIAlertAction(title: String("Cancel"), style: .cancel)
+
+        alert.addAction(cameraButton)
+        alert.addAction(photoLibraryButton)
+        alert.addAction(cancelButton)
+        
+        self.present(alert, animated: true)
         
     }
-    
-    
     
     @IBAction func buttonNextClicked(_ sender: UIButton) {
         if self.buttonNext.titleLabel?.text == "Next" {
@@ -206,8 +220,10 @@ class SetProfileViewController: UIViewController, UITextViewDelegate {
     }
 }
 
+// MARK: - User Profile Image Picker Code
 
 extension SetProfileViewController : PHPickerViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
     func openPhotoLibrary() {
         var config = PHPickerConfiguration()
         config.filter = .images
@@ -242,13 +258,13 @@ extension SetProfileViewController : PHPickerViewControllerDelegate, UIImagePick
                     DispatchQueue.main.async {
                         if let image = image as? UIImage {
                             Task {
-                                do {
-//                                    self.profileURl = try await self.supabase.createProfileImageURL(image, self.userProfile.userID!)
-                                    print("Uploaded URl: ", self.profileURl)
+                                if let url = await saveProfileImage(userID: self.userProfile.userID!, with: image) {
+                                    self.profileURl = url
+                                    
+                                    self.buttonProfileImage.setImage(image, for: .normal)
+                                    self.buttonProfileImage.clipsToBounds = true
                                 }
-                                catch {
-                                    print("Upload Failed")
-                                }
+                                print("Uploaded URl: ", self.profileURl)
                             }
                         }
                     }
@@ -263,13 +279,12 @@ extension SetProfileViewController : PHPickerViewControllerDelegate, UIImagePick
 
         if let image = info[.originalImage] as? UIImage {
             Task {
-                do {
-//                    self.profileURl = try await self.supabase.createProfileImageURL(image, self.userProfile.userID!)
-                    print("Uploaded URl: ", self.profileURl)
+                if let url = await saveProfileImage(userID: self.userProfile.userID!, with: image) {
+                    self.profileURl = url
+                    
+                    self.buttonProfileImage.setImage(image, for: .normal)
                 }
-                catch {
-                    print("Upload Failed")
-                }
+                print("Uploaded URl: ", self.profileURl)
             }
         }
     }
