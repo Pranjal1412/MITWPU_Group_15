@@ -105,7 +105,7 @@ class ActivitySaveViewController: UIViewController {
         Task {
             await updateUserActivity(userID: activityData.userID!, activityID: activityData.activityID!, newActivity: activityData)
             
-            self.userStats?.totalPointsEarned += (self.activityData.basePoints ?? 0) + (self.activityData.skillPoints ?? 0) + 100
+            self.userStats?.totalPointsEarned += (self.activityData.basePoints ?? 0) + (self.activityData.skillPoints ?? 0)
             self.userStats?.totalDistanceCovered += self.activityData.distanceCovered ?? 0 + 10
 
             self.dataSource.setCurrentActivity(activityData)
@@ -122,9 +122,6 @@ class ActivitySaveViewController: UIViewController {
         }
         //MARK: - Still yet to be implmented
 //        self.activityData.activityPhotos = self.selectedImages
-        
-        
-        
         
     }
     
