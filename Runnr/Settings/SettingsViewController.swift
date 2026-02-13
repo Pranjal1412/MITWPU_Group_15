@@ -95,18 +95,12 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             let logoutAction = UIAlertAction(title: "Logout", style: .destructive) { (action) in
                 
                 Task {
-                    do {
-//                        try await self.supabase.auth.signOut()
-                        print("Session deleted successfully")
-                        
-                        if let presenter = self.presentingViewController {
-                            self.dismiss(animated: true) {
-                                presenter.dismiss(animated: false, completion: nil)
-                            }
+                    print("Session deleted successfully")
+                    
+                    if let presenter = self.presentingViewController {
+                        self.dismiss(animated: true) {
+                            presenter.dismiss(animated: false, completion: nil)
                         }
-                        
-                    } catch {
-                        print("Error signing out:", error)
                     }
                 }
                 
