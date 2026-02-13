@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import PhotosUI
+import Kingfisher
 
 class EditProfileViewController: UIViewController {
 
@@ -21,7 +23,6 @@ class EditProfileViewController: UIViewController {
     @IBOutlet weak var viewWeight: UIView!
     @IBOutlet weak var viewSport: UIView!
     @IBOutlet weak var viewBiography: UIView!
-    
     @IBOutlet weak var textFieldUsername: UITextField!
     @IBOutlet weak var textFieldHeight: UITextField!
     @IBOutlet weak var textFieldWeight: UITextField!
@@ -34,6 +35,11 @@ class EditProfileViewController: UIViewController {
         setup()
         hideKeyboardWhenTappedAround()
         registerNotifications()
+        
+        if let url = URL(string: self.userProfile.userProfileImageURL!) {
+            self.imageViewProfilePhoto.kf.setImage(with: url)
+        }
+
     }
     
     func setup() {
@@ -66,9 +72,28 @@ class EditProfileViewController: UIViewController {
     @IBAction func buttonCancel(_ sender: Any) {
         self.dismiss(animated: true)
     }
+    
+    @IBAction func editProfileImageTapped(_ sender: UIButton) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let cameraButton = UIAlertAction(title: String(localized: "Camera"), style: .default, handler: {_ in
+            self.openCamera()
+        })
+        let photoLibraryButton = UIAlertAction(title: String(localized: "Gallery"), style: .default, handler: {_ in
+            self.openPhotoLibrary()
+        })
+        let cancelButton = UIAlertAction(title: String("Cancel"), style: .cancel)
 
+        alert.addAction(cameraButton)
+        alert.addAction(photoLibraryButton)
+        alert.addAction(cancelButton)
+        
+        self.present(alert, animated: true)
+    }
+    
 }
 
+// MARK: - Keyboard Settings
 extension EditProfileViewController {
     func hideKeyboardWhenTappedAround() {
         let tapGesture = UITapGestureRecognizer(target: self,
@@ -97,4 +122,67 @@ extension EditProfileViewController {
         editProfileScrollview.contentInset.bottom = 0
     }
 
+}
+
+// MARK: - User Profile Image Picker Code
+extension EditProfileViewController: PHPickerViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func openPhotoLibrary() {
+        var config = PHPickerConfiguration()
+        config.filter = .images
+        config.selectionLimit = 1
+
+        let picker = PHPickerViewController(configuration: config)
+        picker.delegate = self
+        present(picker, animated: true)
+    }
+
+    func openCamera() {
+        guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
+            print("Camera not available")
+            return
+        }
+
+        let picker = UIImagePickerController()
+        picker.sourceType = .camera
+        picker.delegate = self
+        present(picker, animated: true)
+    }
+
+    
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+
+        for result in results {
+            let provider = result.itemProvider
+            
+            if provider.canLoadObject(ofClass: UIImage.self) {
+                provider.loadObject(ofClass: UIImage.self) { image, _ in
+                    DispatchQueue.main.async {
+                        if let image = image as? UIImage {
+                            Task {
+                                self.imageViewProfilePhoto.image = image
+                            }
+                        }
+                    }
+                }
+            }
+        }
+                
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true)
+
+        if let image = info[.originalImage] as? UIImage {
+            Task {
+                if let url = await saveProfileImage(userID: self.userProfile.userID!, with: image) {
+//                    self.profileURl = url
+//                    
+//                    self.buttonProfileImage.setImage(image, for: .normal)
+                }
+//                print("Uploaded URl: ", self.profileURl)
+            }
+        }
+    }
 }

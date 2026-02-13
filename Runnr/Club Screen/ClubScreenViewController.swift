@@ -6,6 +6,7 @@
 //
 import Foundation
 import UIKit
+import Kingfisher
 
 class ClubScreenViewController: UIViewController {
 
@@ -20,6 +21,7 @@ class ClubScreenViewController: UIViewController {
     @IBOutlet var buttonAddMoreClubs: UIButton!
     @IBOutlet weak var labelTotalPoints: UILabel!
     @IBOutlet weak var buttonUserProfile: UIButton!
+    @IBOutlet weak var profileImage: UIImageView!
     
     let systemOS = UIDevice.current.systemVersion
     
@@ -35,7 +37,8 @@ class ClubScreenViewController: UIViewController {
     var myClubArray: [ClubRoleAndData] {
         DataSource.shared.getMyClubs()
     }
-    
+    private var profileImageURL = DataSource.shared.getUserProfile().userProfileImageURL
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,7 +52,13 @@ class ClubScreenViewController: UIViewController {
         tableViewFriends.register(UINib(nibName: "FriendListTableViewCell", bundle: nil), forCellReuseIdentifier: "CustomCell")
         
         self.buttonUserProfile.layer.cornerRadius = self.buttonUserProfile.frame.height / 2
-        self.buttonUserProfile.setImage(dataSource.getProfileImage(), for: .normal)
+        
+        if let url = URL(string: self.profileImageURL!) {
+            self.profileImage.kf.setImage(with: url)
+        }
+        self.profileImage.layer.cornerRadius = self.profileImage.frame.height / 2
+        self.profileImage.clipsToBounds = true
+
         self.buttonUserProfile.clipsToBounds = true
     }
     

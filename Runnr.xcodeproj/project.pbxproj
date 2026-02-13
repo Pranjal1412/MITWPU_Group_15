@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		199C34232F3F1EF400AF49B3 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 199C34222F3F1EF400AF49B3 /* Kingfisher */; };
 		19DB1F762F2DE362009EDAFD /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = 19DB1F752F2DE362009EDAFD /* Auth */; };
 		19DB1F782F2DE362009EDAFD /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = 19DB1F772F2DE362009EDAFD /* Functions */; };
 		19DB1F7A2F2DE362009EDAFD /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = 19DB1F792F2DE362009EDAFD /* PostgREST */; };
@@ -68,6 +69,7 @@
 				3EFF282D2F1A5D4300D7F427 /* JTAppleCalendar in Frameworks */,
 				F903F4572EB653FC0066B9A1 /* GoogleMaps in Frameworks */,
 				19DB1F7E2F2DE362009EDAFD /* Storage in Frameworks */,
+				199C34232F3F1EF400AF49B3 /* Kingfisher in Frameworks */,
 				19DB1F782F2DE362009EDAFD /* Functions in Frameworks */,
 				19DB1F802F2DE362009EDAFD /* Supabase in Frameworks */,
 				19DB1F7C2F2DE362009EDAFD /* Realtime in Frameworks */,
@@ -140,6 +142,7 @@
 				19DB1F7B2F2DE362009EDAFD /* Realtime */,
 				19DB1F7D2F2DE362009EDAFD /* Storage */,
 				19DB1F7F2F2DE362009EDAFD /* Supabase */,
+				199C34222F3F1EF400AF49B3 /* Kingfisher */,
 			);
 			productName = Runnr;
 			productReference = 19FDEE992EEBCC2E00AF027C /* Runnr.app */;
@@ -174,6 +177,7 @@
 				F903F4552EB653FC0066B9A1 /* XCRemoteSwiftPackageReference "ios-maps-sdk" */,
 				3EFF282B2F1A5D4300D7F427 /* XCRemoteSwiftPackageReference "JTAppleCalendar" */,
 				19DB1F742F2DE362009EDAFD /* XCRemoteSwiftPackageReference "supabase-swift" */,
+				199C34212F3F1EF400AF49B3 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 19217CBC2EA0E064009AFC93;
@@ -454,6 +458,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		199C34212F3F1EF400AF49B3 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.6.2;
+			};
+		};
 		19DB1F742F2DE362009EDAFD /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/supabase/supabase-swift.git";
@@ -481,6 +493,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		199C34222F3F1EF400AF49B3 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 199C34212F3F1EF400AF49B3 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
 		19DB1F752F2DE362009EDAFD /* Auth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 19DB1F742F2DE362009EDAFD /* XCRemoteSwiftPackageReference "supabase-swift" */;

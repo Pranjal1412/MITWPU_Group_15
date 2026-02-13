@@ -1,4 +1,5 @@
 import UIKit
+import Kingfisher
 
 class ActivityScreenViewController: UIViewController {
     
@@ -10,8 +11,10 @@ class ActivityScreenViewController: UIViewController {
     @IBOutlet weak var stackRecentActivities: UIStackView!
     @IBOutlet weak var labelTotalPoints: UILabel!
     @IBOutlet weak var buttonUserProfile: UIButton!
+    @IBOutlet weak var profileImage: UIImageView!
     
     let label = UILabel()
+    private var profileImageURL = DataSource.shared.getUserProfile().userProfileImageURL
 
     var totalPoints: Int {
         dataSource.getUserStats()?.totalPointsEarned ?? 0
@@ -43,7 +46,12 @@ class ActivityScreenViewController: UIViewController {
         view.addSubview(label)
         
         self.buttonUserProfile.layer.cornerRadius = self.buttonUserProfile.frame.height / 2
-        self.buttonUserProfile.setImage(dataSource.getProfileImage(), for: .normal)
+        if let url = URL(string: self.profileImageURL!) {
+            self.profileImage.kf.setImage(with: url)
+        }
+        self.profileImage.layer.cornerRadius = self.profileImage.frame.height / 2
+        self.profileImage.clipsToBounds = true
+
         self.buttonUserProfile.clipsToBounds = true
     }
     

@@ -1,4 +1,5 @@
 import UIKit
+import Kingfisher
 
 class GameScreenViewController: UIViewController {
 
@@ -7,7 +8,7 @@ class GameScreenViewController: UIViewController {
     @IBOutlet weak var labelTotalPoints: UILabel!
     @IBOutlet weak var buttonUserProfile: UIButton!
     @IBOutlet weak var collectionViewChallenges: UICollectionView!
-    @IBOutlet var buttonTemp: UIButton!
+    @IBOutlet weak var profileImage: UIImageView!
     
     private let sideInset: CGFloat = 9
     var dataSource = DataSource.shared
@@ -16,6 +17,7 @@ class GameScreenViewController: UIViewController {
     }
     
     private var expandedIndexPath: IndexPath?
+    private var profileImageURL = DataSource.shared.getUserProfile().userProfileImageURL
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,9 +26,14 @@ class GameScreenViewController: UIViewController {
         labelScreenTitle.sizeToFit()
         
         self.buttonUserProfile.layer.cornerRadius = self.buttonUserProfile.frame.height / 2
-        self.buttonUserProfile.setImage(dataSource.getProfileImage(), for: .normal)
+        if let url = URL(string: self.profileImageURL!) {
+            self.profileImage.kf.setImage(with: url)
+        }
         self.buttonUserProfile.clipsToBounds = true
         
+        self.profileImage.layer.cornerRadius = self.profileImage.frame.height / 2
+        self.profileImage.clipsToBounds = true
+
         collectionViewChallenges.delegate = self
         collectionViewChallenges.dataSource = self
 

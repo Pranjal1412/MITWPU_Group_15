@@ -250,6 +250,15 @@
                             </subviews>
                             <color key="backgroundColor" name="CardDarkBlack"/>
                         </view>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NKg-Ud-jMc">
+                            <rect key="frame" x="136" y="10" width="130" height="131"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain"/>
+                            <connections>
+                                <action selector="editProfileImageTapped:" destination="-1" eventType="touchUpInside" id="uLY-Jz-y60"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <viewLayoutGuide key="contentLayoutGuide" id="Hh3-FP-Nkw"/>
                     <viewLayoutGuide key="frameLayoutGuide" id="xD9-0s-iry"/>

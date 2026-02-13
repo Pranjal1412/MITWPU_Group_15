@@ -233,8 +233,8 @@ func fetchActivityPaceGraphData(_ activityID: UUID) async -> [ActivityPaceGraphD
 // MARK: - Image Uploading
 
 func saveProfileImage(userID: UUID, with image: UIImage) async -> String? {
-    let resizedImage = resizeImageIfNeeded(image, maxDimension: 500)
     
+    let resizedImage = resizeImageIfNeeded(image, maxDimension: 500)
     if let imageData = resizedImage.jpegData(compressionQuality: 0.8) {
         let filePath = "profiles/\(userID).jpg"
         
@@ -272,21 +272,6 @@ func saveAndFetchImageURL(with filepath: String, imageData: Data) async -> Strin
     }
 }
 
-func convertURLToImage(urlString: String) async -> UIImage?{
-    guard let url = URL(string: urlString) else {
-        print("Invalid URL")
-        return nil
-    }
-    
-    do {
-        let (data, _) = try await URLSession.shared.data(from: url)
-        return UIImage(data: data)
-        
-    } catch {
-        print("Failed to download image:", error)
-        return nil
-    }
-}
 
 // MARK: - Club Data
 

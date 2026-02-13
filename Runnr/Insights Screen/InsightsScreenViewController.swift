@@ -1,14 +1,18 @@
 import UIKit
 import JTAppleCalendar
+import Kingfisher
 
 class InsightsScreenViewController: UIViewController {
 
+    @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var labelStreak: UILabel!
     @IBOutlet weak var labelTotalPoints: UILabel!
     @IBOutlet weak var collectionViewInsightsCards: UICollectionView!
     @IBOutlet weak var scrollViewInsights: UIScrollView!
     @IBOutlet weak var buttonUserProfile: UIButton!
     @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!
+
+    private var profileImageURL = DataSource.shared.getUserProfile().userProfileImageURL
 
     private let calendarHeaderLabel: UILabel = {
         let label = UILabel()
@@ -43,7 +47,12 @@ class InsightsScreenViewController: UIViewController {
         setupCalendar()
         
         buttonUserProfile.layer.cornerRadius = buttonUserProfile.frame.height / 2
-        self.buttonUserProfile.setImage(dataSource.getProfileImage(), for: .normal)
+        if let url = URL(string: self.profileImageURL!) {
+            self.profileImage.kf.setImage(with: url)
+        }
+        
+        self.profileImage.layer.cornerRadius = self.profileImage.frame.height / 2
+        self.profileImage.clipsToBounds = true
         buttonUserProfile.clipsToBounds = true
     }
 

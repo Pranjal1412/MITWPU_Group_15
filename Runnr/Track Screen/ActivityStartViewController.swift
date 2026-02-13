@@ -7,14 +7,15 @@
 
 import UIKit
 import GoogleMaps
-
+import Kingfisher
 
 class ActivityStartViewController: UIViewController {
     
     @IBOutlet weak var labelScreenTitle: UILabel!
     @IBOutlet weak var labelTotalPoints: UILabel!
-    @IBOutlet weak var buttonUserProfile: UIButton!
     @IBOutlet weak var buttonStart: UIButton!
+    @IBOutlet weak var profileImage: UIImageView!
+    @IBOutlet weak var buttonUserProfile: UIButton!
     
     let userLocation = UserLocationManager()
     var isMapInitialized = false
@@ -40,16 +41,22 @@ class ActivityStartViewController: UIViewController {
         self.labelScreenTitle.textColor = .accent
         self.labelScreenTitle.sizeToFit()
         self.buttonUserProfile.layer.cornerRadius = self.buttonUserProfile.frame.height / 2
+        self.profileImage.layer.cornerRadius = self.profileImage.frame.height / 2
+        self.profileImage.clipsToBounds = true
         self.buttonUserProfile.clipsToBounds = true
         
-        Task {
-                if let image = await convertURLToImage(urlString: self.profileImageURL!) {
-                    print("Image downloaded")
-                    dataSource.setProfileImage(image)
-                    self.buttonUserProfile.setImage(image, for: .normal)
-                } else {
-                    print("Image conversion failed")
-                }
+//        Task {
+//                if let image = await convertURLToImage(urlString: self.profileImageURL!) {
+//                    print("Image downloaded")
+//                    dataSource.setProfileImage(image)
+//                    self.profileImage.image = image
+//                } else {
+//                    print("Image conversion failed")
+//                }
+//        }
+        
+        if let url = URL(string: self.profileImageURL!) {
+            self.profileImage.kf.setImage(with: url)
         }
         
     }

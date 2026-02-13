@@ -3,7 +3,6 @@
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
-        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -31,6 +30,7 @@
                 <outlet property="labelFullName" destination="yF2-UG-7N6" id="dXe-Nm-eIY"/>
                 <outlet property="labelHeading" destination="u2y-Al-6i2" id="vf4-J1-Mne"/>
                 <outlet property="labelSubHeading" destination="U6n-c8-nBq" id="Hkd-NC-a0U"/>
+                <outlet property="profileImage" destination="37W-cU-qXC" id="wnc-nb-rbI"/>
                 <outlet property="progressBar" destination="bbS-ew-Wem" id="vlG-Rf-OMb"/>
                 <outlet property="textFieldUsername" destination="XaX-aO-r8V" id="0m8-w7-Sgu"/>
                 <outlet property="textViewBio" destination="gC8-Ay-qZM" id="vpb-2f-Cuc"/>
@@ -116,15 +116,17 @@
                             </subviews>
                             <color key="backgroundColor" name="CardDarkBlack"/>
                         </view>
-                        <button opaque="NO" contentMode="scaleAspectFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OUx-lk-Uce">
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="camera.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="37W-cU-qXC">
                             <rect key="frame" x="111" y="41" width="130" height="130"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                             <color key="backgroundColor" name="CardLightBlack"/>
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </imageView>
+                        <button opaque="NO" contentMode="scaleAspectFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OUx-lk-Uce">
+                            <rect key="frame" x="111" y="40" width="130" height="132"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                            <state key="normal">
-                                <imageReference key="image" image="camera.fill" catalog="system" symbolScale="large"/>
-                            </state>
                             <connections>
                                 <action selector="selectProfileImage:" destination="-1" eventType="touchUpInside" id="gKH-qY-z3W"/>
                             </connections>
@@ -152,7 +154,7 @@
                     <color key="textColor" systemColor="systemGray2Color"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WYw-aD-AZ9">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WYw-aD-AZ9">
                     <rect key="frame" x="25" y="272" width="352" height="440"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                     <subviews>
@@ -289,6 +291,11 @@
                 <constraint firstItem="u2y-Al-6i2" firstAttribute="top" secondItem="bbS-ew-Wem" secondAttribute="bottom" constant="30" id="z5T-YV-Xw8"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="subviews">
+                    <exclude reference="WYw-aD-AZ9"/>
+                </mask>
+            </variation>
             <connections>
                 <action selector="viewTapped:" destination="-1" eventType="touchUpInside" id="thO-uN-hKS"/>
             </connections>

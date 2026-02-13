@@ -29,6 +29,7 @@ class SetProfileViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var textViewBio: UITextView!
     @IBOutlet weak var textFieldUsername: UITextField!
     @IBOutlet weak var buttonProfileImage: UIButton!
+    @IBOutlet weak var profileImage: UIImageView!
     
     private var selectedButton: UIButton?
     var userProfile = DataSource.shared.getUserProfile()
@@ -260,8 +261,7 @@ extension SetProfileViewController : PHPickerViewControllerDelegate, UIImagePick
                             Task {
                                 if let url = await saveProfileImage(userID: self.userProfile.userID!, with: image) {
                                     self.profileURl = url
-                                    
-                                    self.buttonProfileImage.setImage(image, for: .normal)
+                                    self.profileImage.image = image
                                     self.buttonProfileImage.clipsToBounds = true
                                 }
                                 print("Uploaded URl: ", self.profileURl)
