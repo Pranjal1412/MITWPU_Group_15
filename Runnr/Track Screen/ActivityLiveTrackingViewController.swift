@@ -170,6 +170,8 @@ class ActivityLiveTrackingViewController: UIViewController {
             self.activityManager.stopStepsTracking()
             self.activityManager.stopUpdatingDistance()
             
+            self.mapManager.mapView.isMyLocationEnabled = false
+            
             UIView.animate(withDuration: 0.5) {
                 self.buttonPause.frame.origin.x = (UIScreen.main.bounds.width - (self.buttonPause.frame.width * 2) - 70.0)/2.0
                 self.buttonPause.setImage(UIImage(systemName: "play.fill"), for: .normal)
@@ -212,7 +214,6 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         self.userLocation.locationManager.stopUpdatingLocation()
         self.checkIfGoalSetAndCompleted()
-        self.mapManager.mapView.isMyLocationEnabled = false
         
         if self.isActivityInserted == true {
             let alert = UIAlertController(title: String(localized: "End Run"),

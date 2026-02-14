@@ -6,8 +6,9 @@
 //
 
 import UIKit
-import GoogleMaps
 import PhotosUI
+import GoogleMaps
+import Kingfisher
 
 class ActivitySaveViewController: UIViewController {
 
@@ -54,6 +55,11 @@ class ActivitySaveViewController: UIViewController {
         self.collectionViewAddPhotos.dataSource = self
         self.textViewRemark.delegate = self
 
+        if let url = URL(string: activityData.mapImageURL!) {
+            self.imageViewMap.kf.setImage(with: url)
+        }
+
+        
         scrollViewSaveActivity.contentSize.height = stackAddPhotos.frame.origin.y + stackAddPhotos.frame.size.height + 30
 
         collectionViewAddPhotos.register(UINib(nibName: "AddPhotosCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AddPhotosCollectionViewCell")

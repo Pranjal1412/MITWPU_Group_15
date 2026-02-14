@@ -183,8 +183,8 @@ func fetchAllMyActivities(userID : UUID) async -> [UserActivity] {
 
 func saveMapImage(activityID: UUID, with image: UIImage) async -> String? {
     
-    let resizedImage = resizeImageIfNeeded(image, maxDimension: 500)
-    if let imageData = resizedImage.jpegData(compressionQuality: 0.8) {
+    let resizedImage = resizeImageIfNeeded(image, maxDimension: 700)
+    if let imageData = resizedImage.jpegData(compressionQuality: 0.9) {
         let filePath = "activityMapImages/\(activityID)_\(Int(Date().timeIntervalSince1970)).jpg"
         
         if let url = await saveAndFetchImageURL(with: filePath, imageData: imageData) {

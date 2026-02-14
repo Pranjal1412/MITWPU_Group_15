@@ -54,7 +54,7 @@ class InsightsScreenViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        var profileImageURL = DataSource.shared.getUserProfile().userProfileImageURL
+        let profileImageURL = DataSource.shared.getUserProfile().userProfileImageURL
 
         if let url = URL(string: profileImageURL!) {
             self.profileImage.kf.setImage(with: url)
