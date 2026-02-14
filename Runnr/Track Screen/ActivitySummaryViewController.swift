@@ -124,7 +124,7 @@ class ActivitySummaryViewController: UIViewController {
         let shareAction = UIAlertAction(title: "Share Activity", style: .default)
         let deleteAction = UIAlertAction(title: "Delete Activity", style: .destructive) { _ in
             if self.activityData != nil {
-                self.deleteActivityAlert(activityID: (self.activityData!.activityID)!)
+                self.deleteActivityAlert(userActivity: (self.activityData!))
             }
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
@@ -136,13 +136,13 @@ class ActivitySummaryViewController: UIViewController {
         present(alert, animated: true)
     }
      
-    func deleteActivityAlert(activityID : UUID) {
+    func deleteActivityAlert(userActivity : UserActivity) {
          let alert = UIAlertController(title: "Delete Activity", message: "Are you sure you want to delete this activity?", preferredStyle: .alert)
          
          let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
          let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
              Task {
-                 await deleteActivity(activityID: activityID)
+                 await deleteUserActivity(activityID: userActivity.activityID!, mapImageURL: userActivity.mapImageURL!)
                  self.dismiss(animated: true)
              }
          }

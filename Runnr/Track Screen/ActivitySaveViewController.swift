@@ -54,7 +54,6 @@ class ActivitySaveViewController: UIViewController {
         self.collectionViewAddPhotos.dataSource = self
         self.textViewRemark.delegate = self
 
-
         scrollViewSaveActivity.contentSize.height = stackAddPhotos.frame.origin.y + stackAddPhotos.frame.size.height + 30
 
         collectionViewAddPhotos.register(UINib(nibName: "AddPhotosCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AddPhotosCollectionViewCell")
@@ -74,7 +73,7 @@ class ActivitySaveViewController: UIViewController {
         
         let deleteAction = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive, handler: {_ in
             Task {
-                await deleteUserActivity(userID: self.activityData.userID!, activityID: self.activityData.activityID!)
+                await deleteUserActivity(activityID: self.activityData.activityID!, mapImageURL: self.activityData.mapImageURL!)
                 await MainActor.run {
                     self.navigationController?.dismiss(animated: true)
                 }
@@ -103,7 +102,7 @@ class ActivitySaveViewController: UIViewController {
         self.activityData.isPublic = self.switchIsActivityPublic.isOn
         
         Task {
-            await updateUserActivity(userID: activityData.userID!, activityID: activityData.activityID!, newActivity: activityData)
+            await updateUserActivity(newActivity: activityData)
             
             self.userStats?.totalPointsEarned += (self.activityData.basePoints ?? 0) + (self.activityData.skillPoints ?? 0)
             self.userStats?.totalDistanceCovered += self.activityData.distanceCovered ?? 0 + 10

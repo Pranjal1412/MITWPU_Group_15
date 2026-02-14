@@ -116,7 +116,7 @@
                             </subviews>
                             <color key="backgroundColor" name="CardDarkBlack"/>
                         </view>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="camera.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="37W-cU-qXC">
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="37W-cU-qXC">
                             <rect key="frame" x="111" y="41" width="130" height="130"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                             <color key="backgroundColor" name="CardLightBlack"/>
@@ -154,7 +154,7 @@
                     <color key="textColor" systemColor="systemGray2Color"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WYw-aD-AZ9">
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WYw-aD-AZ9">
                     <rect key="frame" x="25" y="272" width="352" height="440"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                     <subviews>
@@ -291,19 +291,13 @@
                 <constraint firstItem="u2y-Al-6i2" firstAttribute="top" secondItem="bbS-ew-Wem" secondAttribute="bottom" constant="30" id="z5T-YV-Xw8"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <variation key="default">
-                <mask key="subviews">
-                    <exclude reference="WYw-aD-AZ9"/>
-                </mask>
-            </variation>
             <connections>
                 <action selector="viewTapped:" destination="-1" eventType="touchUpInside" id="thO-uN-hKS"/>
             </connections>
-            <point key="canvasLocation" x="450.74626865671638" y="149.65675057208236"/>
+            <point key="canvasLocation" x="-112" y="156"/>
         </view>
     </objects>
     <resources>
-        <image name="camera.fill" catalog="system" width="128" height="93"/>
         <image name="chevron.left" catalog="system" width="97" height="128"/>
         <namedColor name="AccentColor">
             <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -321,7 +315,7 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray2Color">
-            <color red="0.68235294120000001" green="0.68235294120000001" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

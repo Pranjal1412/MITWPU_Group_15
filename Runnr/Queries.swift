@@ -80,6 +80,26 @@ func updateUserProfile(userID: UUID, newProfile: UserProfile) async {
     }
 }
 
+func saveProfileImage(userID: UUID, with image: UIImage) async -> String? {
+    
+    let resizedImage = resizeImageIfNeeded(image, maxDimension: 500)
+    if let imageData = resizedImage.jpegData(compressionQuality: 0.8) {
+        let filePath = "profiles/\(userID)_\(Int(Date().timeIntervalSince1970)).jpg"
+        
+        if let url = await saveAndFetchImageURL(with: filePath, imageData: imageData) {
+            return url
+            
+        } else {
+            print("Upload failed")
+            return nil
+        }
+    }
+    else {
+        print("Image compression failed")
+        return nil
+    }
+}
+
 func updateUserStats(userID: UUID, newStats: UserStats) async {
     do {
         try await SupabaseManager.shared.client
@@ -112,14 +132,13 @@ func insertActivity(_ activity: UserActivity) async -> UserActivity? {
     }
 }
 
-func updateUserActivity(userID : UUID, activityID : UUID, newActivity: UserActivity) async {
+func updateUserActivity(newActivity: UserActivity) async {
     
     do {
         try await SupabaseManager.shared.client
             .from("UserActivity")
             .update(newActivity)
-            .eq("userID", value: userID)
-            .eq("activityID", value: activityID)
+            .eq("activityID", value: newActivity.activityID)
             .execute()
 
     } catch {
@@ -127,15 +146,16 @@ func updateUserActivity(userID : UUID, activityID : UUID, newActivity: UserActiv
     }
 }
 
-func deleteUserActivity(userID : UUID, activityID : UUID) async {
+func deleteUserActivity(activityID : UUID, mapImageURL : String) async {
     do {
         
         try await SupabaseManager.shared.client
             .from("UserActivity")
             .delete()
-            .eq("userID", value: userID)
             .eq("activityID", value: activityID)
             .execute()
+        
+        await deleteImageFromStorage(imageURL: mapImageURL)
     }
     catch {
         print("Deletion failed: \(error)")
@@ -161,18 +181,24 @@ func fetchAllMyActivities(userID : UUID) async -> [UserActivity] {
     }
 }
 
-func fetchActivityMapImageURL(activityID: UUID , userID : UUID) async throws -> String? {
-
-    let response: String = try await SupabaseManager.shared.client
-        .from("UserActivity")
-        .select("mapImageURL")
-        .eq("activityID", value: activityID)
-        .eq("userID", value: userID)
-        .single()
-        .execute()
-        .value
-
-    return response
+func saveMapImage(activityID: UUID, with image: UIImage) async -> String? {
+    
+    let resizedImage = resizeImageIfNeeded(image, maxDimension: 500)
+    if let imageData = resizedImage.jpegData(compressionQuality: 0.8) {
+        let filePath = "activityMapImages/\(activityID)_\(Int(Date().timeIntervalSince1970)).jpg"
+        
+        if let url = await saveAndFetchImageURL(with: filePath, imageData: imageData) {
+            return url
+            
+        } else {
+            print("Upload failed")
+            return nil
+        }
+    }
+    else {
+        print("Image compression failed")
+        return nil
+    }
 }
 
 // MARK: - User Activity Route Coordinates
@@ -245,26 +271,6 @@ func fetchActivityPaceGraphData(_ activityID: UUID) async -> [ActivityPaceGraphD
 
 // MARK: - Image Uploading
 
-func saveProfileImage(userID: UUID, with image: UIImage) async -> String? {
-    
-    let resizedImage = resizeImageIfNeeded(image, maxDimension: 500)
-    if let imageData = resizedImage.jpegData(compressionQuality: 0.8) {
-        let filePath = "profiles/\(userID)_\(Int(Date().timeIntervalSince1970)).jpg"
-        
-        if let url = await saveAndFetchImageURL(with: filePath, imageData: imageData) {
-            return url
-            
-        } else {
-            print("Upload failed")
-            return nil
-        }
-    }
-    else {
-        print("Image compression failed")
-        return nil
-    }
-}
-
 // Add the image to supabase Storage
 func saveAndFetchImageURL(with filepath: String, imageData: Data) async -> String? {
     do {
@@ -285,7 +291,25 @@ func saveAndFetchImageURL(with filepath: String, imageData: Data) async -> Strin
     }
 }
 
+func deleteImageFromStorage(imageURL: String) async {
+    do {
+        guard let url = URL(string: imageURL) else { return }
 
+        // removes the the domain and just return the remaining part
+        let fullPath = url.path
+        print(fullPath)
+        // replacing the remaining part with empty string
+        let path = fullPath.replacingOccurrences(of: "/storage/v1/object/public/publicMedia/", with: "")
+        print(path)
+        
+        try await SupabaseManager.shared.client.storage
+            .from("publicMedia")
+            .remove(paths: [path])
+    }
+    catch {
+        print("Deletion failed: \(error)")
+    }
+}
 // MARK: - Club Data
 
 func fetchExploreClubData(userID: UUID) async -> [Club] {
@@ -374,18 +398,6 @@ func insertNewClubMember(newMember: ClubMemberRole) async {
     }
 }
 
-func deleteActivity(activityID: UUID) async {
-    do {
-        try await SupabaseManager.shared.client
-            .from("UserActivity")
-            .delete()
-            .eq("activityID", value: activityID)
-            .execute()
-        print("Deleted successfully")
 
-    } catch {
-        print("Delete failed: \(error)")
-    }
-}
 
 

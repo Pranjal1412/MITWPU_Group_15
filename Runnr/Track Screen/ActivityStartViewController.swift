@@ -28,7 +28,6 @@ class ActivityStartViewController: UIViewController {
         dataSource.getTotalRunnrPoints()
     }
     
-    private var profileImageURL = DataSource.shared.getUserProfile().userProfileImageURL 
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,24 +43,16 @@ class ActivityStartViewController: UIViewController {
         self.profileImage.layer.cornerRadius = self.profileImage.frame.height / 2
         self.profileImage.clipsToBounds = true
         self.buttonUserProfile.clipsToBounds = true
-        
-//        Task {
-//                if let image = await convertURLToImage(urlString: self.profileImageURL!) {
-//                    print("Image downloaded")
-//                    dataSource.setProfileImage(image)
-//                    self.profileImage.image = image
-//                } else {
-//                    print("Image conversion failed")
-//                }
-//        }
-        
-        if let url = URL(string: self.profileImageURL!) {
-            self.profileImage.kf.setImage(with: url)
-        }
-        
+                        
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        let profileImageURL = DataSource.shared.getUserProfile().userProfileImageURL
+
+        if let url = URL(string: profileImageURL!) {
+            self.profileImage.kf.setImage(with: url)
+        }
+
         self.labelTotalPoints.text = "\(totalPoints)"
     }
     

@@ -49,8 +49,8 @@ class UserProfileViewController: UIViewController {
 //        Int(DataSource.shared.getTotalKms())
 //    }
     
-    let userProfile = DataSource.shared.getUserProfile()
-    let userStats = DataSource.shared.getUserStats()
+    private var userProfile = DataSource.shared.getUserProfile()
+    private let userStats = DataSource.shared.getUserStats()
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,6 +66,7 @@ class UserProfileViewController: UIViewController {
         
         self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.collectionViewBestActivity.frame.height + self.collectionViewBestActivity.frame.origin.y + 30)
         settingsElements()
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -74,6 +75,7 @@ class UserProfileViewController: UIViewController {
 
     @IBAction func editProfilePressed(_ sender: UIButton) {
         let destinationVC = EditProfileViewController()
+        destinationVC.delegate = self
         self.present(destinationVC, animated: true, completion: nil)
         
     }
@@ -113,10 +115,6 @@ class UserProfileViewController: UIViewController {
         self.labelTotalActivities.text = String(localized: "Total Activities")
         
         imageProfile.layer.cornerRadius = imageProfile.frame.size.width / 2
-        
-        if let url = URL(string: self.userProfile.userProfileImageURL!) {
-            self.imageProfile.kf.setImage(with: url)
-        }
 
         buttonEditProfile.layer.cornerRadius = 10.0
     }
@@ -128,7 +126,11 @@ class UserProfileViewController: UIViewController {
         self.labelTotalActivitiesCount.text = String(self.userStats?.totalActivities ?? 0)
         self.labelTotalDistanceCount.text = String(format: "%.1f", (self.userStats?.totalDistanceCovered ?? 0.0))
         
-        let totalDistance = Int(self.userStats?.totalDistanceCovered ?? 0.0) 
+        if let url = URL(string: self.userProfile.userProfileImageURL!) {
+            self.imageProfile.kf.setImage(with: url)
+        }
+        
+        let totalDistance = Int(self.userStats?.totalDistanceCovered ?? 0.0)
         
         if totalDistance <= 600 {
             if totalDistance == 0 && totalDistance < 50 {
@@ -280,6 +282,23 @@ extension UserProfileViewController: UICollectionViewDataSource {
         }
     
         return layout
+    }
+    
+}
+
+
+extension UserProfileViewController: EditProfileDelegate {
+    
+    func didUpdateProfile() {
+        
+        self.userProfile = DataSource.shared.getUserProfile()
+        self.labelUsername.text = userProfile.userName
+        self.labelBiography.text = userProfile.userBio
+        
+        if let url = URL(string: self.userProfile.userProfileImageURL!) {
+            self.imageProfile.kf.setImage(with: url)
+        }
+        
     }
     
 }

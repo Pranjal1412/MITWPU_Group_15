@@ -9,6 +9,10 @@ import UIKit
 import PhotosUI
 import Kingfisher
 
+protocol EditProfileDelegate: AnyObject {
+    func didUpdateProfile()
+}
+
 class EditProfileViewController: UIViewController {
 
     @IBOutlet var editProfileScrollview: UIScrollView!
@@ -30,6 +34,9 @@ class EditProfileViewController: UIViewController {
     
     private var userProfile = DataSource.shared.getUserProfile()
     private var newProfileData = UserProfile()
+    var delegate : EditProfileDelegate?
+    
+    private var profileImageChanged: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +48,10 @@ class EditProfileViewController: UIViewController {
             self.imageViewProfilePhoto.kf.setImage(with: url)
         }
 
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.profileImageChanged = false
     }
     
     func setup() {
@@ -70,19 +81,31 @@ class EditProfileViewController: UIViewController {
     @IBAction func buttonSave(_ sender: UIButton) {
         
         Task {
-            if let newURL = await saveProfileImage(userID: self.userProfile.userID!, with: self.imageViewProfilePhoto.image!) {
-                self.newProfileData.userProfileImageURL = newURL
-            }
-            else {
-                self.newProfileData.userProfileImageURL = self.userProfile.userProfileImageURL!
-            }
+            self.newProfileData = self.userProfile
             
+            if self.profileImageChanged == true {
+                
+                await deleteImageFromStorage(imageURL: self.userProfile.userProfileImageURL!)
+                
+                if let newURL = await saveProfileImage(userID: self.userProfile.userID!, with: self.imageViewProfilePhoto.image!) {
+                    self.newProfileData.userProfileImageURL = newURL
+                }
+                else {
+                    self.newProfileData.userProfileImageURL = self.userProfile.userProfileImageURL!
+                }
+            }
+
             self.newProfileData.height = Double(textFieldHeight.text ?? String(self.userProfile.height!))
             self.newProfileData.weight = Double(textFieldWeight.text ?? String(self.userProfile.weight!))
             self.newProfileData.userBio = textViewBio.text ?? self.userProfile.userBio!
             self.newProfileData.userName = textFieldUsername.text ?? self.userProfile.userName!
             
             await updateUserProfile(userID: self.userProfile.userID!, newProfile: self.newProfileData)
+            DataSource.shared.setUserProfile(self.newProfileData)
+
+            self.delegate?.didUpdateProfile()
+            
+            self.dismiss(animated: true)
 
         }
     }
@@ -179,6 +202,7 @@ extension EditProfileViewController: PHPickerViewControllerDelegate, UIImagePick
                     DispatchQueue.main.async {
                         if let image = image as? UIImage {
                             self.imageViewProfilePhoto.image = image
+                            self.profileImageChanged = true
                         }
                     }
                 }
@@ -191,10 +215,8 @@ extension EditProfileViewController: PHPickerViewControllerDelegate, UIImagePick
         picker.dismiss(animated: true)
 
         if let image = info[.originalImage] as? UIImage {
-            Task {
-                if let url = await saveProfileImage(userID: self.userProfile.userID!, with: image) {
-                }
-            }
+            self.imageViewProfilePhoto.image = image
+            self.profileImageChanged = true
         }
     }
 }

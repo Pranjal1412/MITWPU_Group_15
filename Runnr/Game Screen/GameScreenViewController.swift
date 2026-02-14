@@ -17,7 +17,6 @@ class GameScreenViewController: UIViewController {
     }
     
     private var expandedIndexPath: IndexPath?
-    private var profileImageURL = DataSource.shared.getUserProfile().userProfileImageURL
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,9 +25,6 @@ class GameScreenViewController: UIViewController {
         labelScreenTitle.sizeToFit()
         
         self.buttonUserProfile.layer.cornerRadius = self.buttonUserProfile.frame.height / 2
-        if let url = URL(string: self.profileImageURL!) {
-            self.profileImage.kf.setImage(with: url)
-        }
         self.buttonUserProfile.clipsToBounds = true
         
         self.profileImage.layer.cornerRadius = self.profileImage.frame.height / 2
@@ -64,6 +60,13 @@ class GameScreenViewController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        
+        let profileImageURL = DataSource.shared.getUserProfile().userProfileImageURL
+
+        if let url = URL(string: profileImageURL!) {
+            self.profileImage.kf.setImage(with: url)
+        }
+
         self.labelTotalPoints.text = "\(totalPoints)"
     }
 

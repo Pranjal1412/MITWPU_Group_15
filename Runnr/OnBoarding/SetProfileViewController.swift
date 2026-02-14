@@ -51,6 +51,9 @@ class SetProfileViewController: UIViewController, UITextViewDelegate {
         self.buttonBack.isHidden = true
         self.textViewBio.delegate = self
         self.textFieldUsername.text = self.userProfile.userName
+        
+        self.profileImage.layer.cornerRadius = self.profileImage.frame.height / 2
+        
         setScreenElements()
         
     }
@@ -262,6 +265,7 @@ extension SetProfileViewController : PHPickerViewControllerDelegate, UIImagePick
                                 if let url = await saveProfileImage(userID: self.userProfile.userID!, with: image) {
                                     self.profileURl = url
                                     self.profileImage.image = image
+                                    self.profileImage.clipsToBounds = true
                                     self.buttonProfileImage.clipsToBounds = true
                                 }
                                 print("Uploaded URl: ", self.profileURl)

@@ -212,6 +212,7 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         self.userLocation.locationManager.stopUpdatingLocation()
         self.checkIfGoalSetAndCompleted()
+        self.mapManager.mapView.isMyLocationEnabled = false
         
         if self.isActivityInserted == true {
             let alert = UIAlertController(title: String(localized: "End Run"),
@@ -245,9 +246,10 @@ class ActivityLiveTrackingViewController: UIViewController {
                     
                     
                     // Get Map image URL
-//                    if let image = self.captureMapImage(from: self.mapManager.mapView) {
-//                        self.currentActivity!.mapImageURL = try await SupabaseManager.shared.createMapImageURL(image, activityID: self.currentActivity.activityID)
-//                    }
+                    if let image = self.captureMapImage(from: self.mapManager.mapView) {
+                        let imageURL = await saveMapImage(activityID: self.currentActivity!.activityID!, with: image)
+                        self.currentActivity?.mapImageURL = imageURL
+                    }
 
                     // get Heart rate
                     let avgHR = await self.healthKitManager.fetchAverageHeartRateAsync(from: self.activityStartTime!, to: self.activityEndTime!)

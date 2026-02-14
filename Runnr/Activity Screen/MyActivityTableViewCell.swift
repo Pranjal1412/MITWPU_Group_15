@@ -1,4 +1,5 @@
 import UIKit
+import Kingfisher
 
 class MyActivityTableViewCell: UITableViewCell {
 
@@ -18,11 +19,16 @@ class MyActivityTableViewCell: UITableViewCell {
     @IBOutlet weak var labelDummy: UILabel!
     @IBOutlet weak var viewMainBackground: UIView!
     
+    private var profileImageURL = DataSource.shared.getUserProfile().userProfileImageURL
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         selectionStyle = .none
         self.viewMainBackground.layer.cornerRadius = 20
-
+        
+        if let url = URL(string: profileImageURL!) {
+            self.imageProfile.kf.setImage(with: url)
+        }
     }
     
     func configure(with activity: UserActivity) {
@@ -30,7 +36,10 @@ class MyActivityTableViewCell: UITableViewCell {
         
         labelDate.text = formatDate(with: activity.activityStartTime!)
         labelRunTitle.text = activity.activityTitle
-//        imageRun.image = activity.mapImage
+
+        if let url = URL(string: activity.mapImageURL!) {
+            self.imageRun.kf.setImage(with: url)
+        }
         
         self.labelDummy.text = ""
         if activity.activityRemark != "" {

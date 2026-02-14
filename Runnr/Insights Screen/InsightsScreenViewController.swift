@@ -12,8 +12,6 @@ class InsightsScreenViewController: UIViewController {
     @IBOutlet weak var buttonUserProfile: UIButton!
     @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!
 
-    private var profileImageURL = DataSource.shared.getUserProfile().userProfileImageURL
-
     private let calendarHeaderLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
@@ -47,9 +45,6 @@ class InsightsScreenViewController: UIViewController {
         setupCalendar()
         
         buttonUserProfile.layer.cornerRadius = buttonUserProfile.frame.height / 2
-        if let url = URL(string: self.profileImageURL!) {
-            self.profileImage.kf.setImage(with: url)
-        }
         
         self.profileImage.layer.cornerRadius = self.profileImage.frame.height / 2
         self.profileImage.clipsToBounds = true
@@ -58,6 +53,12 @@ class InsightsScreenViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        var profileImageURL = DataSource.shared.getUserProfile().userProfileImageURL
+
+        if let url = URL(string: profileImageURL!) {
+            self.profileImage.kf.setImage(with: url)
+        }
 
         labelTotalPoints.text = "\(totalPoints)"
 
