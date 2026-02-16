@@ -40,7 +40,7 @@ class StepsViewController: UIViewController {
         settingLabelStyle()
         
         setupGraph()
-        graphStore.data = weeklyDistance
+        graphStore.data = weeklySteps
 
     }
 
@@ -54,11 +54,11 @@ class StepsViewController: UIViewController {
         
         switch sender.selectedSegmentIndex {
             case 0:
-                graphStore.data = weeklyDistance
+                graphStore.data = weeklySteps
             case 1:
-                graphStore.data = monthlyDistance
+                graphStore.data = monthlySteps
             case 2:
-                graphStore.data = yearlyDistance
+                graphStore.data = yearlySteps
             default:
                 break
             }

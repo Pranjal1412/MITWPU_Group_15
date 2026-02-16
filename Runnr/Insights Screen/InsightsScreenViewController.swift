@@ -320,7 +320,7 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let viewControllers: [UIViewController] = [DistanceViewController(), CaloriesViewController(), StepsViewController(), AveragePaceViewController()]
+        let viewControllers: [UIViewController] = [DistanceViewController(), CaloriesViewController(), StepsViewController(), PaceViewController()]
         if indexPath.row < viewControllers.count {
             navigationController?.pushViewController(viewControllers[indexPath.row], animated: true)
         }

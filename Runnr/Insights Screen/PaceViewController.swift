@@ -1,7 +1,7 @@
 import UIKit
 import SwiftUI
 
-class AveragePaceViewController: UIViewController {
+class PaceViewController: UIViewController {
 
     @IBOutlet weak var weekRangeLabel: UILabel!
     @IBOutlet weak var scrollViewMain: UIScrollView!
@@ -52,11 +52,11 @@ class AveragePaceViewController: UIViewController {
         
         switch sender.selectedSegmentIndex {
             case 0:
-                graphStore.data = weeklyDistance
+                graphStore.data = weeklyPace
             case 1:
-                graphStore.data = monthlyDistance
+                graphStore.data = monthlyPace
             case 2:
-                graphStore.data = yearlyDistance
+                graphStore.data = yearlyPace
             default:
                 break
             }
@@ -104,7 +104,7 @@ class AveragePaceViewController: UIViewController {
 
 }
 
-extension AveragePaceViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension PaceViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return averagePaceTrends.count
     }

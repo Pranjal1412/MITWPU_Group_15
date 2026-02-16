@@ -38,7 +38,7 @@ class CaloriesViewController: UIViewController {
 
         settingLabelStyle()
         setupGraph()
-        graphStore.data = weeklyDistance
+        graphStore.data = weeklyCalories
         
     }
 
@@ -53,11 +53,11 @@ class CaloriesViewController: UIViewController {
         
         switch sender.selectedSegmentIndex {
             case 0:
-                graphStore.data = weeklyDistance
+                graphStore.data = weeklyCalories
             case 1:
-                graphStore.data = monthlyDistance
+                graphStore.data = monthlyCalories
             case 2:
-                graphStore.data = yearlyDistance
+                graphStore.data = yearlyCalories
             default:
                 break
             }
