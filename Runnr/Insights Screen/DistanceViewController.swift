@@ -11,7 +11,7 @@ class DistanceViewController: UIViewController {
     @IBOutlet weak var weekRangeLabel: UILabel!
     @IBOutlet weak var viewGraphContainer: UIView!
     
-    private let graphStore = GraphDataStore()
+    var graphStore: GraphDataStore? = nil
     private var hostingController: UIHostingController<DistanceGraphView>?
     
     override func viewDidLoad() {
@@ -34,14 +34,7 @@ class DistanceViewController: UIViewController {
         segmentControlDistance.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
         
         settingLabelStyle()
-        
-        Task {
-            let data = try await fetchSummary(userID: DataSource.shared.getUserProfile().userID!, period: .weekly)
-            print(data!)
-        }
-
         setupGraph()
-        graphStore.data = weeklyDistance
     }
     
     override func viewDidLayoutSubviews() {
@@ -55,18 +48,18 @@ class DistanceViewController: UIViewController {
         
         switch sender.selectedSegmentIndex {
             case 0:
-                graphStore.data = weeklyDistance
+            graphStore?.selectedPeriod = .weekly
             case 1:
-                graphStore.data = monthlyDistance
+                graphStore?.selectedPeriod = .monthly
             case 2:
-                graphStore.data = yearlyDistance
+                graphStore?.selectedPeriod = .yearly
             default:
                 break
             }
     }
     
     func setupGraph() {
-        let graphView = DistanceGraphView(store: graphStore)
+        let graphView = DistanceGraphView(store: graphStore ?? GraphDataStore())
 
         let hc = UIHostingController(rootView: graphView)
         hostingController = hc
@@ -160,6 +153,7 @@ struct DistanceGraphView: View {
     @ObservedObject var store: GraphDataStore
 
     var body: some View {
-        ResponsiveBarChart(data: store.data)
+        let data = store.chartData(for: store.selectedPeriod, metric: .distance)
+        ResponsiveBarChart(data: data)
     }
 }

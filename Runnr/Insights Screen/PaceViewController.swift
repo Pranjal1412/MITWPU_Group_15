@@ -11,7 +11,7 @@ class PaceViewController: UIViewController {
     @IBOutlet weak var collectionViewPace: UICollectionView!
     @IBOutlet weak var viewGraphContainer: UIView!
     
-    private let graphStore = GraphDataStore()
+    var graphStore: GraphDataStore? = nil
     private var hostingController: UIHostingController<PaceChartView>?
     
     override func viewDidLoad() {
@@ -39,7 +39,6 @@ class PaceViewController: UIViewController {
 
         settingLabelStyle()
         setupGraph()
-        graphStore.data = weeklyPace
     }
 
     override func viewDidLayoutSubviews() {
@@ -52,18 +51,18 @@ class PaceViewController: UIViewController {
         
         switch sender.selectedSegmentIndex {
             case 0:
-                graphStore.data = weeklyPace
+                graphStore?.selectedPeriod = .weekly
             case 1:
-                graphStore.data = monthlyPace
+                graphStore?.selectedPeriod = .monthly
             case 2:
-                graphStore.data = yearlyPace
+                graphStore?.selectedPeriod = .yearly
             default:
                 break
             }
     }
     
     func setupGraph() {
-        let graphView = PaceChartView(store: graphStore)
+        let graphView = PaceChartView(store: graphStore ?? GraphDataStore())
 
         let hc = UIHostingController(rootView: graphView)
         hostingController = hc
@@ -128,7 +127,7 @@ struct PaceChartView: View {
     @ObservedObject var store: GraphDataStore
 
     var body: some View {
-        ResponsiveBarChart(data: store.data)
+        ResponsiveBarChart(data: store.chartData(for: store.selectedPeriod, metric: .pace))
     }
 }
 

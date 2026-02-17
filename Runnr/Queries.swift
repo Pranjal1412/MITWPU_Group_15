@@ -82,7 +82,8 @@ func updateUserProfile(userID: UUID, newProfile: UserProfile) async {
 
 func saveProfileImage(userID: UUID, with image: UIImage) async -> String? {
     
-    let resizedImage = resizeImageIfNeeded(image, maxDimension: 500)
+    let resizedImage = resizeImageIfNeeded(image, maxDimension: 400)
+    
     if let imageData = resizedImage.jpegData(compressionQuality: 0.8) {
         let filePath = "profiles/\(userID)_\(Int(Date().timeIntervalSince1970)).jpg"
         

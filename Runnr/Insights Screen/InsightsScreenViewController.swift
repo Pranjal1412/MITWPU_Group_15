@@ -30,6 +30,8 @@ class InsightsScreenViewController: UIViewController {
     private var latestActivity: UserActivity?
     private var previousActivity: UserActivity?
     private var greenDates: Set<Date> = []
+    
+    private var graphStore = GraphDataStore()
 
     var totalPoints: Int {
         dataSource.getTotalRunnrPoints()
@@ -68,6 +70,11 @@ class InsightsScreenViewController: UIViewController {
                 self.dataSource.setAllActivities(activities)
             }
         }
+        
+        Task {
+            await graphStore.loadData(userID: userProfile.userID!)
+        }
+
         prepareActivities()
         prepareGreenDates()
         collectionViewInsightsCards.reloadData()
@@ -320,9 +327,25 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let viewControllers: [UIViewController] = [DistanceViewController(), CaloriesViewController(), StepsViewController(), PaceViewController()]
-        if indexPath.row < viewControllers.count {
-            navigationController?.pushViewController(viewControllers[indexPath.row], animated: true)
+        switch indexPath.row {
+        case 0:
+            let destinationVC = DistanceViewController()
+            destinationVC.graphStore = self.graphStore
+            navigationController?.pushViewController(destinationVC, animated: true)
+        case 1:
+            let destinationVC = CaloriesViewController()
+            destinationVC.graphStore = self.graphStore
+            navigationController?.pushViewController(destinationVC, animated: true)
+        case 2:
+            let destinationVC = StepsViewController()
+            destinationVC.graphStore = self.graphStore
+            navigationController?.pushViewController(destinationVC, animated: true)
+        case 3:
+            let destinationVC = PaceViewController()
+            destinationVC.graphStore = self.graphStore
+            navigationController?.pushViewController(destinationVC, animated: true)
+        default:
+            break
         }
     }
 }
