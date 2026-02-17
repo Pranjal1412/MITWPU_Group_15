@@ -178,26 +178,3 @@ class DataSource {
     }
 
 }
-
-//    func getMyActivityData() -> [UserActivity] {
-//        return myActivities
-//    }
-    
-//    func updateTotalRunnrPoints(with points: Int) {
-//        if userStats != nil {
-//            userStats!.totalPointsEarned += points
-//        }
-//    }
-//
-//    func updateTotalDistance(with distance: Double) {
-//        if userStats != nil {
-//            userStats!.totalDistanceCovered += distance
-//        }
-//    }
-
-//    func fetchAllMyActivities() async {
-//        guard let userID = userProfile.userID else { return }
-//        if let activities = await fetchAllActivities(userID: userID) {
-//            self.myActivities = activities
-//        }
-//    }
