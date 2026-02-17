@@ -213,7 +213,7 @@ extension EditProfileViewController: PHPickerViewControllerDelegate, UIImagePick
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true)
-
+//MARK: - Not working 
         if let image = info[.originalImage] as? UIImage {
             self.imageViewProfilePhoto.image = image
             self.profileImageChanged = true

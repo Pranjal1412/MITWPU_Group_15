@@ -25,7 +25,7 @@
                 <subviews>
                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fPf-hD-fHP">
                         <rect key="frame" x="0.0" y="0.0" width="161" height="246"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="club1" translatesAutoresizingMaskIntoConstraints="NO" id="jE4-pj-esh">
                                 <rect key="frame" x="15" y="15" width="131" height="136"/>
@@ -40,7 +40,7 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cOS-Xn-hHr">
                                 <rect key="frame" x="20" y="206" width="121" height="28"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" name="AccentColor"/>
                                 <fontDescription key="fontDescription" name="SFPro-Regular" family="SF Pro" pointSize="13"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -88,7 +88,7 @@
                 <outlet property="imageSportType" destination="vkz-V3-8Px" id="ayZ-d1-7Gz"/>
                 <outlet property="viewExploreClub" destination="fPf-hD-fHP" id="uZn-03-zsg"/>
             </connections>
-            <point key="canvasLocation" x="-596.18320610687022" y="-102.11267605633803"/>
+            <point key="canvasLocation" x="-8" y="-7"/>
         </collectionViewCell>
     </objects>
     <resources>
