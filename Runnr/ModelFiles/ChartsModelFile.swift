@@ -17,11 +17,25 @@ struct DayData: Identifiable, Equatable {
 }
 
 struct SummaryRow: Decodable {
-    let timeGroup: Date
+    // Supabase returns dates as Strings (ISO8601)
+    private let timeGroup: String
     let distance: Double
     let calories: Int
     let steps: Int
     let pace: Double
+
+    // Use this in your UI
+    var date: Date {
+        let formatter = ISO8601DateFormatter()
+        // Supabase often includes fractional seconds (e.g., .000Z)
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        return formatter.date(from: timeGroup) ?? Date()
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case timeGroup = "timeGroup" // Matches the quoted SQL name exactly
+        case distance, calories, steps, pace
+    }
 }
 
 final class GraphDataStore: ObservableObject {

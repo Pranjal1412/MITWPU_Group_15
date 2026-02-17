@@ -38,3 +38,16 @@ enum ClubRoleType : String, Codable{
     case owner = "Owner"
     case member = "Member"
 }
+
+enum Metric {
+    case distance
+    case calories
+    case steps
+    case pace
+}
+
+enum Period: String {
+    case weekly = "weekly"
+    case monthly = "monthly"
+    case yearly = "yearly"
+}

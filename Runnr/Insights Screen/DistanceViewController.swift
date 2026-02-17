@@ -35,6 +35,11 @@ class DistanceViewController: UIViewController {
         
         settingLabelStyle()
         
+        Task {
+            let data = try await fetchSummary(userID: DataSource.shared.getUserProfile().userID!, period: .weekly)
+            print(data!)
+        }
+
         setupGraph()
         graphStore.data = weeklyDistance
     }

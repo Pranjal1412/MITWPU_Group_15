@@ -398,6 +398,26 @@ func insertNewClubMember(newMember: ClubMemberRole) async {
     }
 }
 
+//MARK: - Graph Queries
+
+func fetchSummary(userID: UUID, period: Period) async throws -> [SummaryRow]? {
+    
+    let parameters : [String: String] = ["user_id": userID.uuidString, "time_period": period.rawValue]
+    
+    do {
+        let response: [SummaryRow] = try await SupabaseManager.shared.client
+            .rpc("get_user_activity_summary",params: parameters)
+            .execute()
+            .value
+        
+        return response
+    }
+    catch {
+        print("Failure fetching summary: \(error)")
+        return nil
+    }
+    
+}
 
 
 
