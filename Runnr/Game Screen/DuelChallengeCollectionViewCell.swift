@@ -3,7 +3,7 @@ import UIKit
 class DuelChallengeCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var labelWeeklyClash: UILabel!
-    @IBOutlet weak var progressContainerView: UIView!
+    //@IBOutlet weak var progressContainerView: UIView!
     @IBOutlet weak var viewCellBackground: UIView!
     @IBOutlet weak var labelCriteria: UILabel!
     @IBOutlet weak var imageViewYou: UIImageView!
@@ -16,13 +16,18 @@ class DuelChallengeCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var labelOpponentsName: UILabel!
     @IBOutlet weak var viewVS: UIView!
     @IBOutlet weak var labelVS: UILabel!
-
-    private var progressBar: DualProgressBarView!
-    var isExpanded: Bool = false
+    @IBOutlet var trailingLabel: UIView!
+    @IBOutlet var trainingView: UIView!
+    @IBOutlet var yourProgress: UIView!
+    @IBOutlet var opponentProgress: UILabel!
+    @IBOutlet var progressBar: UIProgressView!
+    
+    //private var progressBar: DualProgressBarView!
+    //var isExpanded: Bool = false
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        setupProgressBar()
+        //setupProgressBar()
         setupUI()
         
         // Hide expandable elements initially
@@ -33,22 +38,22 @@ class DuelChallengeCollectionViewCell: UICollectionViewCell {
         viewVS.isHidden = true
     }
     
-    private func setupProgressBar() {
-        progressBar = DualProgressBarView()
-        progressBar.translatesAutoresizingMaskIntoConstraints = false
-        progressContainerView.addSubview(progressBar)
-        
-        NSLayoutConstraint.activate([
-            progressBar.topAnchor.constraint(equalTo: progressContainerView.topAnchor),
-            progressBar.bottomAnchor.constraint(equalTo: progressContainerView.bottomAnchor),
-            progressBar.leadingAnchor.constraint(equalTo: progressContainerView.leadingAnchor),
-            progressBar.trailingAnchor.constraint(equalTo: progressContainerView.trailingAnchor)
-        ])
-        
-        progressBar.maxValue = 10
-        progressBar.leftValue = 7.4
-        progressBar.rightValue = 5.8
-    }
+//    private func setupProgressBar() {
+//        progressBar = DualProgressBarView()
+//        progressBar.translatesAutoresizingMaskIntoConstraints = false
+//        progressContainerView.addSubview(progressBar)
+//        
+//        NSLayoutConstraint.activate([
+//            progressBar.topAnchor.constraint(equalTo: progressContainerView.topAnchor),
+//            progressBar.bottomAnchor.constraint(equalTo: progressContainerView.bottomAnchor),
+//            progressBar.leadingAnchor.constraint(equalTo: progressContainerView.leadingAnchor),
+//            progressBar.trailingAnchor.constraint(equalTo: progressContainerView.trailingAnchor)
+//        ])
+//        
+//        progressBar.maxValue = 10
+//        progressBar.leftValue = 7.4
+//        progressBar.rightValue = 5.8
+//    }
     
     private func setupUI() {
         viewCellBackground.layer.cornerRadius = 15
@@ -61,6 +66,8 @@ class DuelChallengeCollectionViewCell: UICollectionViewCell {
         viewReward.layer.cornerRadius = 10
         viewReward.layer.borderWidth = 1
         viewReward.layer.borderColor = UIColor.accent.cgColor
+        
+        trainingView.layer.cornerRadius = 10
     }
     
     func setExpanded(_ expanded: Bool) {

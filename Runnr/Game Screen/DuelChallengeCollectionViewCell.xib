@@ -5,12 +5,11 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
         <array key="SF-Pro.ttf">
-            <string>SFPro-Medium</string>
+            <string>SFPro-Bold</string>
             <string>SFPro-Regular</string>
             <string>SFPro-Semibold</string>
         </array>
@@ -19,75 +18,61 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="weeklyClashCell" id="gTV-IL-0wX" customClass="DuelChallengeCollectionViewCell" customModule="Runnr" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="382" height="262"/>
+            <rect key="frame" x="0.0" y="0.0" width="362" height="253"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="382" height="262"/>
+                <rect key="frame" x="0.0" y="0.0" width="362" height="253"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zqg-fV-7vE">
-                        <rect key="frame" x="0.0" y="0.0" width="382" height="262"/>
+                        <rect key="frame" x="0.0" y="0.0" width="362" height="253"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Weekly Clash" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VQt-Az-138">
-                                <rect key="frame" x="5" y="19" width="189" height="28"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="24"/>
+                                <rect key="frame" x="20" y="16" width="320" height="35"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-MediumItalic" family="Helvetica Neue" pointSize="26"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="run1" translatesAutoresizingMaskIntoConstraints="NO" id="0tS-CY-nwR">
-                                <rect key="frame" x="45" y="86" width="80" height="80"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="run1" translatesAutoresizingMaskIntoConstraints="NO" id="0tS-CY-nwR">
+                                <rect key="frame" x="55" y="95" width="80" height="80"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="user1" translatesAutoresizingMaskIntoConstraints="NO" id="1aD-pb-pgI">
-                                <rect key="frame" x="247" y="86" width="80" height="80"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="user1" translatesAutoresizingMaskIntoConstraints="NO" id="1aD-pb-pgI">
+                                <rect key="frame" x="229" y="95" width="80" height="80"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7YG-zx-BZA">
-                                <rect key="frame" x="166" y="106" width="40" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7YG-zx-BZA">
+                                <rect key="frame" x="166" y="115" width="40" height="40"/>
+                                <autoresizingMask key="autoresizingMask"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="VS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fk5-u1-88T">
-                                        <rect key="frame" x="11" y="12" width="19" height="17"/>
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="VS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fk5-u1-88T">
+                                        <rect key="frame" x="10" y="15" width="20" height="10"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="14"/>
-                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" name="SFPro-Bold" family="SF Pro" pointSize="14"/>
+                                        <color key="textColor" red="0.090209968390000006" green="0.090209968390000006" blue="0.090209968390000006" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" name="AccentColor"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ort-qc-m4Z">
-                                <rect key="frame" x="85" y="150" width="45" height="25"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ort-qc-m4Z">
+                                <rect key="frame" x="111" y="150" width="34" height="16"/>
+                                <autoresizingMask key="autoresizingMask"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="You" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xeb-l2-XMD">
-                                        <rect key="frame" x="9" y="4" width="26" height="17"/>
+                                        <rect key="frame" x="9" y="3" width="17" height="10"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="14"/>
-                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="9"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" name="AccentColor"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a8x-fA-8wB">
-                                <rect key="frame" x="287" y="150" width="45" height="25"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Alex" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rAR-iV-syB">
-                                        <rect key="frame" x="7" y="4" width="30" height="17"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="14"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ekA-XI-v10">
                                 <rect key="frame" x="290" y="21" width="60" height="25"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="+500" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X6m-B6-rTY">
                                         <rect key="frame" x="13" y="4" width="34" height="16"/>
@@ -100,27 +85,67 @@
                                 <color key="backgroundColor" name="AccentColorExtraLight"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Whoever runs more by the end of the week wins!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ose-Yn-wXF">
-                                <rect key="frame" x="14" y="51" width="321" height="17"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <rect key="frame" x="20" y="54" width="321" height="15"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="SFPro-Regular" family="SF Pro" pointSize="13"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Dh-ch-N44">
-                                <rect key="frame" x="20" y="209" width="340" height="35"/>
-                                <color key="backgroundColor" name="CardLightBlack"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="eda-Bj-4ZN"/>
-                                </constraints>
+                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aqJ-tD-nD1">
+                                <rect key="frame" x="290" y="150" width="34" height="16"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Alex" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TFu-fM-SmC">
+                                        <rect key="frame" x="8" y="3" width="20" height="11"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="9"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="HIA-zy-EkN">
+                                <rect key="frame" x="25" y="228" width="310" height="4"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            </progressView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="YOU (12.5 Km)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mhJ-jc-3XM">
+                                <rect key="frame" x="25" y="208" width="55" height="12"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="SFPro-Bold" family="SF Pro" pointSize="7"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Alex (13.7 Km)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="29o-x3-38V">
+                                <rect key="frame" x="280" y="211" width="55" height="12"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="SFPro-Bold" family="SF Pro" pointSize="7"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AYY-Kn-5MZ">
+                                <rect key="frame" x="25" y="183" width="49" height="14"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="TRAILING" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xwO-kr-a1X">
+                                        <rect key="frame" x="6" y="3" width="36" height="9"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="SFPro-Bold" family="SF Pro" pointSize="7"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="-1.2Km behind " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3QH-Z7-JG5">
+                                <rect key="frame" x="74" y="183" width="57" height="12"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <fontDescription key="fontDescription" name="SFPro-Bold" family="SF Pro" pointSize="7"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" name="CardLightBlack"/>
-                        <constraints>
-                            <constraint firstItem="9Dh-ch-N44" firstAttribute="top" secondItem="Zqg-fV-7vE" secondAttribute="top" constant="209" id="6ya-f1-QCd"/>
-                            <constraint firstItem="9Dh-ch-N44" firstAttribute="leading" secondItem="Zqg-fV-7vE" secondAttribute="leading" constant="20" symbolic="YES" id="Sn9-3D-acQ"/>
-                            <constraint firstAttribute="trailing" secondItem="9Dh-ch-N44" secondAttribute="trailing" constant="22" id="UG0-JE-bEc"/>
-                            <constraint firstAttribute="bottom" secondItem="9Dh-ch-N44" secondAttribute="bottom" constant="18" id="Uzl-7I-0F9"/>
-                        </constraints>
                     </view>
                 </subviews>
             </view>
@@ -136,19 +161,23 @@
                 <outlet property="imageViewOpponent" destination="1aD-pb-pgI" id="ZXv-mA-LQ7"/>
                 <outlet property="imageViewYou" destination="0tS-CY-nwR" id="LPo-8q-hLY"/>
                 <outlet property="labelCriteria" destination="Ose-Yn-wXF" id="tQw-TV-uvf"/>
-                <outlet property="labelOpponentsName" destination="rAR-iV-syB" id="y3S-Ci-vZr"/>
+                <outlet property="labelOpponentsName" destination="TFu-fM-SmC" id="93h-wl-94h"/>
                 <outlet property="labelReward" destination="X6m-B6-rTY" id="SZE-3G-J97"/>
                 <outlet property="labelVS" destination="Fk5-u1-88T" id="CZF-sO-Gzd"/>
                 <outlet property="labelWeeklyClash" destination="VQt-Az-138" id="SVA-vm-tPs"/>
                 <outlet property="labelYourName" destination="xeb-l2-XMD" id="kuF-K7-lhW"/>
-                <outlet property="progressContainerView" destination="9Dh-ch-N44" id="UTs-Qs-Ydf"/>
+                <outlet property="opponentProgress" destination="29o-x3-38V" id="1GC-ch-5pt"/>
+                <outlet property="progressBar" destination="HIA-zy-EkN" id="unQ-UV-XVc"/>
+                <outlet property="trailingLabel" destination="AYY-Kn-5MZ" id="Ctj-Gs-duw"/>
+                <outlet property="trainingView" destination="AYY-Kn-5MZ" id="bjp-S4-ZHD"/>
                 <outlet property="viewCellBackground" destination="Zqg-fV-7vE" id="rXv-Pl-AN1"/>
-                <outlet property="viewOpponent" destination="a8x-fA-8wB" id="SDJ-rJ-9lC"/>
+                <outlet property="viewOpponent" destination="1aD-pb-pgI" id="NAQ-tQ-kWT"/>
                 <outlet property="viewReward" destination="ekA-XI-v10" id="kFu-Tr-R7H"/>
                 <outlet property="viewVS" destination="7YG-zx-BZA" id="U3G-tU-TrZ"/>
                 <outlet property="viewYourName" destination="ort-qc-m4Z" id="1IZ-0I-0Wu"/>
+                <outlet property="yourProgress" destination="Zqg-fV-7vE" id="Dyp-UW-B8D"/>
             </connections>
-            <point key="canvasLocation" x="500.76335877862596" y="197.18309859154931"/>
+            <point key="canvasLocation" x="500.76335877862596" y="196.83098591549296"/>
         </collectionViewCell>
     </objects>
     <resources>
@@ -163,8 +192,5 @@
         <namedColor name="CardLightBlack">
             <color red="0.10199999809265137" green="0.10199999809265137" blue="0.10199999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
     </resources>
 </document>
