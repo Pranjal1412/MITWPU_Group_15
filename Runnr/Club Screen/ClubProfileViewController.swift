@@ -3,6 +3,7 @@ import UIKit
 
 class ClubProfileViewController: UIViewController {
     
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var collectionViewPostImages: UICollectionView!
     @IBOutlet weak var viewLine: UIView!
     @IBOutlet weak var clubDescription: UILabel!
@@ -13,11 +14,14 @@ class ClubProfileViewController: UIViewController {
     @IBOutlet weak var labelNumberOfMembers: UILabel!
     @IBOutlet weak var labelClubName: UILabel!
     @IBOutlet var tableViewLeaderBoard: UITableView!
-    @IBOutlet var viewPosts: UIView!
-    @IBOutlet var viewLeaderBoard: UIView!
-    @IBOutlet var viewTagged: UIView!
+    @IBOutlet var viewPosts: UIButton!
+    @IBOutlet var viewLeaderBoard: UIButton!
+    @IBOutlet var viewTagged: UIButton!
     @IBOutlet var buttonBack: UIButton!
-    @IBOutlet var NoPostLabel: UILabel!
+    
+    @IBOutlet weak var viewPostLine: UIView!
+    @IBOutlet weak var viewLeaderboardLine: UIView!
+    @IBOutlet weak var viewTaggedLine: UIView!
     
     var isMyClub: Bool = false
     var clubProfileData: Club?
@@ -36,7 +40,9 @@ class ClubProfileViewController: UIViewController {
         
         setGlassEffect(for: self.buttonBack, withImage: "chevron.backward")
         buttonBack.layer.cornerRadius = 20
-
+        
+        scrollView.contentSize.height = self.collectionViewPostImages.frame.height + self.collectionViewPostImages.frame.origin.y + 50
+        scrollView.showsVerticalScrollIndicator = false
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -109,25 +115,32 @@ class ClubProfileViewController: UIViewController {
         
         joinNowButton.layer.cornerRadius = joinNowButton.frame.height / 2.0
                 
-        viewPosts.backgroundColor = .accent
     }
     
     @IBAction func taggedButtonPressed(_ sender: UIButton) {
         showTagged()
         sender.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
-        
+        viewPostLine.backgroundColor = .white
+        viewTaggedLine.backgroundColor = .accent
+        viewLeaderboardLine.backgroundColor = .white
     }
     
     @IBAction func leaderboardButtonPressed(_ sender: UIButton) {
         showLeaderBoard()
         sender.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
-        
+        viewPostLine.backgroundColor = .white
+        viewTaggedLine.backgroundColor = .white
+        viewLeaderboardLine.backgroundColor = .accent
+
     }
     
     @IBAction func postsButtonPressed(_ sender: UIButton) {
         showPosts()
         sender.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
-        
+        viewPostLine.backgroundColor = .accent
+        viewTaggedLine.backgroundColor = .white
+        viewLeaderboardLine.backgroundColor = .white
+
     }
     
     @IBAction func editClubProfilePressed(_ sender: UIButton) {
@@ -160,25 +173,16 @@ class ClubProfileViewController: UIViewController {
     func showPosts() {
         collectionViewPostImages.isHidden = false
         tableViewLeaderBoard.isHidden = true
-        viewPosts.backgroundColor = .accent
-        viewTagged.backgroundColor = .white
-        viewLeaderBoard.backgroundColor = .white
     }
 
     func showLeaderBoard() {
         collectionViewPostImages.isHidden = true
         tableViewLeaderBoard.isHidden = false
-        viewLeaderBoard.backgroundColor = .accent
-        viewPosts.backgroundColor = .white
-        viewTagged.backgroundColor = .white
     }
 
     func showTagged() {
         collectionViewPostImages.isHidden = false
         tableViewLeaderBoard.isHidden = true
-        viewTagged.backgroundColor = .accent
-        viewPosts.backgroundColor = .white
-        viewLeaderBoard.backgroundColor = .white
     }
 }
 
