@@ -143,6 +143,24 @@
                                 <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="3sw-RX-ZLj">
+                                <rect key="frame" x="20" y="104" width="310" height="4"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                            </progressView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="YOU (12.5 Km)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Enn-gZ-ZHy">
+                                <rect key="frame" x="22" y="87" width="55" height="12"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="SFPro-Bold" family="SF Pro" pointSize="7"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Alex (13.7 Km)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="leZ-h4-PyL">
+                                <rect key="frame" x="275" y="87" width="55" height="12"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="SFPro-Bold" family="SF Pro" pointSize="7"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" name="CardLightBlack"/>
                     </view>
@@ -157,6 +175,7 @@
             </constraints>
             <size key="customSize" width="389" height="149"/>
             <connections>
+                <outlet property="OpponentProgressOverview" destination="leZ-h4-PyL" id="gRZ-xr-CkR"/>
                 <outlet property="imageViewOpponent" destination="1aD-pb-pgI" id="frV-w7-iAt"/>
                 <outlet property="imageViewYou" destination="0tS-CY-nwR" id="LPo-8q-hLY"/>
                 <outlet property="labelCriteria" destination="Ose-Yn-wXF" id="tQw-TV-uvf"/>
@@ -168,6 +187,7 @@
                 <outlet property="labelYourName" destination="xeb-l2-XMD" id="kuF-K7-lhW"/>
                 <outlet property="opponentProgress" destination="29o-x3-38V" id="1GC-ch-5pt"/>
                 <outlet property="progressBar" destination="HIA-zy-EkN" id="unQ-UV-XVc"/>
+                <outlet property="progressBarOverview" destination="3sw-RX-ZLj" id="8B1-R5-ueK"/>
                 <outlet property="trailingLabel" destination="xwO-kr-a1X" id="QJU-FW-hrm"/>
                 <outlet property="trailingView" destination="AYY-Kn-5MZ" id="bjp-S4-ZHD"/>
                 <outlet property="viewCellBackground" destination="Zqg-fV-7vE" id="rXv-Pl-AN1"/>
@@ -176,8 +196,9 @@
                 <outlet property="viewVS" destination="7YG-zx-BZA" id="U3G-tU-TrZ"/>
                 <outlet property="viewYourName" destination="ort-qc-m4Z" id="1IZ-0I-0Wu"/>
                 <outlet property="yourProgress" destination="Zqg-fV-7vE" id="Dyp-UW-B8D"/>
+                <outlet property="yourProgressOverview" destination="Enn-gZ-ZHy" id="9ht-P1-xXj"/>
             </connections>
-            <point key="canvasLocation" x="500.76335877862596" y="192.25352112676057"/>
+            <point key="canvasLocation" x="75" y="105"/>
         </collectionViewCell>
     </objects>
     <resources>
