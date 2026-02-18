@@ -200,7 +200,7 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
         if indexPath == expandedIndexPath {
             return CGSize(width: width, height: 240)
         } else {
-            return CGSize(width: width, height: 100)
+            return CGSize(width: width, height: 130)
         }
     }
 

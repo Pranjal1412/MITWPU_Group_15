@@ -34,10 +34,10 @@
                     <rect key="frame" x="0.0" y="0.0" width="402" height="854"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Manage how your activity and profile are shared. Your privacy is our priority  " textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eDw-ra-gKI">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Manage how your activity and profile are shared. Your privacy is our priority  " lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eDw-ra-gKI">
                             <rect key="frame" x="16" y="110" width="370" height="42"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="17"/>
+                            <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="13"/>
                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
