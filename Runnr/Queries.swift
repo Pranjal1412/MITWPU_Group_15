@@ -420,5 +420,31 @@ func fetchSummary(userID: UUID, period: Period) async throws -> [SummaryRow]? {
     
 }
 
+//MARK: - Game Settings
 
-
+func downloadTerritoryFile() async -> URL? {
+    do {
+        //document url fetched
+        let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        //appended fileName to create a full url
+        let localURL = documents.appendingPathComponent("Territory.reality")
+                
+        if FileManager.default.fileExists(atPath: localURL.path) == false {
+            // raw data from supabase of the game is downloaded
+            let data = try await SupabaseManager.shared.client.storage
+                .from("game-assets")
+                .download(path: "Territory.reality")
+            
+            //writes the data to the given path in local URL
+            try data.write(to: localURL, options: .atomic)
+            
+            return localURL
+        }
+        
+        return localURL
+        
+    } catch {
+        print("Download failed:", error)
+        return nil
+    }
+}

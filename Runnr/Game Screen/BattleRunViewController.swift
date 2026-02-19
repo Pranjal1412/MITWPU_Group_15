@@ -125,7 +125,13 @@ class BattleRunViewController: UIViewController {
         @MainActor
         func loadBoard() async {
             do {
-                let root = try await Entity.load(named: "Territory")
+                
+                guard let localURL = await downloadTerritoryFile() else {
+                    print("File download failed")
+                    return
+                }
+
+                let root = try await Entity(contentsOf: localURL)
                 let boardAnchor = AnchorEntity(world: .zero)
                 boardAnchor.addChild(root)
                 arView.scene.addAnchor(boardAnchor)
@@ -267,9 +273,6 @@ class BattleRunViewController: UIViewController {
     }
 
     // MARK: - Core Logic Classes
-    enum Player { case me, lea }
-    enum TileOwner: Equatable { case none, player(Player) }
-    struct TileState { let id: String; var owner: TileOwner }
 
     final class BattleRunGame {
         var tiles: [String: TileState] = [:]
