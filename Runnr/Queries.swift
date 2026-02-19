@@ -448,3 +448,39 @@ func downloadTerritoryFile() async -> URL? {
         return nil
     }
 }
+
+func insertNewGame(gameData: TerritoryGame) async -> TerritoryGame? {
+    do {
+        let insertedGame: TerritoryGame = try await SupabaseManager.shared.client
+            .from("TerritoryGame")
+            .insert(gameData)
+            .select()
+            .single()
+            .execute()
+            .value
+                
+        return insertedGame
+
+    }
+    catch {
+        print("Insertion Failed: \(error)")
+        return nil
+    }
+}
+
+func fetchGameTileStatus(gameID: UUID) async -> [TerritoryHexTile]? {
+    do {
+        let tileStatus : [TerritoryHexTile] = try await SupabaseManager.shared.client
+            .from("TerritoryHexTile")
+            .select()
+            .eq("gameID", value: gameID)
+            .execute()
+            .value
+            
+        return tileStatus
+    }
+    catch {
+        print("Fetch of game tile status failed: \(error)")
+        return nil
+    }
+}

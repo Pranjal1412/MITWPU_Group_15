@@ -246,6 +246,9 @@
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <imageReference key="image" image="person.fill.badge.plus" catalog="system" symbolScale="small"/>
                                 </state>
+                                <connections>
+                                    <action selector="inviteFriendClicked:" destination="gTV-IL-0wX" eventType="touchUpInside" id="OJ0-4e-BNp"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.070588235294117646" green="0.070588235294117646" blue="0.070588235294117646" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

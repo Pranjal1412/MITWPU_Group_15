@@ -7,19 +7,19 @@
 import Foundation
 import UIKit
 
-struct TerritoryGameModel: Codable {
-    let gameID: UUID
-    let startDate: Date
-    let endDate: Date
-    let playerOneID: UUID
-    let playerTwoID: UUID
+struct TerritoryGame: Codable {
+    var gameID: UUID?
+    var startDate: Date?
+    var endDate: Date?
+    var playerOneID: UUID?
+    var playerTwoID: UUID?
     var winnerID: UUID?
-    var isCompleted: Bool
+    var isCompleted: Bool?
 }
-struct TileStatus: Codable {
-    let tileID: String
+struct TerritoryHexTile: Codable {
+    var tileID: String
     var ownerID: UUID?
-    let gameID: UUID
+    var gameID: UUID
 }
 
 enum Player {

@@ -20,10 +20,11 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var progressViewCapturedTiles: UIProgressView!
     @IBOutlet weak var labelGoal: UILabel!
-    @IBOutlet weak var labelNowLive: UILabel!
     @IBOutlet weak var imageViewGameBackground: UIImageView!
     @IBOutlet weak var labelBattleRun: UILabel!
     @IBOutlet weak var viewCountDown: UIView!
+    
+    let userProfile = DataSource.shared.getUserProfile()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -47,5 +48,15 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
         imageView3.layer.cornerRadius = imageView1.frame.size.height / 2
         imageView3.clipsToBounds = true
     }
+    
+    @IBAction func inviteFriendClicked(_ sender: UIButton) {
+        var newGame = TerritoryGame(playerOneID: userProfile.userID, playerTwoID: UUID(uuidString: "24fc68d0-fe86-4863-8166-d2368d179718"))
+        
+        Task {
+            newGame = await insertNewGame(gameData: newGame) ?? newGame            
+            sender.isEnabled = false
+        }
+    }
+    
 
 }

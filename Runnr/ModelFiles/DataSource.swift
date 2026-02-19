@@ -14,6 +14,10 @@ class DataSource {
     private var friendActivities: [UserActivity] = []
     private var clubsArray : [Club] = []
     private var myClubsArray : [ClubRoleAndData] = []
+    
+    private var gameID: UUID?
+    private var gameTile: [TerritoryHexTile] = []
+    
     static let shared = DataSource()
     
     private init() {
@@ -150,6 +154,13 @@ class DataSource {
         return self.myClubsArray
     }
     
+    func setGameID(_ gameID: UUID) {
+        self.gameID = gameID
+    }
+    
+    func getGameID() -> UUID? {
+        return self.gameID
+    }
     
 //    MARK: - Below functions are yet to check and corrected
     func getFriendsActivityData() -> [UserActivity] {
