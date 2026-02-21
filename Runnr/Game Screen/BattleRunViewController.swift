@@ -44,9 +44,7 @@ class BattleRunViewController: UIViewController {
                 $0?.clipsToBounds = true
             }
 
-            updatePointsLabels()
-//            viewYou.backgroundColor = .systemCyan
-//            viewFriend.backgroundColor = .systemPurple
+        updatePointsLabels()
         viewYou.layer.borderWidth = 1
         viewYou.layer.borderColor = UIColor.cyan.cgColor
         viewFriend.layer.borderWidth = 1
@@ -60,7 +58,7 @@ class BattleRunViewController: UIViewController {
         viewFriend.layer.shadowColor = UIColor.accent.withAlphaComponent(0.5).cgColor
         viewFriend.layer.shadowOpacity = 0.5
         viewFriend.layer.shadowRadius = self.viewFriend.frame.height / 2
-        }
+    }
         
         func setupAR() {
             arView.cameraMode = .nonAR
