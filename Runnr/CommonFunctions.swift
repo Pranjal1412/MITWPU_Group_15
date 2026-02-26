@@ -74,22 +74,11 @@ func clubProfileTopGradient(to view: UIView) {
         UIColor.black.cgColor,
         UIColor.black.cgColor,
         UIColor.black.cgColor,
-//        UIColor.black.cgColor,
-//        UIColor.black.cgColor,
-//        UIColor.black.cgColor,
-//        UIColor.black.cgColor,
-//        UIColor.black.cgColor,
-
-//        UIColor.black.withAlphaComponent(0.8).cgColor,
         UIColor.black.withAlphaComponent(0.7).cgColor,
-//        UIColor.black.withAlphaComponent(0.6).cgColor,
         UIColor.black.withAlphaComponent(0.5).cgColor,
-//        UIColor.black.withAlphaComponent(0.4).cgColor,
         UIColor.black.withAlphaComponent(0.3).cgColor,
-//        UIColor.black.withAlphaComponent(0.1).cgColor,
         UIColor.black.withAlphaComponent(0.1).cgColor,
         UIColor.clear.cgColor
-//        UIColor.clear.cgColor
     ]
 
     gradient.startPoint = CGPoint(x: 0.5, y: 0)
