@@ -27,6 +27,7 @@ class AllActivitiesViewController: UIViewController {
         tableViewMyActivity.dataSource = self
         tableViewMyActivity.register(UINib(nibName: "MyActivityTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
         tableViewMyActivity.showsVerticalScrollIndicator = false
+        tableViewMyActivity.separatorStyle = .none
     }
     
     func settingLabel() {
@@ -48,12 +49,12 @@ class AllActivitiesViewController: UIViewController {
 //MARK: - TableView Settings
 extension AllActivitiesViewController : UITableViewDelegate, UITableViewDataSource {
         
-        func numberOfSections(in tableView: UITableView) -> Int {
-            return myActivity.count
-        }
+//        func numberOfSections(in tableView: UITableView) -> Int {
+//            return 1
+//        }
 
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return 1
+            return myActivity.count
         }
 
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -64,15 +65,15 @@ extension AllActivitiesViewController : UITableViewDelegate, UITableViewDataSour
             return cell
         }
 
-        func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-            return 30
-        }
-
-        func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-            let spacer = UIView()
-            spacer.backgroundColor = .clear
-            return spacer
-        }
+//        func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+//            return 30
+//        }
+//
+//        func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+//            let spacer = UIView()
+//            spacer.backgroundColor = .clear
+//            return spacer
+//        }
     
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             if tableView == tableViewMyActivity {

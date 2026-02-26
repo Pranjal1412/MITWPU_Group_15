@@ -81,6 +81,15 @@ class ClubScreenViewController: UIViewController {
             collectionViewJoinedClub.reloadData()
             collectionViewExplore.reloadData()
             buttonAddMoreClubs.isHidden = true
+            
+            segmentControlClubScreen.selectedSegmentIndex = 1
+            collectionViewExplore.isHidden = false
+            buttonCreateClub.isHidden = true
+            searchBarFriendsScreen.isHidden = false
+            labelCreateyourOwnClub.isHidden = true
+            tableViewFriends.isHidden = true
+            searchBarFriendsScreen.placeholder = "Search for clubs"
+            collectionViewJoinedClub.isHidden = true
 
         }
         
