@@ -70,7 +70,6 @@ class ActivityLiveTrackingViewController: UIViewController {
     
     var quotes: [String] = [String(localized: "You Got This"), String(localized: "Lock in"), String(localized: "Lace Up")]
     
-    private var currentActivity: UserActivity?
     var isActivityInserted = false
 
     override func viewDidLoad() {
@@ -80,16 +79,7 @@ class ActivityLiveTrackingViewController: UIViewController {
         settingPauseButtonImg()
         
         userLocation.locationManager.startUpdatingLocation()
-        
-        self.currentActivity = UserActivity()
-        self.currentActivity?.userID = self.userProfile.userID
-        
-        Task {
-            self.currentActivity = await insertActivity(self.currentActivity!)
-            self.datasource.setCurrentActivity((self.currentActivity!))
-            self.isActivityInserted = true
-        }
-        
+                        
         activityManager = UserActivityManager(timerLabel: self.labelTimeCounter)
         self.activityStartTime = Date()
         
@@ -215,7 +205,7 @@ class ActivityLiveTrackingViewController: UIViewController {
         self.userLocation.locationManager.stopUpdatingLocation()
         self.checkIfGoalSetAndCompleted()
         
-        if self.isActivityInserted == true {
+//        if self.isActivityInserted == true {
             let alert = UIAlertController(title: String(localized: "End Run"),
                                           message: String(localized: "Are you sure you want to end this run?"), preferredStyle: .alert)
             let cancel = UIAlertAction(title: String(localized: "Cancel"), style: .cancel, handler: nil)
@@ -227,44 +217,48 @@ class ActivityLiveTrackingViewController: UIViewController {
                     self.playAudioFile(named: "runCompleted")
                     self.activityEndTime = Date()
 
-                    self.currentActivity?.activityStartTime = self.activityStartTime!
-                    self.currentActivity?.activityEndTime = self.activityEndTime!
-                    self.currentActivity?.activityTitle = ""
-                    self.currentActivity?.activityRemark = ""
-                    self.currentActivity?.isPublic = false
-                    self.currentActivity?.activityType = self.activityTypeSelected!
-                    self.currentActivity?.distanceCovered = self.activityManager.totalDistance
-                    self.currentActivity?.distanceUnit = .kilometers
-                    self.currentActivity?.timeTakenSeconds = self.activityManager.getTotalTime()
-                    self.currentActivity?.caloriesBurnt = 123
-                    self.currentActivity?.stepsTaken = self.activityManager.totalSteps
-                    self.currentActivity?.avgHeartRate = nil
-                    self.currentActivity?.avgPace = self.activityManager.getAveragePace()
-                    self.currentActivity?.paceUnit = .minPerKm
-                    self.currentActivity?.mapImageURL = ""
-                    self.currentActivity?.basePoints = self.activityManager.basePointsEarned()
-                    self.currentActivity?.skillPoints = self.activityManager.skillPointsEarned()
+                    var currentActivity = UserActivity(userID: self.userProfile.userID!,
+                                                       activityStartTime: self.activityStartTime!,
+                                                       activityEndTime: self.activityEndTime!,
+                                                       activityTitle: "",
+                                                       activityType: self.activityTypeSelected!,
+                                                       activityRemark: "",
+                                                       isPublic: false,
+                                                       distanceCovered: self.activityManager.totalDistance,
+                                                       distanceUnit: .kilometers,
+                                                       timeTakenSeconds: self.activityManager.getTotalTime(),
+                                                       caloriesBurnt: 0,
+                                                       stepsTaken: self.activityManager.totalSteps,
+                                                       avgHeartRate: nil,
+                                                       avgPace: self.activityManager.getAveragePace(),
+                                                       paceUnit: .minPerKm,
+                                                       mapImageURL: "",
+                                                       basePoints: self.activityManager.basePointsEarned(),
+                                                       skillPoints: self.activityManager.skillPointsEarned())
                     
-                    
-                    // Get Map image URL
-                    if let image = self.captureMapImage(from: self.mapManager.mapView) {
-                        let imageURL = await saveMapImage(activityID: self.currentActivity!.activityID!, with: image)
-                        self.currentActivity?.mapImageURL = imageURL
-                    }
-
                     // get Heart rate
                     let avgHR = await self.healthKitManager.fetchAverageHeartRateAsync(from: self.activityStartTime!, to: self.activityEndTime!)
-                    self.currentActivity!.avgHeartRate = avgHR
+                    currentActivity.avgHeartRate = avgHR
                     
                     let caloriesBurnt = await
                         self.healthKitManager.fetchCaloriesAsync(from: self.activityStartTime!, to: self.activityEndTime!)
-                    self.currentActivity!.caloriesBurnt = Int(caloriesBurnt)
+                    currentActivity.caloriesBurnt = Int(caloriesBurnt)
                     
-                    await self.convertGMSMutablePathAndInsert(self.mapManager.path, activityID: self.currentActivity!.activityID!)
+                    currentActivity = await insertActivity(currentActivity) ?? currentActivity
+                    self.datasource.setCurrentActivity(currentActivity)
+                    self.isActivityInserted = true
+                    
+                    await self.convertGMSMutablePathAndInsert(self.mapManager.path, activityID: currentActivity.activityID!)
+                    
+                    // Get Map image URL
+                    if let image = self.captureMapImage(from: self.mapManager.mapView) {
+                        let imageURL = await saveMapImage(activityID: currentActivity.activityID!, with: image)
+                        currentActivity.mapImageURL = imageURL
+                    }
                     
                     DispatchQueue.main.async {
                         let destinationVC = ActivitySaveViewController()
-                        destinationVC.activityData = self.currentActivity
+                        destinationVC.activityData = currentActivity
                         self.navigationController?.pushViewController(destinationVC, animated: true)
                     }
                 }
@@ -272,29 +266,29 @@ class ActivityLiveTrackingViewController: UIViewController {
             
             alert.addAction(end)
             present(alert, animated: true , completion: nil)
-        }
+//        }
         
-        else {
-            let alert = UIAlertController(
-                  title: String(localized: "Ending Run"),
-                  message: String(localized: "Finalizing your activity…"),
-                  preferredStyle: .alert
-              )
-
-              let spinner = UIActivityIndicatorView(style: .medium)
-              spinner.translatesAutoresizingMaskIntoConstraints = false
-              spinner.startAnimating()
-
-              alert.view.addSubview(spinner)
-
-              NSLayoutConstraint.activate([
-                  spinner.centerXAnchor.constraint(equalTo: alert.view.centerXAnchor),
-                  spinner.bottomAnchor.constraint(equalTo: alert.view.bottomAnchor, constant: -20)
-              ])
-
-            present(alert, animated: true , completion: nil)
-
-        }
+//        else {
+//            let alert = UIAlertController(
+//                  title: String(localized: "Ending Run"),
+//                  message: String(localized: "Finalizing your activity…"),
+//                  preferredStyle: .alert
+//              )
+//
+//              let spinner = UIActivityIndicatorView(style: .medium)
+//              spinner.translatesAutoresizingMaskIntoConstraints = false
+//              spinner.startAnimating()
+//
+//              alert.view.addSubview(spinner)
+//
+//              NSLayoutConstraint.activate([
+//                  spinner.centerXAnchor.constraint(equalTo: alert.view.centerXAnchor),
+//                  spinner.bottomAnchor.constraint(equalTo: alert.view.bottomAnchor, constant: -20)
+//              ])
+//
+//            present(alert, animated: true , completion: nil)
+//
+//        }
         
     }
     
