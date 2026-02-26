@@ -1,55 +1,61 @@
 import UIKit
 import GoogleMaps
 
-struct UserProfile {
-    let userID = UUID()
-    var userName: String
-    var emailID: String
-    var profileImage: UIImage
-    var gender: String
-    var totalFollwers: Int = 0
-    var totalFollowing: Int = 0
-    var totalRunnrPoints: Int = 100
-    var totalDistance: Double = 0
+struct UserActivity: Codable {
+    var userID: UUID?
+    var activityID: UUID?
+    
+    var activityStartTime: Date?
+    var activityEndTime: Date?
+    
+    var activityTitle: String?
+    var activityType: ActivityType?
+    var activityRemark: String?
+    var isPublic: Bool?
+    
+    var distanceCovered: Double?
+    var distanceUnit: DistanceUnit?
+    
+    var timeTakenSeconds: Int?
+    var caloriesBurnt: Int?
+    var stepsTaken: Int?
+    
+    var avgHeartRate: Double?
+    var avgPace: Double?
+    var paceUnit: PaceUnit?
+    
+    var mapImageURL: String?
+    var basePoints: Int?
+    var skillPoints: Int?
 }
 
-struct UserActivity {
-    let id: UUID
-    let userName: String // needs to removed from this struct
-    let activityStartTime: Date
-    let activityEndTime: Date
-    var runTitle: String
-    let activityType: String
+struct ActivityPaceGraphData : Codable {
+    let activityID: UUID
     let distanceValue: Double
-    let distanceUnit: String
     let paceValue: Double
-    let paceGraphData: [LivePaceGraphData]
-    let paceUnit: String
-    let stepsValue: Int
-    let caloriesValue: Int
-    var avgHR: Double?
-    let timeHour: Int
-    let timeMin: Int
-    let timeSec: Int
-    let basePoints: Int
-    let skillPoints: Int
-    let mapImage: UIImage
-    var activityPhotos: [UIImage]
-    var note: String
-    var isPublic: Bool
-    var routeCoordinates: [CLLocationCoordinate2D]
 }
 
-struct LivePaceGraphData: Identifiable {
-    let id: UUID = UUID()
-    let paceValue: Double
-    let distance: Double
-    let symbol: Bool
+struct ActivityPhotos {
+    let activityID: UUID
+    let photoID = UUID()
+    let photoURL: String
 }
 
-struct UserCategory {
-    let name : String
-    let goal : Int
-    let badge : String
+struct ActivityRouteCoordinates : Codable {
+    let activityID: UUID
+    let latitude: Double
+    let longitude: Double
+    let sequence: Int
 }
 
+struct ActivityHRGraphData {
+    let activityID : UUID
+    let timeStamp : Date
+    let heartRate : Double
+}
+
+struct FormatTime{
+    let hour: Int
+    let minute: Int
+    let second: Int
+}

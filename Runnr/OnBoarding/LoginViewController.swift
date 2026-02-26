@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import GoogleSignIn
+import Supabase
 
 class LoginViewController: UIViewController {
 
@@ -17,6 +17,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var buttonApple: UIButton!
     @IBOutlet weak var buttonLogin: UIButton!
     @IBOutlet weak var buttonBack: UIButton!
+
+    let supabase = SupabaseManager.shared.client
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,23 +78,20 @@ class LoginViewController: UIViewController {
     
     @IBAction func buttonGooglePressed(_ sender: UIButton) {
         print("Google Button Tapped")
-            
-            GIDSignIn.sharedInstance.signIn(withPresenting: self) { signInResult, error in
-                if let error = error {
-                    print("Sign in failed: \(error.localizedDescription)")
-                    return
-                }
-                let user = signInResult?.user
-                let emailAddress = user?.profile?.email
-                print("Successfully signed in as: \(emailAddress ?? "Unknown")")
-                DispatchQueue.main.async {
-                    self.proceedAfterLogin()
-                }
+        Task {
+            do {
+                try await supabase.auth.signInWithOAuth(provider: .google, redirectTo: URL(string: "DevTeamRunnr://login-callback"))
+                await self.checkSession()
             }
+            catch {
+                print("error : \(error)")
+            }
+        }
     }
     
-    func proceedAfterLogin() {
-        isSignUpComplete = true
-        self.navigationController?.popToRootViewController(animated: false)
+    func checkSession() async {
+        if supabase.auth.currentSession != nil {            
+            self.navigationController?.popToRootViewController(animated: false)
+        }
     }
 }

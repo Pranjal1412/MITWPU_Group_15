@@ -35,7 +35,7 @@ class BattleRunViewController: UIViewController {
     func setupUI() {
             viewEnds.layer.cornerRadius = viewEnds.bounds.height / 2
             viewEnds.layer.borderWidth = 1
-            viewEnds.layer.borderColor = UIColor.cyan.cgColor
+            viewEnds.layer.borderColor = UIColor.accent.cgColor
             
             [imageYour, imageFriends].forEach {
                 $0?.layer.cornerRadius = ($0?.bounds.height ?? 0) / 2
@@ -44,12 +44,21 @@ class BattleRunViewController: UIViewController {
                 $0?.clipsToBounds = true
             }
 
-            updatePointsLabels()
-            viewYou.backgroundColor = .systemCyan
-            viewFriend.backgroundColor = .systemPurple
-            viewYou.layer.cornerRadius = 10
-            viewFriend.layer.cornerRadius = 10
-        }
+        updatePointsLabels()
+        viewYou.layer.borderWidth = 1
+        viewYou.layer.borderColor = UIColor.cyan.cgColor
+        viewFriend.layer.borderWidth = 1
+        viewFriend.layer.borderColor = UIColor.purple.cgColor
+            viewYou.layer.cornerRadius = 15
+            viewFriend.layer.cornerRadius = 15
+        
+        viewYou.layer.shadowColor = UIColor.accent.withAlphaComponent(0.5).cgColor
+        viewYou.layer.shadowOpacity = 0.5
+        viewYou.layer.shadowRadius = self.viewYou.frame.height / 2
+        viewFriend.layer.shadowColor = UIColor.accent.withAlphaComponent(0.5).cgColor
+        viewFriend.layer.shadowOpacity = 0.5
+        viewFriend.layer.shadowRadius = self.viewFriend.frame.height / 2
+    }
         
         func setupAR() {
             arView.cameraMode = .nonAR
@@ -114,7 +123,13 @@ class BattleRunViewController: UIViewController {
         @MainActor
         func loadBoard() async {
             do {
-                let root = try await Entity.load(named: "Territory")
+                
+                guard let localURL = await downloadTerritoryFile() else {
+                    print("File download failed")
+                    return
+                }
+
+                let root = try await Entity(contentsOf: localURL)
                 let boardAnchor = AnchorEntity(world: .zero)
                 boardAnchor.addChild(root)
                 arView.scene.addAnchor(boardAnchor)
@@ -256,9 +271,6 @@ class BattleRunViewController: UIViewController {
     }
 
     // MARK: - Core Logic Classes
-    enum Player { case me, lea }
-    enum TileOwner: Equatable { case none, player(Player) }
-    struct TileState { let id: String; var owner: TileOwner }
 
     final class BattleRunGame {
         var tiles: [String: TileState] = [:]

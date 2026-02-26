@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import Supabase
 
 class SettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-
+    
     @IBOutlet weak var tableViewSettings: UITableView!
     
     override func viewDidLoad() {
@@ -92,17 +93,25 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
             let logoutAction = UIAlertAction(title: "Logout", style: .destructive) { (action) in
-                isSignUpComplete = false
-                if let presenter = self.presentingViewController {
-                    self.dismiss(animated: true) {
-                        presenter.dismiss(animated: false, completion: nil)
+                
+                Task {
+                    print("Session deleted successfully")
+                    
+                    if let presenter = self.presentingViewController {
+                        self.dismiss(animated: true) {
+                            presenter.dismiss(animated: false, completion: nil)
+                        }
                     }
                 }
+                
             }
             
             alert.addAction(cancelAction)
             alert.addAction(logoutAction)
             present(alert, animated: true, completion: nil)
+            
+        case "Privacy Controls" :
+            self.present(PrivacyControlsViewController(), animated: true)
             
         default:
             break
@@ -113,5 +122,6 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         
     }
+    
 }
 

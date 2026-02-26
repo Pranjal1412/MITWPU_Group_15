@@ -17,9 +17,9 @@ class SelectActivityCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
     }
 
-    func configureCell(with activity: ClubActivity) {
+    func configureCell(with activity: ClubActivityOptions) {
         self.imageActivity.image = activity.image
-        self.labelActivityTitle.text = activity.title
+        self.labelActivityTitle.text = activity.title.rawValue
         self.labelActivityTitle.textColor = .white
     }
     

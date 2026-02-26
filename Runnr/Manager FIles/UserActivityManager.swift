@@ -12,6 +12,8 @@ import CoreMotion
 
 class UserActivityManager {
 
+    let datasource = DataSource.shared
+    
     private var timer: Timer?
     private var startTime: Date?
     private var accumulatedTime: TimeInterval = 0
@@ -23,7 +25,7 @@ class UserActivityManager {
     var hours: Int = 0
     
     private var distanceLastLocation: CLLocation?
-    var totalDistance: Double = 1.0
+    var totalDistance: Double = 0.0
     
     private let pedometer = CMPedometer()
     private var steps : Int = 0
@@ -39,7 +41,7 @@ class UserActivityManager {
     private var graphDistance: Double = 0
     private var graphTime: TimeInterval = 0
     private var graphDistancePoint: Int = 0
-    var paceGraphData: [LivePaceGraphData] = []
+    var paceGraphData: [ActivityPaceGraphData] = []
     
     init (timerLabel: UILabel) {
         self.timerLabel = timerLabel
@@ -51,6 +53,10 @@ class UserActivityManager {
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
     }
 
+    func getTotalTime() -> Int {
+        return Int(totalTime)
+    }
+    
     // same function for completely stopping the timer after activity is been ended
     func stopTimer() {
         if let start = startTime {
@@ -66,19 +72,10 @@ class UserActivityManager {
     @objc func updateTime() {
         if let start = startTime {
             totalTime = accumulatedTime + Date().timeIntervalSince(start)
-            timerLabel.text = formatTime(totalTime)
+            let formattedTime = formatTime(Int(totalTime))
+            
+            timerLabel.text = String(format: "%02d:%02d:%02d", formattedTime.hour, formattedTime.minute, formattedTime.second)
         }
-    }
-
-    func formatTime(_ interval: TimeInterval) -> String {
-        let totalSeconds = Int(interval)
-        
-        seconds = totalSeconds % 60
-        minutes = (totalSeconds % 3600) / 60
-        hours = totalSeconds / 3600
-        
-        return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
-
     }
     
     func startUpdatingDistance(with location: CLLocation) {
@@ -144,7 +141,9 @@ class UserActivityManager {
                     let pace = (self.graphTime / self.graphDistance) * 1000 / 60
 
                     self.graphDistancePoint += 100
-                    self.paceGraphData.append(LivePaceGraphData(paceValue: pace, distance: Double(graphDistancePoint) / 1000, symbol: graphDistancePoint % 1000 == 0))
+                    self.paceGraphData.append(ActivityPaceGraphData(activityID: datasource.getCurrentActivity()!.activityID!, distanceValue: Double(graphDistancePoint) / 1000, paceValue: pace))
+                    
+                    
                     print("graphDistance: \(graphDistance), graphTime: \(graphTime) -> inside if")
                     self.graphDistance = 0
                     self.graphTime = 0
@@ -156,8 +155,12 @@ class UserActivityManager {
         self.paceLastLocation = location
     }
 
-
     func getAveragePace() -> Double {
+        
+        Task {
+            await insertActivityPaceGraphData(self.paceGraphData)
+            self.datasource.setCurrentActivityPaceData(self.paceGraphData)
+        }
         
         if totalDistance > 0 && totalTime >= 60 {
             self.avgPace = (totalTime / 60) / totalDistance

@@ -1,7 +1,7 @@
 import UIKit
 import SwiftUI
 
-class AveragePaceViewController: UIViewController {
+class PaceViewController: UIViewController {
 
     @IBOutlet weak var weekRangeLabel: UILabel!
     @IBOutlet weak var scrollViewMain: UIScrollView!
@@ -11,7 +11,7 @@ class AveragePaceViewController: UIViewController {
     @IBOutlet weak var collectionViewPace: UICollectionView!
     @IBOutlet weak var viewGraphContainer: UIView!
     
-    private let graphStore = GraphDataStore()
+    var graphStore: GraphDataStore? = nil
     private var hostingController: UIHostingController<PaceChartView>?
     
     override func viewDidLoad() {
@@ -39,7 +39,6 @@ class AveragePaceViewController: UIViewController {
 
         settingLabelStyle()
         setupGraph()
-        graphStore.data = weeklyPace
     }
 
     override func viewDidLayoutSubviews() {
@@ -52,18 +51,18 @@ class AveragePaceViewController: UIViewController {
         
         switch sender.selectedSegmentIndex {
             case 0:
-                graphStore.data = weeklyDistance
+                graphStore?.selectedPeriod = .weekly
             case 1:
-                graphStore.data = monthlyDistance
+                graphStore?.selectedPeriod = .monthly
             case 2:
-                graphStore.data = yearlyDistance
+                graphStore?.selectedPeriod = .yearly
             default:
                 break
             }
     }
     
     func setupGraph() {
-        let graphView = PaceChartView(store: graphStore)
+        let graphView = PaceChartView(store: graphStore ?? GraphDataStore())
 
         let hc = UIHostingController(rootView: graphView)
         hostingController = hc
@@ -104,7 +103,7 @@ class AveragePaceViewController: UIViewController {
 
 }
 
-extension AveragePaceViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension PaceViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return averagePaceTrends.count
     }
@@ -128,7 +127,7 @@ struct PaceChartView: View {
     @ObservedObject var store: GraphDataStore
 
     var body: some View {
-        ResponsiveBarChart(data: store.data)
+        ResponsiveBarChart(data: store.chartData(for: store.selectedPeriod, metric: .pace))
     }
 }
 

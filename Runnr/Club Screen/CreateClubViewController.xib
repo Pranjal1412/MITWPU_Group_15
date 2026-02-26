@@ -202,6 +202,9 @@
                                                 <constraint firstAttribute="width" constant="62" id="SY9-hb-GSn"/>
                                             </constraints>
                                             <color key="onTintColor" name="AccentColor"/>
+                                            <connections>
+                                                <action selector="clubPrivacy:" destination="-1" eventType="valueChanged" id="S8k-as-1Bu"/>
+                                            </connections>
                                         </switch>
                                     </subviews>
                                     <constraints>

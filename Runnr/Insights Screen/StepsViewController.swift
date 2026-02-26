@@ -11,7 +11,7 @@ class StepsViewController: UIViewController {
     @IBOutlet weak var viewGraphContainer: UIView!
     @IBOutlet weak var weekRangeLabel: UILabel!
 
-    private let graphStore = GraphDataStore()
+    var graphStore: GraphDataStore? = nil
     private var hostingController: UIHostingController<StepsChartView>?
     
     override func viewDidLoad() {
@@ -40,7 +40,6 @@ class StepsViewController: UIViewController {
         settingLabelStyle()
         
         setupGraph()
-        graphStore.data = weeklyDistance
 
     }
 
@@ -54,18 +53,18 @@ class StepsViewController: UIViewController {
         
         switch sender.selectedSegmentIndex {
             case 0:
-                graphStore.data = weeklyDistance
+                graphStore?.selectedPeriod = .weekly
             case 1:
-                graphStore.data = monthlyDistance
+                graphStore?.selectedPeriod = .monthly
             case 2:
-                graphStore.data = yearlyDistance
+                graphStore?.selectedPeriod = .yearly
             default:
                 break
             }
     }
     
     func setupGraph() {
-        let graphView = StepsChartView(store: graphStore)
+        let graphView = StepsChartView(store: graphStore ?? GraphDataStore())
 
         let hc = UIHostingController(rootView: graphView)
         hostingController = hc
@@ -147,7 +146,7 @@ struct StepsChartView: View {
     @ObservedObject var store: GraphDataStore
     
     var body: some View {
-        ResponsiveBarChart(data: store.data)
+        ResponsiveBarChart(data: store.chartData(for: store.selectedPeriod, metric: .steps))
     }
 }
 

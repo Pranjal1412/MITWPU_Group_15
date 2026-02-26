@@ -6,7 +6,8 @@
 //
 
 import UIKit
-import GoogleSignIn
+import Auth
+import Supabase
 
 class JoinUsViewController: UIViewController {
     
@@ -18,6 +19,9 @@ class JoinUsViewController: UIViewController {
     @IBOutlet weak var buttonSignUp: UIButton!
     @IBOutlet weak var buttonBack: UIButton!
     
+    let supabase = SupabaseManager.shared.client
+    var userProfile = DataSource.shared.getUserProfile()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -25,8 +29,6 @@ class JoinUsViewController: UIViewController {
         settingTitle()
         SettingViews()
         settingButton()
-        print("View appeared")
-        
         
     }
     
@@ -87,25 +89,32 @@ class JoinUsViewController: UIViewController {
     }
     
     @IBAction func buttonGooglePressed(_ sender: UIButton) {
-        print("Google Button Tapped")
-            
-            GIDSignIn.sharedInstance.signIn(withPresenting: self) { signInResult, error in
-                if let error = error {
-                    print("Sign in failed: \(error.localizedDescription)")
-                    return
-                }
-                let user = signInResult?.user
-                let emailAddress = user?.profile?.email
-                print("Successfully signed in as: \(emailAddress ?? "Unknown")")
-                DispatchQueue.main.async {
-                    self.proceedAfterLogin()
-                }
+        Task {
+            do {
+                try await supabase.auth.signInWithOAuth(provider: .google, redirectTo: URL(string: "DevTeamRunnr://login-callback"))
+                self.checkSession()
             }
+            catch {
+                print("error : \(error)")
+            }
+        }
     }
     
-    func proceedAfterLogin() {
-        let destinationVC = SetProfileViewController()
-        destinationVC.modalPresentationStyle = .fullScreen
-        self.present(destinationVC, animated: true)
+    func checkSession() {
+        if let session = supabase.auth.currentSession {
+            let user = session.user
+            print("Logged in:", user.email ?? "")
+            
+            self.userProfile.userID = user.id
+            self.userProfile.emailAddress = user.email ?? ""
+            
+            DataSource.shared.setUserProfile(self.userProfile)
+            
+            let destinationVC = SetProfileViewController()
+            destinationVC.modalPresentationStyle = .fullScreen
+            self.present(destinationVC, animated: true)
+        }
     }
 }
+
+

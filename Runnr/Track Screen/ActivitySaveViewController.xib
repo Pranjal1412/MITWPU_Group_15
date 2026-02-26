@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24127" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -56,7 +56,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tSy-p3-WHQ">
-                    <rect key="frame" x="16" y="70" width="74" height="35"/>
+                    <rect key="frame" x="16" y="70" width="76" height="35"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="35" id="wW3-hK-ZBw"/>
                     </constraints>
@@ -70,7 +70,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vc9-KK-lgM">
-                    <rect key="frame" x="326.33333333333331" y="70" width="59.666666666666686" height="35"/>
+                    <rect key="frame" x="325.33333333333331" y="70" width="60.666666666666686" height="35"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="35" id="5Su-NW-Ter"/>
                     </constraints>
@@ -106,7 +106,7 @@
                                     <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done"/>
                                 </textField>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tuesday , 23 July 2024 at 7:12 pm" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oUU-DM-QcU">
-                                    <rect key="frame" x="0.0" y="35" width="245" height="25"/>
+                                    <rect key="frame" x="0.0" y="35" width="248" height="25"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="25" id="8oT-Ku-dd1"/>
                                     </constraints>
@@ -347,7 +347,7 @@
                                         </label>
                                     </subviews>
                                 </stackView>
-                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WiB-FV-uZ5">
+                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="WiB-FV-uZ5">
                                     <rect key="frame" x="290" y="8.3333333333333712" width="64" height="28"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="62" id="ua2-o0-R0m"/>
@@ -483,7 +483,7 @@
         <image name="point.bottomleft.forward.to.point.topright.scurvepath" catalog="system" width="117" height="128"/>
         <image name="stopwatch" catalog="system" width="121" height="128"/>
         <namedColor name="AccentColor">
-            <color red="1" green="0.79199999570846558" blue="0.15700000524520874" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="CardLightBlack">
             <color red="0.10199999809265137" green="0.10199999809265137" blue="0.10199999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

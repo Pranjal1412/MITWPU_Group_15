@@ -1,4 +1,5 @@
 import UIKit
+import Kingfisher
 
 class ActivityScreenViewController: UIViewController {
     
@@ -10,17 +11,22 @@ class ActivityScreenViewController: UIViewController {
     @IBOutlet weak var stackRecentActivities: UIStackView!
     @IBOutlet weak var labelTotalPoints: UILabel!
     @IBOutlet weak var buttonUserProfile: UIButton!
+    @IBOutlet weak var profileImage: UIImageView!
     
     let label = UILabel()
 
-    var dataSource = DataSource.shared
     var totalPoints: Int {
-        dataSource.getTotalRunnrPoints()
-    }
-    var myActivity: [UserActivity] {
-        dataSource.getMyActivityData()
+        dataSource.getUserStats()?.totalPointsEarned ?? 0
     }
     
+    private var dataSource = DataSource.shared
+    
+    private var userProfile: UserProfile {
+        DataSource.shared.getUserProfile()
+    }
+    private var myActivity: [UserActivity] {
+        dataSource.getAllActivities()
+    }
     let friendsActivity : [UserActivity] = DataSource.shared.getFriendsActivityData()
     
     override func viewDidLoad() {
@@ -39,12 +45,29 @@ class ActivityScreenViewController: UIViewController {
         view.addSubview(label)
         
         self.buttonUserProfile.layer.cornerRadius = self.buttonUserProfile.frame.height / 2
+        self.profileImage.layer.cornerRadius = self.profileImage.frame.height / 2
+        self.profileImage.clipsToBounds = true
+
         self.buttonUserProfile.clipsToBounds = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        updateScreenElements()
-        self.labelTotalPoints.text = "\(totalPoints)"
+        let profileImageURL = DataSource.shared.getUserProfile().userProfileImageURL
+
+        if let url = URL(string: profileImageURL!) {
+            self.profileImage.kf.setImage(with: url)
+        }
+        
+        Task {
+            
+            let activities = await fetchAllMyActivities(userID: userProfile.userID!)
+            self.dataSource.setAllActivities(activities)
+            
+            updateScreenElements()
+            labelTotalPoints.text = "\(totalPoints)"
+        }
+        
+        tableViewMyActivity.reloadData()
     }
     
     func settingLabelStyle() {
@@ -82,6 +105,7 @@ class ActivityScreenViewController: UIViewController {
         tableViewFriendsActivity.dataSource = self
         tableViewFriendsActivity.showsVerticalScrollIndicator = false
         tableViewFriendsActivity.register(UINib(nibName: "FriendsActivityTableViewCell", bundle: nil), forCellReuseIdentifier: "cellFriends")
+        tableViewMyActivity.separatorStyle = .none
 
     }
 
@@ -134,7 +158,7 @@ class ActivityScreenViewController: UIViewController {
 //MARK: - TableView Settings
 extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSource {
 
-    func numberOfSections(in tableView: UITableView) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == tableViewMyActivity {
             return min(myActivity.count, 3)
         } else if tableView == tableViewFriendsActivity {
@@ -144,16 +168,12 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
         }
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if tableView == tableViewMyActivity {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MyActivityTableViewCell
             
-            let activity = myActivity[indexPath.section]
+            let activity = myActivity[indexPath.row]
             cell.configure(with: activity)
             
             return cell
@@ -162,60 +182,41 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
             // tableViewfriendsActivity
             let cell = tableView.dequeueReusableCell(withIdentifier: "cellFriends", for: indexPath) as! FriendsActivityTableViewCell
             
-            let activity = friendsActivity[indexPath.section]
+            let activity = friendsActivity[indexPath.row]
             cell.configure(with: activity)
             return cell
         }
 
     }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
     
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 30
-    }
-
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let spacer = UIView()
-        spacer.backgroundColor = .clear
-        return spacer
-    }
-
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == tableViewMyActivity {
-            let activity = myActivity[indexPath.section]
-            
-            let destinationVC = ActivitySummaryViewController()
-            destinationVC.activityData = activity
-            destinationVC.showAlert = false
-            
-            destinationVC.modalPresentationStyle = .overFullScreen
-            self.present(destinationVC, animated: true)
+            let activity = myActivity[indexPath.row]
+
+                Task {
+                    self.dataSource.setCurrentActivity(activity)
+
+                    let routeCoordinates = await fetchActivityRouteCoordinates(activity.activityID!)
+                    self.dataSource.setCurrentActivityCoordinates(routeCoordinates)
+
+                    let paceData = await fetchActivityPaceGraphData(activity.activityID!)
+                    self.dataSource.setCurrentActivityPaceData(paceData)
+                    
+                    await MainActor.run {
+                        let destinationVC = ActivitySummaryViewController()
+                        destinationVC.showAlert = false
+                        destinationVC.modalPresentationStyle = .overFullScreen
+                        self.present(destinationVC, animated: true)
+                    }
+                }
             
         }
     }
+    
 }
-
-//MARK: - Activity Settings
-//extension ActivityScreenViewController {
-//    
-//    @objc func didTapOnMoreOptions(_ sender: UIButton) {
-//        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-//        
-//        let shareAction = UIAlertAction(title: String(localized: "Share Activity"), style: .default){
-//            _ in self.dataSource.shareActivity(atIndex: sender.tag, presentingViewController: self)
-//        }
-//        let deleteAction = UIAlertAction(title: String(localized: "Delete Activity"), style: .destructive) { _ in
-//            self.dataSource.deleteMyActivity(atIndex: sender.tag)
-//            self.updateScreenElements()
-//        }
-//        let cancelAction = UIAlertAction(title: String(localized: "Canel"), style: .cancel, handler: nil)
-//        
-//        alert.addAction(shareAction)
-//        alert.addAction(cancelAction)
-//        alert.addAction(deleteAction)
-//        present(alert, animated: true, completion: nil)
-//    }
-//    
-//}
-
 
 

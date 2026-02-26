@@ -38,16 +38,18 @@ class ActivityLiveTrackingViewController: UIViewController {
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var switchAudioFeedback: UISwitch!
     
-    let speechSynthesizer = AVSpeechSynthesizer()
-    var audioPlayer: AVAudioPlayer?
     var lastAnnouncedKm = 0
+    var audioPlayer: AVAudioPlayer?
+    let speechSynthesizer = AVSpeechSynthesizer()
     
-    let userID = DataSource.shared.getUserID()
-    let userLocation = UserLocationManager()
     let mapManager = MapManager()
+    let userLocation = UserLocationManager()
+    let userProfile = DataSource.shared.getUserProfile()
+    
+    let datasource = DataSource.shared
     var activityManager: UserActivityManager!
     let healthKitManager = HealthKitManager.shared
-    var bounds = GMSCoordinateBounds()
+//    var bounds = GMSCoordinateBounds()
     
     
     var scrollViewInitialized = false
@@ -56,17 +58,20 @@ class ActivityLiveTrackingViewController: UIViewController {
     let topGradientView = UIView()
     let bottomGradientView = UIView()
     let leftGradientView = UIView()
-    var activityTypeSelected : String = ""
+    var activityTypeSelected : ActivityType?
     
-    var activityStartTime: Date?
-    var activityEndTime: Date?
-    var timer : Timer?
     var counter = 3
-    var quotes: [String] = [String(localized: "You Got This"), String(localized: "Lock in"), String(localized: "Lace Up")]
-    var distanceGoalSet : Double?
+    var activityEndTime: Date?
+    var activityStartTime: Date?
+    var timer : Timer?
     var minGoalSet : Int?
     var hourGoalSet : Int?
+    var distanceGoalSet : Double?
     
+    var quotes: [String] = [String(localized: "You Got This"), String(localized: "Lock in"), String(localized: "Lace Up")]
+    
+    var isActivityInserted = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -74,8 +79,7 @@ class ActivityLiveTrackingViewController: UIViewController {
         settingPauseButtonImg()
         
         userLocation.locationManager.startUpdatingLocation()
-        //        userLocation.activityStarted = true
-        
+                        
         activityManager = UserActivityManager(timerLabel: self.labelTimeCounter)
         self.activityStartTime = Date()
         
@@ -145,50 +149,6 @@ class ActivityLiveTrackingViewController: UIViewController {
         }
         
     }
-    func playAudioFile(named name: String) {
-        guard isAudioFeedbackOn else { return }
-        
-        guard let url = Bundle.main.url(forResource: name, withExtension: "mp3") else {
-            print("Missing audio file:", name)
-            return
-        }
-        
-        do {
-            audioPlayer = try AVAudioPlayer(contentsOf: url)
-            audioPlayer?.prepareToPlay()
-            audioPlayer?.play()
-        } catch {
-            print("Audio playback error")
-        }
-    }
-    
-    func announceRunStarted() {
-        playAudioFile(named: "runStarted")
-    }
-    func announceAveragePace(_ pace: Double){
-        playAudioFile(named: "yourAveragePaceIs")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-            guard self.isAudioFeedbackOn else { return }
-            
-            let utterance = AVSpeechUtterance(string: "\(pace) per kilometer")
-            utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
-            utterance.rate = 0.5
-            self.speechSynthesizer.speak(utterance)
-        }
-    }
-    func announceKilometer(_ km: Int) {
-        playAudioFile(named: "youHaveCompleted")
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-            guard self.isAudioFeedbackOn else { return }
-            
-            let utterance = AVSpeechUtterance(string: "\(km) kilometers")
-            utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
-            utterance.rate = 0.5
-            self.speechSynthesizer.speak(utterance)
-        }
-    }
-    
     
     @IBAction func pauseButtonPressed(_ sender: UIButton) {
         
@@ -200,20 +160,14 @@ class ActivityLiveTrackingViewController: UIViewController {
             self.activityManager.stopStepsTracking()
             self.activityManager.stopUpdatingDistance()
             
+            self.mapManager.mapView.isMyLocationEnabled = false
+            
             UIView.animate(withDuration: 0.5) {
                 self.buttonPause.frame.origin.x = (UIScreen.main.bounds.width - (self.buttonPause.frame.width * 2) - 70.0)/2.0
                 self.buttonPause.setImage(UIImage(systemName: "play.fill"), for: .normal)
                 self.buttonEndRun.isHidden = false
                 self.buttonEndRun.frame.origin.x = (self.buttonPause.frame.origin.x + self.buttonPause.frame.width + 70.0)
             }
-            
-            // Fit map to route
-            self.convertPathToCoordinates(mapManager.path).forEach { coordinate in
-                bounds = bounds.includingCoordinate(coordinate)
-            }
-            
-            mapManager.mapView.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 70))
-            self.mapManager.mapView.isMyLocationEnabled = false
             
             buttonPause.tag = 1
         }
@@ -251,56 +205,90 @@ class ActivityLiveTrackingViewController: UIViewController {
         self.userLocation.locationManager.stopUpdatingLocation()
         self.checkIfGoalSetAndCompleted()
         
-        let alert = UIAlertController(title: String(localized: "End Run"),
-                                      message: String(localized: "Are you sure you want to end this run?"), preferredStyle: .alert)
-        let cancel = UIAlertAction(title: String(localized: "Cancel"), style: .cancel, handler: nil)
-        alert.addAction(cancel)
+//        if self.isActivityInserted == true {
+            let alert = UIAlertController(title: String(localized: "End Run"),
+                                          message: String(localized: "Are you sure you want to end this run?"), preferredStyle: .alert)
+            let cancel = UIAlertAction(title: String(localized: "Cancel"), style: .cancel, handler: nil)
+            alert.addAction(cancel)
 
-        let end = UIAlertAction(title: String(localized: "End Anyway"), style: .destructive, handler: { _ in
-            self.playAudioFile(named: "runCompleted")
-            self.activityEndTime = Date()
-            
-            var newActivity = UserActivity(
-                id: self.userID,
-                userName: "Ava Brooks",
-                activityStartTime: self.activityStartTime!,
-                activityEndTime: self.activityEndTime!,
-                runTitle: "",
-                activityType: self.activityTypeSelected,
-                distanceValue: self.activityManager.totalDistance,
-                distanceUnit: "Km",
-                paceValue: self.activityManager.getAveragePace(),
-                paceGraphData: self.activityManager.paceGraphData,
-                paceUnit: "/Km",
-                stepsValue: self.activityManager.totalSteps,
-                caloriesValue: 123,
-                avgHR: nil,
-                timeHour: self.activityManager.hours,
-                timeMin: self.activityManager.minutes,
-                timeSec: self.activityManager.seconds,
-                basePoints: self.activityManager.basePointsEarned(),
-                skillPoints: self.activityManager.skillPointsEarned(),
-                mapImage: self.captureMapImage(from: self.mapManager.mapView)!,
-                activityPhotos: [],
-                note: "",
-                isPublic: false,
-                routeCoordinates: self.convertPathToCoordinates(self.mapManager.path))
-            
-            //            the reason why navigation code is inside fetchAverageHeartRate is async, pushViewController runs immediately so majority of times avgHR will remain nil
-            self.healthKitManager.fetchAverageHeartRate(from: self.activityStartTime!, to: self.activityEndTime!) {
-                avgHR in
-                
-                newActivity.avgHR = avgHR
-                let destinationVC = ActivitySaveViewController()
-                destinationVC.activityData = newActivity
-                destinationVC.modalPresentationStyle = .fullScreen
-                self.navigationController?.pushViewController(destinationVC, animated: true)
+            let end = UIAlertAction(title: "End Anyway", style: .destructive) { _ in
+    //            The reason why complete thing is in Task is because heart rate and acitivty insertion and image does not happen one after the other the happen simultaneously so to avoid the bug and to avoid navigating to next screen before the data is available everything should be in Task
+                Task {
+                    self.playAudioFile(named: "runCompleted")
+                    self.activityEndTime = Date()
+
+                    var currentActivity = UserActivity(userID: self.userProfile.userID!,
+                                                       activityStartTime: self.activityStartTime!,
+                                                       activityEndTime: self.activityEndTime!,
+                                                       activityTitle: "",
+                                                       activityType: self.activityTypeSelected!,
+                                                       activityRemark: "",
+                                                       isPublic: false,
+                                                       distanceCovered: self.activityManager.totalDistance,
+                                                       distanceUnit: .kilometers,
+                                                       timeTakenSeconds: self.activityManager.getTotalTime(),
+                                                       caloriesBurnt: 0,
+                                                       stepsTaken: self.activityManager.totalSteps,
+                                                       avgHeartRate: nil,
+                                                       avgPace: self.activityManager.getAveragePace(),
+                                                       paceUnit: .minPerKm,
+                                                       mapImageURL: "",
+                                                       basePoints: self.activityManager.basePointsEarned(),
+                                                       skillPoints: self.activityManager.skillPointsEarned())
+                    
+                    // get Heart rate
+                    let avgHR = await self.healthKitManager.fetchAverageHeartRateAsync(from: self.activityStartTime!, to: self.activityEndTime!)
+                    currentActivity.avgHeartRate = avgHR
+                    
+                    let caloriesBurnt = await
+                        self.healthKitManager.fetchCaloriesAsync(from: self.activityStartTime!, to: self.activityEndTime!)
+                    currentActivity.caloriesBurnt = Int(caloriesBurnt)
+                    
+                    currentActivity = await insertActivity(currentActivity) ?? currentActivity
+                    self.datasource.setCurrentActivity(currentActivity)
+                    self.isActivityInserted = true
+                    
+                    await self.convertGMSMutablePathAndInsert(self.mapManager.path, activityID: currentActivity.activityID!)
+                    
+                    // Get Map image URL
+                    if let image = self.captureMapImage(from: self.mapManager.mapView) {
+                        let imageURL = await saveMapImage(activityID: currentActivity.activityID!, with: image)
+                        currentActivity.mapImageURL = imageURL
+                    }
+                    
+                    DispatchQueue.main.async {
+                        let destinationVC = ActivitySaveViewController()
+                        destinationVC.activityData = currentActivity
+                        self.navigationController?.pushViewController(destinationVC, animated: true)
+                    }
+                }
             }
-        })
+            
+            alert.addAction(end)
+            present(alert, animated: true , completion: nil)
+//        }
         
-        alert.addAction(end)
-        
-        present(alert, animated: true , completion: nil)
+//        else {
+//            let alert = UIAlertController(
+//                  title: String(localized: "Ending Run"),
+//                  message: String(localized: "Finalizing your activity…"),
+//                  preferredStyle: .alert
+//              )
+//
+//              let spinner = UIActivityIndicatorView(style: .medium)
+//              spinner.translatesAutoresizingMaskIntoConstraints = false
+//              spinner.startAnimating()
+//
+//              alert.view.addSubview(spinner)
+//
+//              NSLayoutConstraint.activate([
+//                  spinner.centerXAnchor.constraint(equalTo: alert.view.centerXAnchor),
+//                  spinner.bottomAnchor.constraint(equalTo: alert.view.bottomAnchor, constant: -20)
+//              ])
+//
+//            present(alert, animated: true , completion: nil)
+//
+//        }
         
     }
     
@@ -330,7 +318,98 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         counter -= 1
     }
+        
+    func convertGMSMutablePathAndInsert(_ path: GMSMutablePath, activityID: UUID) async {
+
+        var routeCoordinates: [ActivityRouteCoordinates] = []
+
+        for i in 0..<path.count() {
+            let coordinate = path.coordinate(at: i)
+
+            routeCoordinates.append(
+                ActivityRouteCoordinates(activityID: activityID, latitude: coordinate.latitude, longitude: coordinate.longitude, sequence: Int(i)))
+        }
+
+        await insertActivityRouteCoordinates(routeCoordinates)
+        self.datasource.setCurrentActivityCoordinates(routeCoordinates)
+    }
+
     
+    func captureMapImage(from mapView: GMSMapView) -> UIImage? {
+        let renderer = UIGraphicsImageRenderer(size: mapView.bounds.size)
+        
+        return renderer.image { _ in
+            mapView.drawHierarchy(in: mapView.bounds,afterScreenUpdates: true)
+        }
+    }
+    
+}
+// MARK: - Page Control Code & Scroll View Setting
+
+extension ActivityLiveTrackingViewController : UIScrollViewDelegate {
+    
+    func settingHorizontalScroll() {
+        scrollView.alwaysBounceVertical = false
+        scrollView.showsVerticalScrollIndicator = false
+        
+        scrollView.contentSize.width = view.frame.width * 3
+        scrollView.contentSize.height = scrollView.frame.height
+        
+            for i in 0..<3 {
+                let page = UIView(frame: CGRect(x: CGFloat(i) * view.frame.width, y: 0,
+                                                width: scrollView.frame.width, height: scrollView.frame.height))
+                page.backgroundColor = .yellow
+                
+                switch i {
+                case 0:
+                    self.viewActivityTrack.frame = CGRect(x: 0, y: 0, width: page.frame.width, height: page.frame.height)
+                    page.addSubview(viewActivityTrack)
+                    
+                case 1:
+                    self.viewActivityProgress.frame = CGRect(x: 0, y: 0, width: page.frame.width, height: page.frame.height)
+                    
+                    page.addSubview(self.viewActivityProgress)
+                                                            
+                case 2: 
+                    self.viewActivitySettings.frame = CGRect(x: 0, y: 0, width: page.frame.width, height: page.frame.height)
+                    page.addSubview(self.viewActivitySettings)
+                    
+                default: break
+                }
+
+                scrollView.addSubview(page)
+            }
+        scrollView.contentOffset = CGPoint(x: view.frame.width, y: 0)
+    }
+    
+    @IBAction func toggleScrollingTapped(_ sender: UIButton) {
+        scrollView.isScrollEnabled.toggle()
+        
+        let isUnlocked = scrollView.isScrollEnabled
+        pageControl.isUserInteractionEnabled = isUnlocked
+        
+        if scrollView.isScrollEnabled {
+            sender.setImage(UIImage(systemName: "lock.open.fill"), for: .normal)
+        }
+        else {
+            sender.setImage(UIImage(systemName: "lock.fill"), for: .normal)
+        }
+    }
+    
+    @IBAction func pageValueChanged(_ sender: UIPageControl) {
+        let currentPage = sender.currentPage
+        scrollView.setContentOffset(CGPoint(x: CGFloat(currentPage) * view.frame.width, y: 0), animated: true)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        pageControl.currentPage = Int(scrollView.contentOffset.x / view.frame.width)
+    }
+    
+    
+}
+
+//MARK: - UI Elements Setting Functions
+extension ActivityLiveTrackingViewController {
     func settingScreenElements() {
         navigationItem.hidesBackButton = true
         buttonEndRun.isHidden = true
@@ -414,24 +493,57 @@ class ActivityLiveTrackingViewController: UIViewController {
         addLeadingToTrailingGradient(to: self.leftGradientView)
         self.viewActivityTrack.addSubview(self.leftGradientView)
     }
+}
+
+//MARK: - Audio Feedback Functions
+extension ActivityLiveTrackingViewController {
     
-    func convertPathToCoordinates(_ path: GMSMutablePath) -> [CLLocationCoordinate2D] {
-        var coordinates: [CLLocationCoordinate2D] = []
+    func playAudioFile(named name: String) {
+        guard isAudioFeedbackOn else { return }
         
-        for i in 0..<path.count() {
-            coordinates.append(path.coordinate(at: i))
+        guard let url = Bundle.main.url(forResource: name, withExtension: "mp3") else {
+            print("Missing audio file:", name)
+            return
         }
         
-        return coordinates
-    }
-    
-    func captureMapImage(from mapView: GMSMapView) -> UIImage? {
-        let renderer = UIGraphicsImageRenderer(size: mapView.bounds.size)
-        
-        return renderer.image { _ in
-            mapView.drawHierarchy(in: mapView.bounds,afterScreenUpdates: true)
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer?.prepareToPlay()
+            audioPlayer?.play()
+        } catch {
+            print("Audio playback error")
         }
     }
+    
+    func announceRunStarted() {
+        playAudioFile(named: "runStarted")
+    }
+    
+    func announceAveragePace(_ pace: Double){
+        playAudioFile(named: "yourAveragePaceIs")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            guard self.isAudioFeedbackOn else { return }
+            
+            let utterance = AVSpeechUtterance(string: "\(pace) per kilometer")
+            utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
+            utterance.rate = 0.5
+            self.speechSynthesizer.speak(utterance)
+        }
+    }
+    
+    func announceKilometer(_ km: Int) {
+        playAudioFile(named: "youHaveCompleted")
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            guard self.isAudioFeedbackOn else { return }
+            
+            let utterance = AVSpeechUtterance(string: "\(km) kilometers")
+            utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
+            utterance.rate = 0.5
+            self.speechSynthesizer.speak(utterance)
+        }
+    }
+    
     func checkIfGoalSetAndCompleted() {
         if self.distanceGoalSet! > 0.0 {
             let totalTimeSet = hourGoalSet! * 60 + minGoalSet!
@@ -477,67 +589,5 @@ class ActivityLiveTrackingViewController: UIViewController {
             }
         }
     }
-}
-// MARK: - Page Control Code & Scroll View Setting
 
-extension ActivityLiveTrackingViewController : UIScrollViewDelegate {
-    
-    func settingHorizontalScroll() {
-        scrollView.alwaysBounceVertical = false
-        scrollView.showsVerticalScrollIndicator = false
-        
-        scrollView.contentSize.width = view.frame.width * 3
-        scrollView.contentSize.height = scrollView.frame.height
-        
-            for i in 0..<3 {
-                let page = UIView(frame: CGRect(x: CGFloat(i) * view.frame.width, y: 0,
-                                                width: scrollView.frame.width, height: scrollView.frame.height))
-                page.backgroundColor = .yellow
-                
-                switch i {
-                case 0:
-                    self.viewActivityTrack.frame = CGRect(x: 0, y: 0, width: page.frame.width, height: page.frame.height)
-                    page.addSubview(viewActivityTrack)
-                    
-                case 1:
-                    self.viewActivityProgress.frame = CGRect(x: 0, y: 0, width: page.frame.width, height: page.frame.height)
-                    
-                    page.addSubview(self.viewActivityProgress)
-                                                            
-                case 2: 
-                    self.viewActivitySettings.frame = CGRect(x: 0, y: 0, width: page.frame.width, height: page.frame.height)
-                    page.addSubview(self.viewActivitySettings)
-                    
-                default: break
-                }
-
-                scrollView.addSubview(page)
-            }
-        scrollView.contentOffset = CGPoint(x: view.frame.width, y: 0)
-    }
-    
-    @IBAction func toggleScrollingTapped(_ sender: UIButton) {
-        scrollView.isScrollEnabled.toggle()
-        
-        let isUnlocked = scrollView.isScrollEnabled
-        pageControl.isUserInteractionEnabled = isUnlocked
-        
-        if scrollView.isScrollEnabled {
-            sender.setImage(UIImage(systemName: "lock.open.fill"), for: .normal)
-        }
-        else {
-            sender.setImage(UIImage(systemName: "lock.fill"), for: .normal)
-        }
-    }
-    
-    @IBAction func pageValueChanged(_ sender: UIPageControl) {
-        let currentPage = sender.currentPage
-        scrollView.setContentOffset(CGPoint(x: CGFloat(currentPage) * view.frame.width, y: 0), animated: true)
-    }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        pageControl.currentPage = Int(scrollView.contentOffset.x / view.frame.width)
-    }
-    
-    
 }

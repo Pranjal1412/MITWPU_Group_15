@@ -11,7 +11,7 @@ class CaloriesViewController: UIViewController {
     @IBOutlet weak var collectionViewCalories: UICollectionView!
     @IBOutlet weak var viewGraphContainer: UIView!
     
-    private let graphStore = GraphDataStore()
+    var graphStore: GraphDataStore? = nil
     private var hostingController: UIHostingController<CaloriesChartView>?
     
     override func viewDidLoad() {
@@ -38,7 +38,6 @@ class CaloriesViewController: UIViewController {
 
         settingLabelStyle()
         setupGraph()
-        graphStore.data = weeklyDistance
         
     }
 
@@ -53,18 +52,18 @@ class CaloriesViewController: UIViewController {
         
         switch sender.selectedSegmentIndex {
             case 0:
-                graphStore.data = weeklyDistance
+                graphStore?.selectedPeriod = .weekly
             case 1:
-                graphStore.data = monthlyDistance
+                graphStore?.selectedPeriod = .monthly
             case 2:
-                graphStore.data = yearlyDistance
+                graphStore?.selectedPeriod = .yearly
             default:
                 break
             }
     }
     
     func setupGraph() {
-        let graphView = CaloriesChartView(store: graphStore)
+        let graphView = CaloriesChartView(store: graphStore ?? GraphDataStore())
 
         let hc = UIHostingController(rootView: graphView)
         hostingController = hc
@@ -156,7 +155,7 @@ struct CaloriesChartView: View {
     @ObservedObject var store: GraphDataStore
 
     var body: some View {
-        ResponsiveBarChart(data: store.data)
+        ResponsiveBarChart(data: store.chartData(for: store.selectedPeriod, metric: .calories))
     }
 }
 

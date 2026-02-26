@@ -6,8 +6,9 @@
 //
 
 import UIKit
-import GoogleMaps
 import PhotosUI
+import GoogleMaps
+import Kingfisher
 
 class ActivitySaveViewController: UIViewController {
 
@@ -40,21 +41,28 @@ class ActivitySaveViewController: UIViewController {
     @IBOutlet weak var collectionViewAddPhotos: UICollectionView!
     
     var activityData: UserActivity!
-    var dataSource = DataSource.shared
+    private var dataSource = DataSource.shared
+    private var userStats = DataSource.shared.getUserStats()
+    
     private var selectedImages: [UIImage] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        SettingLabels()
-        settingCardView()
+        self.settingLabels()
+        self.settingCardView()
+        self.collectionViewAddPhotos.isHidden = true
+        self.collectionViewAddPhotos.dataSource = self
+        self.textViewRemark.delegate = self
+
+        if let url = URL(string: activityData.mapImageURL!) {
+            self.imageViewMap.kf.setImage(with: url)
+        }
+
+        
         scrollViewSaveActivity.contentSize.height = stackAddPhotos.frame.origin.y + stackAddPhotos.frame.size.height + 30
 
-        collectionViewAddPhotos.isHidden = true
         collectionViewAddPhotos.register(UINib(nibName: "AddPhotosCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AddPhotosCollectionViewCell")
-        collectionViewAddPhotos.dataSource = self
-        
-        self.textViewRemark.delegate = self
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         
         registerNotifications()
@@ -70,8 +78,13 @@ class ActivitySaveViewController: UIViewController {
         let cancelAction = UIAlertAction(title: String(localized: "Cancel"), style: .cancel)
         
         let deleteAction = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive, handler: {_ in
-            print("After passing count: \(self.dataSource.getMyActivityData().count)")
-            self.navigationController?.dismiss(animated: true, completion: nil)
+            Task {
+                await deleteUserActivity(activityID: self.activityData.activityID!, mapImageURL: self.activityData.mapImageURL!)
+                await MainActor.run {
+                    self.navigationController?.dismiss(animated: true)
+                }
+
+            }
         })
         
         alert.addAction(cancelAction)
@@ -90,23 +103,30 @@ class ActivitySaveViewController: UIViewController {
             textViewRemark.text = ""
         }
         
-        self.activityData.runTitle = self.textFieldActivityTitle.text!
-        self.activityData.note = self.textViewRemark.text
+        self.activityData.activityTitle = self.textFieldActivityTitle.text!
+        self.activityData.activityRemark = self.textViewRemark.text
         self.activityData.isPublic = self.switchIsActivityPublic.isOn
-        self.activityData.activityPhotos = self.selectedImages
         
-        self.dataSource.addMyActivity(self.activityData)
-        self.dataSource.updateTotalRunnrPoints(with: self.activityData.basePoints + self.activityData.skillPoints)
-        self.dataSource.updateTotalDistance(with: activityData.distanceValue)
-        
-        print("After passing count: \(self.dataSource.getMyActivityData().count)")
-        
-        let destinationVC = ActivitySummaryViewController()
-        destinationVC.activityData = self.activityData
-        destinationVC.showAlert = true
-        
-        destinationVC.modalPresentationStyle = .fullScreen
-        navigationController?.present(destinationVC, animated: true)
+        Task {
+            await updateUserActivity(newActivity: activityData)
+            
+            self.userStats?.totalPointsEarned += (self.activityData.basePoints ?? 0) + (self.activityData.skillPoints ?? 0)
+            self.userStats?.totalDistanceCovered += self.activityData.distanceCovered ?? 0
+
+            self.dataSource.setCurrentActivity(activityData)
+            self.dataSource.resetMyActivities()
+            self.dataSource.setUserStats(self.userStats!)
+
+            await updateUserStats(userID: activityData.userID!, newStats: self.userStats!)
+            
+            let destinationVC = ActivitySummaryViewController()
+            destinationVC.showAlert = true
+            
+            destinationVC.modalPresentationStyle = .fullScreen
+            navigationController?.present(destinationVC, animated: true)
+        }
+        //MARK: - Still yet to be implmented
+//        self.activityData.activityPhotos = self.selectedImages
         
     }
     
@@ -137,29 +157,32 @@ class ActivitySaveViewController: UIViewController {
         self.viewRemark.layer.cornerRadius = 15
         self.viewRemark.layer.borderColor = UIColor.white.cgColor
         self.viewRemark.layer.borderWidth = 0.5
-        
-        imageViewMap.image = self.activityData.mapImage
+//        Task{
+//            imageViewMap.image = await loadUIImage(from: activityData.mapImageURL!)
+//        }
         imageViewMap.layer.cornerRadius = 15
     }
     
-    func SettingLabels() {
+    func settingLabels() {
         labelPhotos.text = String(localized: "Photos")
         labelDescription.text = String(localized: "Anyone on Runnr can see your activity")
         labelRunSummary.text = String(localized: "Run Summary")
         labelPublicActivity.text = String(localized: "Public Activity")
-        labelTimeStamp.text = formatDate(with: self.activityData.activityStartTime)
+        labelTimeStamp.text = formatDate(with: self.activityData.activityStartTime!)
         
         labelDescription.sizeToFit()
         
         labelPace.text = NSLocalizedString( "Pace", comment: "")
-        labelPaceValue.text = String(format: "%.2f", self.activityData.paceValue) + " " + self.activityData.paceUnit
+        labelPaceValue.text = String(format: "%.2f", self.activityData.avgPace!) + " " + self.activityData.paceUnit!.rawValue
         labelTime.text = NSLocalizedString( "Time", comment: "")
-        labelTimeValue.text = String(format: "%02d : %02d : %02d", self.activityData.timeHour, self.activityData.timeMin, self.activityData.timeSec)
+        
+        let formattedTime = formatTime(self.activityData.timeTakenSeconds!)
+        labelTimeValue.text = String(format: "%02d : %02d : %02d", formattedTime.hour, formattedTime.minute, formattedTime.second)
         labelTimeValue.sizeToFit()
         labelCalories.text = NSLocalizedString( "Calories", comment: "")
-        labelCaloriesValue.text = String(format: "%.0f", self.activityData.caloriesValue) + " kcal"
+        labelCaloriesValue.text = String(format: "%.0f", self.activityData.caloriesBurnt!) + " kcal"
         labelDistance.text = NSLocalizedString( "Distance", comment: "")
-        labelDistanceValue.text = String(format: "%.2f", self.activityData.distanceValue) + " " + self.activityData.distanceUnit
+        labelDistanceValue.text = String(format: "%.2f", self.activityData.distanceCovered!) + " " + self.activityData.distanceUnit!.rawValue
         
         labelAddPhotos.text = String(localized: "Tap here to upload photos")
     }
@@ -353,6 +376,8 @@ extension ActivitySaveViewController : UICollectionViewDataSource, UICollectionV
     }
 }
 
+// MARK: - Text View dynammic height Settings
+
 extension ActivitySaveViewController : UITextViewDelegate {
 
     func textViewDidChange(_ textView: UITextView) {
@@ -379,29 +404,3 @@ extension ActivitySaveViewController : UITextViewDelegate {
     }
     
 }
-
-
-//    func textViewDidChange(_ textView: UITextView) {
-//
-//        let inset = textView.textContainerInset.top + textView.textContainerInset.bottom
-//        let lineHeight = textView.font?.lineHeight ?? 0
-//
-//        let minHeight = lineHeight * 2 + inset
-//        let maxHeight = lineHeight * 5 + inset
-//
-//        .infinity is used because we are allowing text view to use as much of height it requires, but if the height exceeds maximum
-//        we are enabling scrolling
-//        let size = CGSize(width: textView.frame.width - 20.0, height: .infinity)
-//        let contentHeight = textView.sizeThatFits(size).height
-//        let newHeight = min(max(contentHeight, minHeight), maxHeight)
-//
-//        if containerViewHeightConstraint.constant != newHeight {
-//            containerViewHeightConstraint.constant = newHeight
-//        }
-//
-//        textView.isScrollEnabled = contentHeight > maxHeight
-//        UIView.animate(withDuration: 0.2) {
-//                self.view.layoutIfNeeded()
-//        }
-//
-//    }

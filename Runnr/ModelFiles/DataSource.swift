@@ -2,9 +2,21 @@ import UIKit
         
 class DataSource {
     
-    private var user : UserProfile = UserProfile(userName: "Ava Brooks", emailID: "avabrook@gmail.com", profileImage: UIImage(named: "user3")!, gender: "Female")
+    private var userProfile = UserProfile()
+    private var userProfileImage : UIImage?
+    private var userStats : UserStats?
+    
+    private var currentActivity: UserActivity?
+    private var currentActivityCoordinates: [ActivityRouteCoordinates] = []
+    private var currentActivityPaceData: [ActivityPaceGraphData] = []
+    
     private var myActivities: [UserActivity] = []
     private var friendActivities: [UserActivity] = []
+    private var clubsArray : [Club] = []
+    private var myClubsArray : [ClubRoleAndData] = []
+    
+    private var gameID: UUID?
+    private var gameTile: [TerritoryHexTile] = []
     
     static let shared = DataSource()
     
@@ -14,108 +26,156 @@ class DataSource {
     
     func loadSampleData() {
         let friendsSampleData : [UserActivity]  = [
-            UserActivity(
-                id: UUID(),
-                userName: "Thomas Crook",
-                activityStartTime: Date(),
+            UserActivity(                
+                activityStartTime: Date(timeIntervalSinceNow: -3600), // 1 hour ago
                 activityEndTime: Date(),
-                runTitle: "Morning Run!",
-                activityType: "Run",
-                distanceValue: 7.2,
-                distanceUnit: "Km",
-                paceValue: 7.75,
-                paceGraphData: [],
-                paceUnit: "/Km",
-                stepsValue: 9340,
-                caloriesValue: 420,
-                timeHour: 1,
-                timeMin: 34,
-                timeSec: 47,
-                basePoints: 120,
-                skillPoints: 35,
-                mapImage: UIImage(named: "mapSample")!,
-                activityPhotos: [
-                    UIImage(named: "run1")!,
-                    UIImage(named: "run2")!,
-                    UIImage(named: "mapSample")!],
-                note: "First run in a while, tough but refreshing. Excited to rebuild step-by-step.",
+                
+                activityTitle: "Morning Run",
+                activityType: .running,
+                activityRemark: "Felt great, cool weather",
                 isPublic: true,
-                routeCoordinates: []
+                
+                distanceCovered: 5.2,
+                distanceUnit: .kilometers,
+                
+                timeTakenSeconds: 1800, // 30 mins
+                caloriesBurnt: 420,
+                stepsTaken: 6500,
+                
+                avgHeartRate: 148.5,
+                avgPace: 5.45,
+                paceUnit: .minPerKm,
+                
+                mapImageURL: "https://example.com/maps/run1.png",
+                basePoints: 50,
+                skillPoints: 20
             ),
-
             UserActivity(
-                id: UUID(),
-                userName: "Jane Doe",
-                activityStartTime: Date(),
-                activityEndTime: Date(),
-                runTitle: "Steady Run",
-                activityType: "Run",
-                distanceValue: 8.8,
-                distanceUnit: "Km",
-                paceValue: 6.66,
-                paceGraphData: [],
-                paceUnit: "/Km",
-                stepsValue: 10850,
-                caloriesValue: 510,
-                timeHour: 0,
-                timeMin: 52,
-                timeSec: 13,
-                basePoints: 150,
-                skillPoints: 50,
-                mapImage: UIImage(named: "mapSample")!,
-                activityPhotos: [
-                    UIImage(named: "run1")!,
-                    UIImage(named: "run2")!,
-                    UIImage(named: "mapSample")!
-                ],
-                note: "Tough start, but refreshing to get moving again. Working on consistency.",
-                isPublic: true,
-                routeCoordinates: []
+                activityStartTime: Date(timeIntervalSinceNow: -5400), // 1.5 hours ago
+                activityEndTime: Date(timeIntervalSinceNow: -3600),
+                
+                activityTitle: "Evening Walk",
+                activityType: .walking,
+                activityRemark: "Relaxing walk after dinner",
+                isPublic: false,
+                
+                distanceCovered: 2.8,
+                distanceUnit: .kilometers,
+                
+                timeTakenSeconds: 2400, // 40 mins
+                caloriesBurnt: 180,
+                stepsTaken: 4200,
+                
+                avgHeartRate: 102.3,
+                avgPace: 8.55,
+                paceUnit: .minPerKm,
+                
+                mapImageURL: nil,
+                basePoints: 25,
+                skillPoints: 10
             )
         ]
-
         self.friendActivities = friendsSampleData
     }
     
-    func getUserID() -> UUID {
-        return user.userID
+    func getUserProfile() -> UserProfile {
+        return userProfile
     }
     
+    func setUserProfile(_ userProfile: UserProfile) {
+        self.userProfile = userProfile
+    }
+    
+    func setProfileImage(_ image: UIImage) {
+        self.userProfileImage = image
+    }
+    
+    func getProfileImage() -> UIImage? {
+        return userProfileImage
+    }
+    
+    func getUserStats() -> UserStats? {
+        return userStats
+    }
+    
+    func setUserStats(_ userStats: UserStats) {
+        self.userStats = userStats
+    }
+    
+    func setAllActivities(_ activities: [UserActivity]) {
+        self.myActivities = activities
+    }
+    
+    func getAllActivities() -> [UserActivity] {
+        return self.myActivities
+    }
+    
+    func setCurrentActivity(_ activity: UserActivity) {
+        self.currentActivity = activity
+    }
+    
+    func getCurrentActivity() -> UserActivity? {
+        return currentActivity
+    }
+    
+    func setCurrentActivityCoordinates(_ coordinates: [ActivityRouteCoordinates]) {
+        self.currentActivityCoordinates = coordinates
+    }
+    
+    func getCurrentActivityCoordinates() -> [ActivityRouteCoordinates] {
+        return self.currentActivityCoordinates
+    }
+    
+    func setCurrentActivityPaceData(_ paceData: [ActivityPaceGraphData]) {
+        self.currentActivityPaceData = paceData
+    }
+    
+    func getCurrentActivityPaceData() -> [ActivityPaceGraphData] {
+        return self.currentActivityPaceData
+    }
+    
+    func resetMyActivities() {
+        self.myActivities.removeAll()
+    }
+    
+    func setclubsArray(_ clubData: [Club]) {
+        self.clubsArray = clubData
+    }
+    
+    func getclubsArray() -> [Club] {
+        return self.clubsArray
+    }
+    
+    func setMyClubs(_ myClub: [ClubRoleAndData]) {
+        return self.myClubsArray = myClub
+    }
+    
+    func getMyClubs() -> [ClubRoleAndData] {
+        return self.myClubsArray
+    }
+    
+    func setGameID(_ gameID: UUID) {
+        self.gameID = gameID
+    }
+    
+    func getGameID() -> UUID? {
+        return self.gameID
+    }
+    
+//    MARK: - Below functions are yet to check and corrected
     func getFriendsActivityData() -> [UserActivity] {
         return friendActivities
     }
-    func getMyActivityData() -> [UserActivity] {
-        return myActivities
-    }
-    
-    func addMyActivity(_ activity: UserActivity) {
-        myActivities.append(activity)
-    }
-    
-    func deleteMyActivity(atIndex index: Int) {
-        if !myActivities.isEmpty {
-            myActivities.remove(at: index)
-        }
-    }
-    
-    func updateTotalRunnrPoints(with points: Int) {
-        user.totalRunnrPoints += points
-    }
-    
-    func getTotalRunnrPoints() -> Int {
-        return user.totalRunnrPoints
-    }
-    
+        
     func getTotalActivities() -> Int {
         return myActivities.count
     }
     
-    func updateTotalDistance(with distance: Double) {
-        user.totalDistance += distance
-    }
-    
-    func getTotalKms() -> Double {
-        return user.totalDistance
+    func getTotalRunnrPoints() -> Int {
+        if userStats != nil {
+          return userStats!.totalPointsEarned
+        }
+        return 0
     }
     
     func shareActivity(atIndex index: Int, presentingViewController: UIViewController) {
@@ -124,5 +184,8 @@ class DataSource {
         let activityVC = UIActivityViewController(activityItems: itemsToShare, applicationActivities: nil)
         presentingViewController.present(activityVC, animated: true)
     }
-}
+    func deleteActivityFromLocalArray(activityID: UUID) {
+        myActivities.removeAll { $0.activityID == activityID }
+    }
 
+}

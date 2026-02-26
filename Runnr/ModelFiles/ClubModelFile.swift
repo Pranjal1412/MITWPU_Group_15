@@ -8,24 +8,44 @@
 import Foundation
 import UIKit
 
-struct ExploreClubData {
-    let clubProfileImg: UIImage?
-    let clubName: String
-    let numberOfMembers: String
-    let sport: String
-    let clubMotive: String
-    let clubDescription: String
-    let postImages = [UIImage(named: "post 1"), UIImage(named: "post 2"), UIImage(named: "post 3"), UIImage(named: "post 4")]
+struct Club : Codable{
+    var clubID : UUID?
+    var clubName: String
+    var clubProfileImageURL : String?
+    var clubMotive : String
+    var clubDescription : String
+    var isPublic : Bool
+    var clubSport : ActivityType
+    var memberCount: Int
 }
 
-struct MyClubData {
-    let clubProfileImg: UIImage
-    let clubName: String
-    let numberOfMembers: String
-    let sport: String
-    let isPublic: Bool
-    let clubMotive: String
-    let clubDescription: String
+struct ClubMemberRole : Codable {
+    var userID : UUID?
+    var clubID : UUID?
+    var role : ClubRoleType
+}
+
+struct ClubRoleAndData : Codable {
+    var role : ClubRoleType
+    var club : Club
+}
+
+struct ClubPost : Codable {
+    var postID : UUID?
+    var clubID : UUID?
+    var caption : String
+}
+
+struct ClubPostImage : Codable {
+    var imageID : UUID?
+    var postID : UUID?
+    var imageURL : String?
+    var sequence : Int
+}
+
+struct ClubTaggedPost : Codable {
+    var activityID : UUID?
+    var clubID : UUID?
 }
 
 struct friendsData {
@@ -54,79 +74,16 @@ enum LeaderboardMode {
     case points
 }
 
-struct CreateClubDraft {
-    var clubName: String?
-    var clubDescription: String?
-    var activity: String?
-    var sportShortForm: String?
-    var motive: String?
+struct ClubActivityOptions {
+    let image : UIImage
+    let title :  ActivityType
 }
-
-
-
-struct ClubActivity {
-    let image : UIImage?
-    let title : String
-}
-
-var myClubs: [MyClubData] = []
 
 let leaderBoardArray: [LeaderBoard] = [
 LeaderBoard(badge: "badge 1", levelName: "Starter", levelDescription: "0 - 49.99 Kilometers"),
 LeaderBoard(badge: "badge 2", levelName: "Pacer", levelDescription: "50.00 - 249.99 Kilometers"),
 LeaderBoard(badge: "badge 3", levelName: "Achiever", levelDescription: "250.00 - 999.9 Kilometers"),
 LeaderBoard(badge: "badge 4", levelName: "Champion", levelDescription: "1,000.00 - 4,999.9 Kilometers")
-]
-
-let clubDataArray: [ExploreClubData] = [
-    ExploreClubData(
-        clubProfileImg: UIImage(named: "club1"),
-        clubName: "Runnr Club",
-        numberOfMembers: "12k",
-        sport: "Run",
-        clubMotive: "Run together. Grow stronger.",
-        clubDescription: "A community of passionate runners focused on consistency, endurance, and pushing personal limits."
-    ),
-    ExploreClubData(
-        clubProfileImg: UIImage(named: "club2"),
-        clubName: "Happy Trails",
-        numberOfMembers: "11k",
-        sport: "Hike",
-        clubMotive: "Explore more, worry less.",
-        clubDescription: "Weekend hikers and nature lovers who enjoy discovering scenic trails and peaceful escapes."
-    ),
-    ExploreClubData(
-        clubProfileImg: UIImage(named: "club3"),
-        clubName: "Running Global",
-        numberOfMembers: "9.7k",
-        sport: "Run",
-        clubMotive: "Miles without borders.",
-        clubDescription: "An international running club connecting athletes worldwide through virtual and local runs."
-    ),
-    ExploreClubData(
-        clubProfileImg: UIImage(named: "club4"),
-        clubName: "Fast Wheels",
-        numberOfMembers: "1.5k",
-        sport: "Hike",
-        clubMotive: "Adventure at full speed.",
-        clubDescription: "For thrill-seekers who love fast-paced hikes, elevation challenges, and rugged terrains."
-    ),
-    ExploreClubData(
-        clubProfileImg: UIImage(named: "club1"),
-        clubName: "Runnr Club",
-        numberOfMembers: "12k",
-        sport: "Run",
-        clubMotive: "Run together. Grow stronger.",
-        clubDescription: "Daily runs, training plans, and motivation for runners of all experience levels."
-    ),
-    ExploreClubData(
-        clubProfileImg: UIImage(named: "club2"),
-        clubName: "Happy Trails",
-        numberOfMembers: "10k",
-        sport: "Hike",
-        clubMotive: "Nature is the best therapy.",
-        clubDescription: "A friendly hiking group focused on mental wellness, exploration, and community bonding."
-    )
 ]
     
 var friendsDataArray: [friendsData] = [
@@ -174,9 +131,10 @@ let leaderboardUsersArray: [LeaderboardUser] = [
     )
 ]
 
-let clubActivityOptions : [ClubActivity] = [ClubActivity(image: UIImage(systemName: "figure.run"), title: "Running"),
-                                            ClubActivity(image: UIImage(systemName: "figure.hiking"), title: "Hiking"),
-                                            ClubActivity(image: UIImage(systemName: "figure.walk"), title: "Walking"),
-                                            ClubActivity(image: UIImage(systemName: "figure.highintensity.intervaltraining"), title: "Marathons")]
+let clubActivityOptions : [ClubActivityOptions] = [
+    ClubActivityOptions(image: UIImage(systemName: "figure.run")!, title: .running),
+    ClubActivityOptions(image: UIImage(systemName: "figure.hiking")!, title: .hiking),
+    ClubActivityOptions(image: UIImage(systemName: "figure.walk")!, title: .walking),
+    ClubActivityOptions(image: UIImage(systemName: "figure.highintensity.intervaltraining")!, title: .marathon)]
 
 let clubDescriptions: [String] = ["Just for fun!", "Competitive Play", "Fitness", "Charity"]

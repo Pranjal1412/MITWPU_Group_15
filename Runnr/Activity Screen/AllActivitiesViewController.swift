@@ -8,7 +8,7 @@ class AllActivitiesViewController: UIViewController {
     
     var dataSource = DataSource.shared
     var myActivity: [UserActivity] {
-        dataSource.getMyActivityData()
+        dataSource.getAllActivities()
     }
     
     override func viewDidLoad() {
@@ -27,6 +27,7 @@ class AllActivitiesViewController: UIViewController {
         tableViewMyActivity.dataSource = self
         tableViewMyActivity.register(UINib(nibName: "MyActivityTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
         tableViewMyActivity.showsVerticalScrollIndicator = false
+        tableViewMyActivity.separatorStyle = .none
     }
     
     func settingLabel() {
@@ -48,12 +49,12 @@ class AllActivitiesViewController: UIViewController {
 //MARK: - TableView Settings
 extension AllActivitiesViewController : UITableViewDelegate, UITableViewDataSource {
         
-        func numberOfSections(in tableView: UITableView) -> Int {
-            return myActivity.count
-        }
+//        func numberOfSections(in tableView: UITableView) -> Int {
+//            return 1
+//        }
 
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return 1
+            return myActivity.count
         }
 
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -64,26 +65,36 @@ extension AllActivitiesViewController : UITableViewDelegate, UITableViewDataSour
             return cell
         }
 
-        func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-            return 30
-        }
-
-        func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-            let spacer = UIView()
-            spacer.backgroundColor = .clear
-            return spacer
-        }
+//        func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+//            return 30
+//        }
+//
+//        func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+//            let spacer = UIView()
+//            spacer.backgroundColor = .clear
+//            return spacer
+//        }
     
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             if tableView == tableViewMyActivity {
                 let activity = myActivity[indexPath.section]
-                
-                let destinationVC = ActivitySummaryViewController()
-                destinationVC.activityData = activity
-                destinationVC.showAlert = false
-                
-                destinationVC.modalPresentationStyle = .overFullScreen
-                self.present(destinationVC, animated: true)
+
+                    Task {
+                        self.dataSource.setCurrentActivity(activity)
+
+                        let routeCoordinates = await fetchActivityRouteCoordinates(activity.activityID!)
+                        self.dataSource.setCurrentActivityCoordinates(routeCoordinates)
+                        
+                        let paceData = await fetchActivityPaceGraphData(activity.activityID!)
+                        self.dataSource.setCurrentActivityPaceData(paceData)
+                        
+                        await MainActor.run {
+                            let destinationVC = ActivitySummaryViewController()
+                            destinationVC.showAlert = false
+                            destinationVC.modalPresentationStyle = .overFullScreen
+                            self.present(destinationVC, animated: true)
+                        }
+                    }
                 
             }
         }
@@ -94,7 +105,7 @@ extension AllActivitiesViewController : UITableViewDelegate, UITableViewDataSour
         
         let shareAction = UIAlertAction(title: String(localized: "Share Activity"), style: .default)
         let deleteAction = UIAlertAction(title: String(localized: "Delete Activity"), style: .default) { _ in
-            self.dataSource.deleteMyActivity(atIndex: sender.tag)
+//            self.dataSource.deleteMyActivity(atIndex: sender.tag)
             self.updateScreenElements()
         }
         let cancelAction = UIAlertAction(title: String(localized: "Cancel"), style: .cancel, handler: nil)
