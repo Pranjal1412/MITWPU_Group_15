@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PhotosUI
 
 class CreateClubViewController: UIViewController, UITextFieldDelegate {
 
@@ -23,6 +24,7 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var clubNameTextField: UITextField!
     @IBOutlet var clubDescriptionTextField: UITextView!
     @IBOutlet var buttonBack: UIButton!
+    @IBOutlet weak var clubProfileImage: UIImageView!
     
     var currentPage = 1
     var clubDraft : ClubRoleAndData?
@@ -66,18 +68,12 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
                     let rootVC = ClubProfileViewController(nibName: "ClubProfileViewController", bundle: nil)
                     let destinationVC = UINavigationController(rootViewController: rootVC)
                    
-//                    let nextClub = Club(
-//                        //clubProfileImg: UIImage(named: "club4")!,
-//                        clubName: self.clubDraft?.clubName ?? "",
-//                        //numberOfMembers: "0",
-//                        clubMotive: self.clubDraft?.clubMotive ?? "",
-//                        clubDescription: self.clubDraft?.clubDescription ?? "",
-//                        isPublic: true,
-//                        clubSport: self.clubDraft!.clubSport
-//                        
-//                    )
-                    
                     Task{
+                        
+                        if let newURL = await saveProfileImage(userID: (self.clubDraft?.club.clubID)!, with: self.clubProfileImage.image!) {
+                            self.clubDraft?.club.clubProfileImageURL = newURL
+                        }
+                        
                         await insertNewClubData(newClub: self.clubDraft!.club)
                         rootVC.isMyClub = true
                         rootVC.myClubProfileData = self.clubDraft!
@@ -91,6 +87,24 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
+    @IBAction func selectClubprofileTapped(_ sender: UIButton) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let cameraButton = UIAlertAction(title: String(localized: "Camera"), style: .default, handler: {_ in
+            self.openCamera()
+        })
+        let photoLibraryButton = UIAlertAction(title: String(localized: "Gallery"), style: .default, handler: {_ in
+            self.openPhotoLibrary()
+        })
+        let cancelButton = UIAlertAction(title: String("Cancel"), style: .cancel)
+
+        alert.addAction(cameraButton)
+        alert.addAction(photoLibraryButton)
+        alert.addAction(cancelButton)
+        
+        self.present(alert, animated: true)
+    }
+    
     @IBAction func clubPrivacy(_ sender: UISwitch) {
         self.clubDraft?.club.isPublic = sender.isOn
     }
@@ -239,6 +253,7 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
    
 }
 
+//MARK: - Collection View Settings
 extension CreateClubViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -347,9 +362,6 @@ extension CreateClubViewController {
         view.addGestureRecognizer(tapGesture)
     }
 
-    
-
-    
     @objc func hideKeyboard() {
         view.endEditing(true)
     }
@@ -374,5 +386,58 @@ extension CreateClubViewController: UITextViewDelegate {
     }
 }
 
+//MARK: - Photo Settings
+extension CreateClubViewController: PHPickerViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func openPhotoLibrary() {
+        var config = PHPickerConfiguration()
+        config.filter = .images
+        config.selectionLimit = 1
+
+        let picker = PHPickerViewController(configuration: config)
+        picker.delegate = self
+        present(picker, animated: true)
+    }
+
+    func openCamera() {
+        guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
+            print("Camera not available")
+            return
+        }
+
+        let picker = UIImagePickerController()
+        picker.sourceType = .camera
+        picker.delegate = self
+        present(picker, animated: true)
+    }
+
+    
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+
+        for result in results {
+            let provider = result.itemProvider
+            
+            if provider.canLoadObject(ofClass: UIImage.self) {
+                provider.loadObject(ofClass: UIImage.self) { image, _ in
+                    DispatchQueue.main.async {
+                        if let image = image as? UIImage {
+                            self.clubProfileImage.image = image
+                        }
+                    }
+                }
+            }
+        }
+                
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true)
+//MARK: - Not working
+        if let image = info[.originalImage] as? UIImage {
+            self.clubProfileImage.image = image
+        }
+    }
+}
 
 

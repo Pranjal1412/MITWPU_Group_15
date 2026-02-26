@@ -24,6 +24,7 @@
                 <outlet property="clubDescriptionView" destination="O4v-WM-5le" id="Ivl-i4-fdQ"/>
                 <outlet property="clubNameTextField" destination="sOZ-bN-4Vm" id="kMr-PC-xNs"/>
                 <outlet property="clubNameView" destination="eVy-lv-AyM" id="6Jl-aq-UDX"/>
+                <outlet property="clubProfileImage" destination="lO6-VC-3tu" id="bdF-cr-n5C"/>
                 <outlet property="collectionViewClubActivity" destination="D0N-uX-vXH" id="sOb-b5-hHB"/>
                 <outlet property="labelCreateClub" destination="4ZV-l3-kZv" id="A8A-3T-Pgb"/>
                 <outlet property="labelSubtitleCreateClub" destination="Iim-Fd-TrO" id="nto-U8-4ik"/>
@@ -213,17 +214,32 @@
                                         <constraint firstAttribute="bottom" secondItem="Sw6-hg-drf" secondAttribute="bottom" constant="8.3300000000000001" id="vy2-eq-uOq"/>
                                     </constraints>
                                 </stackView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NS8-LT-0KX">
+                                    <rect key="frame" x="126" y="10.666666666666629" width="100" height="100"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="100" id="JVG-dj-Fg3"/>
+                                        <constraint firstAttribute="height" constant="100" id="SRD-PH-OXO"/>
+                                    </constraints>
+                                    <state key="normal" title="Button"/>
+                                    <buttonConfiguration key="configuration" style="plain"/>
+                                    <connections>
+                                        <action selector="selectClubprofileTapped:" destination="-1" eventType="touchUpInside" id="nZ7-XA-OGj"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <constraints>
                                 <constraint firstItem="lO6-VC-3tu" firstAttribute="top" secondItem="rP3-rw-WdF" secondAttribute="top" constant="10" id="3sH-rH-JE2"/>
                                 <constraint firstItem="6B6-PC-quu" firstAttribute="top" secondItem="O4v-WM-5le" secondAttribute="bottom" constant="20" id="5bH-bL-Kra"/>
                                 <constraint firstItem="6B6-PC-quu" firstAttribute="leading" secondItem="rP3-rw-WdF" secondAttribute="leading" id="B93-2c-dxQ"/>
+                                <constraint firstItem="NS8-LT-0KX" firstAttribute="top" secondItem="rP3-rw-WdF" secondAttribute="top" constant="10.67" id="Ihm-Oa-ClB"/>
                                 <constraint firstItem="lO6-VC-3tu" firstAttribute="centerX" secondItem="Vyf-Bd-wWo" secondAttribute="centerX" id="LjB-9D-jdj"/>
                                 <constraint firstAttribute="trailing" secondItem="Jbm-bc-nB9" secondAttribute="trailing" id="LnF-i8-vm0"/>
                                 <constraint firstAttribute="trailing" secondItem="Vyf-Bd-wWo" secondAttribute="trailing" id="Qda-UB-xeI"/>
                                 <constraint firstItem="O4v-WM-5le" firstAttribute="leading" secondItem="rP3-rw-WdF" secondAttribute="leading" id="Rk0-0T-Doe"/>
                                 <constraint firstItem="Jbm-bc-nB9" firstAttribute="leading" secondItem="rP3-rw-WdF" secondAttribute="leading" id="SHF-Y2-zE3"/>
                                 <constraint firstItem="Vyf-Bd-wWo" firstAttribute="leading" secondItem="rP3-rw-WdF" secondAttribute="leading" id="STo-rT-2JM"/>
+                                <constraint firstItem="NS8-LT-0KX" firstAttribute="centerX" secondItem="rP3-rw-WdF" secondAttribute="centerX" id="VHV-Nc-dq2"/>
+                                <constraint firstItem="Vyf-Bd-wWo" firstAttribute="top" secondItem="NS8-LT-0KX" secondAttribute="bottom" constant="19.329999999999998" id="cjc-SV-ZyZ"/>
                                 <constraint firstAttribute="trailing" secondItem="O4v-WM-5le" secondAttribute="trailing" id="dvR-Ku-ba9"/>
                                 <constraint firstAttribute="trailing" secondItem="eVy-lv-AyM" secondAttribute="trailing" id="fqb-uH-Btf"/>
                                 <constraint firstItem="Jbm-bc-nB9" firstAttribute="top" secondItem="eVy-lv-AyM" secondAttribute="bottom" constant="20" id="g37-eb-9lE"/>
@@ -271,6 +287,11 @@
                         <constraint firstAttribute="bottom" secondItem="97n-47-BdF" secondAttribute="bottom" constant="53" id="tno-yx-rfu"/>
                         <constraint firstItem="Hn6-bU-9ha" firstAttribute="leading" secondItem="Biy-ss-bQ1" secondAttribute="leading" constant="25" id="zjn-QC-qcb"/>
                     </constraints>
+                    <variation key="default">
+                        <mask key="subviews">
+                            <exclude reference="D0N-uX-vXH"/>
+                        </mask>
+                    </variation>
                 </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
@@ -297,7 +318,7 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="tertiarySystemFillColor">
-            <color red="0.46274509800000002" green="0.46274509800000002" blue="0.50196078430000002" alpha="0.12" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.46274509803921571" green="0.46274509803921571" blue="0.50196078431372548" alpha="0.12" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
