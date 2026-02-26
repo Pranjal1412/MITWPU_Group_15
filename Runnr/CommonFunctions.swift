@@ -66,6 +66,38 @@ func addTopGradient(to view: UIView) {
     view.layer.insertSublayer(gradient, at: 0)
 }
 
+func clubProfileTopGradient(to view: UIView) {
+    let gradient = CAGradientLayer()
+    gradient.frame = view.bounds
+
+    gradient.colors = [
+        UIColor.black.cgColor,
+        UIColor.black.cgColor,
+        UIColor.black.cgColor,
+//        UIColor.black.cgColor,
+//        UIColor.black.cgColor,
+//        UIColor.black.cgColor,
+//        UIColor.black.cgColor,
+//        UIColor.black.cgColor,
+
+//        UIColor.black.withAlphaComponent(0.8).cgColor,
+        UIColor.black.withAlphaComponent(0.7).cgColor,
+//        UIColor.black.withAlphaComponent(0.6).cgColor,
+        UIColor.black.withAlphaComponent(0.5).cgColor,
+//        UIColor.black.withAlphaComponent(0.4).cgColor,
+        UIColor.black.withAlphaComponent(0.3).cgColor,
+//        UIColor.black.withAlphaComponent(0.1).cgColor,
+        UIColor.black.withAlphaComponent(0.1).cgColor,
+        UIColor.clear.cgColor
+//        UIColor.clear.cgColor
+    ]
+
+    gradient.startPoint = CGPoint(x: 0.5, y: 0)
+    gradient.endPoint = CGPoint(x: 0.5, y: 1)
+
+    view.layer.insertSublayer(gradient, at: 0)
+}
+
 func addBottomGradient(to view: UIView) {
     let gradient = CAGradientLayer()
     gradient.frame = view.bounds

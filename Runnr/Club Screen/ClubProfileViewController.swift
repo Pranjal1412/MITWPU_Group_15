@@ -18,6 +18,8 @@ class ClubProfileViewController: UIViewController {
     @IBOutlet var viewLeaderBoard: UIButton!
     @IBOutlet var viewTagged: UIButton!
     @IBOutlet var buttonBack: UIButton!
+    @IBOutlet weak var imageClubBanner: UIImageView!
+    @IBOutlet weak var gradientView: UIView!
     
     @IBOutlet weak var viewPostLine: UIView!
     @IBOutlet weak var viewLeaderboardLine: UIView!
@@ -41,8 +43,12 @@ class ClubProfileViewController: UIViewController {
         setGlassEffect(for: self.buttonBack, withImage: "chevron.backward")
         buttonBack.layer.cornerRadius = 20
         
+        scrollView.contentInsetAdjustmentBehavior = .never
+
         scrollView.contentSize.height = self.collectionViewPostImages.frame.height + self.collectionViewPostImages.frame.origin.y + 50
         scrollView.showsVerticalScrollIndicator = false
+        
+        clubProfileTopGradient(to: self.gradientView)
     }
 
     override func viewWillAppear(_ animated: Bool) {
