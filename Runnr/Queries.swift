@@ -371,19 +371,37 @@ func fetchMyClubsWithRoles(userID: UUID) async -> [ClubRoleAndData] {
     }
 }
 
-func insertNewClubData(newClub: Club) async {
+func insertNewClubData(newClub: Club) async -> Club? {
     do {
-        // Because of the trigger, this ONE insert updates TWO tables
-        try await SupabaseManager.shared.client
+        let insertedClub: Club = try await SupabaseManager.shared.client
             .from("Club")
             .insert(newClub)
             .execute()
+            .value
         
+        print(insertedClub)
         print("Club created and ownership assigned automatically!")
+        return insertedClub
+        
     } catch {
         print("Error creating club: \(error)")
+        return nil
     }
 }
+
+func updateClubInfo(clubID: UUID, updatedData: Club) async {
+    do {
+        try await SupabaseManager.shared.client
+            .from("Club")
+            .update(updatedData)
+            .eq("clubID", value: clubID)
+            .execute()
+    }
+    catch {
+        print("Updation failed: \(error)")
+    }
+}
+
 
 func insertNewClubMember(newMember: ClubMemberRole) async {
     do {

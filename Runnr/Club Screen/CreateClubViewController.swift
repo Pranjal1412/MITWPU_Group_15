@@ -44,6 +44,8 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
         clubNameTextField.delegate = self
         clubDescriptionTextField.delegate = self
         
+        clubProfileImage.layer.cornerRadius = self.clubProfileImage.frame.height / 2
+        
         self.clubDraft = ClubRoleAndData(role: .owner, club: Club(clubName: "", clubMotive: "", clubDescription: "", isPublic: true, clubSport: .running, memberCount: 0))
         
     }
@@ -65,16 +67,20 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
         else {
             if let presenter = self.presentingViewController {
                 self.dismiss(animated: true) {
-                    let rootVC = ClubProfileViewController(nibName: "ClubProfileViewController", bundle: nil)
-                    let destinationVC = UINavigationController(rootViewController: rootVC)
-                   
                     Task{
+//                        insert not working!!!
+                        let clubData = await insertNewClubData(newClub: self.clubDraft!.club) ?? self.clubDraft!.club
+                        self.clubDraft?.club = clubData
                         
                         if let newURL = await saveProfileImage(userID: (self.clubDraft?.club.clubID)!, with: self.clubProfileImage.image!) {
                             self.clubDraft?.club.clubProfileImageURL = newURL
                         }
                         
-                        await insertNewClubData(newClub: self.clubDraft!.club)
+                        await updateClubInfo(clubID: self.clubDraft!.club.clubID!, updatedData: self.clubDraft!.club)
+                        
+                        let rootVC = ClubProfileViewController(nibName: "ClubProfileViewController", bundle: nil)
+                        let destinationVC = UINavigationController(rootViewController: rootVC)
+
                         rootVC.isMyClub = true
                         rootVC.myClubProfileData = self.clubDraft!
                         destinationVC.modalPresentationStyle = .fullScreen

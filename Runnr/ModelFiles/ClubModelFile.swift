@@ -8,13 +8,13 @@
 import Foundation
 import UIKit
 
-struct Club : Codable{
+struct Club : Codable {
     var clubID : UUID?
     var clubName: String
-    var clubProfileImageURL : String?
     var clubMotive : String
     var clubDescription : String
     var isPublic : Bool
+    var clubProfileImageURL : String?
     var clubSport : ActivityType
     var memberCount: Int
 }

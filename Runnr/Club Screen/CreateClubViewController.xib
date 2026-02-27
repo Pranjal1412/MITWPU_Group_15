@@ -287,11 +287,6 @@
                         <constraint firstAttribute="bottom" secondItem="97n-47-BdF" secondAttribute="bottom" constant="53" id="tno-yx-rfu"/>
                         <constraint firstItem="Hn6-bU-9ha" firstAttribute="leading" secondItem="Biy-ss-bQ1" secondAttribute="leading" constant="25" id="zjn-QC-qcb"/>
                     </constraints>
-                    <variation key="default">
-                        <mask key="subviews">
-                            <exclude reference="D0N-uX-vXH"/>
-                        </mask>
-                    </variation>
                 </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
@@ -318,7 +313,7 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="tertiarySystemFillColor">
-            <color red="0.46274509803921571" green="0.46274509803921571" blue="0.50196078431372548" alpha="0.12" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.46274509800000002" green="0.46274509800000002" blue="0.50196078430000002" alpha="0.12" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
