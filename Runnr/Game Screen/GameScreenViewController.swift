@@ -16,6 +16,7 @@ class GameScreenViewController: UIViewController {
         dataSource.getTotalRunnrPoints()
     }
     
+    private var userProfile = DataSource.shared.getUserProfile()
     private var expandedIndexPath: IndexPath?
     
     override func viewDidLoad() {
@@ -59,7 +60,9 @@ class GameScreenViewController: UIViewController {
         view.addGestureRecognizer(tapGesture)
         
         Task {
-            let challenges = await getWeeklySoloChallenges(userID: <#UUID#>)
+            let challenges = await getWeeklySoloChallenges(userID: userProfile.userID!)
+            dataSource.setSoloChallenges(challenges ?? [])
+            collectionViewChallenges.reloadData()
         }
     }
 
@@ -102,7 +105,6 @@ class GameScreenViewController: UIViewController {
         guard let indexPath = expandedIndexPath else { return }
         
         if let cell = collectionViewChallenges.cellForItem(at: indexPath) as? DuelChallengeCollectionViewCell {
-//            cell.setExpanded(false)
         }
         
         expandedIndexPath = nil
@@ -130,7 +132,14 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         if segmentedControlGame.selectedSegmentIndex == 0 {
-            return collectionView.dequeueReusableCell(withReuseIdentifier: "soloChallengeCell", for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "soloChallengeCell", for: indexPath) as! SoloChallengeCollectionViewCell
+            let soloChallenges = dataSource.getSoloChallenges()
+
+            if soloChallenges.isEmpty == false {
+                cell.configureCell(challenge: soloChallenges[indexPath.row])
+            }
+
+            return cell
         }
 
         if indexPath.section == 0 {

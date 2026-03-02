@@ -522,7 +522,7 @@ func getWeeklySoloChallenges(userID: UUID) async -> [SoloChallenges]? {
     do {
 
         // Check existing user challenges
-        var assignedChallenges: [AssignedChallenges] = try await SupabaseManager.shared.client
+        let assignedChallenges: [AssignedChallenges] = try await SupabaseManager.shared.client
             .from("AssignedSoloChallenges")
             .select()
             .eq("userID", value: userID)
@@ -554,7 +554,7 @@ func getWeeklySoloChallenges(userID: UUID) async -> [SoloChallenges]? {
             let soloChallenges: [SoloChallenges] = try await SupabaseManager.shared.client
                 .from("SoloChallenges")
                 .select()
-                .in("id", values: challengeIDs)
+                .in("challengeID", values: challengeIDs)
                 .execute()
                 .value
 

@@ -17,6 +17,7 @@ class DataSource {
     
     private var gameID: UUID?
     private var gameTile: [TerritoryHexTile] = []
+    private var soloChallenges: [SoloChallenges] = []
     
     static let shared = DataSource()
     
@@ -162,6 +163,13 @@ class DataSource {
         return self.gameID
     }
     
+    func setSoloChallenges(_ soloChallenges: [SoloChallenges]) {
+        self.soloChallenges = soloChallenges
+    }
+    
+    func getSoloChallenges() -> [SoloChallenges] {
+        return self.soloChallenges
+    }
     
     func getWeeklyTotal(graphStore: GraphDataStore) -> TotalValue {
 
