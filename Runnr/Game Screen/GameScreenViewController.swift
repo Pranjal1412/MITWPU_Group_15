@@ -57,6 +57,10 @@ class GameScreenViewController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleBackgroundTap(_:)))
         tapGesture.cancelsTouchesInView = false
         view.addGestureRecognizer(tapGesture)
+        
+        Task {
+           let challenges = await fetchNewSoloChallenge()
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {

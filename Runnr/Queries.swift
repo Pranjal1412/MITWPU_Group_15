@@ -502,3 +502,31 @@ func fetchGameTileStatus(gameID: UUID) async -> [TerritoryHexTile]? {
         return nil
     }
 }
+
+func upsertGameTile(_ tile: TerritoryHexTile) async {
+    do {
+        try await SupabaseManager.shared.client
+            .from("TerritoryHexTile")
+            .upsert(tile)
+            .execute()
+    } catch {
+        print("Tile upsert failed: \(error)")
+    }
+}
+
+
+//MARK: - Solo Challenges Queries
+
+func fetchNewSoloChallenge() async -> [SoloChallenges]? {
+    do {
+        let challenges: [SoloChallenges] = try await SupabaseManager.shared.client
+            .rpc("get_random_solo_challenges", params: ["p_limit": 3])
+            .execute()
+            .value
+        return challenges
+    }
+    catch {
+        print("Failed to fetch challenges: \(error)")
+        return nil
+    }
+}

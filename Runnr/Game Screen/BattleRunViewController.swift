@@ -20,9 +20,11 @@ class BattleRunViewController: UIViewController {
     let totalCapturedCount = 0
     private let cameraRig = Entity()
     private var orbitCenter: SIMD3<Float> = .zero
+    var gameID: UUID?
 
     override func viewDidLoad() {
        super.viewDidLoad()
+       self.gameID = DataSource.shared.getGameID()
        setupUI()
        setupAR()
        Task { await loadBoard() }
@@ -221,6 +223,13 @@ class BattleRunViewController: UIViewController {
                 updateCaptureCounter()
                 animateScoreBounce()
                 UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+                
+                // Persist tile capture to Supabase
+                if let gameID = self.gameID {
+                    let userID = DataSource.shared.getUserProfile().userID
+                    let hexTile = TerritoryHexTile(tileID: id, ownerID: userID, gameID: gameID)
+                    Task { await upsertGameTile(hexTile) }
+                }
             }
         }
         
