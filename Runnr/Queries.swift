@@ -517,16 +517,52 @@ func upsertGameTile(_ tile: TerritoryHexTile) async {
 
 //MARK: - Solo Challenges Queries
 
-func fetchNewSoloChallenge() async -> [SoloChallenges]? {
+func getWeeklySoloChallenges(userID: UUID) async -> [SoloChallenges]? {
+
     do {
-        let challenges: [SoloChallenges] = try await SupabaseManager.shared.client
-            .rpc("get_random_solo_challenges", params: ["p_limit": 3])
+
+        // Check existing user challenges
+        var assignedChallenges: [AssignedChallenges] = try await SupabaseManager.shared.client
+            .from("AssignedSoloChallenges")
+            .select()
+            .eq("userID", value: userID)
             .execute()
             .value
-        return challenges
-    }
-    catch {
-        print("Failed to fetch challenges: \(error)")
+
+        // If none → fetch random and insert
+        if assignedChallenges.isEmpty {
+
+            let newChallenges: [SoloChallenges] = try await SupabaseManager.shared.client
+                .rpc("get_random_solo_challenges", params: ["p_limit": 3])
+                .execute()
+                .value
+
+            let challengesSelected = newChallenges.map {
+                AssignedChallenges(userID: userID, challengeID: $0.challengeID, currentProgress: 0, isCompleted: false)
+            }
+
+            try await SupabaseManager.shared.client
+                .from("AssignedSoloChallenges")
+                .insert(challengesSelected)
+                .execute()
+
+            return newChallenges
+        }
+        else {
+            
+            let challengeIDs = assignedChallenges.map { $0.challengeID }
+            let soloChallenges: [SoloChallenges] = try await SupabaseManager.shared.client
+                .from("SoloChallenges")
+                .select()
+                .in("id", values: challengeIDs)
+                .execute()
+                .value
+
+            return soloChallenges
+        }
+        
+    } catch {
+        print("Error fetching weekly challenges: \(error)")
         return nil
     }
 }
