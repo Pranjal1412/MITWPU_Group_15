@@ -60,7 +60,7 @@ class GameScreenViewController: UIViewController {
         view.addGestureRecognizer(tapGesture)
         
         Task {
-            let challenges = await getWeeklySoloChallenges(userID: userProfile.userID!)
+            let challenges = await getWeeklySoloChallenges(userProfile: userProfile)
             dataSource.setSoloChallenges(challenges ?? [])
             collectionViewChallenges.reloadData()
         }

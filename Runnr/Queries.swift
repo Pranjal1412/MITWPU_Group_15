@@ -517,7 +517,7 @@ func upsertGameTile(_ tile: TerritoryHexTile) async {
 
 //MARK: - Solo Challenges Queries
 
-func getWeeklySoloChallenges(userID: UUID) async -> [SoloChallenges]? {
+func getWeeklySoloChallenges(userProfile: UserProfile) async -> [SoloChallenges]? {
 
     do {
 
@@ -525,7 +525,7 @@ func getWeeklySoloChallenges(userID: UUID) async -> [SoloChallenges]? {
         let assignedChallenges: [AssignedChallenges] = try await SupabaseManager.shared.client
             .from("AssignedSoloChallenges")
             .select()
-            .eq("userID", value: userID)
+            .eq("userID", value: userProfile.userID)
             .execute()
             .value
 
@@ -533,12 +533,12 @@ func getWeeklySoloChallenges(userID: UUID) async -> [SoloChallenges]? {
         if assignedChallenges.isEmpty {
 
             let newChallenges: [SoloChallenges] = try await SupabaseManager.shared.client
-                .rpc("get_random_solo_challenges", params: ["p_limit": 3])
+                .rpc("get_random_solo_challenges", params: ["p_difficulty": userProfile.userLevel!.rawValue])
                 .execute()
                 .value
 
             let challengesSelected = newChallenges.map {
-                AssignedChallenges(userID: userID, challengeID: $0.challengeID, currentProgress: 0, isCompleted: false)
+                AssignedChallenges(userID: userProfile.userID!, challengeID: $0.challengeID, currentProgress: 0, isCompleted: false)
             }
 
             try await SupabaseManager.shared.client

@@ -52,3 +52,8 @@ struct AssignedChallenges: Codable {
     let currentProgress: Int
     let isCompleted: Bool
 }
+
+struct AssignedChallengesProgress: Codable {
+    let userChallenge: AssignedChallenges
+    let challenge: SoloChallenges
+}
