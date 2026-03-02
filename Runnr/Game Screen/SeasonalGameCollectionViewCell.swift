@@ -53,7 +53,10 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
         var newGame = TerritoryGame(playerOneID: userProfile.userID, playerTwoID: UUID(uuidString: "24fc68d0-fe86-4863-8166-d2368d179718"))
         
         Task {
-            newGame = await insertNewGame(gameData: newGame) ?? newGame            
+            newGame = await insertNewGame(gameData: newGame) ?? newGame
+            if let id = newGame.gameID {
+                DataSource.shared.setGameID(id)
+            }
             sender.isEnabled = false
         }
     }
