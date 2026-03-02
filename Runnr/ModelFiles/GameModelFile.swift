@@ -33,3 +33,15 @@ struct TileState {
     let id: String;
     var owner: TileOwner
 }
+
+struct SoloChallenges: Codable {
+    let challengeID: UUID
+    let title: String
+    let description: String
+    let rewardPoints: Int
+    let SFSymbolName: String
+    let goalValue: Int
+    let goalUnit: String
+    let difficultyLevel: String
+    let isActive: Bool
+}
