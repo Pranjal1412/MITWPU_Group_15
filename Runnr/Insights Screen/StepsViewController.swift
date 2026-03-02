@@ -12,6 +12,7 @@ class StepsViewController: UIViewController {
     @IBOutlet weak var weekRangeLabel: UILabel!
 
     var graphStore: GraphDataStore? = nil
+    let dataSource = DataSource.shared
     private var hostingController: UIHostingController<StepsChartView>?
     
     override func viewDidLoad() {
@@ -54,10 +55,16 @@ class StepsViewController: UIViewController {
         switch sender.selectedSegmentIndex {
             case 0:
                 graphStore?.selectedPeriod = .weekly
+            self.labelNumber.text = String(format: ".2f%", dataSource.getWeeklyTotal(graphStore: graphStore!).totalSteps)
+            
             case 1:
                 graphStore?.selectedPeriod = .monthly
+            self.labelNumber.text = String(dataSource.getMonthlyTotal(graphStore: graphStore!).totalSteps)
+
             case 2:
                 graphStore?.selectedPeriod = .yearly
+            self.labelNumber.text = String(dataSource.getYearlyTotal(graphStore: graphStore!).totalSteps)
+
             default:
                 break
             }

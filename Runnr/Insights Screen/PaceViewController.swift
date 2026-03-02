@@ -12,6 +12,7 @@ class PaceViewController: UIViewController {
     @IBOutlet weak var viewGraphContainer: UIView!
     
     var graphStore: GraphDataStore? = nil
+    let dataSource = DataSource.shared
     private var hostingController: UIHostingController<PaceChartView>?
     
     override func viewDidLoad() {
@@ -52,10 +53,16 @@ class PaceViewController: UIViewController {
         switch sender.selectedSegmentIndex {
             case 0:
                 graphStore?.selectedPeriod = .weekly
+                self.labelNumber.text = String(dataSource.getWeeklyTotal(graphStore: graphStore!).totalPace)
+            
             case 1:
                 graphStore?.selectedPeriod = .monthly
+            self.labelNumber.text = String(dataSource.getMonthlyTotal(graphStore: graphStore!).totalPace)
+
             case 2:
                 graphStore?.selectedPeriod = .yearly
+            self.labelNumber.text = String(dataSource.getYearlyTotal(graphStore: graphStore!).totalPace)
+
             default:
                 break
             }

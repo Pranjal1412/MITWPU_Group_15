@@ -162,6 +162,72 @@ class DataSource {
         return self.gameID
     }
     
+    
+    func getWeeklyTotal(graphStore: GraphDataStore) -> TotalValue {
+
+        var totalDistance: Double = 0.0
+        var totalCalories: Double = 0.0
+        var totalPace: Double = 0.0
+        var totalSteps: Double = 0.0
+
+        for item in graphStore.weeklyData {
+            totalDistance += item.distance
+            totalPace += item.pace
+            totalCalories += Double(item.calories)
+            totalSteps += Double(item.steps)
+        }
+
+        return TotalValue(
+            totalDistance: totalDistance,
+            totalCalories: totalCalories,
+            totalPace: totalPace,
+            totalSteps: totalSteps
+        )
+    }
+
+    func getMonthlyTotal(graphStore: GraphDataStore) -> TotalValue {
+
+        var totalDistance: Double = 0.0
+        var totalCalories: Double = 0.0
+        var totalPace: Double = 0.0
+        var totalSteps: Double = 0.0
+
+        for item in graphStore.monthlyData {
+            totalDistance += item.distance
+            totalPace += item.pace
+            totalCalories += Double(item.calories)
+            totalSteps += Double(item.steps)
+        }
+
+        return TotalValue(
+            totalDistance: totalDistance,
+            totalCalories: totalCalories,
+            totalPace: totalPace,
+            totalSteps: totalSteps
+        )
+    }
+    func getYearlyTotal(graphStore: GraphDataStore) -> TotalValue {
+
+        var totalDistance: Double = 0.0
+        var totalCalories: Double = 0.0
+        var totalPace: Double = 0.0
+        var totalSteps: Double = 0.0
+
+        for item in graphStore.yearlyData {
+            totalDistance += item.distance
+            totalPace += item.pace
+            totalCalories += Double(item.calories)
+            totalSteps += Double(item.steps)
+        }
+
+        return TotalValue(
+            totalDistance: totalDistance,
+            totalCalories: totalCalories,
+            totalPace: totalPace,
+            totalSteps: totalSteps
+        )
+    }
+    
 //    MARK: - Below functions are yet to check and corrected
     func getFriendsActivityData() -> [UserActivity] {
         return friendActivities
