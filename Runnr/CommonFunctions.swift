@@ -259,3 +259,5 @@ func resizeImageIfNeeded(_ image: UIImage, maxDimension: CGFloat) -> UIImage {
         image.draw(in: CGRect(origin: .zero, size: newSize))
     }
 }
+
+

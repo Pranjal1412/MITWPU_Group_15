@@ -16,6 +16,13 @@ struct DayData: Identifiable, Equatable {
     let value: Double
 }
 
+struct TotalValue {
+    let totalDistance: Double
+    let totalCalories: Double
+    let totalPace: Double
+    let totalSteps: Double
+}
+
 struct SummaryRow: Decodable {
     // Supabase returns dates as Strings (ISO8601)
     private let timeGroup: String
