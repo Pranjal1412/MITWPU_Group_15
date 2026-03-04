@@ -12,7 +12,7 @@ class CaloriesViewController: UIViewController {
     @IBOutlet weak var collectionViewCalories: UICollectionView!
     @IBOutlet weak var viewGraphContainer: UIView!
     
-    var graphStore: GraphDataStore? = nil
+    var graphStore: GraphManager? = nil
     let dataSource = DataSource.shared
     private var hostingController: UIHostingController<CaloriesChartView>?
     
@@ -31,8 +31,8 @@ class CaloriesViewController: UIViewController {
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
 
-        collectionViewCalories.dataSource = self
-        collectionViewCalories.delegate = self
+//        collectionViewCalories.dataSource = self
+//        collectionViewCalories.delegate = self
         let nib = UINib(nibName: "TrendsCollectionViewCell", bundle: nil)
         collectionViewCalories.register(nib, forCellWithReuseIdentifier: "cell")
         let layout = UICollectionViewFlowLayout()
@@ -140,7 +140,7 @@ class CaloriesViewController: UIViewController {
     }
     
     func setupGraph() {
-        let graphView = CaloriesChartView(store: graphStore ?? GraphDataStore())
+        let graphView = CaloriesChartView(store: graphStore ?? GraphManager())
 
         let hc = UIHostingController(rootView: graphView)
         hostingController = hc
@@ -179,39 +179,39 @@ class CaloriesViewController: UIViewController {
     }
 }
 
-extension CaloriesViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        caloriesBurntTrends.count
-    }
-
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: "cell",
-            for: indexPath
-        ) as! TrendsCollectionViewCell
-        cell.configureCell(with: caloriesBurntTrends[indexPath.row])
-        return cell
-    }
-
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: collectionView.frame.width, height: 90)
-    }
-
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        10
-    }
-}
+//extension CaloriesViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+//
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        caloriesBurntTrends.count
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView,
+//                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        let cell = collectionView.dequeueReusableCell(
+//            withReuseIdentifier: "cell",
+//            for: indexPath
+//        ) as! TrendsCollectionViewCell
+//        cell.configureCell(with: caloriesBurntTrends[indexPath.row])
+//        return cell
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView,
+//                        layout collectionViewLayout: UICollectionViewLayout,
+//                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        CGSize(width: collectionView.frame.width, height: 90)
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView,
+//                        layout collectionViewLayout: UICollectionViewLayout,
+//                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+//        10
+//    }
+//}
 
 // MARK: - Calories Graphs
 
 struct CaloriesChartView: View {
-    @ObservedObject var store: GraphDataStore
+    @ObservedObject var store: GraphManager
 
     var body: some View {
         ResponsiveBarChart(data: store.chartData(for: store.selectedPeriod, metric: .calories))

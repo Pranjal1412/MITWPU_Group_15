@@ -10,7 +10,7 @@ import SwiftUI
 import Charts
 import Combine
 
-class GraphDataStore: ObservableObject {
+class GraphManager: ObservableObject {
     @Published var weeklyData: [SummaryRow] = []
     @Published var monthlyData: [SummaryRow] = []
     @Published var yearlyData: [SummaryRow] = []

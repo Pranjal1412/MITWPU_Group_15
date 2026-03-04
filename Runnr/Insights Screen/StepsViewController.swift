@@ -12,7 +12,7 @@ class StepsViewController: UIViewController {
     @IBOutlet weak var viewGraphContainer: UIView!
     @IBOutlet weak var weekRangeLabel: UILabel!
 
-    var graphStore: GraphDataStore? = nil
+    var graphStore: GraphManager? = nil
     let dataSource = DataSource.shared
     private var hostingController: UIHostingController<StepsChartView>?
     
@@ -32,8 +32,8 @@ class StepsViewController: UIViewController {
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
 
-        collectionViewSteps.dataSource = self
-        collectionViewSteps.delegate = self
+//        collectionViewSteps.dataSource = self
+//        collectionViewSteps.delegate = self
         let nib = UINib(nibName: "TrendsCollectionViewCell", bundle: nil)
         collectionViewSteps.register(nib, forCellWithReuseIdentifier: "cell")
 
@@ -162,7 +162,7 @@ class StepsViewController: UIViewController {
     }
     
     func setupGraph() {
-        let graphView = StepsChartView(store: graphStore ?? GraphDataStore())
+        let graphView = StepsChartView(store: graphStore ?? GraphManager())
 
         let hc = UIHostingController(rootView: graphView)
         hostingController = hc
@@ -220,28 +220,28 @@ class StepsViewController: UIViewController {
 }
 
 // MARK: - Collection View
-extension StepsViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        stepsCoveredTrends.count
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! TrendsCollectionViewCell
-        cell.configureCell(with: stepsCoveredTrends[indexPath.row])
-        return cell
-    }
-
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: collectionView.frame.width, height: 90)
-    }
-}
+//extension StepsViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        stepsCoveredTrends.count
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! TrendsCollectionViewCell
+//        cell.configureCell(with: stepsCoveredTrends[indexPath.row])
+//        return cell
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView,
+//                        layout collectionViewLayout: UICollectionViewLayout,
+//                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        CGSize(width: collectionView.frame.width, height: 90)
+//    }
+//}
 
 //MARK: - Steps Graph
 
 struct StepsChartView: View {
-    @ObservedObject var store: GraphDataStore
+    @ObservedObject var store: GraphManager
     
     var body: some View {
         ResponsiveBarChart(data: store.chartData(for: store.selectedPeriod, metric: .steps))

@@ -12,7 +12,7 @@ class DistanceViewController: UIViewController {
     @IBOutlet weak var weekRangeLabel: UILabel!
     @IBOutlet weak var viewGraphContainer: UIView!
     
-    var graphStore: GraphDataStore? = nil
+    var graphStore: GraphManager? = nil
     let dataSource = DataSource.shared
     private var hostingController: UIHostingController<DistanceGraphView>?
     
@@ -34,8 +34,8 @@ class DistanceViewController: UIViewController {
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
-        collectionViewDistance.dataSource = self
-        collectionViewDistance.delegate = self
+//        collectionViewDistance.dataSource = self
+//        collectionViewDistance.delegate = self
         let nib = UINib(nibName: "TrendsCollectionViewCell", bundle: nil)
         collectionViewDistance.register(nib, forCellWithReuseIdentifier: "cell")
         
@@ -158,7 +158,7 @@ class DistanceViewController: UIViewController {
     }
     
     func setupGraph() {
-        let graphView = DistanceGraphView(store: graphStore ?? GraphDataStore())
+        let graphView = DistanceGraphView(store: graphStore ?? GraphManager())
 
         let hc = UIHostingController(rootView: graphView)
         hostingController = hc
@@ -217,39 +217,39 @@ class DistanceViewController: UIViewController {
 
 // MARK: - Collection View Settings
 
-extension DistanceViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-        
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        distanceTrends.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: "cell",
-            for: indexPath
-        ) as! TrendsCollectionViewCell
-        cell.configureCell(with: distanceTrends[indexPath.row])
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: collectionView.frame.width, height: 90)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        10
-    }
-}
+//extension DistanceViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+//        
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        distanceTrends.count
+//    }
+//    
+//    func collectionView(_ collectionView: UICollectionView,
+//                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        let cell = collectionView.dequeueReusableCell(
+//            withReuseIdentifier: "cell",
+//            for: indexPath
+//        ) as! TrendsCollectionViewCell
+//        cell.configureCell(with: distanceTrends[indexPath.row])
+//        return cell
+//    }
+//    
+//    func collectionView(_ collectionView: UICollectionView,
+//                        layout collectionViewLayout: UICollectionViewLayout,
+//                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        CGSize(width: collectionView.frame.width, height: 90)
+//    }
+//    
+//    func collectionView(_ collectionView: UICollectionView,
+//                        layout collectionViewLayout: UICollectionViewLayout,
+//                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+//        10
+//    }
+//}
 
 //MARK: - Distance Graph
 
 struct DistanceGraphView: View {
-    @ObservedObject var store: GraphDataStore
+    @ObservedObject var store: GraphManager
 
     var body: some View {
         let data = store.chartData(for: store.selectedPeriod, metric: .distance)

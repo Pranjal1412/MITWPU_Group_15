@@ -171,7 +171,7 @@ class DataSource {
         return self.soloChallenges
     }
     
-    func getWeeklyTotal(graphStore: GraphDataStore) -> TotalValue {
+    func getWeeklyTotal(graphStore: GraphManager) -> TotalValue {
 
         var totalDistance: Double = 0.0
         var totalCalories: Double = 0.0
@@ -193,7 +193,7 @@ class DataSource {
         )
     }
 
-    func getMonthlyTotal(graphStore: GraphDataStore) -> TotalValue {
+    func getMonthlyTotal(graphStore: GraphManager) -> TotalValue {
 
         var totalDistance: Double = 0.0
         var totalCalories: Double = 0.0
@@ -214,7 +214,8 @@ class DataSource {
             totalSteps: totalSteps
         )
     }
-    func getYearlyTotal(graphStore: GraphDataStore) -> TotalValue {
+    
+    func getYearlyTotal(graphStore: GraphManager) -> TotalValue {
 
         var totalDistance: Double = 0.0
         var totalCalories: Double = 0.0

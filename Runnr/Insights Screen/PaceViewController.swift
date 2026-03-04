@@ -12,7 +12,7 @@ class PaceViewController: UIViewController {
     @IBOutlet weak var collectionViewPace: UICollectionView!
     @IBOutlet weak var viewGraphContainer: UIView!
     
-    var graphStore: GraphDataStore? = nil
+    var graphStore: GraphManager? = nil
     let dataSource = DataSource.shared
     private var hostingController: UIHostingController<PaceChartView>?
     
@@ -33,8 +33,8 @@ class PaceViewController: UIViewController {
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
 
         // Collection view setup
-        collectionViewPace.dataSource = self
-        collectionViewPace.delegate = self
+//        collectionViewPace.dataSource = self
+//        collectionViewPace.delegate = self
         let nib = UINib(nibName: "TrendsCollectionViewCell", bundle: nil)
         collectionViewPace.register(nib, forCellWithReuseIdentifier: "cell")
         let layout = UICollectionViewFlowLayout()
@@ -160,7 +160,7 @@ class PaceViewController: UIViewController {
     }
     
     func setupGraph() {
-        let graphView = PaceChartView(store: graphStore ?? GraphDataStore())
+        let graphView = PaceChartView(store: graphStore ?? GraphManager())
 
         let hc = UIHostingController(rootView: graphView)
         hostingController = hc
@@ -201,28 +201,28 @@ class PaceViewController: UIViewController {
 
 }
 
-extension PaceViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return averagePaceTrends.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! TrendsCollectionViewCell
-        cell.configureCell(with: averagePaceTrends[indexPath.row])
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 90)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
-    }
-}
+//extension PaceViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        return averagePaceTrends.count
+//    }
+//    
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! TrendsCollectionViewCell
+//        cell.configureCell(with: averagePaceTrends[indexPath.row])
+//        return cell
+//    }
+//    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        return CGSize(width: collectionView.frame.width, height: 90)
+//    }
+//    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+//        return 10
+//    }
+//}
 
 struct PaceChartView: View {
-    @ObservedObject var store: GraphDataStore
+    @ObservedObject var store: GraphManager
 
     var body: some View {
         ResponsiveBarChart(data: store.chartData(for: store.selectedPeriod, metric: .pace))

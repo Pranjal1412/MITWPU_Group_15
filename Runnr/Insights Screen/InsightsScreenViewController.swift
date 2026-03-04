@@ -31,7 +31,7 @@ class InsightsScreenViewController: UIViewController {
     private var previousActivity: UserActivity?
     private var greenDates: Set<Date> = []
     
-    private var graphStore = GraphDataStore()
+    private var graphStore = GraphManager()
 
     var totalPoints: Int {
         dataSource.getTotalRunnrPoints()
