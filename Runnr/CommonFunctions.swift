@@ -260,4 +260,17 @@ func resizeImageIfNeeded(_ image: UIImage, maxDimension: CGFloat) -> UIImage {
     }
 }
 
-
+func getCurrentWeekStart() -> String {
+    var calendar = Calendar(identifier: .iso8601)
+    calendar.timeZone = TimeZone.current
+    
+    let now = Date()
+    let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: now)
+    let startOfWeek = calendar.date(from: components)!
+    
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd"
+    formatter.timeZone = TimeZone.current
+    
+    return formatter.string(from: startOfWeek)
+}

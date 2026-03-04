@@ -17,7 +17,7 @@ class DataSource {
     
     private var gameID: UUID?
     private var gameTile: [TerritoryHexTile] = []
-    private var soloChallenges: [SoloChallenges] = []
+    private var soloChallenges: [AssignedChallengesProgress] = []
     
     static let shared = DataSource()
     
@@ -163,11 +163,11 @@ class DataSource {
         return self.gameID
     }
     
-    func setSoloChallenges(_ soloChallenges: [SoloChallenges]) {
+    func setSoloChallenges(_ soloChallenges: [AssignedChallengesProgress]) {
         self.soloChallenges = soloChallenges
     }
     
-    func getSoloChallenges() -> [SoloChallenges] {
+    func getSoloChallenges() -> [AssignedChallengesProgress] {
         return self.soloChallenges
     }
     

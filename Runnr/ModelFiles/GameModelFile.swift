@@ -51,9 +51,10 @@ struct AssignedChallenges: Codable {
     let challengeID: UUID
     let currentProgress: Int
     let isCompleted: Bool
+    let weekStartDate: String
 }
 
 struct AssignedChallengesProgress: Codable {
-    let userChallenge: AssignedChallenges
-    let challenge: SoloChallenges
+    let assignedChallenge: AssignedChallenges
+    let challengeDetails: SoloChallenges
 }

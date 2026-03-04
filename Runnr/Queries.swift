@@ -517,48 +517,59 @@ func upsertGameTile(_ tile: TerritoryHexTile) async {
 
 //MARK: - Solo Challenges Queries
 
-func getWeeklySoloChallenges(userProfile: UserProfile) async -> [SoloChallenges]? {
+func getWeeklySoloChallenges(userProfile: UserProfile) async -> [AssignedChallengesProgress]? {
 
     do {
-
+//        returns current weeks moday's date
+        let currentWeek = getCurrentWeekStart()
         // Check existing user challenges
-        let assignedChallenges: [AssignedChallenges] = try await SupabaseManager.shared.client
+        var assignedChallenges: [AssignedChallenges] = try await SupabaseManager.shared.client
             .from("AssignedSoloChallenges")
             .select()
             .eq("userID", value: userProfile.userID)
+            .eq("weekStartDate", value: currentWeek)
             .execute()
             .value
 
         // If none → fetch random and insert
         if assignedChallenges.isEmpty {
 
+            // get new 3 random challenge
             let newChallenges: [SoloChallenges] = try await SupabaseManager.shared.client
-                .rpc("get_random_solo_challenges", params: ["p_difficulty": userProfile.userLevel!.rawValue])
+                .rpc("get_random_solo_challenges", params: ["p_user_id": userProfile.userID!.uuidString,"p_difficulty": userProfile.userLevel!.rawValue])
                 .execute()
                 .value
 
+            // convert it to AssignedChallenges type
             let challengesSelected = newChallenges.map {
-                AssignedChallenges(userID: userProfile.userID!, challengeID: $0.challengeID, currentProgress: 0, isCompleted: false)
+                AssignedChallenges(userID: userProfile.userID!, challengeID: $0.challengeID, currentProgress: 0, isCompleted: false, weekStartDate: currentWeek)
             }
 
+            // insert to AssignedSoloChallenges table which keeps a track of the challenges assigned and progress
             try await SupabaseManager.shared.client
                 .from("AssignedSoloChallenges")
                 .insert(challengesSelected)
                 .execute()
 
-            return newChallenges
+            assignedChallenges = challengesSelected
         }
-        else {
             
-            let challengeIDs = assignedChallenges.map { $0.challengeID }
-            let soloChallenges: [SoloChallenges] = try await SupabaseManager.shared.client
-                .from("SoloChallenges")
-                .select()
-                .in("challengeID", values: challengeIDs)
-                .execute()
-                .value
+        let challengeIDs = assignedChallenges.map { $0.challengeID }
+        
+        let soloChallenges: [SoloChallenges] = try await SupabaseManager.shared.client
+            .from("SoloChallenges")
+            .select()
+            .in("challengeID", values: challengeIDs)
+            .execute()
+            .value
+        
+        // converting the sollochallenges array into a dictionary of [UUID : SoloChallenges]
+        let challengeMap = Dictionary(uniqueKeysWithValues:soloChallenges.map { ($0.challengeID, $0) })
 
-            return soloChallenges
+        return assignedChallenges.compactMap { assigned in
+            // now based on the challengeID from assigned which is of type AssignedChallenges we get soloChallenge from challengeMap in detail constant
+            guard let details = challengeMap[assigned.challengeID] else { return nil }
+            return AssignedChallengesProgress(assignedChallenge: assigned,challengeDetails: details)
         }
         
     } catch {
