@@ -21,6 +21,7 @@ class BattleRunViewController: UIViewController {
     private let cameraRig = Entity()
     private var orbitCenter: SIMD3<Float> = .zero
     var gameID: UUID?
+    var capturedTiles: [TerritoryHexTile] = []
 
     override func viewDidLoad() {
        super.viewDidLoad()
@@ -32,6 +33,13 @@ class BattleRunViewController: UIViewController {
     }
     
    @IBAction func buttonBack(_ sender: Any) {
+       // Batch upsert all captured tiles before leaving
+       if !capturedTiles.isEmpty {
+           let tilesToSave = capturedTiles
+           Task {
+               await upsertGameTiles(tilesToSave)
+           }
+       }
        self.dismiss(animated: true, completion: nil)
    }
     func setupUI() {
@@ -143,6 +151,19 @@ class BattleRunViewController: UIViewController {
                 self.frame(entity: root)
                 boardController = BoardController(root: root, game: game)
                 
+                // Fetch previously captured tiles from Supabase and apply ownership
+                if let gameID = self.gameID {
+                    let myUserID = DataSource.shared.getUserProfile().userID
+                    if let savedTiles = await fetchGameTileStatus(gameID: gameID) {
+                        for savedTile in savedTiles {
+                            if game.tiles[savedTile.tileID] != nil {
+                                let player: Player = (savedTile.ownerID == myUserID) ? .me : .lea
+                                game.tiles[savedTile.tileID]?.owner = .player(player)
+                            }
+                        }
+                    }
+                }
+                
                 for id in game.tiles.keys {
                     if let controller = boardController { updateTileMaterial(id: id, controller: controller) }
                 }
@@ -224,11 +245,11 @@ class BattleRunViewController: UIViewController {
                 animateScoreBounce()
                 UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                 
-                // Persist tile capture to Supabase
+                // Add tile to batch array (will be saved when leaving the screen)
                 if let gameID = self.gameID {
                     let userID = DataSource.shared.getUserProfile().userID
                     let hexTile = TerritoryHexTile(tileID: id, ownerID: userID, gameID: gameID)
-                    Task { await upsertGameTile(hexTile) }
+                    capturedTiles.append(hexTile)
                 }
             }
         }

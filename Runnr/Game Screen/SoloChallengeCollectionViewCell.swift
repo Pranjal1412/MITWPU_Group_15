@@ -46,21 +46,21 @@ class SoloChallengeCollectionViewCell: UICollectionViewCell {
 //        applyGradientIfNeeded()
     }
 
-    func configureCell(challenge: SoloChallenges) {
+    func configureCell(challenge: AssignedChallengesProgress) {
         
-        self.imageViewChallenge.image = UIImage(systemName: challenge.SFSymbolName)
+        self.imageViewChallenge.image = UIImage(systemName: challenge.challengeDetails.SFSymbolName)
         
-        labelChallengeHeading.text = challenge.title
-        labelRewardPoints.text = "+" + String(challenge.rewardPoints)
+        labelChallengeHeading.text = challenge.challengeDetails.title
+        labelRewardPoints.text = "+" + String(challenge.challengeDetails.rewardPoints)
         labelRewardPoints.sizeToFit()
         labelRewardPoints.frame.size.width += 10
         labelRewardPoints.frame.size.height += 10
         labelRewardPoints.frame.origin.x = viewCellBackground.frame.origin.x + viewCellBackground.frame.width - 20 - labelRewardPoints.frame.width
         
-        labelChallengeDescription.text = "Goal: " + challenge.description
+        labelChallengeDescription.text = "Goal: " + challenge.challengeDetails.description
         progressChallengeCompletion.progress = 0
-        labelCompletionPercent.text = "0%"
-        labelCompletionNumber.text = "0 / " + String(challenge.goalValue) + " " + challenge.goalUnit
+        labelCompletionPercent.text = String(challenge.assignedChallenge.currentProgress) + "%"
+        labelCompletionNumber.text = "0 / " + String(challenge.challengeDetails.goalValue) + " " + challenge.challengeDetails.goalUnit
     }
     
     func applyGradientIfNeeded() {
