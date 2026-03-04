@@ -419,9 +419,9 @@ func insertNewClubMember(newMember: ClubMemberRole) async {
 
 //MARK: - Graph Queries
 
-func fetchSummary(userID: UUID, period: Period) async throws -> [SummaryRow]? {
+func fetchSummary(userID: UUID, period: Period, referenceDate: Date) async throws -> [SummaryRow]? {
     
-    let parameters : [String: String] = ["user_id": userID.uuidString, "time_period": period.rawValue]
+    let parameters : [String: String] = ["user_id": userID.uuidString, "time_period": period.rawValue, "reference_date": "\(referenceDate)"]
     
     do {
         let response: [SummaryRow] = try await SupabaseManager.shared.client

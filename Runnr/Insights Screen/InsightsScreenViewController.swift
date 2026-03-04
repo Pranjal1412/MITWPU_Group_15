@@ -72,7 +72,7 @@ class InsightsScreenViewController: UIViewController {
         }
         
         Task {
-            await graphStore.loadData(userID: userProfile.userID!)
+            await graphStore.loadData(userID: userProfile.userID!, referenceDate: Date())
         }
 
         prepareActivities()

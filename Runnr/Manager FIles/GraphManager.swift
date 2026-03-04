@@ -64,21 +64,21 @@ class GraphManager: ObservableObject {
 
     // Call your fetchSummary function here to populate the arrays
     @MainActor
-    func loadData(userID: UUID) async {
+    func loadData(userID: UUID, referenceDate: Date) async {
         isLoading = true
         defer { isLoading = false }
         
         do {
             // Fetch and store raw data
-            if let weekly = try await fetchSummary(userID: userID, period: .weekly) {
+            if let weekly = try await fetchSummary(userID: userID, period: .weekly, referenceDate: referenceDate) {
                 self.weeklyData = weekly
             }
             
-            if let monthly = try await fetchSummary(userID: userID, period: .monthly) {
+            if let monthly = try await fetchSummary(userID: userID, period: .monthly, referenceDate: referenceDate) {
                 self.monthlyData = monthly
             }
             
-            if let yearly = try await fetchSummary(userID: userID, period: .yearly) {
+            if let yearly = try await fetchSummary(userID: userID, period: .yearly, referenceDate: referenceDate) {
                 self.yearlyData = yearly
             }
             

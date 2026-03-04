@@ -15,7 +15,8 @@ class PaceViewController: UIViewController {
     var graphStore: GraphManager? = nil
     let dataSource = DataSource.shared
     private var hostingController: UIHostingController<PaceChartView>?
-    
+    private var userProfile = DataSource.shared.getUserProfile()
+
     private var selectedDate: Date = Date()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,8 +75,11 @@ class PaceViewController: UIViewController {
             ])
 
             let select = UIAlertAction(title: "Select", style: .default) { _ in
-                self.selectedDate = datePicker.date
-                self.updateDateDisplay()
+                Task {
+                    self.selectedDate = datePicker.date
+                    await self.graphStore!.loadData(userID: self.userProfile.userID!, referenceDate: self.selectedDate)
+                    self.updateDateDisplay()
+                }
             }
 
             alert.addAction(select)
