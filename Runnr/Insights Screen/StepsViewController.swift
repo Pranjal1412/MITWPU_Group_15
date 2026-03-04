@@ -5,6 +5,7 @@ class StepsViewController: UIViewController {
 
     @IBOutlet weak var segmentControlSteps: UISegmentedControl!
     @IBOutlet weak var collectionViewSteps: UICollectionView!
+    @IBOutlet weak var buttonWeekDates: UIButton!
     @IBOutlet weak var scrollViewMain: UIScrollView!
     @IBOutlet weak var labelStepsCovered: UILabel!
     @IBOutlet weak var labelNumber: UILabel!
@@ -15,8 +16,12 @@ class StepsViewController: UIViewController {
     let dataSource = DataSource.shared
     private var hostingController: UIHostingController<StepsChartView>?
     
+    private var selectedDate: Date = Date()
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        updateDateDisplay()
+        
         segmentControlSteps.selectedSegmentIndex = 0
         updateTopValueForSelectedSegment()
         
@@ -52,6 +57,68 @@ class StepsViewController: UIViewController {
         collectionViewSteps.frame.height + collectionViewSteps.frame.origin.y + 100
     }
     
+    @IBAction func buttonRangeClicked(_ sender: Any) {
+
+        let alert = UIAlertController(title: "Select Date\n\n\n\n\n\n\n\n", message: nil, preferredStyle: .alert)
+
+            let datePicker = UIDatePicker()
+            datePicker.datePickerMode = .date
+            datePicker.preferredDatePickerStyle = .wheels
+            datePicker.translatesAutoresizingMaskIntoConstraints = false
+            datePicker.date = selectedDate
+            
+            alert.view.addSubview(datePicker)
+
+            NSLayoutConstraint.activate([
+                datePicker.centerXAnchor.constraint(equalTo: alert.view.centerXAnchor),
+                datePicker.topAnchor.constraint(equalTo: alert.view.topAnchor, constant: 60),
+                datePicker.widthAnchor.constraint(equalToConstant: 250),
+                datePicker.heightAnchor.constraint(equalToConstant: 180)
+            ])
+
+            let select = UIAlertAction(title: "Select", style: .default) { _ in
+                self.selectedDate = datePicker.date
+                self.updateDateDisplay()
+            }
+
+            alert.addAction(select)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+
+            present(alert, animated: true)
+    }
+
+    func updateDateDisplay() {
+
+        let formatter = DateFormatter()
+        let calendar = Calendar(identifier: .gregorian)
+
+        switch segmentControlSteps.selectedSegmentIndex {
+
+        case 0: // Rolling 7 days ending at selected date
+
+            let weekEnd = selectedDate
+            guard let weekStart = calendar.date(byAdding: .day, value: -6, to: weekEnd) else { return }
+
+            formatter.dateFormat = "d MMMM"
+
+            let startString = formatter.string(from: weekStart)
+            let endString = formatter.string(from: weekEnd)
+
+            buttonWeekDates.setTitle("\(startString) - \(endString)", for: .normal)
+
+        case 1: // Monthly
+            formatter.dateFormat = "MMMM"
+            buttonWeekDates.setTitle(formatter.string(from: selectedDate), for: .normal)
+
+        case 2: // Yearly
+            formatter.dateFormat = "yyyy"
+            buttonWeekDates.setTitle(formatter.string(from: selectedDate), for: .normal)
+
+        default:
+            break
+        }
+    }
+    
     
     func updateTopValueForSelectedSegment() {
 
@@ -75,10 +142,7 @@ class StepsViewController: UIViewController {
 
     @IBAction func segmentControlClicked(_ sender: UISegmentedControl) {
         updateTopValueForSelectedSegment()
-        
-        print("Weekly count:", graphStore?.weeklyData.count ?? -1)
-        print("Monthly count:", graphStore?.monthlyData.count ?? -1)
-        print("Yearly count:", graphStore?.yearlyData.count ?? -1)
+        updateDateDisplay()
 //        switch sender.selectedSegmentIndex {
 //            case 0:
 //                graphStore?.selectedPeriod = .weekly
