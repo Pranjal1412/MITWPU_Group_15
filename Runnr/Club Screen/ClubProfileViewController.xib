@@ -23,12 +23,14 @@
                 <outlet property="clubMotive" destination="Ia2-Pc-aWS" id="F0j-rP-IxH"/>
                 <outlet property="clubProfileImage" destination="UCV-Fx-SPe" id="0sy-AZ-nCR"/>
                 <outlet property="collectionViewPostImages" destination="vhk-bF-3kY" id="WYE-dS-nQj"/>
+                <outlet property="createNewPostButton" destination="IuV-Wq-3Rt" id="tJJ-OQ-xrb"/>
                 <outlet property="gradientView" destination="EZi-OX-Wm8" id="ZKg-Jn-Gt4"/>
                 <outlet property="imageClubBanner" destination="v4x-TB-JuJ" id="0LC-WZ-fzk"/>
                 <outlet property="joinNowButton" destination="zKw-x3-qze" id="IJp-kj-kq6"/>
                 <outlet property="labelClubName" destination="O42-46-i2J" id="e8H-BX-Qzx"/>
                 <outlet property="labelNumberOfMembers" destination="IC5-KH-tEN" id="l9G-PD-ee8"/>
                 <outlet property="labelSportType" destination="LCy-GY-3OV" id="fKK-cG-2Bx"/>
+                <outlet property="leaveClubButton" destination="0kR-ne-qE1" id="vnH-au-l5O"/>
                 <outlet property="scrollView" destination="zue-5g-IEe" id="ScB-K9-giX"/>
                 <outlet property="tableViewLeaderBoard" destination="XCW-n3-5sD" id="7Xf-ye-Lt3"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -291,6 +293,27 @@
                                 <constraint firstAttribute="height" constant="55" id="18B-tl-vgo"/>
                             </constraints>
                         </view>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0kR-ne-qE1">
+                            <rect key="frame" x="297" y="63" width="80" height="25"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" systemColor="systemRedColor"/>
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Leave"/>
+                            <connections>
+                                <action selector="leaveClubPressed:" destination="-1" eventType="touchUpInside" id="K1e-5p-r3P"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IuV-Wq-3Rt">
+                            <rect key="frame" x="326" y="787" width="45" height="45"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                            <color key="backgroundColor" name="AccentColor"/>
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" image="plus" catalog="system">
+                                <color key="titleColor" red="0.090209968390000006" green="0.090209968390000006" blue="0.090209968390000006" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </state>
+                        </button>
                     </subviews>
                     <viewLayoutGuide key="safeArea" id="jVx-zf-fCk"/>
                     <constraints>
@@ -349,6 +372,7 @@
         <image name="figure.run" catalog="system" width="115" height="128"/>
         <image name="globe.asia.australia.fill" catalog="system" width="128" height="123"/>
         <image name="person.2.fill" catalog="system" width="128" height="86"/>
+        <image name="plus" catalog="system" width="128" height="113"/>
         <namedColor name="AccentColor">
             <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
@@ -357,6 +381,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.2196078431372549" blue="0.23529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

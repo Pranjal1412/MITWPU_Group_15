@@ -68,7 +68,7 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
             if let presenter = self.presentingViewController {
                 self.dismiss(animated: true) {
                     Task{
-//                        MARK: - CLUB ID IS NOT RETURNED 
+//                        insert not working!!!
                         let clubData = await insertNewClubData(newClub: self.clubDraft!.club) ?? self.clubDraft!.club
                         self.clubDraft?.club = clubData
                         

@@ -51,8 +51,6 @@ class ClubSettingsViewController: UIViewController {
         self.dismiss(animated: true)
     }
 
-
-
     /*
     // MARK: - Navigation
 

@@ -25,9 +25,18 @@ class ClubProfileViewController: UIViewController {
     @IBOutlet weak var viewLeaderboardLine: UIView!
     @IBOutlet weak var viewTaggedLine: UIView!
     
+    @IBOutlet var leaveClubButton: UIButton!
+    
+    @IBOutlet var createNewPostButton: UIButton!
     var isMyClub: Bool = false
     var clubProfileData: Club?
     var myClubProfileData : ClubRoleAndData?
+    
+    let demoPostImages: [UIImage] = [
+        UIImage(named: "post 1")!,
+        UIImage(named: "post 2")!,
+        UIImage(named: "post 3")!
+    ]
     
     private var userProfileData = DataSource.shared.getUserProfile()
     
@@ -49,30 +58,40 @@ class ClubProfileViewController: UIViewController {
         scrollView.showsVerticalScrollIndicator = false
         
         clubProfileTopGradient(to: self.gradientView)
+        
+        // Setup Create New Post Button
+        createNewPostButton.layer.cornerRadius = 22.5 // Half of 45 height
+        createNewPostButton.addTarget(self, action: #selector(presentCreatePost), for: .touchUpInside)
+    }
+
+    @objc func presentCreatePost() {
+        let vc = CreatePostViewController()
+        vc.modalPresentationStyle = .pageSheet // Native bottom sheet look
+        self.present(vc, animated: true)
     }
 
     override func viewWillAppear(_ animated: Bool) {
-//        if clubProfileData?.postImages.count == nil {
-//            collectionViewPostImages.isHidden = true
-//        }
-//        else {
-//            collectionViewPostImages.isHidden = false
-//            collectionViewPostImages.reloadData()
-//        }
+        if demoPostImages.isEmpty {
+            collectionViewPostImages.isHidden = true
+        }
+        else {
+            collectionViewPostImages.isHidden = false
+            collectionViewPostImages.reloadData()
+        }
     }
     
     func settingCollectionAndTableView() {
-        //collectionViewPostImages.delegate = self
-        //collectionViewPostImages.dataSource = self
+        collectionViewPostImages.delegate = self
+        collectionViewPostImages.dataSource = self
 
-//        let nib = UINib(nibName: "ClubProfileCollectionViewCell", bundle: nil)
-//        collectionViewPostImages.register(nib, forCellWithReuseIdentifier: "cell")
-//        
-//        if let layout = collectionViewPostImages.collectionViewLayout as? UICollectionViewFlowLayout {
-//            layout.minimumInteritemSpacing = 4
-//            layout.minimumLineSpacing = 4
-//            layout.sectionInset = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
-//        }
+        let nib = UINib(nibName: "PostCollectionViewCell", bundle: nil)
+        collectionViewPostImages.register(nib, forCellWithReuseIdentifier: "cell")
+        
+        if let layout = collectionViewPostImages.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.minimumInteritemSpacing = 4
+            layout.minimumLineSpacing = 4
+            layout.sectionInset = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+        }
         
         tableViewLeaderBoard.dataSource = self
         tableViewLeaderBoard.delegate = self
@@ -91,9 +110,11 @@ class ClubProfileViewController: UIViewController {
             
             if myClubProfileData?.role == .owner {
                 joinNowButton.setTitle("Edit Club Profile", for: .normal)
+                leaveClubButton.setTitle("Delete", for: .normal)
             }
             else {
                 joinNowButton.setTitle("Joined", for: .normal)
+                leaveClubButton.setTitle("Leave", for: .normal)
             }
             
             joinNowButton.setTitleColor(.accent, for: .normal)
@@ -172,6 +193,21 @@ class ClubProfileViewController: UIViewController {
     }
     
     
+    @IBAction func leaveClubPressed(_ sender: UIButton) {
+        let isOwner = myClubProfileData?.role == .owner
+        let title = isOwner ? "Delete Club" : "Leave Club"
+        let message = isOwner ? "Do you really want to delete this club?" : "Do you really want to leave this club?"
+        let actionTitle = isOwner ? "Delete" : "Leave"
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: actionTitle, style: .destructive, handler: { _ in
+            // Handle deletion or leaving
+            self.dismiss(animated: true)
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     @IBAction func backButtonPressed(_ sender: UIButton) {
         self.dismiss(animated: true)
     }
@@ -179,16 +215,19 @@ class ClubProfileViewController: UIViewController {
     func showPosts() {
         collectionViewPostImages.isHidden = false
         tableViewLeaderBoard.isHidden = true
+        createNewPostButton.isHidden = false
     }
 
     func showLeaderBoard() {
         collectionViewPostImages.isHidden = true
         tableViewLeaderBoard.isHidden = false
+        createNewPostButton.isHidden = true
     }
 
     func showTagged() {
         collectionViewPostImages.isHidden = false
         tableViewLeaderBoard.isHidden = true
+        createNewPostButton.isHidden = false
     }
 }
 
@@ -215,25 +254,32 @@ extension ClubProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
 // MARK: - CollectionView Settings
 
-//extension ClubProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource,
-//                                     UICollectionViewDelegateFlowLayout {
-//    
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return clubProfileData?.postImages.count ?? 0
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ClubProfileCollectionViewCell
-//
-//        cell.configureCell(with: clubProfileData!.postImages[indexPath.row]!)
-//        return cell
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-//                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-//
-//        let width = (collectionView.frame.width - 20) / 3
-//        return CGSize(width: width, height: width)
-//    }
-//}
+extension ClubProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource,
+                                     UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return demoPostImages.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! PostCollectionViewCell
+
+        cell.configureCell(with: demoPostImages[indexPath.row])
+        return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+        let width = (collectionView.frame.width - 20) / 3
+        return CGSize(width: width, height: width)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let postDetailVC = PostViewDetailViewController()
+        postDetailVC.postImage = demoPostImages[indexPath.row]
+        postDetailVC.modalPresentationStyle = .pageSheet
+        self.present(postDetailVC, animated: true)
+    }
+}
