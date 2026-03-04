@@ -47,6 +47,12 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
         imageView2.clipsToBounds = true
         imageView3.layer.cornerRadius = imageView1.frame.size.height / 2
         imageView3.clipsToBounds = true
+        
+        // Disable invite button if a game already exists
+        if DataSource.shared.getGameID() != nil {
+            buttonInviteFriend.isEnabled = false
+            buttonInviteFriend.backgroundColor = .systemGray2
+        }
     }
     
     @IBAction func inviteFriendClicked(_ sender: UIButton) {
