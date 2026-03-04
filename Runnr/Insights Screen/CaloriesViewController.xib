@@ -54,7 +54,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Weekly Range" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X1B-U3-GbT">
-                            <rect key="frame" x="16" y="175" width="370" height="20"/>
+                            <rect key="frame" x="16" y="165" width="370" height="20"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="20" id="AJS-IW-cVL"/>
                             </constraints>
@@ -103,7 +103,7 @@
                             </collectionViewFlowLayout>
                         </collectionView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rHU-U3-R96">
-                            <rect key="frame" x="16" y="196" width="342" height="21"/>
+                            <rect key="frame" x="16" y="190" width="355" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <nil key="textColor"/>
@@ -118,13 +118,13 @@
                         <constraint firstItem="n6C-gq-RTh" firstAttribute="top" secondItem="UqT-sQ-wiZ" secondAttribute="bottom" constant="25" id="JTh-R6-oYS"/>
                         <constraint firstAttribute="bottom" secondItem="38r-39-10s" secondAttribute="bottom" constant="757" id="OYR-Us-AfW"/>
                         <constraint firstItem="UqT-sQ-wiZ" firstAttribute="leading" secondItem="kG1-vS-EcG" secondAttribute="leading" constant="16" id="S9r-dN-5of"/>
-                        <constraint firstItem="X1B-U3-GbT" firstAttribute="top" secondItem="UCg-Hf-ZXE" secondAttribute="bottom" constant="20" id="UIX-O8-hiM"/>
+                        <constraint firstItem="X1B-U3-GbT" firstAttribute="top" secondItem="UCg-Hf-ZXE" secondAttribute="bottom" constant="10" id="UIX-O8-hiM"/>
                         <constraint firstItem="X1B-U3-GbT" firstAttribute="leading" secondItem="kG1-vS-EcG" secondAttribute="leading" constant="16" id="Vnk-ii-A9c"/>
                         <constraint firstItem="38r-39-10s" firstAttribute="top" secondItem="5JB-WY-xJ2" secondAttribute="bottom" constant="30" id="XY4-cl-cgn"/>
                         <constraint firstItem="UCg-Hf-ZXE" firstAttribute="top" secondItem="5JB-WY-xJ2" secondAttribute="bottom" constant="48" id="Xfp-8v-D3d"/>
                         <constraint firstItem="5JB-WY-xJ2" firstAttribute="leading" secondItem="kG1-vS-EcG" secondAttribute="leading" constant="16" id="buz-5d-c3Q"/>
                         <constraint firstItem="kG1-vS-EcG" firstAttribute="trailing" secondItem="UqT-sQ-wiZ" secondAttribute="trailing" constant="16" id="cal-Ed-sUD"/>
-                        <constraint firstItem="UqT-sQ-wiZ" firstAttribute="top" secondItem="X1B-U3-GbT" secondAttribute="bottom" constant="20" id="eRZ-5Y-6Am"/>
+                        <constraint firstItem="UqT-sQ-wiZ" firstAttribute="top" secondItem="X1B-U3-GbT" secondAttribute="bottom" constant="30" id="eRZ-5Y-6Am"/>
                         <constraint firstItem="kG1-vS-EcG" firstAttribute="trailing" secondItem="IQ7-1E-Ztn" secondAttribute="trailing" constant="16" id="f75-Wh-ejR"/>
                         <constraint firstItem="n6C-gq-RTh" firstAttribute="leading" secondItem="kG1-vS-EcG" secondAttribute="leading" constant="16" id="hEa-4g-NbB"/>
                         <constraint firstAttribute="trailing" secondItem="38r-39-10s" secondAttribute="trailing" constant="16" id="icr-d3-z9b"/>

@@ -19,7 +19,6 @@ class CaloriesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         updateWeekRangeLabel()
         
         segmentControlCalories.selectedSegmentIndex = 0
