@@ -279,10 +279,10 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
             
             switch indexPath.row {
             case 0: // Distance
-                let current = latest?.distanceCovered ?? 0
+                let current = latest!.distanceCovered
                 cell.labelCardTitle.text = "Distance"
-                cell.settingLabelStyle(withValue: String(format: "%.2f", current), withUnit: "Km")
-                cell.labelTrend.text = latest == nil ? "No recorded distance" : previous != nil ? trendText(current: current, previous: previous!.distanceCovered!, unit: "Km") : "First run"
+                cell.settingLabelStyle(withValue: String(format: "%.2f", current!), withUnit: "Km")
+                cell.labelTrend.text = trendText(current: current!, previous: previous!.distanceCovered!, unit: "Km")
                 updateChevron(cell: cell, current: latest?.distanceCovered, previous: previous?.distanceCovered)
                 
             case 1: // Calories
@@ -293,15 +293,14 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
                 updateChevron(cell: cell, current: current, previous: previous.map { Double($0.caloriesBurnt!) })
                 
             case 2: // Steps
-                let current = Double(latest?.stepsTaken ?? 0)
+                let current = Double(latest!.stepsTaken ?? 0)
                 cell.labelCardTitle.text = "Steps"
                 cell.settingLabelStyle(withValue: "\(Int(current))", withUnit: "steps")
-                cell.labelTrend.text = latest == nil ? "No recorded steps" : previous != nil ? trendText(current: current, previous: Double(previous!.stepsTaken!), unit: "steps") : "First run"
+                cell.labelTrend.text = trendText(current: current, previous: Double(previous!.stepsTaken!), unit: "steps")
                 updateChevron(cell: cell, current: current, previous: previous.map { Double($0.stepsTaken!) })
                 
             case 3: // Average Pace
                 let newFormattedTime = formatTime((latest?.timeTakenSeconds!)!)
-                //            MARK: - App Crashes here
                 let formattedTime = formatTime((previous?.timeTakenSeconds!)!)
                 
                 let curMin = newFormattedTime.minute
@@ -310,13 +309,111 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
                 cell.labelCardTitle.text = "Average Pace"
                 let displayText = String(format: "%d:%02d", curMin, curSec)
                 cell.settingLabelStyle(withValue: displayText, withUnit: "min/km")
-                cell.labelTrend.text = latest == nil ? "No recorded pace" : previous != nil ? trendText(current: current, previous: Double(formattedTime.minute * 60 + formattedTime.second), unit: "s") : "First run"
+                cell.labelTrend.text = trendText(current: current, previous: Double(formattedTime.minute * 60 + formattedTime.second), unit: "s")
                 //            updateChevron(cell: cell, current: latest.map { _ in current }, previous: previous.map { Double($0.timeMin * 60 + $0.timeSec) })
                 
             default:
                 break
             }
         }
+        else {
+            switch indexPath.row {
+            case 0: // Distance
+                cell.labelCardTitle.text = "Distance"
+                
+                if latest == nil {
+                    cell.labelTrend.text = "No recorded distance"
+                    let current = 0
+                    cell.settingLabelStyle(withValue: String(format: "%.2f", current), withUnit: "Km")
+                }
+                else {
+                    cell.labelTrend.text = "First run"
+                    let current = latest!.distanceCovered!
+                    cell.settingLabelStyle(withValue: String(format: "%.2f", current), withUnit: "Km")
+                }
+                
+                updateChevron(cell: cell, current: latest?.distanceCovered, previous: previous?.distanceCovered)
+                
+            case 1: // Calories
+                cell.labelCardTitle.text = "Calories"
+                
+                if latest == nil {
+                    cell.labelTrend.text = "No recorded calories"
+                    let current = 0.0
+                    cell.settingLabelStyle(withValue: String(format: "%.2f", current), withUnit: "Kcal")
+                    updateChevron(cell: cell, current: current, previous: previous.map { Double($0.caloriesBurnt!)})
+                }
+                else {
+                    cell.labelTrend.text = "First run"
+                    let current = latest!.caloriesBurnt!
+                    cell.settingLabelStyle(withValue: String(format: "%.2f", current), withUnit: "Kcal")
+                    updateChevron(cell: cell, current: Double(current), previous: previous.map { Double($0.caloriesBurnt!)})
+                }
+                
+                
+            case 2: // Steps
+                cell.labelCardTitle.text = "Steps"
+                
+                if latest == nil {
+                    cell.labelTrend.text = "No recorded steps"
+                    let current = 0.0
+                    cell.settingLabelStyle(withValue: String(format: "%.2f", current), withUnit: "steps")
+                    updateChevron(cell: cell, current: current, previous: previous.map { Double($0.stepsTaken!)})
+                }
+                else {
+                    cell.labelTrend.text = "First run"
+                    let current = latest!.stepsTaken!
+                    cell.settingLabelStyle(withValue: String(format: "%.2f", current), withUnit: "steps")
+                    updateChevron(cell: cell, current: Double(current), previous: previous.map { Double($0.stepsTaken!)})
+                }
+                
+                
+            case 3: // Average Pace
+                cell.labelCardTitle.text = "Average Pace"
+                
+                if latest == nil {
+                    cell.labelTrend.text = "No recorded pace"
+                    let current = 0.0
+                    cell.settingLabelStyle(withValue: "0:00", withUnit: "min/km")
+                    updateChevron(cell: cell,
+                                  current: current,
+                                  previous: previous.map {
+                                      Double(formatTime($0.timeTakenSeconds ?? 0).minute * 60 +
+                                             formatTime($0.timeTakenSeconds ?? 0).second)
+                                  })
+                }
+                else {
+                    let formatted = formatTime(latest!.timeTakenSeconds ?? 0)
+                    let curMin = formatted.minute
+                    let curSec = formatted.second
+                    let current = Double(curMin * 60 + curSec)
+                    
+                    let displayText = String(format: "%d:%02d", curMin, curSec)
+                    cell.settingLabelStyle(withValue: displayText, withUnit: "min/km")
+                    
+                    if previous == nil {
+                        cell.labelTrend.text = "First run"
+                        updateChevron(cell: cell, current: current, previous: nil)
+                    } else {
+                        let prevFormatted = formatTime(previous!.timeTakenSeconds ?? 0)
+                        let prevSeconds = Double(prevFormatted.minute * 60 + prevFormatted.second)
+                        
+                        cell.labelTrend.text = trendText(current: current,
+                                                         previous: prevSeconds,
+                                                         unit: "s")
+                        
+                        updateChevron(cell: cell,
+                                      current: current,
+                                      previous: prevSeconds)
+                    }
+                }
+                
+            default:
+                break
+            }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+
+        }
+        
         
         return cell
     }

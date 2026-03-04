@@ -12,6 +12,7 @@ class CaloriesViewController: UIViewController {
     @IBOutlet weak var viewGraphContainer: UIView!
     
     var graphStore: GraphDataStore? = nil
+    let dataSource = DataSource.shared
     private var hostingController: UIHostingController<CaloriesChartView>?
     
     override func viewDidLoad() {
@@ -53,10 +54,16 @@ class CaloriesViewController: UIViewController {
         switch sender.selectedSegmentIndex {
             case 0:
                 graphStore?.selectedPeriod = .weekly
+                self.labelNumber.text = String(dataSource.getWeeklyTotal(graphStore: graphStore!).totalCalories)
+            
             case 1:
                 graphStore?.selectedPeriod = .monthly
+            self.labelNumber.text = String(dataSource.getMonthlyTotal(graphStore: graphStore!).totalCalories)
+
             case 2:
                 graphStore?.selectedPeriod = .yearly
+            self.labelNumber.text = String(dataSource.getYearlyTotal(graphStore: graphStore!).totalCalories)
+
             default:
                 break
             }

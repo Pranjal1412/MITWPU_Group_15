@@ -23,43 +23,44 @@ class SoloChallengeCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        configureCell()
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        applyGradientIfNeeded()
-    }
-
-    func configureCell() {
+        
         self.viewChallenge.layer.cornerRadius = self.viewChallenge.bounds.height / 2
         self.viewChallenge.clipsToBounds = true
         self.imageViewChallenge.clipsToBounds = true
         self.viewCellBackground.layer.cornerRadius = 15
+        
         self.viewGradient.backgroundColor = .clear
         self.viewGradient.clipsToBounds = true
         self.viewGradient.layer.cornerRadius = 15
-        
         self.buttonClaimPoints.layer.cornerRadius = self.buttonClaimPoints.bounds.height / 2
-        
-        imageViewChallenge.image = UIImage(systemName: "sun.horizon.fill")
-        
-        labelChallengeHeading.text = String(localized: "Sunrise Run")
-        labelRewardPoints.text = "+50"
-        labelRewardPoints.sizeToFit()
-        labelRewardPoints.frame.size.width += 5
-        labelRewardPoints.frame.size.height += 10
-        labelRewardPoints.frame.origin.x = viewCellBackground.frame.origin.x + viewCellBackground.frame.width - 20 - labelRewardPoints.frame.width
         
         self.labelRewardPoints.layer.borderWidth = 1
         self.labelRewardPoints.layer.borderColor = UIColor.accent.cgColor
         self.labelRewardPoints.layer.cornerRadius = self.labelRewardPoints.bounds.height / 2
         self.labelRewardPoints.clipsToBounds = true
         
-        labelChallengeDescription.text = String(localized: "Goal: Run before 7 AM three days in a week")
-        progressChallengeCompletion.progress = 0.2
-        labelCompletionPercent.text = "20%"
-        labelCompletionNumber.text = "5.0/5.0 Km"
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+//        applyGradientIfNeeded()
+    }
+
+    func configureCell(challenge: AssignedChallengesProgress) {
+        
+        self.imageViewChallenge.image = UIImage(systemName: challenge.challengeDetails.SFSymbolName)
+        
+        labelChallengeHeading.text = challenge.challengeDetails.title
+        labelRewardPoints.text = "+" + String(challenge.challengeDetails.rewardPoints)
+        labelRewardPoints.sizeToFit()
+        labelRewardPoints.frame.size.width += 10
+        labelRewardPoints.frame.size.height += 10
+        labelRewardPoints.frame.origin.x = viewCellBackground.frame.origin.x + viewCellBackground.frame.width - 20 - labelRewardPoints.frame.width
+        
+        labelChallengeDescription.text = "Goal: " + challenge.challengeDetails.description
+        progressChallengeCompletion.progress = 0
+        labelCompletionPercent.text = String(challenge.assignedChallenge.currentProgress) + "%"
+        labelCompletionNumber.text = "0 / " + String(challenge.challengeDetails.goalValue) + " " + challenge.challengeDetails.goalUnit
     }
     
     func applyGradientIfNeeded() {

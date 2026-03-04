@@ -45,3 +45,16 @@ struct SoloChallenges: Codable {
     let difficultyLevel: String
     let isActive: Bool
 }
+
+struct AssignedChallenges: Codable {
+    let userID: UUID
+    let challengeID: UUID
+    let currentProgress: Int
+    let isCompleted: Bool
+    let weekStartDate: String
+}
+
+struct AssignedChallengesProgress: Codable {
+    let assignedChallenge: AssignedChallenges
+    let challengeDetails: SoloChallenges
+}

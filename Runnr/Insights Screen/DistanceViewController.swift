@@ -12,6 +12,7 @@ class DistanceViewController: UIViewController {
     @IBOutlet weak var viewGraphContainer: UIView!
     
     var graphStore: GraphDataStore? = nil
+    let dataSource = DataSource.shared
     private var hostingController: UIHostingController<DistanceGraphView>?
     
     override func viewDidLoad() {
@@ -48,11 +49,17 @@ class DistanceViewController: UIViewController {
         
         switch sender.selectedSegmentIndex {
             case 0:
-            graphStore?.selectedPeriod = .weekly
+                graphStore?.selectedPeriod = .weekly
+            self.labelNumber.text = String(format: ".2f%", dataSource.getWeeklyTotal(graphStore: graphStore!).totalDistance)
+            
             case 1:
                 graphStore?.selectedPeriod = .monthly
+            self.labelNumber.text = String(format: ".2f%", dataSource.getMonthlyTotal(graphStore: graphStore!).totalDistance)
+
             case 2:
                 graphStore?.selectedPeriod = .yearly
+            self.labelNumber.text = String(format: ".2f%", dataSource.getYearlyTotal(graphStore: graphStore!).totalDistance)
+
             default:
                 break
             }
