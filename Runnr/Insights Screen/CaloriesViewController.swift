@@ -97,7 +97,8 @@ class CaloriesViewController: UIViewController {
 
         switch segmentControlCalories.selectedSegmentIndex {
 
-        case 0: // ✅ Rolling 7 days ending at selected date
+        case 0: // Weekly
+            graphStore?.selectedPeriod = .weekly
 
             let weekEnd = selectedDate
             guard let weekStart = calendar.date(byAdding: .day, value: -6, to: weekEnd) else { return }
@@ -110,10 +111,14 @@ class CaloriesViewController: UIViewController {
             buttonWeekDates.setTitle("\(startString) - \(endString)", for: .normal)
 
         case 1: // Monthly
+            graphStore?.selectedPeriod = .monthly
+
             formatter.dateFormat = "MMMM"
             buttonWeekDates.setTitle(formatter.string(from: selectedDate), for: .normal)
 
         case 2: // Yearly
+            graphStore?.selectedPeriod = .yearly
+
             formatter.dateFormat = "yyyy"
             buttonWeekDates.setTitle(formatter.string(from: selectedDate), for: .normal)
 

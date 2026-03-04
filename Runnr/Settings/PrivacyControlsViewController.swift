@@ -21,7 +21,7 @@ class PrivacyControlsViewController: UIViewController {
         setGlassEffect(for: buttonSave, withImage: "checkmark")
         setGlassEffect(for: buttonCancel, withImage: "multiply")
         scrollViewMainScreen.contentSize.height = 900
-
+        scrollViewMainScreen.showsVerticalScrollIndicator = false
         // Do any additional setup after loading the view.
     }
     

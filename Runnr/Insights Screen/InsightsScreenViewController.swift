@@ -64,10 +64,13 @@ class InsightsScreenViewController: UIViewController {
 
         labelTotalPoints.text = "\(totalPoints)"
 
-        if myActivities.isEmpty {
+        if myActivities.isEmpty == true {
             Task {
                 let activities = await fetchAllMyActivities(userID: userProfile.userID!)
                 self.dataSource.setAllActivities(activities)
+                prepareActivities()
+                prepareGreenDates()
+                self.collectionViewInsightsCards.reloadData()
             }
         }
         

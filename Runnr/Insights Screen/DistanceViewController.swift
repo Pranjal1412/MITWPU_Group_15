@@ -21,7 +21,7 @@ class DistanceViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        updateDateDisplay()
+        updateDisplay()
         
         segmentControlDistance.selectedSegmentIndex = 0
         updateTopValueForSelectedSegment()
@@ -77,7 +77,7 @@ class DistanceViewController: UIViewController {
                 Task {
                     self.selectedDate = datePicker.date
                     await self.graphStore!.loadData(userID: self.userProfile.userID!, referenceDate: self.selectedDate)
-                    self.updateDateDisplay()
+                    self.updateDisplay()
                 }
             }
 
@@ -88,30 +88,35 @@ class DistanceViewController: UIViewController {
     }
 
     
-    func updateDateDisplay() {
+    func updateDisplay() {
 
         let formatter = DateFormatter()
         let calendar = Calendar(identifier: .gregorian)
 
         switch segmentControlDistance.selectedSegmentIndex {
 
-        case 0: // Rolling 7 days ending at selected date
+        case 0: // Weekly
+
+            graphStore?.selectedPeriod = .weekly
 
             let weekEnd = selectedDate
             guard let weekStart = calendar.date(byAdding: .day, value: -6, to: weekEnd) else { return }
 
             formatter.dateFormat = "d MMMM"
-
             let startString = formatter.string(from: weekStart)
             let endString = formatter.string(from: weekEnd)
 
             buttonWeekDates.setTitle("\(startString) - \(endString)", for: .normal)
 
         case 1: // Monthly
+            graphStore?.selectedPeriod = .monthly
+
             formatter.dateFormat = "MMMM"
             buttonWeekDates.setTitle(formatter.string(from: selectedDate), for: .normal)
 
         case 2: // Yearly
+            graphStore?.selectedPeriod = .yearly
+
             formatter.dateFormat = "yyyy"
             buttonWeekDates.setTitle(formatter.string(from: selectedDate), for: .normal)
 
@@ -141,23 +146,7 @@ class DistanceViewController: UIViewController {
     
     @IBAction func segmentControlClicked(_ sender: UISegmentedControl) {
         updateTopValueForSelectedSegment()
-        updateDateDisplay()
-//        switch sender.selectedSegmentIndex {
-//            case 0:
-//                graphStore?.selectedPeriod = .weekly
-//            self.labelNumber.text = String(format: ".2f%", dataSource.getWeeklyTotal(graphStore: graphStore!).totalDistance)
-//            
-//            case 1:
-//                graphStore?.selectedPeriod = .monthly
-//            self.labelNumber.text = String(format: ".2f%", dataSource.getMonthlyTotal(graphStore: graphStore!).totalDistance)
-//
-//            case 2:
-//                graphStore?.selectedPeriod = .yearly
-//            self.labelNumber.text = String(format: ".2f%", dataSource.getYearlyTotal(graphStore: graphStore!).totalDistance)
-//
-//            default:
-//                break
-//            }
+        updateDisplay()
     }
     
     func setupGraph() {

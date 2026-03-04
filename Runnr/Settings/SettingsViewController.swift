@@ -17,7 +17,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
 
         self.tableViewSettings.dataSource = self
         self.tableViewSettings.delegate = self
-        
+        self.tableViewSettings.showsVerticalScrollIndicator = false
         self.tableViewSettings.register(UINib(nibName: "SettingsTableViewCell", bundle: nil), forCellReuseIdentifier: "SettingsTableViewCell")
     }
 

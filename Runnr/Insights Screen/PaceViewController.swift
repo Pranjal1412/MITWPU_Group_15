@@ -97,6 +97,7 @@ class PaceViewController: UIViewController {
         switch segmentControlAveragePace.selectedSegmentIndex {
 
         case 0: // Rolling 7 days ending at selected date
+            graphStore?.selectedPeriod = .weekly
 
             let weekEnd = selectedDate
             guard let weekStart = calendar.date(byAdding: .day, value: -6, to: weekEnd) else { return }
@@ -109,10 +110,14 @@ class PaceViewController: UIViewController {
             buttonWeekDates.setTitle("\(startString) - \(endString)", for: .normal)
 
         case 1: // Monthly
+            graphStore?.selectedPeriod = .monthly
+
             formatter.dateFormat = "MMMM"
             buttonWeekDates.setTitle(formatter.string(from: selectedDate), for: .normal)
 
         case 2: // Yearly
+            graphStore?.selectedPeriod = .yearly
+
             formatter.dateFormat = "yyyy"
             buttonWeekDates.setTitle(formatter.string(from: selectedDate), for: .normal)
 
@@ -145,22 +150,6 @@ class PaceViewController: UIViewController {
     @IBAction func segmentControlClicked(_ sender: UISegmentedControl) {
         updateTopValueForSelectedSegment()
         updateDateDisplay()
-//        switch sender.selectedSegmentIndex {
-//            case 0:
-//                graphStore?.selectedPeriod = .weekly
-//                self.labelNumber.text = String(dataSource.getWeeklyTotal(graphStore: graphStore!).totalPace)
-//            
-//            case 1:
-//                graphStore?.selectedPeriod = .monthly
-//            self.labelNumber.text = String(dataSource.getMonthlyTotal(graphStore: graphStore!).totalPace)
-//
-//            case 2:
-//                graphStore?.selectedPeriod = .yearly
-//            self.labelNumber.text = String(dataSource.getYearlyTotal(graphStore: graphStore!).totalPace)
-//
-//            default:
-//                break
-//            }
     }
     
     func setupGraph() {
