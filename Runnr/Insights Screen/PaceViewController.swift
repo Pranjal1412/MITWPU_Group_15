@@ -17,6 +17,8 @@ class PaceViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        segmentControlAveragePace.selectedSegmentIndex = 0
+        updateTopValueForSelectedSegment()
 
         navigationItem.title = "Average Pace"
         let appearance = UINavigationBarAppearance()
@@ -46,26 +48,45 @@ class PaceViewController: UIViewController {
         super.viewDidLayoutSubviews()
         scrollViewMain.contentSize.height = collectionViewPace.frame.height + collectionViewPace.frame.origin.y + 100
     }
+    
+    func updateTopValueForSelectedSegment() {
+
+        guard let graphStore = graphStore else { return }
+
+        switch segmentControlAveragePace.selectedSegmentIndex {
+        case 0:
+            labelNumber.text = String(dataSource.getWeeklyTotal(graphStore: graphStore).totalCalories)
+
+        case 1:
+            labelNumber.text = String(dataSource.getMonthlyTotal(graphStore: graphStore).totalCalories)
+
+        case 2:
+            labelNumber.text = String(dataSource.getYearlyTotal(graphStore: graphStore).totalCalories)
+
+        default:
+            break
+        }
+    }
 
     
     @IBAction func segmentControlClicked(_ sender: UISegmentedControl) {
-        
-        switch sender.selectedSegmentIndex {
-            case 0:
-                graphStore?.selectedPeriod = .weekly
-                self.labelNumber.text = String(dataSource.getWeeklyTotal(graphStore: graphStore!).totalPace)
-            
-            case 1:
-                graphStore?.selectedPeriod = .monthly
-            self.labelNumber.text = String(dataSource.getMonthlyTotal(graphStore: graphStore!).totalPace)
-
-            case 2:
-                graphStore?.selectedPeriod = .yearly
-            self.labelNumber.text = String(dataSource.getYearlyTotal(graphStore: graphStore!).totalPace)
-
-            default:
-                break
-            }
+        updateTopValueForSelectedSegment()
+//        switch sender.selectedSegmentIndex {
+//            case 0:
+//                graphStore?.selectedPeriod = .weekly
+//                self.labelNumber.text = String(dataSource.getWeeklyTotal(graphStore: graphStore!).totalPace)
+//            
+//            case 1:
+//                graphStore?.selectedPeriod = .monthly
+//            self.labelNumber.text = String(dataSource.getMonthlyTotal(graphStore: graphStore!).totalPace)
+//
+//            case 2:
+//                graphStore?.selectedPeriod = .yearly
+//            self.labelNumber.text = String(dataSource.getYearlyTotal(graphStore: graphStore!).totalPace)
+//
+//            default:
+//                break
+//            }
     }
     
     func setupGraph() {

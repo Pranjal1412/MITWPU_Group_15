@@ -147,7 +147,7 @@
                             <color key="backgroundColor" name="CardLightBlack"/>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All changes you make here will be synchronized across all your connected devices. For more details, read our Privacy Policy" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MEz-tk-Mwx">
-                            <rect key="frame" x="16" y="745" width="369" height="55"/>
+                            <rect key="frame" x="16" y="730" width="369" height="55"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="SFPro-Regular" family="SF Pro" pointSize="12"/>
                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
