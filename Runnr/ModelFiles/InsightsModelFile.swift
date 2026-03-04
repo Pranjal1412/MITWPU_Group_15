@@ -19,19 +19,51 @@ struct CardData {
     var trendChevron: String
 }
 
-var cardDataArray: [CardData] = [
-    CardData(number: "7.2", unit: "Km", title: "Distance Covered",
-             trend: "1.2 km more than last week", trendChevron: "chevron.up.2"),
+struct DayData: Identifiable, Equatable {
+    let id = UUID()
+    let label: String
+    let value: Double
+}
 
-    CardData(number: "528", unit: "Kcal", title: "Calories Burnt",
-             trend: "50 kcal lower", trendChevron: "chevron.down.2"),
+struct TotalValue {
+    let totalDistance: Double
+    let totalCalories: Double
+    let totalPace: Double
+    let totalSteps: Double
+}
 
-    CardData(number: "10.5", unit: "k", title: "Steps Covered",
-             trend: "1200 more", trendChevron: "chevron.up.2"),
+struct SummaryRow: Decodable {
+    // Supabase returns dates as Strings (ISO8601)
+    private let timeGroup: String
+    let distance: Double
+    let calories: Int
+    let steps: Int
+    let pace: Double
 
-    CardData(number: "7:90", unit: "min/km", title: "Average Pace",
-             trend: "2 minutes slower", trendChevron: "chevron.down.2")
-]
+    // Use this in your UI
+    var date: Date {
+        let formatter = DateFormatter()
+        // This matches your specific string: "YYYY-MM-DDTHH:MM:SS"
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        
+        // Set locale to ensure it doesn't break on users with non-US settings
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+
+        if let parsedDate = formatter.date(from: timeGroup) {
+            return parsedDate
+        }
+
+        // If it still fails, use a "Sentinel" date so you know it's broken
+        // (Jan 1 1970 will show up as 'Thu' or '1970')
+        return Date(timeIntervalSince1970: 0)
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case timeGroup = "timeGroup" // Matches the quoted SQL name exactly
+        case distance, calories, steps, pace
+    }
+}
 
 // DISTANCE
 var distanceTrends: [DistanceCardData] = [

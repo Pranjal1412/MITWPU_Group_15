@@ -36,6 +36,7 @@ struct TileState {
 
 struct SoloChallenges: Codable {
     let challengeID: UUID
+    let challengeType: String
     let title: String
     let description: String
     let rewardPoints: Int
@@ -57,4 +58,9 @@ struct AssignedChallenges: Codable {
 struct AssignedChallengesProgress: Codable {
     let assignedChallenge: AssignedChallenges
     let challengeDetails: SoloChallenges
+}
+
+struct GetRandomChallengesParams: Encodable, Sendable {
+    let p_user_id: UUID
+    let p_difficulty: String
 }
