@@ -8,9 +8,11 @@
 import UIKit
 import SwiftUI
 import Charts
+import Kingfisher
 
 class ActivityAnalysisViewController: UIViewController {
 
+    @IBOutlet weak var userProfileImage: UIImageView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var labelActivityDate: UILabel!
     @IBOutlet weak var labelUserName: UILabel!
@@ -39,7 +41,8 @@ class ActivityAnalysisViewController: UIViewController {
     
     var activityData : UserActivity?
     private var datasource = DataSource.shared
-
+    private let userProfile = DataSource.shared.getUserProfile()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -105,9 +108,17 @@ class ActivityAnalysisViewController: UIViewController {
     
     func settingUpActivityAnalysisScreenElements() {
                 
-        //labelUserName.text = activityData!.userName
+        labelUserName.text = userProfile.userName
         labelUserName.sizeToFit()
-    
+        
+        let profileImageURL = userProfile.userProfileImageURL
+        if let url = URL(string: profileImageURL!) {
+            self.userProfileImage.kf.setImage(with: url)
+        }
+        
+        self.userProfileImage.layer.cornerRadius = self.userProfileImage.frame.size.height / 2
+        self.userProfileImage.clipsToBounds = true
+        
         labelActivityTitle.text = activityData!.activityTitle
         labelActivityTitle.sizeToFit()
         

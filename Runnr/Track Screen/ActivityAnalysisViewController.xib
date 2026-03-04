@@ -38,6 +38,7 @@
                 <outlet property="labelTotalPoints" destination="wVd-yO-gsS" id="Nfe-UZ-VnL"/>
                 <outlet property="labelUserName" destination="iV0-AA-TFB" id="QFl-5a-7ky"/>
                 <outlet property="scrollView" destination="MbJ-Ym-WSI" id="5Z3-pJ-ce2"/>
+                <outlet property="userProfileImage" destination="bnN-lE-F9l" id="TDE-LP-evh"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="viewActivityStats" destination="wMJ-Vf-n8K" id="IBa-LV-81t"/>
                 <outlet property="viewGraphContainer" destination="xlq-GS-6Kz" id="QcT-ng-UKT"/>
@@ -55,7 +56,7 @@
                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="sO4-mt-cM5">
                             <rect key="frame" x="25" y="5" width="352" height="45"/>
                             <subviews>
-                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user3" translatesAutoresizingMaskIntoConstraints="NO" id="bnN-lE-F9l">
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user3" translatesAutoresizingMaskIntoConstraints="NO" id="bnN-lE-F9l">
                                     <rect key="frame" x="0.0" y="0.0" width="45" height="45"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="45" id="Wj5-2N-7Qm"/>
