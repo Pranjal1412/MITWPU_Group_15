@@ -7,6 +7,7 @@ class CaloriesViewController: UIViewController {
     @IBOutlet weak var scrollViewMain: UIScrollView!
     @IBOutlet weak var labelNumber: UILabel!
     @IBOutlet weak var segmentControlCalories: UISegmentedControl!
+    @IBOutlet weak var labelWeekDates: UILabel!
     @IBOutlet weak var labelCaloriesBurnt: UILabel!
     @IBOutlet weak var collectionViewCalories: UICollectionView!
     @IBOutlet weak var viewGraphContainer: UIView!
@@ -18,6 +19,8 @@ class CaloriesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        updateWeekRangeLabel()
         
         segmentControlCalories.selectedSegmentIndex = 0
             updateTopValueForSelectedSegment()
@@ -51,6 +54,30 @@ class CaloriesViewController: UIViewController {
         scrollViewMain.contentSize.height =
         collectionViewCalories.frame.height +
         collectionViewCalories.frame.origin.y + 100
+    }
+    
+    func updateWeekRangeLabel() {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.firstWeekday = 2 // 1 = Sunday, 2 = Monday
+
+        let today = Date()
+
+        // Get year + week number
+        let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: today)
+
+        // Get Monday of this week
+        guard let weekStart = calendar.date(from: components) else { return }
+
+        // Sunday = Monday + 6 days
+        guard let weekEnd = calendar.date(byAdding: .day, value: 6, to: weekStart) else { return }
+
+        let formatter = DateFormatter()
+        formatter.dateFormat = "d MMM"
+
+        let startString = formatter.string(from: weekStart)
+        let endString = formatter.string(from: weekEnd)
+
+        labelWeekDates.text = "\(startString) - \(endString)"
     }
     
     func updateTopValueForSelectedSegment() {
