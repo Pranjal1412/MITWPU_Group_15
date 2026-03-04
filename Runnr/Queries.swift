@@ -503,17 +503,17 @@ func fetchGameTileStatus(gameID: UUID) async -> [TerritoryHexTile]? {
     }
 }
 
-func upsertGameTile(_ tile: TerritoryHexTile) async {
+func upsertGameTiles(_ tiles: [TerritoryHexTile]) async {
     do {
+        guard !tiles.isEmpty else { return }
         try await SupabaseManager.shared.client
             .from("TerritoryHexTile")
-            .upsert(tile)
+            .upsert(tiles)
             .execute()
     } catch {
         print("Tile upsert failed: \(error)")
     }
 }
-
 
 //MARK: - Solo Challenges Queries
 
