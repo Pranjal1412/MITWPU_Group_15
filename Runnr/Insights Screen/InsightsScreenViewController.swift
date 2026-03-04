@@ -410,8 +410,7 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
                 
             default:
                 break
-            }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
-
+            }
         }
         
         

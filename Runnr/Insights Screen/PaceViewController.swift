@@ -6,6 +6,7 @@ class PaceViewController: UIViewController {
     @IBOutlet weak var weekRangeLabel: UILabel!
     @IBOutlet weak var scrollViewMain: UIScrollView!
     @IBOutlet weak var labelNumber: UILabel!
+    @IBOutlet weak var buttonWeekDates: UIButton!
     @IBOutlet weak var segmentControlAveragePace: UISegmentedControl!
     @IBOutlet weak var labelAveragePace: UILabel!
     @IBOutlet weak var collectionViewPace: UICollectionView!
@@ -15,8 +16,14 @@ class PaceViewController: UIViewController {
     let dataSource = DataSource.shared
     private var hostingController: UIHostingController<PaceChartView>?
     
+    private var selectedDate: Date = Date()
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        updateDateDisplay()
+        
+        segmentControlAveragePace.selectedSegmentIndex = 0
+        updateTopValueForSelectedSegment()
 
         navigationItem.title = "Average Pace"
         let appearance = UINavigationBarAppearance()
@@ -46,26 +53,110 @@ class PaceViewController: UIViewController {
         super.viewDidLayoutSubviews()
         scrollViewMain.contentSize.height = collectionViewPace.frame.height + collectionViewPace.frame.origin.y + 100
     }
+    
+    @IBAction func buttonRangeClicked(_ sender: Any) {
+
+        let alert = UIAlertController(title: "Select Date\n\n\n\n\n\n\n\n", message: nil, preferredStyle: .alert)
+
+            let datePicker = UIDatePicker()
+            datePicker.datePickerMode = .date
+            datePicker.preferredDatePickerStyle = .wheels
+            datePicker.translatesAutoresizingMaskIntoConstraints = false
+            datePicker.date = selectedDate
+            
+            alert.view.addSubview(datePicker)
+
+            NSLayoutConstraint.activate([
+                datePicker.centerXAnchor.constraint(equalTo: alert.view.centerXAnchor),
+                datePicker.topAnchor.constraint(equalTo: alert.view.topAnchor, constant: 60),
+                datePicker.widthAnchor.constraint(equalToConstant: 250),
+                datePicker.heightAnchor.constraint(equalToConstant: 180)
+            ])
+
+            let select = UIAlertAction(title: "Select", style: .default) { _ in
+                self.selectedDate = datePicker.date
+                self.updateDateDisplay()
+            }
+
+            alert.addAction(select)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+
+            present(alert, animated: true)
+    }
+
+    
+    func updateDateDisplay() {
+
+        let formatter = DateFormatter()
+        let calendar = Calendar(identifier: .gregorian)
+
+        switch segmentControlAveragePace.selectedSegmentIndex {
+
+        case 0: // Rolling 7 days ending at selected date
+
+            let weekEnd = selectedDate
+            guard let weekStart = calendar.date(byAdding: .day, value: -6, to: weekEnd) else { return }
+
+            formatter.dateFormat = "d MMMM"
+
+            let startString = formatter.string(from: weekStart)
+            let endString = formatter.string(from: weekEnd)
+
+            buttonWeekDates.setTitle("\(startString) - \(endString)", for: .normal)
+
+        case 1: // Monthly
+            formatter.dateFormat = "MMMM"
+            buttonWeekDates.setTitle(formatter.string(from: selectedDate), for: .normal)
+
+        case 2: // Yearly
+            formatter.dateFormat = "yyyy"
+            buttonWeekDates.setTitle(formatter.string(from: selectedDate), for: .normal)
+
+        default:
+            break
+        }
+    }
+    
+    
+    func updateTopValueForSelectedSegment() {
+
+        guard let graphStore = graphStore else { return }
+
+        switch segmentControlAveragePace.selectedSegmentIndex {
+        case 0:
+            labelNumber.text = String(dataSource.getWeeklyTotal(graphStore: graphStore).totalCalories)
+
+        case 1:
+            labelNumber.text = String(dataSource.getMonthlyTotal(graphStore: graphStore).totalCalories)
+
+        case 2:
+            labelNumber.text = String(dataSource.getYearlyTotal(graphStore: graphStore).totalCalories)
+
+        default:
+            break
+        }
+    }
 
     
     @IBAction func segmentControlClicked(_ sender: UISegmentedControl) {
-        
-        switch sender.selectedSegmentIndex {
-            case 0:
-                graphStore?.selectedPeriod = .weekly
-                self.labelNumber.text = String(dataSource.getWeeklyTotal(graphStore: graphStore!).totalPace)
-            
-            case 1:
-                graphStore?.selectedPeriod = .monthly
-            self.labelNumber.text = String(dataSource.getMonthlyTotal(graphStore: graphStore!).totalPace)
-
-            case 2:
-                graphStore?.selectedPeriod = .yearly
-            self.labelNumber.text = String(dataSource.getYearlyTotal(graphStore: graphStore!).totalPace)
-
-            default:
-                break
-            }
+        updateTopValueForSelectedSegment()
+        updateDateDisplay()
+//        switch sender.selectedSegmentIndex {
+//            case 0:
+//                graphStore?.selectedPeriod = .weekly
+//                self.labelNumber.text = String(dataSource.getWeeklyTotal(graphStore: graphStore!).totalPace)
+//            
+//            case 1:
+//                graphStore?.selectedPeriod = .monthly
+//            self.labelNumber.text = String(dataSource.getMonthlyTotal(graphStore: graphStore!).totalPace)
+//
+//            case 2:
+//                graphStore?.selectedPeriod = .yearly
+//            self.labelNumber.text = String(dataSource.getYearlyTotal(graphStore: graphStore!).totalPace)
+//
+//            default:
+//                break
+//            }
     }
     
     func setupGraph() {
