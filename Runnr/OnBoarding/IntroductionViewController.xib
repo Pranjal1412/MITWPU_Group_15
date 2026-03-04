@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24127" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -10,8 +10,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IntroductionViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
+                <outlet property="pageControl" destination="cbq-Cf-22K" id="XX3-uA-Ary"/>
+                <outlet property="scrollView" destination="00h-ys-b4O" id="5XK-gt-Vld"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
-                <outlet property="viewIntroducingRunnr" destination="rVW-gL-pG8" id="utf-74-UmX"/>
                 <outlet property="viewMainBackground" destination="RoJ-dl-YU2" id="oq8-hd-AQV"/>
                 <outlet property="viewRunnrCoin" destination="Sia-mi-Rpg" id="950-uL-mUM"/>
                 <outlet property="viewScreenOne" destination="6cn-zd-H9U" id="geo-BN-b0x"/>
@@ -42,19 +43,33 @@
                                 <action selector="skipButtonPressed:" destination="-1" eventType="touchUpInside" id="TMz-SD-vIQ"/>
                             </connections>
                         </button>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rVW-gL-pG8">
-                            <rect key="frame" x="20" y="50.000000000000028" width="298" height="363"/>
-                        </view>
+                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="00h-ys-b4O">
+                            <rect key="frame" x="11" y="64" width="316" height="313"/>
+                            <viewLayoutGuide key="contentLayoutGuide" id="pTI-Y9-nvi"/>
+                            <viewLayoutGuide key="frameLayoutGuide" id="q32-T8-TgC"/>
+                        </scrollView>
+                        <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="cbq-Cf-22K">
+                            <rect key="frame" x="25" y="387" width="288" height="26"/>
+                            <color key="pageIndicatorTintColor" name="AccentColorLight"/>
+                            <color key="currentPageIndicatorTintColor" name="AccentColor"/>
+                            <connections>
+                                <action selector="pageValueChanged:" destination="-1" eventType="valueChanged" id="SFZ-Ad-5nd"/>
+                            </connections>
+                        </pageControl>
                     </subviews>
+                    <color key="backgroundColor" red="0.090196078431372548" green="0.090196078431372548" blue="0.090196078431372548" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstItem="rVW-gL-pG8" firstAttribute="top" secondItem="gUz-Ci-RXj" secondAttribute="bottom" constant="10" id="236-cb-ydR"/>
+                        <constraint firstItem="cbq-Cf-22K" firstAttribute="top" secondItem="00h-ys-b4O" secondAttribute="bottom" constant="10" id="1ad-vq-d7N"/>
                         <constraint firstAttribute="width" constant="338" id="4Zm-p0-BBQ"/>
-                        <constraint firstItem="rVW-gL-pG8" firstAttribute="leading" secondItem="RoJ-dl-YU2" secondAttribute="leading" constant="20" id="A4W-hW-AUn"/>
+                        <constraint firstAttribute="trailing" secondItem="00h-ys-b4O" secondAttribute="trailing" constant="10" id="DHk-a0-i2i"/>
+                        <constraint firstItem="00h-ys-b4O" firstAttribute="top" secondItem="gUz-Ci-RXj" secondAttribute="bottom" constant="20" id="DLw-Tv-Hij"/>
+                        <constraint firstItem="cbq-Cf-22K" firstAttribute="leading" secondItem="RoJ-dl-YU2" secondAttribute="leading" constant="25" id="KZl-Nk-Xso"/>
                         <constraint firstAttribute="height" constant="433" id="Kih-FC-NKR"/>
                         <constraint firstItem="gUz-Ci-RXj" firstAttribute="top" secondItem="RoJ-dl-YU2" secondAttribute="top" constant="20" id="Uqd-H8-Emb"/>
-                        <constraint firstAttribute="bottom" secondItem="rVW-gL-pG8" secondAttribute="bottom" constant="20" id="m2n-LB-mTk"/>
+                        <constraint firstAttribute="bottom" secondItem="cbq-Cf-22K" secondAttribute="bottom" constant="20" id="XEn-sT-8LY"/>
+                        <constraint firstAttribute="trailing" secondItem="cbq-Cf-22K" secondAttribute="trailing" constant="25" id="dq8-BQ-NoL"/>
                         <constraint firstAttribute="trailing" secondItem="gUz-Ci-RXj" secondAttribute="trailing" constant="15" id="qCv-aw-qZw"/>
-                        <constraint firstAttribute="trailing" secondItem="rVW-gL-pG8" secondAttribute="trailing" constant="20" id="waA-IW-jjh"/>
+                        <constraint firstItem="00h-ys-b4O" firstAttribute="leading" secondItem="RoJ-dl-YU2" secondAttribute="leading" constant="10" id="wir-Pf-E18"/>
                     </constraints>
                 </view>
             </subviews>
@@ -65,7 +80,7 @@
                 <constraint firstItem="RoJ-dl-YU2" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="qzD-Cg-Lee"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="223.88059701492537" y="473.68421052631578"/>
+            <point key="canvasLocation" x="224" y="474"/>
         </view>
         <view contentMode="scaleToFill" id="6cn-zd-H9U">
             <rect key="frame" x="0.0" y="0.0" width="316" height="313"/>
@@ -179,7 +194,10 @@ Claim zones and defend your ground.</string>
     </objects>
     <resources>
         <namedColor name="AccentColor">
-            <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.79199999570846558" blue="0.15700000524520874" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="AccentColorLight">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>
