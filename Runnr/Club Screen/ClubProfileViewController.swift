@@ -19,7 +19,7 @@ class ClubProfileViewController: UIViewController {
     @IBOutlet var viewTagged: UIButton!
     @IBOutlet var buttonBack: UIButton!
     @IBOutlet weak var imageClubBanner: UIImageView!
-    @IBOutlet weak var gradientView: UIView!
+//    @IBOutlet weak var gradientView: UIView!
     
     @IBOutlet weak var viewPostLine: UIView!
     @IBOutlet weak var viewLeaderboardLine: UIView!
@@ -57,7 +57,7 @@ class ClubProfileViewController: UIViewController {
         scrollView.contentSize.height = self.collectionViewPostImages.frame.height + self.collectionViewPostImages.frame.origin.y + 50
         scrollView.showsVerticalScrollIndicator = false
         
-        clubProfileTopGradient(to: self.gradientView)
+//        clubProfileTopGradient(to: self.gradientView)
         
         // Setup Create New Post Button
         createNewPostButton.layer.cornerRadius = 22.5 // Half of 45 height

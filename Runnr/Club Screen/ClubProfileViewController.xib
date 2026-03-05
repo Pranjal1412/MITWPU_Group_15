@@ -24,7 +24,6 @@
                 <outlet property="clubProfileImage" destination="UCV-Fx-SPe" id="0sy-AZ-nCR"/>
                 <outlet property="collectionViewPostImages" destination="vhk-bF-3kY" id="WYE-dS-nQj"/>
                 <outlet property="createNewPostButton" destination="IuV-Wq-3Rt" id="tJJ-OQ-xrb"/>
-                <outlet property="gradientView" destination="EZi-OX-Wm8" id="ZKg-Jn-Gt4"/>
                 <outlet property="imageClubBanner" destination="v4x-TB-JuJ" id="0LC-WZ-fzk"/>
                 <outlet property="joinNowButton" destination="zKw-x3-qze" id="IJp-kj-kq6"/>
                 <outlet property="labelClubName" destination="O42-46-i2J" id="e8H-BX-Qzx"/>
@@ -52,8 +51,9 @@
                     <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Club" translatesAutoresizingMaskIntoConstraints="NO" id="v4x-TB-JuJ">
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Club" id="v4x-TB-JuJ">
                             <rect key="frame" x="0.0" y="20" width="402" height="190"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="190" id="eiX-Um-Hpt"/>
                             </constraints>
@@ -169,8 +169,9 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0zu-dm-XIe" userLabel="back">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="0zu-dm-XIe" userLabel="back">
                             <rect key="frame" x="5" y="55" width="40" height="40"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="jF1-ei-Ndv"/>
                                 <constraint firstAttribute="width" constant="40" id="xbW-Hi-md9"/>
@@ -287,12 +288,6 @@
                                 <constraint firstAttribute="height" constant="27" id="6Cy-sA-5wu"/>
                             </constraints>
                         </stackView>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EZi-OX-Wm8" userLabel="gradient">
-                            <rect key="frame" x="0.0" y="0.0" width="402" height="55"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="55" id="18B-tl-vgo"/>
-                            </constraints>
-                        </view>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0kR-ne-qE1">
                             <rect key="frame" x="297" y="63" width="80" height="25"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
@@ -329,17 +324,13 @@
                         <constraint firstItem="fKU-rL-P8n" firstAttribute="trailing" secondItem="zKw-x3-qze" secondAttribute="trailing" constant="20" id="Hpu-oV-MfR"/>
                         <constraint firstItem="j9f-9a-Ldu" firstAttribute="leading" secondItem="fKU-rL-P8n" secondAttribute="leading" constant="25" id="J7H-dg-wfT"/>
                         <constraint firstItem="v4x-TB-JuJ" firstAttribute="leading" secondItem="fKU-rL-P8n" secondAttribute="leading" id="LGn-pu-Srt"/>
-                        <constraint firstItem="0zu-dm-XIe" firstAttribute="top" secondItem="EZi-OX-Wm8" secondAttribute="bottom" id="MFV-VM-O4q"/>
                         <constraint firstItem="vhk-bF-3kY" firstAttribute="top" secondItem="bAq-Mj-mMM" secondAttribute="bottom" constant="10" id="QE0-kq-D8R"/>
                         <constraint firstItem="bAq-Mj-mMM" firstAttribute="top" secondItem="zKw-x3-qze" secondAttribute="bottom" constant="20" id="QnY-t8-phg"/>
                         <constraint firstItem="fQo-zo-K8z" firstAttribute="leading" secondItem="fKU-rL-P8n" secondAttribute="leading" constant="20" id="Syw-cn-uAw"/>
-                        <constraint firstItem="EZi-OX-Wm8" firstAttribute="leading" secondItem="fKU-rL-P8n" secondAttribute="leading" id="TYH-2M-Rjj"/>
-                        <constraint firstItem="EZi-OX-Wm8" firstAttribute="top" secondItem="v9Q-Hd-v96" secondAttribute="top" id="Vzc-ff-I2W"/>
                         <constraint firstItem="UCV-Fx-SPe" firstAttribute="leading" secondItem="fKU-rL-P8n" secondAttribute="leading" constant="20" id="bKl-u8-STy"/>
                         <constraint firstItem="fKU-rL-P8n" firstAttribute="trailing" secondItem="bAq-Mj-mMM" secondAttribute="trailing" constant="20" id="dWV-Sa-pCC"/>
                         <constraint firstItem="XCW-n3-5sD" firstAttribute="bottom" secondItem="fKU-rL-P8n" secondAttribute="bottom" id="dv2-fn-DOa"/>
                         <constraint firstItem="fKU-rL-P8n" firstAttribute="trailing" secondItem="O42-46-i2J" secondAttribute="trailing" constant="10" id="fVP-4J-QjN"/>
-                        <constraint firstItem="v4x-TB-JuJ" firstAttribute="top" secondItem="v9Q-Hd-v96" secondAttribute="top" constant="20" id="gLJ-Er-cp0"/>
                         <constraint firstItem="zKw-x3-qze" firstAttribute="top" secondItem="fQo-zo-K8z" secondAttribute="bottom" constant="10" id="gfg-y9-na9"/>
                         <constraint firstItem="fKU-rL-P8n" firstAttribute="trailing" secondItem="fQo-zo-K8z" secondAttribute="trailing" constant="20" id="h7B-kK-b3d"/>
                         <constraint firstItem="fQo-zo-K8z" firstAttribute="top" secondItem="Ia2-Pc-aWS" secondAttribute="bottom" constant="5" id="lVH-pU-XhX"/>
@@ -347,7 +338,6 @@
                         <constraint firstItem="vhk-bF-3kY" firstAttribute="trailing" secondItem="fKU-rL-P8n" secondAttribute="trailing" id="m6m-Oh-Wgo"/>
                         <constraint firstItem="XCW-n3-5sD" firstAttribute="leading" secondItem="fKU-rL-P8n" secondAttribute="leading" id="nc8-Op-SDk"/>
                         <constraint firstItem="fKU-rL-P8n" firstAttribute="trailing" secondItem="Ia2-Pc-aWS" secondAttribute="trailing" constant="20" id="r7p-E8-j4s"/>
-                        <constraint firstItem="EZi-OX-Wm8" firstAttribute="trailing" secondItem="fKU-rL-P8n" secondAttribute="trailing" id="s3C-VP-A6O"/>
                         <constraint firstItem="zKw-x3-qze" firstAttribute="leading" secondItem="fKU-rL-P8n" secondAttribute="leading" constant="20" id="vU6-80-GaI"/>
                         <constraint firstItem="0zu-dm-XIe" firstAttribute="leading" secondItem="fKU-rL-P8n" secondAttribute="leading" constant="5" id="wCd-N6-FGH"/>
                         <constraint firstItem="fKU-rL-P8n" firstAttribute="trailing" secondItem="j9f-9a-Ldu" secondAttribute="trailing" constant="25" id="ycm-qM-KCe"/>
