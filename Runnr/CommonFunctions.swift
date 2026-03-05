@@ -182,7 +182,10 @@ func setGlassEffect(for button: UIButton, withImage image: String) {
     if #available(iOS 26.0, *) {
         button.configuration = .glass()
     }
-    
+    else {
+        button.layer.cornerRadius = button.frame.height / 2
+        button.layer.backgroundColor = UIColor.darkGray.withAlphaComponent(0.6).cgColor
+    }
     button.setImage(UIImage(systemName: image), for: .normal)
     button.tintColor = .white
 }

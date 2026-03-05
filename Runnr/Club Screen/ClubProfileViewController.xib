@@ -169,19 +169,6 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="0zu-dm-XIe" userLabel="back">
-                            <rect key="frame" x="5" y="55" width="40" height="40"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="40" id="jF1-ei-Ndv"/>
-                                <constraint firstAttribute="width" constant="40" id="xbW-Hi-md9"/>
-                            </constraints>
-                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                            <state key="normal" image="chevron.left" catalog="system"/>
-                            <connections>
-                                <action selector="backButtonPressed:" destination="-1" eventType="touchUpInside" id="g9w-LU-Ym5"/>
-                            </connections>
-                        </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zKw-x3-qze">
                             <rect key="frame" x="20" y="416" width="362" height="35"/>
                             <color key="backgroundColor" name="AccentColor"/>
@@ -309,6 +296,18 @@
                                 <color key="titleColor" red="0.090209968390000006" green="0.090209968390000006" blue="0.090209968390000006" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </state>
                         </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0zu-dm-XIe" userLabel="back">
+                            <rect key="frame" x="10" y="45" width="50" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="jF1-ei-Ndv"/>
+                                <constraint firstAttribute="width" constant="50" id="xbW-Hi-md9"/>
+                            </constraints>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" image="chevron.left" catalog="system"/>
+                            <connections>
+                                <action selector="backButtonPressed:" destination="-1" eventType="touchUpInside" id="g9w-LU-Ym5"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <viewLayoutGuide key="safeArea" id="jVx-zf-fCk"/>
                     <constraints>
@@ -319,6 +318,7 @@
                         <constraint firstItem="v4x-TB-JuJ" firstAttribute="trailing" secondItem="fKU-rL-P8n" secondAttribute="trailing" id="9jI-7w-AWM"/>
                         <constraint firstItem="Ia2-Pc-aWS" firstAttribute="top" secondItem="6a6-zm-KJV" secondAttribute="bottom" constant="15" id="9yi-bR-ca7"/>
                         <constraint firstItem="vhk-bF-3kY" firstAttribute="bottom" secondItem="fKU-rL-P8n" secondAttribute="bottom" id="A3n-Cx-mad"/>
+                        <constraint firstItem="0zu-dm-XIe" firstAttribute="leading" secondItem="fKU-rL-P8n" secondAttribute="leading" constant="10" id="ADu-Rg-boP"/>
                         <constraint firstItem="XCW-n3-5sD" firstAttribute="top" secondItem="bAq-Mj-mMM" secondAttribute="bottom" constant="10" id="BdR-Pr-yJa"/>
                         <constraint firstItem="Ia2-Pc-aWS" firstAttribute="leading" secondItem="fKU-rL-P8n" secondAttribute="leading" constant="20" id="FAZ-VI-nKC"/>
                         <constraint firstItem="fKU-rL-P8n" firstAttribute="trailing" secondItem="zKw-x3-qze" secondAttribute="trailing" constant="20" id="Hpu-oV-MfR"/>
@@ -339,7 +339,6 @@
                         <constraint firstItem="XCW-n3-5sD" firstAttribute="leading" secondItem="fKU-rL-P8n" secondAttribute="leading" id="nc8-Op-SDk"/>
                         <constraint firstItem="fKU-rL-P8n" firstAttribute="trailing" secondItem="Ia2-Pc-aWS" secondAttribute="trailing" constant="20" id="r7p-E8-j4s"/>
                         <constraint firstItem="zKw-x3-qze" firstAttribute="leading" secondItem="fKU-rL-P8n" secondAttribute="leading" constant="20" id="vU6-80-GaI"/>
-                        <constraint firstItem="0zu-dm-XIe" firstAttribute="leading" secondItem="fKU-rL-P8n" secondAttribute="leading" constant="5" id="wCd-N6-FGH"/>
                         <constraint firstItem="fKU-rL-P8n" firstAttribute="trailing" secondItem="j9f-9a-Ldu" secondAttribute="trailing" constant="25" id="ycm-qM-KCe"/>
                         <constraint firstItem="O42-46-i2J" firstAttribute="leading" secondItem="UCV-Fx-SPe" secondAttribute="trailing" constant="10" id="z3f-oM-goS"/>
                         <constraint firstItem="UCV-Fx-SPe" firstAttribute="top" secondItem="0zu-dm-XIe" secondAttribute="bottom" constant="80" id="zIS-NO-bVB"/>
@@ -373,7 +372,7 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.2196078431372549" blue="0.23529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
