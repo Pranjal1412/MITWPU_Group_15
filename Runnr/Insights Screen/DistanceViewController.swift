@@ -63,6 +63,7 @@ class DistanceViewController: UIViewController {
             datePicker.preferredDatePickerStyle = .wheels
             datePicker.translatesAutoresizingMaskIntoConstraints = false
             datePicker.date = selectedDate
+            datePicker.maximumDate = Date()
             
             alert.view.addSubview(datePicker)
 

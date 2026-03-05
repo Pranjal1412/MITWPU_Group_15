@@ -5,14 +5,19 @@ class PostViewDetailViewController: UIViewController {
     @IBOutlet weak var postImageView: UIImageView!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var locationLabel: UILabel!
+    //@IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var followButton: UIButton!
     @IBOutlet weak var captionLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var likeContainerView: UIView!
-    @IBOutlet weak var likeIconImageView: UIImageView!
-    @IBOutlet weak var likeCountLabel: UILabel!
-    @IBOutlet weak var moreOptionButton: UIButton!
+//    @IBOutlet weak var likeContainerView: UIView!
+//    @IBOutlet weak var likeIconImageView: UIImageView!
+    //@IBOutlet weak var likeCountLabel: UILabel!
+    //@IBOutlet weak var moreOptionButton: UIButton!
+
+    // Like button overlaid on the image
+    private let imageLikeButton = UIButton(type: .custom)
+    // Tracks double-tap like state: false = accent, true = red
+    private var isImageLiked = false
     
     // Passing data
     var postImage: UIImage?
@@ -25,43 +30,98 @@ class PostViewDetailViewController: UIViewController {
     }
     
     private func setupUI() {
-        // View Background (very dark green/black)
-        view.backgroundColor = UIColor(red: 0.08, green: 0.12, blue: 0.09, alpha: 1.0)
-        
+        // View Background — modalBlack
+//        view.backgroundColor = UIColor(named: "modalBackground") 
+
+        // Hide time label
+        timeLabel.isHidden = true
+
         // Profile Image
         profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
         profileImageView.clipsToBounds = true
         profileImageView.layer.borderWidth = 1
         profileImageView.layer.borderColor = UIColor(named: "AccentColor")?.cgColor ?? UIColor.green.cgColor
-        
-        // Follow Button
+
+        // Follow Button — no glow/shadow
         followButton.layer.cornerRadius = followButton.frame.height / 2
         followButton.backgroundColor = UIColor(named: "AccentColor") ?? .green
         followButton.setTitleColor(.black, for: .normal)
-        followButton.layer.shadowColor = followButton.backgroundColor?.cgColor
-        followButton.layer.shadowOffset = CGSize(width: 0, height: 0)
-        followButton.layer.shadowRadius = 8
-        followButton.layer.shadowOpacity = 0.5
-        
+        followButton.layer.shadowOpacity = 0
+
         // More Option Button
-        moreOptionButton.layer.cornerRadius = moreOptionButton.frame.height / 2
-        moreOptionButton.backgroundColor = UIColor.black.withAlphaComponent(0.4)
-        
+//        moreOptionButton.layer.cornerRadius = moreOptionButton.frame.height / 2
+//        moreOptionButton.backgroundColor = UIColor.black.withAlphaComponent(0.4)
+
         // Like Container
-        likeContainerView.layer.cornerRadius = likeContainerView.frame.height / 2
-        likeContainerView.backgroundColor = UIColor(red: 0.08, green: 0.20, blue: 0.10, alpha: 1.0)
-        
+//        likeContainerView.layer.cornerRadius = likeContainerView.frame.height / 2
+//        likeContainerView.backgroundColor = UIColor(red: 0.08, green: 0.20, blue: 0.10, alpha: 1.0)
+
+        // Setup like button on postImageView
+        setupImageLikeButton()
+
         // Format Caption text to Highlight Mentions and Hashtags
         formatCaptionText()
+    }
+
+    private func setupImageLikeButton() {
+        // Make imageView interactive
+        postImageView.isUserInteractionEnabled = true
+
+        // Configure the like button
+        let accentColor = UIColor(named: "AccentColor") ?? UIColor.green
+        let heartImage = UIImage(systemName: "heart.fill")
+        imageLikeButton.setImage(heartImage, for: .normal)
+        imageLikeButton.tintColor = accentColor
+        imageLikeButton.contentVerticalAlignment = .fill
+        imageLikeButton.contentHorizontalAlignment = .fill
+        imageLikeButton.imageView?.contentMode = .scaleAspectFit
+        imageLikeButton.translatesAutoresizingMaskIntoConstraints = false
+        imageLikeButton.isUserInteractionEnabled = false // Driven by gesture only
+
+        // Drop shadow so it's visible on any image
+        imageLikeButton.layer.shadowColor = UIColor.black.cgColor
+        imageLikeButton.layer.shadowOffset = CGSize(width: 0, height: 1)
+        imageLikeButton.layer.shadowRadius = 4
+        imageLikeButton.layer.shadowOpacity = 0.6
+
+        postImageView.addSubview(imageLikeButton)
+
+        NSLayoutConstraint.activate([
+            imageLikeButton.trailingAnchor.constraint(equalTo: postImageView.trailingAnchor, constant: -14),
+            imageLikeButton.bottomAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: -14),
+            imageLikeButton.widthAnchor.constraint(equalToConstant: 32),
+            imageLikeButton.heightAnchor.constraint(equalToConstant: 32)
+        ])
+
+        // Double-tap gesture on the imageView
+        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(handleImageDoubleTap))
+        doubleTap.numberOfTapsRequired = 2
+        postImageView.addGestureRecognizer(doubleTap)
+    }
+
+    @objc private func handleImageDoubleTap() {
+        isImageLiked.toggle()
+        let accentColor = UIColor(named: "AccentColor") ?? UIColor.green
+        let newColor: UIColor = isImageLiked ? .systemRed : accentColor
+
+        // Animate the color change with a quick bounce
+        UIView.animate(withDuration: 0.15, animations: {
+            self.imageLikeButton.transform = CGAffineTransform(scaleX: 1.4, y: 1.4)
+            self.imageLikeButton.tintColor = newColor
+        }, completion: { _ in
+            UIView.animate(withDuration: 0.15) {
+                self.imageLikeButton.transform = .identity
+            }
+        })
     }
     
     private func populateData() {
         postImageView.image = postImage ?? UIImage(named: "post 1")
         profileImageView.image = UIImage(named: "club1") // Dummy profile
         nameLabel.text = "Alex Runner"
-        locationLabel.text = "San Francisco, CA"
-        timeLabel.text = "2 HOURS AGO"
-        likeCountLabel.text = "1,245"
+        //locationLabel.text = "San Francisco, CA"
+        // timeLabel removed — hidden in setupUI
+        //likeCountLabel.text = "1,245"
     }
     
     private func formatCaptionText() {
@@ -113,7 +173,7 @@ class PostViewDetailViewController: UIViewController {
             sender.backgroundColor = UIColor(named: "AccentColor") ?? .green
             sender.setTitleColor(.black, for: .normal)
             sender.layer.borderWidth = 0
-            sender.layer.shadowOpacity = 0.5
+            sender.layer.shadowOpacity = 0  // No glow ever
         }
     }
     
