@@ -577,3 +577,17 @@ func getWeeklySoloChallenges(userProfile: UserProfile) async -> [AssignedChallen
         return nil
     }
 }
+
+func updateChallengeProgress(challengeProgress: AssignedChallenges, userProfile: UserProfile) async {
+    do {
+        try await SupabaseManager.shared.client
+            .from("Club")
+            .update(challengeProgress)
+            .eq("challengeID", value: challengeProgress.challengeID)
+            .eq("userID", value: userProfile.userID)
+            .execute()
+    }
+    catch {
+        print("Updation failed: \(error)")
+    }
+}

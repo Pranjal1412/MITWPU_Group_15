@@ -100,14 +100,7 @@ class ActivitySummaryViewController: UIViewController {
     }
     
     @IBAction func backButtonPressed(_ sender: UIButton) {
-        
-        if let presenter = self.presentingViewController {
-            self.dismiss(animated: false) {
-                presenter.dismiss(animated: false, completion: nil)
-            }
-
-        }
-                
+        self.dismiss(animated: true)
     }
     
     @IBAction func showAnalysisOfRunPressed(_ sender: UIButton) {
