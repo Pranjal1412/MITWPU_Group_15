@@ -27,7 +27,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="161" height="211"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="club4" translatesAutoresizingMaskIntoConstraints="NO" id="M29-zx-iTy">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="club4" translatesAutoresizingMaskIntoConstraints="NO" id="M29-zx-iTy">
                                 <rect key="frame" x="15" y="15" width="131" height="131"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             </imageView>
