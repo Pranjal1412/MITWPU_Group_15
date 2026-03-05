@@ -9,10 +9,11 @@ import UIKit
 
 class CreatePostViewController: UIViewController, UITextViewDelegate {
 
-    @IBOutlet weak var postButton: UIButton!
+    @IBOutlet weak var buttonSave: UIButton!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var mediaContainerView: UIView!
+    @IBOutlet weak var buttonCancel: UIButton!
     @IBOutlet weak var bottomActionsStack: UIStackView!
     
     let placeholderText = "What's on your mind?"
@@ -32,12 +33,14 @@ class CreatePostViewController: UIViewController, UITextViewDelegate {
     }
 
     private func setupUI() {
-        // Post Button glow effect
-        postButton.layer.shadowColor = UIColor(named: "AccentColor")?.cgColor ?? UIColor.green.cgColor
-        postButton.layer.shadowOffset = CGSize(width: 0, height: 0)
-        postButton.layer.shadowRadius = 8
-        postButton.layer.shadowOpacity = 0.5
         
+        textView.layer.borderWidth = 2
+        textView.layer.borderColor = UIColor.cardLightBlack.cgColor
+        textView.layer.cornerRadius = 15
+        buttonSave.layer.cornerRadius = buttonSave.frame.height / 2
+        buttonCancel.layer.cornerRadius = buttonSave.frame.height / 2
+        setGlassEffect(for: buttonSave, withImage: "checkmark")
+        setGlassEffect(for: buttonCancel, withImage: "multiply")
         // Profile Image setup
         profileImageView.layer.cornerRadius = 20
         profileImageView.clipsToBounds = true
