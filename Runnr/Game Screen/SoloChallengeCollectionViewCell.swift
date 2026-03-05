@@ -53,14 +53,21 @@ class SoloChallengeCollectionViewCell: UICollectionViewCell {
         labelChallengeHeading.text = challenge.challengeDetails.title
         labelRewardPoints.text = "+" + String(challenge.challengeDetails.rewardPoints)
         labelRewardPoints.sizeToFit()
-        labelRewardPoints.frame.size.width += 10
+        labelRewardPoints.frame.size.width += 15
         labelRewardPoints.frame.size.height += 10
         labelRewardPoints.frame.origin.x = viewCellBackground.frame.origin.x + viewCellBackground.frame.width - 20 - labelRewardPoints.frame.width
         
         labelChallengeDescription.text = "Goal: " + challenge.challengeDetails.description
-        progressChallengeCompletion.progress = 0
-        labelCompletionPercent.text = String(challenge.assignedChallenge.currentProgress) + "%"
-        labelCompletionNumber.text = "0 / " + String(challenge.challengeDetails.goalValue) + " " + challenge.challengeDetails.goalUnit
+        progressChallengeCompletion.progress = Float(challenge.assignedChallenge.currentProgress) / Float(challenge.challengeDetails.goalValue)
+        labelCompletionPercent.text = "\(Int(progressChallengeCompletion.progress * 100))%"
+        
+        if let totalSessions = challenge.challengeDetails.totalSessions {
+            labelCompletionNumber.text = "\(challenge.assignedChallenge.currentProgress) / \(totalSessions) " + challenge.challengeDetails.goalUnit
+        }
+        else {
+            labelCompletionNumber.text = String(challenge.assignedChallenge.currentProgress) + " / " + String(challenge.challengeDetails.goalValue) + " " + challenge.challengeDetails.goalUnit
+        }
+    
     }
     
     func applyGradientIfNeeded() {

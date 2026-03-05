@@ -4,6 +4,7 @@
 //
 //  Created by Archit Kankaria on 08/12/25.
 //
+
 import Foundation
 import UIKit
 
@@ -36,15 +37,16 @@ struct TileState {
 
 struct SoloChallenges: Codable {
     let challengeID: UUID
-    let challengeType: String
     let title: String
     let description: String
     let rewardPoints: Int
     let SFSymbolName: String
     let goalValue: Int
     let goalUnit: String
-    let difficultyLevel: String
     let isActive: Bool
+    let difficultyLevel: String
+    let challengeType: String
+    let totalSessions: Int?
 }
 
 struct AssignedChallenges: Codable {
