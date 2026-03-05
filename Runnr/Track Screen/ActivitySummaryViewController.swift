@@ -15,7 +15,7 @@ class ActivitySummaryViewController: UIViewController {
     @IBOutlet weak var labelActivityHeading: UILabel!
     @IBOutlet weak var buttonMoreOptions: UIButton!
     
-    var showAlert : Bool = false
+    var isNewActivity : Bool = false
     var isMapInitialized: Bool = false
 
     let topGradientView = UIView()
@@ -88,7 +88,7 @@ class ActivitySummaryViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         
-        if self.showAlert {
+        if self.isNewActivity {
             let alert = UIAlertController(title: String(localized: "Congratulations!"), message: "You have earned \(activityData!.basePoints! + activityData!.skillPoints!) points. Claim them now!", preferredStyle: .alert)
             let claimPointsAction = UIAlertAction(title: String(localized: "Claim Points"), style: .default)
         
@@ -100,7 +100,18 @@ class ActivitySummaryViewController: UIViewController {
     }
     
     @IBAction func backButtonPressed(_ sender: UIButton) {
-        self.dismiss(animated: true)
+        
+        if self.isNewActivity {
+            if let presenter = self.presentingViewController {
+                self.dismiss(animated: false) {
+                    presenter.dismiss(animated: false)
+                }
+            }
+        }
+        else {
+            self.dismiss(animated: true)
+        }
+        
     }
     
     @IBAction func showAnalysisOfRunPressed(_ sender: UIButton) {

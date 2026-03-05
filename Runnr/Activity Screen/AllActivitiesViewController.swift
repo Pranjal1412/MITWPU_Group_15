@@ -90,7 +90,7 @@ extension AllActivitiesViewController : UITableViewDelegate, UITableViewDataSour
                         
                         await MainActor.run {
                             let destinationVC = ActivitySummaryViewController()
-                            destinationVC.showAlert = false
+                            destinationVC.isNewActivity = false
                             destinationVC.modalPresentationStyle = .overFullScreen
                             self.present(destinationVC, animated: true)
                         }

@@ -120,7 +120,7 @@ class ActivitySaveViewController: UIViewController {
             await updateUserStats(userID: activityData.userID!, newStats: self.userStats!)
             
             let destinationVC = ActivitySummaryViewController()
-            destinationVC.showAlert = true
+            destinationVC.isNewActivity = true
             
             destinationVC.modalPresentationStyle = .fullScreen
             navigationController?.present(destinationVC, animated: true)
