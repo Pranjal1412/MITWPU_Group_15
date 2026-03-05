@@ -128,7 +128,7 @@ func insertActivity(_ activity: UserActivity) async -> UserActivity? {
         return insertedActivity
     }
     catch {
-        print("Activty was not inserted")
+        print("Activty was not inserted \(error)")
         return nil
     }
 }

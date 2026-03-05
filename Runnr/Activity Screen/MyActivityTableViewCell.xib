@@ -38,19 +38,19 @@
                                         </constraints>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="XZf-Am-7pX">
-                                        <rect key="frame" x="60" y="-2" width="215" height="47"/>
+                                        <rect key="frame" x="60" y="-5" width="215" height="50"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Afternoon Run!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r0P-ip-VoO">
-                                                <rect key="frame" x="0.0" y="0.0" width="215" height="22"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="215" height="25"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="22" id="cpS-Gk-SJz"/>
+                                                    <constraint firstAttribute="height" constant="25" id="cpS-Gk-SJz"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="20"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="September 7, 6:15 am" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K3K-VJ-Z6W">
-                                                <rect key="frame" x="0.0" y="27" width="215" height="20"/>
+                                                <rect key="frame" x="0.0" y="30" width="215" height="20"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="20" id="bOl-FN-Vx0"/>
                                                 </constraints>

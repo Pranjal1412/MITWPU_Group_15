@@ -59,11 +59,6 @@ class GameScreenViewController: UIViewController {
         tapGesture.cancelsTouchesInView = false
         view.addGestureRecognizer(tapGesture)
         
-        Task {
-            let challenges = await getWeeklySoloChallenges(userProfile: userProfile)
-            dataSource.setSoloChallenges(challenges ?? [])
-            collectionViewChallenges.reloadData()
-        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -74,6 +69,12 @@ class GameScreenViewController: UIViewController {
             self.profileImage.kf.setImage(with: url)
         }
 
+        Task {
+            let challenges = await getWeeklySoloChallenges(userProfile: userProfile)
+            dataSource.setSoloChallenges(challenges ?? [])
+            collectionViewChallenges.reloadData()
+        }
+        
         self.labelTotalPoints.text = "\(totalPoints)"
     }
 
