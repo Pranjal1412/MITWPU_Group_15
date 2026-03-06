@@ -11,6 +11,7 @@ class PostCollectionViewCell: UICollectionViewCell {
     @IBOutlet var heartImageButton: UIButton!
     
     var isHeartSelected = false
+    var onLikeToggled: ((Bool) -> Void)?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -19,7 +20,7 @@ class PostCollectionViewCell: UICollectionViewCell {
     
     @IBAction func heartTapped(_ sender: UIButton) {
         isHeartSelected.toggle()
-        
+        onLikeToggled?(isHeartSelected)
         if isHeartSelected {
             heartImageButton.tintColor = .systemRed
         } else {
@@ -27,8 +28,14 @@ class PostCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func configureCell(with data: UIImage) {
+    func configureCell(with data: UIImage, isLiked: Bool) {
         imageView.image = data
+        isHeartSelected = isLiked
+        if isHeartSelected {
+            heartImageButton.tintColor = .systemRed
+        } else {
+            heartImageButton.tintColor = .white
+        }
     }
 
 }

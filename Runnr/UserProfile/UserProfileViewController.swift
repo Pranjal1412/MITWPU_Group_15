@@ -13,6 +13,7 @@ class UserProfileViewController: UIViewController {
     @IBOutlet weak var imageProfile: UIImageView!
     @IBOutlet weak var imageCategoryBadge: UIImageView!
     @IBOutlet weak var buttonEditProfile: UIButton!
+    @IBOutlet weak var buttonSettings: UIButton!
     @IBOutlet weak var labelUsername: UILabel!
     @IBOutlet weak var labelBiography: UILabel!
     @IBOutlet weak var labelSpacing: UILabel!
@@ -51,6 +52,8 @@ class UserProfileViewController: UIViewController {
     
     private var userProfile = DataSource.shared.getUserProfile()
     private let userStats = DataSource.shared.getUserStats()
+    var isFromFriendsScreen: Bool = false
+    var friendData: friendsData?
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,6 +77,21 @@ class UserProfileViewController: UIViewController {
     }
 
     @IBAction func editProfilePressed(_ sender: UIButton) {
+        if isFromFriendsScreen {
+            UIView.performWithoutAnimation {
+                if self.buttonEditProfile.title(for: .normal) == "Follow" {
+                    self.buttonEditProfile.setTitle("Following", for: .normal)
+                    self.buttonEditProfile.backgroundColor = .lightGray
+                    self.buttonEditProfile.setTitleColor(.label, for: .normal)
+                } else {
+                    self.buttonEditProfile.setTitle("Follow", for: .normal)
+                    self.buttonEditProfile.backgroundColor = .accent
+                    self.buttonEditProfile.setTitleColor(.black, for: .normal)
+                }
+                self.buttonEditProfile.layoutIfNeeded()
+            }
+            return
+        }
         let destinationVC = EditProfileViewController()
         destinationVC.delegate = self
         self.present(destinationVC, animated: true, completion: nil)
@@ -108,7 +126,23 @@ class UserProfileViewController: UIViewController {
         self.labelScreenTitle.text = String(localized: "Profile")
         self.labelFollower.text = String(localized: "Followers")
         self.labelFollowing.text = String(localized: "Following")
-        self.buttonEditProfile.setTitle(String(localized: "Edit Profile"), for: .normal)
+        
+        if isFromFriendsScreen {
+            self.buttonSettings.isHidden = true
+            if let friend = friendData, friend.isFollowing {
+                self.buttonEditProfile.setTitle(String(localized: "Following"), for: .normal)
+                self.buttonEditProfile.backgroundColor = .lightGray
+                self.buttonEditProfile.setTitleColor(.label, for: .normal)
+            } else {
+                self.buttonEditProfile.setTitle(String(localized: "Follow"), for: .normal)
+                self.buttonEditProfile.backgroundColor = .accent
+                self.buttonEditProfile.setTitleColor(.black, for: .normal)
+            }
+        } else {
+            self.buttonSettings.isHidden = false
+            self.buttonEditProfile.setTitle(String(localized: "Edit Profile"), for: .normal)
+            self.buttonEditProfile.setTitleColor(.label, for: .normal)
+        }
         
         self.labelTotalPoints.text = String(localized: "Total Points")
         self.labelTotalDistance.text = String(localized: "Total Distance")
@@ -120,15 +154,19 @@ class UserProfileViewController: UIViewController {
     }
     
     func loadAllData() {
-        self.labelUsername.text = userProfile.userName
+        if let friend = friendData {
+            self.labelUsername.text = friend.name
+            self.imageProfile.image = UIImage(named: friend.profilePhoto)
+        } else {
+            self.labelUsername.text = userProfile.userName
+            if let url = URL(string: self.userProfile.userProfileImageURL!) {
+                self.imageProfile.kf.setImage(with: url)
+            }
+        }
         
         self.labelTotalPointsCount.text = String(self.userStats?.totalPointsEarned ?? 0)
         self.labelTotalActivitiesCount.text = String(self.userStats?.totalActivities ?? 0)
         self.labelTotalDistanceCount.text = String(format: "%.1f", (self.userStats?.totalDistanceCovered ?? 0.0))
-        
-        if let url = URL(string: self.userProfile.userProfileImageURL!) {
-            self.imageProfile.kf.setImage(with: url)
-        }
         
         let totalDistance = Int(self.userStats?.totalDistanceCovered ?? 0.0)
         

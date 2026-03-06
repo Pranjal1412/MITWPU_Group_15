@@ -37,6 +37,7 @@ class ClubProfileViewController: UIViewController {
         UIImage(named: "post 2")!,
         UIImage(named: "post 3")!
     ]
+    var likedPosts: [Bool] = [false, false, false]
     
     private var userProfileData = DataSource.shared.getUserProfile()
     
@@ -265,7 +266,10 @@ extension ClubProfileViewController: UICollectionViewDelegate, UICollectionViewD
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! PostCollectionViewCell
 
-        cell.configureCell(with: demoPostImages[indexPath.row])
+        cell.configureCell(with: demoPostImages[indexPath.row], isLiked: likedPosts[indexPath.row])
+        cell.onLikeToggled = { [weak self] isLiked in
+            self?.likedPosts[indexPath.row] = isLiked
+        }
         return cell
     }
 
@@ -279,6 +283,11 @@ extension ClubProfileViewController: UICollectionViewDelegate, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let postDetailVC = PostViewDetailViewController()
         postDetailVC.postImage = demoPostImages[indexPath.row]
+        postDetailVC.isLiked = likedPosts[indexPath.row]
+        postDetailVC.likeStatusChanged = { [weak self] isLiked in
+            self?.likedPosts[indexPath.row] = isLiked
+            self?.collectionViewPostImages.reloadItems(at: [indexPath])
+        }
         postDetailVC.modalPresentationStyle = .pageSheet
         self.present(postDetailVC, animated: true)
     }
