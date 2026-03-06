@@ -21,6 +21,8 @@ class PostViewDetailViewController: UIViewController {
     
     // Passing data
     var postImage: UIImage?
+    var isLiked: Bool = false
+    var likeStatusChanged: ((Bool) -> Void)?
     // We can add other data properties as needed
 
     override func viewDidLoad() {
@@ -71,7 +73,8 @@ class PostViewDetailViewController: UIViewController {
         let accentColor = UIColor(named: "AccentColor") ?? UIColor.green
         let heartImage = UIImage(systemName: "heart.fill")
         imageLikeButton.setImage(heartImage, for: .normal)
-        imageLikeButton.tintColor = accentColor
+        self.isImageLiked = self.isLiked
+        imageLikeButton.tintColor = self.isLiked ? .systemRed : accentColor
         imageLikeButton.contentVerticalAlignment = .fill
         imageLikeButton.contentHorizontalAlignment = .fill
         imageLikeButton.imageView?.contentMode = .scaleAspectFit
@@ -101,6 +104,7 @@ class PostViewDetailViewController: UIViewController {
 
     @objc private func handleImageDoubleTap() {
         isImageLiked.toggle()
+        likeStatusChanged?(isImageLiked)
         let accentColor = UIColor(named: "AccentColor") ?? UIColor.green
         let newColor: UIColor = isImageLiked ? .systemRed : accentColor
 

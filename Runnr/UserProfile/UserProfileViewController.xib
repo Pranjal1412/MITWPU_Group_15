@@ -13,6 +13,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UserProfileViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
                 <outlet property="buttonEditProfile" destination="tg9-PJ-rS3" id="HZh-DF-RMY"/>
+                <outlet property="buttonSettings" destination="pk1-g8-qQL" id="Set-inM-gQL"/>
                 <outlet property="collectionViewBestActivity" destination="ege-Nf-08B" id="HjC-Vk-vhZ"/>
                 <outlet property="imageCategoryBadge" destination="jLW-mt-Nw7" id="aYm-pG-Ag8"/>
                 <outlet property="imageProfile" destination="rXv-mV-aRd" id="OcH-Sb-4PX"/>
