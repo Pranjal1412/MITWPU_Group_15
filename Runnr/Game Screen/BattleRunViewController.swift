@@ -15,7 +15,7 @@ class BattleRunViewController: UIViewController {
     @IBOutlet weak var labelYourPoints: UILabel!
     @IBOutlet weak var labelTime: UILabel!
     @IBOutlet weak var viewEnds: UIView!
-    let game = BattleRunGame()
+    var game: BattleRunGame!
     var boardController: BoardController?
     let totalCapturedCount = 0
     private let cameraRig = Entity()
@@ -26,6 +26,8 @@ class BattleRunViewController: UIViewController {
     override func viewDidLoad() {
        super.viewDidLoad()
        self.gameID = DataSource.shared.getGameID()
+       let myPoints = DataSource.shared.getTotalRunnrPoints()
+       self.game = BattleRunGame(myPoints: myPoints)
        setupUI()
        setupAR()
        Task { await loadBoard() }
@@ -189,20 +191,22 @@ class BattleRunViewController: UIViewController {
         }
 
         func updateTileMaterial(id: String, controller: BoardController) {
-            guard let model = controller.tileEntities[id], let tileData = game.tiles[id] else { return }
+            guard let tileEntity = controller.tileEntities[id], let tileData = game.tiles[id] else { return }
             let color = ownerColor(for: tileData.owner)
+            let isCaptured = tileData.owner != .none
             
             var material = PhysicallyBasedMaterial()
-            material.baseColor = .init(tint: color.withAlphaComponent(0.6))
-            material.metallic = 1.0
-            material.roughness = 0.15
+            material.baseColor = .init(tint: color)
+            material.metallic = .init(floatLiteral: isCaptured ? 0.9 : 0.6)
+            material.roughness = .init(floatLiteral: isCaptured ? 0.1 : 0.4)
             material.emissiveColor = .init(color: color)
-            material.emissiveIntensity = (tileData.owner == .none) ? 0.2 : 3.0
-            material.blending = .transparent(opacity: 0.8)
+            material.emissiveIntensity = isCaptured ? 3.0 : 0.0
 
-            if var modelComponent = model.model {
-                modelComponent.materials = [material]
-                model.model = modelComponent
+            // Deep-visit the entire Tile subtree — geometry may be nested at any depth
+            tileEntity.visit { entity in
+                guard var component = entity.components[ModelComponent.self] else { return }
+                component.materials = [material]
+                entity.components.set(component)
             }
         }
 
@@ -245,11 +249,21 @@ class BattleRunViewController: UIViewController {
                 animateScoreBounce()
                 UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                 
-                // Add tile to batch array (will be saved when leaving the screen)
+                // Deduct points from DataSource (in-memory) so the rest of the app sees updated points
+                if var stats = DataSource.shared.getUserStats(),
+                   let userID = stats.userID as UUID? {
+                    stats.totalPointsEarned -= 10
+                    DataSource.shared.setUserStats(stats)
+                    // Persist deducted points to Supabase
+                    Task { await updateUserStats(userID: userID, newStats: stats) }
+                }
+                
+                // Upsert tile immediately so capture survives force-quit
                 if let gameID = self.gameID {
                     let userID = DataSource.shared.getUserProfile().userID
                     let hexTile = TerritoryHexTile(tileID: id, ownerID: userID, gameID: gameID)
                     capturedTiles.append(hexTile)
+                    Task { await upsertGameTiles([hexTile]) }
                 }
             }
         }
@@ -304,8 +318,12 @@ class BattleRunViewController: UIViewController {
 
     final class BattleRunGame {
         var tiles: [String: TileState] = [:]
-        var points: [Player: Int] = [.me: 100, .lea: 300]
+        var points: [Player: Int]
         var currentPlayer: Player = .me
+        
+        init(myPoints: Int) {
+            self.points = [.me: myPoints, .lea: 0]
+        }
         func canCapture(tile: TileState, cost: Int) -> Bool {
             if case .none = tile.owner { return (points[currentPlayer] ?? 0) >= cost }
             return false
@@ -320,22 +338,23 @@ class BattleRunViewController: UIViewController {
     final class BoardController {
         let root: Entity
         let game: BattleRunGame
-        var tileEntities: [String: ModelEntity] = [:]
+        // Store the Tile_ root entity (not just one child ModelEntity)
+        var tileEntities: [String: Entity] = [:]
         init(root: Entity, game: BattleRunGame) { self.root = root; self.game = game; setupTiles() }
         private func setupTiles() {
-            root.visit { entity in
-                if entity.name.hasPrefix("Tile_") {
-                    if let model = entity as? ModelEntity { registerTile(model, withName: entity.name) }
-                    else if let child = entity.children.first(where: { $0 is ModelEntity }) as? ModelEntity { registerTile(child, withName: entity.name) }
+            root.visit { [weak self] entity in
+                guard let self else { return }
+                // Register every Tile_ entity exactly once (skip if parent already registered)
+                if entity.name.hasPrefix("Tile_") && !self.tileEntities.keys.contains(entity.name) {
+                    self.registerTile(entity, withName: entity.name)
                 }
             }
         }
-        private func registerTile(_ entity: ModelEntity, withName name: String) {
-            entity.generateCollisionShapes(recursive: false)
+        private func registerTile(_ entity: Entity, withName name: String) {
+            // Recursive so every nested mesh gets a collision shape and can be hit-tested
+            entity.generateCollisionShapes(recursive: true)
             if #available(iOS 18.0, *) {
                 entity.components.set(InputTargetComponent())
-            } else {
-                // Fallback on earlier versions
             }
             tileEntities[name] = entity
             game.tiles[name] = TileState(id: name, owner: .none)

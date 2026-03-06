@@ -486,6 +486,23 @@ func insertNewGame(gameData: TerritoryGame) async -> TerritoryGame? {
     }
 }
 
+func fetchActiveGameForUser(userID: UUID) async -> TerritoryGame? {
+    do {
+        let games: [TerritoryGame] = try await SupabaseManager.shared.client
+            .from("TerritoryGame")
+            .select()
+            .eq("playerOneID", value: userID)
+            .or("isCompleted.is.null,isCompleted.eq.false")
+            .limit(1)
+            .execute()
+            .value
+        return games.first
+    } catch {
+        print("Fetch active game failed: \(error)")
+        return nil
+    }
+}
+
 func fetchGameTileStatus(gameID: UUID) async -> [TerritoryHexTile]? {
     do {
         let tileStatus : [TerritoryHexTile] = try await SupabaseManager.shared.client

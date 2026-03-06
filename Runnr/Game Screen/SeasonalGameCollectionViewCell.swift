@@ -29,8 +29,9 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         configure()
-        // Initialization code
     }
+
+    // One-time visual setup only — no async work here
     func configure() {
         viewCellBackground.layer.cornerRadius = 15
         viewCountDown.layer.cornerRadius = 15
@@ -48,10 +49,64 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
         imageView3.layer.cornerRadius = imageView1.frame.size.height / 2
         imageView3.clipsToBounds = true
         
-        // Disable invite button if a game already exists
-        if DataSource.shared.getGameID() != nil {
-            buttonInviteFriend.isEnabled = false
-            buttonInviteFriend.backgroundColor = .systemGray2
+        labelGoal.isHidden = true  // permanently hidden — progress bar is shown instead
+        refreshData()
+    }
+
+    // Called every time the cell is displayed (from cellForItemAt) to get fresh data
+    func refreshData() {
+        Task {
+            guard let userID = userProfile.userID else { return }
+
+            if let cachedGameID = DataSource.shared.getGameID() {
+                // Verify the game still exists in Supabase (may have been deleted)
+                if let _ = await fetchActiveGameForUser(userID: userID) {
+                    await MainActor.run {
+                        buttonInviteFriend.isEnabled = false
+                        buttonInviteFriend.backgroundColor = .systemGray2
+                    }
+                    await updateTileProgress(gameID: cachedGameID)
+                } else {
+                    // Deleted from Supabase — clear stale cache and reset UI
+                    DataSource.shared.clearGameID()
+                    await MainActor.run {
+                        buttonInviteFriend.isEnabled = true
+                        buttonInviteFriend.backgroundColor = .accent
+                        progressViewCapturedTiles.progress = 0
+                    }
+                }
+                return
+            }
+
+            // No cached ID — check Supabase directly
+            if let existingGame = await fetchActiveGameForUser(userID: userID),
+               let gameID = existingGame.gameID {
+                DataSource.shared.setGameID(gameID)
+                await MainActor.run {
+                    buttonInviteFriend.isEnabled = false
+                    buttonInviteFriend.backgroundColor = .systemGray2
+                }
+                await updateTileProgress(gameID: gameID)
+            } else {
+                // No active game at all
+                await MainActor.run {
+                    buttonInviteFriend.isEnabled = true
+                    buttonInviteFriend.backgroundColor = .clear
+                    progressViewCapturedTiles.progress = 0
+                }
+            }
+        }
+    }
+
+    private func updateTileProgress(gameID: UUID) async {
+        if let tiles = await fetchGameTileStatus(gameID: gameID) {
+            let userID = userProfile.userID
+            let capturedCount = tiles.filter { $0.ownerID == userID }.count
+            let totalTiles = 19
+            await MainActor.run {
+                progressViewCapturedTiles.isHidden = false
+                progressViewCapturedTiles.progress = Float(capturedCount) / Float(totalTiles)
+            }
         }
     }
     
@@ -64,8 +119,10 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
                 DataSource.shared.setGameID(id)
             }
             sender.isEnabled = false
+            sender.backgroundColor = .systemGray2
         }
     }
     
 
 }
+
