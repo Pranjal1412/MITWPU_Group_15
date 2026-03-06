@@ -157,7 +157,7 @@
                             <rect key="frame" x="20" y="25" width="45" height="45"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" image="multiply" catalog="system" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" image="multiply" catalog="system"/>
                             <connections>
                                 <action selector="buttonCancelTapped:" destination="-1" eventType="touchUpInside" id="LqU-gs-IcM"/>
                             </connections>
