@@ -486,6 +486,23 @@ func insertNewGame(gameData: TerritoryGame) async -> TerritoryGame? {
     }
 }
 
+func fetchActiveGameForUser(userID: UUID) async -> TerritoryGame? {
+    do {
+        let games: [TerritoryGame] = try await SupabaseManager.shared.client
+            .from("TerritoryGame")
+            .select()
+            .eq("playerOneID", value: userID)
+            .or("isCompleted.is.null,isCompleted.eq.false")
+            .limit(1)
+            .execute()
+            .value
+        return games.first
+    } catch {
+        print("Fetch active game failed: \(error)")
+        return nil
+    }
+}
+
 func fetchGameTileStatus(gameID: UUID) async -> [TerritoryHexTile]? {
     do {
         let tileStatus : [TerritoryHexTile] = try await SupabaseManager.shared.client
@@ -542,7 +559,7 @@ func getWeeklySoloChallenges(userProfile: UserProfile) async -> [AssignedChallen
 
             // convert it to AssignedChallenges type
             let challengesSelected = newChallenges.map {
-                AssignedChallenges(userID: userProfile.userID!, challengeID: $0.challengeID, currentProgress: 0, isCompleted: false, weekStartDate: currentWeek)
+                AssignedChallenges(userID: userProfile.userID!, challengeID: $0.challengeID, currentProgress: 0, isCompleted: false, weekStartDate: currentWeek, rewardClaimed: false)
             }
 
             // insert to AssignedSoloChallenges table which keeps a track of the challenges assigned and progress
@@ -578,14 +595,29 @@ func getWeeklySoloChallenges(userProfile: UserProfile) async -> [AssignedChallen
     }
 }
 
-func updateChallengeProgress(challengeProgress: AssignedChallenges, userProfile: UserProfile) async {
+//func updateChallengeProgress(challengeProgress: AssignedChallenges, userProfile: UserProfile) async {
+//    do {
+//        try await SupabaseManager.shared.client
+//            .from("Club")
+//            .update(challengeProgress)
+//            .eq("challengeID", value: challengeProgress.challengeID)
+//            .eq("userID", value: userProfile.userID)
+//            .execute()
+//    }
+//    catch {
+//        print("Updation failed: \(error)")
+//    }
+//}
+
+func updateAssignedChallengeRewards(challenge: AssignedChallenges) async {
     do {
         try await SupabaseManager.shared.client
-            .from("Club")
-            .update(challengeProgress)
-            .eq("challengeID", value: challengeProgress.challengeID)
-            .eq("userID", value: userProfile.userID)
+            .from ("AssignedSoloChallenges")
+            .update(challenge)
+            .eq("userID", value: challenge.userID)
+            .eq("challengeID", value: challenge.challengeID)
             .execute()
+            
     }
     catch {
         print("Updation failed: \(error)")

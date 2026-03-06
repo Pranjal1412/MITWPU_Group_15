@@ -32,7 +32,7 @@ class MyActivityTableViewCell: UITableViewCell {
     }
     
     func configure(with activity: UserActivity) {
-        self.labelCurrency.layer.cornerRadius = self.labelCurrency.frame.height / 2
+        self.labelCurrency.layer.cornerRadius = /*self.labelCurrency.frame.height / 2*/ 20
         
         labelDate.text = formatDate(with: activity.activityStartTime!)
         labelRunTitle.text = activity.activityTitle

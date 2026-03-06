@@ -144,7 +144,9 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
         }
 
         if indexPath.section == 0 {
-            return collectionView.dequeueReusableCell(withReuseIdentifier: "seasonalGameCell", for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "seasonalGameCell", for: indexPath) as! SeasonalGameCollectionViewCell
+            cell.refreshData()
+            return cell
         }
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "weeklyClashCell", for: indexPath) as! DuelChallengeCollectionViewCell

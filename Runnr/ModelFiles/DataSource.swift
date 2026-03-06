@@ -157,10 +157,24 @@ class DataSource {
     
     func setGameID(_ gameID: UUID) {
         self.gameID = gameID
+        UserDefaults.standard.set(gameID.uuidString, forKey: "activeGameID")
     }
     
     func getGameID() -> UUID? {
-        return self.gameID
+        if let gameID = self.gameID {
+            return gameID
+        }
+        if let savedString = UserDefaults.standard.string(forKey: "activeGameID"),
+           let savedID = UUID(uuidString: savedString) {
+            self.gameID = savedID
+            return savedID
+        }
+        return nil
+    }
+    
+    func clearGameID() {
+        self.gameID = nil
+        UserDefaults.standard.removeObject(forKey: "activeGameID")
     }
     
     func setSoloChallenges(_ soloChallenges: [AssignedChallengesProgress]) {
