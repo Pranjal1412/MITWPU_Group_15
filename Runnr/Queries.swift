@@ -597,20 +597,6 @@ func getWeeklySoloChallenges(userProfile: UserProfile) async -> [AssignedChallen
     }
 }
 
-//func updateChallengeProgress(challengeProgress: AssignedChallenges, userProfile: UserProfile) async {
-//    do {
-//        try await SupabaseManager.shared.client
-//            .from("Club")
-//            .update(challengeProgress)
-//            .eq("challengeID", value: challengeProgress.challengeID)
-//            .eq("userID", value: userProfile.userID)
-//            .execute()
-//    }
-//    catch {
-//        print("Updation failed: \(error)")
-//    }
-//}
-
 func updateAssignedChallengeRewards(challenge: AssignedChallenges) async {
     do {
         try await SupabaseManager.shared.client
@@ -625,3 +611,60 @@ func updateAssignedChallengeRewards(challenge: AssignedChallenges) async {
         print("Updation failed: \(error)")
     }
 }
+
+// Returns UserProfile rows for all users the current user has NOT yet followed (excluding themselves).
+func fetchUnfollowedUsers(currentUserID: UUID) async -> [UserProfile] {
+    do {
+        // 1. Get all IDs the current user already follows
+        let followed: [FollowerAndFollowing] = try await SupabaseManager.shared.client
+            .from("FollowerAndFollowing")
+            .select()
+            .eq("FollowerID", value: currentUserID)
+            .execute()
+            .value
+
+//        let clubIDs = joinedClubs.map { $0.clubID }
+        let followedIDs = followed.map { $0.followingID }
+
+        // 2. Fetch all user profiles
+        if followedIDs.isEmpty {
+            let allUsers: [UserProfile] = try await SupabaseManager.shared.client
+                .from("UserProfile")
+                .select()
+                .execute()
+                .value
+            
+            return allUsers
+        }
+
+        // Convert UUIDs into SQL array string
+        let formattedIDs = followedIDs.map { "\"\($0.uuidString)\"" }.joined(separator: ",")
+
+        let allUsers: [UserProfile] = try await SupabaseManager.shared.client
+            .from("UserProfile")
+            .select("*")
+            .not("userID", operator: .in, value: "(\(formattedIDs))")
+            .execute()
+            .value
+        
+        return allUsers
+        
+    } catch {
+        print("fetchUnfollowedUsers failed: \(error)")
+        return []
+    }
+}
+
+// Inserts a follow relationship into the FollowerAndFollowing table.
+func insertFollowedUser(followerID: UUID, followingID: UUID) async {
+    do {
+        let record = FollowerAndFollowing(followerID: followerID, followingID: followingID)
+        try await SupabaseManager.shared.client
+            .from("FollowerAndFollowing")
+            .insert(record)
+            .execute()
+    } catch {
+        print("followUser failed: \(error)")
+    }
+}
+

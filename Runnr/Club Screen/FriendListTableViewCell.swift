@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class FriendListTableViewCell: UITableViewCell {
 
@@ -23,17 +24,20 @@ class FriendListTableViewCell: UITableViewCell {
         imageProfileFriends.clipsToBounds = true
     }
 
-    func configureCell(with data: friendsData) {
-        FriendName.text = data.name
-        imageProfileFriends.image = UIImage(named: data.profilePhoto)
-
-        if data.isFollowing {
-            buttonFollow.setTitle("Following", for: .normal)
-            buttonFollow.backgroundColor = .lightGray
-        } else {
+    func configureCell(with data: UserProfile) {
+        FriendName.text = data.userName
+        
+        if let url = URL(string: data.userProfileImageURL!) {
+            self.imageProfileFriends.kf.setImage(with: url)
+        }
+        
+//        if data.isFollowing {
+//            buttonFollow.setTitle("Following", for: .normal)
+//            buttonFollow.backgroundColor = .lightGray
+//        } else {
             buttonFollow.setTitle("Follow", for: .normal)
             buttonFollow.backgroundColor = .accent
-        }
+//        }
     }
 
     @IBAction func followButtonTapped(_ sender: UIButton) {

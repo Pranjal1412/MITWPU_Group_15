@@ -19,6 +19,8 @@ class DataSource {
     private var gameTile: [TerritoryHexTile] = []
     private var soloChallenges: [AssignedChallengesProgress] = []
     
+    private var unfollowedUser: [UserProfile] = []
+    
     static let shared = DataSource()
     
     private init() {
@@ -153,6 +155,14 @@ class DataSource {
     
     func getMyClubs() -> [ClubRoleAndData] {
         return self.myClubsArray
+    }
+    
+    func setUnFollowedUser(_ list: [UserProfile]) {
+        self.unfollowedUser = list
+    }
+    
+    func getUnFollowedUser() -> [UserProfile] {
+        return self.unfollowedUser
     }
     
     func setGameID(_ gameID: UUID) {

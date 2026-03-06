@@ -38,6 +38,11 @@ class ClubScreenViewController: UIViewController {
         DataSource.shared.getMyClubs()
     }
     
+    var unfollowedUserData: [UserProfile] {
+        DataSource.shared.getUnFollowedUser()
+    }
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -68,9 +73,14 @@ class ClubScreenViewController: UIViewController {
         Task{
             let exploreClubs = await fetchExploreClubData(userID: self.userProfile.userID!)
             self.dataSource.setclubsArray(exploreClubs)
+            
             let userClubs = await fetchMyClubsWithRoles(userID: userProfile.userID!)
             self.dataSource.setMyClubs(userClubs)
             
+            let unFollowedUser = await fetchUnfollowedUsers(currentUserID: userProfile.userID!)
+            self.dataSource.setUnFollowedUser(unFollowedUser)
+            
+            tableViewFriends.reloadData()
             
             if myClubArray.isEmpty == false {
                 collectionViewJoinedClub.isHidden = false
@@ -326,11 +336,11 @@ extension ClubScreenViewController : UITableViewDataSource, UITableViewDelegate 
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! FriendListTableViewCell
 
-        cell.configureCell(with: friendsDataArray[indexPath.row])
-        cell.followAction = {
-            friendsDataArray[indexPath.row].isFollowing.toggle()
-            tableView.reloadRows(at: [indexPath], with: .none)
-        }
+        cell.configureCell(with: unfollowedUserData[indexPath.row])
+//        cell.followAction = {
+//            friendsDataArray[indexPath.row].isFollowing.toggle()
+//            tableView.reloadRows(at: [indexPath], with: .none)
+//        }
         return cell
     }
     
@@ -339,7 +349,7 @@ extension ClubScreenViewController : UITableViewDataSource, UITableViewDelegate 
         
         let destinationVC = UserProfileViewController()
         destinationVC.isFromFriendsScreen = true
-        destinationVC.friendData = friendsDataArray[indexPath.row]
+        destinationVC.friendData = unfollowedUserData[indexPath.row]
         destinationVC.modalPresentationStyle = .fullScreen
         self.present(destinationVC, animated: true, completion: nil)
     }
