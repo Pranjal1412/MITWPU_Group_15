@@ -55,6 +55,7 @@ struct AssignedChallenges: Codable {
     let currentProgress: Int
     let isCompleted: Bool
     let weekStartDate: String
+    var rewardClaimed: Bool
 }
 
 struct AssignedChallengesProgress: Codable {
@@ -62,7 +63,7 @@ struct AssignedChallengesProgress: Codable {
     let challengeDetails: SoloChallenges
 }
 
-struct GetRandomChallengesParams: Encodable, Sendable {
-    let p_user_id: UUID
-    let p_difficulty: String
-}
+//struct GetRandomChallengesParams: Encodable, Sendable {
+//    let p_user_id: UUID
+//    let p_difficulty: String
+//}

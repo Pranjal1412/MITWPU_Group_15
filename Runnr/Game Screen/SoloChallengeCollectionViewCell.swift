@@ -21,35 +21,24 @@ class SoloChallengeCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var viewGradient: UIView!
     @IBOutlet weak var buttonClaimPoints: UIButton!
     
+    var challenge: AssignedChallenges?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        self.viewChallenge.layer.cornerRadius = self.viewChallenge.bounds.height / 2
-        self.viewChallenge.clipsToBounds = true
-        self.imageViewChallenge.clipsToBounds = true
-        self.viewCellBackground.layer.cornerRadius = 15
-        
-        self.viewGradient.backgroundColor = .clear
-        self.viewGradient.clipsToBounds = true
-        self.viewGradient.layer.cornerRadius = 15
-        self.buttonClaimPoints.layer.cornerRadius = self.buttonClaimPoints.bounds.height / 2
-        
-        self.labelRewardPoints.layer.borderWidth = 1
-        self.labelRewardPoints.layer.borderColor = UIColor.accent.cgColor
-        self.labelRewardPoints.layer.cornerRadius = self.labelRewardPoints.bounds.height / 2
-        self.labelRewardPoints.clipsToBounds = true
-        
+        resetCellUI()
+                
     }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
-//        applyGradientIfNeeded()
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        resetCellUI()
     }
-
+    
     func configureCell(challenge: AssignedChallengesProgress) {
         
-        self.imageViewChallenge.image = UIImage(systemName: challenge.challengeDetails.SFSymbolName)
+        self.challenge = challenge.assignedChallenge
         
+        self.imageViewChallenge.image = UIImage(systemName: challenge.challengeDetails.SFSymbolName)
         labelChallengeHeading.text = challenge.challengeDetails.title
         labelRewardPoints.text = "+" + String(challenge.challengeDetails.rewardPoints)
         labelRewardPoints.sizeToFit()
@@ -67,36 +56,107 @@ class SoloChallengeCollectionViewCell: UICollectionViewCell {
         else {
             labelCompletionNumber.text = String(challenge.assignedChallenge.currentProgress) + " / " + String(challenge.challengeDetails.goalValue) + " " + challenge.challengeDetails.goalUnit
         }
+        
+        if challenge.assignedChallenge.isCompleted {
+            viewGradient.isHidden = false
+            
+            if challenge.assignedChallenge.rewardClaimed {
+                rewardClamiedUpdateUI()
+            }
+            else {
+                self.buttonClaimPoints.backgroundColor = .accent
+                self.buttonClaimPoints.setTitle("CLAIM", for: .normal)
+                self.buttonClaimPoints.isEnabled = true
+                applyGradientIfNeeded(colour: .accentColorLight)
+            }
+        }
+        else {
+            viewGradient.isHidden = true
+        }
     
     }
-    
-    func applyGradientIfNeeded() {
+            
+    @IBAction func claimPointsPressed(_ sender: UIButton) {
         
-        // Remove old gradients (safe for reuse + relayout)
-        if progressChallengeCompletion.progress == 1 {
-            viewGradient.isHidden = false
-
-            if let sublayers = viewGradient.layer.sublayers {
-                sublayers
-                    .filter { $0 is CAGradientLayer }
-                    .forEach { $0.removeFromSuperlayer() }
-            }
-
-            self.viewCellBackground.layer.borderColor = UIColor.accentColorLight.cgColor
-            self.viewCellBackground.layer.borderWidth = 0.5
-            addHorizontalCardGradient(to: viewGradient)
-        } else {
-            self.viewCellBackground.layer.borderWidth = 0
-            viewGradient.isHidden = true
+        self.challenge?.rewardClaimed = true
+        rewardClamiedUpdateUI()
+        
+        Task {
+            await updateAssignedChallengeRewards(challenge: self.challenge!)
         }
     }
     
-    private func addHorizontalCardGradient(to view: UIView) {
+    func rewardClamiedUpdateUI() {
+        self.buttonClaimPoints.backgroundColor = .lightGray
+        self.buttonClaimPoints.setTitle("CLAIMED", for: .normal)
+        self.buttonClaimPoints.isEnabled = false
+        self.viewChallenge.backgroundColor = .darkGray
+        self.labelChallengeHeading.textColor = .darkGray
+        self.progressChallengeCompletion.progressTintColor = .darkGray
+        self.labelCompletionPercent.textColor = .darkGray
+        self.labelRewardPoints.backgroundColor = .darkGray
+        self.labelRewardPoints.layer.borderColor = UIColor.darkGray.cgColor
+        applyGradientIfNeeded(colour: .darkGray)
+    }
+    
+    func resetCellUI() {
+        
+        self.viewChallenge.layer.cornerRadius = self.viewChallenge.bounds.height / 2
+        self.viewChallenge.backgroundColor = .accent
+        self.viewChallenge.clipsToBounds = true
+        
+        self.imageViewChallenge.clipsToBounds = true
+        
+        self.viewCellBackground.layer.cornerRadius = 15
+        self.viewCellBackground.layer.borderWidth = 0
+
+        self.labelRewardPoints.backgroundColor = .accentColorLight
+        self.labelRewardPoints.layer.borderColor = UIColor.accent.cgColor
+        self.labelRewardPoints.layer.borderWidth = 1
+        self.labelRewardPoints.layer.cornerRadius = self.labelRewardPoints.bounds.height / 2
+        self.labelRewardPoints.clipsToBounds = true
+                
+        self.buttonClaimPoints.layer.cornerRadius = self.buttonClaimPoints.bounds.height / 2
+        self.buttonClaimPoints.backgroundColor = .lightGray
+        self.buttonClaimPoints.setTitle("CLAIMED", for: .normal)
+        self.buttonClaimPoints.isEnabled = false
+        
+        if let sublayers = viewGradient.layer.sublayers {
+            sublayers
+                .filter { $0 is CAGradientLayer }
+                .forEach { $0.removeFromSuperlayer() }
+        }
+        self.viewGradient.backgroundColor = .clear
+        self.viewGradient.clipsToBounds = true
+        self.viewGradient.layer.cornerRadius = 15
+        self.viewGradient.isHidden = true
+        
+        self.labelChallengeHeading.textColor = .white
+        self.progressChallengeCompletion.progressTintColor = .accent
+        self.labelCompletionPercent.textColor = .accent
+    }
+    
+    func applyGradientIfNeeded(colour: UIColor) {
+        
+        // Remove old gradients (safe for reuse + relayout)
+        if let sublayers = viewGradient.layer.sublayers {
+            sublayers
+                .filter { $0 is CAGradientLayer }
+                .forEach { $0.removeFromSuperlayer() }
+        }
+
+        self.viewCellBackground.layer.borderColor = colour.cgColor
+        self.viewCellBackground.layer.borderWidth = 1
+        addHorizontalCardGradient(to: viewGradient, colour: colour)
+        
+    }
+    
+    private func addHorizontalCardGradient(to view: UIView, colour: UIColor) {
         // Create gradient layer
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = view.bounds
         gradientLayer.colors = [
-            UIColor.accentColorLight.cgColor,
+            colour.cgColor,
             UIColor.clear.cgColor
         ]
         gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)  // Left center
@@ -106,17 +166,5 @@ class SoloChallengeCollectionViewCell: UICollectionViewCell {
         // Insert at the bottom so it doesn't cover content
         view.layer.insertSublayer(gradientLayer, at: 0)
     }
-        
-    @IBAction func claimPointsPressed(_ sender: UIButton) {
-        
-        self.buttonClaimPoints.backgroundColor = .lightGray
-        self.buttonClaimPoints.setTitle("CLAIMED", for: .normal)
-        self.buttonClaimPoints.isEnabled = false
-        self.viewChallenge.backgroundColor = .darkGray
-        self.labelChallengeHeading.textColor = .darkGray
-        self.progressChallengeCompletion.progressTintColor = .darkGray
-        self.labelCompletionPercent.textColor = .darkGray
-        self.viewCellBackground.layer.borderColor = UIColor.darkGray.cgColor
-        self.viewCellBackground.layer.borderWidth = 1
-    }
+
 }
