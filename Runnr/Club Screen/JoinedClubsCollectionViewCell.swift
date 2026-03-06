@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class JoinedClubsCollectionViewCell: UICollectionViewCell {
 
@@ -28,6 +29,10 @@ class JoinedClubsCollectionViewCell: UICollectionViewCell {
     func configureCell(with data: ClubRoleAndData) {
         ClubName.text = data.club.clubName
         Sport.text = data.club.clubSport.rawValue
+        
+        if let url = URL(string: data.club.clubProfileImageURL!) {
+            self.ClubProfileImage.kf.setImage(with: url)
+        }
         
         let formattedNumberOfMembers = formatMemberCount(data.club.memberCount)
         NumberOfRunners.text = String(formattedNumberOfMembers)

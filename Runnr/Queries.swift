@@ -376,6 +376,8 @@ func insertNewClubData(newClub: Club) async -> Club? {
         let insertedClub: Club = try await SupabaseManager.shared.client
             .from("Club")
             .insert(newClub)
+            .select()
+            .single()
             .execute()
             .value
         

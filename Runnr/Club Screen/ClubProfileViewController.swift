@@ -1,5 +1,6 @@
 
 import UIKit
+import Kingfisher
 
 class ClubProfileViewController: UIViewController {
     
@@ -58,7 +59,7 @@ class ClubProfileViewController: UIViewController {
         self.leaveClubButton.layer.cornerRadius = self.leaveClubButton.frame.height / 2
         
         // Setup Create New Post Button
-        createNewPostButton.layer.cornerRadius = 22.5 // Half of 45 height
+        createNewPostButton.layer.cornerRadius = createNewPostButton.frame.height / 2
         createNewPostButton.addTarget(self, action: #selector(presentCreatePost), for: .touchUpInside)
     }
 
@@ -103,8 +104,11 @@ class ClubProfileViewController: UIViewController {
             labelSportType.text = myClubProfileData?.club.clubSport.rawValue
             labelNumberOfMembers.text = String(myClubProfileData!.club.memberCount) + "Members"
             clubDescription.text = myClubProfileData?.club.clubDescription
-            //clubProfileImage.image = myClubProfileData?.clubProfileImg
             clubMotive.text = myClubProfileData?.club.clubMotive
+            
+            if let url = URL(string: (myClubProfileData!.club.clubProfileImageURL!)) {
+                self.clubProfileImage.kf.setImage(with: url)
+            }
             
             if myClubProfileData?.role == .owner {
                 joinNowButton.setTitle("Edit Club Profile", for: .normal)
