@@ -256,6 +256,9 @@ class ActivityLiveTrackingViewController: UIViewController {
                         currentActivity.mapImageURL = imageURL
                     }
                     
+                    self.assignActivityIDToPaceData()
+                    await insertActivityPaceGraphData(self.activityManager.paceGraphData)
+                    
                     DispatchQueue.main.async {
                         let destinationVC = ActivitySaveViewController()
                         destinationVC.activityData = currentActivity
@@ -340,6 +343,15 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         return renderer.image { _ in
             mapView.drawHierarchy(in: mapView.bounds,afterScreenUpdates: true)
+        }
+    }
+    
+    func assignActivityIDToPaceData() {
+        
+        guard let activityID = datasource.getCurrentActivity()?.activityID else { return }
+        
+        for i in 0 ..< activityManager.paceGraphData.count {
+            activityManager.paceGraphData[i].activityID = activityID
         }
     }
     

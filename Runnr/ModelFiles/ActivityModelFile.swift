@@ -30,7 +30,7 @@ struct UserActivity: Codable {
 }
 
 struct ActivityPaceGraphData : Codable {
-    let activityID: UUID
+    var activityID: UUID?
     let distanceValue: Double
     let paceValue: Double
 }

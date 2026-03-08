@@ -127,7 +127,7 @@ class UserActivityManager {
 
                 if self.liveTime >= 30 && self.liveDistance > 1 {
                     self.currentPace = (self.liveTime / self.liveDistance) * 1000 / 60
-                    print("liveDistance: \(liveDistance), liveTime: \(liveTime) -> inside if")
+//                    print("liveDistance: \(liveDistance), liveTime: \(liveTime) -> inside if")
 
                     self.liveDistance = 0
                     self.liveTime = 0
@@ -135,16 +135,16 @@ class UserActivityManager {
 
                 self.graphDistance += deltaDistance
                 self.graphTime += deltaTime
-                print("graphDistance: \(graphDistance), graphTime: \(graphTime) -> outside if")
+//                print("graphDistance: \(graphDistance), graphTime: \(graphTime) -> outside if")
 
                 if self.graphDistance >= 100 {
                     let pace = (self.graphTime / self.graphDistance) * 1000 / 60
 
                     self.graphDistancePoint += 100
-                    self.paceGraphData.append(ActivityPaceGraphData(activityID: datasource.getCurrentActivity()!.activityID!, distanceValue: Double(graphDistancePoint) / 1000, paceValue: pace))
+                    self.paceGraphData.append(ActivityPaceGraphData(distanceValue: Double(graphDistancePoint) / 1000, paceValue: pace))
                     
                     
-                    print("graphDistance: \(graphDistance), graphTime: \(graphTime) -> inside if")
+//                    print("graphDistance: \(graphDistance), graphTime: \(graphTime) -> inside if")
                     self.graphDistance = 0
                     self.graphTime = 0
                 }
@@ -157,10 +157,7 @@ class UserActivityManager {
 
     func getAveragePace() -> Double {
         
-        Task {
-            await insertActivityPaceGraphData(self.paceGraphData)
-            self.datasource.setCurrentActivityPaceData(self.paceGraphData)
-        }
+        self.datasource.setCurrentActivityPaceData(self.paceGraphData)
         
         if totalDistance > 0 && totalTime >= 60 {
             self.avgPace = (totalTime / 60) / totalDistance
