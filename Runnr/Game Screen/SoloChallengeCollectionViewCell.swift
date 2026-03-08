@@ -21,7 +21,7 @@ class SoloChallengeCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var viewGradient: UIView!
     @IBOutlet weak var buttonClaimPoints: UIButton!
     
-    var challenge: AssignedChallenges?
+    var challenge: AssignedChallengesProgress?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -36,7 +36,7 @@ class SoloChallengeCollectionViewCell: UICollectionViewCell {
     
     func configureCell(challenge: AssignedChallengesProgress) {
         
-        self.challenge = challenge.assignedChallenge
+        self.challenge = challenge
         
         self.imageViewChallenge.image = UIImage(systemName: challenge.challengeDetails.SFSymbolName)
         labelChallengeHeading.text = challenge.challengeDetails.title
@@ -78,11 +78,15 @@ class SoloChallengeCollectionViewCell: UICollectionViewCell {
             
     @IBAction func claimPointsPressed(_ sender: UIButton) {
         
-        self.challenge?.rewardClaimed = true
+        self.challenge?.assignedChallenge.rewardClaimed = true
         rewardClamiedUpdateUI()
         
+        var userStats = DataSource.shared.getUserStats()
+        userStats?.totalPointsEarned += challenge!.challengeDetails.rewardPoints
+        
         Task {
-            await updateAssignedChallengeRewards(challenge: self.challenge!)
+            await updateAssignedChallengeRewards(challenge: self.challenge!.assignedChallenge)
+            await updateUserStats(userID: userStats!.userID, newStats: userStats!)
         }
     }
     

@@ -59,8 +59,8 @@ struct AssignedChallenges: Codable {
 }
 
 struct AssignedChallengesProgress: Codable {
-    let assignedChallenge: AssignedChallenges
-    let challengeDetails: SoloChallenges
+    var assignedChallenge: AssignedChallenges
+    var challengeDetails: SoloChallenges
 }
 
 //struct GetRandomChallengesParams: Encodable, Sendable {

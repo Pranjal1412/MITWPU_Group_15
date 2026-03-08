@@ -612,6 +612,8 @@ func updateAssignedChallengeRewards(challenge: AssignedChallenges) async {
     }
 }
 
+//MARK: - Freinds Follow/Unfollow
+
 // Returns UserProfile rows for all users the current user has NOT yet followed (excluding themselves).
 func fetchUnfollowedUsers(currentUserID: UUID) async -> [UserProfile] {
     do {
@@ -619,18 +621,18 @@ func fetchUnfollowedUsers(currentUserID: UUID) async -> [UserProfile] {
         let followed: [FollowerAndFollowing] = try await SupabaseManager.shared.client
             .from("FollowerAndFollowing")
             .select()
-            .eq("FollowerID", value: currentUserID)
+            .eq("FollowerID", value: currentUserID) //users ID
             .execute()
             .value
 
-//        let clubIDs = joinedClubs.map { $0.clubID }
-        let followedIDs = followed.map { $0.followingID }
+        let followedIDs = followed.map { $0.followingID } // get IDs of friends user follows
 
         // 2. Fetch all user profiles
         if followedIDs.isEmpty {
             let allUsers: [UserProfile] = try await SupabaseManager.shared.client
                 .from("UserProfile")
                 .select()
+                .neq("userID", value: currentUserID)
                 .execute()
                 .value
             
