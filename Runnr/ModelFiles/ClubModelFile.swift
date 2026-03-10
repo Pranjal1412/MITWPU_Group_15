@@ -48,15 +48,9 @@ struct ClubTaggedPost : Codable {
     var clubID : UUID?
 }
 
-//struct friendsData {
-//    let profilePhoto: String
-//    let name: String
-//    var isFollowing: Bool
-//}
-
 struct FollowerAndFollowing: Codable {
-    var followerID: UUID
-    var followingID: UUID
+    var FollowerID: UUID
+    var FollowingID: UUID
 }
 
 struct LeaderBoard {
@@ -91,13 +85,6 @@ LeaderBoard(badge: "badge 3", levelName: "Achiever", levelDescription: "250.00 -
 LeaderBoard(badge: "badge 4", levelName: "Champion", levelDescription: "1,000.00 - 4,999.9 Kilometers")
 ]
     
-//var friendsDataArray: [friendsData] = [
-//    friendsData(profilePhoto: "user1", name: "Dave Johnson", isFollowing: false),
-//    friendsData(profilePhoto: "user2", name: "Mark Brown", isFollowing: true),
-//    friendsData(profilePhoto: "user3", name: "Sophia Lee", isFollowing: false),
-//    friendsData(profilePhoto: "user4", name: "Liam Carter", isFollowing: false)
-//]
-
 let leaderboardUsersArray: [LeaderboardUser] = [
     LeaderboardUser(
         name: "Ava Brooks",

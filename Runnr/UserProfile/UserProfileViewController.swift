@@ -52,6 +52,7 @@ class UserProfileViewController: UIViewController {
     
     private var userProfile = DataSource.shared.getUserProfile()
     private let userStats = DataSource.shared.getUserStats()
+    
     var isFromFriendsScreen: Bool = false
     var friendData: UserProfile?
         
@@ -156,7 +157,6 @@ class UserProfileViewController: UIViewController {
     func loadAllData() {
         if let friend = friendData {
             self.labelUsername.text = friend.userName
-            
             if let url = URL(string: friend.userProfileImageURL!) {
                 self.imageProfile.kf.setImage(with: url)
             }
@@ -168,6 +168,8 @@ class UserProfileViewController: UIViewController {
             }
         }
         
+        self.labelFollowingCount.text = String(userStats!.numberOfFollowing)
+        self.labelFollowerCount.text = String(userStats!.numberOfFollowers)
         self.labelTotalPointsCount.text = String(self.userStats?.totalPointsEarned ?? 0)
         self.labelTotalActivitiesCount.text = String(self.userStats?.totalActivities ?? 0)
         self.labelTotalDistanceCount.text = String(format: "%.1f", (self.userStats?.totalDistanceCovered ?? 0.0))

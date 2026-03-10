@@ -625,7 +625,8 @@ func fetchUnfollowedUsers(currentUserID: UUID) async -> [UserProfile] {
             .execute()
             .value
 
-        let followedIDs = followed.map { $0.followingID } // get IDs of friends user follows
+        
+        let followedIDs = followed.map { $0.FollowingID } // get IDs of friends user follows
 
         // 2. Fetch all user profiles
         if followedIDs.isEmpty {
@@ -657,10 +658,38 @@ func fetchUnfollowedUsers(currentUserID: UUID) async -> [UserProfile] {
     }
 }
 
+func fetchFollowedUsers(currentUserID: UUID) async -> [UserProfile] {
+    do {
+        // 1. Get IDs the user follows
+        let followed: [FollowerAndFollowing] = try await SupabaseManager.shared.client
+            .from("FollowerAndFollowing")
+            .select()
+            .eq("FollowerID", value: currentUserID)
+            .execute()
+            .value
+
+        let followedIDs = followed.map { $0.FollowingID }
+
+        // 2. Fetch user profiles of those IDs
+        let users: [UserProfile] = try await SupabaseManager.shared.client
+            .from("UserProfile")
+            .select("*")
+            .in("userID", values: followedIDs)
+            .execute()
+            .value
+        
+        return users
+
+    } catch {
+        print("fetchFollowedUsers failed: \(error)")
+        return []
+    }
+}
+
 // Inserts a follow relationship into the FollowerAndFollowing table.
 func insertFollowedUser(followerID: UUID, followingID: UUID) async {
     do {
-        let record = FollowerAndFollowing(followerID: followerID, followingID: followingID)
+        let record = FollowerAndFollowing(FollowerID: followerID, FollowingID: followingID)
         try await SupabaseManager.shared.client
             .from("FollowerAndFollowing")
             .insert(record)

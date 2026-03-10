@@ -20,6 +20,7 @@ class DataSource {
     private var soloChallenges: [AssignedChallengesProgress] = []
     
     private var unfollowedUser: [UserProfile] = []
+    private var followedUser: [UserProfile] = []
     
     static let shared = DataSource()
     
@@ -165,6 +166,14 @@ class DataSource {
         return self.unfollowedUser
     }
     
+    func setFollowedUser(_ list: [UserProfile]) {
+        self.followedUser = list
+    }
+    
+    func getFollowedUser() -> [UserProfile] {
+        return self.followedUser
+    }
+    
     func setGameID(_ gameID: UUID) {
         self.gameID = gameID
         UserDefaults.standard.set(gameID.uuidString, forKey: "activeGameID")
@@ -253,12 +262,7 @@ class DataSource {
             totalSteps += Double(item.steps)
         }
 
-        return TotalValue(
-            totalDistance: totalDistance,
-            totalCalories: totalCalories,
-            totalPace: totalPace,
-            totalSteps: totalSteps
-        )
+        return TotalValue(totalDistance: totalDistance,totalCalories: totalCalories,totalPace: totalPace,totalSteps: totalSteps)
     }
     
 //    MARK: - Below functions are yet to check and corrected

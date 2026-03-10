@@ -14,8 +14,11 @@ class FriendListTableViewCell: UITableViewCell {
     @IBOutlet var FriendName: UILabel!
     @IBOutlet var buttonFollow: UIButton!
     
-    var followAction: (() -> Void)?
-
+    var isFollowing = false
+    var followAction: ((Bool) -> Void)?
+    var followerID = DataSource.shared.getUserProfile().userID
+    var followingID: UUID?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         buttonFollow.layer.cornerRadius = buttonFollow.frame.height / 2
@@ -31,17 +34,27 @@ class FriendListTableViewCell: UITableViewCell {
             self.imageProfileFriends.kf.setImage(with: url)
         }
         
-//        if data.isFollowing {
-//            buttonFollow.setTitle("Following", for: .normal)
-//            buttonFollow.backgroundColor = .lightGray
-//        } else {
-            buttonFollow.setTitle("Follow", for: .normal)
-            buttonFollow.backgroundColor = .accent
-//        }
+        self.followingID = data.userID
+        
+        buttonFollow.setTitle("Follow", for: .normal)
+        buttonFollow.backgroundColor = .accent
     }
 
     @IBAction func followButtonTapped(_ sender: UIButton) {
-        followAction?()
+        if isFollowing == true {
+            followAction?(isFollowing)
+            buttonFollow.setTitle("Follow", for: .normal)
+            buttonFollow.backgroundColor = .accent
+            isFollowing = false
+        }
+        else {
+            Task {
+                await insertFollowedUser(followerID: followerID!, followingID: followingID!)
+            }
+            buttonFollow.setTitle("Following", for: .normal)
+            buttonFollow.backgroundColor = .lightGray
+            isFollowing = true
+        }
     }
     
 }

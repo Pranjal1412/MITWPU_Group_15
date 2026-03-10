@@ -25,6 +25,8 @@ struct UserStats : Codable {
     var totalDistanceCovered: Double
     var totalActivities: Int
     var longestStreak: Int
+    var numberOfFollowers: Int
+    var numberOfFollowing: Int
 }
 
 struct UserFriendList {

@@ -63,6 +63,9 @@ class ActivityScreenViewController: UIViewController {
             let activities = await fetchAllMyActivities(userID: userProfile.userID!)
             self.dataSource.setAllActivities(activities)
             
+            let friendUser = await fetchFollowedUsers(currentUserID: userProfile.userID!)
+            self.dataSource.setFollowedUser(friendUser)
+            
             updateScreenElements()
             labelTotalPoints.text = "\(totalPoints)"
         }
@@ -135,6 +138,7 @@ class ActivityScreenViewController: UIViewController {
     
     @IBAction func segmentChangeToFriends(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 1 {
+            stackRecentActivities.isHidden = true
             tableViewMyActivity.isHidden = true
             tableViewFriendsActivity.isHidden = false
             label.isHidden = true
@@ -189,9 +193,9 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
 
     }
 
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return UITableView.automaticDimension
+//    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == tableViewMyActivity {

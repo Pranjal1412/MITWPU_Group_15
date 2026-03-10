@@ -70,7 +70,7 @@ class ClubScreenViewController: UIViewController {
             self.profileImage.kf.setImage(with: url)
         }
         
-        Task{
+        Task {
             let exploreClubs = await fetchExploreClubData(userID: self.userProfile.userID!)
             self.dataSource.setclubsArray(exploreClubs)
             
@@ -90,11 +90,12 @@ class ClubScreenViewController: UIViewController {
             
             collectionViewJoinedClub.reloadData()
             collectionViewExplore.reloadData()
-            buttonAddMoreClubs.isHidden = true
+//            buttonAddMoreClubs.isHidden = true
 
+            segmentShiftAction(segmentControlClubScreen)
         }
         
-        tableViewFriends.reloadData()
+//        tableViewFriends.reloadData()
         self.labelTotalPoints.text = "\(totalPoints)"
     }
     
@@ -337,10 +338,26 @@ extension ClubScreenViewController : UITableViewDataSource, UITableViewDelegate 
         let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! FriendListTableViewCell
 
         cell.configureCell(with: unfollowedUserData[indexPath.row])
-//        cell.followAction = {
-//            friendsDataArray[indexPath.row].isFollowing.toggle()
-//            tableView.reloadRows(at: [indexPath], with: .none)
-//        }
+        cell.followAction = { isFollowing in
+            
+            if isFollowing {
+                let alert = UIAlertController(
+                    title: "Unfollow",
+                    message: "Are you sure you want to unfollow this user?",
+                    preferredStyle: .alert
+                )
+
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+                
+                alert.addAction(UIAlertAction(title: "Unfollow", style: .destructive) { _ in
+                    // perform unfollow
+                })
+
+                self.present(alert, animated: true)
+                
+            }
+            tableView.reloadRows(at: [indexPath], with: .none)
+        }
         return cell
     }
     
