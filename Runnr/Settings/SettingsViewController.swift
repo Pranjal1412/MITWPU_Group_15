@@ -10,6 +10,7 @@ import Supabase
 
 class SettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    @IBOutlet weak var buttonCancel: UIButton!
     @IBOutlet weak var tableViewSettings: UITableView!
     
     override func viewDidLoad() {
@@ -19,6 +20,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         self.tableViewSettings.delegate = self
         self.tableViewSettings.showsVerticalScrollIndicator = false
         self.tableViewSettings.register(UINib(nibName: "SettingsTableViewCell", bundle: nil), forCellReuseIdentifier: "SettingsTableViewCell")
+        setGlassEffect(for: self.buttonCancel, withImage: "multiply")
     }
 
     @IBAction func cancelButtonPressed(_ sender: UIButton) {

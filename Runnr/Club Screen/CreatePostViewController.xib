@@ -26,10 +26,10 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hX1-8b-3cF">
-                    <rect key="frame" x="20" y="30" width="44" height="44"/>
+                    <rect key="frame" x="20" y="30" width="45" height="45"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="44" id="1z8-h5-6bJ"/>
-                        <constraint firstAttribute="height" constant="44" id="2k8-h5-7bJ"/>
+                        <constraint firstAttribute="width" constant="45" id="1z8-h5-6bJ"/>
+                        <constraint firstAttribute="height" constant="45" id="2k8-h5-7bJ"/>
                     </constraints>
                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                     <state key="normal" image="multiply" catalog="system">
@@ -46,11 +46,11 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aB8-Cq-71k">
-                    <rect key="frame" x="338" y="30" width="44" height="44"/>
+                    <rect key="frame" x="337" y="30" width="45" height="45"/>
                     <color key="backgroundColor" red="0.070588235294117646" green="0.070588235294117646" blue="0.078431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="44" id="b8J-f5-1Lh"/>
-                        <constraint firstAttribute="height" constant="44" id="r9K-c3-7Jv"/>
+                        <constraint firstAttribute="width" constant="45" id="b8J-f5-1Lh"/>
+                        <constraint firstAttribute="height" constant="45" id="r9K-c3-7Jv"/>
                     </constraints>
                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                     <state key="normal" image="checkmark" catalog="system">
@@ -66,7 +66,7 @@
                     </connections>
                 </button>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="b9T-g8-f4h">
-                    <rect key="frame" x="20" y="104" width="40" height="40"/>
+                    <rect key="frame" x="20" y="105" width="40" height="40"/>
                     <color key="backgroundColor" systemColor="systemGray5Color"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="mR1-rM-xGg"/>
@@ -79,7 +79,7 @@
                     </userDefinedRuntimeAttributes>
                 </imageView>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="k6x-tN-5jZ">
-                    <rect key="frame" x="72" y="106" width="310" height="36"/>
+                    <rect key="frame" x="72" y="107" width="310" height="36"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="POSTING TO" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l8K-vB-5xO">
                             <rect key="frame" x="0.0" y="0.0" width="310" height="17"/>
@@ -99,7 +99,7 @@
                     </constraints>
                 </stackView>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="What's on your mind?" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="c3v-gX-7eM">
-                    <rect key="frame" x="16" y="164" width="370" height="100"/>
+                    <rect key="frame" x="16" y="165" width="370" height="100"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="100" id="yX5-kK-6hL"/>
@@ -109,7 +109,7 @@
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zK8-Yg-5B8">
-                    <rect key="frame" x="20" y="284" width="362" height="250"/>
+                    <rect key="frame" x="20" y="285" width="362" height="250"/>
                     <color key="backgroundColor" red="0.10980392156862745" green="0.10980392156862745" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="250" id="T1B-aK-7aB"/>
@@ -121,7 +121,7 @@
                     </userDefinedRuntimeAttributes>
                 </view>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="j8g-7U-F1B">
-                    <rect key="frame" x="20" y="554" width="362" height="180"/>
+                    <rect key="frame" x="20" y="555" width="362" height="180"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="180" id="o8K-kK-9jL"/>
                     </constraints>
@@ -211,10 +211,10 @@
             <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemGray5Color">
-            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGrayColor">
-            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

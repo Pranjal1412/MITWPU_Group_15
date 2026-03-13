@@ -12,6 +12,8 @@ import Kingfisher
 
 class ActivitySaveViewController: UIViewController {
 
+    @IBOutlet weak var buttonDeleteActivity: UIButton!
+    @IBOutlet weak var buttonSaveActivity: UIButton!
     @IBOutlet weak var viewDistance: UIView!
     @IBOutlet weak var viewTime: UIView!
     @IBOutlet weak var viewPace: UIView!
@@ -59,6 +61,8 @@ class ActivitySaveViewController: UIViewController {
             self.imageViewMap.kf.setImage(with: url)
         }
 
+        setGlassEffect(for: self.buttonSaveActivity, withImage: "checkmark")
+        setGlassEffect(for: self.buttonDeleteActivity, withImage: "multiply")
         
         scrollViewSaveActivity.contentSize.height = stackAddPhotos.frame.origin.y + stackAddPhotos.frame.size.height + 30
 

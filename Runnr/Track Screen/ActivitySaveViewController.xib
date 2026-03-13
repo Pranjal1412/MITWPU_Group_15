@@ -21,6 +21,8 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ActivitySaveViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
                 <outlet property="buttonAddPhotos" destination="ity-0l-pCg" id="cPU-1T-qOe"/>
+                <outlet property="buttonDeleteActivity" destination="tSy-p3-WHQ" id="e7h-GU-g6n"/>
+                <outlet property="buttonSaveActivity" destination="vc9-KK-lgM" id="Eau-EY-E9V"/>
                 <outlet property="collectionViewAddPhotos" destination="Jge-r0-dhF" id="Dan-bb-oz1"/>
                 <outlet property="imageViewMap" destination="hWv-wV-F1z" id="XVa-yj-8xl"/>
                 <outlet property="labelAddPhotos" destination="YnD-FN-1W6" id="dAr-IL-DXc"/>
@@ -55,36 +57,35 @@
             <rect key="frame" x="0.0" y="0.0" width="402" height="1124"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tSy-p3-WHQ">
-                    <rect key="frame" x="16" y="70" width="76" height="35"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tSy-p3-WHQ">
+                    <rect key="frame" x="15" y="70" width="45" height="45"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="35" id="wW3-hK-ZBw"/>
+                        <constraint firstAttribute="width" constant="45" id="M5d-F6-ybi"/>
+                        <constraint firstAttribute="height" constant="45" id="wW3-hK-ZBw"/>
                     </constraints>
                     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                    <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" title="Cancel">
-                        <fontDescription key="titleFontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="16"/>
-                    </buttonConfiguration>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" image="multiply" catalog="system"/>
                     <connections>
                         <action selector="cancelButtonPressed:" destination="-1" eventType="touchUpInside" id="0KG-tT-r9d"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vc9-KK-lgM">
-                    <rect key="frame" x="325.33333333333331" y="70" width="60.666666666666686" height="35"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vc9-KK-lgM">
+                    <rect key="frame" x="342" y="70" width="45" height="45"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="35" id="5Su-NW-Ter"/>
+                        <constraint firstAttribute="width" constant="45" id="MJ3-mL-kW4"/>
+                        <constraint firstAttribute="height" constant="45" id="vcA-ql-Ajd"/>
                     </constraints>
+                    <fontDescription key="fontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="16"/>
                     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                    <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" title="Save">
-                        <fontDescription key="titleFontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="16"/>
-                    </buttonConfiguration>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" image="checkmark" catalog="system"/>
                     <connections>
                         <action selector="SaveButtonPressed:" destination="-1" eventType="touchUpInside" id="pOR-Ou-pUi"/>
                     </connections>
                 </button>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="scw-9n-W4L">
-                    <rect key="frame" x="0.0" y="115" width="402" height="1009"/>
+                    <rect key="frame" x="0.0" y="130" width="402" height="994"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hWv-wV-F1z">
                             <rect key="frame" x="25" y="10" width="352" height="195"/>
@@ -463,22 +464,24 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="vc9-KK-lgM" secondAttribute="trailing" constant="16" id="8YA-6l-B7S"/>
+                <constraint firstAttribute="trailing" secondItem="vc9-KK-lgM" secondAttribute="trailing" constant="15" id="8YA-6l-B7S"/>
                 <constraint firstAttribute="bottom" secondItem="scw-9n-W4L" secondAttribute="bottom" id="9uB-sX-nbj"/>
                 <constraint firstItem="tSy-p3-WHQ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="70" id="Anl-OA-0MW"/>
-                <constraint firstItem="scw-9n-W4L" firstAttribute="top" secondItem="tSy-p3-WHQ" secondAttribute="bottom" constant="10" id="EY9-i0-qfv"/>
+                <constraint firstItem="scw-9n-W4L" firstAttribute="top" secondItem="tSy-p3-WHQ" secondAttribute="bottom" constant="20" id="EY9-i0-qfv"/>
                 <constraint firstItem="vc9-KK-lgM" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="70" id="Kef-6r-QLb"/>
                 <constraint firstAttribute="trailing" secondItem="scw-9n-W4L" secondAttribute="trailing" id="S3C-Wj-qr1"/>
                 <constraint firstItem="scw-9n-W4L" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="vBY-Uc-tOW"/>
-                <constraint firstItem="tSy-p3-WHQ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="wKl-8e-FG8"/>
+                <constraint firstItem="tSy-p3-WHQ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="15" id="wKl-8e-FG8"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="94.656488549618317" y="238.02816901408451"/>
         </view>
     </objects>
     <resources>
+        <image name="checkmark" catalog="system" width="128" height="114"/>
         <image name="figure.run" catalog="system" width="115" height="128"/>
         <image name="flame" catalog="system" width="106" height="128"/>
+        <image name="multiply" catalog="system" width="128" height="111"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="point.bottomleft.forward.to.point.topright.scurvepath" catalog="system" width="117" height="128"/>
         <image name="stopwatch" catalog="system" width="121" height="128"/>

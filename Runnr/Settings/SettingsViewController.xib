@@ -12,6 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SettingsViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
+                <outlet property="buttonCancel" destination="wUb-TE-QxE" id="eyC-4I-MRt"/>
                 <outlet property="tableViewSettings" destination="ege-q7-9QV" id="VJ0-d8-E2k"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
