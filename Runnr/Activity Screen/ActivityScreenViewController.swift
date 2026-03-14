@@ -27,7 +27,10 @@ class ActivityScreenViewController: UIViewController {
     private var myActivity: [UserActivity] {
         dataSource.getAllActivities()
     }
-    let friendsActivity : [UserActivity] = DataSource.shared.getFriendsActivityData()
+    
+    private var friendsActivity : [UserActivity] {
+        dataSource.getFriendsActivityData()
+    }
     
     override func viewDidLoad() {
         
@@ -63,14 +66,13 @@ class ActivityScreenViewController: UIViewController {
             let activities = await fetchAllMyActivities(userID: userProfile.userID!)
             self.dataSource.setAllActivities(activities)
             
-            let friendUser = await fetchFollowedUsers(currentUserID: userProfile.userID!)
-            self.dataSource.setFollowedUser(friendUser)
-            
+            let friendActivity = await fetchFollowedUsers(currentUserID: userProfile.userID!)
+            self.dataSource.setFriendsActivityData(friendActivity)
+                                
             updateScreenElements()
             labelTotalPoints.text = "\(totalPoints)"
         }
         
-        tableViewMyActivity.reloadData()
     }
     
     func settingLabelStyle() {
@@ -142,6 +144,8 @@ class ActivityScreenViewController: UIViewController {
             tableViewMyActivity.isHidden = true
             tableViewFriendsActivity.isHidden = false
             label.isHidden = true
+            
+            tableViewFriendsActivity.reloadData()
         }
         else {
             self.updateScreenElements()

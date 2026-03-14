@@ -135,11 +135,6 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="GYY-As-FBA" secondAttribute="trailing" constant="10" id="wti-x4-YWf"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <variation key="default">
-                <mask key="subviews">
-                    <exclude reference="GYY-As-FBA"/>
-                </mask>
-            </variation>
             <point key="canvasLocation" x="-391.04477611940297" y="145.53775743707092"/>
         </view>
     </objects>

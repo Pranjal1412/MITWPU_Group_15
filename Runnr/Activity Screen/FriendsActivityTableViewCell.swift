@@ -1,7 +1,9 @@
 import UIKit
+import Kingfisher
 
 class FriendsActivityTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var mapImage: UIImageView!
     @IBOutlet weak var viewMainBackground: UIView!
     @IBOutlet weak var labelName: UILabel!
     @IBOutlet weak var imageProfile: UIImageView!
@@ -41,6 +43,12 @@ class FriendsActivityTableViewCell: UITableViewCell {
         if activity.activityRemark != "" {
             self.labelDummy.text = "Dummy Text"
         }
+        
+        if let url = URL(string: activity.mapImageURL!) {
+            self.mapImage.kf.setImage(with: url)
+        }
+        
+        self.mapImage.layer.cornerRadius = 10
         
         labelNote.text = activity.activityRemark
         labelDistance.text = "Distance"

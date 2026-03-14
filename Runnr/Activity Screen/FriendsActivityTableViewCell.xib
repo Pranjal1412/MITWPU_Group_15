@@ -209,7 +209,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="HdC-xd-qFV">
+                            <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="HdC-xd-qFV">
                                 <rect key="frame" x="20" y="199" width="342" height="191"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="191" id="VG2-aH-ShN"/>
@@ -230,6 +230,12 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aZh-DZ-WC2">
+                                <rect key="frame" x="20" y="199" width="342" height="191"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="191" id="cor-X8-ZtJ"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" name="CardLightBlack"/>
                         <constraints>
@@ -237,6 +243,7 @@
                             <constraint firstItem="DXG-H1-W7R" firstAttribute="top" secondItem="9eH-zs-5cF" secondAttribute="bottom" constant="5" id="2xr-ta-MVt"/>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="410" id="5Uy-W8-16k"/>
                             <constraint firstItem="9eH-zs-5cF" firstAttribute="top" secondItem="n8w-2v-eri" secondAttribute="bottom" constant="18" id="66d-9Q-4zv"/>
+                            <constraint firstAttribute="trailing" secondItem="aZh-DZ-WC2" secondAttribute="trailing" constant="20" symbolic="YES" id="6VS-oX-TFE"/>
                             <constraint firstAttribute="trailing" secondItem="9eH-zs-5cF" secondAttribute="trailing" constant="20" id="6aA-mB-y2b"/>
                             <constraint firstItem="n8w-2v-eri" firstAttribute="top" secondItem="aYJ-pK-unC" secondAttribute="bottom" constant="18" id="7WX-XW-8vO"/>
                             <constraint firstItem="2Qi-mT-Yfv" firstAttribute="leading" secondItem="x8M-0F-BGY" secondAttribute="leading" constant="20" id="Axh-k5-nqf"/>
@@ -247,10 +254,13 @@
                             <constraint firstItem="n8w-2v-eri" firstAttribute="leading" secondItem="x8M-0F-BGY" secondAttribute="leading" constant="20" id="PqE-UI-yYM"/>
                             <constraint firstAttribute="trailing" secondItem="HdC-xd-qFV" secondAttribute="trailing" constant="20" id="RIa-Ue-U1S"/>
                             <constraint firstItem="DXG-H1-W7R" firstAttribute="leading" secondItem="x8M-0F-BGY" secondAttribute="leading" constant="20" id="Vt8-1M-AoS"/>
+                            <constraint firstItem="aZh-DZ-WC2" firstAttribute="top" secondItem="DXG-H1-W7R" secondAttribute="bottom" constant="20" id="WEd-vQ-QTp"/>
                             <constraint firstAttribute="bottom" secondItem="2Qi-mT-Yfv" secondAttribute="bottom" id="WaN-hW-S7p"/>
                             <constraint firstAttribute="trailing" secondItem="2Qi-mT-Yfv" secondAttribute="trailing" constant="20" id="dkR-fm-PDF"/>
                             <constraint firstAttribute="trailing" secondItem="n8w-2v-eri" secondAttribute="trailing" constant="20" id="gs1-l7-zOk"/>
+                            <constraint firstItem="aZh-DZ-WC2" firstAttribute="leading" secondItem="x8M-0F-BGY" secondAttribute="leading" constant="20" symbolic="YES" id="hhm-64-GNS"/>
                             <constraint firstItem="aYJ-pK-unC" firstAttribute="top" secondItem="x8M-0F-BGY" secondAttribute="top" constant="20" id="ndz-A2-Ttl"/>
+                            <constraint firstItem="hwW-E0-gwE" firstAttribute="top" secondItem="aZh-DZ-WC2" secondAttribute="bottom" constant="20" id="olH-zu-hs0"/>
                             <constraint firstItem="HdC-xd-qFV" firstAttribute="leading" secondItem="x8M-0F-BGY" secondAttribute="leading" constant="20" id="pMU-Cb-EoK"/>
                             <constraint firstItem="hwW-E0-gwE" firstAttribute="top" secondItem="HdC-xd-qFV" secondAttribute="bottom" constant="20" id="pro-dK-5fc"/>
                             <constraint firstItem="hwW-E0-gwE" firstAttribute="leading" secondItem="x8M-0F-BGY" secondAttribute="leading" constant="20" id="teS-TT-3Zf"/>
@@ -280,9 +290,10 @@
                 <outlet property="labelRunTitle" destination="9eH-zs-5cF" id="uSe-sJ-yTY"/>
                 <outlet property="labelTime" destination="L4v-UE-74H" id="D66-YU-Icc"/>
                 <outlet property="labelTimeContent" destination="bLe-ZS-MKV" id="osg-qf-Q90"/>
+                <outlet property="mapImage" destination="aZh-DZ-WC2" id="jGz-sy-R9D"/>
                 <outlet property="viewMainBackground" destination="x8M-0F-BGY" id="vuT-A0-dDU"/>
             </connections>
-            <point key="canvasLocation" x="-434" y="-53"/>
+            <point key="canvasLocation" x="-1082.4427480916031" y="-61.267605633802823"/>
         </tableViewCell>
     </objects>
     <resources>
