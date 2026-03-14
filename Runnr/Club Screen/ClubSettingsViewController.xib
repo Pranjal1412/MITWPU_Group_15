@@ -59,7 +59,7 @@
                         </button>
                     </subviews>
                 </stackView>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SKQ-Fm-7aa">
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SKQ-Fm-7aa">
                     <rect key="frame" x="0.0" y="89" width="402" height="1019"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Club" translatesAutoresizingMaskIntoConstraints="NO" id="GyM-hf-6NB">
@@ -75,7 +75,7 @@
                                 <constraint firstAttribute="width" constant="100" id="eXq-W1-MhO"/>
                             </constraints>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Edit picture" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1wv-dM-dMS">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Edit picture" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1wv-dM-dMS">
                             <rect key="frame" x="35.000000000000007" y="260" width="71.666666666666686" height="15.666666666666686"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="71.670000000000002" id="f9P-5A-FHO"/>
@@ -332,6 +332,7 @@
                     <variation key="default">
                         <mask key="subviews">
                             <exclude reference="wPY-GX-Xk0"/>
+                            <exclude reference="Yj3-v3-RMT"/>
                         </mask>
                     </variation>
                 </scrollView>

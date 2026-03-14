@@ -364,10 +364,10 @@ extension ActivityLiveTrackingViewController : UIScrollViewDelegate {
         scrollView.alwaysBounceVertical = false
         scrollView.showsVerticalScrollIndicator = false
         
-        scrollView.contentSize.width = view.frame.width * 3
+        scrollView.contentSize.width = view.frame.width * 2
         scrollView.contentSize.height = scrollView.frame.height
         
-            for i in 0..<3 {
+            for i in 0..<2 {
                 let page = UIView(frame: CGRect(x: CGFloat(i) * view.frame.width, y: 0,
                                                 width: scrollView.frame.width, height: scrollView.frame.height))
                 page.backgroundColor = .yellow
@@ -382,9 +382,9 @@ extension ActivityLiveTrackingViewController : UIScrollViewDelegate {
                     
                     page.addSubview(self.viewActivityProgress)
                                                             
-                case 2: 
-                    self.viewActivitySettings.frame = CGRect(x: 0, y: 0, width: page.frame.width, height: page.frame.height)
-                    page.addSubview(self.viewActivitySettings)
+//                case 2: 
+//                    self.viewActivitySettings.frame = CGRect(x: 0, y: 0, width: page.frame.width, height: page.frame.height)
+//                    page.addSubview(self.viewActivitySettings)
                     
                 default: break
                 }

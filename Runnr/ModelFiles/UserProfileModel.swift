@@ -21,12 +21,12 @@ struct UserProfile: Codable {
 
 struct UserStats : Codable {
     let userID : UUID
+    var numberOfFollowers: Int
+    var numberOfFollowing: Int
     var totalPointsEarned: Int
     var totalDistanceCovered: Double
     var totalActivities: Int
     var longestStreak: Int
-    var numberOfFollowers: Int
-    var numberOfFollowing: Int
 }
 
 struct UserFriendList {
