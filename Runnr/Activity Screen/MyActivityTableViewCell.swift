@@ -4,7 +4,7 @@ import Kingfisher
 class MyActivityTableViewCell: UITableViewCell {
 
     @IBOutlet weak var labelRunPoints: UILabel!
-    @IBOutlet weak var labelCurrency: UILabel!
+    @IBOutlet weak var viewCurrency: UIView!
     @IBOutlet weak var imageProfile: UIImageView!
     @IBOutlet weak var labelDate: UILabel!
     @IBOutlet weak var labelRunTitle: UILabel!
@@ -32,7 +32,6 @@ class MyActivityTableViewCell: UITableViewCell {
     }
     
     func configure(with activity: UserActivity) {
-        self.labelCurrency.layer.cornerRadius = /*self.labelCurrency.frame.height / 2*/ 20
         
         labelDate.text = formatDate(with: activity.activityStartTime!)
         labelRunTitle.text = activity.activityTitle
@@ -51,7 +50,7 @@ class MyActivityTableViewCell: UITableViewCell {
         labelTime.text = NSLocalizedString("Time", comment: "")
         imageRun.layer.cornerRadius = 10
         imageProfile.layer.cornerRadius = imageProfile.frame.height / 2
-        labelCurrency.layer.cornerRadius = labelCurrency.frame.height / 2
+        viewCurrency.layer.cornerRadius = viewCurrency.frame.height / 2
         let totalPoints = activity.basePoints! + activity.skillPoints!
         labelRunPoints.text = String(totalPoints)
         let valueFont = UIFont(name: "SFProText-Medium", size: 20) ?? UIFont.systemFont(ofSize: 20, weight: .medium)
