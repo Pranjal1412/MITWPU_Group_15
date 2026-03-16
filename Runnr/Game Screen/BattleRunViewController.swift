@@ -38,8 +38,12 @@ class BattleRunViewController: UIViewController {
        // Batch upsert all captured tiles before leaving
        if !capturedTiles.isEmpty {
            let tilesToSave = capturedTiles
+           let backgroundTaskID = UIApplication.shared.beginBackgroundTask(withName: "BatchUpsertTiles") {
+               // End the task if time expires.
+           }
            Task {
                await upsertGameTiles(tilesToSave)
+               UIApplication.shared.endBackgroundTask(backgroundTaskID)
            }
        }
        self.dismiss(animated: true, completion: nil)
@@ -155,12 +159,13 @@ class BattleRunViewController: UIViewController {
                 
                 // Fetch previously captured tiles from Supabase and apply ownership
                 if let gameID = self.gameID {
-                    let myUserID = DataSource.shared.getUserProfile().userID
-                    if let savedTiles = await fetchGameTileStatus(gameID: gameID) {
-                        for savedTile in savedTiles {
-                            if game.tiles[savedTile.tileID] != nil {
-                                let player: Player = (savedTile.ownerID == myUserID) ? .me : .lea
-                                game.tiles[savedTile.tileID]?.owner = .player(player)
+                    if let myUserID = DataSource.shared.getUserProfile().userID {
+                        if let savedTiles = await fetchGameTileStatus(gameID: gameID) {
+                            for savedTile in savedTiles {
+                                if game.tiles[savedTile.tileID] != nil {
+                                    let player: Player = (savedTile.ownerID == myUserID) ? .me : .lea
+                                    game.tiles[savedTile.tileID]?.owner = .player(player)
+                                }
                             }
                         }
                     }
@@ -259,11 +264,18 @@ class BattleRunViewController: UIViewController {
                 }
                 
                 // Upsert tile immediately so capture survives force-quit
-                if let gameID = self.gameID {
-                    let userID = DataSource.shared.getUserProfile().userID
+                if let gameID = self.gameID, let userID = DataSource.shared.getUserProfile().userID {
                     let hexTile = TerritoryHexTile(tileID: id, ownerID: userID, gameID: gameID)
                     capturedTiles.append(hexTile)
-                    Task { await upsertGameTiles([hexTile]) }
+                    
+                    let backgroundTaskID = UIApplication.shared.beginBackgroundTask(withName: "UpsertTile_\(id)") {
+                        // End the task if time expires.
+                    }
+                    
+                    Task {
+                        await upsertGameTiles([hexTile])
+                        UIApplication.shared.endBackgroundTask(backgroundTaskID)
+                    }
                 }
             }
         }

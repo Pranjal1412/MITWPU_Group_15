@@ -493,7 +493,7 @@ func fetchActiveGameForUser(userID: UUID) async -> TerritoryGame? {
         let games: [TerritoryGame] = try await SupabaseManager.shared.client
             .from("TerritoryGame")
             .select()
-            .eq("playerOneID", value: userID)
+            .or("playerOneID.eq.\(userID),playerTwoID.eq.\(userID)")
             .or("isCompleted.is.null,isCompleted.eq.false")
             .limit(1)
             .execute()
@@ -523,14 +523,35 @@ func fetchGameTileStatus(gameID: UUID) async -> [TerritoryHexTile]? {
 }
 
 func upsertGameTiles(_ tiles: [TerritoryHexTile]) async {
+    guard !tiles.isEmpty else { return }
     do {
-        guard !tiles.isEmpty else { return }
+        print("Attempting to upsert to Supabase: \(tiles)")
         try await SupabaseManager.shared.client
             .from("TerritoryHexTile")
             .upsert(tiles)
             .execute()
+        print("Successfully upserted tiles to Supabase")
     } catch {
-        print("Tile upsert failed: \(error)")
+        print("Tile batch upsert failed with primary error: \(error)")
+        // Fallback for cases where unique constraint definition mismatches
+        for tile in tiles {
+            do {
+                try await SupabaseManager.shared.client
+                    .from("TerritoryHexTile")
+                    .delete()
+                    .eq("tileID", value: tile.tileID)
+                    .eq("gameID", value: tile.gameID)
+                    .execute()
+                    
+                try await SupabaseManager.shared.client
+                    .from("TerritoryHexTile")
+                    .insert(tile)
+                    .execute()
+                print("Fallback insert succeeded for \(tile.tileID)")
+            } catch let fallbackError {
+                print("Tile fallback insert failed for \(tile.tileID) - GameID: \(tile.gameID) - OwnerID: \(String(describing: tile.ownerID)). Error: \(fallbackError)")
+            }
+        }
     }
 }
 
