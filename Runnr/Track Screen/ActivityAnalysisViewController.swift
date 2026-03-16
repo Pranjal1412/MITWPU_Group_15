@@ -26,6 +26,8 @@ class ActivityAnalysisViewController: UIViewController {
     @IBOutlet weak var labelHeartRate: UILabel!
     @IBOutlet weak var labelPhotosHeading: UILabel!
     @IBOutlet weak var viewActivityStats: UIView!
+    @IBOutlet weak var labelElevation: UILabel!
+    @IBOutlet weak var labelElevationValue: UILabel!
     @IBOutlet weak var collectionViewPhotos: UICollectionView!
     @IBOutlet weak var labelDistanceValue: UILabel!
     @IBOutlet weak var labelPaceValue: UILabel!
@@ -142,6 +144,9 @@ class ActivityAnalysisViewController: UIViewController {
         labelSteps.text = String(localized: "Steps Taken")
         labelSteps.sizeToFit()
         
+        labelElevation.text = String(localized: "Elevation")
+        labelElevation.sizeToFit()
+        
         labelBasePoints.text = String(localized: "Base Points: ") + String(self.activityData!.basePoints!)
         labelSkillPoints.text = String(localized: "Skill Points: ") + String(self.activityData!.skillPoints!)
         labelTotalPoints.text = String(localized: "Points: ") + String(self.activityData!.basePoints! + self.activityData!.skillPoints!)
@@ -195,11 +200,26 @@ class ActivityAnalysisViewController: UIViewController {
         labelStepsValue.text = String(format:"%02d", self.activityData!.stepsTaken!)
         self.labelAvgHRValue.text = "Average Heart Rate: " + String(format: "%0.2d", self.activityData!.avgHeartRate ?? 0.0)
         
+        // ✅ Elevation value
+//            let elevationText = NSMutableAttributedString(
+//                string: String(format: "%.0f", self.activityData!.elevation ?? 0.0),
+//                attributes: [.font: boldFont, .foregroundColor: UIColor.white]
+//            )
+//            
+//            elevationText.append(NSAttributedString(
+//                string: " m",
+//                attributes: [.font: thinFont, .foregroundColor: UIColor.white]
+//            ))
+//            
+//            labelElevationValue.attributedText = elevationText
+//            labelElevationValue.textColor = .accent
+        
         self.labelTimeValue.sizeToFit()
         self.labelDistanceValue.sizeToFit()
         self.labelPaceValue.sizeToFit()
         self.labelCaloriesValue.sizeToFit()
         self.labelAvgHRValue.sizeToFit()
+        self.labelElevationValue.sizeToFit()
     }
 
 }

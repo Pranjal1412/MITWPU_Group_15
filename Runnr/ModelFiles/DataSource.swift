@@ -11,7 +11,7 @@ class DataSource {
     private var currentActivityPaceData: [ActivityPaceGraphData] = []
     
     private var myActivities: [UserActivity] = []
-    private var friendActivities: [UserActivity] = []
+    private var friendActivities: [FriendsActivity] = []
     private var clubsArray : [Club] = []
     private var myClubsArray : [ClubRoleAndData] = []
     
@@ -118,11 +118,11 @@ class DataSource {
         return self.followedUser
     }
     
-    func getFriendsActivityData() -> [UserActivity] {
+    func getFriendsActivityData() -> [FriendsActivity] {
         return friendActivities
     }
 
-    func setFriendsActivityData(_ data: [UserActivity]) {
+    func setFriendsActivityData(_ data: [FriendsActivity]) {
         self.friendActivities = data
     }
     

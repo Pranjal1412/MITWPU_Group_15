@@ -658,7 +658,7 @@ func fetchUnfollowedUsers(currentUserID: UUID) async -> [UserProfile] {
     }
 }
 
-func fetchFollowedUsers(currentUserID: UUID) async -> [UserActivity] {
+func fetchFollowedUsersAtivities(currentUserID: UUID) async -> [FriendsActivity] {
     do {
         // 1. Get IDs the user follows
         let followed: [FollowerAndFollowing] = try await SupabaseManager.shared.client
@@ -678,7 +678,7 @@ func fetchFollowedUsers(currentUserID: UUID) async -> [UserActivity] {
 //            .execute()
 //            .value
   
-        let activities: [UserActivity] = try await SupabaseManager.shared.client
+        let activities: [FriendsActivity] = try await SupabaseManager.shared.client
             .rpc("get_friends_latest_activity", params: ["friend_ids": followedIDs])
             .execute()
             .value
