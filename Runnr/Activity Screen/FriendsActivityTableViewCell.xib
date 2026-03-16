@@ -43,7 +43,6 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ava Brooks" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jjK-F1-xxU">
                                                 <rect key="frame" x="0.0" y="0.0" width="200" height="20"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="200" id="19z-MI-nxI"/>
                                                     <constraint firstAttribute="height" constant="20" id="gS3-LI-BB5"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="16"/>

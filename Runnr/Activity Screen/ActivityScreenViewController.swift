@@ -28,7 +28,7 @@ class ActivityScreenViewController: UIViewController {
         dataSource.getAllActivities()
     }
     
-    private var friendsActivity : [UserActivity] {
+    private var friendsActivity : [FriendsActivity] {
         dataSource.getFriendsActivityData()
     }
     
@@ -66,7 +66,7 @@ class ActivityScreenViewController: UIViewController {
             let activities = await fetchAllMyActivities(userID: userProfile.userID!)
             self.dataSource.setAllActivities(activities)
             
-            let friendActivity = await fetchFollowedUsers(currentUserID: userProfile.userID!)
+            let friendActivity = await fetchFollowedUsersAtivities(currentUserID: userProfile.userID!)
             self.dataSource.setFriendsActivityData(friendActivity)
                                 
             updateScreenElements()
@@ -197,11 +197,10 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
 
     }
 
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return UITableView.automaticDimension
-//    }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        print("Tapped table:", tableView)
+ 
         if tableView == tableViewMyActivity {
             let activity = myActivity[indexPath.row]
 
@@ -222,6 +221,27 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
                     }
                 }
             
+        }
+        else {
+            let activityDetails = friendsActivity[indexPath.row].activity
+            
+            Task {
+                self.dataSource.setCurrentActivity(activityDetails!)
+
+                let routeCoordinates = await fetchActivityRouteCoordinates((activityDetails!.activityID!))
+                self.dataSource.setCurrentActivityCoordinates(routeCoordinates)
+
+                let paceData = await fetchActivityPaceGraphData(activityDetails!.activityID!)
+                self.dataSource.setCurrentActivityPaceData(paceData)
+                
+                await MainActor.run {
+                    let destinationVC = ActivitySummaryViewController()
+                    destinationVC.isNewActivity = false
+                    destinationVC.modalPresentationStyle = .overFullScreen
+                    self.present(destinationVC, animated: true)
+                }
+            }
+
         }
     }
     
