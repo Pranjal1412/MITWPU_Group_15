@@ -18,44 +18,88 @@ class ViewController: UIViewController {
     @IBOutlet weak var buttonLogin: UIButton!
 
     var newUser = false
-
+    let loader = UIActivityIndicatorView(style: .large)
+    let loaderView = UIView()
+    
     override func viewDidLoad() {
-        super.viewDidLoad()
-                
-        self.buttonJoinUs.layer.cornerRadius = buttonJoinUs.frame.height / 2
-        self.buttonJoinUs.setTitle(String(localized: "Join Us"), for: .normal)
-        self.buttonJoinUs.clipsToBounds = true
-        
-        self.buttonLogin.layer.cornerRadius = buttonLogin.frame.height / 2
-        self.buttonLogin.setTitle(String(localized: "Login"), for: .normal)
-        self.buttonLogin.layer.borderColor = UIColor.white.cgColor
-        self.buttonLogin.layer.borderWidth = 1.0
-        self.buttonLogin.clipsToBounds = true
-        
-    }
+            super.viewDidLoad()
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        Task { @MainActor in
-            do {
-                let session = try await SupabaseManager.shared.client.auth.session
-                
-                let user = session.user
-                if let userProfile = await fetchUserProfile(userId: user.id) {
-                    let userStats = await fetchUserStats(userId: user.id) ?? UserStats(userID: user.id, numberOfFollowers: 1, numberOfFollowing: 1, totalPointsEarned: 1, totalDistanceCovered: 1, totalActivities: 0, longestStreak: 0)
-                    DataSource.shared.setUserProfile(userProfile)
-                    DataSource.shared.setUserStats(userStats)
-                    self.setUpTabBar()
+            // Join Us button
+            buttonJoinUs.layer.cornerRadius = buttonJoinUs.frame.height / 2
+            buttonJoinUs.setTitle(String(localized: "Join Us"), for: .normal)
+            buttonJoinUs.clipsToBounds = true
 
+            // Login button
+            buttonLogin.layer.cornerRadius = buttonLogin.frame.height / 2
+            buttonLogin.setTitle(String(localized: "Login"), for: .normal)
+            buttonLogin.layer.borderColor = UIColor.white.cgColor
+            buttonLogin.layer.borderWidth = 1.0
+            buttonLogin.clipsToBounds = true
+
+            setupLoader()
+        }
+
+        func setupLoader() {
+
+            loaderView.frame = view.bounds
+            loaderView.backgroundColor = UIColor.black.withAlphaComponent(1)
+
+            loader.translatesAutoresizingMaskIntoConstraints = false
+            loader.hidesWhenStopped = true
+
+            loaderView.addSubview(loader)
+            view.addSubview(loaderView)
+
+            NSLayoutConstraint.activate([
+                loader.centerXAnchor.constraint(equalTo: loaderView.centerXAnchor),
+                loader.centerYAnchor.constraint(equalTo: loaderView.centerYAnchor)
+            ])
+
+            loaderView.isHidden = true
+        }
+
+        override func viewWillAppear(_ animated: Bool) {
+            super.viewWillAppear(animated)
+
+            loaderView.isHidden = false
+            loader.startAnimating()
+
+            Task { @MainActor in
+                
+                do {
+                    let session = try await SupabaseManager.shared.client.auth.session
+
+                    let user = session.user
+
+                    if let userProfile = await fetchUserProfile(userId: user.id) {
+
+                        let userStats = await fetchUserStats(userId: user.id) ??
+                        UserStats(
+                            userID: user.id,
+                            numberOfFollowers: 1,
+                            numberOfFollowing: 1,
+                            totalPointsEarned: 1,
+                            totalDistanceCovered: 1,
+                            totalActivities: 0,
+                            longestStreak: 0
+                        )
+
+                        DataSource.shared.setUserProfile(userProfile)
+                        DataSource.shared.setUserStats(userStats)
+
+                        self.setUpTabBar()
+                        self.loader.stopAnimating()
+
+                    }
+
+                } catch {
+                    self.loader.stopAnimating()
+                    self.loaderView.isHidden = true
+                    print("User has not logged in")
                 }
-                                            
-            } catch {
-                print("User has not logged in")
             }
         }
-    }
-    
+
     @IBAction func joinUsButtonPressed(_ sender: UIButton) {
         self.newUser = true
         self.navigationController?.pushViewController(JoinUsViewController(), animated: true)
