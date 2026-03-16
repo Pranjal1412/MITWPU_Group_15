@@ -679,7 +679,7 @@ func fetchUnfollowedUsers(currentUserID: UUID) async -> [UserProfile] {
     }
 }
 
-func fetchFollowedUsers(currentUserID: UUID) async -> [UserActivity] {
+func fetchFollowedUsersAtivities(currentUserID: UUID) async -> [FriendsActivity] {
     do {
         // 1. Get IDs the user follows
         let followed: [FollowerAndFollowing] = try await SupabaseManager.shared.client
@@ -699,7 +699,7 @@ func fetchFollowedUsers(currentUserID: UUID) async -> [UserActivity] {
 //            .execute()
 //            .value
   
-        let activities: [UserActivity] = try await SupabaseManager.shared.client
+        let activities: [FriendsActivity] = try await SupabaseManager.shared.client
             .rpc("get_friends_latest_activity", params: ["friend_ids": followedIDs])
             .execute()
             .value
@@ -708,6 +708,74 @@ func fetchFollowedUsers(currentUserID: UUID) async -> [UserActivity] {
 
     } catch {
         print("fetchFollowedUsers failed: \(error)")
+        return []
+    }
+}
+
+func fetchFollowersList(userID: UUID) async -> [UserProfile] {
+    do {
+        // 1. Get IDs of users who follow the given user
+        let followers: [FollowerAndFollowing] = try await SupabaseManager.shared.client
+            .from("FollowerAndFollowing")
+            .select()
+            .eq("FollowingID", value: userID)
+            .execute()
+            .value
+            
+        let followerIDs = followers.map { $0.FollowerID }
+        
+        if followerIDs.isEmpty {
+            return []
+        }
+        
+        let formattedIDs = followerIDs.map { "\"\($0.uuidString)\"" }.joined(separator: ",")
+        
+        // 2. Fetch their user profiles
+        let users: [UserProfile] = try await SupabaseManager.shared.client
+            .from("UserProfile")
+            .select("*")
+//            .in("userID", value: "(\(formattedIDs))")
+            .execute()
+            .value
+            
+        return users
+        
+    } catch {
+        print("fetchFollowersList failed: \(error)")
+        return []
+    }
+}
+
+func fetchFollowingList(userID: UUID) async -> [UserProfile] {
+    do {
+        // 1. Get IDs of users whom the given user follows
+        let following: [FollowerAndFollowing] = try await SupabaseManager.shared.client
+            .from("FollowerAndFollowing")
+            .select()
+            .eq("FollowerID", value: userID)
+            .execute()
+            .value
+            
+        let followingIDs = following.map { $0.FollowingID }
+        
+        if followingIDs.isEmpty {
+            return []
+        }
+        
+        let formattedIDs = followingIDs.map { "\"\($0.uuidString)\"" }.joined(separator: ",")
+        
+        // 2. Fetch their user profiles
+        let users: [UserProfile] = try await SupabaseManager.shared.client
+            .from("UserProfile")
+            .select("*")
+//            .in("userID", value: "(\(formattedIDs))")
+            .execute()
+            .value
+            
+        return users
+        
+    } catch {
+        print("fetchFollowingList failed: \(error)")
         return []
     }
 }

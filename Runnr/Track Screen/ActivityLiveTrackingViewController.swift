@@ -125,7 +125,7 @@ class ActivityLiveTrackingViewController: UIViewController {
             self.labelPaceCounter.text = String(format: "%.2f", self.activityManager.currentPace)
             
             print("Path Count: \(self.mapManager.path.count())")
-            
+            self.activityManager.startUpdatingElevation(with: location)
         }
         
         do {
@@ -204,6 +204,7 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         self.userLocation.locationManager.stopUpdatingLocation()
         self.checkIfGoalSetAndCompleted()
+        self.activityManager.stopUpdatingElevation()
         
 //        if self.isActivityInserted == true {
             let alert = UIAlertController(title: String(localized: "End Run"),
@@ -234,7 +235,10 @@ class ActivityLiveTrackingViewController: UIViewController {
                                                        paceUnit: .minPerKm,
                                                        mapImageURL: "",
                                                        basePoints: self.activityManager.basePointsEarned(),
-                                                       skillPoints: self.activityManager.skillPointsEarned())
+                                                       skillPoints: self.activityManager.skillPointsEarned(),
+                                                       elevation: self.activityManager.getTotalElevation()
+                                                    
+                    )
                     
                     // get Heart rate
                     let avgHR = await self.healthKitManager.fetchAverageHeartRateAsync(from: self.activityStartTime!, to: self.activityEndTime!)

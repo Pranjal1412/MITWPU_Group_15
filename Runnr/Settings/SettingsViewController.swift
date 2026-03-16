@@ -97,6 +97,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             let logoutAction = UIAlertAction(title: "Logout", style: .destructive) { (action) in
                 
                 Task {
+                    try await SupabaseManager.shared.client.auth.signOut()
                     print("Session deleted successfully")
                     
                     if let presenter = self.presentingViewController {

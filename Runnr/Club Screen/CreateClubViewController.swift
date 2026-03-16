@@ -59,6 +59,15 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func nextButtonPressed(_ sender: UIButton) {
         
+        if currentPage == 2 {
+            if clubDraft?.club.clubMotive == "" {
+                let alert = UIAlertController(title: "Selection Required", message: "Please select a club description to continue.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true)
+                return
+            }
+        }
+        
         if currentPage < 3 {
             currentPage += 1
             updateUI()
@@ -276,9 +285,19 @@ extension CreateClubViewController: UICollectionViewDataSource, UICollectionView
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SelectActivityCollectionViewCell", for: indexPath) as! SelectActivityCollectionViewCell
             
             cell.configureCell(with: clubActivityOptions[indexPath.row])
-            cell.viewCellBackground.layer.borderColor = UIColor.lightGray.cgColor
-            cell.viewCellBackground.layer.borderWidth = 1
             cell.viewCellBackground.layer.cornerRadius = 10.0
+            
+            if clubDraft?.club.clubSport == clubActivityOptions[indexPath.row].title {
+                cell.viewCellBackground.layer.borderColor = UIColor.accent.cgColor
+                cell.imageActivity.tintColor = .accent
+                cell.labelActivityTitle.textColor = .accent
+                cell.viewCellBackground.layer.borderWidth = 3
+            } else {
+                cell.viewCellBackground.layer.borderColor = UIColor.lightGray.cgColor
+                cell.imageActivity.tintColor = .white
+                cell.labelActivityTitle.textColor = .white
+                cell.viewCellBackground.layer.borderWidth = 1
+            }
             
             return cell
         }
@@ -286,9 +305,19 @@ extension CreateClubViewController: UICollectionViewDataSource, UICollectionView
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ClubDescriptionCollectionViewCell", for: indexPath) as! ClubDescriptionCollectionViewCell
             
             cell.labelDescription.text = clubDescriptions[indexPath.row]
-            cell.viewCellBackground.layer.borderColor = UIColor.lightGray.cgColor
-            cell.viewCellBackground.layer.borderWidth = 1
             cell.viewCellBackground.layer.cornerRadius = 10.0
+            
+            if clubDraft?.club.clubMotive == clubDescriptions[indexPath.row] {
+                cell.imageSelected.isHidden = false
+                cell.viewCellBackground.layer.borderColor = UIColor.accent.cgColor
+                cell.viewCellBackground.layer.borderWidth = 3
+                cell.labelDescription.textColor = .accent
+            } else {
+                cell.imageSelected.isHidden = true
+                cell.viewCellBackground.layer.borderColor = UIColor.lightGray.cgColor
+                cell.viewCellBackground.layer.borderWidth = 1
+                cell.labelDescription.textColor = .lightGray
+            }
             
             return cell
         }
@@ -323,41 +352,12 @@ extension CreateClubViewController: UICollectionViewDataSource, UICollectionView
         
         if self.currentPage == 1 {
             clubDraft?.club.clubSport = clubActivityOptions[indexPath.row].title
-            let cell = collectionView.cellForItem(at: indexPath) as! SelectActivityCollectionViewCell
-            
-            if cell.viewCellBackground.layer.borderColor == UIColor.accent.cgColor {
-                cell.viewCellBackground.layer.borderColor = UIColor.lightGray.cgColor
-                cell.imageActivity.tintColor = .white
-                cell.labelActivityTitle.textColor = .white
-                cell.viewCellBackground.layer.borderWidth = 1
-            }
-            else {
-               
-                cell.viewCellBackground.layer.borderColor = UIColor.accent.cgColor
-                cell.imageActivity.tintColor = .accent
-                cell.labelActivityTitle.textColor = .accent
-                cell.viewCellBackground.layer.borderWidth = 3
-            }
         }
-        
         else {
             clubDraft?.club.clubMotive = clubDescriptions[indexPath.row]
-            let cell = collectionView.cellForItem(at: indexPath) as! ClubDescriptionCollectionViewCell
-            
-            if cell.imageSelected.isHidden {
-                cell.imageSelected.isHidden = false
-                cell.viewCellBackground.layer.borderColor = UIColor.accent.cgColor
-                cell.viewCellBackground.layer.borderWidth = 3
-                cell.labelDescription.textColor = .accent
-            }
-            else {
-                cell.imageSelected.isHidden = true
-                cell.viewCellBackground.layer.borderColor = UIColor.lightGray.cgColor
-                cell.viewCellBackground.layer.borderWidth = 1
-                cell.labelDescription.textColor = .lightGray
-            }
         }
         
+        collectionView.reloadData()
     }
 }
 

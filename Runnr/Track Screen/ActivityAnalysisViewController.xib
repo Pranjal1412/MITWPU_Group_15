@@ -26,6 +26,8 @@
                 <outlet property="labelCaloriesValue" destination="siT-i5-eFV" id="bgl-fT-zvv"/>
                 <outlet property="labelDistance" destination="kxE-ha-h0q" id="2s9-cs-Cgl"/>
                 <outlet property="labelDistanceValue" destination="e0R-DN-fqF" id="ZnY-v3-1Bh"/>
+                <outlet property="labelElevation" destination="WrT-Iv-9Lo" id="2Xr-C6-kqM"/>
+                <outlet property="labelElevationValue" destination="Tl8-em-gxU" id="IR8-9P-9Xx"/>
                 <outlet property="labelHeartRate" destination="il7-a2-DWo" id="iK3-Vw-nRD"/>
                 <outlet property="labelPace" destination="X6v-kC-Mqa" id="qA9-Au-45a"/>
                 <outlet property="labelPaceValue" destination="Iqm-i6-q9I" id="Sel-rU-APO"/>
@@ -201,7 +203,7 @@
                                             </constraints>
                                         </stackView>
                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="ZN1-y6-WP4">
-                                            <rect key="frame" x="0.0" y="65" width="174.66666666666666" height="57.666666666666657"/>
+                                            <rect key="frame" x="0.0" y="65" width="254.66666666666666" height="57.666666666666657"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="LPC-Fd-mRh">
                                                     <rect key="frame" x="0.0" y="0.0" width="73.333333333333329" height="57.666666666666664"/>
@@ -231,6 +233,23 @@
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10,345" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EuY-xv-Ct3">
                                                             <rect key="frame" x="0.0" y="31.333333333333314" width="69" height="26.333333333333329"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="22"/>
+                                                            <color key="textColor" name="AccentColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="2sU-as-q9F">
+                                                    <rect key="frame" x="194.66666666666666" y="0.0" width="60" height="57.666666666666664"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Elevation" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WrT-Iv-9Lo">
+                                                            <rect key="frame" x="0.0" y="0.0" width="60" height="26.333333333333332"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="35m" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tl8-em-gxU">
+                                                            <rect key="frame" x="0.0" y="31.333333333333314" width="45.666666666666664" height="26.333333333333329"/>
                                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="22"/>
                                                             <color key="textColor" name="AccentColor"/>
                                                             <nil key="highlightedColor"/>
@@ -467,7 +486,7 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray2Color">
-            <color red="0.68235294120000001" green="0.68235294120000001" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tableSeparatorLightColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.12" colorSpace="custom" customColorSpace="sRGB"/>
