@@ -201,18 +201,18 @@ class ActivityAnalysisViewController: UIViewController {
         self.labelAvgHRValue.text = "Average Heart Rate: " + String(format: "%0.2d", self.activityData!.avgHeartRate ?? 0.0)
         
         // ✅ Elevation value
-//            let elevationText = NSMutableAttributedString(
-//                string: String(format: "%.0f", self.activityData!.elevation ?? 0.0),
-//                attributes: [.font: boldFont, .foregroundColor: UIColor.white]
-//            )
-//            
-//            elevationText.append(NSAttributedString(
-//                string: " m",
-//                attributes: [.font: thinFont, .foregroundColor: UIColor.white]
-//            ))
-//            
-//            labelElevationValue.attributedText = elevationText
-//            labelElevationValue.textColor = .accent
+            let elevationText = NSMutableAttributedString(
+                string: String(format: "%.0f", self.activityData!.elevation ?? 0.0),
+                attributes: [.font: boldFont, .foregroundColor: UIColor.white]
+            )
+            
+            elevationText.append(NSAttributedString(
+                string: " m",
+                attributes: [.font: thinFont, .foregroundColor: UIColor.white]
+            ))
+            
+            labelElevationValue.attributedText = elevationText
+            labelElevationValue.textColor = .accent
         
         self.labelTimeValue.sizeToFit()
         self.labelDistanceValue.sizeToFit()
