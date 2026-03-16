@@ -235,7 +235,10 @@ class ActivityLiveTrackingViewController: UIViewController {
                                                        paceUnit: .minPerKm,
                                                        mapImageURL: "",
                                                        basePoints: self.activityManager.basePointsEarned(),
-                                                       skillPoints: self.activityManager.skillPointsEarned())
+                                                       skillPoints: self.activityManager.skillPointsEarned(),
+                                                       elevation: self.activityManager.getTotalElevation()
+                                                    
+                    )
                     
                     // get Heart rate
                     let avgHR = await self.healthKitManager.fetchAverageHeartRateAsync(from: self.activityStartTime!, to: self.activityEndTime!)

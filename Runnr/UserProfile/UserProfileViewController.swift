@@ -28,10 +28,11 @@ class UserProfileViewController: UIViewController {
     @IBOutlet weak var labelCategory: UILabel!
     @IBOutlet weak var labelCategoryGoal: UILabel!
     @IBOutlet weak var labelCategoryGoalLeft: UILabel!
-    @IBOutlet weak var labelFollower: UILabel!
-    @IBOutlet weak var labelFollowerCount: UILabel!
-    @IBOutlet weak var labelFollowing: UILabel!
-    @IBOutlet weak var labelFollowingCount: UILabel!
+    
+    @IBOutlet var labelFollowingCount: UIButton!
+    @IBOutlet var labelFollowing: UIButton!
+    @IBOutlet var labelFollowerCount: UIButton!
+    @IBOutlet var labelFollower: UIButton!
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var progressView: UIProgressView!
@@ -117,6 +118,32 @@ class UserProfileViewController: UIViewController {
         
     }
     
+    @IBAction func followersTapped(_ sender: UIButton) {
+        let currentUserId = friendData?.userID ?? userProfile.userID!
+        
+        Task {
+            let followersList = await fetchFollowersList(userID: currentUserId)
+            let friendListVC = FriendListViewController()
+            friendListVC.usersList = followersList
+            friendListVC.pageTitle = "Followers"
+            friendListVC.modalPresentationStyle = .overFullScreen
+            self.present(friendListVC, animated: true, completion: nil)
+        }
+    }
+    
+    @IBAction func followingTapped(_ sender: UIButton) {
+        let currentUserId = friendData?.userID ?? userProfile.userID!
+        
+        Task {
+            let followingList = await fetchFollowingList(userID: currentUserId)
+            let friendListVC = FriendListViewController()
+            friendListVC.usersList = followingList
+            friendListVC.pageTitle = "Following"
+            friendListVC.modalPresentationStyle = .overFullScreen
+            self.present(friendListVC, animated: true, completion: nil)
+        }
+    }
+    
     func settingsElements() {
         
         if userProfile.userBio != nil || userProfile.userBio != "" {
@@ -125,8 +152,8 @@ class UserProfileViewController: UIViewController {
         }
         
         self.labelScreenTitle.text = String(localized: "Profile")
-        self.labelFollower.text = String(localized: "Followers")
-        self.labelFollowing.text = String(localized: "Following")
+//        self.labelFollower.text = String(localized: "Followers")
+//        self.labelFollowing.text = String(localized: "Following")
         
         if isFromFriendsScreen {
             self.buttonSettings.isHidden = true
@@ -168,8 +195,8 @@ class UserProfileViewController: UIViewController {
             }
         }
         
-        self.labelFollowingCount.text = String(userStats!.numberOfFollowing)
-        self.labelFollowerCount.text = String(userStats!.numberOfFollowers)
+//        self.labelFollowingCount.text = String(userStats!.numberOfFollowing)
+//        self.labelFollowerCount.text = String(userStats!.numberOfFollowers)
         self.labelTotalPointsCount.text = String(self.userStats?.totalPointsEarned ?? 0)
         self.labelTotalActivitiesCount.text = String(self.userStats?.totalActivities ?? 0)
         self.labelTotalDistanceCount.text = String(format: "%.1f", (self.userStats?.totalDistanceCovered ?? 0.0))

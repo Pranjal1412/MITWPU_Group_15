@@ -27,6 +27,9 @@ struct UserActivity: Codable {
     var mapImageURL: String?
     var basePoints: Int?
     var skillPoints: Int?
+    
+    var elevation: Double?
+    
 }
 
 struct FriendsActivity: Codable {

@@ -29,7 +29,7 @@ class UserActivityManager {
     
     // Elevation tracking
     private var elevationLastLocation: CLLocation?
-    var totalElevationGain: Double = 0.0
+    private var totalElevationGain: Double = 0.0
     private var smoothedAltitude: Double?
     private let elevationThreshold: Double = 3.0
     
@@ -61,6 +61,10 @@ class UserActivityManager {
 
     func getTotalTime() -> Int {
         return Int(totalTime)
+    }
+    
+    func getTotalElevation() -> Double {
+        return totalElevationGain
     }
     
     // same function for completely stopping the timer after activity is been ended
