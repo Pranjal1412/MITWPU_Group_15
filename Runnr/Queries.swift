@@ -658,7 +658,7 @@ func fetchUnfollowedUsers(currentUserID: UUID) async -> [UserProfile] {
     }
 }
 
-func fetchFollowedUsers(currentUserID: UUID) async -> [UserProfile] {
+func fetchFollowedUsersAtivities(currentUserID: UUID) async -> [FriendsActivity] {
     do {
         // 1. Get IDs the user follows
         let followed: [FollowerAndFollowing] = try await SupabaseManager.shared.client
@@ -671,14 +671,19 @@ func fetchFollowedUsers(currentUserID: UUID) async -> [UserProfile] {
         let followedIDs = followed.map { $0.FollowingID }
 
         // 2. Fetch user profiles of those IDs
-        let users: [UserProfile] = try await SupabaseManager.shared.client
-            .from("UserProfile")
-            .select("*")
-            .in("userID", values: followedIDs)
+//        let users: [UserProfile] = try await SupabaseManager.shared.client
+//            .from("UserProfile")
+//            .select("*")
+//            .in("userID", values: followedIDs)
+//            .execute()
+//            .value
+  
+        let activities: [FriendsActivity] = try await SupabaseManager.shared.client
+            .rpc("get_friends_latest_activity", params: ["friend_ids": followedIDs])
             .execute()
             .value
         
-        return users
+        return activities
 
     } catch {
         print("fetchFollowedUsers failed: \(error)")

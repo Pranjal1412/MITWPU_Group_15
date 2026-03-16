@@ -11,7 +11,7 @@ class DataSource {
     private var currentActivityPaceData: [ActivityPaceGraphData] = []
     
     private var myActivities: [UserActivity] = []
-    private var friendActivities: [UserActivity] = []
+    private var friendActivities: [FriendsActivity] = []
     private var clubsArray : [Club] = []
     private var myClubsArray : [ClubRoleAndData] = []
     
@@ -24,63 +24,7 @@ class DataSource {
     
     static let shared = DataSource()
     
-    private init() {
-        loadSampleData()
-    }
-    
-    func loadSampleData() {
-        let friendsSampleData : [UserActivity]  = [
-            UserActivity(                
-                activityStartTime: Date(timeIntervalSinceNow: -3600), // 1 hour ago
-                activityEndTime: Date(),
-                
-                activityTitle: "Morning Run",
-                activityType: .running,
-                activityRemark: "Felt great, cool weather",
-                isPublic: true,
-                
-                distanceCovered: 5.2,
-                distanceUnit: .kilometers,
-                
-                timeTakenSeconds: 1800, // 30 mins
-                caloriesBurnt: 420,
-                stepsTaken: 6500,
-                
-                avgHeartRate: 148.5,
-                avgPace: 5.45,
-                paceUnit: .minPerKm,
-                
-                mapImageURL: "https://example.com/maps/run1.png",
-                basePoints: 50,
-                skillPoints: 20
-            ),
-            UserActivity(
-                activityStartTime: Date(timeIntervalSinceNow: -5400), // 1.5 hours ago
-                activityEndTime: Date(timeIntervalSinceNow: -3600),
-                
-                activityTitle: "Evening Walk",
-                activityType: .walking,
-                activityRemark: "Relaxing walk after dinner",
-                isPublic: false,
-                
-                distanceCovered: 2.8,
-                distanceUnit: .kilometers,
-                
-                timeTakenSeconds: 2400, // 40 mins
-                caloriesBurnt: 180,
-                stepsTaken: 4200,
-                
-                avgHeartRate: 102.3,
-                avgPace: 8.55,
-                paceUnit: .minPerKm,
-                
-                mapImageURL: nil,
-                basePoints: 25,
-                skillPoints: 10
-            )
-        ]
-        self.friendActivities = friendsSampleData
-    }
+    private init() {}
     
     func getUserProfile() -> UserProfile {
         return userProfile
@@ -172,6 +116,14 @@ class DataSource {
     
     func getFollowedUser() -> [UserProfile] {
         return self.followedUser
+    }
+    
+    func getFriendsActivityData() -> [FriendsActivity] {
+        return friendActivities
+    }
+
+    func setFriendsActivityData(_ data: [FriendsActivity]) {
+        self.friendActivities = data
     }
     
     func setGameID(_ gameID: UUID) {
@@ -266,9 +218,6 @@ class DataSource {
     }
     
 //    MARK: - Below functions are yet to check and corrected
-    func getFriendsActivityData() -> [UserActivity] {
-        return friendActivities
-    }
         
     func getTotalActivities() -> Int {
         return myActivities.count

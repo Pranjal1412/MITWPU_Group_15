@@ -29,6 +29,11 @@ struct UserActivity: Codable {
     var skillPoints: Int?
 }
 
+struct FriendsActivity: Codable {
+    let userDetails: UserProfile?
+    let activity: UserActivity?
+}
+
 struct ActivityPaceGraphData : Codable {
     var activityID: UUID?
     let distanceValue: Double

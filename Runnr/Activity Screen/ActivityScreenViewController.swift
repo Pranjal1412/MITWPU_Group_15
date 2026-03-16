@@ -27,7 +27,10 @@ class ActivityScreenViewController: UIViewController {
     private var myActivity: [UserActivity] {
         dataSource.getAllActivities()
     }
-    let friendsActivity : [UserActivity] = DataSource.shared.getFriendsActivityData()
+    
+    private var friendsActivity : [FriendsActivity] {
+        dataSource.getFriendsActivityData()
+    }
     
     override func viewDidLoad() {
         
@@ -63,14 +66,13 @@ class ActivityScreenViewController: UIViewController {
             let activities = await fetchAllMyActivities(userID: userProfile.userID!)
             self.dataSource.setAllActivities(activities)
             
-            let friendUser = await fetchFollowedUsers(currentUserID: userProfile.userID!)
-            self.dataSource.setFollowedUser(friendUser)
-            
+            let friendActivity = await fetchFollowedUsersAtivities(currentUserID: userProfile.userID!)
+            self.dataSource.setFriendsActivityData(friendActivity)
+                                
             updateScreenElements()
             labelTotalPoints.text = "\(totalPoints)"
         }
         
-        tableViewMyActivity.reloadData()
     }
     
     func settingLabelStyle() {
@@ -142,6 +144,8 @@ class ActivityScreenViewController: UIViewController {
             tableViewMyActivity.isHidden = true
             tableViewFriendsActivity.isHidden = false
             label.isHidden = true
+            
+            tableViewFriendsActivity.reloadData()
         }
         else {
             self.updateScreenElements()
@@ -193,11 +197,10 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
 
     }
 
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return UITableView.automaticDimension
-//    }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        print("Tapped table:", tableView)
+ 
         if tableView == tableViewMyActivity {
             let activity = myActivity[indexPath.row]
 
@@ -218,6 +221,27 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
                     }
                 }
             
+        }
+        else {
+            let activityDetails = friendsActivity[indexPath.row].activity
+            
+            Task {
+                self.dataSource.setCurrentActivity(activityDetails!)
+
+                let routeCoordinates = await fetchActivityRouteCoordinates((activityDetails!.activityID!))
+                self.dataSource.setCurrentActivityCoordinates(routeCoordinates)
+
+                let paceData = await fetchActivityPaceGraphData(activityDetails!.activityID!)
+                self.dataSource.setCurrentActivityPaceData(paceData)
+                
+                await MainActor.run {
+                    let destinationVC = ActivitySummaryViewController()
+                    destinationVC.isNewActivity = false
+                    destinationVC.modalPresentationStyle = .overFullScreen
+                    self.present(destinationVC, animated: true)
+                }
+            }
+
         }
     }
     

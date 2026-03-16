@@ -1,7 +1,9 @@
 import UIKit
+import Kingfisher
 
 class FriendsActivityTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var mapImage: UIImageView!
     @IBOutlet weak var viewMainBackground: UIView!
     @IBOutlet weak var labelName: UILabel!
     @IBOutlet weak var imageProfile: UIImageView!
@@ -32,17 +34,27 @@ class FriendsActivityTableViewCell: UITableViewCell {
         self.viewMainBackground.layer.cornerRadius = 20
     }
 
-    func configure(with activity: UserActivity) {
-        labelName.text = "Ava Brooks"
-        labelDate.text = formatDate(with: activity.activityStartTime!)
-        labelRunTitle.text = activity.activityTitle
+    func configure(with data: FriendsActivity) {
+        labelName.text = data.userDetails!.userName
+        labelDate.text = formatDate(with: data.activity!.activityStartTime!)
+        labelRunTitle.text = data.activity!.activityTitle
         
         self.labelDummy.text = ""
-        if activity.activityRemark != "" {
+        if data.activity!.activityRemark != "" {
             self.labelDummy.text = "Dummy Text"
         }
         
-        labelNote.text = activity.activityRemark
+        if let url = URL(string: data.activity!.mapImageURL!) {
+            self.mapImage.kf.setImage(with: url)
+        }
+        
+        if let url = URL(string: data.userDetails!.userProfileImageURL!) {
+            self.imageProfile.kf.setImage(with: url)
+        }
+        
+        self.mapImage.layer.cornerRadius = 10
+        
+        labelNote.text = data.activity!.activityRemark
         labelDistance.text = "Distance"
         labelPace.text = "Pace"
         labelTime.text = "Time"
@@ -52,20 +64,20 @@ class FriendsActivityTableViewCell: UITableViewCell {
         let unitFont = UIFont(name: "SFProText-Light", size: 11)
             ?? UIFont.systemFont(ofSize: 11, weight: .light)
         let highlightColor = UIColor(red: 173/255, green: 248/255, blue: 69/255, alpha: 1)
-        let distanceValue = String(format: "%.1f", activity.distanceCovered!)
+        let distanceValue = String(format: "%.1f", data.activity!.distanceCovered!)
         let distanceText = NSMutableAttributedString(string: distanceValue,
                                                      attributes: [.font: valueFont, .foregroundColor: highlightColor])
-        distanceText.append(NSAttributedString(string: " " + activity.distanceUnit!.rawValue,
+        distanceText.append(NSAttributedString(string: " " + data.activity!.distanceUnit!.rawValue,
                                                attributes: [.font: unitFont, .foregroundColor: highlightColor]))
         labelDistanceContent.attributedText = distanceText
-        let paceText = NSMutableAttributedString(string: String(format: "%.1f", activity.avgPace!),
+        let paceText = NSMutableAttributedString(string: String(format: "%.1f", data.activity!.avgPace!),
                                                  attributes: [.font: valueFont, .foregroundColor: highlightColor])
-        paceText.append(NSAttributedString(string: " " + activity.paceUnit!.rawValue,
+        paceText.append(NSAttributedString(string: " " + data.activity!.paceUnit!.rawValue,
                                            attributes: [.font: unitFont, .foregroundColor: highlightColor]))
         labelPaceContent.attributedText = paceText
         var timeText = NSMutableAttributedString()
         
-        let formattedTime = formatTime(activity.timeTakenSeconds!)
+        let formattedTime = formatTime(data.activity!.timeTakenSeconds!)
 
         if formattedTime.hour != 0 {
             timeText = NSMutableAttributedString(string: String(format: "%02d", formattedTime.hour), attributes: [.font: valueFont, .foregroundColor: UIColor.accent])
