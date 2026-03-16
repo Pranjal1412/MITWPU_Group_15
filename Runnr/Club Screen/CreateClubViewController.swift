@@ -81,7 +81,7 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
                         let clubData = await insertNewClubData(newClub: self.clubDraft!.club) ?? self.clubDraft!.club
                         self.clubDraft?.club = clubData
                         
-                        if let newURL = await saveProfileImage(userID: (self.clubDraft?.club.clubID)!, with: self.clubProfileImage.image!) {
+                        if let newURL = await saveClubProfileImage(clubID: (self.clubDraft?.club.clubID)!, with: self.clubProfileImage.image!) {
                             self.clubDraft?.club.clubProfileImageURL = newURL
                         }
                         

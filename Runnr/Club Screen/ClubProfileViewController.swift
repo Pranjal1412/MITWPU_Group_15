@@ -179,6 +179,7 @@ class ClubProfileViewController: UIViewController {
             if joinNowButton.titleLabel?.text == "Edit Club Profile" {
                 let destinationVC = ClubSettingsViewController()
                 destinationVC.modalPresentationStyle = .fullScreen
+                destinationVC.clubProfileData = myClubProfileData?.club
                 self.present(destinationVC, animated: true)
             }
             

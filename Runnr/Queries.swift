@@ -419,6 +419,28 @@ func insertNewClubMember(newMember: ClubMemberRole) async {
     }
 }
 
+func saveClubProfileImage(clubID: UUID, with image: UIImage) async -> String? {
+    
+    let resizedImage = resizeImageIfNeeded(image, maxDimension: 400)
+    
+    if let imageData = resizedImage.jpegData(compressionQuality: 0.8) {
+        let filePath = "clubProfiles/\(clubID)_\(Int(Date().timeIntervalSince1970)).jpg"
+        
+        if let url = await saveAndFetchImageURL(with: filePath, imageData: imageData) {
+            return url
+            
+        } else {
+            print("Upload failed")
+            return nil
+        }
+    }
+    else {
+        print("Image compression failed")
+        return nil
+    }
+}
+
+
 //MARK: - Graph Queries
 
 func fetchSummary(userID: UUID, period: Period, referenceDate: Date) async throws -> [SummaryRow]? {

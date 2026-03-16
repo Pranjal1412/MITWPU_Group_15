@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ClubSettingsViewController: UIViewController {
 
@@ -17,20 +18,32 @@ class ClubSettingsViewController: UIViewController {
     
     @IBOutlet weak var imageClubProfile: UIImageView!
     @IBOutlet weak var imageClubBanner: UIImageView!
+    @IBOutlet weak var textFieldClubName: UITextField!
+    @IBOutlet weak var textFieldTagline: UITextField!
+    @IBOutlet weak var textViewClubBio: UITextView!
+    @IBOutlet weak var textFieldClubSport: UITextField!
     
     var clubProfileData: Club?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setup()
-        
     }
     
     func setup() {
         scrollView.contentSize.height = self.stackJoinApproval.frame.origin.y + self.stackJoinApproval.frame.height + 20
         setGlassEffect(for: self.buttonCancel, withImage: "multiply")
         setGlassEffect(for: self.buttonSave, withImage: "checkmark")
+        
+        if let url = URL(string: clubProfileData?.clubProfileImageURL ?? "") {
+            imageClubProfile.kf.setImage(with: url)
+        }
+        
+        self.imageClubProfile.layer.cornerRadius = 10
+        self.textFieldClubName.text = clubProfileData?.clubName
+        self.textFieldTagline.text = clubProfileData?.clubMotive
+        self.textViewClubBio.text = clubProfileData?.clubDescription
+        self.textFieldClubSport.text = clubProfileData?.clubSport.rawValue
     }
     
     
