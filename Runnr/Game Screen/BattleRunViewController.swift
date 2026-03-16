@@ -111,7 +111,7 @@ class BattleRunViewController: UIViewController {
             // 2. LIGHTING
             let lightAnchor = AnchorEntity(world: .zero)
             let sun = DirectionalLight()
-            sun.light.intensity = 12000
+            sun.light.intensity = 1500
             sun.look(at: [0, 0, 0], from: [5, 10, 5], relativeTo: nil)
             lightAnchor.addChild(sun)
             
@@ -157,27 +157,50 @@ class BattleRunViewController: UIViewController {
                 self.frame(entity: root)
                 boardController = BoardController(root: root, game: game)
                 
-                // Fetch previously captured tiles from Supabase and apply ownership
-                if let gameID = self.gameID {
-                    if let myUserID = DataSource.shared.getUserProfile().userID {
-                        if let savedTiles = await fetchGameTileStatus(gameID: gameID) {
-                            for savedTile in savedTiles {
-                                if game.tiles[savedTile.tileID] != nil {
-                                    let player: Player = (savedTile.ownerID == myUserID) ? .me : .lea
-                                    game.tiles[savedTile.tileID]?.owner = .player(player)
-                                }
-                            }
-                        }
-                    }
-                }
-                
-                for id in game.tiles.keys {
-                    if let controller = boardController { updateTileMaterial(id: id, controller: controller) }
-                }
-                updateCaptureCounter()
-            } catch {
-                print("Load failed: \(error)")
-            }
+                 // Fetch previously captured tiles from Supabase and apply ownership
+                 guard let myUserID = DataSource.shared.getUserProfile().userID else {
+                     print("DEBUG: myUserID is nil. Aborting tile fetch.")
+                     return
+                 }
+                 print("DEBUG: Active UserID: \(myUserID)")
+
+                 // If gameID is nil because they bypassed the main menu, fetch it dynamically.
+                 if self.gameID == nil {
+                     if let activeGame = await fetchActiveGameForUser(userID: myUserID) {
+                         self.gameID = activeGame.gameID
+                         print("DEBUG: Dynamically fetched gameID: \(String(describing: self.gameID))")
+                         if let newGameID = self.gameID {
+                             DataSource.shared.setGameID(newGameID)
+                         }
+                     }
+                 }
+
+                 if let gameID = self.gameID {
+                     print("DEBUG: Fetching tiles for gameID: \(gameID)")
+                     if let savedTiles = await fetchGameTileStatus(gameID: gameID) {
+                         print("DEBUG: Fetched \(savedTiles.count) saved tiles from DB")
+                         for savedTile in savedTiles {
+                             if game.tiles[savedTile.tileID] != nil {
+                                 // If the owner matches myUserID exactly it's Mine (.me), otherwise it's Friend's (.lea)
+                                 let player: Player = (savedTile.ownerID == myUserID) ? .me : .lea
+                                 game.tiles[savedTile.tileID]?.owner = .player(player)
+                                 print("DEBUG: Assigned tile \(savedTile.tileID) to \(player)")
+                             } else {
+                                 print("DEBUG: Tile \(savedTile.tileID) NOT found in local game geometry")
+                             }
+                         }
+                     }
+                 } else {
+                     print("DEBUG: gameID is entirely nil, skipping fetch.")
+                 }
+                 
+                 for id in game.tiles.keys {
+                     if let controller = boardController { updateTileMaterial(id: id, controller: controller) }
+                 }
+                 updateCaptureCounter()
+             } catch {
+                 print("Load failed: \(error)")
+             }
         }
 
         // MARK: - Handlers & Materials
@@ -197,17 +220,21 @@ class BattleRunViewController: UIViewController {
 
         func updateTileMaterial(id: String, controller: BoardController) {
             guard let tileEntity = controller.tileEntities[id], let tileData = game.tiles[id] else { return }
-            let color = ownerColor(for: tileData.owner)
-            let isCaptured = tileData.owner != .none
             
-            var material = PhysicallyBasedMaterial()
-            material.baseColor = .init(tint: color)
-            material.metallic = .init(floatLiteral: isCaptured ? 0.9 : 0.6)
-            material.roughness = .init(floatLiteral: isCaptured ? 0.1 : 0.4)
-            material.emissiveColor = .init(color: color)
-            material.emissiveIntensity = isCaptured ? 3.0 : 0.0
+            let isCaptured = tileData.owner != .none
+            let color = ownerColor(for: tileData.owner)
+            
+            let material: Material
+            if isCaptured {
+                material = UnlitMaterial(color: color)
+            } else {
+                material = SimpleMaterial(color: .white, isMetallic: false)
+            }
+            
+            // Apply scale reduction to create gaps between adjacent hexes
+            tileEntity.scale = [0.95, 0.95, 0.95]
 
-            // Deep-visit the entire Tile subtree — geometry may be nested at any depth
+            // Deep-visit the entire Tile subtree
             tileEntity.visit { entity in
                 guard var component = entity.components[ModelComponent.self] else { return }
                 component.materials = [material]
@@ -282,9 +309,12 @@ class BattleRunViewController: UIViewController {
         
         private func ownerColor(for owner: TileOwner) -> UIColor {
             switch owner {
-            case .none: return .darkGray
-            case .player(.me): return .systemCyan
-            case .player(.lea): return .systemPurple
+            case .none: 
+                return .darkGray
+            case .player(.me): 
+                return .systemCyan
+            case .player(.lea): 
+                return .systemPurple
             }
         }
 
