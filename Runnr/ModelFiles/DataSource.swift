@@ -23,9 +23,7 @@ class DataSource {
     private var followedUser: [UserProfile] = []
     
     static let shared = DataSource()
-    
-    private init() {}
-    
+        
     func getUserProfile() -> UserProfile {
         return userProfile
     }
