@@ -233,6 +233,9 @@
         }
       }
     },
+    "Elevation" : {
+
+    },
     "End Anyway" : {
       "comment" : "Title of an alert action that ends a run regardless of user confirmation.",
       "extractionState" : "stale",
