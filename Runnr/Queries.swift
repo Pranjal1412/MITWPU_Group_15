@@ -676,7 +676,7 @@ func updateAssignedChallengeRewards(challenge: AssignedChallenges) async {
     }
 }
 
-//MARK: - Freinds Follow/Unfollow
+//MARK: - Friends Follow/Unfollow
 
 // Returns UserProfile rows for all users the current user has NOT yet followed (excluding themselves).
 func fetchUnfollowedUsers(currentUserID: UUID) async -> [UserProfile] {
@@ -733,14 +733,6 @@ func fetchFollowedUsersAtivities(currentUserID: UUID) async -> [FriendsActivity]
             .value
 
         let followedIDs = followed.map { $0.FollowingID }
-
-        // 2. Fetch user profiles of those IDs
-//        let users: [UserProfile] = try await SupabaseManager.shared.client
-//            .from("UserProfile")
-//            .select("*")
-//            .in("userID", values: followedIDs)
-//            .execute()
-//            .value
   
         let activities: [FriendsActivity] = try await SupabaseManager.shared.client
             .rpc("get_friends_latest_activity", params: ["friend_ids": followedIDs])
@@ -770,14 +762,12 @@ func fetchFollowersList(userID: UUID) async -> [UserProfile] {
         if followerIDs.isEmpty {
             return []
         }
-        
-        let formattedIDs = followerIDs.map { "\"\($0.uuidString)\"" }.joined(separator: ",")
-        
+                
         // 2. Fetch their user profiles
         let users: [UserProfile] = try await SupabaseManager.shared.client
             .from("UserProfile")
             .select("*")
-//            .in("userID", value: "(\(formattedIDs))")
+            .in("userID", values: followerIDs)
             .execute()
             .value
             
@@ -804,14 +794,12 @@ func fetchFollowingList(userID: UUID) async -> [UserProfile] {
         if followingIDs.isEmpty {
             return []
         }
-        
-        let formattedIDs = followingIDs.map { "\"\($0.uuidString)\"" }.joined(separator: ",")
-        
+            
         // 2. Fetch their user profiles
         let users: [UserProfile] = try await SupabaseManager.shared.client
             .from("UserProfile")
             .select("*")
-//            .in("userID", value: "(\(formattedIDs))")
+            .in("userID", values: followingIDs)
             .execute()
             .value
             

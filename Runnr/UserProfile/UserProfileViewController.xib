@@ -93,10 +93,6 @@
                                 <constraint firstAttribute="width" constant="100" id="kTZ-3a-I3o"/>
                             </constraints>
                         </imageView>
-                        <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" distribution="equalCentering" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="1yc-s4-xZh">
-                            <rect key="frame" x="168" y="359" width="64" height="17"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </stackView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ava Brooks" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="evc-6O-IFX">
                             <rect key="frame" x="135" y="25" width="136.66666666666663" height="35"/>
                             <constraints>
@@ -325,6 +321,7 @@
                         <constraint firstItem="rXv-mV-aRd" firstAttribute="leading" secondItem="Kmq-ej-I3D" secondAttribute="leading" constant="15" id="FqP-1i-gv9"/>
                         <constraint firstItem="Kmq-ej-I3D" firstAttribute="trailing" secondItem="ege-Nf-08B" secondAttribute="trailing" constant="15" id="Fzr-JN-rDK"/>
                         <constraint firstItem="rXv-mV-aRd" firstAttribute="top" secondItem="VJy-DO-EXt" secondAttribute="top" constant="25" id="GjK-U2-o4e"/>
+                        <constraint firstItem="tg9-PJ-rS3" firstAttribute="top" secondItem="dyx-fa-ebf" secondAttribute="bottom" constant="19.333333333333314" id="MVp-rc-Bec"/>
                         <constraint firstItem="LAn-9R-JbA" firstAttribute="leading" secondItem="Kmq-ej-I3D" secondAttribute="leading" constant="15" id="O7P-NY-c24"/>
                         <constraint firstItem="dyx-fa-ebf" firstAttribute="top" secondItem="LAn-9R-JbA" secondAttribute="bottom" id="Qz8-Wn-Sui"/>
                         <constraint firstItem="Kmq-ej-I3D" firstAttribute="trailing" secondItem="gi2-9z-eM3" secondAttribute="trailing" constant="20" id="TMH-Ai-79k"/>
@@ -334,7 +331,6 @@
                         <constraint firstItem="Tj5-Zf-YVi" firstAttribute="leading" secondItem="rXv-mV-aRd" secondAttribute="trailing" constant="20" id="aQv-li-fdC"/>
                         <constraint firstItem="dyx-fa-ebf" firstAttribute="leading" secondItem="Kmq-ej-I3D" secondAttribute="leading" constant="15" id="afi-KO-rNH"/>
                         <constraint firstItem="ege-Nf-08B" firstAttribute="top" secondItem="17F-EF-Fpn" secondAttribute="bottom" constant="25" id="cFS-Q2-r41"/>
-                        <constraint firstItem="tg9-PJ-rS3" firstAttribute="top" secondItem="Tj5-Zf-YVi" secondAttribute="bottom" constant="15" id="fh7-cu-no7"/>
                         <constraint firstItem="Kmq-ej-I3D" firstAttribute="trailing" secondItem="17F-EF-Fpn" secondAttribute="trailing" constant="20" id="jto-Hh-kwV"/>
                         <constraint firstItem="Kmq-ej-I3D" firstAttribute="trailing" secondItem="tg9-PJ-rS3" secondAttribute="trailing" constant="15" id="k4H-MV-FyL"/>
                         <constraint firstItem="Kmq-ej-I3D" firstAttribute="bottom" secondItem="ege-Nf-08B" secondAttribute="bottom" constant="30" id="l9a-RJ-NPH"/>

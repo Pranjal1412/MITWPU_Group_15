@@ -20,6 +20,7 @@ class DataSource {
     private var soloChallenges: [AssignedChallengesProgress] = []
     
     private var unfollowedUser: [UserProfile] = []
+    private var followingUser: [UserProfile] = []
     private var followedUser: [UserProfile] = []
     
     static let shared = DataSource()
@@ -114,6 +115,14 @@ class DataSource {
     
     func getFollowedUser() -> [UserProfile] {
         return self.followedUser
+    }
+    
+    func setFollowingUser(_ list: [UserProfile]) {
+        self.followingUser = list
+    }
+    
+    func getFollowingUser() -> [UserProfile] {
+        return self.followingUser
     }
     
     func getFriendsActivityData() -> [FriendsActivity] {

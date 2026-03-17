@@ -53,6 +53,7 @@ class UserProfileViewController: UIViewController {
     
     private var userProfile = DataSource.shared.getUserProfile()
     private let userStats = DataSource.shared.getUserStats()
+    private var dataSource = DataSource.shared
     
     var isFromFriendsScreen: Bool = false
     var friendData: UserProfile?
@@ -123,10 +124,12 @@ class UserProfileViewController: UIViewController {
         
         Task {
             let followersList = await fetchFollowersList(userID: currentUserId)
+            self.dataSource.setFollowedUser(followersList)
+            
             let friendListVC = FriendListViewController()
             friendListVC.usersList = followersList
             friendListVC.pageTitle = "Followers"
-            friendListVC.modalPresentationStyle = .overFullScreen
+            
             self.present(friendListVC, animated: true, completion: nil)
         }
     }
@@ -136,10 +139,12 @@ class UserProfileViewController: UIViewController {
         
         Task {
             let followingList = await fetchFollowingList(userID: currentUserId)
+            self.dataSource.setFollowingUser(followingList)
+            
             let friendListVC = FriendListViewController()
             friendListVC.usersList = followingList
             friendListVC.pageTitle = "Following"
-            friendListVC.modalPresentationStyle = .overFullScreen
+//            friendListVC.modalPresentationStyle = .overFullScreen
             self.present(friendListVC, animated: true, completion: nil)
         }
     }
@@ -158,15 +163,10 @@ class UserProfileViewController: UIViewController {
         
         if isFromFriendsScreen {
             self.buttonSettings.isHidden = true
-//            if let friend = friendData, friend.isFollowing {
-//                self.buttonEditProfile.setTitle(String(localized: "Following"), for: .normal)
-//                self.buttonEditProfile.backgroundColor = .lightGray
-//                self.buttonEditProfile.setTitleColor(.label, for: .normal)
-//            } else {
-                self.buttonEditProfile.setTitle(String(localized: "Follow"), for: .normal)
-                self.buttonEditProfile.backgroundColor = .accent
-                self.buttonEditProfile.setTitleColor(.black, for: .normal)
-//            }
+            self.buttonEditProfile.setTitle(String(localized: "Follow"), for: .normal)
+            self.buttonEditProfile.backgroundColor = .accent
+            self.buttonEditProfile.setTitleColor(.black, for: .normal)
+
         } else {
             self.buttonSettings.isHidden = false
             self.buttonEditProfile.setTitle(String(localized: "Edit Profile"), for: .normal)
