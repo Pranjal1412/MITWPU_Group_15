@@ -424,7 +424,28 @@ func saveClubProfileImage(clubID: UUID, with image: UIImage) async -> String? {
     let resizedImage = resizeImageIfNeeded(image, maxDimension: 400)
     
     if let imageData = resizedImage.jpegData(compressionQuality: 0.8) {
-        let filePath = "clubProfiles/\(clubID)_\(Int(Date().timeIntervalSince1970)).jpg"
+        let filePath = "clubImages/clubProfile/\(clubID)_\(Int(Date().timeIntervalSince1970)).jpg"
+        
+        if let url = await saveAndFetchImageURL(with: filePath, imageData: imageData) {
+            return url
+            
+        } else {
+            print("Upload failed")
+            return nil
+        }
+    }
+    else {
+        print("Image compression failed")
+        return nil
+    }
+}
+
+func saveClubBannerImage(clubID: UUID, with image: UIImage) async -> String? {
+    
+    let resizedImage = resizeImageIfNeeded(image, maxDimension: 400)
+    
+    if let imageData = resizedImage.jpegData(compressionQuality: 0.8) {
+        let filePath = "clubImages/clubBanner/\(clubID)_\(Int(Date().timeIntervalSince1970)).jpg"
         
         if let url = await saveAndFetchImageURL(with: filePath, imageData: imageData) {
             return url
