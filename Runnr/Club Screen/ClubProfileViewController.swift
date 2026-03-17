@@ -2,7 +2,7 @@
 import UIKit
 import Kingfisher
 
-class ClubProfileViewController: UIViewController {
+class ClubProfileViewController: UIViewController, UpdateClubProfile {
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var collectionViewPostImages: UICollectionView!
@@ -79,6 +79,24 @@ class ClubProfileViewController: UIViewController {
         }
     }
     
+    func updatedClubData(club: Club) {
+        self.myClubProfileData?.club = club
+        
+        labelClubName.text = myClubProfileData?.club.clubName
+        labelSportType.text = myClubProfileData?.club.clubSport.rawValue
+        clubDescription.text = myClubProfileData?.club.clubDescription
+        clubMotive.text = myClubProfileData?.club.clubMotive
+        
+        if let url = URL(string: (myClubProfileData!.club.clubProfileImageURL!)) {
+            self.clubProfileImage.kf.setImage(with: url)
+        }
+
+        if let url = URL(string: (myClubProfileData!.club.clubBannerImageURL!)) {
+            self.imageClubBanner.kf.setImage(with: url)
+        }
+
+    }
+    
     func settingCollectionAndTableView() {
         collectionViewPostImages.delegate = self
         collectionViewPostImages.dataSource = self
@@ -102,12 +120,16 @@ class ClubProfileViewController: UIViewController {
         if isMyClub {
             labelClubName.text = myClubProfileData?.club.clubName
             labelSportType.text = myClubProfileData?.club.clubSport.rawValue
-            labelNumberOfMembers.text = String(myClubProfileData!.club.memberCount) + "Members"
+            labelNumberOfMembers.text = String(myClubProfileData!.club.memberCount) + " Members"
             clubDescription.text = myClubProfileData?.club.clubDescription
             clubMotive.text = myClubProfileData?.club.clubMotive
             
             if let url = URL(string: (myClubProfileData!.club.clubProfileImageURL!)) {
                 self.clubProfileImage.kf.setImage(with: url)
+            }
+            
+            if let url = URL(string: (myClubProfileData!.club.clubBannerImageURL!)) {
+                self.imageClubBanner.kf.setImage(with: url)
             }
             
             if myClubProfileData?.role == .owner {
@@ -179,6 +201,7 @@ class ClubProfileViewController: UIViewController {
             if joinNowButton.titleLabel?.text == "Edit Club Profile" {
                 let destinationVC = ClubSettingsViewController()
                 destinationVC.modalPresentationStyle = .fullScreen
+                destinationVC.delegate = self
                 destinationVC.clubProfileData = myClubProfileData?.club
                 self.present(destinationVC, animated: true)
             }

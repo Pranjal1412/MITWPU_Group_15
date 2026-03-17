@@ -17,6 +17,7 @@ class ClubSettingsViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var buttonSave: UIButton!
     @IBOutlet weak var buttonCancel: UIButton!
     
+    @IBOutlet weak var buttonEditBanner: UIButton!
     @IBOutlet weak var imageClubProfile: UIImageView!
     @IBOutlet weak var imageClubBanner: UIImageView!
     @IBOutlet weak var textFieldClubName: UITextField!
@@ -26,6 +27,10 @@ class ClubSettingsViewController: UIViewController, UITextViewDelegate {
     
     var clubProfileData: Club?
     var profileImageChanged = false
+    var bannerImageChanged = false
+    var delegate: UpdateClubProfile?
+    
+    private var tag = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,9 +63,60 @@ class ClubSettingsViewController: UIViewController, UITextViewDelegate {
         self.clubProfileData!.clubSport = ActivityType(rawValue: self.textFieldClubSport.text ?? "") ?? self.clubProfileData!.clubSport
         
         Task {
+            let originalProfileURL = self.clubProfileData!.clubProfileImageURL!
+            let originalBannerURL = self.clubProfileData!.clubBannerImageURL!
+            
+            if self.profileImageChanged == true {
+                
+                await deleteImageFromStorage(imageURL: self.clubProfileData!.clubProfileImageURL!)
+                
+                if let newURL = await saveClubProfileImage(clubID: (self.clubProfileData?.clubID)!, with: self.imageClubProfile.image!) {
+                    self.clubProfileData!.clubProfileImageURL = newURL
+                }
+                else {
+                    self.clubProfileData!.clubProfileImageURL! = originalProfileURL
+                }
+            }
+            
+            if self.bannerImageChanged == true {
+                
+                await deleteImageFromStorage(imageURL: self.clubProfileData!.clubBannerImageURL!)
+                
+                if let newURL = await saveClubBannerImage(clubID: (self.clubProfileData?.clubID)!, with: self.imageClubBanner.image!) {
+                    self.clubProfileData!.clubBannerImageURL = newURL
+                }
+                else {
+                    self.clubProfileData!.clubBannerImageURL! = originalBannerURL
+                }
+            }
+
+            
             await updateClubInfo(clubID: self.clubProfileData!.clubID!, updatedData: self.clubProfileData!)
+            self.delegate?.updatedClubData(club: self.clubProfileData!)
             self.dismiss(animated: true)
         }
+    }
+    
+    @IBAction func editClubImages(_ sender: UIButton) {
+        
+        self.tag = sender.tag
+        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let cameraButton = UIAlertAction(title: String(localized: "Camera"), style: .default, handler: {_ in
+            self.openCamera()
+        })
+        let photoLibraryButton = UIAlertAction(title: String(localized: "Gallery"), style: .default, handler: {_ in
+            self.openPhotoLibrary()
+        })
+        let cancelButton = UIAlertAction(title: String("Cancel"), style: .cancel)
+
+        alert.addAction(cameraButton)
+        alert.addAction(photoLibraryButton)
+        alert.addAction(cancelButton)
+        
+        self.present(alert, animated: true)
+
     }
     
     @IBAction func buttonCancel(_ sender: UIButton) {
@@ -115,8 +171,14 @@ extension ClubSettingsViewController: PHPickerViewControllerDelegate, UIImagePic
                 provider.loadObject(ofClass: UIImage.self) { image, _ in
                     DispatchQueue.main.async {
                         if let image = image as? UIImage {
-                            self.imageClubProfile.image = image
-                            self.profileImageChanged = true
+                            if self.tag == 0 {
+                                self.imageClubProfile.image = image
+                                self.profileImageChanged = true
+                            }
+                            else if self.tag == 1 {
+                                self.imageClubBanner.image = image
+                                self.bannerImageChanged = true
+                            }
                         }
                     }
                 }
@@ -129,8 +191,18 @@ extension ClubSettingsViewController: PHPickerViewControllerDelegate, UIImagePic
         picker.dismiss(animated: true)
 //MARK: - Not working
         if let image = info[.originalImage] as? UIImage {
-            self.imageClubProfile.image = image
-            self.profileImageChanged = true
+            if self.tag == 0 {
+                self.imageClubProfile.image = image
+                self.profileImageChanged = true
+            }
+            else if self.tag == 1 {
+                self.imageClubBanner.image = image
+                self.bannerImageChanged = true
+            }
         }
     }
+}
+
+protocol UpdateClubProfile {
+    func updatedClubData(club: Club)
 }

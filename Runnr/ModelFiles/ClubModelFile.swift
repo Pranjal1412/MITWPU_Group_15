@@ -11,11 +11,12 @@ import UIKit
 struct Club : Codable {
     var clubID : UUID?
     var clubName: String
+    var clubProfileImageURL : String?
+    var clubBannerImageURL : String?
     var clubMotive : String
     var clubDescription : String
-    var isPublic : Bool
-    var clubProfileImageURL : String?
     var clubSport : ActivityType
+    var isPublic : Bool
     var memberCount: Int
 }
 

@@ -152,8 +152,9 @@ class UserProfileViewController: UIViewController {
         }
         
         self.labelScreenTitle.text = String(localized: "Profile")
-//        self.labelFollower.text = String(localized: "Followers")
-//        self.labelFollowing.text = String(localized: "Following")
+        
+        self.labelFollower.setTitle(String(localized: "Followers"), for: .normal)
+        self.labelFollowing.setTitle(String(localized: "Following"), for: .normal)
         
         if isFromFriendsScreen {
             self.buttonSettings.isHidden = true
@@ -195,8 +196,8 @@ class UserProfileViewController: UIViewController {
             }
         }
         
-//        self.labelFollowingCount.text = String(userStats!.numberOfFollowing)
-//        self.labelFollowerCount.text = String(userStats!.numberOfFollowers)
+        self.labelFollowingCount.setTitle(String(userStats!.numberOfFollowing), for: .normal)
+        self.labelFollowerCount.setTitle(String(userStats!.numberOfFollowers), for: .normal)
         self.labelTotalPointsCount.text = String(self.userStats?.totalPointsEarned ?? 0)
         self.labelTotalActivitiesCount.text = String(self.userStats?.totalActivities ?? 0)
         self.labelTotalDistanceCount.text = String(format: "%.1f", (self.userStats?.totalDistanceCovered ?? 0.0))
