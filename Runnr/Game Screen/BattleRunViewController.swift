@@ -13,8 +13,6 @@ class BattleRunViewController: UIViewController {
     @IBOutlet weak var imageYour: UIImageView!
     @IBOutlet weak var labelFriendsPoints: UILabel!
     @IBOutlet weak var labelYourPoints: UILabel!
-    @IBOutlet weak var labelTime: UILabel!
-    @IBOutlet weak var viewEnds: UIView!
     var game: BattleRunGame!
     var boardController: BoardController?
     let totalCapturedCount = 0
@@ -49,9 +47,6 @@ class BattleRunViewController: UIViewController {
        self.dismiss(animated: true, completion: nil)
    }
     func setupUI() {
-            viewEnds.layer.cornerRadius = viewEnds.bounds.height / 2
-            viewEnds.layer.borderWidth = 1
-            viewEnds.layer.borderColor = UIColor.accent.cgColor
             
             [imageYour, imageFriends].forEach {
                 $0?.layer.cornerRadius = ($0?.bounds.height ?? 0) / 2
@@ -62,7 +57,7 @@ class BattleRunViewController: UIViewController {
 
         updatePointsLabels()
         viewYou.layer.borderWidth = 1
-        viewYou.layer.borderColor = UIColor.cyan.cgColor
+        viewYou.layer.borderColor = UIColor.accent.cgColor
         viewFriend.layer.borderWidth = 1
         viewFriend.layer.borderColor = UIColor.purple.cgColor
             viewYou.layer.cornerRadius = 15
@@ -218,29 +213,58 @@ class BattleRunViewController: UIViewController {
             }
         }
 
-        func updateTileMaterial(id: String, controller: BoardController) {
-            guard let tileEntity = controller.tileEntities[id], let tileData = game.tiles[id] else { return }
-            
-            let isCaptured = tileData.owner != .none
-            let color = ownerColor(for: tileData.owner)
-            
-            let material: Material
-            if isCaptured {
-                material = UnlitMaterial(color: color)
-            } else {
-                material = SimpleMaterial(color: .white, isMetallic: false)
-            }
-            
-            // Apply scale reduction to create gaps between adjacent hexes
-            tileEntity.scale = [0.95, 0.95, 0.95]
+//        func updateTileMaterial(id: String, controller: BoardController) {
+//            guard let tileEntity = controller.tileEntities[id], let tileData = game.tiles[id] else { return }
+//            
+//            let isCaptured = tileData.owner != .none
+//            let color = ownerColor(for: tileData.owner)
+//            
+//            let material: Material
+//            if isCaptured {
+//                material = UnlitMaterial(color: color)
+//            } else {
+//                material = SimpleMaterial(color: .white, isMetallic: false)
+//            }
+//            
+//            // Apply scale reduction to create gaps between adjacent hexes
+//            tileEntity.scale = [0.95, 0.95, 0.95]
+//
+//            // Deep-visit the entire Tile subtree
+//            tileEntity.visit { entity in
+//                guard var component = entity.components[ModelComponent.self] else { return }
+//                component.materials = [material]
+//                entity.components.set(component)
+//            }
+//        }
+    func updateTileMaterial(id: String, controller: BoardController) {
+        guard let tileEntity = controller.tileEntities[id], let tileData = game.tiles[id] else { return }
+        
+        let isCaptured = tileData.owner != .none
+        let baseColor = ownerColor(for: tileData.owner)
+        
+        tileEntity.scale = [0.92, 0.92, 0.92]
 
-            // Deep-visit the entire Tile subtree
-            tileEntity.visit { entity in
-                guard var component = entity.components[ModelComponent.self] else { return }
-                component.materials = [material]
-                entity.components.set(component)
-            }
+        var material: Material
+        if isCaptured {
+            var unlitMaterial = UnlitMaterial(color: baseColor.withAlphaComponent(0.85))
+            unlitMaterial.blending = .transparent(opacity: .init(floatLiteral: 1.0))
+            material = unlitMaterial
+        } else {
+            var pbrMaterial = PhysicallyBasedMaterial()
+            pbrMaterial.baseColor = .init(tint: UIColor.white.withAlphaComponent(0.2))
+            pbrMaterial.roughness = 0.05
+            pbrMaterial.metallic = 0.0
+            pbrMaterial.clearcoat = .init(floatLiteral: 1.0)
+            pbrMaterial.blending = .transparent(opacity: .init(floatLiteral: 1.0))
+            material = pbrMaterial
         }
+
+        tileEntity.visit { entity in
+            guard var component = entity.components[ModelComponent.self] else { return }
+            component.materials = [material]
+            entity.components.set(component)
+        }
+    }
 
         // ... Rest of your existing functions (handlePinch, handlePan, ownerColor, etc.) ...
         
@@ -311,10 +335,10 @@ class BattleRunViewController: UIViewController {
             switch owner {
             case .none: 
                 return .darkGray
-            case .player(.me): 
-                return .systemCyan
-            case .player(.lea): 
-                return .systemPurple
+            case .player(.me):
+                return .accent
+            case .player(.lea):
+                return .lightGray
             }
         }
 
@@ -402,3 +426,4 @@ class BattleRunViewController: UIViewController {
             game.tiles[name] = TileState(id: name, owner: .none)
         }
     }
+
