@@ -59,7 +59,7 @@ class BattleRunViewController: UIViewController {
         viewYou.layer.borderWidth = 1
         viewYou.layer.borderColor = UIColor.accent.cgColor
         viewFriend.layer.borderWidth = 1
-        viewFriend.layer.borderColor = UIColor.purple.cgColor
+        viewFriend.layer.borderColor = UIColor.lightGray.cgColor
             viewYou.layer.cornerRadius = 15
             viewFriend.layer.cornerRadius = 15
         
@@ -349,7 +349,7 @@ class BattleRunViewController: UIViewController {
 
         func updateCaptureCounter() {
             let captured = game.tiles.values.filter { if case .player(.me) = $0.owner { return true }; return false }.count
-            labelCaptureCount?.text = "SECTOR STATUS: \(captured) / \(game.tiles.count)"
+            labelCaptureCount?.text = "CAPTURED: \(captured)"
         }
 
         private func animateScoreBounce() {
