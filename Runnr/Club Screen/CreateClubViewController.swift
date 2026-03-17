@@ -46,7 +46,7 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
         
         clubProfileImage.layer.cornerRadius = self.clubProfileImage.frame.height / 2
         
-        self.clubDraft = ClubRoleAndData(role: .owner, club: Club(clubName: "", clubMotive: "", clubDescription: "", isPublic: true, clubSport: .running, memberCount: 0))
+        self.clubDraft = ClubRoleAndData(role: .owner, club: Club(clubName: "", clubMotive: "", clubDescription: "", clubSport: .running, isPublic: true, memberCount: 0))
         
     }
 
@@ -77,12 +77,15 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
             if let presenter = self.presentingViewController {
                 self.dismiss(animated: true) {
                     Task{
-//                        insert not working!!!
                         let clubData = await insertNewClubData(newClub: self.clubDraft!.club) ?? self.clubDraft!.club
                         self.clubDraft?.club = clubData
                         
                         if let newURL = await saveClubProfileImage(clubID: (self.clubDraft?.club.clubID)!, with: self.clubProfileImage.image!) {
                             self.clubDraft?.club.clubProfileImageURL = newURL
+                        }
+                        
+                        if let newURL = await saveClubBannerImage(clubID: (self.clubDraft?.club.clubID)!, with: UIImage(named: "Club")!) {
+                            self.clubDraft?.club.clubBannerImageURL = newURL
                         }
                         
                         await updateClubInfo(clubID: self.clubDraft!.club.clubID!, updatedData: self.clubDraft!.club)

@@ -32,7 +32,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XnX-1m-uu5">
-                        <rect key="frame" x="302" y="15" width="80" height="30"/>
+                        <rect key="frame" x="302" y="16.666666666666668" width="80" height="27.000000000000004"/>
                         <color key="backgroundColor" name="AccentColor"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="80" id="B8K-nO-57A"/>
@@ -53,12 +53,11 @@
                     <constraint firstItem="Ke3-PK-Uyg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="YOC-Qh-VhW"/>
                     <constraint firstItem="3ZM-Bn-26z" firstAttribute="leading" secondItem="Ke3-PK-Uyg" secondAttribute="trailing" constant="10" id="dEe-7Z-fWD"/>
                     <constraint firstItem="Ke3-PK-Uyg" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="dfb-CS-eMu"/>
+                    <constraint firstItem="XnX-1m-uu5" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="eY6-5B-6NI"/>
                     <constraint firstItem="XnX-1m-uu5" firstAttribute="leading" secondItem="3ZM-Bn-26z" secondAttribute="trailing" constant="7" id="fym-LC-m48"/>
-                    <constraint firstAttribute="bottom" secondItem="XnX-1m-uu5" secondAttribute="bottom" constant="15" id="jpT-VT-Ccx"/>
                     <constraint firstAttribute="bottom" secondItem="3ZM-Bn-26z" secondAttribute="bottom" constant="15" id="rsa-5U-epa"/>
                     <constraint firstAttribute="bottom" secondItem="Ke3-PK-Uyg" secondAttribute="bottom" constant="10" id="ssc-Km-jAz"/>
                     <constraint firstItem="3ZM-Bn-26z" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="uHV-hf-A1t"/>
-                    <constraint firstItem="XnX-1m-uu5" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="wJN-Ws-4FQ"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
