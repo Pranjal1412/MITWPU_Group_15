@@ -112,7 +112,7 @@ class BattleRunViewController: UIViewController {
             
             let nebulaLight = PointLight()
             nebulaLight.light.intensity = 5000
-            nebulaLight.light.color = .systemPurple
+            nebulaLight.light.color = .lightGray
             nebulaLight.position = [-5, 5, -5]
             lightAnchor.addChild(nebulaLight)
             
