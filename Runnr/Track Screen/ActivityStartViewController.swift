@@ -66,6 +66,11 @@ class ActivityStartViewController: UIViewController {
             
             self.newUserAlert = false
        }
+        
+        if let recovered = LocalActivityStorage.shared.load() {
+            handleRecoveredActivity(recovered)
+        }
+
     }
     
     override func viewDidLayoutSubviews() {
@@ -136,6 +141,54 @@ class ActivityStartViewController: UIViewController {
         buttonStart.layer.shadowOpacity = 0.5
         buttonStart.layer.shadowRadius = self.buttonUserProfile.frame.height / 2
                     
+    }
+    
+    func handleRecoveredActivity(_ local: LocalActivity) {
+        
+        let alert = UIAlertController(
+            title: "Recovered Activity",
+            message: "We found an unfinished run. Do you want to save it?",
+            preferredStyle: .alert
+        )
+        
+        alert.addAction(UIAlertAction(title: "Discard", style: .destructive, handler: { _ in
+            LocalActivityStorage.shared.clear()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Save", style: .default, handler: { _ in
+            Task {
+                var activity = local.activity
+                activity.activityEndTime = Date()
+                
+                let saved = await insertActivity(activity) ?? activity
+
+                guard let activityID = saved.activityID else { return }
+
+                // Fix coordinates
+                var coords = local.coordinates
+                for i in 0..<coords.count {
+                    coords[i] = ActivityRouteCoordinates(
+                        activityID: activityID,
+                        latitude: coords[i].latitude,
+                        longitude: coords[i].longitude,
+                        sequence: coords[i].sequence
+                    )
+                }
+
+                // Fix pace data
+                var pace = local.paceData
+                for i in 0..<pace.count {
+                    pace[i].activityID = activityID
+                }
+
+                await insertActivityRouteCoordinates(coords)
+                await insertActivityPaceGraphData(pace)
+                
+                LocalActivityStorage.shared.clear()
+            }
+        }))
+        
+        present(alert, animated: true)
     }
     
     @IBAction func startButtonPressed() {

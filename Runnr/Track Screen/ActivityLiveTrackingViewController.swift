@@ -67,6 +67,7 @@ class ActivityLiveTrackingViewController: UIViewController {
     var minGoalSet : Int?
     var hourGoalSet : Int?
     var distanceGoalSet : Double?
+    var lastSavedTime: Date?
     
     var quotes: [String] = [String(localized: "You Got This"), String(localized: "Lock in"), String(localized: "Lace Up")]
     
@@ -75,10 +76,26 @@ class ActivityLiveTrackingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         settingScreenElements()
         settingPauseButtonImg()
         
         userLocation.locationManager.startUpdatingLocation()
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(appMovedToBackground),
+            name: UIApplication.didEnterBackgroundNotification,
+            object: nil
+        )
+        
+        // ✅ ADDED THIS (only change)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(appWillTerminate),
+            name: UIApplication.willTerminateNotification,
+            object: nil
+        )
                         
         activityManager = UserActivityManager(timerLabel: self.labelTimeCounter)
         self.activityStartTime = Date()
@@ -109,6 +126,9 @@ class ActivityLiveTrackingViewController: UIViewController {
             
             self.mapManager.path.add(location.coordinate)
             self.mapManager.routeLine.path = self.mapManager.path
+            Task {
+                await self.saveActivityLocally()
+            }
             
             self.activityManager.startUpdatingDistance(with: location)
             self.labelDistanceCounter.text = String(format: "%.2f", self.activityManager.totalDistance)
@@ -138,7 +158,6 @@ class ActivityLiveTrackingViewController: UIViewController {
         } catch {
             print("Audio session error")
         }
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -263,6 +282,8 @@ class ActivityLiveTrackingViewController: UIViewController {
                     self.assignActivityIDToPaceData()
                     await insertActivityPaceGraphData(self.activityManager.paceGraphData)
                     
+                    LocalActivityStorage.shared.clear()
+                    
                     DispatchQueue.main.async {
                         let destinationVC = ActivitySaveViewController()
                         destinationVC.activityData = currentActivity
@@ -340,7 +361,83 @@ class ActivityLiveTrackingViewController: UIViewController {
         await insertActivityRouteCoordinates(routeCoordinates)
         self.datasource.setCurrentActivityCoordinates(routeCoordinates)
     }
+    
+    @objc func appWillTerminate() {
+        Task {
+            await self.saveActivityLocally()
+        }
+    }
+    
+    func saveActivityLocally() async {
+        
+        guard let startTime = self.activityStartTime else {
+            print("❌ No start time, not saving")
+            return
+        }
 
+        let activity = UserActivity(
+            userID: self.userProfile.userID,
+            activityID: nil,
+            
+            activityStartTime: startTime,
+            activityEndTime: nil,
+            
+            activityTitle: self.datasource.getCurrentActivity()?.activityTitle ?? "",
+            activityType: self.activityTypeSelected ?? .running,
+            activityRemark: self.datasource.getCurrentActivity()?.activityRemark ?? "",
+            isPublic: self.datasource.getCurrentActivity()?.isPublic ?? false,
+            
+            distanceCovered: self.activityManager.totalDistance,
+            distanceUnit: .kilometers,
+            
+            timeTakenSeconds: self.activityManager.getTotalTime(),
+            caloriesBurnt: 0,
+            stepsTaken: self.activityManager.totalSteps,
+            
+            avgHeartRate: nil,
+            avgPace: self.activityManager.getAveragePace(),
+            paceUnit: .minPerKm,
+            
+            mapImageURL: "",
+            basePoints: self.activityManager.basePointsEarned(),
+            skillPoints: self.activityManager.skillPointsEarned(),
+            
+            elevation: self.activityManager.getTotalElevation()
+        )
+        
+        var coords: [ActivityRouteCoordinates] = []
+        
+        for i in 0..<self.mapManager.path.count() {
+            let c = self.mapManager.path.coordinate(at: i)
+            coords.append(ActivityRouteCoordinates(
+                activityID: nil,
+                latitude: c.latitude,
+                longitude: c.longitude,
+                sequence: Int(i)
+            ))
+        }
+        
+        let local = LocalActivity(
+            activity: activity,
+            coordinates: coords,
+            paceData: self.activityManager.paceGraphData
+        )
+        
+        // ✅ DEBUG SAVE
+        do {
+            let encoded = try JSONEncoder().encode(local)
+            UserDefaults.standard.set(encoded, forKey: "ONGOING_ACTIVITY")
+            print("✅ Activity saved locally | points: \(coords.count)")
+        } catch {
+            print("❌ FAILED TO ENCODE LOCAL ACTIVITY:", error)
+        }
+    }
+    
+    @objc func appMovedToBackground() {
+        Task {
+            await self.saveActivityLocally()
+        }
+    }
     
     func captureMapImage(from mapView: GMSMapView) -> UIImage? {
         let renderer = UIGraphicsImageRenderer(size: mapView.bounds.size)

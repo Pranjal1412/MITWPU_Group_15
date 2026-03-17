@@ -50,7 +50,7 @@ struct ActivityPhotos {
 }
 
 struct ActivityRouteCoordinates : Codable {
-    let activityID: UUID
+    let activityID: UUID?
     let latitude: Double
     let longitude: Double
     let sequence: Int
