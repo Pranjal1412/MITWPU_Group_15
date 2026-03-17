@@ -17,6 +17,7 @@ class ActivitySummaryViewController: UIViewController {
     
     var isNewActivity : Bool = false
     var isMapInitialized: Bool = false
+    var onActivityDeleted: (() -> Void)?
 
     let topGradientView = UIView()
     
@@ -146,8 +147,15 @@ class ActivitySummaryViewController: UIViewController {
          let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
          let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
              Task {
-                 await deleteUserActivity(activityID: userActivity.activityID!, mapImageURL: userActivity.mapImageURL!)
-                 self.dismiss(animated: true)
+                 guard let activityID = userActivity.activityID, let mapImageURL = userActivity.mapImageURL else { return }
+                 
+                 await deleteUserActivity(activityID: activityID, mapImageURL: mapImageURL)
+                 
+                 await MainActor.run {
+                     DataSource.shared.deleteActivityFromLocalArray(activityID: activityID)
+                     self.onActivityDeleted?()
+                     self.dismiss(animated: true)
+                 }
              }
          }
          

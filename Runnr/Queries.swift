@@ -705,7 +705,9 @@ func fetchUnfollowedUsers(currentUserID: UUID) async -> [UserProfile] {
         }
 
         // Convert UUIDs into SQL array string
-        let formattedIDs = followedIDs.map { "\"\($0.uuidString)\"" }.joined(separator: ",")
+        var idsToExclude = followedIDs
+        idsToExclude.append(currentUserID)
+        let formattedIDs = idsToExclude.map { "\"\($0.uuidString)\"" }.joined(separator: ",")
 
         let allUsers: [UserProfile] = try await SupabaseManager.shared.client
             .from("UserProfile")
@@ -732,7 +734,7 @@ func fetchFollowedUsersAtivities(currentUserID: UUID) async -> [FriendsActivity]
             .execute()
             .value
 
-        let followedIDs = followed.map { $0.FollowingID }
+        let followedIDs = followed.map { $0.FollowingID }.filter { $0 != currentUserID }
   
         let activities: [FriendsActivity] = try await SupabaseManager.shared.client
             .rpc("get_friends_latest_activity", params: ["friend_ids": followedIDs])

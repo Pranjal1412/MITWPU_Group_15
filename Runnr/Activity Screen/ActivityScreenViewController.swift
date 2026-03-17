@@ -216,6 +216,9 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
                     await MainActor.run {
                         let destinationVC = ActivitySummaryViewController()
                         destinationVC.isNewActivity = false
+                        destinationVC.onActivityDeleted = {
+                            self.updateScreenElements()
+                        }
                         destinationVC.modalPresentationStyle = .overFullScreen
                         self.present(destinationVC, animated: true)
                     }
@@ -237,6 +240,9 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
                 await MainActor.run {
                     let destinationVC = ActivitySummaryViewController()
                     destinationVC.isNewActivity = false
+                    destinationVC.onActivityDeleted = {
+                        self.updateScreenElements()
+                    }
                     destinationVC.modalPresentationStyle = .overFullScreen
                     self.present(destinationVC, animated: true)
                 }

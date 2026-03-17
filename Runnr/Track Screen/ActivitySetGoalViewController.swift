@@ -34,6 +34,9 @@ class ActivitySetGoalViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
         
         view.backgroundColor = .clear
         self.viewMainBackground.layer.cornerRadius = 20
@@ -48,6 +51,10 @@ class ActivitySetGoalViewController: UIViewController {
         
         setGlassEffect(for: self.buttonCancel, withImage: "multiply")
         
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     func settingScreen() {

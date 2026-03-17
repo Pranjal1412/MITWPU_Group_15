@@ -128,15 +128,29 @@ class ActivityLiveTrackingViewController: UIViewController {
             self.activityManager.startUpdatingElevation(with: location)
         }
         
+//        do {
+//            try AVAudioSession.sharedInstance().setCategory(
+//                .playback,
+//                mode: .spokenAudio,
+//                options: [.duckOthers]
+//            )
+//            try AVAudioSession.sharedInstance().setActive(true)
+//        } catch {
+//            print("Audio session error")
+//        }
         do {
-            try AVAudioSession.sharedInstance().setCategory(
+            let session = AVAudioSession.sharedInstance()
+            
+            try session.setCategory(
                 .playback,
                 mode: .spokenAudio,
                 options: [.duckOthers]
             )
-            try AVAudioSession.sharedInstance().setActive(true)
+            
+            try session.setActive(true, options: .notifyOthersOnDeactivation)
+            
         } catch {
-            print("Audio session error")
+            print("Audio session error: \(error)")
         }
         
     }
@@ -591,12 +605,15 @@ extension ActivityLiveTrackingViewController {
                     }
                     //self.playAudioFile(named: "keepGoing")
                 }
-                else{
+                else {
                     let remainingDistance = distanceGoalSet! - activityManager.totalDistance
+                    let formattedDistance = String(format: "%.2f", remainingDistance)
+
                     self.playAudioFile(named: "youAreAlmostThere")
+                    
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                         guard self.isAudioFeedbackOn else { return }
-                        let utterance = AVSpeechUtterance(string: "\(remainingDistance) left")
+                        let utterance = AVSpeechUtterance(string: "\(formattedDistance) kilometers left")
                         utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
                         utterance.rate = 0.5
                         self.speechSynthesizer.speak(utterance)

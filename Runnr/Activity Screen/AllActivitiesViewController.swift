@@ -77,7 +77,7 @@ extension AllActivitiesViewController : UITableViewDelegate, UITableViewDataSour
     
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             if tableView == tableViewMyActivity {
-                let activity = myActivity[indexPath.section]
+                let activity = myActivity[indexPath.row]
 
                     Task {
                         self.dataSource.setCurrentActivity(activity)
@@ -91,6 +91,9 @@ extension AllActivitiesViewController : UITableViewDelegate, UITableViewDataSour
                         await MainActor.run {
                             let destinationVC = ActivitySummaryViewController()
                             destinationVC.isNewActivity = false
+                            destinationVC.onActivityDeleted = {
+                                self.updateScreenElements()
+                            }
                             destinationVC.modalPresentationStyle = .overFullScreen
                             self.present(destinationVC, animated: true)
                         }
