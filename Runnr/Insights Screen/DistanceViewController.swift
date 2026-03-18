@@ -21,11 +21,12 @@ class DistanceViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        updateDisplay()
-        
         segmentControlDistance.selectedSegmentIndex = 0
-        updateTopValueForSelectedSegment()
-        
+        graphStore?.selectedPeriod = .weekly
+       
+        updateDisplay()
+//        updateTopValueForSelectedSegment()
+
         
         navigationItem.title = "Distance"
         let appearance = UINavigationBarAppearance()
@@ -45,6 +46,12 @@ class DistanceViewController: UIViewController {
         
         settingLabelStyle()
         setupGraph()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        updateTopValueForSelectedSegment()
     }
     
     override func viewDidLayoutSubviews() {
@@ -130,28 +137,33 @@ class DistanceViewController: UIViewController {
 
         guard let graphStore = graphStore else { return }
 
+        let total: Double
+
         switch segmentControlDistance.selectedSegmentIndex {
         case 0:
-            labelNumber.text = String(dataSource.getWeeklyTotal(graphStore: graphStore).totalCalories)
-
+            total = dataSource.getWeeklyTotal(graphStore: graphStore).totalDistance
         case 1:
-            labelNumber.text = String(dataSource.getMonthlyTotal(graphStore: graphStore).totalCalories)
-
+            total = dataSource.getMonthlyTotal(graphStore: graphStore).totalDistance
         case 2:
-            labelNumber.text = String(dataSource.getYearlyTotal(graphStore: graphStore).totalCalories)
-
+            total = dataSource.getYearlyTotal(graphStore: graphStore).totalDistance
         default:
-            break
+            return
+        }
+
+        DispatchQueue.main.async {
+            self.labelNumber.text = String(format: "%.2f", total)
         }
     }
     
     @IBAction func segmentControlClicked(_ sender: UISegmentedControl) {
-        updateTopValueForSelectedSegment()
         updateDisplay()
+        updateTopValueForSelectedSegment()
     }
     
     func setupGraph() {
-        let graphView = DistanceGraphView(store: graphStore ?? GraphManager())
+//        let graphView = DistanceGraphView(store: graphStore ?? GraphManager())
+        guard let graphStore = graphStore else { return }
+        let graphView = DistanceGraphView(store: graphStore)
 
         let hc = UIHostingController(rootView: graphView)
         hostingController = hc
@@ -191,19 +203,23 @@ class DistanceViewController: UIViewController {
         let boldFont = UIFont.systemFont(ofSize: 32, weight: .bold)
         let thin2Font = UIFont.systemFont(ofSize: 15)
         
-        let numberText = NSAttributedString(
-            string: "20.3 ",
-            attributes: [.font: boldFont, .foregroundColor: UIColor.accent]
-        )
-        let unitText = NSAttributedString(
-            string: "Km",
-            attributes: [.font: thin2Font, .foregroundColor: UIColor.accent]
-        )
+        labelNumber.text = "--"
+        labelNumber.textColor = UIColor.accent
+        labelNumber.font = UIFont.systemFont(ofSize: 32, weight: .bold)
         
-        let fullTexts = NSMutableAttributedString()
-        fullTexts.append(numberText)
-        fullTexts.append(unitText)
-        labelNumber.attributedText = fullTexts
+//        let numberText = NSAttributedString(
+//            string: "20.3 ",
+//            attributes: [.font: boldFont, .foregroundColor: UIColor.accent]
+//        )
+//        let unitText = NSAttributedString(
+//            string: "Km",
+//            attributes: [.font: thin2Font, .foregroundColor: UIColor.accent]
+//        )
+//        
+//        let fullTexts = NSMutableAttributedString()
+//        fullTexts.append(numberText)
+//        fullTexts.append(unitText)
+//        labelNumber.attributedText = fullTexts
     }
 
 }
