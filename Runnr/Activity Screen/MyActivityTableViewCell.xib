@@ -28,7 +28,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="382" height="380"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="4Wp-Bi-iK1">
-                                <rect key="frame" x="20" y="20" width="275" height="45"/>
+                                <rect key="frame" x="20" y="20" width="272" height="45"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user3" translatesAutoresizingMaskIntoConstraints="NO" id="jHp-ba-1y2">
                                         <rect key="frame" x="0.0" y="0.0" width="45" height="45"/>
@@ -38,10 +38,10 @@
                                         </constraints>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="XZf-Am-7pX">
-                                        <rect key="frame" x="60" y="-5" width="215" height="50"/>
+                                        <rect key="frame" x="60" y="-5" width="212" height="50"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Afternoon Run!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r0P-ip-VoO">
-                                                <rect key="frame" x="0.0" y="0.0" width="215" height="25"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="212" height="25"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="25" id="cpS-Gk-SJz"/>
                                                 </constraints>
@@ -50,7 +50,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="September 7, 6:15 am" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K3K-VJ-Z6W">
-                                                <rect key="frame" x="0.0" y="30" width="215" height="20"/>
+                                                <rect key="frame" x="0.0" y="30" width="212" height="20"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="20" id="bOl-FN-Vx0"/>
                                                 </constraints>
@@ -203,9 +203,8 @@
                                     <constraint firstAttribute="height" constant="195" id="8dB-Ub-gz1"/>
                                 </constraints>
                             </imageView>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="5" id="oEL-Py-0sr" userLabel="pointStack">
-                                <rect key="frame" x="310" y="20" width="52" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="oEL-Py-0sr" userLabel="pointStack">
+                                <rect key="frame" x="307" y="20" width="55" height="20"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gu1-Z3-G5J">
                                         <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
@@ -228,12 +227,15 @@
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pII-HA-5FY">
-                                        <rect key="frame" x="25" y="0.33333333333333393" width="27" height="19.333333333333329"/>
+                                        <rect key="frame" x="25" y="0.33333333333333215" width="30" height="19.333333333333332"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <color key="textColor" name="AccentColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="55" id="aB5-Pa-gLU"/>
+                                </constraints>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v3S-PE-n7B">
                                 <rect key="frame" x="20" y="379.33333333333331" width="342" height="0.0"/>
@@ -264,6 +266,7 @@
                             <constraint firstItem="EPV-8B-0rA" firstAttribute="trailing" secondItem="v3S-PE-n7B" secondAttribute="trailing" constant="20" id="5vA-OK-yQy"/>
                             <constraint firstItem="4Wp-Bi-iK1" firstAttribute="top" secondItem="EPV-8B-0rA" secondAttribute="top" constant="20" id="6Zd-Lh-bCh"/>
                             <constraint firstItem="vmm-F7-qJw" firstAttribute="leading" secondItem="vii-93-VUW" secondAttribute="leading" constant="20" id="6kh-Ix-IOl"/>
+                            <constraint firstItem="oEL-Py-0sr" firstAttribute="top" secondItem="EPV-8B-0rA" secondAttribute="top" constant="20" id="88M-z8-5uD"/>
                             <constraint firstItem="6eT-Zd-kmw" firstAttribute="top" secondItem="v3S-PE-n7B" secondAttribute="bottom" id="Ae5-iU-bMv"/>
                             <constraint firstAttribute="trailing" secondItem="6eT-Zd-kmw" secondAttribute="trailing" constant="20" id="Gjh-a1-1uw"/>
                             <constraint firstItem="eo4-xy-YgV" firstAttribute="top" secondItem="SyU-LO-bu7" secondAttribute="bottom" constant="20" id="I2S-U1-QRV"/>
@@ -275,6 +278,7 @@
                             <constraint firstItem="EPV-8B-0rA" firstAttribute="trailing" secondItem="eo4-xy-YgV" secondAttribute="trailing" constant="20" id="gPw-Wa-qUn"/>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="380" id="gSa-GX-YQJ"/>
                             <constraint firstItem="EPV-8B-0rA" firstAttribute="trailing" secondItem="SyU-LO-bu7" secondAttribute="trailing" constant="20" id="koS-Wz-R2X"/>
+                            <constraint firstItem="EPV-8B-0rA" firstAttribute="trailing" secondItem="oEL-Py-0sr" secondAttribute="trailing" constant="20" id="oTF-gJ-sIF"/>
                             <constraint firstItem="v3S-PE-n7B" firstAttribute="leading" secondItem="EPV-8B-0rA" secondAttribute="leading" constant="20" id="sjH-B9-Kn9"/>
                             <constraint firstAttribute="trailing" secondItem="vmm-F7-qJw" secondAttribute="trailing" constant="20" id="t5w-xg-PoJ"/>
                             <constraint firstItem="eo4-xy-YgV" firstAttribute="leading" secondItem="EPV-8B-0rA" secondAttribute="leading" constant="20" id="vc1-lR-Zfu"/>

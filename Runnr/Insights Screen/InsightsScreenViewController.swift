@@ -20,7 +20,7 @@ class InsightsScreenViewController: UIViewController {
         return label
     }()
 
-    private var myActivities: [UserActivity] {
+    private var myActivities: [ActivityDetails] {
         dataSource.getAllActivities()
     }
     
@@ -66,7 +66,7 @@ class InsightsScreenViewController: UIViewController {
 
         if myActivities.isEmpty == true {
             Task {
-                let activities = await fetchAllMyActivities(userID: userProfile.userID!)
+                let activities = await fetchAllMyActivities(userProfile: self.userProfile)
                 self.dataSource.setAllActivities(activities)
                 prepareActivities()
                 prepareGreenDates()
@@ -183,17 +183,18 @@ extension InsightsScreenViewController: JTACMonthViewDelegate, JTACMonthViewData
     }
 
     private func prepareActivities() {
-        let sorted = myActivities.sorted { $0.activityStartTime! > $1.activityStartTime! }
-        latestActivity = sorted.first
-        previousActivity = sorted.count > 1 ? sorted[1] : nil
+//        let sorted = myActivities.sorted { $0.activity.activityStartTime! > $1.activityStartTime! }
+        let sorted = myActivities.sorted { $0.activity!.activityStartTime! > $1.activity!.activityStartTime! }
+        latestActivity = sorted.first?.activity
+        previousActivity = sorted.count > 1 ? sorted[1].activity : nil
     }
 
     // MARK: Green Dates Based on Actual Activities
     private func prepareGreenDates() {
         greenDates.removeAll() //revents old or duplicate dates, empties the set
         let calendar = Calendar.current
-        for activity in myActivities {
-            let activityDate = calendar.startOfDay(for: activity.activityStartTime!)
+        for activityDetail in myActivities {
+            let activityDate = calendar.startOfDay(for: (activityDetail.activity?.activityStartTime!)!)
             /* Removes time (hours, minutes, seconds)
              2026-01-21 18:42 → 2026-01-21 00:00
              */

@@ -6,12 +6,12 @@ class DataSource {
     private var userProfileImage : UIImage?
     private var userStats : UserStats?
     
-    private var currentActivity: UserActivity?
+    private var currentActivity: ActivityDetails?
     private var currentActivityCoordinates: [ActivityRouteCoordinates] = []
     private var currentActivityPaceData: [ActivityPaceGraphData] = []
     
-    private var myActivities: [UserActivity] = []
-    private var friendActivities: [FriendsActivity] = []
+    private var myActivities: [ActivityDetails] = []
+    private var friendActivities: [ActivityDetails] = []
     private var clubsArray : [Club] = []
     private var myClubsArray : [ClubRoleAndData] = []
     
@@ -49,19 +49,19 @@ class DataSource {
         self.userStats = userStats
     }
     
-    func setAllActivities(_ activities: [UserActivity]) {
+    func setAllActivities(_ activities: [ActivityDetails]) {
         self.myActivities = activities
     }
     
-    func getAllActivities() -> [UserActivity] {
+    func getAllActivities() -> [ActivityDetails] {
         return self.myActivities
     }
     
-    func setCurrentActivity(_ activity: UserActivity) {
+    func setCurrentActivity(_ activity: ActivityDetails) {
         self.currentActivity = activity
     }
     
-    func getCurrentActivity() -> UserActivity? {
+    func getCurrentActivity() -> ActivityDetails? {
         return currentActivity
     }
     
@@ -125,11 +125,11 @@ class DataSource {
         return self.followingUser
     }
     
-    func getFriendsActivityData() -> [FriendsActivity] {
+    func getFriendsActivityData() -> [ActivityDetails] {
         return friendActivities
     }
 
-    func setFriendsActivityData(_ data: [FriendsActivity]) {
+    func setFriendsActivityData(_ data: [ActivityDetails]) {
         self.friendActivities = data
     }
     
@@ -244,7 +244,7 @@ class DataSource {
         presentingViewController.present(activityVC, animated: true)
     }
     func deleteActivityFromLocalArray(activityID: UUID) {
-        myActivities.removeAll { $0.activityID == activityID }
+        myActivities.removeAll { $0.activity?.activityID == activityID }
     }
 
 }

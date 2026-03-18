@@ -263,7 +263,8 @@ class ActivityLiveTrackingViewController: UIViewController {
                     currentActivity.caloriesBurnt = Int(caloriesBurnt)
                     
                     currentActivity = await insertActivity(currentActivity) ?? currentActivity
-                    self.datasource.setCurrentActivity(currentActivity)
+                    
+                    self.datasource.setCurrentActivity(ActivityDetails(userDetails: self.userProfile, activity: currentActivity))
                     self.isActivityInserted = true
                     
                     await self.convertGMSMutablePathAndInsert(self.mapManager.path, activityID: currentActivity.activityID!)
@@ -366,7 +367,7 @@ class ActivityLiveTrackingViewController: UIViewController {
     
     func assignActivityIDToPaceData() {
         
-        guard let activityID = datasource.getCurrentActivity()?.activityID else { return }
+        guard let activityID = datasource.getCurrentActivity()?.activity!.activityID else { return }
         
         for i in 0 ..< activityManager.paceGraphData.count {
             activityManager.paceGraphData[i].activityID = activityID
