@@ -21,6 +21,7 @@ class CreatePostViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var addPhotosView: UIView!
     @IBOutlet weak var clubNameLabel: UILabel!
     
+    private let userProfile = DataSource.shared.getUserProfile()
     let placeholderText = "What's on your mind?"
     var clubDetails: Club?
     
@@ -144,8 +145,19 @@ class CreatePostViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func postTapped(_ sender: UIButton) {
-        // Handle Post logic here
-        self.dismiss(animated: true, completion: nil)
+        Task {
+            let newPost = ClubPost(clubID: clubDetails!.clubID, postOwner: userProfile.userID, caption: textView.text, postImageURL: "", likeCount: 0, createdTimestamp: Date())
+            
+            var post = await insertNewClubPost(postDetails: newPost)!
+            
+            if let postID = post.postID {
+                let imageURl = await saveClubPostImage(postID: postID, with: self.imagePost.image!)
+                post.postImageURL = imageURl
+            }
+            
+            await updateClubPost(postDetails: post)
+            self.dismiss(animated: true, completion: nil)
+        }
     }
 }
 
