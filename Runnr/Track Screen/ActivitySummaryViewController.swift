@@ -32,7 +32,7 @@ class ActivitySummaryViewController: UIViewController {
         setGlassEffect(for: self.buttonMoreOptions, withImage: "ellipsis")
         
         self.buttonShowAnalysis.layer.cornerRadius = buttonShowAnalysis.frame.height / 2.0
-        self.labelActivityHeading.text = activityData?.activityTitle
+        self.labelActivityHeading.text = activityData?.activity?.activityTitle
         
         self.userLocation.locationManager.startUpdatingLocation()
         self.userLocation.onLocationUpdate = { location in
@@ -90,7 +90,7 @@ class ActivitySummaryViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         
         if self.isNewActivity {
-            let alert = UIAlertController(title: String(localized: "Congratulations!"), message: "You have earned \(activityData!.basePoints! + activityData!.skillPoints!) points. Claim them now!", preferredStyle: .alert)
+            let alert = UIAlertController(title: String(localized: "Congratulations!"), message: "You have earned \((activityData?.activity?.basePoints!)! + (activityData?.activity?.skillPoints!)!) points. Claim them now!", preferredStyle: .alert)
             let claimPointsAction = UIAlertAction(title: String(localized: "Claim Points"), style: .default)
         
             alert.addAction(claimPointsAction)
@@ -141,13 +141,13 @@ class ActivitySummaryViewController: UIViewController {
         present(alert, animated: true)
     }
      
-    func deleteActivityAlert(userActivity : UserActivity) {
+    func deleteActivityAlert(userActivity : ActivityDetails) {
          let alert = UIAlertController(title: "Delete Activity", message: "Are you sure you want to delete this activity?", preferredStyle: .alert)
          
          let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
          let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
              Task {
-                 guard let activityID = userActivity.activityID, let mapImageURL = userActivity.mapImageURL else { return }
+                 guard let activityID = userActivity.activity?.activityID, let mapImageURL = userActivity.activity?.mapImageURL else { return }
                  
                  await deleteUserActivity(activityID: activityID, mapImageURL: mapImageURL)
                  
@@ -165,15 +165,7 @@ class ActivitySummaryViewController: UIViewController {
          present(alert, animated: true, completion: nil)
 
      }
-  
-//    func convertCoordinatesToPath(from coordinates: [CLLocationCoordinate2D]) -> GMSMutablePath {
-//        let path = GMSMutablePath()
-//            for coordinate in coordinates {
-//                path.add(coordinate)
-//            }
-//            return path
-//    }
-    
+      
     func convertToCLLocationCoordinate2D(for coordinates: [ActivityRouteCoordinates]) -> [CLLocationCoordinate2D] {
                 
         var coordinates: [CLLocationCoordinate2D] = []

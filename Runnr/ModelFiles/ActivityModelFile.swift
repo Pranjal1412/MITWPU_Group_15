@@ -29,10 +29,9 @@ struct UserActivity: Codable {
     var skillPoints: Int?
     
     var elevation: Double?
-    
 }
 
-struct FriendsActivity: Codable {
+struct ActivityDetails: Codable {
     let userDetails: UserProfile?
     let activity: UserActivity?
 }

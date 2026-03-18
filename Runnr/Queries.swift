@@ -163,18 +163,25 @@ func deleteUserActivity(activityID : UUID, mapImageURL : String) async {
     }
 }
 
-func fetchAllMyActivities(userID : UUID) async -> [UserActivity] {
+func fetchAllMyActivities(userProfile: UserProfile) async -> [ActivityDetails] {
     do {
         
         let response: [UserActivity] = try await SupabaseManager.shared.client
             .from("UserActivity")
             .select()
-            .eq("userID", value: userID)
+            .eq("userID", value: userProfile.userID)
             .order("activityStartTime", ascending: false)
             .execute()
             .value
         
-        return response
+        let result = response.map { activity in
+            ActivityDetails(
+                userDetails: userProfile,
+                activity: activity
+            )
+        }
+        
+        return result
     }
     catch {
         print("Data not found")
@@ -724,7 +731,7 @@ func fetchUnfollowedUsers(currentUserID: UUID) async -> [UserProfile] {
     }
 }
 
-func fetchFollowedUsersAtivities(currentUserID: UUID) async -> [FriendsActivity] {
+func fetchFollowedUsersAtivities(currentUserID: UUID) async -> [ActivityDetails] {
     do {
         // 1. Get IDs the user follows
         let followed: [FollowerAndFollowing] = try await SupabaseManager.shared.client
@@ -736,7 +743,7 @@ func fetchFollowedUsersAtivities(currentUserID: UUID) async -> [FriendsActivity]
 
         let followedIDs = followed.map { $0.FollowingID }.filter { $0 != currentUserID }
   
-        let activities: [FriendsActivity] = try await SupabaseManager.shared.client
+        let activities: [ActivityDetails] = try await SupabaseManager.shared.client
             .rpc("get_friends_latest_activity", params: ["friend_ids": followedIDs])
             .execute()
             .value

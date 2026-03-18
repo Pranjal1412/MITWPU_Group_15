@@ -34,7 +34,7 @@ class FriendsActivityTableViewCell: UITableViewCell {
         self.viewMainBackground.layer.cornerRadius = 20
     }
 
-    func configure(with data: FriendsActivity) {
+    func configure(with data: ActivityDetails) {
         labelName.text = data.userDetails!.userName
         labelDate.text = formatDate(with: data.activity!.activityStartTime!)
         labelRunTitle.text = data.activity!.activityTitle

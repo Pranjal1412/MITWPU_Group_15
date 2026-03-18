@@ -41,9 +41,8 @@ class ActivityAnalysisViewController: UIViewController {
     @IBOutlet weak var viewGraphContainer: UIView!
     @IBOutlet weak var viewHRGraphContainer: UIView!
     
-    var activityData : UserActivity?
+    var activityData : ActivityDetails?
     private var datasource = DataSource.shared
-    private let userProfile = DataSource.shared.getUserProfile()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,7 +70,7 @@ class ActivityAnalysisViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if self.activityData?.avgHeartRate == nil {
+        if self.activityData?.activity?.avgHeartRate == nil {
             self.labelHeartRate.isHidden = true
             self.labelAvgHRValue.isHidden = true
             self.viewHRGraphContainer.isHidden = true
@@ -110,10 +109,10 @@ class ActivityAnalysisViewController: UIViewController {
     
     func settingUpActivityAnalysisScreenElements() {
                 
-        labelUserName.text = userProfile.userName
+        labelUserName.text = activityData?.userDetails?.userName
         labelUserName.sizeToFit()
         
-        let profileImageURL = userProfile.userProfileImageURL
+        let profileImageURL = activityData?.userDetails?.userProfileImageURL
         if let url = URL(string: profileImageURL!) {
             self.userProfileImage.kf.setImage(with: url)
         }
@@ -121,13 +120,13 @@ class ActivityAnalysisViewController: UIViewController {
         self.userProfileImage.layer.cornerRadius = self.userProfileImage.frame.size.height / 2
         self.userProfileImage.clipsToBounds = true
         
-        labelActivityTitle.text = activityData!.activityTitle
+        labelActivityTitle.text = activityData?.activity?.activityTitle
         labelActivityTitle.sizeToFit()
         
-        labelActivityDate.text = formatDate(with: activityData!.activityStartTime!)
+        labelActivityDate.text = formatDate(with: (activityData?.activity?.activityStartTime!)!)
         labelActivityDate.sizeToFit()
         
-        labelActivityRemark.text = activityData!.activityRemark
+        labelActivityRemark.text = activityData?.activity?.activityRemark
         
         labelDistance.text = String(localized: "Distance")
         labelDistance.sizeToFit()
@@ -147,9 +146,9 @@ class ActivityAnalysisViewController: UIViewController {
         labelElevation.text = String(localized: "Elevation")
         labelElevation.sizeToFit()
         
-        labelBasePoints.text = String(localized: "Base Points: ") + String(self.activityData!.basePoints!)
-        labelSkillPoints.text = String(localized: "Skill Points: ") + String(self.activityData!.skillPoints!)
-        labelTotalPoints.text = String(localized: "Points: ") + String(self.activityData!.basePoints! + self.activityData!.skillPoints!)
+        labelBasePoints.text = String(localized: "Base Points: ") + String(self.activityData!.activity!.basePoints!)
+        labelSkillPoints.text = String(localized: "Skill Points: ") + String((self.activityData?.activity?.skillPoints!)!)
+        labelTotalPoints.text = String(localized: "Points: ") + String(self.activityData!.activity!.basePoints! + self.activityData!.activity!.skillPoints!)
         
         viewActivityStats.layer.cornerRadius = 10
     }
@@ -159,22 +158,22 @@ class ActivityAnalysisViewController: UIViewController {
         let boldFont = UIFont(name: "SFProText-Bold", size: 22) ?? UIFont.systemFont(ofSize: 22, weight: .medium)
         
         
-        let distanceText = NSMutableAttributedString(string: String(format: "%.2f", self.activityData!.distanceCovered!), attributes: [.font: boldFont, .foregroundColor: UIColor.white])
+        let distanceText = NSMutableAttributedString(string: String(format: "%.2f", self.activityData!.activity!.distanceCovered!), attributes: [.font: boldFont, .foregroundColor: UIColor.white])
         
-        distanceText.append(NSAttributedString(string: " " + self.activityData!.distanceUnit!.rawValue, attributes: [.font: thinFont, .foregroundColor: UIColor.white]))
+        distanceText.append(NSAttributedString(string: " " + self.activityData!.activity!.distanceUnit!.rawValue, attributes: [.font: thinFont, .foregroundColor: UIColor.white]))
         
         labelDistanceValue.attributedText = distanceText
         labelDistanceValue.textColor = .accent
         
-        let paceText = NSMutableAttributedString(string: String(format: "%.2f", self.activityData!.avgPace!), attributes: [.font: boldFont, .foregroundColor: UIColor.white])
+        let paceText = NSMutableAttributedString(string: String(format: "%.2f", self.activityData!.activity!.avgPace!), attributes: [.font: boldFont, .foregroundColor: UIColor.white])
         
-        paceText.append(NSAttributedString(string: self.activityData!.paceUnit!.rawValue, attributes: [.font: thinFont, .foregroundColor: UIColor.white]))
+        paceText.append(NSAttributedString(string: self.activityData!.activity!.paceUnit!.rawValue, attributes: [.font: thinFont, .foregroundColor: UIColor.white]))
         
         labelPaceValue.attributedText = paceText
         labelPaceValue.textColor = .accent
         
         var timeText = NSMutableAttributedString(string: "")
-        let formattedTime = formatTime(self.activityData!.timeTakenSeconds!)
+        let formattedTime = formatTime(self.activityData!.activity!.timeTakenSeconds!)
         if formattedTime.hour != 0 {
             timeText = NSMutableAttributedString(string: String(format: "%02d", formattedTime.hour), attributes: [.font: boldFont, .foregroundColor: UIColor.accent])
             timeText.append(NSAttributedString(string: "hr ", attributes: [.font: thinFont, .foregroundColor: UIColor.accent]))
@@ -190,19 +189,18 @@ class ActivityAnalysisViewController: UIViewController {
         
         labelTimeValue.attributedText = timeText
         
-        let caloriesText = NSMutableAttributedString(string: String(self.activityData!.caloriesBurnt!), attributes: [.font: boldFont, .foregroundColor: UIColor.white])
+        let caloriesText = NSMutableAttributedString(string: String(self.activityData!.activity!.caloriesBurnt!), attributes: [.font: boldFont, .foregroundColor: UIColor.white])
         
         caloriesText.append(NSAttributedString(string: " kcal", attributes: [.font: thinFont, .foregroundColor: UIColor.white]))
 
         labelCaloriesValue.attributedText = caloriesText
         labelCaloriesValue.textColor = .accent
         
-        labelStepsValue.text = String(format:"%02d", self.activityData!.stepsTaken!)
-        self.labelAvgHRValue.text = "Average Heart Rate: " + String(format: "%0.2d", self.activityData!.avgHeartRate ?? 0.0)
+        labelStepsValue.text = String(format:"%02d", self.activityData!.activity!.stepsTaken!)
+        self.labelAvgHRValue.text = "Average Heart Rate: " + String(format: "%0.2d", self.activityData!.activity!.avgHeartRate ?? 0.0)
         
-        // ✅ Elevation value
             let elevationText = NSMutableAttributedString(
-                string: String(format: "%.0f", self.activityData!.elevation ?? 0.0),
+                string: String(format: "%.0f", self.activityData!.activity!.elevation ?? 0.0),
                 attributes: [.font: boldFont, .foregroundColor: UIColor.white]
             )
             

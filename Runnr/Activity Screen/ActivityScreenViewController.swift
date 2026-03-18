@@ -13,7 +13,8 @@ class ActivityScreenViewController: UIViewController {
     @IBOutlet weak var buttonUserProfile: UIButton!
     @IBOutlet weak var profileImage: UIImageView!
     
-    let label = UILabel()
+    private let label = UILabel()
+    private let loader = UIActivityIndicatorView(style: .large)
 
     var totalPoints: Int {
         dataSource.getUserStats()?.totalPointsEarned ?? 0
@@ -24,11 +25,11 @@ class ActivityScreenViewController: UIViewController {
     private var userProfile: UserProfile {
         DataSource.shared.getUserProfile()
     }
-    private var myActivity: [UserActivity] {
+    private var myActivity: [ActivityDetails] {
         dataSource.getAllActivities()
     }
     
-    private var friendsActivity : [FriendsActivity] {
+    private var friendsActivity : [ActivityDetails] {
         dataSource.getFriendsActivityData()
     }
     
@@ -46,6 +47,11 @@ class ActivityScreenViewController: UIViewController {
         label.frame = CGRect(x: 0, y: view.frame.height / 2 + 20.0, width: view.frame.width, height: 50)
         label.textAlignment = .center
         view.addSubview(label)
+        label.isHidden = true
+        
+        loader.center = view.center
+        loader.hidesWhenStopped = true
+        view.addSubview(loader)
         
         self.buttonUserProfile.layer.cornerRadius = self.buttonUserProfile.frame.height / 2
         self.profileImage.layer.cornerRadius = self.profileImage.frame.height / 2
@@ -55,24 +61,30 @@ class ActivityScreenViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
         let profileImageURL = DataSource.shared.getUserProfile().userProfileImageURL
 
-        if let url = URL(string: profileImageURL!) {
+        if let urlString = profileImageURL,
+           let url = URL(string: urlString) {
             self.profileImage.kf.setImage(with: url)
         }
         
-        Task {
-            
-            let activities = await fetchAllMyActivities(userID: userProfile.userID!)
-            self.dataSource.setAllActivities(activities)
-            
-            let friendActivity = await fetchFollowedUsersAtivities(currentUserID: userProfile.userID!)
-            self.dataSource.setFriendsActivityData(friendActivity)
-                                
-            updateScreenElements()
-            labelTotalPoints.text = "\(totalPoints)"
-        }
+        loader.startAnimating()
         
+        Task {
+            let activities = await fetchAllMyActivities(userProfile: self.userProfile)
+            let friendActivity = await fetchFollowedUsersAtivities(currentUserID: userProfile.userID!)
+            
+            await MainActor.run {
+                self.dataSource.setAllActivities(activities)
+                self.dataSource.setFriendsActivityData(friendActivity)
+                
+                self.updateScreenElements()
+                self.labelTotalPoints.text = "\(self.totalPoints)"
+                
+                self.loader.stopAnimating()
+            }
+        }
     }
     
     func settingLabelStyle() {
@@ -182,7 +194,7 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MyActivityTableViewCell
             
             let activity = myActivity[indexPath.row]
-            cell.configure(with: activity)
+            cell.configure(with: activity.activity!)
             
             return cell
 
@@ -207,10 +219,10 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
                 Task {
                     self.dataSource.setCurrentActivity(activity)
 
-                    let routeCoordinates = await fetchActivityRouteCoordinates(activity.activityID!)
+                    let routeCoordinates = await fetchActivityRouteCoordinates(activity.activity!.activityID!)
                     self.dataSource.setCurrentActivityCoordinates(routeCoordinates)
 
-                    let paceData = await fetchActivityPaceGraphData(activity.activityID!)
+                    let paceData = await fetchActivityPaceGraphData(activity.activity!.activityID!)
                     self.dataSource.setCurrentActivityPaceData(paceData)
                     
                     await MainActor.run {
@@ -226,15 +238,15 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
             
         }
         else {
-            let activityDetails = friendsActivity[indexPath.row].activity
+            let activityDetails = friendsActivity[indexPath.row]
             
             Task {
-                self.dataSource.setCurrentActivity(activityDetails!)
+                self.dataSource.setCurrentActivity(activityDetails)
 
-                let routeCoordinates = await fetchActivityRouteCoordinates((activityDetails!.activityID!))
+                let routeCoordinates = await fetchActivityRouteCoordinates(activityDetails.activity!.activityID!)
                 self.dataSource.setCurrentActivityCoordinates(routeCoordinates)
 
-                let paceData = await fetchActivityPaceGraphData(activityDetails!.activityID!)
+                let paceData = await fetchActivityPaceGraphData(activityDetails.activity!.activityID!)
                 self.dataSource.setCurrentActivityPaceData(paceData)
                 
                 await MainActor.run {

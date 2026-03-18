@@ -117,7 +117,7 @@ class ActivitySaveViewController: UIViewController {
             self.userStats?.totalPointsEarned += (self.activityData.basePoints ?? 0) + (self.activityData.skillPoints ?? 0)
             self.userStats?.totalDistanceCovered += self.activityData.distanceCovered ?? 0
 
-            self.dataSource.setCurrentActivity(activityData)
+            self.dataSource.setCurrentActivity(ActivityDetails(userDetails: DataSource.shared.getUserProfile(), activity: activityData))
             self.dataSource.resetMyActivities()
             self.dataSource.setUserStats(self.userStats!)
 
