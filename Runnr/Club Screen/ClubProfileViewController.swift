@@ -57,6 +57,13 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         // Setup Create New Post Button
         createNewPostButton.layer.cornerRadius = createNewPostButton.frame.height / 2
         createNewPostButton.addTarget(self, action: #selector(presentCreatePost), for: .touchUpInside)
+        
+        if isMyClub {
+            self.createNewPostButton.isHidden = false
+        }
+        else {
+            self.createNewPostButton.isHidden = true
+        }
     }
 
     @objc func presentCreatePost() {
@@ -72,7 +79,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
                 allPosts = await fetchAllClubPosts(for: self.myClubProfileData!.club.clubID!) ?? []
             }
             else {
-                allPosts = await fetchAllClubPosts(for: self.myClubProfileData!.club.clubID!) ?? []
+                allPosts = await fetchAllClubPosts(for: self.clubProfileData!.clubID!) ?? []
             }
             
             if allPosts.isEmpty {
@@ -316,6 +323,8 @@ extension ClubProfileViewController: UICollectionViewDelegate, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let postDetailVC = PostViewDetailViewController()
         postDetailVC.postDetails = allPosts[indexPath.row]
+        postDetailVC.isOwner = isMyClub
+        
         postDetailVC.isLiked = likedPosts[indexPath.row]
         postDetailVC.likeStatusChanged = { [weak self] isLiked in
             self?.likedPosts[indexPath.row] = isLiked

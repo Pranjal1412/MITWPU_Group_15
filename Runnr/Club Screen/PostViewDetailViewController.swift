@@ -6,14 +6,15 @@ class PostViewDetailViewController: UIViewController {
     @IBOutlet weak var postImageView: UIImageView!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
-    //@IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var followButton: UIButton!
     @IBOutlet weak var captionLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
-//    @IBOutlet weak var likeContainerView: UIView!
-//    @IBOutlet weak var likeIconImageView: UIImageView!
-    //@IBOutlet weak var likeCountLabel: UILabel!
-    //@IBOutlet weak var moreOptionButton: UIButton!
+    @IBOutlet weak var moreOptionButton: UIButton!
+    
+    //    @IBOutlet weak var likeContainerView: UIView!
+    //    @IBOutlet weak var likeIconImageView: UIImageView!
+    //    @IBOutlet weak var likeCountLabel: UILabel!
+    //    @IBOutlet weak var locationLabel: UILabel!
 
     private let imageLikeButton = UIButton(type: .custom)
     // Tracks double-tap like state: false = accent, true = red
@@ -22,6 +23,7 @@ class PostViewDetailViewController: UIViewController {
     var postDetails: ClubPost?
     var isLiked: Bool = false
     var likeStatusChanged: ((Bool) -> Void)?
+    var isOwner: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,9 +47,17 @@ class PostViewDetailViewController: UIViewController {
         followButton.setTitleColor(.black, for: .normal)
         followButton.layer.shadowOpacity = 0
         
+        setGlassEffect(for: self.moreOptionButton, withImage: "ellipsis")
         setupImageLikeButton()
         formatCaptionText()
-
+        
+        if isOwner {
+            moreOptionButton.isHidden = false
+        }
+        else {
+            moreOptionButton.isHidden = true
+        }
+        
         // More Option Button
 //        moreOptionButton.layer.cornerRadius = moreOptionButton.frame.height / 2
 //        moreOptionButton.backgroundColor = UIColor.black.withAlphaComponent(0.4)
@@ -160,6 +170,27 @@ class PostViewDetailViewController: UIViewController {
         captionLabel.attributedText = attributedString
     }
 
+    @IBAction func moreOptionClicked(_ sender: UIButton) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let editPostButton = UIAlertAction(title: String(localized: "Edit Post"), style: .default, handler: {_ in
+        })
+        let deleteButton = UIAlertAction(title: String(localized: "Delete"), style: .destructive, handler: {_ in
+            
+            Task {
+                await deleteClubPost(postID: self.postDetails!.postID!, postImageURL: self.postDetails!.postImageURL!)
+                self.dismiss(animated: true)
+            }
+        })
+        let cancelButton = UIAlertAction(title: String("Cancel"), style: .cancel)
+        
+        alert.addAction(editPostButton)
+        alert.addAction(deleteButton)
+        alert.addAction(cancelButton)
+        
+        self.present(alert, animated: true)
+    }
+    
     @IBAction func followTapped(_ sender: UIButton) {
         if sender.titleLabel?.text == "Follow" {
             sender.setTitle("Following", for: .normal)
@@ -177,7 +208,4 @@ class PostViewDetailViewController: UIViewController {
         }
     }
     
-    @IBAction func moreOptionsTapped(_ sender: UIButton) {
-        // Add options like share, report, etc.
-    }
 }

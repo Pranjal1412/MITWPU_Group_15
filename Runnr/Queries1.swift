@@ -59,6 +59,23 @@ func fetchAllClubPosts(for clubID: UUID) async -> [ClubPost]? {
     }
 }
 
+func deleteClubPost(postID : UUID, postImageURL : String) async {
+    do {
+        
+        try await SupabaseManager.shared.client
+            .from("ClubPost")
+            .delete()
+            .eq("postID", value: postID)
+            .execute()
+        
+        await deleteImageFromStorage(imageURL: postImageURL)
+    }
+    catch {
+        print("Deletion failed: \(error)")
+    }
+}
+
+
 func saveClubPostImage(postID: UUID, with image: UIImage) async -> String? {
     
     let resizedImage = resizeImageIfNeeded(image, maxDimension: 400)
