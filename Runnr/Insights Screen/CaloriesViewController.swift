@@ -2,8 +2,8 @@ import UIKit
 import SwiftUI
 
 class CaloriesViewController: UIViewController {
-
-    @IBOutlet weak var weekRangeLabel: UILabel!
+    
+    //    @IBOutlet weak var weekRangeLabel: UILabel!
     @IBOutlet weak var scrollViewMain: UIScrollView!
     @IBOutlet weak var labelNumber: UILabel!
     @IBOutlet weak var segmentControlCalories: UISegmentedControl!
@@ -16,38 +16,45 @@ class CaloriesViewController: UIViewController {
     let dataSource = DataSource.shared
     private var hostingController: UIHostingController<CaloriesChartView>?
     private var userProfile = DataSource.shared.getUserProfile()
-
-    private var selectedDate: Date = Date()       
+    
+    private var selectedDate: Date = Date()
     override func viewDidLoad() {
         super.viewDidLoad()
         
         segmentControlCalories.selectedSegmentIndex = 0
-        updateTopValueForSelectedSegment()
+        graphStore?.selectedPeriod = .weekly
+        
         updateDateDisplay()
-
+        
         navigationItem.title = "Calories"
         let appearance = UINavigationBarAppearance()
         appearance.configureWithTransparentBackground()
         appearance.titleTextAttributes = [.font: UIFont.systemFont(ofSize: 22, weight: .bold)]
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
-
-//        collectionViewCalories.dataSource = self
-//        collectionViewCalories.delegate = self
+        
+        //        collectionViewCalories.dataSource = self
+        //        collectionViewCalories.delegate = self
         let nib = UINib(nibName: "TrendsCollectionViewCell", bundle: nil)
         collectionViewCalories.register(nib, forCellWithReuseIdentifier: "cell")
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         collectionViewCalories.collectionViewLayout = layout
-
+        
         segmentControlCalories.layer.borderWidth = 0.5
         segmentControlCalories.layer.borderColor = UIColor.accent.cgColor
         segmentControlCalories.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
-
+        
         settingLabelStyle()
         setupGraph()
     }
-
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        updateTopValueForSelectedSegment()
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         scrollViewMain.contentSize.height =
@@ -57,122 +64,132 @@ class CaloriesViewController: UIViewController {
     
     
     @IBAction func buttonRangeClicked(_ sender: Any) {
-
+        
         let alert = UIAlertController(title: "Select Date\n\n\n\n\n\n\n\n", message: nil, preferredStyle: .alert)
-
-            let datePicker = UIDatePicker()
-            datePicker.datePickerMode = .date
-            datePicker.preferredDatePickerStyle = .wheels
-            datePicker.translatesAutoresizingMaskIntoConstraints = false
-            datePicker.date = selectedDate
-            datePicker.maximumDate = Date()
-            
-            alert.view.addSubview(datePicker)
-
-            NSLayoutConstraint.activate([
-                datePicker.centerXAnchor.constraint(equalTo: alert.view.centerXAnchor),
-                datePicker.topAnchor.constraint(equalTo: alert.view.topAnchor, constant: 60),
-                datePicker.widthAnchor.constraint(equalToConstant: 250),
-                datePicker.heightAnchor.constraint(equalToConstant: 180)
-            ])
-
-            let select = UIAlertAction(title: "Select", style: .default) { _ in
-                Task {
-                    self.selectedDate = datePicker.date
-                    await self.graphStore!.loadData(userID: self.userProfile.userID!, referenceDate: self.selectedDate)
-                    self.updateDateDisplay()
-                }
+        
+        let datePicker = UIDatePicker()
+        datePicker.datePickerMode = .date
+        datePicker.preferredDatePickerStyle = .wheels
+        datePicker.translatesAutoresizingMaskIntoConstraints = false
+        datePicker.date = selectedDate
+        datePicker.maximumDate = Date()
+        
+        alert.view.addSubview(datePicker)
+        
+        NSLayoutConstraint.activate([
+            datePicker.centerXAnchor.constraint(equalTo: alert.view.centerXAnchor),
+            datePicker.topAnchor.constraint(equalTo: alert.view.topAnchor, constant: 60),
+            datePicker.widthAnchor.constraint(equalToConstant: 250),
+            datePicker.heightAnchor.constraint(equalToConstant: 180)
+        ])
+        
+        let select = UIAlertAction(title: "Select", style: .default) { _ in
+            Task {
+                self.selectedDate = datePicker.date
+                await self.graphStore!.loadData(userID: self.userProfile.userID!, referenceDate: self.selectedDate)
+                self.updateDateDisplay()
+                self.updateTopValueForSelectedSegment()
             }
-
-            alert.addAction(select)
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-
-            present(alert, animated: true)
+        }
+        
+        alert.addAction(select)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        
+        present(alert, animated: true)
     }
     
     
     func updateDateDisplay() {
-
+        
         let formatter = DateFormatter()
         let calendar = Calendar(identifier: .gregorian)
-
+        
         switch segmentControlCalories.selectedSegmentIndex {
-
+            
         case 0: // Weekly
             graphStore?.selectedPeriod = .weekly
-
+            
             let weekEnd = selectedDate
             guard let weekStart = calendar.date(byAdding: .day, value: -6, to: weekEnd) else { return }
-
+            
             formatter.dateFormat = "d MMMM"
-
+            
             let startString = formatter.string(from: weekStart)
             let endString = formatter.string(from: weekEnd)
-
+            
             buttonWeekDates.setTitle("\(startString) - \(endString)", for: .normal)
-
+            
         case 1: // Monthly
             graphStore?.selectedPeriod = .monthly
-
+            
             formatter.dateFormat = "MMMM"
             buttonWeekDates.setTitle(formatter.string(from: selectedDate), for: .normal)
-
+            
         case 2: // Yearly
             graphStore?.selectedPeriod = .yearly
-
+            
             formatter.dateFormat = "yyyy"
             buttonWeekDates.setTitle(formatter.string(from: selectedDate), for: .normal)
-
+            
         default:
             break
         }
     }
     
     func updateTopValueForSelectedSegment() {
-
+        
         guard let graphStore = graphStore else { return }
-
+        
         switch segmentControlCalories.selectedSegmentIndex {
         case 0:
-            labelNumber.text = String(dataSource.getWeeklyTotal(graphStore: graphStore).totalCalories)
+            let total = dataSource.getWeeklyTotal(graphStore: graphStore).totalCalories
+            labelNumber.text = "\(Int(total))"
+            
         case 1:
-            labelNumber.text = String(dataSource.getMonthlyTotal(graphStore: graphStore).totalCalories)
+            let total = dataSource.getMonthlyTotal(graphStore: graphStore).totalCalories
+            labelNumber.text = "\(Int(total))"
+            
         case 2:
-            labelNumber.text = String(dataSource.getYearlyTotal(graphStore: graphStore).totalCalories)
+            let total = dataSource.getYearlyTotal(graphStore: graphStore).totalCalories
+            labelNumber.text = "\(Int(total))"
+            
         default:
             break
         }
     }
-
+    
     @IBAction func segmentControlClicked(_ sender: UISegmentedControl) {
-        updateTopValueForSelectedSegment()
         updateDateDisplay()
+        updateTopValueForSelectedSegment()
     }
     
     func setupGraph() {
-        let graphView = CaloriesChartView(store: graphStore ?? GraphManager())
-
+        //        let graphView = CaloriesChartView(store: graphStore ?? GraphManager())
+        guard let graphStore = graphStore else { return }
+        let graphView = CaloriesChartView(store: graphStore)
+        
+        
         let hc = UIHostingController(rootView: graphView)
         hostingController = hc
-
+        
         addChild(hc)
         hc.view.translatesAutoresizingMaskIntoConstraints = false
         viewGraphContainer.addSubview(hc.view)
-
+        
         NSLayoutConstraint.activate([
             hc.view.topAnchor.constraint(equalTo: viewGraphContainer.topAnchor),
             hc.view.bottomAnchor.constraint(equalTo: viewGraphContainer.bottomAnchor),
             hc.view.leadingAnchor.constraint(equalTo: viewGraphContainer.leadingAnchor),
             hc.view.trailingAnchor.constraint(equalTo: viewGraphContainer.trailingAnchor)
         ])
-
+        
         hc.didMove(toParent: self)
     }
     
     func settingLabelStyle() {
         let mediumFont = UIFont.systemFont(ofSize: 15, weight: .bold)
         let thinFont = UIFont.systemFont(ofSize: 10)
-
+        
         let titleText = NSAttributedString(
             string: "Calories Burnt ",
             attributes: [.font: mediumFont, .foregroundColor: UIColor.white]
@@ -181,11 +198,16 @@ class CaloriesViewController: UIViewController {
             string: "(Kcal)",
             attributes: [.font: thinFont, .foregroundColor: UIColor.white]
         )
-
+        
         let fullText = NSMutableAttributedString()
         fullText.append(titleText)
         fullText.append(unitsText)
         labelCaloriesBurnt.attributedText = fullText
+        
+        // SAME CHANGE AS DISTANCE
+        labelNumber.text = "--"
+        labelNumber.textColor = UIColor.accent
+        labelNumber.font = UIFont.systemFont(ofSize: 32, weight: .bold)
     }
 }
 

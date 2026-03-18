@@ -214,6 +214,15 @@ class UserActivityManager {
         return self.avgPace
     }
     
+//    func getFormattedAveragePace() -> String {
+//        let pace = getAveragePace()
+//        let totalSeconds = Int(pace * 60)
+//        let minutes = totalSeconds / 60
+//        let seconds = totalSeconds % 60
+//        
+//        return String(format: "%d:%02d", minutes, seconds)
+//    }
+    
     func skillPointsEarned() -> Int {
         switch self.avgPace {
             

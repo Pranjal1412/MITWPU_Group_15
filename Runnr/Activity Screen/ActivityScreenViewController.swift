@@ -133,16 +133,35 @@ class ActivityScreenViewController: UIViewController {
     }
     
     func updateScreenElements() {
-        if myActivity.isEmpty {
-            label.isHidden = false
-            stackRecentActivities.isHidden = true
-        }
-        else {
-            label.isHidden = true
-            stackRecentActivities.isHidden = false
-        }
-        
-        tableViewMyActivity.reloadData()
+//        if myActivity.isEmpty {
+//            label.isHidden = false
+//            stackRecentActivities.isHidden = true
+//        }
+//        else {
+//            label.isHidden = true
+//            stackRecentActivities.isHidden = false
+//        }
+//        
+//        tableViewMyActivity.reloadData()
+        let isFriendsSegment = segmentedControlActivityScreen.selectedSegmentIndex == 1
+            let isEmpty = isFriendsSegment ? friendsActivity.isEmpty : myActivity.isEmpty
+            
+            // Toggle the "No Activities" label
+            label.isHidden = !isEmpty
+            
+            // Manage visibility for "My Activity" specific headers/stacks
+            if isFriendsSegment {
+                stackRecentActivities.isHidden = true
+                tableViewMyActivity.isHidden = true
+                tableViewFriendsActivity.isHidden = isEmpty
+            } else {
+                stackRecentActivities.isHidden = isEmpty
+                tableViewMyActivity.isHidden = isEmpty
+                tableViewFriendsActivity.isHidden = true
+            }
+            
+            tableViewMyActivity.reloadData()
+            tableViewFriendsActivity.reloadData()
     }
     
     @IBAction func chevronToAllActivities(_ sender: UIButton) {
@@ -151,19 +170,20 @@ class ActivityScreenViewController: UIViewController {
     }
     
     @IBAction func segmentChangeToFriends(_ sender: UISegmentedControl) {
-        if sender.selectedSegmentIndex == 1 {
-            stackRecentActivities.isHidden = true
-            tableViewMyActivity.isHidden = true
-            tableViewFriendsActivity.isHidden = false
-            label.isHidden = true
-            
-            tableViewFriendsActivity.reloadData()
-        }
-        else {
-            self.updateScreenElements()
-            tableViewMyActivity.isHidden = false
-            tableViewFriendsActivity.isHidden = true
-        }
+//        if sender.selectedSegmentIndex == 1 {
+//            stackRecentActivities.isHidden = true
+//            tableViewMyActivity.isHidden = true
+//            tableViewFriendsActivity.isHidden = false
+//            label.isHidden = true
+//            
+//            tableViewFriendsActivity.reloadData()
+//        }
+//        else {
+//            self.updateScreenElements()
+//            tableViewMyActivity.isHidden = false
+//            tableViewFriendsActivity.isHidden = true
+//        }
+        self.updateScreenElements()
     }
     
     @IBAction func profileButtonPressed(_ sender: UIButton) {

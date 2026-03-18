@@ -21,10 +21,10 @@ class PaceViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        updateDateDisplay()
-        
         segmentControlAveragePace.selectedSegmentIndex = 0
-        updateTopValueForSelectedSegment()
+        graphStore?.selectedPeriod = .weekly
+       
+        updateDateDisplay()
 
         navigationItem.title = "Average Pace"
         let appearance = UINavigationBarAppearance()
@@ -48,6 +48,12 @@ class PaceViewController: UIViewController {
 
         settingLabelStyle()
         setupGraph()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        updateTopValueForSelectedSegment()
     }
 
     override func viewDidLayoutSubviews() {
@@ -128,34 +134,38 @@ class PaceViewController: UIViewController {
         }
     }
     
-    
     func updateTopValueForSelectedSegment() {
 
         guard let graphStore = graphStore else { return }
 
+        let total: Double
+
         switch segmentControlAveragePace.selectedSegmentIndex {
         case 0:
-            labelNumber.text = String(dataSource.getWeeklyTotal(graphStore: graphStore).totalCalories)
-
+            total = dataSource.getWeeklyTotal(graphStore: graphStore).totalPace
         case 1:
-            labelNumber.text = String(dataSource.getMonthlyTotal(graphStore: graphStore).totalCalories)
-
+            total = dataSource.getMonthlyTotal(graphStore: graphStore).totalPace
         case 2:
-            labelNumber.text = String(dataSource.getYearlyTotal(graphStore: graphStore).totalCalories)
-
+            total = dataSource.getYearlyTotal(graphStore: graphStore).totalPace
         default:
-            break
+            return
+        }
+
+        DispatchQueue.main.async {
+            self.labelNumber.text = String(format: "%.2f", total)
         }
     }
 
     
     @IBAction func segmentControlClicked(_ sender: UISegmentedControl) {
-        updateTopValueForSelectedSegment()
         updateDateDisplay()
+        updateTopValueForSelectedSegment()
     }
     
     func setupGraph() {
-        let graphView = PaceChartView(store: graphStore ?? GraphManager())
+//        let graphView = PaceChartView(store: graphStore ?? GraphManager())
+        guard let graphStore = graphStore else { return }
+        let graphView = PaceChartView(store: graphStore)
 
         let hc = UIHostingController(rootView: graphView)
         hostingController = hc
@@ -177,21 +187,27 @@ class PaceViewController: UIViewController {
     func settingLabelStyle() {
         let mediumFont = UIFont(name: "SFProText-Bold", size: 15) ?? UIFont.systemFont(ofSize: 15, weight: .bold)
         let thinFont = UIFont(name: "SFProText-Light", size: 10) ?? UIFont.systemFont(ofSize: 10)
-        let titleText = NSAttributedString(string: "Average Pace ", attributes: [.font: mediumFont, .foregroundColor: UIColor.white])
-        let unitsText = NSAttributedString(string: "(min/km)", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
+        
+        let titleText = NSAttributedString(
+            string: "Average Pace ",
+            attributes: [.font: mediumFont, .foregroundColor: UIColor.white]
+        )
+        let unitsText = NSAttributedString(
+            string: "(min/km)",
+            attributes: [.font: thinFont, .foregroundColor: UIColor.white]
+        )
+        
         let fullText = NSMutableAttributedString()
         fullText.append(titleText)
         fullText.append(unitsText)
         labelAveragePace.attributedText = fullText
 
+        // SAME CHANGE (placeholder)
         let boldFont = UIFont(name: "SFProText-Bold", size: 32) ?? UIFont.systemFont(ofSize: 32, weight: .bold)
-        let thin2Font = UIFont(name: "SFProText-Light", size: 15) ?? UIFont.systemFont(ofSize: 15)
-        let numberText = NSAttributedString(string: "8:30 ", attributes: [.font: boldFont, .foregroundColor: UIColor(named: "AccentColor") ?? UIColor.white])
-        let unitText = NSAttributedString(string: "min/km", attributes: [.font: thin2Font, .foregroundColor: UIColor(named: "AccentColor") ?? UIColor.white])
-        let fullTexts = NSMutableAttributedString()
-        fullTexts.append(numberText)
-        fullTexts.append(unitText)
-        labelNumber.attributedText = fullTexts
+        
+        labelNumber.text = "--"
+        labelNumber.textColor = UIColor(named: "AccentColor") ?? UIColor.white
+        labelNumber.font = boldFont
     }
 
 }
