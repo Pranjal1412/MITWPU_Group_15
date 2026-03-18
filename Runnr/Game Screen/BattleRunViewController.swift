@@ -296,8 +296,8 @@ class BattleRunViewController: UIViewController {
         
         private func handleTileTap(id: String) {
             guard let controller = boardController, let tile = game.tiles[id] else { return }
-            if game.canCapture(tile: tile, cost: 10) {
-                game.capture(tileID: id, cost: 10)
+            if game.canCapture(tile: tile, cost: 100) {
+                game.capture(tileID: id, cost: 100)
                 controller.tileEntities[id]?.playPopAnimation()
                 updateTileMaterial(id: id, controller: controller)
                 updatePointsLabels()
@@ -308,7 +308,7 @@ class BattleRunViewController: UIViewController {
                 // Deduct points from DataSource (in-memory) so the rest of the app sees updated points
                 if var stats = DataSource.shared.getUserStats(),
                    let userID = stats.userID as UUID? {
-                    stats.totalPointsEarned -= 10
+                    stats.totalPointsEarned -= 100
                     DataSource.shared.setUserStats(stats)
                     // Persist deducted points to Supabase
                     Task { await updateUserStats(userID: userID, newStats: stats) }
@@ -349,7 +349,7 @@ class BattleRunViewController: UIViewController {
 
         func updateCaptureCounter() {
             let captured = game.tiles.values.filter { if case .player(.me) = $0.owner { return true }; return false }.count
-            labelCaptureCount?.text = "CAPTURED: \(captured)"
+            labelCaptureCount?.text = "YOUR TERRITORY: \(captured)"
         }
 
         private func animateScoreBounce() {
