@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24128" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -350,6 +350,21 @@
                         </mask>
                     </variation>
                 </scrollView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QYz-9T-11T" userLabel="Settings">
+                    <rect key="frame" x="294" y="70" width="45" height="45"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="3x0-pw-EjM"/>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="45" id="Ug5-kB-MGf"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="45" id="w9j-pa-d3r"/>
+                        <constraint firstAttribute="width" constant="45" id="yb1-gp-xWN"/>
+                    </constraints>
+                    <color key="tintColor" name="AccentColor"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" image="bell.fill" catalog="system"/>
+                    <connections>
+                        <action selector="navigateToNotification:" destination="-1" eventType="touchUpInside" id="ty9-gR-zRR"/>
+                    </connections>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -357,6 +372,8 @@
                 <constraint firstItem="4h5-tk-7iD" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="At2-Ry-btZ"/>
                 <constraint firstItem="pk1-g8-qQL" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="70" id="COD-bn-1vb"/>
                 <constraint firstItem="qOI-zw-rkj" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="IdB-7v-dFf"/>
+                <constraint firstItem="pk1-g8-qQL" firstAttribute="leading" secondItem="QYz-9T-11T" secondAttribute="trailing" constant="8" symbolic="YES" id="O6V-Fb-8Za"/>
+                <constraint firstItem="QYz-9T-11T" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="70" id="Yvp-cL-oZJ"/>
                 <constraint firstItem="qOI-zw-rkj" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="bli-1r-lf9"/>
                 <constraint firstItem="uin-Ul-OqL" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="70" id="h6L-eb-Ntd"/>
                 <constraint firstAttribute="bottom" secondItem="qOI-zw-rkj" secondAttribute="bottom" id="hY1-ej-oFV"/>
@@ -371,6 +388,7 @@
     </objects>
     <resources>
         <image name="badge 1" width="120" height="120"/>
+        <image name="bell.fill" catalog="system" width="123" height="128"/>
         <image name="chevron.backward" catalog="system" width="97" height="128"/>
         <image name="gearshape" catalog="system" width="128" height="123"/>
         <image name="multiply" catalog="system" width="128" height="111"/>

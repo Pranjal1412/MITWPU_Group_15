@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24128" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="dark"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="NotificationChallengeTableViewCell" customModule="Runnr" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="402" height="122"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="402" height="122"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.crop.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="8OK-PS-KKd">
+                        <rect key="frame" x="15" y="19.666666666666668" width="45" height="43.666666666666657"/>
+                        <color key="tintColor" systemColor="labelColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="45" id="BBK-US-MwV"/>
+                            <constraint firstAttribute="width" constant="45" id="PrQ-Jn-HQB"/>
+                        </constraints>
+                    </imageView>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="rhn-Id-Gne">
+                        <rect key="frame" x="72" y="24" width="307" height="33"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sarah challenged you for the seasonal challenge." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aWu-cs-81N">
+                                <rect key="frame" x="0.0" y="0.0" width="307" height="16.333333333333332"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="307" id="LIj-di-FHM"/>
+                                    <constraint firstAttribute="height" constant="16.329999999999998" id="sca-pv-trN"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4 hr ago" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wlf-2x-d6B">
+                                <rect key="frame" x="0.0" y="21.333333333333336" width="50.666666666666664" height="11.666666666666664"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50.670000000000002" id="dcj-sv-F0d"/>
+                                    <constraint firstAttribute="height" constant="11.67" id="h0m-zJ-u1b"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="aWu-cs-81N" firstAttribute="leading" secondItem="rhn-Id-Gne" secondAttribute="leading" id="N0T-qH-fVh"/>
+                            <constraint firstAttribute="width" constant="307" id="ZsM-kp-kX3"/>
+                            <constraint firstItem="aWu-cs-81N" firstAttribute="top" secondItem="rhn-Id-Gne" secondAttribute="top" id="noQ-JJ-euR"/>
+                            <constraint firstItem="wlf-2x-d6B" firstAttribute="top" secondItem="aWu-cs-81N" secondAttribute="bottom" constant="5" id="xYL-qi-ErJ"/>
+                            <constraint firstItem="wlf-2x-d6B" firstAttribute="leading" secondItem="rhn-Id-Gne" secondAttribute="leading" id="xpF-HX-ApH"/>
+                        </constraints>
+                    </stackView>
+                    <stackView opaque="NO" contentMode="scaleToFill" spacing="19" translatesAutoresizingMaskIntoConstraints="NO" id="V3e-Dh-uw6">
+                        <rect key="frame" x="116.99999999999999" y="65" width="169.66666666666663" height="32"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DPw-bY-B2u">
+                                <rect key="frame" x="0.0" y="0.0" width="75.333333333333329" height="32"/>
+                                <color key="tintColor" name="AccentColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Accept">
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="15"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="acceptTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="acpt-tpd"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kz9-Xs-nIM">
+                                <rect key="frame" x="94.333333333333343" y="0.0" width="75.333333333333343" height="32"/>
+                                <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Decline">
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="15"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="acceptTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="yNg-d5-g1p"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="169.66999999999999" id="36b-RF-6lN"/>
+                        </constraints>
+                    </stackView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="V3e-Dh-uw6" firstAttribute="top" secondItem="rhn-Id-Gne" secondAttribute="bottom" constant="8" id="10C-1a-NPz"/>
+                    <constraint firstItem="rhn-Id-Gne" firstAttribute="leading" secondItem="8OK-PS-KKd" secondAttribute="trailing" constant="12" id="2oC-5D-ITI"/>
+                    <constraint firstItem="8OK-PS-KKd" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="19" id="E1X-eG-0IA"/>
+                    <constraint firstItem="rhn-Id-Gne" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="24" id="Idw-F1-3Bt"/>
+                    <constraint firstItem="8OK-PS-KKd" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="JVR-B6-rAW"/>
+                    <constraint firstAttribute="bottom" secondItem="V3e-Dh-uw6" secondAttribute="bottom" constant="25" id="M1O-Mx-mUQ"/>
+                    <constraint firstItem="V3e-Dh-uw6" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="117" id="WRf-Ed-3KM"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="buttonAccept" destination="DPw-bY-B2u" id="b-accpt"/>
+                <outlet property="buttonDecline" destination="kz9-Xs-nIM" id="b-decl-new"/>
+                <outlet property="labelMessage" destination="aWu-cs-81N" id="lbl-msg"/>
+            </connections>
+            <point key="canvasLocation" x="210.68702290076334" y="116.90140845070422"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="person.crop.circle" catalog="system" width="128" height="123"/>
+        <namedColor name="AccentColor">
+            <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

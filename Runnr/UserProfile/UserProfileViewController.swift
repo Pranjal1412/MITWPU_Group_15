@@ -119,6 +119,19 @@ class UserProfileViewController: UIViewController {
         
     }
     
+    @IBAction func navigateToNotification(_ sender: UIButton) {
+        let notificationVC = NotificationViewController()
+        if let presenter = self.presentingViewController {
+            self.dismiss(animated: true) {
+                notificationVC.modalPresentationStyle = .fullScreen
+                presenter.present(notificationVC, animated: true, completion: nil)
+            }
+        } else {
+            notificationVC.modalPresentationStyle = .fullScreen
+            self.present(notificationVC, animated: true, completion: nil)
+        }
+    }
+    
     @IBAction func followersTapped(_ sender: UIButton) {
         let currentUserId = friendData?.userID ?? userProfile.userID!
         
