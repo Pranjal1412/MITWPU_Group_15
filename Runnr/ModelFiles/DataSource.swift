@@ -163,6 +163,52 @@ class DataSource {
         return self.soloChallenges
     }
     
+//        func getWeeklyTotal(graphStore: GraphManager) -> TotalValue {
+//
+//            let calendar = Calendar.current
+//            let endDate = graphStore.referenceDate
+//            
+//            guard let startDate = calendar.date(byAdding: .day, value: -6, to: endDate) else {
+//                return TotalValue(totalDistance: 0, totalCalories: 0, totalPace: 0, totalSteps: 0)
+//            }
+//
+//            let filteredActivities = myActivities.filter { item in
+//                guard let date = item.activity?.activityStartTime else { return false }
+//                return date >= startDate && date <= endDate
+//            }
+//
+//            let totalCalories = filteredActivities.reduce(0.0) {
+//                $0 + Double($1.activity?.caloriesBurnt ?? 0)
+//            }
+//
+//            let totalDistance = filteredActivities.reduce(0.0) {
+//                $0 + ($1.activity?.distanceCovered ?? 0.0)
+//            }
+//
+//            let totalSteps = filteredActivities.reduce(0.0) {
+//                $0 + Double($1.activity?.stepsTaken ?? 0)
+//            }
+//
+//            let totalPace = filteredActivities.reduce(0.0) {
+//                $0 + ($1.activity?.avgPace ?? 0.0)
+//            }
+//
+//            return TotalValue(
+//                totalDistance: totalDistance,
+//                totalCalories: totalCalories,
+//                totalPace: totalPace,
+//                totalSteps: totalSteps
+//            )
+//        }
+//
+//        return TotalValue(
+//            totalDistance: totalDistance,
+//            totalCalories: totalCalories,
+//            totalPace: totalPace,
+//            totalSteps: totalSteps
+//        )
+//    }
+    
     func getWeeklyTotal(graphStore: GraphManager) -> TotalValue {
 
         var totalDistance: Double = 0.0
