@@ -65,7 +65,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
 
     @objc func presentCreatePost() {
         let vc = CreatePostViewController()
-        vc.modalPresentationStyle = .pageSheet // Native bottom sheet look
+        vc.clubDetails = myClubProfileData?.club
         self.present(vc, animated: true)
     }
 

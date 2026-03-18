@@ -11,9 +11,12 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CreatePostViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
+                <outlet property="addPhotosView" destination="0xU-FV-H21" id="Ojn-Ju-E1W"/>
                 <outlet property="bottomActionsStack" destination="j8g-7U-F1B" id="z0K-1F-9H8"/>
                 <outlet property="buttonCancel" destination="hX1-8b-3cF" id="Jy9-yh-pYd"/>
                 <outlet property="buttonSave" destination="aB8-Cq-71k" id="bL7-2y-f5k"/>
+                <outlet property="clubNameLabel" destination="n7M-xC-6yP" id="Ifc-Jy-5eO"/>
+                <outlet property="imagePost" destination="8Fl-hy-ehh" id="Ut2-1A-Mav"/>
                 <outlet property="mediaContainerView" destination="zK8-Yg-5B8" id="1zT-a9-p2l"/>
                 <outlet property="profileImageView" destination="b9T-g8-f4h" id="m7U-8j-e9q"/>
                 <outlet property="textView" destination="c3v-gX-7eM" id="x4v-7b-9fK"/>
@@ -98,7 +101,7 @@
                         <constraint firstAttribute="height" constant="36" id="k9O-oR-8gZ"/>
                     </constraints>
                 </stackView>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="  What's on your mind?" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="c3v-gX-7eM">
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="    What's on your mind?" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="c3v-gX-7eM">
                     <rect key="frame" x="16" y="165" width="370" height="100"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
@@ -110,9 +113,64 @@
                 </textView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zK8-Yg-5B8">
                     <rect key="frame" x="20" y="285" width="362" height="250"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Photos" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hE1-S4-ueL">
+                            <rect key="frame" x="20" y="130" width="322" height="19.333333333333343"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="High quality media looks the best" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mgb-gg-C6z">
+                            <rect key="frame" x="20" y="154.33333333333331" width="322" height="15.666666666666657"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" systemColor="systemGrayColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0xU-FV-H21">
+                            <rect key="frame" x="151" y="60" width="60" height="60"/>
+                            <subviews>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="photo.badge.plus" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="8j2-re-TMY">
+                                    <rect key="frame" x="12" y="11.666666666666657" width="40" height="40"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="60" id="A8l-ql-5yq"/>
+                                <constraint firstAttribute="width" constant="60" id="wrL-xP-fM8"/>
+                            </constraints>
+                        </view>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8Fl-hy-ehh">
+                            <rect key="frame" x="0.0" y="0.0" width="362" height="250"/>
+                        </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KOC-Bp-7ti">
+                            <rect key="frame" x="0.0" y="0.0" width="362" height="250"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <connections>
+                                <action selector="addPostImage:" destination="-1" eventType="touchUpInside" id="qXn-wV-IWJ"/>
+                            </connections>
+                        </button>
+                    </subviews>
                     <color key="backgroundColor" red="0.10980392156862745" green="0.10980392156862745" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
+                        <constraint firstItem="0xU-FV-H21" firstAttribute="top" secondItem="zK8-Yg-5B8" secondAttribute="top" constant="60" id="0C2-Qc-8TE"/>
+                        <constraint firstAttribute="trailing" secondItem="KOC-Bp-7ti" secondAttribute="trailing" id="0GY-FW-agP"/>
+                        <constraint firstAttribute="trailing" secondItem="8Fl-hy-ehh" secondAttribute="trailing" id="0oF-P2-7Vd"/>
+                        <constraint firstItem="hE1-S4-ueL" firstAttribute="leading" secondItem="zK8-Yg-5B8" secondAttribute="leading" constant="20" id="30M-nk-uKk"/>
+                        <constraint firstAttribute="trailing" secondItem="hE1-S4-ueL" secondAttribute="trailing" constant="20" id="9G5-qf-568"/>
+                        <constraint firstAttribute="bottom" secondItem="KOC-Bp-7ti" secondAttribute="bottom" id="9f8-rN-U0P"/>
+                        <constraint firstItem="hE1-S4-ueL" firstAttribute="top" secondItem="0xU-FV-H21" secondAttribute="bottom" constant="10" id="CvK-xd-hvw"/>
+                        <constraint firstItem="mgb-gg-C6z" firstAttribute="top" secondItem="hE1-S4-ueL" secondAttribute="bottom" constant="5" id="FcW-ic-FeJ"/>
+                        <constraint firstItem="KOC-Bp-7ti" firstAttribute="leading" secondItem="zK8-Yg-5B8" secondAttribute="leading" id="J3e-YK-NrM"/>
+                        <constraint firstAttribute="trailing" secondItem="mgb-gg-C6z" secondAttribute="trailing" constant="20" id="Pqn-fy-15D"/>
+                        <constraint firstItem="8Fl-hy-ehh" firstAttribute="top" secondItem="zK8-Yg-5B8" secondAttribute="top" id="RTA-zL-w4y"/>
+                        <constraint firstAttribute="bottom" secondItem="8Fl-hy-ehh" secondAttribute="bottom" id="SFW-yG-897"/>
                         <constraint firstAttribute="height" constant="250" id="T1B-aK-7aB"/>
+                        <constraint firstItem="mgb-gg-C6z" firstAttribute="leading" secondItem="zK8-Yg-5B8" secondAttribute="leading" constant="20" id="aF6-tt-wD6"/>
+                        <constraint firstItem="8Fl-hy-ehh" firstAttribute="leading" secondItem="zK8-Yg-5B8" secondAttribute="leading" id="ckb-jT-LZR"/>
+                        <constraint firstItem="0xU-FV-H21" firstAttribute="centerX" secondItem="zK8-Yg-5B8" secondAttribute="centerX" id="kvE-8y-zUi"/>
+                        <constraint firstItem="KOC-Bp-7ti" firstAttribute="top" secondItem="zK8-Yg-5B8" secondAttribute="top" id="xB1-MF-PBz"/>
                     </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -197,24 +255,26 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <variation key="default">
                 <mask key="subviews">
+                    <exclude reference="j8g-7U-F1B"/>
                     <exclude reference="m9N-qO-6vV"/>
                 </mask>
             </variation>
-            <point key="canvasLocation" x="61.832061068702288" y="-11.267605633802818"/>
+            <point key="canvasLocation" x="61.068702290076331" y="-11.267605633802818"/>
         </view>
     </objects>
     <resources>
         <image name="checkmark" catalog="system" width="128" height="114"/>
         <image name="globe" catalog="system" width="128" height="123"/>
         <image name="multiply" catalog="system" width="128" height="111"/>
+        <image name="photo.badge.plus" catalog="system" width="128" height="97"/>
         <namedColor name="AccentColor">
             <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemGray5Color">
-            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGrayColor">
-            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
