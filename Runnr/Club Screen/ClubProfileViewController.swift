@@ -58,7 +58,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         createNewPostButton.layer.cornerRadius = createNewPostButton.frame.height / 2
         createNewPostButton.addTarget(self, action: #selector(presentCreatePost), for: .touchUpInside)
         
-        if isMyClub {
+        if isMyClub && myClubProfileData?.role == .owner {
             self.createNewPostButton.isHidden = false
         }
         else {
@@ -163,11 +163,19 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
 
         }
         else {
+            
+            if let url = URL(string: (clubProfileData!.clubProfileImageURL!)) {
+                self.clubProfileImage.kf.setImage(with: url)
+            }
+            
+            if let url = URL(string: (clubProfileData!.clubBannerImageURL!)) {
+                self.imageClubBanner.kf.setImage(with: url)
+            }
+
             labelClubName.text = clubProfileData?.clubName
             labelSportType.text = clubProfileData?.clubSport.rawValue
             labelNumberOfMembers.text = String(clubProfileData!.memberCount) + " Members"
             clubDescription.text = clubProfileData?.clubDescription
-            //clubProfileImage.image = clubProfileData?.clubProfileImg
             clubMotive.text = clubProfileData?.clubMotive
             
             joinNowButton.setTitle("Join Now", for: .normal)
@@ -215,7 +223,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
             
             if joinNowButton.titleLabel?.text == "Edit Club Profile" {
                 let destinationVC = ClubSettingsViewController()
-                destinationVC.modalPresentationStyle = .fullScreen
+//                destinationVC.modalPresentationStyle = .fullScreen
                 destinationVC.delegate = self
                 destinationVC.clubProfileData = myClubProfileData?.club
                 self.present(destinationVC, animated: true)
