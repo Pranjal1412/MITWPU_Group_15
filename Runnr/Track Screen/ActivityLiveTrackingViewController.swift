@@ -72,6 +72,8 @@ class ActivityLiveTrackingViewController: UIViewController {
     var quotes: [String] = [String(localized: "You Got This"), String(localized: "Lock in"), String(localized: "Lace Up")]
     
     var isActivityInserted = false
+    var recoveredActivity: LocalActivity?
+    var hasRestoredPath = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,7 +83,7 @@ class ActivityLiveTrackingViewController: UIViewController {
         settingPauseButtonImg()
         
         userLocation.locationManager.startUpdatingLocation()
-        
+    
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(appMovedToBackground),
@@ -98,18 +100,22 @@ class ActivityLiveTrackingViewController: UIViewController {
         )
                         
         activityManager = UserActivityManager(timerLabel: self.labelTimeCounter)
-        self.activityStartTime = Date()
-        
+        if recoveredActivity == nil {
+            self.activityStartTime = Date()
+        }
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
         
         userLocation.onLocationUpdate = { location in
             
             if self.isMapInitialized == false {
                 
-                let mapView = self.mapManager.initializeMaps(withX: 5, withY: 0,
-                                                             withWidth: self.viewActivityTrack.frame.width - 40.0,
-                                                             withHeight: self.viewActivityTrack.frame.height - 5,
-                                                             location: location.coordinate)
+                let mapView = self.mapManager.initializeMaps(
+                    withX: 5,
+                    withY: 0,
+                    withWidth: self.viewActivityTrack.frame.width - 40.0,
+                    withHeight: self.viewActivityTrack.frame.height - 5,
+                    location: location.coordinate
+                )
                 
                 self.mapManager.userLocationMarkerSetting(isEnabled: true)
                 mapView.settings.rotateGestures = true
@@ -122,12 +128,33 @@ class ActivityLiveTrackingViewController: UIViewController {
                 self.userLocation.locationManager.distanceFilter = 6
                 self.isMapInitialized = true
                 
+                // ✅ RESTORE HERE
+                if let recovered = self.recoveredActivity, !self.hasRestoredPath {
+                    self.restoreActivity(recovered)
+                    self.hasRestoredPath = true
+                    
+                    // Move camera to last point
+                    if self.mapManager.path.count() > 0 {
+                        let last = self.mapManager.path.coordinate(at: self.mapManager.path.count() - 1)
+                        let camera = GMSCameraPosition(latitude: last.latitude, longitude: last.longitude, zoom: 15)
+                        self.mapManager.mapView.animate(to: camera)
+                    }
+                    
+                    return // ⛔ prevent duplicate first point
+                }
             }
             
+            // NORMAL FLOW
             self.mapManager.path.add(location.coordinate)
             self.mapManager.routeLine.path = self.mapManager.path
-            Task {
-                await self.saveActivityLocally()
+            
+            // ✅ THROTTLED SAVE
+            let now = Date()
+            if let last = self.lastSavedTime, now.timeIntervalSince(last) > 10 {
+                self.lastSavedTime = now
+                Task {
+                    await self.saveActivityLocally()
+                }
             }
             
             self.activityManager.startUpdatingDistance(with: location)
@@ -144,7 +171,6 @@ class ActivityLiveTrackingViewController: UIViewController {
             self.activityManager.showLivePace(using: location)
             self.labelPaceCounter.text = String(format: "%.2f", self.activityManager.currentPace)
             
-            print("Path Count: \(self.mapManager.path.count())")
             self.activityManager.startUpdatingElevation(with: location)
         }
         
@@ -219,105 +245,175 @@ class ActivityLiveTrackingViewController: UIViewController {
         
     }
     
+    // MARK: - Recovery
+    func restoreActivity(_ local: LocalActivity) {
+        
+        self.activityTypeSelected = local.activity.activityType
+        self.activityStartTime = local.activity.activityStartTime
+        
+        // Restore distance + pace
+        self.activityManager.totalDistance = local.activity.distanceCovered ?? 0
+        self.activityManager.totalSteps = local.activity.stepsTaken ?? 0
+        self.activityManager.paceGraphData = local.paceData
+        
+        // Restore path
+        for coord in local.coordinates {
+            let coordinate = CLLocationCoordinate2D(latitude: coord.latitude, longitude: coord.longitude)
+            self.mapManager.path.add(coordinate)
+        }
+        
+        self.mapManager.routeLine.path = self.mapManager.path
+        
+        // ✅ THIS is where it goes
+        let elapsed = local.activity.timeTakenSeconds ?? 0
+        self.activityManager.restoreTime(seconds: elapsed)
+        
+        // UI
+        self.labelDistanceCounter.text = String(format: "%.2f", self.activityManager.totalDistance)
+    }
+    
     @IBAction func EndRunButtonPressed(_ sender: UIButton) {
         
-        self.userLocation.locationManager.stopUpdatingLocation()
-        self.checkIfGoalSetAndCompleted()
-        self.activityManager.stopUpdatingElevation()
+        self.activityEndTime = Date()
         
-//        if self.isActivityInserted == true {
-            let alert = UIAlertController(title: String(localized: "End Run"),
-                                          message: String(localized: "Are you sure you want to end this run?"), preferredStyle: .alert)
-            let cancel = UIAlertAction(title: String(localized: "Cancel"), style: .cancel, handler: nil)
-            alert.addAction(cancel)
+        // ✅ Capture nav reference NOW on main thread, before any async work
+        guard let nav = self.navigationController else {
+            print("❌ No navigation controller on button press")
+            return
+        }
+        
+        let alert = UIAlertController(
+            title: String(localized: "End Run"),
+            message: String(localized: "Are you sure you want to end this run?"),
+            preferredStyle: .alert
+        )
 
-            let end = UIAlertAction(title: "End Anyway", style: .destructive) { _ in
-    //            The reason why complete thing is in Task is because heart rate and acitivty insertion and image does not happen one after the other the happen simultaneously so to avoid the bug and to avoid navigating to next screen before the data is available everything should be in Task
-                Task {
-                    self.playAudioFile(named: "runCompleted")
-                    self.activityEndTime = Date()
+        let cancel = UIAlertAction(title: String(localized: "Cancel"), style: .cancel, handler: nil)
+        alert.addAction(cancel)
 
-                    var currentActivity = UserActivity(userID: self.userProfile.userID!,
-                                                       activityStartTime: self.activityStartTime!,
-                                                       activityEndTime: self.activityEndTime!,
-                                                       activityTitle: "",
-                                                       activityType: self.activityTypeSelected!,
-                                                       activityRemark: "",
-                                                       isPublic: false,
-                                                       distanceCovered: self.activityManager.totalDistance,
-                                                       distanceUnit: .kilometers,
-                                                       timeTakenSeconds: self.activityManager.getTotalTime(),
-                                                       caloriesBurnt: 0,
-                                                       stepsTaken: self.activityManager.totalSteps,
-                                                       avgHeartRate: nil,
-                                                       avgPace: self.activityManager.getAveragePace(),
-                                                       paceUnit: .minPerKm,
-                                                       mapImageURL: "",
-                                                       basePoints: self.activityManager.basePointsEarned(),
-                                                       skillPoints: self.activityManager.skillPointsEarned(),
-                                                       elevation: self.activityManager.getTotalElevation()
-                                                    
-                    )
-                    
-                    // get Heart rate
-                    let avgHR = await self.healthKitManager.fetchAverageHeartRateAsync(from: self.activityStartTime!, to: self.activityEndTime!)
-                    currentActivity.avgHeartRate = avgHR
-                    
-                    let caloriesBurnt = await
-                        self.healthKitManager.fetchCaloriesAsync(from: self.activityStartTime!, to: self.activityEndTime!)
-                    currentActivity.caloriesBurnt = Int(caloriesBurnt)
-                    
-                    currentActivity = await insertActivity(currentActivity) ?? currentActivity
-                    self.datasource.setCurrentActivity(currentActivity)
-                    self.isActivityInserted = true
-                    
-                    await self.convertGMSMutablePathAndInsert(self.mapManager.path, activityID: currentActivity.activityID!)
-                    
-                    // Get Map image URL
-                    if let image = self.captureMapImage(from: self.mapManager.mapView) {
-                        let imageURL = await saveMapImage(activityID: currentActivity.activityID!, with: image)
-                        currentActivity.mapImageURL = imageURL
-                    }
-                    
-                    self.assignActivityIDToPaceData()
-                    await insertActivityPaceGraphData(self.activityManager.paceGraphData)
-                    
-                    LocalActivityStorage.shared.clear()
-                    
-                    DispatchQueue.main.async {
-                        let destinationVC = ActivitySaveViewController()
-                        destinationVC.activityData = currentActivity
-                        self.navigationController?.pushViewController(destinationVC, animated: true)
-                    }
-                }
-            }
+        let end = UIAlertAction(title: "End", style: .destructive) { _ in
             
-            alert.addAction(end)
-            present(alert, animated: true , completion: nil)
-//        }
-        
-//        else {
-//            let alert = UIAlertController(
-//                  title: String(localized: "Ending Run"),
-//                  message: String(localized: "Finalizing your activity…"),
-//                  preferredStyle: .alert
-//              )
-//
-//              let spinner = UIActivityIndicatorView(style: .medium)
-//              spinner.translatesAutoresizingMaskIntoConstraints = false
-//              spinner.startAnimating()
-//
-//              alert.view.addSubview(spinner)
-//
-//              NSLayoutConstraint.activate([
-//                  spinner.centerXAnchor.constraint(equalTo: alert.view.centerXAnchor),
-//                  spinner.bottomAnchor.constraint(equalTo: alert.view.bottomAnchor, constant: -20)
-//              ])
-//
-//            present(alert, animated: true , completion: nil)
-//
-//        }
-        
+            self.userLocation.locationManager.stopUpdatingLocation()
+            self.activityManager.stopUpdatingElevation()
+            self.activityManager.stopTimer()
+            self.checkIfGoalSetAndCompleted()
+            self.playAudioFile(named: "runCompleted")
+            
+            let mapSnapshot = self.captureMapImage(from: self.mapManager.mapView)
+            
+            let startTime = self.activityStartTime ?? Date()
+            let endTime = self.activityEndTime ?? Date()
+            let activityType = self.activityTypeSelected ?? .running
+            let totalDistance = self.activityManager.totalDistance
+            let totalSteps = self.activityManager.totalSteps
+            let totalTime = self.activityManager.getTotalTime()
+            let avgPace = self.activityManager.getAveragePace()
+            let basePoints = self.activityManager.basePointsEarned()
+            let skillPoints = self.activityManager.skillPointsEarned()
+            let elevation = self.activityManager.getTotalElevation()
+            let paceGraphData = self.activityManager.paceGraphData
+            let path = self.mapManager.path
+            let userID = self.userProfile.userID
+            let healthKit = self.healthKitManager
+            let datasource = self.datasource
+            
+            // ✅ Use the pre-captured nav reference — no longer depends on self.navigationController
+            let destinationVC = ActivitySaveViewController(nibName: "ActivitySaveViewController", bundle: nil)
+            destinationVC.activityData = UserActivity(
+                userID: userID,
+                activityStartTime: startTime,
+                activityEndTime: endTime,
+                activityTitle: "",
+                activityType: activityType,
+                activityRemark: "",
+                isPublic: false,
+                distanceCovered: totalDistance,
+                distanceUnit: .kilometers,
+                timeTakenSeconds: totalTime,
+                caloriesBurnt: 0,
+                stepsTaken: totalSteps,
+                avgHeartRate: nil,
+                avgPace: avgPace,
+                paceUnit: .minPerKm,
+                mapImageURL: "",
+                basePoints: basePoints,
+                skillPoints: skillPoints,
+                elevation: elevation
+            )
+            nav.pushViewController(destinationVC, animated: true)
+            
+            Task.detached {
+                guard let userID = userID else {
+                    print("❌ Missing userID — cannot save activity")
+                    return
+                }
+                
+                var currentActivity = UserActivity(
+                    userID: userID,
+                    activityStartTime: startTime,
+                    activityEndTime: endTime,
+                    activityTitle: "",
+                    activityType: activityType,
+                    activityRemark: "",
+                    isPublic: false,
+                    distanceCovered: totalDistance,
+                    distanceUnit: .kilometers,
+                    timeTakenSeconds: totalTime,
+                    caloriesBurnt: 0,
+                    stepsTaken: totalSteps,
+                    avgHeartRate: nil,
+                    avgPace: avgPace,
+                    paceUnit: .minPerKm,
+                    mapImageURL: "",
+                    basePoints: basePoints,
+                    skillPoints: skillPoints,
+                    elevation: elevation
+                )
+                
+                print("🔥 Background save started")
+                
+                let avgHR = await healthKit.fetchAverageHeartRateAsync(from: startTime, to: endTime)
+                let calories = await healthKit.fetchCaloriesAsync(from: startTime, to: endTime)
+                currentActivity.avgHeartRate = avgHR
+                currentActivity.caloriesBurnt = Int(calories)
+                
+                currentActivity = await insertActivity(currentActivity) ?? currentActivity
+                
+                if let activityID = currentActivity.activityID {
+                    
+                    var routeCoordinates: [ActivityRouteCoordinates] = []
+                    for i in 0..<path.count() {
+                        let coordinate = path.coordinate(at: i)
+                        routeCoordinates.append(
+                            ActivityRouteCoordinates(
+                                activityID: activityID,
+                                latitude: coordinate.latitude,
+                                longitude: coordinate.longitude,
+                                sequence: Int(i)
+                            )
+                        )
+                    }
+                    await insertActivityRouteCoordinates(routeCoordinates)
+                    datasource.setCurrentActivityCoordinates(routeCoordinates)
+                    
+                    if let image = mapSnapshot {
+                        let _ = await saveMapImage(activityID: activityID, with: image)
+                    }
+                    
+                    var updatedPaceData = paceGraphData
+                    for i in 0..<updatedPaceData.count {
+                        updatedPaceData[i].activityID = activityID
+                    }
+                    await insertActivityPaceGraphData(updatedPaceData)
+                }
+                
+                LocalActivityStorage.shared.clear()
+                print("✅ Background save completed")
+            }
+        }
+
+        alert.addAction(end)
+        self.present(alert, animated: true, completion: nil)
     }
     
     @objc func updateTimer() {
@@ -658,18 +754,31 @@ extension ActivityLiveTrackingViewController {
     }
     
     func checkIfGoalSetAndCompleted() {
-        if self.distanceGoalSet! > 0.0 {
-            let totalTimeSet = hourGoalSet! * 60 + minGoalSet!
+        
+        // ✅ Safely unwrap distance goal
+        guard let distanceGoal = self.distanceGoalSet else {
+            return
+        }
+        
+        if distanceGoal > 0.0 {
+            
+            let totalTimeSet = (hourGoalSet ?? 0) * 60 + (minGoalSet ?? 0)
             
             if totalTimeSet > 0 {
-                let totalTimeElapsed = activityManager.minutes + activityManager.hours * 60 + activityManager.seconds/60
                 
-                if totalTimeElapsed <= totalTimeSet && activityManager.totalDistance >= distanceGoalSet!{
+                let totalTimeElapsed = activityManager.minutes
+                    + activityManager.hours * 60
+                    + activityManager.seconds / 60
+                
+                if totalTimeElapsed <= totalTimeSet &&
+                    activityManager.totalDistance >= distanceGoal {
+                    
                     self.playAudioFile(named: "youHaveCompletedTodaysGoal")
                 }
-                else{
+                else {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                         guard self.isAudioFeedbackOn else { return }
+                        
                         let utterance = AVSpeechUtterance(string: "You have not met your goal")
                         utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
                         utterance.rate = 0.5
@@ -677,22 +786,26 @@ extension ActivityLiveTrackingViewController {
                     }
                 }
             }
-            else{
-                if activityManager.totalDistance >= distanceGoalSet! {
+            else {
+                
+                if activityManager.totalDistance >= distanceGoal {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                         guard self.isAudioFeedbackOn else { return }
+                        
                         let utterance = AVSpeechUtterance(string: "Distance goal met!")
                         utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
                         utterance.rate = 0.5
                         self.speechSynthesizer.speak(utterance)
                     }
-                    //self.playAudioFile(named: "keepGoing")
                 }
-                else{
-                    let remainingDistance = distanceGoalSet! - activityManager.totalDistance
+                else {
+                    let remainingDistance = distanceGoal - activityManager.totalDistance
+                    
                     self.playAudioFile(named: "youAreAlmostThere")
+                    
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                         guard self.isAudioFeedbackOn else { return }
+                        
                         let utterance = AVSpeechUtterance(string: "\(remainingDistance) left")
                         utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
                         utterance.rate = 0.5
