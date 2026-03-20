@@ -22,6 +22,7 @@ class DataSource {
     private var unfollowedUser: [UserProfile] = []
     private var followingUser: [UserProfile] = []
     private var followedUser: [UserProfile] = []
+    private var battleInviteNotifications: [BattleInviteNotification] = []
     
     static let shared = DataSource()
         
@@ -123,6 +124,14 @@ class DataSource {
     
     func getFollowingUser() -> [UserProfile] {
         return self.followingUser
+    }
+    
+    func setBattleInviteNotifications(_ list: [BattleInviteNotification]) {
+        self.battleInviteNotifications = list
+    }
+    
+    func getBattleInviteNotifications() -> [BattleInviteNotification] {
+        return self.battleInviteNotifications
     }
     
     func getFriendsActivityData() -> [ActivityDetails] {

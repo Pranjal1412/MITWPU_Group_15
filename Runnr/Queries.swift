@@ -538,6 +538,19 @@ func insertNewGame(gameData: TerritoryGame) async -> TerritoryGame? {
     }
 }
 
+func updateGamePlayerTwo(gameID: UUID, playerTwoID: UUID) async {
+    do {
+        try await SupabaseManager.shared.client
+            .from("TerritoryGame")
+            .update(["playerTwoID": playerTwoID.uuidString])
+            .eq("gameID", value: gameID)
+            .execute()
+        print("playerTwoID updated successfully")
+    } catch {
+        print("updateGamePlayerTwo failed: \(error)")
+    }
+}
+
 func fetchActiveGameForUser(userID: UUID) async -> TerritoryGame? {
     do {
         let games: [TerritoryGame] = try await SupabaseManager.shared.client
@@ -922,3 +935,34 @@ func saveClubPostImage(postID: UUID, with image: UIImage) async -> String? {
         return nil
     }
 }
+
+// MARK: - Battle Invite Notifications
+
+func insertBattleInviteNotification(_ notification: BattleInviteNotification) async {
+    do {
+        try await SupabaseManager.shared.client
+            .from("BattleInviteNotification")
+            .insert(notification)
+            .execute()
+        print("Battle invite notification inserted successfully")
+    } catch {
+        print("Insert notification failed: \(error)")
+    }
+}
+
+func fetchBattleInviteNotifications(for receiverID: UUID) async -> [BattleInviteNotification] {
+    do {
+        let notifications: [BattleInviteNotification] = try await SupabaseManager.shared.client
+            .from("BattleInviteNotification")
+            .select()
+            .eq("receiverID", value: receiverID)
+            .order("createdAt", ascending: false)
+            .execute()
+            .value
+        return notifications
+    } catch {
+        print("Fetch notifications failed: \(error)")
+        return []
+    }
+}
+

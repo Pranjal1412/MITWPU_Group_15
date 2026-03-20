@@ -78,78 +78,98 @@ class GameScreenViewController: UIViewController {
         
         self.labelTotalPoints.text = "\(totalPoints)"
     }
+    
+    @IBAction func profileButtonPressed(_ sender: UIButton) {
+        let destinationVC = UserProfileViewController()
+        destinationVC.modalPresentationStyle = .fullScreen
+        self.present(destinationVC, animated: true)
+    }
 }
 
-    extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-        
-        func numberOfSections(in collectionView: UICollectionView) -> Int {
-            // Section 0: Seasonal, Section 1: Solo
-            return 2
-        }
-        
-        func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-            if section == 0 {
-                return 1 // The Seasonal Challenge
-            } else {
-                return dataSource.getSoloChallenges().count // Dynamic list of Solo Challenges
-            }
-        }
-        
-        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            
-            if indexPath.section == 0 {
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "seasonalGameCell", for: indexPath) as! SeasonalGameCollectionViewCell
-                cell.refreshData()
-                return cell
-            } else {
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "soloChallengeCell", for: indexPath) as! SoloChallengeCollectionViewCell
-                let soloChallenges = dataSource.getSoloChallenges()
-                
-                if !soloChallenges.isEmpty {
-                    cell.configureCell(challenge: soloChallenges[indexPath.row])
-                }
-                return cell
-            }
-        }
-        
-        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            if indexPath.section == 0 {
-                let battleVC = BattleRunViewController()
-                battleVC.modalPresentationStyle = .fullScreen
-                self.present(battleVC, animated: true)
-            }
-            // Handle Solo Challenge selection here if needed
-        }
-        
-        func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "GameHeaderView", for: indexPath) as! GameSectionHeaderView
-            
-            // Update your header config to handle the static 2-section layout
-            // Assuming 0 = Seasonal/Battle and 1 = Solo for your header titles
-            header.configureHeader(for: 1, tableSection: indexPath.section)
-            
-            return header
-        }
-     
-        
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-            return CGSize(width: collectionView.frame.width, height: 50)
-        }
-        
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            let width = collectionView.frame.width
-            
-            if indexPath.section == 0 {
-                return CGSize(width: width, height: 335) // Height for Seasonal
-            } else {
-                return CGSize(width: width, height: 140) // Height for Solo
-            }
-        }
-        
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-            return 15
+extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        // Section 0: Seasonal, Section 1: Solo
+        return 2
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if section == 0 {
+            return 1 // The Seasonal Challenge
+        } else {
+            return dataSource.getSoloChallenges().count // Dynamic list of Solo Challenges
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        if indexPath.section == 0 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "seasonalGameCell", for: indexPath) as! SeasonalGameCollectionViewCell
+            cell.refreshData()
+            
+            cell.onInviteFriendTapped = { [weak self] in
+                guard let self = self else { return }
+                let inviteVC = InviteFriendViewController()
+                
+                inviteVC.modalPresentationStyle = .pageSheet
+                if let sheet = inviteVC.sheetPresentationController {
+                    sheet.detents = [.medium(), .large()]
+                    sheet.prefersGrabberVisible = true
+                }
+                
+                inviteVC.onInviteSent = { _ in
+                    cell.buttonInviteFriend.isEnabled = false
+                    cell.buttonInviteFriend.backgroundColor = .systemGray2
+                }
+                
+                self.present(inviteVC, animated: true)
+            }
+            
+            return cell
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "soloChallengeCell", for: indexPath) as! SoloChallengeCollectionViewCell
+            let soloChallenges = dataSource.getSoloChallenges()
+            
+            if !soloChallenges.isEmpty {
+                cell.configureCell(challenge: soloChallenges[indexPath.row])
+            }
+            return cell
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // Battle Run is only accessible after the invited player accepts — no tap-to-open here
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "GameHeaderView", for: indexPath) as! GameSectionHeaderView
+        
+        // Update your header config to handle the static 2-section layout
+        // Assuming 0 = Seasonal/Battle and 1 = Solo for your header titles
+        header.configureHeader(for: 1, tableSection: indexPath.section)
+        
+        return header
+    }
+ 
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: 50)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = collectionView.frame.width
+        
+        if indexPath.section == 0 {
+            return CGSize(width: width, height: 335) // Height for Seasonal
+        } else {
+            return CGSize(width: width, height: 140) // Height for Solo
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 15
+    }
+}
 
 
 
@@ -302,3 +322,4 @@ class GameScreenViewController: UIViewController {
 //        return 15
 //    }
 //}
+

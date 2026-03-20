@@ -26,6 +26,9 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
     
     let userProfile = DataSource.shared.getUserProfile()
     
+    /// Closure called when user taps "Invite Friend" — set by the parent VC
+    var onInviteFriendTapped: (() -> Void)?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         configure()
@@ -91,7 +94,7 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
                 // No active game at all
                 await MainActor.run {
                     buttonInviteFriend.isEnabled = true
-                    buttonInviteFriend.backgroundColor = .clear
+                    buttonInviteFriend.backgroundColor = .accent
                     progressViewCapturedTiles.progress = 0
                 }
             }
@@ -111,18 +114,8 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
     }
     
     @IBAction func inviteFriendClicked(_ sender: UIButton) {
-        var newGame = TerritoryGame(playerOneID: userProfile.userID, playerTwoID: UUID(uuidString: "24fc68d0-fe86-4863-8166-d2368d179718"))
-        
-        Task {
-            newGame = await insertNewGame(gameData: newGame) ?? newGame
-            if let id = newGame.gameID {
-                DataSource.shared.setGameID(id)
-            }
-            sender.isEnabled = false
-            sender.backgroundColor = .systemGray2
-        }
+        onInviteFriendTapped?()
     }
     
 
 }
-
