@@ -120,7 +120,7 @@ class UserProfileViewController: UIViewController {
     }
     
     @IBAction func navigateToNotification(_ sender: UIButton) {
-        let notificationVC = NotificationViewController()
+        let notificationVC = NotificationViewController(nibName: "NotificationViewController", bundle: nil)
         if let presenter = self.presentingViewController {
             self.dismiss(animated: true) {
                 notificationVC.modalPresentationStyle = .fullScreen
