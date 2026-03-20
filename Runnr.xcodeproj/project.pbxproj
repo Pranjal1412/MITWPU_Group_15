@@ -15,6 +15,7 @@
 		19DB1F7E2F2DE362009EDAFD /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = 19DB1F7D2F2DE362009EDAFD /* Storage */; };
 		19DB1F802F2DE362009EDAFD /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 19DB1F7F2F2DE362009EDAFD /* Supabase */; };
 		3EFF282D2F1A5D4300D7F427 /* JTAppleCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 3EFF282C2F1A5D4300D7F427 /* JTAppleCalendar */; };
+		578598952F6CF300000919B2 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 578598942F6CF300000919B2 /* Lottie */; };
 		C9DFB4A42F24C08F0002325C /* runResumed.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9DFB4A12F24BF6F0002325C /* runResumed.mp3 */; };
 		C9DFB4A52F24C08F0002325C /* youHaveCompleted.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9DFB4A32F24BF6F0002325C /* youHaveCompleted.mp3 */; };
 		C9DFB4A62F24C08F0002325C /* runStarted.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9DFB4A22F24BF6F0002325C /* runStarted.mp3 */; };
@@ -71,6 +72,7 @@
 				19DB1F7E2F2DE362009EDAFD /* Storage in Frameworks */,
 				199C34232F3F1EF400AF49B3 /* Kingfisher in Frameworks */,
 				19DB1F782F2DE362009EDAFD /* Functions in Frameworks */,
+				578598952F6CF300000919B2 /* Lottie in Frameworks */,
 				19DB1F802F2DE362009EDAFD /* Supabase in Frameworks */,
 				19DB1F7C2F2DE362009EDAFD /* Realtime in Frameworks */,
 				19DB1F762F2DE362009EDAFD /* Auth in Frameworks */,
@@ -143,6 +145,7 @@
 				19DB1F7D2F2DE362009EDAFD /* Storage */,
 				19DB1F7F2F2DE362009EDAFD /* Supabase */,
 				199C34222F3F1EF400AF49B3 /* Kingfisher */,
+				578598942F6CF300000919B2 /* Lottie */,
 			);
 			productName = Runnr;
 			productReference = 19FDEE992EEBCC2E00AF027C /* Runnr.app */;
@@ -178,6 +181,7 @@
 				3EFF282B2F1A5D4300D7F427 /* XCRemoteSwiftPackageReference "JTAppleCalendar" */,
 				19DB1F742F2DE362009EDAFD /* XCRemoteSwiftPackageReference "supabase-swift" */,
 				199C34212F3F1EF400AF49B3 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				578598932F6CF300000919B2 /* XCRemoteSwiftPackageReference "lottie-spm" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 19217CBC2EA0E064009AFC93;
@@ -228,7 +232,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = A624XAHBM7;
+				DEVELOPMENT_TEAM = F9UD22RT73;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Runnr/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app needs camera access";
@@ -249,7 +253,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.runnr.DevTeam;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aditiiiii;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -275,7 +279,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = A624XAHBM7;
+				DEVELOPMENT_TEAM = F9UD22RT73;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Runnr/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app needs camera access";
@@ -296,7 +300,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.runnr.DevTeam;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aditiiiii;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -482,6 +486,14 @@
 				minimumVersion = 8.0.5;
 			};
 		};
+		578598932F6CF300000919B2 /* XCRemoteSwiftPackageReference "lottie-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-spm";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.6.0;
+			};
+		};
 		F903F4552EB653FC0066B9A1 /* XCRemoteSwiftPackageReference "ios-maps-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/googlemaps/ios-maps-sdk";
@@ -532,6 +544,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3EFF282B2F1A5D4300D7F427 /* XCRemoteSwiftPackageReference "JTAppleCalendar" */;
 			productName = JTAppleCalendar;
+		};
+		578598942F6CF300000919B2 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 578598932F6CF300000919B2 /* XCRemoteSwiftPackageReference "lottie-spm" */;
+			productName = Lottie;
 		};
 		F903F4562EB653FC0066B9A1 /* GoogleMaps */ = {
 			isa = XCSwiftPackageProductDependency;
