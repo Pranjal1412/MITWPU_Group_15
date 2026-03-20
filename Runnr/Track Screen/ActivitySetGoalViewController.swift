@@ -117,7 +117,7 @@ class ActivitySetGoalViewController: UIViewController {
         }
         else {
             let alert = UIAlertController(title: "Select an Activity", message: "You need to select an activity before starting", preferredStyle: .alert)
-            let cancelAction = UIAlertAction(title: "cancel", style: .cancel, handler: nil)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             alert.addAction(cancelAction)
             self.present(alert, animated: true, completion: nil)
         }
