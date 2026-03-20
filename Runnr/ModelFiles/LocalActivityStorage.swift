@@ -7,14 +7,12 @@
 
 import Foundation
 
-// MARK: - Wrapper Model
 struct LocalActivity: Codable {
     var activity: UserActivity
     var coordinates: [ActivityRouteCoordinates]
     var paceData: [ActivityPaceGraphData]
 }
 
-// MARK: - Storage Manager
 class LocalActivityStorage {
     
     static let shared = LocalActivityStorage()
@@ -22,37 +20,42 @@ class LocalActivityStorage {
     
     private init() {}
     
-    // MARK: - SAVE
+    // saving the data
     func save(_ data: LocalActivity) {
         do {
+            // converting the data that is of type LocalActivity to JSON Data
             let encoded = try JSONEncoder().encode(data)
+            
+            // saving the json data in user defaults
             UserDefaults.standard.set(encoded, forKey: key)
-            print("✅ Local activity SAVED")
+            print("Local activity SAVED")
         } catch {
-            print("❌ Save failed:", error)
+            print("Save failed:", error)
         }
     }
     
-    // MARK: - LOAD
     func load() -> LocalActivity? {
+        
+        // key is used to find the data saved in userdefaults, fetching the json data in the variable data
         guard let data = UserDefaults.standard.data(forKey: key) else {
-            print("⚠️ No saved activity found")
+            print("No saved activity found")
             return nil
         }
         
         do {
+            // converting the json data to LocalActivity
             let decoded = try JSONDecoder().decode(LocalActivity.self, from: data)
-            print("✅ Local activity LOADED")
+            print("Local activity LOADED")
             return decoded
         } catch {
-            print("❌ Load failed:", error)
+            print("Load failed:", error)
             return nil
         }
     }
     
-    // MARK: - CLEAR
+    // deletes the saved data
     func clear() {
         UserDefaults.standard.removeObject(forKey: key)
-        print("🗑 Local activity CLEARED")
+        print("Local activity CLEARED")
     }
 }

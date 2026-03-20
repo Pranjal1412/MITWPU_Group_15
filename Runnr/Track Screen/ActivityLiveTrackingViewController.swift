@@ -71,9 +71,8 @@ class ActivityLiveTrackingViewController: UIViewController {
     
     var quotes: [String] = [String(localized: "You Got This"), String(localized: "Lock in"), String(localized: "Lace Up")]
     
-    var isActivityInserted = false
     var recoveredActivity: LocalActivity?
-    var hasRestoredPath = false
+    var hasRestoredActivity = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,38 +83,25 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         userLocation.locationManager.startUpdatingLocation()
     
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(appMovedToBackground),
-            name: UIApplication.didEnterBackgroundNotification,
-            object: nil
-        )
+        // called every time app goes to background or when comes back from background
+        NotificationCenter.default.addObserver(self,selector: #selector(appMovedToBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
         
-        // ✅ ADDED THIS (only change)
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(appWillTerminate),
-            name: UIApplication.willTerminateNotification,
-            object: nil
-        )
+        // called every time app is terminated
+        NotificationCenter.default.addObserver(self, selector: #selector(appWillTerminate), name: UIApplication.willTerminateNotification,object: nil)
                         
         activityManager = UserActivityManager(timerLabel: self.labelTimeCounter)
+        
         if recoveredActivity == nil {
             self.activityStartTime = Date()
         }
+        
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
         
         userLocation.onLocationUpdate = { location in
             
             if self.isMapInitialized == false {
                 
-                let mapView = self.mapManager.initializeMaps(
-                    withX: 5,
-                    withY: 0,
-                    withWidth: self.viewActivityTrack.frame.width - 40.0,
-                    withHeight: self.viewActivityTrack.frame.height - 5,
-                    location: location.coordinate
-                )
+                let mapView = self.mapManager.initializeMaps(withX: 5, withY: 0, withWidth: self.viewActivityTrack.frame.width - 40.0, withHeight: self.viewActivityTrack.frame.height - 5, location: location.coordinate)
                 
                 self.mapManager.userLocationMarkerSetting(isEnabled: true)
                 mapView.settings.rotateGestures = true
@@ -128,31 +114,32 @@ class ActivityLiveTrackingViewController: UIViewController {
                 self.userLocation.locationManager.distanceFilter = 6
                 self.isMapInitialized = true
                 
-                // ✅ RESTORE HERE
-                if let recovered = self.recoveredActivity, !self.hasRestoredPath {
+                // restoring the complete activity here, the flag is used to ensure only once the below code is executed
+                if let recovered = self.recoveredActivity, !self.hasRestoredActivity {
                     self.restoreActivity(recovered)
-                    self.hasRestoredPath = true
+                    self.hasRestoredActivity = true
                     
-                    // Move camera to last point
                     if self.mapManager.path.count() > 0 {
+//                      Fetches the most recent GPS point
                         let last = self.mapManager.path.coordinate(at: self.mapManager.path.count() - 1)
                         let camera = GMSCameraPosition(latitude: last.latitude, longitude: last.longitude, zoom: 15)
                         self.mapManager.mapView.animate(to: camera)
                     }
                     
-                    return // ⛔ prevent duplicate first point
+                    return
                 }
             }
             
-            // NORMAL FLOW
             self.mapManager.path.add(location.coordinate)
             self.mapManager.routeLine.path = self.mapManager.path
             
-            // ✅ THROTTLED SAVE
+            // periodic save at an interval of 10s
             let now = Date()
             if let last = self.lastSavedTime, now.timeIntervalSince(last) > 10 {
                 self.lastSavedTime = now
+                
                 Task {
+                    print("Inside save")
                     await self.saveActivityLocally()
                 }
             }
@@ -251,24 +238,19 @@ class ActivityLiveTrackingViewController: UIViewController {
         self.activityTypeSelected = local.activity.activityType
         self.activityStartTime = local.activity.activityStartTime
         
-        // Restore distance + pace
         self.activityManager.totalDistance = local.activity.distanceCovered ?? 0
         self.activityManager.totalSteps = local.activity.stepsTaken ?? 0
         self.activityManager.paceGraphData = local.paceData
         
-        // Restore path
         for coord in local.coordinates {
             let coordinate = CLLocationCoordinate2D(latitude: coord.latitude, longitude: coord.longitude)
             self.mapManager.path.add(coordinate)
         }
-        
         self.mapManager.routeLine.path = self.mapManager.path
         
-        // ✅ THIS is where it goes
         let elapsed = local.activity.timeTakenSeconds ?? 0
         self.activityManager.restoreTime(seconds: elapsed)
         
-        // UI
         self.labelDistanceCounter.text = String(format: "%.2f", self.activityManager.totalDistance)
     }
     
@@ -276,9 +258,8 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         self.activityEndTime = Date()
         
-        // ✅ Capture nav reference NOW on main thread, before any async work
         guard let nav = self.navigationController else {
-            print("❌ No navigation controller on button press")
+            print("No navigation controller on button press")
             return
         }
         
@@ -297,89 +278,69 @@ class ActivityLiveTrackingViewController: UIViewController {
             self.activityManager.stopUpdatingElevation()
             self.activityManager.stopTimer()
             self.checkIfGoalSetAndCompleted()
+            
+//            MARK: - check this audio file
             self.playAudioFile(named: "runCompleted")
             
             let mapSnapshot = self.captureMapImage(from: self.mapManager.mapView)
             
-            let startTime = self.activityStartTime ?? Date()
-            let endTime = self.activityEndTime ?? Date()
-            let activityType = self.activityTypeSelected ?? .running
-            let totalDistance = self.activityManager.totalDistance
-            let totalSteps = self.activityManager.totalSteps
-            let totalTime = self.activityManager.getTotalTime()
-            let avgPace = self.activityManager.getAveragePace()
-            let basePoints = self.activityManager.basePointsEarned()
-            let skillPoints = self.activityManager.skillPointsEarned()
-            let elevation = self.activityManager.getTotalElevation()
             let paceGraphData = self.activityManager.paceGraphData
             let path = self.mapManager.path
-            let userID = self.userProfile.userID
             let healthKit = self.healthKitManager
             let datasource = self.datasource
             
-            // ✅ Use the pre-captured nav reference — no longer depends on self.navigationController
-            let destinationVC = ActivitySaveViewController(nibName: "ActivitySaveViewController", bundle: nil)
-            destinationVC.activityData = UserActivity(
-                userID: userID,
-                activityStartTime: startTime,
-                activityEndTime: endTime,
+            var activityDetails = UserActivity(
+                userID: self.userProfile.userID,
+                activityStartTime: self.activityStartTime ?? Date(),
+                activityEndTime: self.activityEndTime ?? Date(),
                 activityTitle: "",
-                activityType: activityType,
+                activityType: self.activityTypeSelected ?? .running,
                 activityRemark: "",
                 isPublic: false,
-                distanceCovered: totalDistance,
+                distanceCovered: self.activityManager.totalDistance,
                 distanceUnit: .kilometers,
-                timeTakenSeconds: totalTime,
+                timeTakenSeconds: self.activityManager.getTotalTime(),
                 caloriesBurnt: 0,
-                stepsTaken: totalSteps,
+                stepsTaken: self.activityManager.totalSteps,
                 avgHeartRate: nil,
-                avgPace: avgPace,
+                avgPace: self.activityManager.getAveragePace(),
                 paceUnit: .minPerKm,
                 mapImageURL: "",
-                basePoints: basePoints,
-                skillPoints: skillPoints,
-                elevation: elevation
+                basePoints: self.activityManager.basePointsEarned(),
+                skillPoints: self.activityManager.skillPointsEarned(),
+                elevation: self.activityManager.getTotalElevation()
             )
-            nav.pushViewController(destinationVC, animated: true)
             
-            Task.detached {
-                guard let userID = userID else {
-                    print("❌ Missing userID — cannot save activity")
+            // Use the pre-captured nav reference — no longer depends on self.navigationController
+            
+            Task {
+                guard let userID = self.userProfile.userID else {
+                    print("Missing userID — cannot save activity")
                     return
                 }
                 
-                var currentActivity = UserActivity(
-                    userID: userID,
-                    activityStartTime: startTime,
-                    activityEndTime: endTime,
-                    activityTitle: "",
-                    activityType: activityType,
-                    activityRemark: "",
-                    isPublic: false,
-                    distanceCovered: totalDistance,
-                    distanceUnit: .kilometers,
-                    timeTakenSeconds: totalTime,
-                    caloriesBurnt: 0,
-                    stepsTaken: totalSteps,
-                    avgHeartRate: nil,
-                    avgPace: avgPace,
-                    paceUnit: .minPerKm,
-                    mapImageURL: "",
-                    basePoints: basePoints,
-                    skillPoints: skillPoints,
-                    elevation: elevation
-                )
+//                var currentActivity = activityDetails
+                print("Background save started")
                 
-                print("🔥 Background save started")
+                let avgHR = await healthKit.fetchAverageHeartRateAsync(from: activityDetails.activityStartTime!, to: activityDetails.activityEndTime!)
+                let calories = await healthKit.fetchCaloriesAsync(from: activityDetails.activityStartTime!, to: activityDetails.activityEndTime!)
                 
-                let avgHR = await healthKit.fetchAverageHeartRateAsync(from: startTime, to: endTime)
-                let calories = await healthKit.fetchCaloriesAsync(from: startTime, to: endTime)
-                currentActivity.avgHeartRate = avgHR
-                currentActivity.caloriesBurnt = Int(calories)
+                activityDetails.avgHeartRate = avgHR
+                activityDetails.caloriesBurnt = Int(calories)
                 
-                currentActivity = await insertActivity(currentActivity) ?? currentActivity
+                activityDetails = await insertActivity(activityDetails) ?? activityDetails
                 
-                if let activityID = currentActivity.activityID {
+                if let activityID = activityDetails.activityID {
+                                                            
+                    if let image = mapSnapshot {
+                        let mapImageURL = await saveMapImage(activityID: activityID, with: image)
+                        activityDetails.mapImageURL = mapImageURL
+                        await updateUserActivity(newActivity: activityDetails)
+                    }
+                    
+                    let destinationVC = ActivitySaveViewController()
+                    destinationVC.activityData = activityDetails
+                    nav.pushViewController(destinationVC, animated: true)
                     
                     var routeCoordinates: [ActivityRouteCoordinates] = []
                     for i in 0..<path.count() {
@@ -393,22 +354,20 @@ class ActivityLiveTrackingViewController: UIViewController {
                             )
                         )
                     }
-                    await insertActivityRouteCoordinates(routeCoordinates)
-                    datasource.setCurrentActivityCoordinates(routeCoordinates)
-                    
-                    if let image = mapSnapshot {
-                        let _ = await saveMapImage(activityID: activityID, with: image)
-                    }
                     
                     var updatedPaceData = paceGraphData
                     for i in 0..<updatedPaceData.count {
                         updatedPaceData[i].activityID = activityID
                     }
+                    
                     await insertActivityPaceGraphData(updatedPaceData)
+                    await insertActivityRouteCoordinates(routeCoordinates)
+                    datasource.setCurrentActivityCoordinates(routeCoordinates)
+
                 }
                 
                 LocalActivityStorage.shared.clear()
-                print("✅ Background save completed")
+                print("Background save completed")
             }
         }
 
@@ -467,7 +426,7 @@ class ActivityLiveTrackingViewController: UIViewController {
     func saveActivityLocally() async {
         
         guard let startTime = self.activityStartTime else {
-            print("❌ No start time, not saving")
+            print("No start time, not saving")
             return
         }
 
@@ -476,7 +435,7 @@ class ActivityLiveTrackingViewController: UIViewController {
             activityID: nil,
             
             activityStartTime: startTime,
-            activityEndTime: nil,
+            activityEndTime: Date(),
             
             activityTitle: self.datasource.getCurrentActivity()?.activityTitle ?? "",
             activityType: self.activityTypeSelected ?? .running,
@@ -505,27 +464,17 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         for i in 0..<self.mapManager.path.count() {
             let c = self.mapManager.path.coordinate(at: i)
-            coords.append(ActivityRouteCoordinates(
-                activityID: nil,
-                latitude: c.latitude,
-                longitude: c.longitude,
-                sequence: Int(i)
-            ))
+            coords.append(ActivityRouteCoordinates(activityID: nil, latitude: c.latitude, longitude: c.longitude, sequence: Int(i)))
         }
         
-        let local = LocalActivity(
-            activity: activity,
-            coordinates: coords,
-            paceData: self.activityManager.paceGraphData
-        )
+        let local = LocalActivity(activity: activity, coordinates: coords, paceData: self.activityManager.paceGraphData)
         
-        // ✅ DEBUG SAVE
         do {
             let encoded = try JSONEncoder().encode(local)
             UserDefaults.standard.set(encoded, forKey: "ONGOING_ACTIVITY")
-            print("✅ Activity saved locally | points: \(coords.count)")
+            print("Activity saved locally | points: \(coords.count)")
         } catch {
-            print("❌ FAILED TO ENCODE LOCAL ACTIVITY:", error)
+            print("FAILED TO ENCODE LOCAL ACTIVITY:", error)
         }
     }
     

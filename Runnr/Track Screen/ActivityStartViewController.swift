@@ -157,19 +157,16 @@ class ActivityStartViewController: UIViewController {
     func resumeActivity(_ local: LocalActivity) {
         LocalActivityStorage.shared.clear()
         
-        let vc = ActivityLiveTrackingViewController(
-            nibName: "ActivityLiveTrackingViewController",
-            bundle: nil
-        )
-        vc.recoveredActivity = local
+        let rootVC = ActivityLiveTrackingViewController(nibName: "ActivityLiveTrackingViewController", bundle: nil)
+        rootVC.recoveredActivity = local
         
-        // ✅ Wrap in nav controller so navigationController is not nil inside ActivityLiveTrackingViewController
-        let navController = UINavigationController(rootViewController: vc)
+        let navController = UINavigationController(rootViewController: rootVC)
         navController.modalPresentationStyle = .fullScreen
         navController.setNavigationBarHidden(true, animated: false)
         self.present(navController, animated: true)
     }
     
+//    MARK: - Save activity navigation
     func saveRecoveredActivity(_ local: LocalActivity) {
         LocalActivityStorage.shared.clear()
         print("Recovered activity finalized")
