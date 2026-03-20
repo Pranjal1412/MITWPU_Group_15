@@ -82,8 +82,8 @@
                                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                             <menu key="menu" id="vYy-zQ-Cpe">
                                                                 <children>
-                                                                    <command title="Running" id="SMt-ex-onC"/>
                                                                     <command title="Walking" id="E7H-6h-gwD"/>
+                                                                    <command title="Running" id="SMt-ex-onC"/>
                                                                 </children>
                                                             </menu>
                                                             <state key="normal" title="Button">

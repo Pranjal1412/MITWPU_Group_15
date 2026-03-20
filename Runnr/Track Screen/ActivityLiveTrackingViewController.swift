@@ -191,6 +191,7 @@ class ActivityLiveTrackingViewController: UIViewController {
             self.activityManager.stopTimer()
             self.activityManager.stopStepsTracking()
             self.activityManager.stopUpdatingDistance()
+            self.activityManager.stopUpdatingElevation() 
             
             self.mapManager.mapView.isMyLocationEnabled = false
             
@@ -288,7 +289,8 @@ class ActivityLiveTrackingViewController: UIViewController {
             let path = self.mapManager.path
             let healthKit = self.healthKitManager
             let datasource = self.datasource
-            
+            let estimatedCalories = self.activityManager.estimatedCalories(activityType: self.activityTypeSelected ?? .running) 
+        
             var activityDetails = UserActivity(
                 userID: self.userProfile.userID,
                 activityStartTime: self.activityStartTime ?? Date(),
@@ -300,7 +302,7 @@ class ActivityLiveTrackingViewController: UIViewController {
                 distanceCovered: self.activityManager.totalDistance,
                 distanceUnit: .kilometers,
                 timeTakenSeconds: self.activityManager.getTotalTime(),
-                caloriesBurnt: 0,
+                caloriesBurnt: estimatedCalories,
                 stepsTaken: self.activityManager.totalSteps,
                 avgHeartRate: nil,
                 avgPace: self.activityManager.getAveragePace(),
@@ -312,35 +314,38 @@ class ActivityLiveTrackingViewController: UIViewController {
             )
             
             // Use the pre-captured nav reference — no longer depends on self.navigationController
-            
             Task {
                 guard let userID = self.userProfile.userID else {
                     print("Missing userID — cannot save activity")
                     return
                 }
                 
-//                var currentActivity = activityDetails
                 print("Background save started")
                 
                 let avgHR = await healthKit.fetchAverageHeartRateAsync(from: activityDetails.activityStartTime!, to: activityDetails.activityEndTime!)
                 let calories = await healthKit.fetchCaloriesAsync(from: activityDetails.activityStartTime!, to: activityDetails.activityEndTime!)
                 
                 activityDetails.avgHeartRate = avgHR
-                activityDetails.caloriesBurnt = Int(calories)
+                activityDetails.caloriesBurnt = calories > 0 ? Int(calories) : estimatedCalories
                 
                 activityDetails = await insertActivity(activityDetails) ?? activityDetails
                 
+                // ✅ Navigate regardless of whether insert succeeded
+                LocalActivityStorage.shared.clear()
+                await MainActor.run {
+                    let destinationVC = ActivitySaveViewController(nibName: "ActivitySaveViewController", bundle: nil)
+                    destinationVC.activityData = activityDetails
+                    nav.pushViewController(destinationVC, animated: true)
+                }
+                
+                // ✅ Only save to DB if insert succeeded and we have an activityID
                 if let activityID = activityDetails.activityID {
-                                                            
+                    
                     if let image = mapSnapshot {
                         let mapImageURL = await saveMapImage(activityID: activityID, with: image)
                         activityDetails.mapImageURL = mapImageURL
                         await updateUserActivity(newActivity: activityDetails)
                     }
-                    
-                    let destinationVC = ActivitySaveViewController()
-                    destinationVC.activityData = activityDetails
-                    nav.pushViewController(destinationVC, animated: true)
                     
                     var routeCoordinates: [ActivityRouteCoordinates] = []
                     for i in 0..<path.count() {
@@ -363,10 +368,8 @@ class ActivityLiveTrackingViewController: UIViewController {
                     await insertActivityPaceGraphData(updatedPaceData)
                     await insertActivityRouteCoordinates(routeCoordinates)
                     datasource.setCurrentActivityCoordinates(routeCoordinates)
-
                 }
                 
-                LocalActivityStorage.shared.clear()
                 print("Background save completed")
             }
         }
