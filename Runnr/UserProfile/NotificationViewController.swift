@@ -11,7 +11,7 @@ class NotificationViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
-    private var notifications: [BattleInviteNotification] = []
+    private var notifications: [BattleInviteNotification] = [BattleInviteNotification(senderID: UUID(uuidString: "70cbd046-c94f-4941-9988-a3ae88398a26")!, receiverID: UUID(uuidString: "24fc68d0-fe86-4863-8166-d2368d179718")!, senderName: "Archit", message: "Game 1", isRead: false)]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,8 +35,11 @@ class NotificationViewController: UIViewController {
             let fetched = await fetchBattleInviteNotifications(for: userID)
             await MainActor.run { [weak self] in
                 guard let self = self else { return }
-                self.notifications = fetched
-                DataSource.shared.setBattleInviteNotifications(fetched)
+                // Only replace dummy/existing data if Supabase returns real rows
+                if !fetched.isEmpty {
+                    self.notifications = fetched
+                    DataSource.shared.setBattleInviteNotifications(fetched)
+                }
                 self.tableView?.reloadData()
             }
         }
@@ -58,11 +61,12 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
         cell.onAccept = { [weak self] in
             guard let self = self else { return }
             guard let gameID = notification.gameID else { return }
+            let receiverID = notification.receiverID
             
             Task {
                 // Use the receiverID from the notification — this is always the invited player's ID,
                 // set at invite time, so it's correct regardless of which device runs this code.
-                await updateGamePlayerTwo(gameID: gameID, playerTwoID: notification.receiverID)
+                await updateGamePlayerTwo(gameID: gameID, playerTwoID: receiverID)
                 DataSource.shared.setGameID(gameID)
             }
             
@@ -81,7 +85,7 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 122
     }
 }
 
