@@ -214,15 +214,6 @@ class UserActivityManager {
         return self.avgPace
     }
     
-//    func getFormattedAveragePace() -> String {
-//        let pace = getAveragePace()
-//        let totalSeconds = Int(pace * 60)
-//        let minutes = totalSeconds / 60
-//        let seconds = totalSeconds % 60
-//        
-//        return String(format: "%d:%02d", minutes, seconds)
-//    }
-    
     func skillPointsEarned() -> Int {
         switch self.avgPace {
             
@@ -247,6 +238,27 @@ class UserActivityManager {
     
     func basePointsEarned() -> Int {
         return (Int(totalDistance) * (Int(totalDistance) + 1)) * 5
+    }
+    func restoreTime(seconds: Int) {
+        self.accumulatedTime = TimeInterval(seconds)
+        self.startTime = nil   // do NOT auto-start timer here
+    }
+    
+    func getFormattedTime() -> String {
+        
+        let totalSeconds: Int
+        
+        if let start = startTime {
+            totalSeconds = Int(accumulatedTime + Date().timeIntervalSince(start))
+        } else {
+            totalSeconds = Int(accumulatedTime)
+        }
+        
+        let hrs = totalSeconds / 3600
+        let mins = (totalSeconds % 3600) / 60
+        let secs = totalSeconds % 60
+        
+        return String(format: "%02d:%02d:%02d", hrs, mins, secs)
     }
 }
 
