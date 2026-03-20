@@ -67,3 +67,14 @@ struct AssignedChallengesProgress: Codable {
 //    let p_user_id: UUID
 //    let p_difficulty: String
 //}
+
+struct BattleInviteNotification: Codable {
+    var notificationID: UUID?
+    var senderID: UUID
+    var receiverID: UUID
+    var senderName: String
+    var gameID: UUID?
+    var message: String
+    var isRead: Bool
+    var createdAt: Date?
+}
