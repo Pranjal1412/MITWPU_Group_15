@@ -20,7 +20,7 @@ class InsightsScreenViewController: UIViewController {
         return label
     }()
 
-    private var myActivities: [UserActivity] {
+    private var myActivities: [ActivityDetails] {
         dataSource.getAllActivities()
     }
     
@@ -66,7 +66,7 @@ class InsightsScreenViewController: UIViewController {
 
         if myActivities.isEmpty == true {
             Task {
-                let activities = await fetchAllMyActivities(userID: userProfile.userID!)
+                let activities = await fetchAllMyActivities(userProfile: self.userProfile)
                 self.dataSource.setAllActivities(activities)
                 prepareActivities()
                 prepareGreenDates()
@@ -117,22 +117,66 @@ class InsightsScreenViewController: UIViewController {
         else if diff < 0 { return "\(Int(abs(diff))) \(unit) less than last run" }
         else { return "Same as last run" }
     }
-
-    private func updateChevron(cell: InsightsScreenCollectionViewCell, current: Double?, previous: Double?) {
+    
+    private func paceTrendText(current: Double, previous: Double) -> String {
+        let diff = Int(current - previous)
+        let absDiff = abs(diff)
+        
+        let text: String
+        
+        if absDiff >= 60 {
+            let minutes = absDiff / 60
+            let seconds = absDiff % 60
+            text = "\(minutes).\(String(format: "%02d", seconds)) min"
+        } else {
+            text = "\(absDiff)s"
+        }
+        
+        if diff < 0 {
+            return "\(text) faster than last run"
+        } else if diff > 0 {
+            return "\(text) slower than last run"
+        } else {
+            return "Same as last run"
+        }
+    }
+    
+    private func updateChevron(
+        cell: InsightsScreenCollectionViewCell,
+        current: Double?,
+        previous: Double?,
+        isPace: Bool = false
+    ) {
         guard let current = current, let previous = previous else {
-            cell.imageViewChevron.image = UIImage(systemName: "minus")?.withTintColor(.systemBlue, renderingMode: .alwaysOriginal)
+            cell.imageViewChevron.image = UIImage(systemName: "minus")?
+                .withTintColor(.systemBlue, renderingMode: .alwaysOriginal)
             return
         }
         
-        if current > previous {
-            cell.imageViewChevron.image = UIImage(systemName: "chevron.up.2")?
-                .withTintColor(UIColor(red: 0.68, green: 0.97, blue: 0.27, alpha: 1), renderingMode: .alwaysOriginal)
-        } else if current < previous {
-            cell.imageViewChevron.image = UIImage(systemName: "chevron.down.2")?
-                .withTintColor(.red, renderingMode: .alwaysOriginal)
+        if isPace {
+            // Reverse logic for pace (lower = better)
+            if current < previous {
+                cell.imageViewChevron.image = UIImage(systemName: "chevron.up.2")?
+                    .withTintColor(UIColor(red: 0.68, green: 0.97, blue: 0.27, alpha: 1), renderingMode: .alwaysOriginal)
+            } else if current > previous {
+                cell.imageViewChevron.image = UIImage(systemName: "chevron.down.2")?
+                    .withTintColor(.red, renderingMode: .alwaysOriginal)
+            } else {
+                cell.imageViewChevron.image = UIImage(systemName: "minus")?
+                    .withTintColor(.systemBlue, renderingMode: .alwaysOriginal)
+            }
         } else {
-            cell.imageViewChevron.image = UIImage(systemName: "minus")?
-                .withTintColor(.systemBlue, renderingMode: .alwaysOriginal)
+            // Normal logic (unchanged)
+            if current > previous {
+                cell.imageViewChevron.image = UIImage(systemName: "chevron.up.2")?
+                    .withTintColor(UIColor(red: 0.68, green: 0.97, blue: 0.27, alpha: 1), renderingMode: .alwaysOriginal)
+            } else if current < previous {
+                cell.imageViewChevron.image = UIImage(systemName: "chevron.down.2")?
+                    .withTintColor(.red, renderingMode: .alwaysOriginal)
+            } else {
+                cell.imageViewChevron.image = UIImage(systemName: "minus")?
+                    .withTintColor(.systemBlue, renderingMode: .alwaysOriginal)
+            }
         }
     }
 }
@@ -183,17 +227,18 @@ extension InsightsScreenViewController: JTACMonthViewDelegate, JTACMonthViewData
     }
 
     private func prepareActivities() {
-        let sorted = myActivities.sorted { $0.activityStartTime! > $1.activityStartTime! }
-        latestActivity = sorted.first
-        previousActivity = sorted.count > 1 ? sorted[1] : nil
+//        let sorted = myActivities.sorted { $0.activity.activityStartTime! > $1.activityStartTime! }
+        let sorted = myActivities.sorted { $0.activity!.activityStartTime! > $1.activity!.activityStartTime! }
+        latestActivity = sorted.first?.activity
+        previousActivity = sorted.count > 1 ? sorted[1].activity : nil
     }
 
     // MARK: Green Dates Based on Actual Activities
     private func prepareGreenDates() {
         greenDates.removeAll() //revents old or duplicate dates, empties the set
         let calendar = Calendar.current
-        for activity in myActivities {
-            let activityDate = calendar.startOfDay(for: activity.activityStartTime!)
+        for activityDetail in myActivities {
+            let activityDate = calendar.startOfDay(for: (activityDetail.activity?.activityStartTime!)!)
             /* Removes time (hours, minutes, seconds)
              2026-01-21 18:42 → 2026-01-21 00:00
              */
@@ -303,17 +348,40 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
                 updateChevron(cell: cell, current: current, previous: previous.map { Double($0.stepsTaken!) })
                 
             case 3: // Average Pace
-                let newFormattedTime = formatTime((latest?.timeTakenSeconds!)!)
-                let formattedTime = formatTime((previous?.timeTakenSeconds!)!)
+                guard let latest = latest,
+                      let previous = previous,
+                      let latestSeconds = latest.timeTakenSeconds,
+                      let previousSeconds = previous.timeTakenSeconds else {
+                    
+                    cell.imageViewChevron.image = UIImage(systemName: "minus")
+                    cell.imageViewChevron.tintColor = UIColor.systemBlue
+                    return cell
+                }
+
+                let newFormattedTime = formatTime(latestSeconds)
+                let formattedTime = formatTime(previousSeconds)
                 
                 let curMin = newFormattedTime.minute
                 let curSec = newFormattedTime.second
                 let current = Double(curMin * 60 + curSec)
+
                 cell.labelCardTitle.text = "Average Pace"
+                
                 let displayText = String(format: "%d:%02d", curMin, curSec)
                 cell.settingLabelStyle(withValue: displayText, withUnit: "min/km")
-                cell.labelTrend.text = trendText(current: current, previous: Double(formattedTime.minute * 60 + formattedTime.second), unit: "s")
-                //            updateChevron(cell: cell, current: latest.map { _ in current }, previous: previous.map { Double($0.timeMin * 60 + $0.timeSec) })
+
+                let previousValue = Double(formattedTime.minute * 60 + formattedTime.second)
+
+                cell.labelTrend.text = paceTrendText(
+                    current: current,
+                    previous: previousValue
+                )
+                updateChevron(
+                    cell: cell,
+                    current: current,
+                    previous: previousValue,
+                    isPace: true
+                )
                 
             default:
                 break
@@ -424,29 +492,71 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
         let width = (collectionView.bounds.width - 10) / 2
         return CGSize(width: width, height: width)
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        switch indexPath.row {
-        case 0:
-            let destinationVC = DistanceViewController()
-            destinationVC.graphStore = self.graphStore
-            navigationController?.pushViewController(destinationVC, animated: true)
-        case 1:
-            let destinationVC = CaloriesViewController()
-            destinationVC.graphStore = self.graphStore
-            navigationController?.pushViewController(destinationVC, animated: true)
-        case 2:
-            let destinationVC = StepsViewController()
-            destinationVC.graphStore = self.graphStore
-            navigationController?.pushViewController(destinationVC, animated: true)
-        case 3:
-            let destinationVC = PaceViewController()
-            destinationVC.graphStore = self.graphStore
-            navigationController?.pushViewController(destinationVC, animated: true)
-        default:
-            break
+
+        let graphStore = self.graphStore
+        
+        Task {
+            // ✅ LOAD DATA FIRST
+            await graphStore.loadData(
+                userID: DataSource.shared.getUserProfile().userID!,
+                referenceDate: Date()
+            )
+
+            // ✅ PUSH AFTER DATA IS READY
+            DispatchQueue.main.async {
+
+                switch indexPath.row {
+
+                case 0:
+                    let vc = DistanceViewController()
+                    vc.graphStore = graphStore
+                    self.navigationController?.pushViewController(vc, animated: true)
+
+                case 1:
+                    let vc = CaloriesViewController()
+                    vc.graphStore = graphStore
+                    self.navigationController?.pushViewController(vc, animated: true)
+
+                case 2:
+                    let vc = StepsViewController()
+                    vc.graphStore = graphStore
+                    self.navigationController?.pushViewController(vc, animated: true)
+
+                case 3:
+                    let vc = PaceViewController()
+                    vc.graphStore = graphStore
+                    self.navigationController?.pushViewController(vc, animated: true)
+
+                default:
+                    break
+                }
+            }
         }
     }
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        switch indexPath.row {
+//        case 0:
+//            let destinationVC = DistanceViewController()
+//            destinationVC.graphStore = self.graphStore
+//            navigationController?.pushViewController(destinationVC, animated: true)
+//        case 1:
+//            let destinationVC = CaloriesViewController()
+//            destinationVC.graphStore = self.graphStore
+//            navigationController?.pushViewController(destinationVC, animated: true)
+//        case 2:
+//            let destinationVC = StepsViewController()
+//            destinationVC.graphStore = self.graphStore
+//            navigationController?.pushViewController(destinationVC, animated: true)
+//        case 3:
+//            let destinationVC = PaceViewController()
+//            destinationVC.graphStore = self.graphStore
+//            navigationController?.pushViewController(destinationVC, animated: true)
+//        default:
+//            break
+//        }
+//    }
 }
 
 // MARK: - Calendar Cell Class

@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class PostCollectionViewCell: UICollectionViewCell {
     
@@ -28,8 +29,12 @@ class PostCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func configureCell(with data: UIImage, isLiked: Bool) {
-        imageView.image = data
+    func configureCell(with data: ClubPost, isLiked: Bool) {
+        
+        if let url = URL(string: data.postImageURL!) {
+            imageView.kf.setImage(with: url)
+        }
+        
         isHeartSelected = isLiked
         if isHeartSelected {
             heartImageButton.tintColor = .systemRed

@@ -34,7 +34,11 @@ struct ClubRoleAndData : Codable {
 struct ClubPost : Codable {
     var postID : UUID?
     var clubID : UUID?
+    var postOwner: UUID?
     var caption : String
+    var postImageURL: String?
+    var likeCount: Int
+    var createdTimestamp: Date
 }
 
 struct ClubPostImage : Codable {
@@ -54,6 +58,16 @@ struct FollowerAndFollowing: Codable {
     var FollowingID: UUID
 }
 
+let clubActivityOptions : [ClubActivityOptions] = [
+    ClubActivityOptions(image: UIImage(systemName: "figure.run")!, title: .running),
+    ClubActivityOptions(image: UIImage(systemName: "figure.hiking")!, title: .hiking),
+    ClubActivityOptions(image: UIImage(systemName: "figure.walk")!, title: .walking),
+    ClubActivityOptions(image: UIImage(systemName: "figure.highintensity.intervaltraining")!, title: .marathon)]
+
+let clubDescriptions: [String] = ["Just for fun!", "Competitive Play", "Fitness", "Charity"]
+
+
+// MARK: - Below things are hidden currently
 struct LeaderBoard {
     let badge: String
     let levelName: String
@@ -123,12 +137,4 @@ let leaderboardUsersArray: [LeaderboardUser] = [
         points: 270
     )
 ]
-
-let clubActivityOptions : [ClubActivityOptions] = [
-    ClubActivityOptions(image: UIImage(systemName: "figure.run")!, title: .running),
-    ClubActivityOptions(image: UIImage(systemName: "figure.hiking")!, title: .hiking),
-    ClubActivityOptions(image: UIImage(systemName: "figure.walk")!, title: .walking),
-    ClubActivityOptions(image: UIImage(systemName: "figure.highintensity.intervaltraining")!, title: .marathon)]
-
-let clubDescriptions: [String] = ["Just for fun!", "Competitive Play", "Fitness", "Charity"]
 

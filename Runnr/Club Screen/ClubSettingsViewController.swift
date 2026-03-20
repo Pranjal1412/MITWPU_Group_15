@@ -33,8 +33,15 @@ class ClubSettingsViewController: UIViewController, UITextViewDelegate {
     private var tag = 0
     
     override func viewDidLoad() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
         super.viewDidLoad()
         setup()
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     func setup() {

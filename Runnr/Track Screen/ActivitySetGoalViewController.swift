@@ -34,6 +34,9 @@ class ActivitySetGoalViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
         
         view.backgroundColor = .clear
         self.viewMainBackground.layer.cornerRadius = 20
@@ -48,6 +51,10 @@ class ActivitySetGoalViewController: UIViewController {
         
         setGlassEffect(for: self.buttonCancel, withImage: "multiply")
         
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     func settingScreen() {
@@ -110,7 +117,7 @@ class ActivitySetGoalViewController: UIViewController {
         }
         else {
             let alert = UIAlertController(title: "Select an Activity", message: "You need to select an activity before starting", preferredStyle: .alert)
-            let cancelAction = UIAlertAction(title: "cancel", style: .cancel, handler: nil)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             alert.addAction(cancelAction)
             self.present(alert, animated: true, completion: nil)
         }

@@ -163,18 +163,25 @@ func deleteUserActivity(activityID : UUID, mapImageURL : String) async {
     }
 }
 
-func fetchAllMyActivities(userID : UUID) async -> [UserActivity] {
+func fetchAllMyActivities(userProfile: UserProfile) async -> [ActivityDetails] {
     do {
         
         let response: [UserActivity] = try await SupabaseManager.shared.client
             .from("UserActivity")
             .select()
-            .eq("userID", value: userID)
+            .eq("userID", value: userProfile.userID)
             .order("activityStartTime", ascending: false)
             .execute()
             .value
         
-        return response
+        let result = response.map { activity in
+            ActivityDetails(
+                userDetails: userProfile,
+                activity: activity
+            )
+        }
+        
+        return result
     }
     catch {
         print("Data not found")
@@ -531,6 +538,19 @@ func insertNewGame(gameData: TerritoryGame) async -> TerritoryGame? {
     }
 }
 
+func updateGamePlayerTwo(gameID: UUID, playerTwoID: UUID) async {
+    do {
+        try await SupabaseManager.shared.client
+            .from("TerritoryGame")
+            .update(["playerTwoID": playerTwoID.uuidString])
+            .eq("gameID", value: gameID)
+            .execute()
+        print("playerTwoID updated successfully")
+    } catch {
+        print("updateGamePlayerTwo failed: \(error)")
+    }
+}
+
 func fetchActiveGameForUser(userID: UUID) async -> TerritoryGame? {
     do {
         let games: [TerritoryGame] = try await SupabaseManager.shared.client
@@ -676,7 +696,7 @@ func updateAssignedChallengeRewards(challenge: AssignedChallenges) async {
     }
 }
 
-//MARK: - Freinds Follow/Unfollow
+//MARK: - Friends Follow/Unfollow
 
 // Returns UserProfile rows for all users the current user has NOT yet followed (excluding themselves).
 func fetchUnfollowedUsers(currentUserID: UUID) async -> [UserProfile] {
@@ -705,7 +725,9 @@ func fetchUnfollowedUsers(currentUserID: UUID) async -> [UserProfile] {
         }
 
         // Convert UUIDs into SQL array string
-        let formattedIDs = followedIDs.map { "\"\($0.uuidString)\"" }.joined(separator: ",")
+        var idsToExclude = followedIDs
+        idsToExclude.append(currentUserID)
+        let formattedIDs = idsToExclude.map { "\"\($0.uuidString)\"" }.joined(separator: ",")
 
         let allUsers: [UserProfile] = try await SupabaseManager.shared.client
             .from("UserProfile")
@@ -722,7 +744,7 @@ func fetchUnfollowedUsers(currentUserID: UUID) async -> [UserProfile] {
     }
 }
 
-func fetchFollowedUsersAtivities(currentUserID: UUID) async -> [FriendsActivity] {
+func fetchFollowedUsersAtivities(currentUserID: UUID) async -> [ActivityDetails] {
     do {
         // 1. Get IDs the user follows
         let followed: [FollowerAndFollowing] = try await SupabaseManager.shared.client
@@ -732,17 +754,9 @@ func fetchFollowedUsersAtivities(currentUserID: UUID) async -> [FriendsActivity]
             .execute()
             .value
 
-        let followedIDs = followed.map { $0.FollowingID }
-
-        // 2. Fetch user profiles of those IDs
-//        let users: [UserProfile] = try await SupabaseManager.shared.client
-//            .from("UserProfile")
-//            .select("*")
-//            .in("userID", values: followedIDs)
-//            .execute()
-//            .value
+        let followedIDs = followed.map { $0.FollowingID }.filter { $0 != currentUserID }
   
-        let activities: [FriendsActivity] = try await SupabaseManager.shared.client
+        let activities: [ActivityDetails] = try await SupabaseManager.shared.client
             .rpc("get_friends_latest_activity", params: ["friend_ids": followedIDs])
             .execute()
             .value
@@ -770,14 +784,12 @@ func fetchFollowersList(userID: UUID) async -> [UserProfile] {
         if followerIDs.isEmpty {
             return []
         }
-        
-        let formattedIDs = followerIDs.map { "\"\($0.uuidString)\"" }.joined(separator: ",")
-        
+                
         // 2. Fetch their user profiles
         let users: [UserProfile] = try await SupabaseManager.shared.client
             .from("UserProfile")
             .select("*")
-//            .in("userID", value: "(\(formattedIDs))")
+            .in("userID", values: followerIDs)
             .execute()
             .value
             
@@ -804,14 +816,12 @@ func fetchFollowingList(userID: UUID) async -> [UserProfile] {
         if followingIDs.isEmpty {
             return []
         }
-        
-        let formattedIDs = followingIDs.map { "\"\($0.uuidString)\"" }.joined(separator: ",")
-        
+            
         // 2. Fetch their user profiles
         let users: [UserProfile] = try await SupabaseManager.shared.client
             .from("UserProfile")
             .select("*")
-//            .in("userID", value: "(\(formattedIDs))")
+            .in("userID", values: followingIDs)
             .execute()
             .value
             
@@ -833,6 +843,126 @@ func insertFollowedUser(followerID: UUID, followingID: UUID) async {
             .execute()
     } catch {
         print("followUser failed: \(error)")
+    }
+}
+
+//MARK: - Club Post
+
+func insertNewClubPost(postDetails: ClubPost) async -> ClubPost? {
+    do {
+        let newPost: ClubPost = try await SupabaseManager.shared.client
+            .from("ClubPost")
+            .insert(postDetails)
+            .select()
+            .single()
+            .execute()
+            .value
+        
+        return newPost
+    }
+    catch {
+        print("Error inserting new club post: \(error)")
+        return nil
+    }
+}
+
+func updateClubPost(postDetails: ClubPost) async {
+    do {
+        try await SupabaseManager.shared.client
+            .from("ClubPost")
+            .update(postDetails)
+            .eq("postID", value: postDetails.postID)
+            .execute()
+        
+    }
+    catch {
+        print("Error inserting new club post: \(error)")
+    }
+}
+
+func fetchAllClubPosts(for clubID: UUID) async -> [ClubPost]? {
+    do {
+        let allPosts: [ClubPost] = try await SupabaseManager.shared.client
+            .from("ClubPost")
+            .select()
+            .eq("clubID", value: clubID)
+            .order("createdTimestamp")
+            .execute()
+            .value
+        
+        return allPosts
+    }
+    catch {
+        print("Error fetching club posts: \(error)")
+        return nil
+    }
+}
+
+func deleteClubPost(postID : UUID, postImageURL : String) async {
+    do {
+        
+        try await SupabaseManager.shared.client
+            .from("ClubPost")
+            .delete()
+            .eq("postID", value: postID)
+            .execute()
+        
+        await deleteImageFromStorage(imageURL: postImageURL)
+    }
+    catch {
+        print("Deletion failed: \(error)")
+    }
+}
+
+
+func saveClubPostImage(postID: UUID, with image: UIImage) async -> String? {
+    
+    let resizedImage = resizeImageIfNeeded(image, maxDimension: 400)
+    
+    if let imageData = resizedImage.jpegData(compressionQuality: 0.8) {
+        let filePath = "clubImages/clubPost/\(postID)_\(Int(Date().timeIntervalSince1970)).jpg"
+        
+        if let url = await saveAndFetchImageURL(with: filePath, imageData: imageData) {
+            return url
+            
+        } else {
+            print("Upload failed")
+            return nil
+        }
+    }
+    else {
+        print("Image compression failed")
+        return nil
+    }
+}
+
+// MARK: - Battle Invite Notifications
+
+func insertBattleInviteNotification(_ notification: BattleInviteNotification) async {
+    do {
+        try await SupabaseManager.shared.client
+            .from("BattleInviteNotification")
+            .insert(notification)
+            .execute()
+        print("Battle invite notification inserted successfully")
+    } catch {
+        print("Insert notification failed: \(error)")
+    }
+}
+
+func fetchBattleInviteNotifications(for receiverID: UUID) async -> [BattleInviteNotification] {
+    do {
+        let notifications: [BattleInviteNotification] = try await SupabaseManager.shared.client
+            .from("BattleInviteNotification")
+            .select()
+            .eq("receiverID", value: receiverID)
+            .order("createdAt", ascending: false)
+            .execute()
+            .value
+        return notifications
+    } catch {
+        print("Fetch notifications failed: \(error)")
+        return []
     }
 }
 

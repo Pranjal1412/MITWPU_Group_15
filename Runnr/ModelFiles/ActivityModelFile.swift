@@ -29,10 +29,9 @@ struct UserActivity: Codable {
     var skillPoints: Int?
     
     var elevation: Double?
-    
 }
 
-struct FriendsActivity: Codable {
+struct ActivityDetails: Codable {
     let userDetails: UserProfile?
     let activity: UserActivity?
 }
@@ -50,7 +49,7 @@ struct ActivityPhotos {
 }
 
 struct ActivityRouteCoordinates : Codable {
-    let activityID: UUID
+    let activityID: UUID?
     let latitude: Double
     let longitude: Double
     let sequence: Int

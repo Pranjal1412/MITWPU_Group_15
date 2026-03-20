@@ -5,6 +5,7 @@
 //  Created by SDC-USER on 18/11/25.
 //
 import UIKit
+import Kingfisher
 
 class ExploreScreenCollectionViewCell: UICollectionViewCell {
 
@@ -31,6 +32,8 @@ class ExploreScreenCollectionViewCell: UICollectionViewCell {
         ClubSport.text = data.clubSport.rawValue
         NumberOfRunners.text = String(data.memberCount)
 //        imageSportType.image = UIImage(systemName: setSportImage(for: data.clubSport.rawValue))
-        //clubProfile.image = data.clubProfileImg
+        if let url = URL(string: data.clubProfileImageURL!) {
+            clubProfile.kf.setImage(with: url)
+        }
     }
 }

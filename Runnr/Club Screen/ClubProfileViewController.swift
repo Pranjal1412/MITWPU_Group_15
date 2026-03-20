@@ -29,12 +29,8 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
     var isMyClub: Bool = false
     var clubProfileData: Club?
     var myClubProfileData : ClubRoleAndData?
-    
-    let demoPostImages: [UIImage] = [
-        UIImage(named: "post 1")!,
-        UIImage(named: "post 2")!,
-        UIImage(named: "post 3")!
-    ]
+    private var allPosts: [ClubPost] = []
+
     var likedPosts: [Bool] = [false, false, false]
     
     private var userProfileData = DataSource.shared.getUserProfile()
@@ -61,22 +57,41 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         // Setup Create New Post Button
         createNewPostButton.layer.cornerRadius = createNewPostButton.frame.height / 2
         createNewPostButton.addTarget(self, action: #selector(presentCreatePost), for: .touchUpInside)
+        
+        if isMyClub && myClubProfileData?.role == .owner {
+            self.createNewPostButton.isHidden = false
+        }
+        else {
+            self.createNewPostButton.isHidden = true
+        }
     }
 
     @objc func presentCreatePost() {
         let vc = CreatePostViewController()
-        vc.modalPresentationStyle = .pageSheet // Native bottom sheet look
+        vc.clubDetails = myClubProfileData?.club
         self.present(vc, animated: true)
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        if demoPostImages.isEmpty {
-            collectionViewPostImages.isHidden = true
+        
+        Task {
+            if isMyClub {
+                allPosts = await fetchAllClubPosts(for: self.myClubProfileData!.club.clubID!) ?? []
+            }
+            else {
+                allPosts = await fetchAllClubPosts(for: self.clubProfileData!.clubID!) ?? []
+            }
+            
+            if allPosts.isEmpty {
+                collectionViewPostImages.isHidden = true
+            }
+            else {
+                collectionViewPostImages.isHidden = false
+                collectionViewPostImages.reloadData()
+            }
+
         }
-        else {
-            collectionViewPostImages.isHidden = false
-            collectionViewPostImages.reloadData()
-        }
+
     }
     
     func updatedClubData(club: Club) {
@@ -148,11 +163,19 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
 
         }
         else {
+            
+            if let url = URL(string: (clubProfileData!.clubProfileImageURL!)) {
+                self.clubProfileImage.kf.setImage(with: url)
+            }
+            
+            if let url = URL(string: (clubProfileData!.clubBannerImageURL!)) {
+                self.imageClubBanner.kf.setImage(with: url)
+            }
+
             labelClubName.text = clubProfileData?.clubName
             labelSportType.text = clubProfileData?.clubSport.rawValue
             labelNumberOfMembers.text = String(clubProfileData!.memberCount) + " Members"
             clubDescription.text = clubProfileData?.clubDescription
-            //clubProfileImage.image = clubProfileData?.clubProfileImg
             clubMotive.text = clubProfileData?.clubMotive
             
             joinNowButton.setTitle("Join Now", for: .normal)
@@ -200,7 +223,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
             
             if joinNowButton.titleLabel?.text == "Edit Club Profile" {
                 let destinationVC = ClubSettingsViewController()
-                destinationVC.modalPresentationStyle = .fullScreen
+//                destinationVC.modalPresentationStyle = .fullScreen
                 destinationVC.delegate = self
                 destinationVC.clubProfileData = myClubProfileData?.club
                 self.present(destinationVC, animated: true)
@@ -284,14 +307,14 @@ extension ClubProfileViewController: UICollectionViewDelegate, UICollectionViewD
                                      UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return demoPostImages.count
+        return allPosts.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! PostCollectionViewCell
 
-        cell.configureCell(with: demoPostImages[indexPath.row], isLiked: likedPosts[indexPath.row])
+        cell.configureCell(with: allPosts[indexPath.row], isLiked: likedPosts[indexPath.row])
         cell.onLikeToggled = { [weak self] isLiked in
             self?.likedPosts[indexPath.row] = isLiked
         }
@@ -307,7 +330,9 @@ extension ClubProfileViewController: UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let postDetailVC = PostViewDetailViewController()
-        postDetailVC.postImage = demoPostImages[indexPath.row]
+        postDetailVC.postDetails = allPosts[indexPath.row]
+        postDetailVC.isOwner = isMyClub
+        
         postDetailVC.isLiked = likedPosts[indexPath.row]
         postDetailVC.likeStatusChanged = { [weak self] isLiked in
             self?.likedPosts[indexPath.row] = isLiked

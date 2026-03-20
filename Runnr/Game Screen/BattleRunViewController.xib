@@ -11,6 +11,7 @@
     <customFonts key="customFonts">
         <array key="SF-Pro.ttf">
             <string>SFPro-Semibold</string>
+            <string>SFPro-Ultralight</string>
         </array>
     </customFonts>
     <objects>
@@ -115,6 +116,12 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Territory cost : 100" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lv7-Lw-emp">
+                    <rect key="frame" x="20" y="182.33333333333334" width="362" height="21"/>
+                    <fontDescription key="fontDescription" name="SFPro-Ultralight" family="SF Pro" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -126,9 +133,12 @@
                 <constraint firstItem="Gns-Tv-jf9" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="42" id="Nnf-s0-xCC"/>
                 <constraint firstItem="TzH-UP-2xT" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="O2L-3e-haB"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="rl0-M9-oO5" secondAttribute="trailing" constant="124" id="Rek-WO-8Rc"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="lv7-Lw-emp" secondAttribute="trailing" constant="20" id="YNa-Gh-obd"/>
                 <constraint firstItem="6vX-jq-ITZ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="bB0-1p-svP"/>
                 <constraint firstItem="rl0-M9-oO5" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="100" id="fiy-oZ-UzH"/>
+                <constraint firstItem="lv7-Lw-emp" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="l23-WP-zzQ"/>
                 <constraint firstAttribute="bottom" secondItem="6vX-jq-ITZ" secondAttribute="bottom" id="m0E-I6-2Vc"/>
+                <constraint firstItem="lv7-Lw-emp" firstAttribute="top" secondItem="Gns-Tv-jf9" secondAttribute="bottom" constant="15" id="m1b-Gy-rvZ"/>
                 <constraint firstItem="TzH-UP-2xT" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="70" id="mkw-s3-jK9"/>
                 <constraint firstItem="rl0-M9-oO5" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="124" id="yjH-9r-myp"/>
                 <constraint firstItem="Gns-Tv-jf9" firstAttribute="centerX" secondItem="6vX-jq-ITZ" secondAttribute="centerX" id="zri-XN-iKq"/>

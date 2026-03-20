@@ -6,12 +6,12 @@ class DataSource {
     private var userProfileImage : UIImage?
     private var userStats : UserStats?
     
-    private var currentActivity: UserActivity?
+    private var currentActivity: ActivityDetails?
     private var currentActivityCoordinates: [ActivityRouteCoordinates] = []
     private var currentActivityPaceData: [ActivityPaceGraphData] = []
     
-    private var myActivities: [UserActivity] = []
-    private var friendActivities: [FriendsActivity] = []
+    private var myActivities: [ActivityDetails] = []
+    private var friendActivities: [ActivityDetails] = []
     private var clubsArray : [Club] = []
     private var myClubsArray : [ClubRoleAndData] = []
     
@@ -20,7 +20,9 @@ class DataSource {
     private var soloChallenges: [AssignedChallengesProgress] = []
     
     private var unfollowedUser: [UserProfile] = []
+    private var followingUser: [UserProfile] = []
     private var followedUser: [UserProfile] = []
+    private var battleInviteNotifications: [BattleInviteNotification] = []
     
     static let shared = DataSource()
         
@@ -48,19 +50,19 @@ class DataSource {
         self.userStats = userStats
     }
     
-    func setAllActivities(_ activities: [UserActivity]) {
+    func setAllActivities(_ activities: [ActivityDetails]) {
         self.myActivities = activities
     }
     
-    func getAllActivities() -> [UserActivity] {
+    func getAllActivities() -> [ActivityDetails] {
         return self.myActivities
     }
     
-    func setCurrentActivity(_ activity: UserActivity) {
+    func setCurrentActivity(_ activity: ActivityDetails) {
         self.currentActivity = activity
     }
     
-    func getCurrentActivity() -> UserActivity? {
+    func getCurrentActivity() -> ActivityDetails? {
         return currentActivity
     }
     
@@ -116,11 +118,27 @@ class DataSource {
         return self.followedUser
     }
     
-    func getFriendsActivityData() -> [FriendsActivity] {
+    func setFollowingUser(_ list: [UserProfile]) {
+        self.followingUser = list
+    }
+    
+    func getFollowingUser() -> [UserProfile] {
+        return self.followingUser
+    }
+    
+    func setBattleInviteNotifications(_ list: [BattleInviteNotification]) {
+        self.battleInviteNotifications = list
+    }
+    
+    func getBattleInviteNotifications() -> [BattleInviteNotification] {
+        return self.battleInviteNotifications
+    }
+    
+    func getFriendsActivityData() -> [ActivityDetails] {
         return friendActivities
     }
 
-    func setFriendsActivityData(_ data: [FriendsActivity]) {
+    func setFriendsActivityData(_ data: [ActivityDetails]) {
         self.friendActivities = data
     }
     
@@ -153,6 +171,52 @@ class DataSource {
     func getSoloChallenges() -> [AssignedChallengesProgress] {
         return self.soloChallenges
     }
+    
+//        func getWeeklyTotal(graphStore: GraphManager) -> TotalValue {
+//
+//            let calendar = Calendar.current
+//            let endDate = graphStore.referenceDate
+//            
+//            guard let startDate = calendar.date(byAdding: .day, value: -6, to: endDate) else {
+//                return TotalValue(totalDistance: 0, totalCalories: 0, totalPace: 0, totalSteps: 0)
+//            }
+//
+//            let filteredActivities = myActivities.filter { item in
+//                guard let date = item.activity?.activityStartTime else { return false }
+//                return date >= startDate && date <= endDate
+//            }
+//
+//            let totalCalories = filteredActivities.reduce(0.0) {
+//                $0 + Double($1.activity?.caloriesBurnt ?? 0)
+//            }
+//
+//            let totalDistance = filteredActivities.reduce(0.0) {
+//                $0 + ($1.activity?.distanceCovered ?? 0.0)
+//            }
+//
+//            let totalSteps = filteredActivities.reduce(0.0) {
+//                $0 + Double($1.activity?.stepsTaken ?? 0)
+//            }
+//
+//            let totalPace = filteredActivities.reduce(0.0) {
+//                $0 + ($1.activity?.avgPace ?? 0.0)
+//            }
+//
+//            return TotalValue(
+//                totalDistance: totalDistance,
+//                totalCalories: totalCalories,
+//                totalPace: totalPace,
+//                totalSteps: totalSteps
+//            )
+//        }
+//
+//        return TotalValue(
+//            totalDistance: totalDistance,
+//            totalCalories: totalCalories,
+//            totalPace: totalPace,
+//            totalSteps: totalSteps
+//        )
+//    }
     
     func getWeeklyTotal(graphStore: GraphManager) -> TotalValue {
 
@@ -235,7 +299,7 @@ class DataSource {
         presentingViewController.present(activityVC, animated: true)
     }
     func deleteActivityFromLocalArray(activityID: UUID) {
-        myActivities.removeAll { $0.activityID == activityID }
+        myActivities.removeAll { $0.activity?.activityID == activityID }
     }
 
 }

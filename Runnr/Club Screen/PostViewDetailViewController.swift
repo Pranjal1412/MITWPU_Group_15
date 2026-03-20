@@ -1,29 +1,29 @@
 import UIKit
+import Kingfisher
 
 class PostViewDetailViewController: UIViewController {
 
     @IBOutlet weak var postImageView: UIImageView!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
-    //@IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var followButton: UIButton!
     @IBOutlet weak var captionLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
-//    @IBOutlet weak var likeContainerView: UIView!
-//    @IBOutlet weak var likeIconImageView: UIImageView!
-    //@IBOutlet weak var likeCountLabel: UILabel!
-    //@IBOutlet weak var moreOptionButton: UIButton!
+    @IBOutlet weak var moreOptionButton: UIButton!
+    
+    //    @IBOutlet weak var likeContainerView: UIView!
+    //    @IBOutlet weak var likeIconImageView: UIImageView!
+    //    @IBOutlet weak var likeCountLabel: UILabel!
+    //    @IBOutlet weak var locationLabel: UILabel!
 
-    // Like button overlaid on the image
     private let imageLikeButton = UIButton(type: .custom)
     // Tracks double-tap like state: false = accent, true = red
     private var isImageLiked = false
     
-    // Passing data
-    var postImage: UIImage?
+    var postDetails: ClubPost?
     var isLiked: Bool = false
     var likeStatusChanged: ((Bool) -> Void)?
-    // We can add other data properties as needed
+    var isOwner: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,24 +32,32 @@ class PostViewDetailViewController: UIViewController {
     }
     
     private func setupUI() {
-        // View Background — modalBlack
-//        view.backgroundColor = UIColor(named: "modalBackground") 
+        view.backgroundColor = UIColor(named: "modalBackground")
 
         // Hide time label
         timeLabel.isHidden = true
 
-        // Profile Image
         profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
         profileImageView.clipsToBounds = true
         profileImageView.layer.borderWidth = 1
         profileImageView.layer.borderColor = UIColor(named: "AccentColor")?.cgColor ?? UIColor.green.cgColor
 
-        // Follow Button — no glow/shadow
         followButton.layer.cornerRadius = followButton.frame.height / 2
         followButton.backgroundColor = UIColor(named: "AccentColor") ?? .green
         followButton.setTitleColor(.black, for: .normal)
         followButton.layer.shadowOpacity = 0
-
+        
+        setGlassEffect(for: self.moreOptionButton, withImage: "ellipsis")
+        setupImageLikeButton()
+        formatCaptionText()
+        
+        if isOwner {
+            moreOptionButton.isHidden = false
+        }
+        else {
+            moreOptionButton.isHidden = true
+        }
+        
         // More Option Button
 //        moreOptionButton.layer.cornerRadius = moreOptionButton.frame.height / 2
 //        moreOptionButton.backgroundColor = UIColor.black.withAlphaComponent(0.4)
@@ -58,11 +66,6 @@ class PostViewDetailViewController: UIViewController {
 //        likeContainerView.layer.cornerRadius = likeContainerView.frame.height / 2
 //        likeContainerView.backgroundColor = UIColor(red: 0.08, green: 0.20, blue: 0.10, alpha: 1.0)
 
-        // Setup like button on postImageView
-        setupImageLikeButton()
-
-        // Format Caption text to Highlight Mentions and Hashtags
-        formatCaptionText()
     }
 
     private func setupImageLikeButton() {
@@ -120,7 +123,10 @@ class PostViewDetailViewController: UIViewController {
     }
     
     private func populateData() {
-        postImageView.image = postImage ?? UIImage(named: "post 1")
+        if let url = URL(string: postDetails!.postImageURL!) {
+            postImageView.kf.setImage(with: url)
+        }
+        
         profileImageView.image = UIImage(named: "club1") // Dummy profile
         nameLabel.text = "Alex Runner"
         //locationLabel.text = "San Francisco, CA"
@@ -129,7 +135,7 @@ class PostViewDetailViewController: UIViewController {
     }
     
     private func formatCaptionText() {
-        let text = "Early morning run through the Presidio. The fog was lifting and the air was perfect. Every mile felt like a gift today. #running #fitness #community @run_club"
+        let text = postDetails?.caption ?? ""
         
         // Default attributes
         let normalAttributes: [NSAttributedString.Key: Any] = [
@@ -164,6 +170,27 @@ class PostViewDetailViewController: UIViewController {
         captionLabel.attributedText = attributedString
     }
 
+    @IBAction func moreOptionClicked(_ sender: UIButton) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let editPostButton = UIAlertAction(title: String(localized: "Edit Post"), style: .default, handler: {_ in
+        })
+        let deleteButton = UIAlertAction(title: String(localized: "Delete"), style: .destructive, handler: {_ in
+            
+            Task {
+                await deleteClubPost(postID: self.postDetails!.postID!, postImageURL: self.postDetails!.postImageURL!)
+                self.dismiss(animated: true)
+            }
+        })
+        let cancelButton = UIAlertAction(title: String("Cancel"), style: .cancel)
+        
+        alert.addAction(editPostButton)
+        alert.addAction(deleteButton)
+        alert.addAction(cancelButton)
+        
+        self.present(alert, animated: true)
+    }
+    
     @IBAction func followTapped(_ sender: UIButton) {
         if sender.titleLabel?.text == "Follow" {
             sender.setTitle("Following", for: .normal)
@@ -181,7 +208,4 @@ class PostViewDetailViewController: UIViewController {
         }
     }
     
-    @IBAction func moreOptionsTapped(_ sender: UIButton) {
-        // Add options like share, report, etc.
-    }
 }

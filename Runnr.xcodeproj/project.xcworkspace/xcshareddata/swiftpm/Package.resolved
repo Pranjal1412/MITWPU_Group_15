@@ -1,5 +1,5 @@
 {
-  "originHash" : "6c0396b826c7aafb896f24acb6b4af556dcbee01070e542d6c13d445ca7814d8",
+  "originHash" : "56600f7b3243276a467cf9c4501859a0e7f8e17b940e33186f719b148c39c6ab",
   "pins" : [
     {
       "identity" : "ios-maps-sdk",
@@ -26,6 +26,15 @@
       "state" : {
         "revision" : "e227df15448d2ad1a5d4e4c49722a71c68f9058a",
         "version" : "8.7.0"
+      }
+    },
+    {
+      "identity" : "lottie-spm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/airbnb/lottie-spm",
+      "state" : {
+        "revision" : "69faaefa7721fba9e434a52c16adf4329c9084db",
+        "version" : "4.6.0"
       }
     },
     {

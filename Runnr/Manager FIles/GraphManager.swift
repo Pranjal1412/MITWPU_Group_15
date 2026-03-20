@@ -17,6 +17,8 @@ class GraphManager: ObservableObject {
     @Published var isLoading = false
     
     @Published var selectedPeriod: Period = .weekly
+    
+    var referenceDate: Date = Date()
 
     // This helper transforms the raw rows into chart-ready DayData
     func chartData(for period: Period, metric: Metric) -> [DayData] {
@@ -65,6 +67,9 @@ class GraphManager: ObservableObject {
     // Call your fetchSummary function here to populate the arrays
     @MainActor
     func loadData(userID: UUID, referenceDate: Date) async {
+        
+        self.referenceDate = referenceDate
+        
         isLoading = true
         defer { isLoading = false }
         
