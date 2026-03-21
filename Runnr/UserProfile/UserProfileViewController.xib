@@ -347,6 +347,7 @@
                     <variation key="default">
                         <mask key="subviews">
                             <exclude reference="gi2-9z-eM3"/>
+                            <exclude reference="ege-Nf-08B"/>
                         </mask>
                     </variation>
                 </scrollView>
