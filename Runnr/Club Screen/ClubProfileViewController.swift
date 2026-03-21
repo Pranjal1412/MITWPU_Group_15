@@ -161,6 +161,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
             joinNowButton.layer.borderColor = UIColor.accent.cgColor
             joinNowButton.layer.borderWidth = 1
 
+            leaveClubButton.isHidden = false
         }
         else {
             
@@ -182,6 +183,8 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
             
             joinNowButton.setTitleColor(.black, for: .normal)
             joinNowButton.backgroundColor = .accent
+            
+            leaveClubButton.isHidden = true
         }
         
         clubProfileImage.layer.cornerRadius = 15
@@ -230,12 +233,19 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
             }
             
             else if joinNowButton.titleLabel?.text == "Join Now" {
-                await insertNewClubMember(newMember: ClubMemberRole(userID: self.userProfileData.userID, clubID: self.clubProfileData?.clubID, role: .member))
-                joinNowButton.setTitle("Joined", for: .normal)
-                joinNowButton.setTitleColor(.accent, for: .normal)
-                joinNowButton.backgroundColor = .black
-                joinNowButton.layer.borderColor = UIColor.accent.cgColor
-                joinNowButton.layer.borderWidth = 1
+                if let clubID = self.clubProfileData?.clubID {
+                    await insertNewClubMember(newMember: ClubMemberRole(userID: self.userProfileData.userID, clubID: clubID, role: .member))
+                    
+                    var updatedClub = self.clubProfileData!
+                    updatedClub.memberCount += 1
+                    await updateClubInfo(clubID: clubID, updatedData: updatedClub)
+                    
+                    joinNowButton.setTitle("Joined", for: .normal)
+                    joinNowButton.setTitleColor(.accent, for: .normal)
+                    joinNowButton.backgroundColor = .black
+                    joinNowButton.layer.borderColor = UIColor.accent.cgColor
+                    joinNowButton.layer.borderWidth = 1
+                }
             }
         }
         
@@ -251,8 +261,29 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: actionTitle, style: .destructive, handler: { _ in
-            // Handle deletion or leaving
-            self.dismiss(animated: true)
+            Task {
+                if isOwner {
+                    // Delete Club
+                    if let clubID = self.myClubProfileData?.club.clubID {
+                        await deleteClub(clubID: clubID)
+                    }
+                } else {
+                    // Leave Club
+                    if let userID = self.userProfileData.userID,
+                       let clubID = self.myClubProfileData?.club.clubID {
+                        
+                        await removeClubMember(userID: userID, clubID: clubID)
+                        
+                        var updatedClub = self.myClubProfileData!.club
+                        updatedClub.memberCount = max(0, updatedClub.memberCount - 1)
+                        await updateClubInfo(clubID: clubID, updatedData: updatedClub)
+                    }
+                }
+                
+                await MainActor.run {
+                    self.navigationController?.dismiss(animated: true)
+                }
+            }
         }))
         self.present(alert, animated: true, completion: nil)
     }

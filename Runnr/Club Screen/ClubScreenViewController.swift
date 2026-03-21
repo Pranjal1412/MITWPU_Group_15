@@ -86,6 +86,10 @@ class ClubScreenViewController: UIViewController {
                 collectionViewJoinedClub.isHidden = false
                 labelYourClubs.isHidden = false
                 buttonAddMoreClubs.isHidden = false
+            } else {
+                collectionViewJoinedClub.isHidden = true
+                labelYourClubs.isHidden = true
+                buttonAddMoreClubs.isHidden = true
             }
             
             collectionViewJoinedClub.reloadData()

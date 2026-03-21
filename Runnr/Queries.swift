@@ -426,6 +426,36 @@ func insertNewClubMember(newMember: ClubMemberRole) async {
     }
 }
 
+func removeClubMember(userID: UUID, clubID: UUID) async {
+    do {
+        try await SupabaseManager.shared.client
+            .from("ClubMemberRole")
+            .delete()
+            .eq("userID", value: userID)
+            .eq("clubID", value: clubID)
+            .execute()
+        print("Member removed from club successfully!")
+    } catch {
+        print("Error removing member from club: \(error)")
+    }
+}
+
+func deleteClub(clubID: UUID) async {
+    do {
+        // With CASCADE on the foreign keys, deleting the club
+        // will automatically delete related ClubMemberRole and ClubPost rows
+        try await SupabaseManager.shared.client
+            .from("Club")
+            .delete()
+            .eq("clubID", value: clubID)
+            .execute()
+
+        print("Club deleted successfully!")
+    } catch {
+        print("Error deleting club: \(error)")
+    }
+}
+
 func saveClubProfileImage(clubID: UUID, with image: UIImage) async -> String? {
     
     let resizedImage = resizeImageIfNeeded(image, maxDimension: 400)
