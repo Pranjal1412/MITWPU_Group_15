@@ -330,15 +330,8 @@ class ActivityLiveTrackingViewController: UIViewController {
                 
                 activityDetails = await insertActivity(activityDetails) ?? activityDetails
                 
-                // ✅ Navigate regardless of whether insert succeeded
-                LocalActivityStorage.shared.clear()
-                await MainActor.run {
-                    let destinationVC = ActivitySaveViewController(nibName: "ActivitySaveViewController", bundle: nil)
-                    destinationVC.activityData = activityDetails
-                    nav.pushViewController(destinationVC, animated: true)
-                }
                 
-                // ✅ Only save to DB if insert succeeded and we have an activityID
+                // Only save to DB if insert succeeded and we have an activityID
                 if let activityID = activityDetails.activityID {
                     
                     if let image = mapSnapshot {
@@ -369,6 +362,12 @@ class ActivityLiveTrackingViewController: UIViewController {
                     await insertActivityRouteCoordinates(routeCoordinates)
                     datasource.setCurrentActivityCoordinates(routeCoordinates)
                 }
+                
+                LocalActivityStorage.shared.clear()
+                let destinationVC = ActivitySaveViewController(nibName: "ActivitySaveViewController", bundle: nil)
+                destinationVC.activityData = activityDetails
+                nav.pushViewController(destinationVC, animated: true)
+                
                 
                 print("Background save completed")
             }
