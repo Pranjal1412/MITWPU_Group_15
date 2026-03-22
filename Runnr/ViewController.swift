@@ -56,8 +56,8 @@ class ViewController: UIViewController {
         NSLayoutConstraint.activate([
             lottieView.centerXAnchor.constraint(equalTo: loaderView.centerXAnchor),
             lottieView.centerYAnchor.constraint(equalTo: loaderView.centerYAnchor),
-            lottieView.widthAnchor.constraint(equalToConstant: 250),
-            lottieView.heightAnchor.constraint(equalToConstant: 250)
+            lottieView.widthAnchor.constraint(equalToConstant: 150),
+            lottieView.heightAnchor.constraint(equalToConstant: 150)
         ])
 
         loaderView.isHidden = true
