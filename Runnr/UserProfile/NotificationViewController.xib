@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NotificationViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
+                <outlet property="closeButton" destination="5SV-PA-O1z" id="fYY-SI-4x7"/>
                 <outlet property="tableView" destination="pIc-tF-sFG" id="7Wz-AB-Y3w"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -22,7 +23,6 @@
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5SV-PA-O1z" userLabel="Cancel">
                     <rect key="frame" x="30" y="50" width="45" height="45"/>
-                    <color key="backgroundColor" systemColor="systemPinkColor"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="45" id="5h2-fh-T0f"/>
                         <constraint firstAttribute="width" constant="45" id="NX4-mB-x0B"/>
@@ -66,7 +66,7 @@
                 <constraint firstItem="pIc-tF-sFG" firstAttribute="top" secondItem="eIg-2n-BHa" secondAttribute="bottom" constant="38" id="uar-aJ-yiZ"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-4" y="113"/>
+            <point key="canvasLocation" x="338" y="255"/>
         </view>
     </objects>
     <resources>
@@ -76,9 +76,6 @@
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemPinkColor">
-            <color red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

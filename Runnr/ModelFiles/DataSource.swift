@@ -16,6 +16,7 @@ class DataSource {
     private var myClubsArray : [ClubRoleAndData] = []
     
     private var gameID: UUID?
+    private var gameDetails: TerritoryGame?
     private var gameTile: [TerritoryHexTile] = []
     private var soloChallenges: [AssignedChallengesProgress] = []
     
@@ -26,6 +27,14 @@ class DataSource {
     
     static let shared = DataSource()
         
+    func getGameDetails() -> TerritoryGame? {
+        return gameDetails
+    }
+    
+    func setGameDetails(_ gameDetails: TerritoryGame) {
+        self.gameDetails = gameDetails
+    }
+    
     func getUserProfile() -> UserProfile {
         return userProfile
     }

@@ -551,6 +551,7 @@ func downloadTerritoryFile() async -> URL? {
 
 func insertNewGame(gameData: TerritoryGame) async -> TerritoryGame? {
     do {
+                
         let insertedGame: TerritoryGame = try await SupabaseManager.shared.client
             .from("TerritoryGame")
             .insert(gameData)
@@ -570,12 +571,13 @@ func insertNewGame(gameData: TerritoryGame) async -> TerritoryGame? {
 
 func updateGamePlayerTwo(gameID: UUID, playerTwoID: UUID) async {
     do {
-        try await SupabaseManager.shared.client
+        let response = try await SupabaseManager.shared.client
             .from("TerritoryGame")
-            .update(["playerTwoID": playerTwoID.uuidString])
+            .update(["playerTwoID": playerTwoID])
             .eq("gameID", value: gameID)
-            .execute()
-        print("playerTwoID updated successfully")
+            .select()
+
+        print("UPDATE RESPONSE:", response)
     } catch {
         print("updateGamePlayerTwo failed: \(error)")
     }
@@ -974,6 +976,7 @@ func insertBattleInviteNotification(_ notification: BattleInviteNotification) as
             .from("BattleInviteNotification")
             .insert(notification)
             .execute()
+        
         print("Battle invite notification inserted successfully")
     } catch {
         print("Insert notification failed: \(error)")

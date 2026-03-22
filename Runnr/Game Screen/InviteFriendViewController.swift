@@ -15,7 +15,7 @@ class InviteFriendViewController: UIViewController {
     private var friendsList: [UserProfile] = []
     private let userProfile = DataSource.shared.getUserProfile()
     
-    /// Called after an invite is successfully sent, passing back the invited friend's userID
+    // Called after an invite is successfully sent, passing back the invited friend's userID
     var onInviteSent: ((UUID) -> Void)?
     
     override func viewDidLoad() {
@@ -117,7 +117,8 @@ extension InviteFriendViewController: UITableViewDataSource, UITableViewDelegate
         Task {
             // 1. Create the game with ONLY playerOneID — playerTwoID is set when they accept
             var newGame = TerritoryGame(playerOneID: myID, playerTwoID: nil)
-            newGame = await insertNewGame(gameData: newGame) ?? newGame
+            newGame = await insertNewGame(gameData: newGame)!
+            DataSource.shared.setGameDetails(newGame)
             
             if let gameID = newGame.gameID {
                 DataSource.shared.setGameID(gameID)

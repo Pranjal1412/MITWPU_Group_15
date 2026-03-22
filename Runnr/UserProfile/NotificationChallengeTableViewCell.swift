@@ -19,6 +19,9 @@ class NotificationChallengeTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        buttonAccept.layer.cornerRadius = buttonAccept.frame.height / 2
+        buttonDecline.layer.cornerRadius = buttonDecline.frame.height / 2
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

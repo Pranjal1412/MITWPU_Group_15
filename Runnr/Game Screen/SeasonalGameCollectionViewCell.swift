@@ -26,7 +26,7 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
     
     let userProfile = DataSource.shared.getUserProfile()
     
-    /// Closure called when user taps "Invite Friend" — set by the parent VC
+    // Closure called when user taps "Invite Friend" — set by the parent VC
     var onInviteFriendTapped: (() -> Void)?
     
     override func awakeFromNib() {

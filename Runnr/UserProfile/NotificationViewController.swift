@@ -10,14 +10,18 @@ import UIKit
 class NotificationViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var closeButton: UIButton!
     
-    private var notifications: [BattleInviteNotification] = [BattleInviteNotification(senderID: UUID(uuidString: "70cbd046-c94f-4941-9988-a3ae88398a26")!, receiverID: UUID(uuidString: "24fc68d0-fe86-4863-8166-d2368d179718")!, senderName: "Archit", message: "Game 1", isRead: false)]
+    private var notifications: [BattleInviteNotification] = DataSource.shared.getBattleInviteNotifications()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.delegate = self
         tableView.dataSource = self
+        
+        setGlassEffect(for: self.closeButton, withImage: "multiply")
         
         let nib = UINib(nibName: "NotificationChallengeTableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "NotificationChallengeTableViewCell")
@@ -59,7 +63,7 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
         cell.configure(with: notification)
         
         cell.onAccept = { [weak self] in
-            guard let self = self else { return }
+            guard self != nil else { return }
             guard let gameID = notification.gameID else { return }
             let receiverID = notification.receiverID
             

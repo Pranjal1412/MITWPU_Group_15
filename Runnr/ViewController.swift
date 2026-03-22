@@ -89,6 +89,8 @@ class ViewController: UIViewController {
                             longestStreak: 0
                         )
 
+                        let fetched = await fetchBattleInviteNotifications(for: userProfile.userID!)
+                        DataSource.shared.setBattleInviteNotifications(fetched)
                         DataSource.shared.setUserProfile(userProfile)
                         DataSource.shared.setUserStats(userStats)
 
