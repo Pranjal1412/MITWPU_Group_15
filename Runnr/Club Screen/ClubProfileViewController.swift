@@ -120,9 +120,9 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         collectionViewPostImages.register(nib, forCellWithReuseIdentifier: "cell")
         
         if let layout = collectionViewPostImages.collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.minimumInteritemSpacing = 4
-            layout.minimumLineSpacing = 4
-            layout.sectionInset = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+            layout.minimumInteritemSpacing = 2
+            layout.minimumLineSpacing = 2
+            layout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
         }
         
         tableViewLeaderBoard.dataSource = self

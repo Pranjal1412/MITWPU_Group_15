@@ -213,3 +213,4 @@ extension ClubSettingsViewController: PHPickerViewControllerDelegate, UIImagePic
 protocol UpdateClubProfile {
     func updatedClubData(club: Club)
 }
+
