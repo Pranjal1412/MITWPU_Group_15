@@ -442,8 +442,37 @@ func removeClubMember(userID: UUID, clubID: UUID) async {
 
 func deleteClub(clubID: UUID) async {
     do {
-        // With CASCADE on the foreign keys, deleting the club
-        // will automatically delete related ClubMemberRole and ClubPost rows
+        // Delete post images from storage before CASCADE removes the rows
+        let posts: [ClubPost] = try await SupabaseManager.shared.client
+            .from("ClubPost")
+            .select()
+            .eq("clubID", value: clubID)
+            .execute()
+            .value
+        
+        for post in posts {
+            if let imageURL = post.postImageURL, !imageURL.isEmpty {
+                await deleteImageFromStorage(imageURL: imageURL)
+            }
+        }
+        
+        // Delete club profile and banner images from storage
+        let club: Club = try await SupabaseManager.shared.client
+            .from("Club")
+            .select()
+            .eq("clubID", value: clubID)
+            .single()
+            .execute()
+            .value
+        
+        if let profileURL = club.clubProfileImageURL, !profileURL.isEmpty {
+            await deleteImageFromStorage(imageURL: profileURL)
+        }
+        if let bannerURL = club.clubBannerImageURL, !bannerURL.isEmpty {
+            await deleteImageFromStorage(imageURL: bannerURL)
+        }
+        
+        // Now delete the club — CASCADE handles ClubMemberRole and ClubPost rows
         try await SupabaseManager.shared.client
             .from("Club")
             .delete()
