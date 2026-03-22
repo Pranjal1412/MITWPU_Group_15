@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24128" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
-        <capability name="Image references" minToolsVersion="12.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -12,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NotificationViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
-                <outlet property="tableView" destination="K4B-dA-zok" id="tbl-vw-conn"/>
+                <outlet property="tableView" destination="pIc-tF-sFG" id="7Wz-AB-Y3w"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -21,31 +20,33 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5SV-PA-O1z" userLabel="Cancel">
-                    <rect key="frame" x="25.999999999999996" y="75" width="43.666666666666657" height="34.333333333333343"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5SV-PA-O1z" userLabel="Cancel">
+                    <rect key="frame" x="30" y="50" width="45" height="45"/>
+                    <color key="backgroundColor" systemColor="systemPinkColor"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="43.670000000000002" id="XYe-OZ-8lr"/>
-                        <constraint firstAttribute="height" constant="34.329999999999998" id="oyO-Xs-MTY"/>
+                        <constraint firstAttribute="height" constant="45" id="5h2-fh-T0f"/>
+                        <constraint firstAttribute="width" constant="45" id="NX4-mB-x0B"/>
                     </constraints>
                     <color key="tintColor" name="AccentColor"/>
                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                    <state key="normal">
-                        <imageReference key="image" image="chevron.backward" catalog="system" symbolScale="large"/>
-                    </state>
-                    <buttonConfiguration key="configuration" style="plain" image="multiply" catalog="system"/>
+                    <state key="normal" image="multiply" catalog="system"/>
                     <connections>
-                        <action selector="buttonBackPressed:" destination="-1" eventType="touchUpInside" id="btn-bck-conn"/>
+                        <action selector="buttonBackPressed:" destination="-1" eventType="touchUpInside" id="nN7-5v-kT7"/>
                     </connections>
                 </button>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="pIc-tF-sFG">
-                    <rect key="frame" x="0.0" y="132" width="393" height="720"/>
+                    <rect key="frame" x="0.0" y="133" width="393" height="719"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="719" id="3Lr-5t-cQL"/>
+                        <constraint firstAttribute="width" constant="393" id="GL7-C8-agV"/>
+                    </constraints>
                 </tableView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notification Center " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eIg-2n-BHa">
-                    <rect key="frame" x="82" y="75" width="228" height="34"/>
+                    <rect key="frame" x="86" y="50" width="220" height="45"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="228" id="hNh-3B-f3Y"/>
-                        <constraint firstAttribute="height" constant="34" id="z1O-8l-vPi"/>
+                        <constraint firstAttribute="height" constant="45" id="HNE-bM-oaI"/>
+                        <constraint firstAttribute="width" constant="220" id="IM3-el-G9X"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="25"/>
                     <nil key="textColor"/>
@@ -55,38 +56,29 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="eIg-2n-BHa" firstAttribute="leading" secondItem="5SV-PA-O1z" secondAttribute="trailing" constant="12.33" id="Hee-SF-sC6"/>
-                <constraint firstItem="5SV-PA-O1z" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="75" id="T8P-nU-qJP"/>
-                <constraint firstItem="pIc-tF-sFG" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Y2Z-yN-ejb"/>
-                <constraint firstItem="pIc-tF-sFG" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="14" id="eQ0-Bj-KPV"/>
-                <constraint firstItem="pIc-tF-sFG" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="hUF-W1-jJh"/>
-                <constraint firstItem="5SV-PA-O1z" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="26" id="rye-MQ-7co"/>
-                <constraint firstAttribute="bottom" secondItem="pIc-tF-sFG" secondAttribute="bottom" id="yX7-3Y-jC9"/>
-                <constraint firstItem="eIg-2n-BHa" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="75" id="zb6-Ed-3Ay"/>
+                <constraint firstItem="pIc-tF-sFG" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="19p-Q6-8YV"/>
+                <constraint firstItem="5SV-PA-O1z" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="30" id="4FA-bg-60a"/>
+                <constraint firstItem="eIg-2n-BHa" firstAttribute="leading" secondItem="5SV-PA-O1z" secondAttribute="trailing" constant="11" id="8q0-DZ-tnw"/>
+                <constraint firstItem="pIc-tF-sFG" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="KXt-Eq-vT7"/>
+                <constraint firstItem="eIg-2n-BHa" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="50" id="PfT-kv-Ib3"/>
+                <constraint firstItem="5SV-PA-O1z" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="50" id="cbW-qT-dfI"/>
+                <constraint firstAttribute="bottom" secondItem="pIc-tF-sFG" secondAttribute="bottom" id="pXs-Oe-ejk"/>
+                <constraint firstItem="pIc-tF-sFG" firstAttribute="top" secondItem="eIg-2n-BHa" secondAttribute="bottom" constant="38" id="uar-aJ-yiZ"/>
             </constraints>
-            <point key="canvasLocation" x="3.8167938931297707" y="112.67605633802818"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-4" y="113"/>
         </view>
-        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="K4B-dA-zok">
-            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-            <point key="canvasLocation" x="68" y="220"/>
-        </tableView>
-        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="OVG-Ea-sZA">
-            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-            <point key="canvasLocation" x="-679" y="220"/>
-        </tableView>
     </objects>
     <resources>
-        <image name="chevron.backward" catalog="system" width="97" height="128"/>
         <image name="multiply" catalog="system" width="128" height="111"/>
         <namedColor name="AccentColor">
             <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemPinkColor">
+            <color red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

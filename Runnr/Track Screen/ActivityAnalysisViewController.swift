@@ -196,11 +196,10 @@ class ActivityAnalysisViewController: UIViewController {
         labelCaloriesValue.attributedText = caloriesText
         labelCaloriesValue.textColor = .accent
         
-        labelStepsValue.text = String(format:"%02d", self.activityData!.activity!.stepsTaken!)
-        self.labelAvgHRValue.text = "Average Heart Rate: " + String(format: "%0.2d", self.activityData!.activity!.avgHeartRate ?? 0.0)
+        labelStepsValue.text = String(format:"%d", self.activityData!.activity!.stepsTaken!);   self.labelAvgHRValue.text = "Average Heart Rate: " + String(format: "%.1f", self.activityData!.activity!.avgHeartRate ?? 0.0)
         
             let elevationText = NSMutableAttributedString(
-                string: String(format: "%.0f", self.activityData!.activity!.elevation ?? 0.0),
+                string: String(format: "%.1f", self.activityData!.activity!.elevation ?? 0.0),
                 attributes: [.font: boldFont, .foregroundColor: UIColor.white]
             )
             

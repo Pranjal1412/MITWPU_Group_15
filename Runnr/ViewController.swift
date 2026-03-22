@@ -7,6 +7,7 @@
 
 import UIKit
 import Supabase
+import Lottie
 
 let tabBar = UITabBarController()
 
@@ -18,8 +19,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var buttonLogin: UIButton!
 
     var newUser = false
-    let loader = UIActivityIndicatorView(style: .large)
     let loaderView = UIView()
+    var lottieView: LottieAnimationView!
     
     override func viewDidLoad() {
             super.viewDidLoad()
@@ -39,30 +40,34 @@ class ViewController: UIViewController {
             setupLoader()
         }
 
-        func setupLoader() {
+    func setupLoader() {
+        loaderView.frame = view.bounds
+        loaderView.backgroundColor = UIColor.black.withAlphaComponent(1)
 
-            loaderView.frame = view.bounds
-            loaderView.backgroundColor = UIColor.black.withAlphaComponent(1)
+        // Set up Lottie animation
+        lottieView = LottieAnimationView(name: "Run_Forrest_Run")
+        lottieView.loopMode = .loop
+        lottieView.contentMode = .scaleAspectFit
+        lottieView.translatesAutoresizingMaskIntoConstraints = false
 
-            loader.translatesAutoresizingMaskIntoConstraints = false
-            loader.hidesWhenStopped = true
+        loaderView.addSubview(lottieView)
+        view.addSubview(loaderView)
 
-            loaderView.addSubview(loader)
-            view.addSubview(loaderView)
+        NSLayoutConstraint.activate([
+            lottieView.centerXAnchor.constraint(equalTo: loaderView.centerXAnchor),
+            lottieView.centerYAnchor.constraint(equalTo: loaderView.centerYAnchor),
+            lottieView.widthAnchor.constraint(equalToConstant: 150),
+            lottieView.heightAnchor.constraint(equalToConstant: 150)
+        ])
 
-            NSLayoutConstraint.activate([
-                loader.centerXAnchor.constraint(equalTo: loaderView.centerXAnchor),
-                loader.centerYAnchor.constraint(equalTo: loaderView.centerYAnchor)
-            ])
-
-            loaderView.isHidden = true
-        }
+        loaderView.isHidden = true
+    }
 
         override func viewWillAppear(_ animated: Bool) {
             super.viewWillAppear(animated)
 
             loaderView.isHidden = false
-            loader.startAnimating()
+            lottieView.play()
 
             Task { @MainActor in
                 
@@ -88,12 +93,12 @@ class ViewController: UIViewController {
                         DataSource.shared.setUserStats(userStats)
 
                         self.setUpTabBar()
-                        self.loader.stopAnimating()
+                        self.lottieView.stop()
 
                     }
 
                 } catch {
-                    self.loader.stopAnimating()
+                    self.lottieView.stop()
                     self.loaderView.isHidden = true
                     print("User has not logged in")
                 }

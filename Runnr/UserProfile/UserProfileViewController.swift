@@ -37,7 +37,7 @@ class UserProfileViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var stackProgress: UIStackView!
-    @IBOutlet weak var collectionViewBestActivity: UICollectionView!
+//    @IBOutlet weak var collectionViewBestActivity: UICollectionView!
     
 //    var totalRunnrPoints : Int {
 //        DataSource.shared.getTotalRunnrPoints()
@@ -61,16 +61,16 @@ class UserProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.collectionViewBestActivity.dataSource = self
-        
-        self.collectionViewBestActivity.register(UINib(nibName: "SectionHeaderView", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "SectionHeaderView")
-        
-        self.collectionViewBestActivity.register(UINib(nibName: "BestActivitiesCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "BestActivitiesCollectionViewCell")
-        self.collectionViewBestActivity.register(UINib(nibName: "BadgeCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "BadgeCollectionViewCell")
-        
-        self.collectionViewBestActivity.setCollectionViewLayout(generateLayout(), animated: true)
-        
-        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.collectionViewBestActivity.frame.height + self.collectionViewBestActivity.frame.origin.y + 30)
+//        self.collectionViewBestActivity.dataSource = self
+//        
+//        self.collectionViewBestActivity.register(UINib(nibName: "SectionHeaderView", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "SectionHeaderView")
+//        
+//        self.collectionViewBestActivity.register(UINib(nibName: "BestActivitiesCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "BestActivitiesCollectionViewCell")
+//        self.collectionViewBestActivity.register(UINib(nibName: "BadgeCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "BadgeCollectionViewCell")
+//        
+//        self.collectionViewBestActivity.setCollectionViewLayout(generateLayout(), animated: true)
+//        
+//        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.collectionViewBestActivity.frame.height + self.collectionViewBestActivity.frame.origin.y + 30)
         settingsElements()
         
     }
@@ -120,7 +120,7 @@ class UserProfileViewController: UIViewController {
     }
     
     @IBAction func navigateToNotification(_ sender: UIButton) {
-        let notificationVC = NotificationViewController()
+        let notificationVC = NotificationViewController(nibName: "NotificationViewController", bundle: nil)
         if let presenter = self.presentingViewController {
             self.dismiss(animated: true) {
                 notificationVC.modalPresentationStyle = .fullScreen

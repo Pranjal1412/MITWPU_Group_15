@@ -23,7 +23,7 @@ class ActivitySaveViewController: UIViewController {
     @IBOutlet weak var imageViewMap: UIImageView!
     @IBOutlet weak var buttonAddPhotos: UIButton!
     @IBOutlet weak var switchIsActivityPublic: UISwitch!
-    @IBOutlet weak var textViewRemark: UITextView!
+    @IBOutlet weak var textViewRemark: UITextView! 
     @IBOutlet weak var textFieldActivityTitle: UITextField!
     @IBOutlet weak var viewRemark: UIView!
     @IBOutlet weak var labelRunSummary: UILabel!
@@ -43,6 +43,7 @@ class ActivitySaveViewController: UIViewController {
     @IBOutlet weak var collectionViewAddPhotos: UICollectionView!
     
     var activityData: UserActivity!
+    var activityManager: UserActivityManager!
     private var dataSource = DataSource.shared
     private var userStats = DataSource.shared.getUserStats()
     
@@ -123,6 +124,7 @@ class ActivitySaveViewController: UIViewController {
 
             await updateUserStats(userID: activityData.userID!, newStats: self.userStats!)
             
+//            LocalActivityStorage.shared.clear()
             let destinationVC = ActivitySummaryViewController()
             destinationVC.isNewActivity = true
             
@@ -184,9 +186,11 @@ class ActivitySaveViewController: UIViewController {
         labelTimeValue.text = String(format: "%02d : %02d : %02d", formattedTime.hour, formattedTime.minute, formattedTime.second)
         labelTimeValue.sizeToFit()
         labelCalories.text = NSLocalizedString( "Calories", comment: "")
-        labelCaloriesValue.text = String(format: "%.0f", self.activityData.caloriesBurnt!) + " kcal"
+//        labelCaloriesValue.text = String(format: "%d", self.activityData.caloriesBurnt!) + " kcal"
         labelDistance.text = NSLocalizedString( "Distance", comment: "")
         labelDistanceValue.text = String(format: "%.2f", self.activityData.distanceCovered!) + " " + self.activityData.distanceUnit!.rawValue
+        labelCaloriesValue.text = String(self.activityData.caloriesBurnt!) + " kcal"
+        
         
         labelAddPhotos.text = String(localized: "Tap here to upload photos")
     }

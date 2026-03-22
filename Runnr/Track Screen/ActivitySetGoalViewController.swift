@@ -117,7 +117,7 @@ class ActivitySetGoalViewController: UIViewController {
         }
         else {
             let alert = UIAlertController(title: "Select an Activity", message: "You need to select an activity before starting", preferredStyle: .alert)
-            let cancelAction = UIAlertAction(title: "cancel", style: .cancel, handler: nil)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             alert.addAction(cancelAction)
             self.present(alert, animated: true, completion: nil)
         }
@@ -144,8 +144,7 @@ class ActivitySetGoalViewController: UIViewController {
         } else {
             distanceGoal = 0.0
         }
-    }
-    
+    }    
     
     func setupMenu() {
 
@@ -154,14 +153,14 @@ class ActivitySetGoalViewController: UIViewController {
             self.buttonActivity.setTitleColor(.darkGray, for: .normal)
         }
         
-        let run = UIAction(title: "Running") { _ in
-            self.buttonActivity.setTitle("Running", for: .normal)
+        let walk = UIAction(title: "Walking") { _ in
+            self.buttonActivity.setTitle("Walking", for: .normal)
             self.buttonActivity.setTitleColor(.accent, for: .normal)
 
         }
-
-        let walk = UIAction(title: "Walking") { _ in
-            self.buttonActivity.setTitle("Walking", for: .normal)
+        
+        let run = UIAction(title: "Running") { _ in
+            self.buttonActivity.setTitle("Running", for: .normal)
             self.buttonActivity.setTitleColor(.accent, for: .normal)
 
         }
@@ -178,7 +177,7 @@ class ActivitySetGoalViewController: UIViewController {
 
         }
         
-        self.buttonActivity.menu = UIMenu(children: [defaultActivity, run, walk, marathon, hike])
+        self.buttonActivity.menu = UIMenu(children: [defaultActivity, walk, run, hike, marathon])
         self.buttonActivity.showsMenuAsPrimaryAction = true
         self.buttonActivity.setTitleColor(.accent, for: .normal)
     }

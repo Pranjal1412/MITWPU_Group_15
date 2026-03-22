@@ -426,6 +426,36 @@ func insertNewClubMember(newMember: ClubMemberRole) async {
     }
 }
 
+func removeClubMember(userID: UUID, clubID: UUID) async {
+    do {
+        try await SupabaseManager.shared.client
+            .from("ClubMemberRole")
+            .delete()
+            .eq("userID", value: userID)
+            .eq("clubID", value: clubID)
+            .execute()
+        print("Member removed from club successfully!")
+    } catch {
+        print("Error removing member from club: \(error)")
+    }
+}
+
+func deleteClub(clubID: UUID) async {
+    do {
+        // With CASCADE on the foreign keys, deleting the club
+        // will automatically delete related ClubMemberRole and ClubPost rows
+        try await SupabaseManager.shared.client
+            .from("Club")
+            .delete()
+            .eq("clubID", value: clubID)
+            .execute()
+
+        print("Club deleted successfully!")
+    } catch {
+        print("Error deleting club: \(error)")
+    }
+}
+
 func saveClubProfileImage(clubID: UUID, with image: UIImage) async -> String? {
     
     let resizedImage = resizeImageIfNeeded(image, maxDimension: 400)
@@ -535,6 +565,19 @@ func insertNewGame(gameData: TerritoryGame) async -> TerritoryGame? {
     catch {
         print("Insertion Failed: \(error)")
         return nil
+    }
+}
+
+func updateGamePlayerTwo(gameID: UUID, playerTwoID: UUID) async {
+    do {
+        try await SupabaseManager.shared.client
+            .from("TerritoryGame")
+            .update(["playerTwoID": playerTwoID.uuidString])
+            .eq("gameID", value: gameID)
+            .execute()
+        print("playerTwoID updated successfully")
+    } catch {
+        print("updateGamePlayerTwo failed: \(error)")
     }
 }
 
@@ -922,3 +965,34 @@ func saveClubPostImage(postID: UUID, with image: UIImage) async -> String? {
         return nil
     }
 }
+
+// MARK: - Battle Invite Notifications
+
+func insertBattleInviteNotification(_ notification: BattleInviteNotification) async {
+    do {
+        try await SupabaseManager.shared.client
+            .from("BattleInviteNotification")
+            .insert(notification)
+            .execute()
+        print("Battle invite notification inserted successfully")
+    } catch {
+        print("Insert notification failed: \(error)")
+    }
+}
+
+func fetchBattleInviteNotifications(for receiverID: UUID) async -> [BattleInviteNotification] {
+    do {
+        let notifications: [BattleInviteNotification] = try await SupabaseManager.shared.client
+            .from("BattleInviteNotification")
+            .select()
+            .eq("receiverID", value: receiverID)
+            .order("createdAt", ascending: false)
+            .execute()
+            .value
+        return notifications
+    } catch {
+        print("Fetch notifications failed: \(error)")
+        return []
+    }
+}
+
