@@ -318,8 +318,8 @@ func deleteImageFromStorage(imageURL: String) async {
         print("Deletion failed: \(error)")
     }
 }
-// MARK: - Club Data
 
+// MARK: - Club Data
 func fetchExploreClubData(userID: UUID) async -> [Club] {
 
     do {
@@ -605,6 +605,8 @@ func updateGamePlayerTwo(gameID: UUID, playerTwoID: UUID) async {
             .update(["playerTwoID": playerTwoID])
             .eq("gameID", value: gameID)
             .select()
+            .execute()
+        
 
         print("UPDATE RESPONSE:", response)
     } catch {
