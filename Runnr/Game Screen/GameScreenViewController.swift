@@ -138,6 +138,18 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        if indexPath.section == 0 {
+            
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "seasonalGameCell", for: indexPath) as! SeasonalGameCollectionViewCell
+
+            if !cell.buttonInviteFriend.isEnabled {
+                let destinationVC = BattleRunViewController()
+                destinationVC.modalPresentationStyle = .fullScreen
+                self.present(destinationVC, animated: true)
+            }
+        }
+        
         // Battle Run is only accessible after the invited player accepts — no tap-to-open here
     }
     
