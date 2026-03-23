@@ -28,6 +28,7 @@ class UserProfileViewController: UIViewController {
     @IBOutlet weak var labelCategory: UILabel!
     @IBOutlet weak var labelCategoryGoal: UILabel!
     @IBOutlet weak var labelCategoryGoalLeft: UILabel!
+    @IBOutlet weak var buttonNotification: UIButton!
     
     @IBOutlet var labelFollowingCount: UIButton!
     @IBOutlet var labelFollowing: UIButton!
@@ -38,19 +39,7 @@ class UserProfileViewController: UIViewController {
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var stackProgress: UIStackView!
 //    @IBOutlet weak var collectionViewBestActivity: UICollectionView!
-    
-//    var totalRunnrPoints : Int {
-//        DataSource.shared.getTotalRunnrPoints()
-//    }
-//    
-//    var totalActivities : Int {
-//        DataSource.shared.getTotalActivities()
-//    }
-//    
-//    var totalDistance : Int {
-//        Int(DataSource.shared.getTotalKms())
-//    }
-    
+
     private var userProfile = DataSource.shared.getUserProfile()
     private let userStats = DataSource.shared.getUserStats()
     private var dataSource = DataSource.shared
@@ -72,6 +61,7 @@ class UserProfileViewController: UIViewController {
 //        
 //        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.collectionViewBestActivity.frame.height + self.collectionViewBestActivity.frame.origin.y + 30)
         settingsElements()
+        self.buttonNotification.isHidden = isFromFriendsScreen
         
     }
 
@@ -142,6 +132,7 @@ class UserProfileViewController: UIViewController {
             let friendListVC = FriendListViewController()
             friendListVC.usersList = followersList
             friendListVC.pageTitle = "Followers"
+            friendListVC.showFollowButton = true
             
             self.present(friendListVC, animated: true, completion: nil)
         }
@@ -157,6 +148,7 @@ class UserProfileViewController: UIViewController {
             let friendListVC = FriendListViewController()
             friendListVC.usersList = followingList
             friendListVC.pageTitle = "Following"
+            friendListVC.showFollowButton = false
 //            friendListVC.modalPresentationStyle = .overFullScreen
             self.present(friendListVC, animated: true, completion: nil)
         }

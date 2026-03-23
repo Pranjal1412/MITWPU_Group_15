@@ -121,7 +121,6 @@ class ActivitySaveViewController: UIViewController {
             for i in 0..<selectedImages.count {
                 let url = await saveActivityImages(activityID: activityData.activityID!, with: selectedImages[i], seq: i) ?? ""
                 finalImageURLs.append(ActivityPhotos(activityID: activityData.activityID!, photoURL: url, sequence: i))
-                print(url)
             }
             
             await insertActivityImages(finalImageURLs)

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24128" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -13,6 +13,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UserProfileViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
                 <outlet property="buttonEditProfile" destination="tg9-PJ-rS3" id="HZh-DF-RMY"/>
+                <outlet property="buttonNotification" destination="QYz-9T-11T" id="cZ4-uZ-mKh"/>
                 <outlet property="buttonSettings" destination="pk1-g8-qQL" id="Set-inM-gQL"/>
                 <outlet property="imageCategoryBadge" destination="jLW-mt-Nw7" id="aYm-pG-Ag8"/>
                 <outlet property="imageProfile" destination="rXv-mV-aRd" id="OcH-Sb-4PX"/>
@@ -339,8 +340,6 @@
                     <rect key="frame" x="294" y="70" width="45" height="45"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="45" id="3x0-pw-EjM"/>
-                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="45" id="Ug5-kB-MGf"/>
-                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="45" id="w9j-pa-d3r"/>
                         <constraint firstAttribute="width" constant="45" id="yb1-gp-xWN"/>
                     </constraints>
                     <color key="tintColor" name="AccentColor"/>

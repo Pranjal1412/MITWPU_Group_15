@@ -7,7 +7,8 @@ class FriendListViewController: UIViewController {
     
     var pageTitle: String = "Friends"
     var usersList: [UserProfile] = []
-
+    var showFollowButton : Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -37,7 +38,7 @@ extension FriendListViewController: UITableViewDataSource, UITableViewDelegate {
         
         let user = usersList[indexPath.row]
         cell.configureCell(with: user)
-        
+        cell.buttonFollow.isHidden = !showFollowButton
         cell.followAction = { isFollowing in
             // Handle follow/unfollow action if needed
             // Currently it can just be UI update or we can perform the actual follow/unfollow logic here.

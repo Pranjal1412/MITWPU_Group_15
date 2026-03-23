@@ -149,7 +149,11 @@ func updateUserActivity(newActivity: UserActivity) async {
 
 func deleteUserActivity(activityID : UUID, mapImageURL : String) async {
     do {
-        
+        let images = await fetchActivityImages(activityID)
+        for image in images {
+            await deleteImageFromStorage(imageURL: image.photoURL)
+        }
+
         try await SupabaseManager.shared.client
             .from("UserActivity")
             .delete()
@@ -158,6 +162,7 @@ func deleteUserActivity(activityID : UUID, mapImageURL : String) async {
         
         await deleteImageFromStorage(imageURL: mapImageURL)
     }
+    
     catch {
         print("Deletion failed: \(error)")
     }
