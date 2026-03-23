@@ -39,7 +39,9 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
         viewCellBackground.layer.cornerRadius = 15
         viewCountDown.layer.cornerRadius = 15
         viewCellBackground.clipsToBounds = true
-        
+        if(progressViewCapturedTiles.progress == 1){
+            viewCountDown.isHidden = false
+        }
         viewMonthlyEvent.layer.cornerRadius = viewMonthlyEvent.frame.height / 2
         viewMonthlyEvent.clipsToBounds = true
         
@@ -103,12 +105,12 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
 
     private func updateTileProgress(gameID: UUID) async {
         if let tiles = await fetchGameTileStatus(gameID: gameID) {
-            let userID = userProfile.userID
-            let capturedCount = tiles.filter { $0.ownerID == userID }.count
+            let capturedCount = tiles.filter { $0.ownerID != nil }.count
             let totalTiles = 19
             await MainActor.run {
                 progressViewCapturedTiles.isHidden = false
                 progressViewCapturedTiles.progress = Float(capturedCount) / Float(totalTiles)
+                viewCountDown.isHidden = (capturedCount < totalTiles)
             }
         }
     }
