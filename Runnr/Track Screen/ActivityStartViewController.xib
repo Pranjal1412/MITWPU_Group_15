@@ -36,7 +36,7 @@
                     <size key="shadowOffset" width="4" height="-1"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ud6-ud-XK5">
-                    <rect key="frame" x="283" y="90" width="52" height="40"/>
+                    <rect key="frame" x="275" y="90" width="69" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                     <nil key="textColor"/>

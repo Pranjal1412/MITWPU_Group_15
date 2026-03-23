@@ -73,6 +73,7 @@ class ActivityLiveTrackingViewController: UIViewController {
     
     var recoveredActivity: LocalActivity?
     var hasRestoredActivity = false
+    var isRunActive = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,6 +94,10 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         if recoveredActivity == nil {
             self.activityStartTime = Date()
+        }
+        if recoveredActivity != nil {
+            self.counter = -1
+            self.isRunActive = true
         }
         
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
@@ -363,6 +368,7 @@ class ActivityLiveTrackingViewController: UIViewController {
                     datasource.setCurrentActivityCoordinates(routeCoordinates)
                 }
                 
+                self.isRunActive = false
                 LocalActivityStorage.shared.clear()
                 let destinationVC = ActivitySaveViewController(nibName: "ActivitySaveViewController", bundle: nil)
                 destinationVC.activityData = activityDetails
@@ -379,6 +385,7 @@ class ActivityLiveTrackingViewController: UIViewController {
     
     @objc func updateTimer() {
         if counter < 0 {
+            self.isRunActive = true
             self.viewCountdown.isHidden = true
             self.scrollView.isScrollEnabled = true
             pageControl.isHidden = false
@@ -420,9 +427,8 @@ class ActivityLiveTrackingViewController: UIViewController {
     }
     
     @objc func appWillTerminate() {
-        Task {
-            await self.saveActivityLocally()
-        }
+        guard isRunActive else { return }
+        Task { await self.saveActivityLocally() }
     }
     
     func saveActivityLocally() async {
@@ -472,8 +478,7 @@ class ActivityLiveTrackingViewController: UIViewController {
         let local = LocalActivity(activity: activity, coordinates: coords, paceData: self.activityManager.paceGraphData)
         
         do {
-            let encoded = try JSONEncoder().encode(local)
-            UserDefaults.standard.set(encoded, forKey: "ONGOING_ACTIVITY")
+            LocalActivityStorage.shared.save(local)
             print("Activity saved locally | points: \(coords.count)")
         } catch {
             print("FAILED TO ENCODE LOCAL ACTIVITY:", error)
@@ -481,6 +486,7 @@ class ActivityLiveTrackingViewController: UIViewController {
     }
     
     @objc func appMovedToBackground() {
+        guard isRunActive else { return }
         Task {
             await self.saveActivityLocally()
         }
