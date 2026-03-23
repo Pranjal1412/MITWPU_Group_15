@@ -31,7 +31,7 @@ class ActivityStartViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+                    
         self.userLocation.locationManager.requestWhenInUseAuthorization()
         self.userLocation.locationManager.startUpdatingLocation()
         
