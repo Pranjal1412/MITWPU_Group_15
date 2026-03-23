@@ -106,14 +106,14 @@ class BattleRunViewController: UIViewController {
             // 2. LIGHTING
             let lightAnchor = AnchorEntity(world: .zero)
             let sun = DirectionalLight()
-            sun.light.intensity = 1500
-            sun.look(at: [0, 0, 0], from: [5, 10, 5], relativeTo: nil)
+            sun.light.intensity = 2000
+            sun.look(at: [0, 0, 0], from: [0, 10, 0], relativeTo: nil)
             lightAnchor.addChild(sun)
             
             let nebulaLight = PointLight()
             nebulaLight.light.intensity = 5000
             nebulaLight.light.color = .lightGray
-            nebulaLight.position = [-5, 5, -5]
+            nebulaLight.position = [0, 5, 0]
             lightAnchor.addChild(nebulaLight)
             
             arView.scene.addAnchor(lightAnchor)
@@ -175,13 +175,30 @@ class BattleRunViewController: UIViewController {
                      if let savedTiles = await fetchGameTileStatus(gameID: gameID) {
                          print("DEBUG: Fetched \(savedTiles.count) saved tiles from DB")
                          for savedTile in savedTiles {
-                             if game.tiles[savedTile.tileID] != nil {
-                                 // If the owner matches myUserID exactly it's Mine (.me), otherwise it's Friend's (.lea)
-                                 let player: Player = (savedTile.ownerID == myUserID) ? .me : .lea
-                                 game.tiles[savedTile.tileID]?.owner = .player(player)
-                                 print("DEBUG: Assigned tile \(savedTile.tileID) to \(player)")
+                             
+                             // 1. Map "Tile_01" -> "Tile_1"
+                             var localTileID = savedTile.tileID
+                             if localTileID.hasPrefix("Tile_0") {
+                                 localTileID = localTileID.replacingOccurrences(of: "Tile_0", with: "Tile_")
+                             }
+                             
+                             // 2. Map "Tile_19" -> "Tile_0" if geometry uses 0 instead of 19
+                             if localTileID == "Tile_19" && game.tiles["Tile_0"] != nil {
+                                 localTileID = "Tile_0"
+                             }
+                             
+                             if game.tiles[localTileID] != nil {
+                                 if let ownerID = savedTile.ownerID {
+                                     // Only assign if it's explicitly owned by someone
+                                     let player: Player = (ownerID == myUserID) ? .me : .lea
+                                     game.tiles[localTileID]?.owner = .player(player)
+                                     print("DEBUG: Assigned tile \(localTileID) to \(player)")
+                                 } else {
+                                     // DB says it's unowned
+                                     game.tiles[localTileID]?.owner = .none
+                                 }
                              } else {
-                                 print("DEBUG: Tile \(savedTile.tileID) NOT found in local game geometry")
+                                 print("DEBUG: Tile \(localTileID) NOT found in local game geometry")
                              }
                          }
                      }
@@ -251,8 +268,8 @@ class BattleRunViewController: UIViewController {
             material = unlitMaterial
         } else {
             var pbrMaterial = PhysicallyBasedMaterial()
-            pbrMaterial.baseColor = .init(tint: UIColor.white.withAlphaComponent(0.2))
-            pbrMaterial.roughness = 0.05
+            pbrMaterial.baseColor = .init(tint: UIColor.white.withAlphaComponent(0.3))
+            pbrMaterial.roughness = 0.5
             pbrMaterial.metallic = 0.0
             pbrMaterial.clearcoat = .init(floatLiteral: 1.0)
             pbrMaterial.blending = .transparent(opacity: .init(floatLiteral: 1.0))
@@ -316,7 +333,17 @@ class BattleRunViewController: UIViewController {
                 
                 // Upsert tile immediately so capture survives force-quit
                 if let gameID = self.gameID, let userID = DataSource.shared.getUserProfile().userID {
-                    let hexTile = TerritoryHexTile(tileID: id, ownerID: userID, gameID: gameID)
+                    
+                    // Format back to DB format: e.g. "Tile_1" -> "Tile_01", "Tile_0" -> "Tile_19"
+                    var dbTileID = id
+                    if id.hasPrefix("Tile_") && id.count == 6 {
+                        let number = id.dropFirst(5)
+                        dbTileID = "Tile_0\(number)"
+                    } else if id == "Tile_0" {
+                        dbTileID = "Tile_19"
+                    }
+                    
+                    let hexTile = TerritoryHexTile(tileID: dbTileID, ownerID: userID, gameID: gameID)
                     capturedTiles.append(hexTile)
                     
                     let backgroundTaskID = UIApplication.shared.beginBackgroundTask(withName: "UpsertTile_\(id)") {

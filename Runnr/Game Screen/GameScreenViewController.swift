@@ -141,12 +141,19 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
         
         if indexPath.section == 0 {
             
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "seasonalGameCell", for: indexPath) as! SeasonalGameCollectionViewCell
+            guard let cell = collectionView.cellForItem(at: indexPath) as? SeasonalGameCollectionViewCell else { return }
 
             if !cell.buttonInviteFriend.isEnabled {
-                let destinationVC = BattleRunViewController()
-                destinationVC.modalPresentationStyle = .fullScreen
-                self.present(destinationVC, animated: true)
+                Task {
+                    guard let userID = DataSource.shared.getUserProfile().userID else { return }
+                    if let game = await fetchActiveGameForUser(userID: userID), game.playerTwoID != nil {
+                        await MainActor.run {
+                            let destinationVC = BattleRunViewController()
+                            destinationVC.modalPresentationStyle = .fullScreen
+                            self.present(destinationVC, animated: true)
+                        }
+                    }
+                }
             }
         }
         
