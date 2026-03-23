@@ -32,6 +32,9 @@ class ActivityAnalysisViewController: UIViewController {
     @IBOutlet weak var labelDistanceValue: UILabel!
     @IBOutlet weak var labelPaceValue: UILabel!
     @IBOutlet weak var labelTimeValue: UILabel!
+    @IBOutlet weak var buttonViewMap: UIButton!
+    @IBOutlet weak var buttonCancel: UIButton!
+    @IBOutlet weak var buttonOptions: UIButton!
     @IBOutlet weak var labelCaloriesValue: UILabel!
     @IBOutlet weak var labelStepsValue: UILabel!
     @IBOutlet weak var labelAvgHRValue: UILabel!
@@ -44,6 +47,9 @@ class ActivityAnalysisViewController: UIViewController {
     var activityData : UserActivity?
     private var datasource = DataSource.shared
     private let userProfile = DataSource.shared.getUserProfile()
+    var isNewActivity : Bool = false
+    private var hasShownNewActivityAlert = false
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,40 +82,57 @@ class ActivityAnalysisViewController: UIViewController {
             self.labelAvgHRValue.isHidden = true
             self.viewHRGraphContainer.isHidden = true
             
-            //if self.activityData?.activityPhotos.count == 0 {
                 self.labelPhotosHeading.isHidden = true
-                scrollView.contentSize.height = self.viewGraphContainer.frame.origin.y + self.viewGraphContainer.frame.height + 10
-            //}
-//            else {
-//                self.labelPhotosHeading.frame.origin.y = self.viewGraphContainer.frame.origin.y + self.viewGraphContainer.frame.height + 10
-//                self.collectionViewPhotos.frame.origin.y = self.labelPhotosHeading.frame.origin.y + self.labelPhotosHeading.frame.height + 10
-//                self.scrollView.contentSize.height = self.collectionViewPhotos.frame.origin.y + self.collectionViewPhotos.frame.height + 10
-//            }
+                scrollView.contentSize.height = self.buttonViewMap.frame.origin.y + self.buttonViewMap.frame.height + 20
+
         }
         else {
             self.labelHeartRate.isHidden = false
             self.labelAvgHRValue.isHidden = false
             self.viewHRGraphContainer.isHidden = false
             
-//            if self.activityData?.activityPhotos.count == 0 {
                 self.labelPhotosHeading.isHidden = true
-                scrollView.contentSize.height = self.viewHRGraphContainer.frame.origin.y + self.viewHRGraphContainer.frame.height + 10
-            //}
-//            else {
-//                self.labelPhotosHeading.frame.origin.y = self.viewHRGraphContainer.frame.origin.y + self.viewHRGraphContainer.frame.height + 10
-//                self.collectionViewPhotos.frame.origin.y = self.labelPhotosHeading.frame.origin.y + self.labelPhotosHeading.frame.height + 10
-//                self.scrollView.contentSize.height = self.collectionViewPhotos.frame.origin.y + self.collectionViewPhotos.frame.height + 10
-//            }
+                scrollView.contentSize.height = self.buttonViewMap.frame.origin.y + self.buttonViewMap.frame.height + 20
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if self.isNewActivity && !hasShownNewActivityAlert {
+            hasShownNewActivityAlert = true
+            let alert = UIAlertController(title: String(localized: "Congratulations!"),
+                                          message: "You have earned \(activityData!.basePoints! + activityData!.skillPoints!) points. Claim them now!",
+                                          preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: String(localized: "Claim Points"), style: .default))
+            self.present(alert, animated: true)
         }
     }
     
     @IBAction func cancelButtonPressed(_ sender: UIButton) {
-        
-        self.dismiss(animated: true, completion: nil)
+        if self.isNewActivity {
+            self.presentingViewController?.dismiss(animated: true)
+        } else {
+            self.dismiss(animated: true)
+        }
+    }
+    
+    @IBAction func viewMapButtonPressed(_ sender: UIButton) {
+        let destinationVC = ActivitySummaryViewController()
+        destinationVC.isNewActivity = self.isNewActivity
+        destinationVC.modalPresentationStyle = .overFullScreen
+        self.present(destinationVC, animated: true)
     }
     
     func settingUpActivityAnalysisScreenElements() {
                 
+        setGlassEffect(for: self.buttonOptions, withImage: "ellipsis")
+        setGlassEffect(for: self.buttonCancel, withImage: "multiply")
+
+        buttonViewMap.layer.cornerRadius = 27
+        buttonViewMap.layer.borderWidth = 2
+        buttonViewMap.layer.borderColor = UIColor.accent.cgColor
+        
         labelUserName.text = userProfile.userName
         labelUserName.sizeToFit()
         
@@ -153,6 +176,42 @@ class ActivityAnalysisViewController: UIViewController {
         
         viewActivityStats.layer.cornerRadius = 10
     }
+    
+    @IBAction func didTapOnMoreOptions(_ sender: UIButton) {
+        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let shareAction = UIAlertAction(title: "Share Activity", style: .default)
+        let deleteAction = UIAlertAction(title: "Delete Activity", style: .destructive) { _ in
+            if self.activityData != nil {
+                self.deleteActivityAlert(userActivity: (self.activityData!))
+            }
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+
+        alert.addAction(shareAction)
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+
+        present(alert, animated: true)
+    }
+    
+    func deleteActivityAlert(userActivity : UserActivity) {
+         let alert = UIAlertController(title: "Delete Activity", message: "Are you sure you want to delete this activity?", preferredStyle: .alert)
+         
+         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+             Task {
+                 await deleteUserActivity(activityID: userActivity.activityID!, mapImageURL: userActivity.mapImageURL!)
+                 self.dismiss(animated: true)
+             }
+         }
+         
+         alert.addAction(cancelAction)
+         alert.addAction(deleteAction)
+         
+         present(alert, animated: true, completion: nil)
+     }
     
     func settingAttributedText() {
         let thinFont = UIFont(name: "SFProText-Light", size: 11) ?? UIFont.systemFont(ofSize: 11, weight: .light)

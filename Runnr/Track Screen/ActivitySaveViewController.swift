@@ -123,9 +123,15 @@ class ActivitySaveViewController: UIViewController {
 
             await updateUserStats(userID: activityData.userID!, newStats: self.userStats!)
             
-            let destinationVC = ActivitySummaryViewController()
-            destinationVC.isNewActivity = true
+            let paceData = await fetchActivityPaceGraphData(activityData.activityID!)
+            self.dataSource.setCurrentActivityPaceData(paceData)
             
+            let routeCoordinates = await fetchActivityRouteCoordinates(activityData.activityID!)
+            self.dataSource.setCurrentActivityCoordinates(routeCoordinates)
+            
+            let destinationVC = ActivityAnalysisViewController()
+            destinationVC.activityData = activityData
+            destinationVC.isNewActivity = true
             destinationVC.modalPresentationStyle = .fullScreen
             navigationController?.present(destinationVC, animated: true)
         }

@@ -17,8 +17,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ActivitySummaryViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
                 <outlet property="buttonBack" destination="dzF-gX-nkd" id="Llu-7u-QVE"/>
-                <outlet property="buttonMoreOptions" destination="Ki5-ZI-hl6" id="M4j-uY-XVg"/>
-                <outlet property="buttonShowAnalysis" destination="oYt-iY-x1Z" id="oTP-Qo-tST"/>
                 <outlet property="labelActivityHeading" destination="48z-kX-Vm6" id="wHt-3D-rad"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -36,25 +34,9 @@
                     </constraints>
                     <color key="tintColor" name="AccentColor"/>
                     <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" image="chevron.backward" catalog="system"/>
+                    <buttonConfiguration key="configuration" style="plain" image="chevron.left" catalog="system"/>
                     <connections>
-                        <action selector="backButtonPressed:" destination="-1" eventType="touchUpInside" id="fwB-C8-LAi"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oYt-iY-x1Z">
-                    <rect key="frame" x="27" y="722" width="348" height="54"/>
-                    <color key="backgroundColor" name="AccentColor"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="54" id="1bx-ty-pp3"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="20"/>
-                    <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                    <state key="normal" title="Show Analysis">
-                        <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    </state>
-                    <connections>
-                        <action selector="showAnalysisOfRunPressed:" destination="-1" eventType="touchUpInside" id="RUw-Cq-XAS"/>
+                        <action selector="cancelButtonPressed:" destination="-1" eventType="touchUpInside" id="2vx-69-pY1"/>
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="48z-kX-Vm6">
@@ -66,26 +48,11 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ki5-ZI-hl6">
-                    <rect key="frame" x="350" y="70" width="45" height="45"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                    <color key="tintColor" name="AccentColor"/>
-                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                    <state key="normal" image="ellipsis.circle" catalog="system">
-                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
-                    </state>
-                    <connections>
-                        <action selector="didTapOnMoreOptions:" destination="-1" eventType="touchUpInside" id="fxf-b9-gah"/>
-                    </connections>
-                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="oYt-iY-x1Z" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="27" id="4J9-m5-5qJ"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="oYt-iY-x1Z" secondAttribute="trailing" constant="27" id="DeP-ky-dic"/>
                 <constraint firstItem="dzF-gX-nkd" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="Ga3-ui-wKM"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="oYt-iY-x1Z" secondAttribute="bottom" constant="30" id="VQC-t4-pI1"/>
                 <constraint firstItem="dzF-gX-nkd" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="70" id="W3a-ye-Xrr"/>
                 <constraint firstItem="48z-kX-Vm6" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="70" id="Yic-0T-3Ob"/>
                 <constraint firstAttribute="trailing" secondItem="48z-kX-Vm6" secondAttribute="trailing" constant="60" id="bGd-xp-BEy"/>
@@ -96,8 +63,7 @@
         </view>
     </objects>
     <resources>
-        <image name="chevron.backward" catalog="system" width="97" height="128"/>
-        <image name="ellipsis.circle" catalog="system" width="128" height="123"/>
+        <image name="chevron.left" catalog="system" width="97" height="128"/>
         <namedColor name="AccentColor">
             <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

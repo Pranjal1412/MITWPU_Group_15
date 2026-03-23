@@ -11,12 +11,11 @@ import GoogleMaps
 class ActivitySummaryViewController: UIViewController {
 
     @IBOutlet weak var buttonBack: UIButton!
-    @IBOutlet weak var buttonShowAnalysis: UIButton!
     @IBOutlet weak var labelActivityHeading: UILabel!
-    @IBOutlet weak var buttonMoreOptions: UIButton!
     
-    var isNewActivity : Bool = false
     var isMapInitialized: Bool = false
+    var isNewActivity : Bool = false
+
 
     let topGradientView = UIView()
     
@@ -28,9 +27,7 @@ class ActivitySummaryViewController: UIViewController {
         super.viewDidLoad()
                         
         setGlassEffect(for: self.buttonBack, withImage: "chevron.backward")
-        setGlassEffect(for: self.buttonMoreOptions, withImage: "ellipsis")
         
-        self.buttonShowAnalysis.layer.cornerRadius = buttonShowAnalysis.frame.height / 2.0
         self.labelActivityHeading.text = activityData?.activityTitle
         
         self.userLocation.locationManager.startUpdatingLocation()
@@ -78,7 +75,6 @@ class ActivitySummaryViewController: UIViewController {
                 self.view.addSubview(mapView)
                 self.view.addSubview(self.topGradientView)
 
-                self.view.bringSubviewToFront(self.buttonShowAnalysis)
                 self.userLocation.locationManager.stopUpdatingLocation()
                 self.isMapInitialized = true
             }
@@ -88,83 +84,23 @@ class ActivitySummaryViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         
-        if self.isNewActivity {
-            let alert = UIAlertController(title: String(localized: "Congratulations!"), message: "You have earned \(activityData!.basePoints! + activityData!.skillPoints!) points. Claim them now!", preferredStyle: .alert)
-            let claimPointsAction = UIAlertAction(title: String(localized: "Claim Points"), style: .default)
-        
-            alert.addAction(claimPointsAction)
-            
-            self.present(alert, animated: true , completion: nil)
-        }
-        
     }
     
-    @IBAction func backButtonPressed(_ sender: UIButton) {
-        
+    @IBAction func cancelButtonPressed(_ sender: Any) {
         if self.isNewActivity {
-            if let presenter = self.presentingViewController {
-                self.dismiss(animated: false) {
-                    presenter.dismiss(animated: false)
+                if let analysisVC = self.presentingViewController {
+                    if let navController = analysisVC.presentingViewController {
+                        self.dismiss(animated: false) {
+                            analysisVC.dismiss(animated: false) {
+                                navController.dismiss(animated: true)
+                            }
+                        }
+                    }
                 }
+            } else {
+                self.dismiss(animated: true)
             }
-        }
-        else {
-            self.dismiss(animated: true)
-        }
-        
     }
-    
-    @IBAction func showAnalysisOfRunPressed(_ sender: UIButton) {
-        
-        let destinationVC = ActivityAnalysisViewController()
-        destinationVC.activityData = self.activityData
-        self.present(destinationVC, animated: true)
-    }
-    
-    @IBAction func didTapOnMoreOptions(_ sender: UIButton) {
-        
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        let shareAction = UIAlertAction(title: "Share Activity", style: .default)
-        let deleteAction = UIAlertAction(title: "Delete Activity", style: .destructive) { _ in
-            if self.activityData != nil {
-                self.deleteActivityAlert(userActivity: (self.activityData!))
-            }
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-
-        alert.addAction(shareAction)
-        alert.addAction(deleteAction)
-        alert.addAction(cancelAction)
-
-        present(alert, animated: true)
-    }
-     
-    func deleteActivityAlert(userActivity : UserActivity) {
-         let alert = UIAlertController(title: "Delete Activity", message: "Are you sure you want to delete this activity?", preferredStyle: .alert)
-         
-         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-             Task {
-                 await deleteUserActivity(activityID: userActivity.activityID!, mapImageURL: userActivity.mapImageURL!)
-                 self.dismiss(animated: true)
-             }
-         }
-         
-         alert.addAction(cancelAction)
-         alert.addAction(deleteAction)
-         
-         present(alert, animated: true, completion: nil)
-
-     }
-  
-//    func convertCoordinatesToPath(from coordinates: [CLLocationCoordinate2D]) -> GMSMutablePath {
-//        let path = GMSMutablePath()
-//            for coordinate in coordinates {
-//                path.add(coordinate)
-//            }
-//            return path
-//    }
     
     func convertToCLLocationCoordinate2D(for coordinates: [ActivityRouteCoordinates]) -> [CLLocationCoordinate2D] {
                 

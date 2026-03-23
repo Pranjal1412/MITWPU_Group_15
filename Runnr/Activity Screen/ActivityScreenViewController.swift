@@ -214,7 +214,8 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
                     self.dataSource.setCurrentActivityPaceData(paceData)
                     
                     await MainActor.run {
-                        let destinationVC = ActivitySummaryViewController()
+                        let destinationVC = ActivityAnalysisViewController()
+                        destinationVC.activityData = self.dataSource.getCurrentActivity()
                         destinationVC.isNewActivity = false
                         destinationVC.modalPresentationStyle = .overFullScreen
                         self.present(destinationVC, animated: true)
@@ -235,7 +236,8 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
                 self.dataSource.setCurrentActivityPaceData(paceData)
                 
                 await MainActor.run {
-                    let destinationVC = ActivitySummaryViewController()
+                    let destinationVC = ActivityAnalysisViewController()
+                    destinationVC.activityData = self.dataSource.getCurrentActivity()
                     destinationVC.isNewActivity = false
                     destinationVC.modalPresentationStyle = .overFullScreen
                     self.present(destinationVC, animated: true)
