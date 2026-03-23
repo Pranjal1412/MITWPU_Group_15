@@ -84,20 +84,8 @@ class ActivitySummaryViewController: UIViewController {
 
     
     @IBAction func cancelButtonPressed(_ sender: Any) {
-        if self.isNewActivity {
-                if let analysisVC = self.presentingViewController {
-                    if let navController = analysisVC.presentingViewController {
-                        self.dismiss(animated: false) {
-                            analysisVC.dismiss(animated: false) {
-                                navController.dismiss(animated: true)
-                            }
-                        }
-                    }
-                }
-            } else {
                 self.dismiss(animated: true)
             }
-    }
 
     func convertToCLLocationCoordinate2D(for coordinates: [ActivityRouteCoordinates]) -> [CLLocationCoordinate2D] {
                 

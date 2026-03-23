@@ -149,9 +149,14 @@ class ActivityAnalysisViewController: UIViewController {
      }
     
     @IBAction func cancelButtonPressed(_ sender: UIButton) {
-           if self.isNewActivity {
-               self.presentingViewController?.dismiss(animated: true)
-           } else {
+        if self.isNewActivity == true {
+            if let presenter = self.presentingViewController {
+                self.dismiss(animated: false) {
+                    presenter.dismiss(animated: false)
+                }
+            }
+        }
+        else {
                self.dismiss(animated: true)
            }
        }
