@@ -21,7 +21,9 @@
                 <outlet property="imageFriends" destination="jJo-Y7-NCG" id="Vxx-oY-foq"/>
                 <outlet property="imageYour" destination="pxc-sd-h6c" id="yel-Tk-Ofn"/>
                 <outlet property="labelCaptureCount" destination="Gns-Tv-jf9" id="ULw-SW-CzN"/>
+                <outlet property="labelFriendName" destination="SR8-Qz-uZi" id="gFr-Nm-XAb"/>
                 <outlet property="labelFriendsPoints" destination="gaV-sN-XAu" id="xgg-Ch-0Rv"/>
+                <outlet property="labelMyName" destination="ab0-80-32F" id="qWe-Rt-YuI"/>
                 <outlet property="labelYourPoints" destination="chN-7m-UmH" id="eXr-AW-Erl"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="viewFriend" destination="4JN-Ga-dLa" id="db6-hz-0hA"/>
@@ -64,13 +66,6 @@
                     <rect key="frame" x="40" y="677" width="120" height="120"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="You" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ab0-80-32F">
-                            <rect key="frame" x="39" y="65" width="43" height="30"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                            <fontDescription key="fontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="25"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <color key="highlightedColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="chN-7m-UmH">
                             <rect key="frame" x="31" y="90" width="50" height="24"/>
                             <autoresizingMask key="autoresizingMask"/>
@@ -78,10 +73,17 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="user3" translatesAutoresizingMaskIntoConstraints="NO" id="pxc-sd-h6c">
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="user3" translatesAutoresizingMaskIntoConstraints="NO" id="pxc-sd-h6c">
                             <rect key="frame" x="35" y="13" width="50" height="50"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="You" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ab0-80-32F">
+                            <rect key="frame" x="43" y="71" width="35" height="24"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                            <fontDescription key="fontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="20"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="highlightedColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </view>
@@ -89,19 +91,19 @@
                     <rect key="frame" x="248" y="677" width="120" height="120"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" fixedFrame="YES" text="Lea" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SR8-Qz-uZi">
-                            <rect key="frame" x="39" y="65" width="42" height="30"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" fixedFrame="YES" text="Lea" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SR8-Qz-uZi">
+                            <rect key="frame" x="39" y="71" width="42" height="30"/>
                             <autoresizingMask key="autoresizingMask"/>
-                            <fontDescription key="fontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="25"/>
+                            <fontDescription key="fontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="19"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="user4" translatesAutoresizingMaskIntoConstraints="NO" id="jJo-Y7-NCG">
-                            <rect key="frame" x="35" y="13" width="50" height="50"/>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="user4" translatesAutoresizingMaskIntoConstraints="NO" id="jJo-Y7-NCG">
+                            <rect key="frame" x="35" y="8" width="50" height="50"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gaV-sN-XAu">
-                            <rect key="frame" x="31" y="90" width="50" height="24"/>
+                            <rect key="frame" x="35" y="90" width="50" height="24"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <fontDescription key="fontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="12"/>
                             <nil key="textColor"/>
@@ -117,7 +119,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Territory cost : 100" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lv7-Lw-emp">
-                    <rect key="frame" x="20" y="182.33333333333334" width="362" height="21"/>
+                    <rect key="frame" x="20" y="182.33333333333334" width="362" height="20"/>
                     <fontDescription key="fontDescription" name="SFPro-Ultralight" family="SF Pro" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>

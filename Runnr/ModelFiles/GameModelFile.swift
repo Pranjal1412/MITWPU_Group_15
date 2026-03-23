@@ -24,7 +24,7 @@ struct TerritoryHexTile: Codable {
 }
 
 enum Player {
-    case me, lea
+    case me, playerTwo
 }
 
 enum TileOwner: Equatable {

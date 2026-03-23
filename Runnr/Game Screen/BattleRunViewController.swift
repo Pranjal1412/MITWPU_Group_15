@@ -2,6 +2,7 @@ import UIKit
 import RealityKit
 import ARKit
 import Combine
+import Kingfisher
 
 class BattleRunViewController: UIViewController {
 
@@ -13,6 +14,8 @@ class BattleRunViewController: UIViewController {
     @IBOutlet weak var imageYour: UIImageView!
     @IBOutlet weak var labelFriendsPoints: UILabel!
     @IBOutlet weak var labelYourPoints: UILabel!
+    @IBOutlet weak var labelFriendName: UILabel!
+    @IBOutlet weak var labelMyName: UILabel!
     var game: BattleRunGame!
     var boardController: BoardController?
     let totalCapturedCount = 0
@@ -28,7 +31,10 @@ class BattleRunViewController: UIViewController {
        self.game = BattleRunGame(myPoints: myPoints)
        setupUI()
        setupAR()
-       Task { await loadBoard() }
+       Task { 
+           await loadBoard() 
+           await fetchOpponentDetails()
+       }
        view.overrideUserInterfaceStyle = .dark
     }
     
@@ -55,6 +61,19 @@ class BattleRunViewController: UIViewController {
                 $0?.clipsToBounds = true
             }
 
+        let myProfile = DataSource.shared.getUserProfile()
+        if let name = myProfile.userName {
+            self.labelMyName.text = name.components(separatedBy: " ").first ?? name
+        } else {
+            self.labelMyName.text = "You"
+        }
+        
+        if let myImage = DataSource.shared.getProfileImage() {
+            self.imageYour.image = myImage
+        } else if let urlString = myProfile.userProfileImageURL, let url = URL(string: urlString) {
+            self.imageYour.kf.setImage(with: url)
+        }
+
         updatePointsLabels()
         viewYou.layer.borderWidth = 1
         viewYou.layer.borderColor = UIColor.accent.cgColor
@@ -69,6 +88,30 @@ class BattleRunViewController: UIViewController {
         viewFriend.layer.shadowColor = UIColor.accent.withAlphaComponent(0.5).cgColor
         viewFriend.layer.shadowOpacity = 0.5
         viewFriend.layer.shadowRadius = self.viewFriend.frame.height / 2
+    }
+    
+    func fetchOpponentDetails() async {
+        guard let myUserID = DataSource.shared.getUserProfile().userID else { return }
+        guard let activeGame = await fetchActiveGameForUser(userID: myUserID) else { return }
+
+        let opponentID = (activeGame.playerOneID == myUserID) ? activeGame.playerTwoID : activeGame.playerOneID
+        guard let opponentID = opponentID else { return }
+
+        let opponentProfile = await fetchUserProfile(userId: opponentID)
+        let opponentStats = await fetchUserStats(userId: opponentID)
+
+        await MainActor.run {
+            if let name = opponentProfile?.userName {
+                self.labelFriendName.text = name
+            }
+            if let stats = opponentStats {
+                self.game.points[.playerTwo] = stats.totalPointsEarned
+                self.updatePointsLabels()
+            }
+            if let urlString = opponentProfile?.userProfileImageURL, let url = URL(string: urlString) {
+                self.imageFriends.kf.setImage(with: url)
+            }
+        }
     }
         
         func setupAR() {
@@ -190,7 +233,7 @@ class BattleRunViewController: UIViewController {
                              if game.tiles[localTileID] != nil {
                                  if let ownerID = savedTile.ownerID {
                                      // Only assign if it's explicitly owned by someone
-                                     let player: Player = (ownerID == myUserID) ? .me : .lea
+                                     let player: Player = (ownerID == myUserID) ? .me : .playerTwo
                                      game.tiles[localTileID]?.owner = .player(player)
                                      print("DEBUG: Assigned tile \(localTileID) to \(player)")
                                  } else {
@@ -364,14 +407,14 @@ class BattleRunViewController: UIViewController {
                 return .darkGray
             case .player(.me):
                 return .accent
-            case .player(.lea):
+            case .player(.playerTwo):
                 return .lightGray
             }
         }
 
         func updatePointsLabels() {
             labelYourPoints.text = "⚛︎ \(game.points[.me] ?? 0)"
-            labelFriendsPoints.text = "⚛︎ \(game.points[.lea] ?? 0)"
+            labelFriendsPoints.text = "⚛︎ \(game.points[.playerTwo] ?? 0)"
         }
 
         func updateCaptureCounter() {
@@ -415,7 +458,7 @@ class BattleRunViewController: UIViewController {
         var currentPlayer: Player = .me
         
         init(myPoints: Int) {
-            self.points = [.me: myPoints, .lea: 0]
+            self.points = [.me: myPoints, .playerTwo: 0]
         }
         func canCapture(tile: TileState, cost: Int) -> Bool {
             if case .none = tile.owner { return (points[currentPlayer] ?? 0) >= cost }
