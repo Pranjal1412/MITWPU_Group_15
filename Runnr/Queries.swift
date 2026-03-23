@@ -209,6 +209,62 @@ func saveMapImage(activityID: UUID, with image: UIImage) async -> String? {
     }
 }
 
+func saveActivityImages(activityID: UUID, with image: UIImage, seq: Int) async -> String? {
+    
+    let resizedImage = resizeImageIfNeeded(image, maxDimension: 700)
+    if let imageData = resizedImage.jpegData(compressionQuality: 0.9) {
+        let filePath = "ActivityImages/\(activityID)_\(Int(Date().timeIntervalSince1970))_\(seq).jpg"
+        
+        if let url = await saveAndFetchImageURL(with: filePath, imageData: imageData) {
+            return url
+            
+        } else {
+            print("Upload failed")
+            return nil
+        }
+    }
+    else {
+        print("Image compression failed")
+        return nil
+    }
+}
+
+func insertActivityImages(_ images: [ActivityPhotos]) async {
+
+    do {
+        guard !images.isEmpty else { return }
+        try await SupabaseManager.shared.client
+            .from("ActivityPhotos")
+            .insert(images)
+            .execute()
+
+    } catch {
+        print("Insertion failed: \(error)")
+    }
+}
+
+func fetchActivityImages(_ activityID: UUID) async -> [ActivityPhotos] {
+    
+    do {
+        let images: [ActivityPhotos] = try await SupabaseManager.shared.client
+          .from("ActivityPhotos")
+          .select()
+          .eq("activityID", value: activityID)
+          .order("sequence", ascending: true)
+          .execute()
+          .value
+
+        return images
+        
+    } catch {
+        print("Failed to fetch route coordinates:", error)
+        return []
+    }
+    
+}
+
+
+
 // MARK: - User Activity Route Coordinates
 func insertActivityRouteCoordinates(_ coordinates: [ActivityRouteCoordinates]) async {
 

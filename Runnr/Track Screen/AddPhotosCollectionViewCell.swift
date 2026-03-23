@@ -16,7 +16,7 @@ class AddPhotosCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
     }
     
-    func configureCell(with image: UIImage, hideCancel value: Bool) {
+    func configureCell(hideCancel value: Bool) {
         
         if value == false {
             self.buttonDeletePhoto.isHidden = value
@@ -35,7 +35,6 @@ class AddPhotosCollectionViewCell: UICollectionViewCell {
             self.buttonDeletePhoto.isHidden = value
         }
                 
-        self.imagePhotos.image = image
         self.imagePhotos.layer.cornerRadius = 10
         self.imagePhotos.clipsToBounds = true
     }

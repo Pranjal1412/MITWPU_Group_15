@@ -57,22 +57,17 @@ class EditProfileViewController: UIViewController {
     func setup() {
         imageViewProfilePhoto.layer.cornerRadius = imageViewProfilePhoto.frame.size.height / 2
         
-        buttonCancel.layer.cornerRadius = buttonCancel.frame.height / 2
-        
-        buttonSaveChanges.layer.cornerRadius = buttonSaveChanges.frame.height / 2
-
-        
         setGlassEffect(for: self.buttonCancel, withImage: "multiply")
         setGlassEffect(for: self.buttonSaveChanges, withImage: "checkmark")
         
-//        viewName.layer.cornerRadius = 10
-//        viewEmail.layer.cornerRadius = 10
-//        viewSport.layer.cornerRadius = 10
-//        viewBiography.layer.cornerRadius = 10
-//        viewHeight.layer.cornerRadius = 10
-//        viewWeight.layer.cornerRadius = 10
-//        viewUsername.layer.cornerRadius = 10
-       
+        viewName.layer.cornerRadius = 10
+        viewEmail.layer.cornerRadius = 10
+        viewSport.layer.cornerRadius = 10
+        viewBiography.layer.cornerRadius = 10
+        viewHeight.layer.cornerRadius = 10
+        viewWeight.layer.cornerRadius = 10
+        viewUsername.layer.cornerRadius = 10
+        
         labelEmail.text = self.userProfile.emailAddress
         textFieldHeight.text = String(self.userProfile.height ?? 0)
         textFieldWeight.text = String(self.userProfile.weight ?? 0)

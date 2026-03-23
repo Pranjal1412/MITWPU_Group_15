@@ -42,12 +42,14 @@ class ActivityAnalysisViewController: UIViewController {
     @IBOutlet weak var viewHRGraphContainer: UIView!
     
     var activityData : ActivityDetails?
+    private let activityImages = DataSource.shared.getCurrentActivityImages() ?? []
     private var datasource = DataSource.shared
+    private var UIImage = UIImageView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //settingCollectionView()
+        settingCollectionView()
         settingAttributedText()
         settingUpActivityAnalysisScreenElements()
 
@@ -75,30 +77,30 @@ class ActivityAnalysisViewController: UIViewController {
             self.labelAvgHRValue.isHidden = true
             self.viewHRGraphContainer.isHidden = true
             
-            //if self.activityData?.activityPhotos.count == 0 {
+            if self.activityImages.count == 0 {
                 self.labelPhotosHeading.isHidden = true
                 scrollView.contentSize.height = self.viewGraphContainer.frame.origin.y + self.viewGraphContainer.frame.height + 10
-            //}
-//            else {
-//                self.labelPhotosHeading.frame.origin.y = self.viewGraphContainer.frame.origin.y + self.viewGraphContainer.frame.height + 10
-//                self.collectionViewPhotos.frame.origin.y = self.labelPhotosHeading.frame.origin.y + self.labelPhotosHeading.frame.height + 10
-//                self.scrollView.contentSize.height = self.collectionViewPhotos.frame.origin.y + self.collectionViewPhotos.frame.height + 10
-//            }
+            }
+            else {
+                self.labelPhotosHeading.frame.origin.y = self.viewGraphContainer.frame.origin.y + self.viewGraphContainer.frame.height + 10
+                self.collectionViewPhotos.frame.origin.y = self.labelPhotosHeading.frame.origin.y + self.labelPhotosHeading.frame.height + 10
+                self.scrollView.contentSize.height = self.collectionViewPhotos.frame.origin.y + self.collectionViewPhotos.frame.height + 10
+            }
         }
         else {
             self.labelHeartRate.isHidden = false
             self.labelAvgHRValue.isHidden = false
             self.viewHRGraphContainer.isHidden = false
             
-//            if self.activityData?.activityPhotos.count == 0 {
+            if self.activityImages.count == 0 {
                 self.labelPhotosHeading.isHidden = true
                 scrollView.contentSize.height = self.viewHRGraphContainer.frame.origin.y + self.viewHRGraphContainer.frame.height + 10
-            //}
-//            else {
-//                self.labelPhotosHeading.frame.origin.y = self.viewHRGraphContainer.frame.origin.y + self.viewHRGraphContainer.frame.height + 10
-//                self.collectionViewPhotos.frame.origin.y = self.labelPhotosHeading.frame.origin.y + self.labelPhotosHeading.frame.height + 10
-//                self.scrollView.contentSize.height = self.collectionViewPhotos.frame.origin.y + self.collectionViewPhotos.frame.height + 10
-//            }
+            }
+            else {
+                self.labelPhotosHeading.frame.origin.y = self.viewHRGraphContainer.frame.origin.y + self.viewHRGraphContainer.frame.height + 10
+                self.collectionViewPhotos.frame.origin.y = self.labelPhotosHeading.frame.origin.y + self.labelPhotosHeading.frame.height + 10
+                self.scrollView.contentSize.height = self.collectionViewPhotos.frame.origin.y + self.collectionViewPhotos.frame.height + 10
+            }
         }
     }
     
@@ -223,35 +225,39 @@ class ActivityAnalysisViewController: UIViewController {
 
 // MARK: - Add Photos CollectionView Settings
 
-//extension ActivityAnalysisViewController : UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-//    
-//    func settingCollectionView() {
-//        collectionViewPhotos.dataSource = self
-//        collectionViewPhotos.delegate = self
-//        collectionViewPhotos.register(UINib(nibName: "AddPhotosCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AddPhotosCollectionViewCell")
-//    }
-//    
-////    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-////        return self.activityData!.activityPhotos.count
-////    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddPhotosCollectionViewCell", for: indexPath) as! AddPhotosCollectionViewCell
-//        
-//        //let image = self.activityData!.activityPhotos[indexPath.row]
-//        cell.configureCell(with: image, hideCancel: true)
-//        
-//        return cell
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return CGSize(width: 100, height: 100)
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-//        return 10.0
-//    }
-//}
+extension ActivityAnalysisViewController : UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func settingCollectionView() {
+        collectionViewPhotos.dataSource = self
+        collectionViewPhotos.delegate = self
+        collectionViewPhotos.register(UINib(nibName: "AddPhotosCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AddPhotosCollectionViewCell")
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.activityImages.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddPhotosCollectionViewCell", for: indexPath) as! AddPhotosCollectionViewCell
+        
+        if let url = URL(string: self.activityImages[indexPath.row].photoURL) {
+            UIImage.kf.setImage(with: url)
+            cell.imagePhotos.kf.setImage(with: url)
+            cell.configureCell(hideCancel: true)
+
+        }
+                
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 100, height: 100)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 10.0
+    }
+}
 
 // MARK: - Setting up Pace Graph
 

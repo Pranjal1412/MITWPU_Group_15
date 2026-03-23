@@ -42,10 +42,11 @@ struct ActivityPaceGraphData : Codable {
     let paceValue: Double
 }
 
-struct ActivityPhotos {
+struct ActivityPhotos: Codable {
     let activityID: UUID
     let photoID = UUID()
     let photoURL: String
+    let sequence: Int
 }
 
 struct ActivityRouteCoordinates : Codable {

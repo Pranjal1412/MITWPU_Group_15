@@ -9,6 +9,8 @@ class DataSource {
     private var currentActivity: ActivityDetails?
     private var currentActivityCoordinates: [ActivityRouteCoordinates] = []
     private var currentActivityPaceData: [ActivityPaceGraphData] = []
+    private var currentActivityHeartRateData: [ActivityHRGraphData] = []
+    private var currentActivityImages: [ActivityPhotos] = []
     
     private var myActivities: [ActivityDetails] = []
     private var friendActivities: [ActivityDetails] = []
@@ -73,6 +75,14 @@ class DataSource {
     
     func getCurrentActivity() -> ActivityDetails? {
         return currentActivity
+    }
+    
+    func setCurrentActivityImages(_ activityImages: [ActivityPhotos]) {
+        self.currentActivityImages = activityImages
+    }
+    
+    func getCurrentActivityImages() -> [ActivityPhotos]? {
+        return self.currentActivityImages
     }
     
     func setCurrentActivityCoordinates(_ coordinates: [ActivityRouteCoordinates]) {

@@ -245,6 +245,9 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
                     let paceData = await fetchActivityPaceGraphData(activity.activity!.activityID!)
                     self.dataSource.setCurrentActivityPaceData(paceData)
                     
+                    let activityImages = await fetchActivityImages(activity.activity!.activityID!)
+                    self.dataSource.setCurrentActivityImages(activityImages)
+                    
                     await MainActor.run {
                         let destinationVC = ActivitySummaryViewController()
                         destinationVC.isNewActivity = false

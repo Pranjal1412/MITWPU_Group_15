@@ -112,8 +112,19 @@ class ActivitySaveViewController: UIViewController {
         self.activityData.activityRemark = self.textViewRemark.text
         self.activityData.isPublic = self.switchIsActivityPublic.isOn
         
+        
         Task {
             await updateUserActivity(newActivity: activityData)
+            
+            var finalImageURLs : [ActivityPhotos] = []
+            
+            for i in 0..<selectedImages.count {
+                let url = await saveActivityImages(activityID: activityData.activityID!, with: selectedImages[i], seq: i) ?? ""
+                finalImageURLs.append(ActivityPhotos(activityID: activityData.activityID!, photoURL: url, sequence: i))
+                print(url)
+            }
+            
+            await insertActivityImages(finalImageURLs)
             
             self.userStats?.totalPointsEarned += (self.activityData.basePoints ?? 0) + (self.activityData.skillPoints ?? 0)
             self.userStats?.totalDistanceCovered += self.activityData.distanceCovered ?? 0
@@ -121,19 +132,16 @@ class ActivitySaveViewController: UIViewController {
             self.dataSource.setCurrentActivity(ActivityDetails(userDetails: DataSource.shared.getUserProfile(), activity: activityData))
             self.dataSource.resetMyActivities()
             self.dataSource.setUserStats(self.userStats!)
-
+            self.dataSource.setCurrentActivityImages(finalImageURLs)
+            
             await updateUserStats(userID: activityData.userID!, newStats: self.userStats!)
             
-//            LocalActivityStorage.shared.clear()
             let destinationVC = ActivitySummaryViewController()
             destinationVC.isNewActivity = true
             
             destinationVC.modalPresentationStyle = .fullScreen
             navigationController?.present(destinationVC, animated: true)
-        }
-        //MARK: - Still yet to be implmented
-//        self.activityData.activityPhotos = self.selectedImages
-        
+        }        
     }
     
     @IBAction func addPhotosButtonPressed(_ sender: UIButton) {
@@ -363,8 +371,8 @@ extension ActivitySaveViewController : UICollectionViewDataSource, UICollectionV
         let image = self.selectedImages[indexPath.row]
         cell.buttonDeletePhoto.tag = indexPath.row
         cell.buttonDeletePhoto.addTarget(self, action: #selector(deletePhoto(_ :)), for: .touchUpInside)
-        
-        cell.configureCell(with: image, hideCancel: false)
+        cell.imagePhotos.image = image
+        cell.configureCell( hideCancel: false)
         
         return cell
     }
