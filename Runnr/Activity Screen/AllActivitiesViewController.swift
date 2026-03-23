@@ -78,7 +78,7 @@ extension AllActivitiesViewController : UITableViewDelegate, UITableViewDataSour
                         self.dataSource.setCurrentActivityImages(activityImages)
                         
                         await MainActor.run {
-                            let destinationVC = ActivitySummaryViewController()
+                            let destinationVC = ActivityAnalysisViewController()
                             destinationVC.isNewActivity = false
                             destinationVC.onActivityDeleted = {
                                 self.updateScreenElements()

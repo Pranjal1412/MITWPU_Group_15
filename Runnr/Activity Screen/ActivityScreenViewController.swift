@@ -13,6 +13,7 @@ class ActivityScreenViewController: UIViewController {
     @IBOutlet weak var buttonUserProfile: UIButton!
     @IBOutlet weak var profileImage: UIImageView!
     
+    
     private let label = UILabel()
     private let loader = UIActivityIndicatorView(style: .large)
 
@@ -249,7 +250,8 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
                     self.dataSource.setCurrentActivityImages(activityImages)
                     
                     await MainActor.run {
-                        let destinationVC = ActivitySummaryViewController()
+                        let destinationVC = ActivityAnalysisViewController()
+                        destinationVC.activityData = self.dataSource.getCurrentActivity()
                         destinationVC.isNewActivity = false
                         destinationVC.onActivityDeleted = {
                             self.updateScreenElements()
@@ -273,7 +275,8 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
                 self.dataSource.setCurrentActivityPaceData(paceData)
                 
                 await MainActor.run {
-                    let destinationVC = ActivitySummaryViewController()
+                    let destinationVC = ActivityAnalysisViewController()
+                    destinationVC.activityData = self.dataSource.getCurrentActivity()
                     destinationVC.isNewActivity = false
                     destinationVC.onActivityDeleted = {
                         self.updateScreenElements()

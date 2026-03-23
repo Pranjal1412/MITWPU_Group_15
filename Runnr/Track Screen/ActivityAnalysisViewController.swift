@@ -40,11 +40,17 @@ class ActivityAnalysisViewController: UIViewController {
     @IBOutlet weak var labelTotalPoints: UILabel!
     @IBOutlet weak var viewGraphContainer: UIView!
     @IBOutlet weak var viewHRGraphContainer: UIView!
+    @IBOutlet weak var buttonViewMap: UIButton!
+    @IBOutlet weak var buttonCancel: UIButton!
+    @IBOutlet weak var buttonOptions: UIButton!
     
     var activityData : ActivityDetails?
     private let activityImages = DataSource.shared.getCurrentActivityImages() ?? []
     private var datasource = DataSource.shared
     private var UIImage = UIImageView()
+    var isNewActivity : Bool = false
+    private var hasShownNewActivityAlert = false
+    var onActivityDeleted: (() -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,12 +110,86 @@ class ActivityAnalysisViewController: UIViewController {
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+            super.viewDidAppear(animated)
+            
+            if self.isNewActivity && !hasShownNewActivityAlert {
+                hasShownNewActivityAlert = true
+                let alert = UIAlertController(title: String(localized: "Congratulations!"),
+                                              message: "You have earned \((activityData!.activity?.basePoints! ?? 0) + (activityData!.activity?.skillPoints! ?? 0)) points. Claim them now!",
+                                              preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: String(localized: "Claim Points"), style: .default))
+                self.present(alert, animated: true)
+            }
+        }
+    
+    func deleteActivityAlert(userActivity : ActivityDetails) {
+         let alert = UIAlertController(title: "Delete Activity", message: "Are you sure you want to delete this activity?", preferredStyle: .alert)
+         
+         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+             Task {
+                 guard let activityID = userActivity.activity?.activityID, let mapImageURL = userActivity.activity?.mapImageURL else { return }
+                 
+                 await deleteUserActivity(activityID: activityID, mapImageURL: mapImageURL)
+                 
+                 await MainActor.run {
+                     DataSource.shared.deleteActivityFromLocalArray(activityID: activityID)
+                     self.onActivityDeleted?()
+                     self.dismiss(animated: true)
+                 }
+             }
+         }
+         
+         alert.addAction(cancelAction)
+         alert.addAction(deleteAction)
+         
+         present(alert, animated: true, completion: nil)
+
+     }
+    
     @IBAction func cancelButtonPressed(_ sender: UIButton) {
-        
-        self.dismiss(animated: true, completion: nil)
-    }
+           if self.isNewActivity {
+               self.presentingViewController?.dismiss(animated: true)
+           } else {
+               self.dismiss(animated: true)
+           }
+       }
+       
+       @IBAction func viewMapButtonPressed(_ sender: UIButton) {
+           let destinationVC = ActivitySummaryViewController()
+           destinationVC.isNewActivity = self.isNewActivity
+           destinationVC.modalPresentationStyle = .overFullScreen
+           self.present(destinationVC, animated: true)
+       }
+    
+    @IBAction func didTapOnMoreOptions(_ sender: UIButton) {
+          
+          let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+          
+          let shareAction = UIAlertAction(title: "Share Activity", style: .default)
+          let deleteAction = UIAlertAction(title: "Delete Activity", style: .destructive) { _ in
+              if self.activityData != nil {
+                  self.deleteActivityAlert(userActivity: (self.activityData!))
+              }
+          }
+          let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+
+          alert.addAction(shareAction)
+          alert.addAction(deleteAction)
+          alert.addAction(cancelAction)
+
+          present(alert, animated: true)
+      }
     
     func settingUpActivityAnalysisScreenElements() {
+        
+        setGlassEffect(for: self.buttonOptions, withImage: "ellipsis")
+                setGlassEffect(for: self.buttonCancel, withImage: "multiply")
+
+                buttonViewMap.layer.cornerRadius = 27
+                buttonViewMap.layer.borderWidth = 2
+                buttonViewMap.layer.borderColor = UIColor.accent.cgColor
                 
         labelUserName.text = activityData?.userDetails?.userName
         labelUserName.sizeToFit()

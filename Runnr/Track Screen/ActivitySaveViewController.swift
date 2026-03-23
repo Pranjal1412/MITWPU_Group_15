@@ -136,7 +136,8 @@ class ActivitySaveViewController: UIViewController {
             
             await updateUserStats(userID: activityData.userID!, newStats: self.userStats!)
             
-            let destinationVC = ActivitySummaryViewController()
+            let destinationVC = ActivityAnalysisViewController()
+            destinationVC.activityData = ActivityDetails(userDetails: DataSource.shared.getUserProfile(), activity: activityData)
             destinationVC.isNewActivity = true
             
             destinationVC.modalPresentationStyle = .fullScreen
