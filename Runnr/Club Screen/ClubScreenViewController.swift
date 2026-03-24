@@ -314,6 +314,7 @@ extension ClubScreenViewController : UICollectionViewDataSource, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let destinationVC = ClubProfileViewController()
         let navigationController = UINavigationController(rootViewController: destinationVC)
+        navigationController.isNavigationBarHidden = true
         
         if collectionView == collectionViewExplore {
             destinationVC.clubProfileData = clubsArray[indexPath.row]

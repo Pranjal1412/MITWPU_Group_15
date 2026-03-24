@@ -92,7 +92,7 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
                         
                         let rootVC = ClubProfileViewController(nibName: "ClubProfileViewController", bundle: nil)
                         let destinationVC = UINavigationController(rootViewController: rootVC)
-
+                        destinationVC.isNavigationBarHidden = true
                         rootVC.isMyClub = true
                         rootVC.myClubProfileData = self.clubDraft!
                         destinationVC.modalPresentationStyle = .fullScreen
