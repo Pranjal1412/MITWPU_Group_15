@@ -48,7 +48,8 @@ class ClubSettingsViewController: UIViewController, UITextViewDelegate {
         
         self.textViewClubBio.delegate = self
         
-        self.scrollView.contentSize.height = self.stackJoinApproval.frame.origin.y + self.stackJoinApproval.frame.height + 20
+        self.scrollView.contentSize.height = self.stackJoinApproval.frame.origin.y + self.stackJoinApproval.frame.height + 50
+        
         setGlassEffect(for: self.buttonCancel, withImage: "multiply")
         setGlassEffect(for: self.buttonSave, withImage: "checkmark")
         
