@@ -233,7 +233,7 @@ class ClubScreenViewController: UIViewController {
         labelCreateyourOwnClub.sizeToFit()
         
 
-        let attributedTextYourClub = NSMutableAttributedString(string: "Your", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
+        let attributedTextYourClub = NSMutableAttributedString(string: "My", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
         
         attributedTextYourClub.append(NSMutableAttributedString(string: " clubs", attributes: [.font: boldFont, .foregroundColor: UIColor.white]))
         
@@ -369,10 +369,10 @@ extension ClubScreenViewController : UITableViewDataSource, UITableViewDelegate 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let destinationVC = UserProfileViewController()
-        destinationVC.isFromFriendsScreen = true
-        destinationVC.friendData = unfollowedUserData[indexPath.row]
-        destinationVC.modalPresentationStyle = .fullScreen
-        self.present(destinationVC, animated: true, completion: nil)
+//        let destinationVC = UserProfileViewController()
+//        destinationVC.isFromFriendsScreen = true
+//        destinationVC.friendData = unfollowedUserData[indexPath.row]
+//        destinationVC.modalPresentationStyle = .fullScreen
+//        self.present(destinationVC, animated: true, completion: nil)
     }
 }

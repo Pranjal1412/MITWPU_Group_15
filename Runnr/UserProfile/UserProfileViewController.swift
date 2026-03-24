@@ -229,7 +229,7 @@ class UserProfileViewController: UIViewController {
                 self.labelCategory.tag = 2
             }
             
-            self.progressView.progress = Float((totalDistance/runnrCategories[self.labelCategory.tag].goal) * 100)
+            self.progressView.progress = Float(totalDistance) / Float(runnrCategories[self.labelCategory.tag].goal)
             
             let thinFont = UIFont(name: "SFProText-Light", size: 15) ?? UIFont.systemFont(ofSize: 15, weight: .light)
             let boldFont = UIFont(name: "SFProText-Bold", size: 17) ?? UIFont.systemFont(ofSize: 17, weight: .medium)
