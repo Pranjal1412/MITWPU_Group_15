@@ -23,7 +23,7 @@ class GameSectionHeaderView: UICollectionReusableView {
         let activeText = NSAttributedString(string: "Active ", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
         let challengesText = NSAttributedString(string: "Challenges", attributes: [.font: boldFont, .foregroundColor: UIColor.white])
         
-        let duelText = NSAttributedString(string: "Duel ", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
+        let soloText = NSAttributedString(string: "Solo ", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
         
         let monthlyText = NSAttributedString(string: "Monthly ", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
         
@@ -38,16 +38,23 @@ class GameSectionHeaderView: UICollectionReusableView {
         fullText.append(challengesText)
         
         let newText = NSMutableAttributedString()
-        newText.append(duelText)
+        newText.append(soloText)
         newText.append(challengesText)
         
-        if selectedSegment == 0 {
-            labelSectionHeading.attributedText = fullText
-        }
-        else if selectedSegment == 1 && tableSection == 0 {
+//        if selectedSegment == 0 {
+//            labelSectionHeading.attributedText = fullText
+//        }
+//        else if selectedSegment == 1 && tableSection == 0 {
+//            labelSectionHeading.attributedText = monthText
+//        }
+//        else if selectedSegment == 1 && tableSection == 1 {
+//            labelSectionHeading.attributedText = newText
+//        }
+        
+        if tableSection == 0 {
             labelSectionHeading.attributedText = monthText
         }
-        else if selectedSegment == 1 && tableSection == 1 {
+        else {
             labelSectionHeading.attributedText = newText
         }
     }

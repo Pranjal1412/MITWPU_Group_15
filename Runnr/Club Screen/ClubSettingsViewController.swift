@@ -57,6 +57,9 @@ class ClubSettingsViewController: UIViewController, UITextViewDelegate {
             imageClubProfile.kf.setImage(with: url)
         }
         
+        if let url = URL(string: clubProfileData?.clubBannerImageURL ?? "") {
+            imageClubBanner.kf.setImage(with: url)
+        }
         self.imageClubProfile.layer.cornerRadius = 10
         self.textFieldClubName.text = clubProfileData?.clubName
         self.textFieldTagline.text = clubProfileData?.clubMotive
