@@ -98,6 +98,11 @@ class ViewController: UIViewController {
                         self.lottieView.stop()
 
                     }
+                    else {
+                        self.lottieView.stop()
+                        self.loaderView.isHidden = true
+
+                    }
 
                 } catch {
                     self.lottieView.stop()
