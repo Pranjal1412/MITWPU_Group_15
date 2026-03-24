@@ -9,6 +9,7 @@ import UIKit
 import GoogleMaps
 import CoreMotion
 import AVFoundation
+import Lottie
 
 class ActivityLiveTrackingViewController: UIViewController {
     
@@ -74,11 +75,14 @@ class ActivityLiveTrackingViewController: UIViewController {
     var recoveredActivity: LocalActivity?
     var hasRestoredActivity = false
     var isRunActive = false
+    
+    let loaderView = UIView()
+    var lottieView: LottieAnimationView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        self.setupLoader()
         settingScreenElements()
         settingPauseButtonImg()
         
@@ -280,6 +284,9 @@ class ActivityLiveTrackingViewController: UIViewController {
 
         let end = UIAlertAction(title: "End", style: .destructive) { _ in
             
+            self.loaderView.isHidden = false
+            self.lottieView.play()
+            
             self.userLocation.locationManager.stopUpdatingLocation()
             self.activityManager.stopUpdatingElevation()
             self.activityManager.stopTimer()
@@ -368,11 +375,19 @@ class ActivityLiveTrackingViewController: UIViewController {
                     datasource.setCurrentActivityCoordinates(routeCoordinates)
                 }
                 
+                await MainActor.run {
+                    self.lottieView.stop()
+                    self.loaderView.isHidden = true
+                }
+                
                 self.isRunActive = false
                 LocalActivityStorage.shared.clear()
                 let destinationVC = ActivitySaveViewController(nibName: "ActivitySaveViewController", bundle: nil)
                 destinationVC.activityData = activityDetails
-                nav.pushViewController(destinationVC, animated: true)
+                
+                await MainActor.run {
+                    nav.pushViewController(destinationVC, animated: true)
+                }
                 
                 
                 print("Background save completed")
@@ -509,6 +524,27 @@ class ActivityLiveTrackingViewController: UIViewController {
         }
     }
     
+    func setupLoader() {
+        loaderView.frame = view.bounds
+        loaderView.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+
+        lottieView = LottieAnimationView(name: "Run_Forrest_Run")
+        lottieView.loopMode = .loop
+        lottieView.contentMode = .scaleAspectFit
+        lottieView.translatesAutoresizingMaskIntoConstraints = false
+
+        loaderView.addSubview(lottieView)
+        view.addSubview(loaderView)
+
+        NSLayoutConstraint.activate([
+            lottieView.centerXAnchor.constraint(equalTo: loaderView.centerXAnchor),
+            lottieView.centerYAnchor.constraint(equalTo: loaderView.centerYAnchor),
+            lottieView.widthAnchor.constraint(equalToConstant: 150),
+            lottieView.heightAnchor.constraint(equalToConstant: 150)
+        ])
+
+        loaderView.isHidden = true
+    }
 }
 // MARK: - Page Control Code & Scroll View Setting
 

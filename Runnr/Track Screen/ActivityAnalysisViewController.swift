@@ -421,55 +421,44 @@ struct GraphView: View {
 
 extension ActivityAnalysisViewController {
 
+    // MARK: - Entry Point
+
     func shareActivity() {
         guard let activity = activityData?.activity else { return }
 
-        // If there's a map image URL, fetch it first then present share sheet
-        if let mapURLString = activity.mapImageURL, let mapURL = URL(string: mapURLString) {
-            let loadingAlert = showLoadingAlert(message: "Preparing share...")
+        let loadingAlert = showLoadingAlert(message: "Preparing share...")
 
+        if let mapURLString = activity.mapImageURL, let mapURL = URL(string: mapURLString) {
             KingfisherManager.shared.retrieveImage(with: mapURL) { [weak self] result in
                 guard let self else { return }
                 let mapImage: UIImage? = try? result.get().image
 
                 DispatchQueue.main.async {
                     loadingAlert.dismiss(animated: true) {
-                        self.presentShareSheet(mapImage: mapImage)
+                        let card = self.buildShareCard(mapImage: mapImage)
+                        self.presentShareSheet(image: card)
                     }
                 }
             }
         } else {
-            // No map image, present share sheet directly
-            presentShareSheet(mapImage: nil)
+            DispatchQueue.main.async {
+                loadingAlert.dismiss(animated: true) {
+                    let card = self.buildShareCard(mapImage: nil)
+                    self.presentShareSheet(image: card)
+                }
+            }
         }
     }
 
     // MARK: - Present Share Sheet
 
-    private func presentShareSheet(mapImage: UIImage?) {
-        var itemsToShare: [Any] = []
-
-        // 1. Plain text summary
-        itemsToShare.append(buildShareText())
-
-        // 2. Map image if available
-        if let mapImage {
-            itemsToShare.append(mapImage)
-        }
-
+    private func presentShareSheet(image: UIImage) {
         let activityVC = UIActivityViewController(
-            activityItems: itemsToShare,
+            activityItems: [image],
             applicationActivities: nil
         )
+        activityVC.excludedActivityTypes = [.assignToContact, .addToReadingList, .openInIBooks]
 
-        // Exclude irrelevant actions
-        activityVC.excludedActivityTypes = [
-            .assignToContact,
-            .addToReadingList,
-            .openInIBooks
-        ]
-
-        // iPad popover anchor (crashes on iPad without this)
         if let popover = activityVC.popoverPresentationController {
             popover.sourceView = buttonOptions
             popover.sourceRect = buttonOptions.bounds
@@ -478,69 +467,237 @@ extension ActivityAnalysisViewController {
         present(activityVC, animated: true)
     }
 
-    // MARK: - Build Share Text
+    // MARK: - Build Share Card
 
-    private func buildShareText() -> String {
-        guard let activity = activityData?.activity,
-              let user = activityData?.userDetails else { return "" }
+    private func buildShareCard(mapImage: UIImage?) -> UIImage {
+        let cardWidth:  CGFloat = 390
+        let cardHeight: CGFloat = 700
+        let mapHeight:  CGFloat = 350   // 2/3
+        let cardSize = CGSize(width: cardWidth, height: cardHeight)
 
-        let name     = user.userName ?? "Unknown"
-        let title    = activity.activityTitle ?? "Activity"
-        let distance = String(format: "%.2f %@",
-                              activity.distanceCovered ?? 0.0,
-                              activity.distanceUnit?.rawValue ?? "km")
-        let pace     = String(format: "%.2f %@",
-                              activity.avgPace ?? 0.0,
-                              activity.paceUnit?.rawValue ?? "/km")
-        let time     = buildTimeString(from: activity.timeTakenSeconds ?? 0)
-        let calories = "\(activity.caloriesBurnt ?? 0) kcal"
-        let steps    = "\(activity.stepsTaken ?? 0)"
-        let points   = (activity.basePoints ?? 0) + (activity.skillPoints ?? 0)
+        // Crisp rendering at screen scale
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = UIScreen.main.scale
+        let renderer = UIGraphicsImageRenderer(size: cardSize, format: format)
 
-        return """
-        🏃 \(name) just completed: \(title)
+        return renderer.image { ctx in
+            let context = ctx.cgContext
 
-        📏 Distance : \(distance)
-        ⚡️ Pace     : \(pace)
-        ⏱️ Time     : \(time)
-        🔥 Calories : \(calories)
-        👟 Steps    : \(steps)
-        🏅 Points   : \(points) pts
+            // Background — no corner radius
+            UIColor(hex: "#0D0D0D").setFill()
+            UIBezierPath(rect: CGRect(origin: .zero, size: cardSize)).fill()
 
-        Tracked with Runnr
-        """
-    }
+            // Map — aspect fill, flat, no distortion, no corner radius
+            let mapRect = CGRect(x: 0, y: 0, width: cardWidth, height: mapHeight)
+            if let map = mapImage {
+                context.saveGState()
+                UIBezierPath(rect: mapRect).addClip()
 
-    // MARK: - Helpers
+                let mapSize  = map.size
+                let scale    = max(cardWidth / mapSize.width, mapHeight / mapSize.height)
+                let drawW    = mapSize.width  * scale
+                let drawH    = mapSize.height * scale
+                let drawX    = (cardWidth  - drawW) / 2
+                let drawY    = (mapHeight  - drawH) / 2
 
-    private func buildTimeString(from totalSeconds: Int) -> String {
-        let formatted = formatTime(totalSeconds)      // your existing formatTime()
-        if formatted.hour > 0 {
-            return String(format: "%02dhr %02dmin %02dsec",
-                          formatted.hour, formatted.minute, formatted.second)
+                map.draw(in: CGRect(x: drawX, y: drawY, width: drawW, height: drawH))
+                context.restoreGState()
+            } else {
+                UIColor(hex: "#1A1A1A").setFill()
+                UIBezierPath(rect: mapRect).fill()
+            }
+
+            // Gradient fade map → background
+            let gradColors = [UIColor.clear.cgColor, UIColor(hex: "#0D0D0D").cgColor]
+            let gradient = CGGradient(colorsSpace: CGColorSpaceCreateDeviceRGB(),
+                                      colors: gradColors as CFArray,
+                                      locations: [0.7, 1.0])!
+            context.drawLinearGradient(gradient,
+                                       start: CGPoint(x: 0, y: mapHeight - 100),
+                                       end:   CGPoint(x: 0, y: mapHeight),
+                                       options: [])
+
+            // RUNNR branding top-left
+            let brandAttrs: [NSAttributedString.Key: Any] = [
+                .font: UIFont(name: "SFProDisplay-Bold", size: 14) ?? UIFont.systemFont(ofSize: 14, weight: .bold),
+                .foregroundColor: UIColor(hex: "#ADF845"),
+                .kern: 4.0
+            ]
+            NSAttributedString(string: "Runnr.", attributes: brandAttrs)
+                .draw(at: CGPoint(x: 20, y: 16))
+
+            // User avatar
+            let avatarY    = mapHeight + 16
+            let avatarRect = CGRect(x: 20, y: avatarY, width: 44, height: 44)
+            UIColor(hex: "#222222").setFill()
+            UIBezierPath(ovalIn: avatarRect).fill()
+
+            if let profileURLStr = activityData?.userDetails?.userProfileImageURL,
+               let profileImg = KingfisherManager.shared.cache.retrieveImageInMemoryCache(forKey: profileURLStr) {
+                context.saveGState()
+                UIBezierPath(ovalIn: avatarRect).addClip()
+                profileImg.draw(in: avatarRect)
+                context.restoreGState()
+            }
+
+            // User name + activity title
+            let nameAttrs: [NSAttributedString.Key: Any] = [
+                .font: UIFont.systemFont(ofSize: 15, weight: .semibold),
+                .foregroundColor: UIColor.white
+            ]
+            let subtitleAttrs: [NSAttributedString.Key: Any] = [
+                .font: UIFont.systemFont(ofSize: 12, weight: .regular),
+                .foregroundColor: UIColor(hex: "#666666")
+            ]
+            NSAttributedString(string: activityData?.userDetails?.userName ?? "", attributes: nameAttrs)
+                .draw(at: CGPoint(x: 74, y: avatarY + 7))
+            NSAttributedString(string: activityData?.activity?.activityTitle ?? "", attributes: subtitleAttrs)
+                .draw(at: CGPoint(x: 74, y: avatarY + 27))
+
+            // Divider after user row
+            let dividerY = avatarY + 60
+            drawDivider(at: dividerY, from: 20, to: 370, color: "#222222", context: context)
+
+            // Stats row 1
+            let activity = activityData?.activity
+            let row1: [(label: String, value: String, unit: String)] = [
+                ("DISTANCE", String(format: "%.2f", activity?.distanceCovered ?? 0), activity?.distanceUnit?.rawValue ?? "km"),
+                ("PACE",     String(format: "%.2f", activity?.avgPace ?? 0),         activity?.paceUnit?.rawValue ?? "/km"),
+                ("TIME",     buildTimeStringShort(from: activity?.timeTakenSeconds ?? 0), "")
+            ]
+            let row1Y = dividerY + 12
+            drawStatRow(row1, yBase: row1Y, cardWidth: cardWidth, isPoints: [false, false, false], context: context)
+
+            // Mid divider
+            let midDividerY = row1Y + 80
+            drawDivider(at: midDividerY, from: 20, to: 370, color: "#1E1E1E", context: context)
+
+            // Stats row 2
+            let points = (activity?.basePoints ?? 0) + (activity?.skillPoints ?? 0)
+            let row2: [(label: String, value: String, unit: String)] = [
+                ("CALORIES", "\(activity?.caloriesBurnt ?? 0)", "kcal"),
+                ("STEPS",    "\(activity?.stepsTaken ?? 0)",    "steps"),
+                ("POINTS",   "\(points)",                       "points")
+            ]
+            drawStatRow(row2, yBase: midDividerY + 12, cardWidth: cardWidth, isPoints: [false, false, true], context: context)
+
+            // Accent bar
+            let barY = cardHeight - 80
+            drawDivider(at: barY, from: 20, to: 370, color: "#1E1E1E", context: context)
+
+            // Tagline
+            let tagAttrs: [NSAttributedString.Key: Any] = [
+                .font: UIFont.systemFont(ofSize: 11, weight: .medium),
+                .foregroundColor: UIColor(hex: "#444444"),
+                .kern: 2.5
+            ]
+            let tagStr  = NSAttributedString(string: "Tracked with Runnr.", attributes: tagAttrs)
+            let tagSize = tagStr.size()
+            tagStr.draw(at: CGPoint(x: (cardWidth - tagSize.width) / 2, y: barY + 12))
         }
-        return String(format: "%02dmin %02dsec",
-                      formatted.minute, formatted.second)
     }
+
+    // MARK: - Draw Stat Row
+
+    private func drawStatRow(_ stats: [(label: String, value: String, unit: String)],
+                             yBase: CGFloat,
+                             cardWidth: CGFloat,
+                             isPoints: [Bool],
+                             context: CGContext) {
+
+        let colPositions: [CGFloat] = [cardWidth * 0.20, cardWidth * 0.5, cardWidth * 0.80]
+
+        let labelAttrs: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 10, weight: .medium),
+            .foregroundColor: UIColor(hex: "#666666"),
+            .kern: 1.2
+        ]
+        let unitAttrs: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 11, weight: .regular),
+            .foregroundColor: UIColor(hex: "#666666")
+        ]
+        let valueFont = UIFont.systemFont(ofSize: 26, weight: .bold)
+
+        for (i, stat) in stats.enumerated() {
+            let cx = colPositions[i]
+
+            // Label
+            let labelStr = NSAttributedString(string: stat.label, attributes: labelAttrs)
+            let labelSize = labelStr.size()
+            labelStr.draw(at: CGPoint(x: cx - labelSize.width / 2, y: yBase))
+
+            // Value
+            let valueColor: UIColor = isPoints[i] ? UIColor(hex: "#AAFF00") : .white
+            let valueAttrs: [NSAttributedString.Key: Any] = [
+                .font: valueFont,
+                .foregroundColor: valueColor
+            ]
+            let valueStr = NSAttributedString(string: stat.value, attributes: valueAttrs)
+            let valueSize = valueStr.size()
+            valueStr.draw(at: CGPoint(x: cx - valueSize.width / 2, y: yBase + 22))
+
+            // Unit
+            if !stat.unit.isEmpty {
+                let unitStr = NSAttributedString(string: stat.unit, attributes: unitAttrs)
+                let unitSize = unitStr.size()
+                unitStr.draw(at: CGPoint(x: cx - unitSize.width / 2, y: yBase + 54))
+            }
+        }
+    }
+
+    // MARK: - Draw Divider
+
+    private func drawDivider(at y: CGFloat, from x1: CGFloat, to x2: CGFloat,
+                             color: String, context: CGContext) {
+        UIColor(hex: color).setStroke()
+        let path = UIBezierPath()
+        path.move(to: CGPoint(x: x1, y: y))
+        path.addLine(to: CGPoint(x: x2, y: y))
+        path.lineWidth = 1
+        path.stroke()
+    }
+
+    // MARK: - Time String (short format for card)
+
+    private func buildTimeStringShort(from totalSeconds: Int) -> String {
+        let formatted = formatTime(totalSeconds)
+        if formatted.hour > 0 {
+            return String(format: "%d:%02d:%02d", formatted.hour, formatted.minute, formatted.second)
+        }
+        return String(format: "%02d:%02d", formatted.minute, formatted.second)
+    }
+
+    // MARK: - Loading Alert
 
     private func showLoadingAlert(message: String) -> UIAlertController {
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        
         let indicator = UIActivityIndicatorView(style: .medium)
         indicator.startAnimating()
         indicator.translatesAutoresizingMaskIntoConstraints = false
         alert.view.addSubview(indicator)
-        
         NSLayoutConstraint.activate([
             indicator.centerXAnchor.constraint(equalTo: alert.view.centerXAnchor),
             indicator.centerYAnchor.constraint(equalTo: alert.view.centerYAnchor, constant: 16)
         ])
-        
-        // Give the alert enough height to fit both the message and indicator neatly
         alert.view.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        
         present(alert, animated: true)
         return alert
     }
 }
 
+// MARK: - UIColor Hex Helper
+
+extension UIColor {
+    convenience init(hex: String) {
+        var hexStr = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        if hexStr.hasPrefix("#") { hexStr.removeFirst() }
+        var rgb: UInt64 = 0
+        Scanner(string: hexStr).scanHexInt64(&rgb)
+        self.init(
+            red:   CGFloat((rgb >> 16) & 0xFF) / 255,
+            green: CGFloat((rgb >> 8)  & 0xFF) / 255,
+            blue:  CGFloat( rgb        & 0xFF) / 255,
+            alpha: 1.0
+        )
+    }
+}
