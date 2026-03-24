@@ -790,7 +790,7 @@ func getWeeklySoloChallenges(userProfile: UserProfile) async -> [AssignedChallen
             .execute()
             .value
         
-        // converting the sollochallenges array into a dictionary of [UUID : SoloChallenges]
+        // converting the solochallenges array into a dictionary of [UUID : SoloChallenges]
         let challengeMap = Dictionary(uniqueKeysWithValues:soloChallenges.map { ($0.challengeID, $0) })
 
         return assignedChallenges.compactMap { assigned in
@@ -1004,7 +1004,7 @@ func updateClubPost(postDetails: ClubPost) async {
     }
 }
 
-func fetchAllClubPosts(for clubID: UUID) async -> [ClubPost]? {
+func fetchAllClubPosts(for clubID: UUID) async -> [ClubPostDetail]? {
     do {
         let allPosts: [ClubPost] = try await SupabaseManager.shared.client
             .from("ClubPost")
@@ -1014,7 +1014,27 @@ func fetchAllClubPosts(for clubID: UUID) async -> [ClubPost]? {
             .execute()
             .value
         
-        return allPosts
+        let postOwnerIDs = allPosts.map { $0.postOwner }
+        
+        let ownerDetails: [UserProfile] = try await SupabaseManager.shared.client
+            .from("UserProfile")
+            .select("*")
+            .in("userID", values: postOwnerIDs)
+            .execute()
+            .value
+        
+        // Create dictionary for quick lookup
+        let ownerDict = Dictionary(uniqueKeysWithValues: ownerDetails.map { ($0.userID, $0) })
+        
+        // Map into ClubPostDetail
+        let result: [ClubPostDetail] = allPosts.compactMap { post in
+            
+            guard let owner = ownerDict[post.postOwner] else { return nil }
+            
+            return ClubPostDetail(postOwner: owner, post: post)
+        }
+
+        return result
     }
     catch {
         print("Error fetching club posts: \(error)")

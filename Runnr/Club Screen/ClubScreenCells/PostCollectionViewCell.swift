@@ -29,9 +29,9 @@ class PostCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func configureCell(with data: ClubPost, isLiked: Bool) {
+    func configureCell(with data: ClubPostDetail, isLiked: Bool) {
         
-        if let url = URL(string: data.postImageURL!) {
+        if let url = URL(string: data.post.postImageURL!) {
             imageView.kf.setImage(with: url)
         }
         
