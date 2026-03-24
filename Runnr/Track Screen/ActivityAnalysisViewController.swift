@@ -172,7 +172,11 @@ class ActivityAnalysisViewController: UIViewController {
           
           let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
           
-          let shareAction = UIAlertAction(title: "Share Activity", style: .default)
+//          let shareAction = UIAlertAction(title: "Share Activity", style: .default)
+        let shareAction = UIAlertAction(title: "Share Activity", style: .default) {
+            [weak self] _ in
+            self?.shareActivity()
+        }
           let deleteAction = UIAlertAction(title: "Delete Activity", style: .destructive) { _ in
               if self.activityData != nil {
                   self.deleteActivityAlert(userActivity: (self.activityData!))
@@ -411,5 +415,132 @@ struct GraphView: View {
         }
     }
 
+}
+
+// MARK: - Share Activity
+
+extension ActivityAnalysisViewController {
+
+    func shareActivity() {
+        guard let activity = activityData?.activity else { return }
+
+        // If there's a map image URL, fetch it first then present share sheet
+        if let mapURLString = activity.mapImageURL, let mapURL = URL(string: mapURLString) {
+            let loadingAlert = showLoadingAlert(message: "Preparing share...")
+
+            KingfisherManager.shared.retrieveImage(with: mapURL) { [weak self] result in
+                guard let self else { return }
+                let mapImage: UIImage? = try? result.get().image
+
+                DispatchQueue.main.async {
+                    loadingAlert.dismiss(animated: true) {
+                        self.presentShareSheet(mapImage: mapImage)
+                    }
+                }
+            }
+        } else {
+            // No map image, present share sheet directly
+            presentShareSheet(mapImage: nil)
+        }
+    }
+
+    // MARK: - Present Share Sheet
+
+    private func presentShareSheet(mapImage: UIImage?) {
+        var itemsToShare: [Any] = []
+
+        // 1. Plain text summary
+        itemsToShare.append(buildShareText())
+
+        // 2. Map image if available
+        if let mapImage {
+            itemsToShare.append(mapImage)
+        }
+
+        let activityVC = UIActivityViewController(
+            activityItems: itemsToShare,
+            applicationActivities: nil
+        )
+
+        // Exclude irrelevant actions
+        activityVC.excludedActivityTypes = [
+            .assignToContact,
+            .addToReadingList,
+            .openInIBooks
+        ]
+
+        // iPad popover anchor (crashes on iPad without this)
+        if let popover = activityVC.popoverPresentationController {
+            popover.sourceView = buttonOptions
+            popover.sourceRect = buttonOptions.bounds
+        }
+
+        present(activityVC, animated: true)
+    }
+
+    // MARK: - Build Share Text
+
+    private func buildShareText() -> String {
+        guard let activity = activityData?.activity,
+              let user = activityData?.userDetails else { return "" }
+
+        let name     = user.userName ?? "Unknown"
+        let title    = activity.activityTitle ?? "Activity"
+        let distance = String(format: "%.2f %@",
+                              activity.distanceCovered ?? 0.0,
+                              activity.distanceUnit?.rawValue ?? "km")
+        let pace     = String(format: "%.2f %@",
+                              activity.avgPace ?? 0.0,
+                              activity.paceUnit?.rawValue ?? "/km")
+        let time     = buildTimeString(from: activity.timeTakenSeconds ?? 0)
+        let calories = "\(activity.caloriesBurnt ?? 0) kcal"
+        let steps    = "\(activity.stepsTaken ?? 0)"
+        let points   = (activity.basePoints ?? 0) + (activity.skillPoints ?? 0)
+
+        return """
+        🏃 \(name) just completed: \(title)
+
+        📏 Distance : \(distance)
+        ⚡️ Pace     : \(pace)
+        ⏱️ Time     : \(time)
+        🔥 Calories : \(calories)
+        👟 Steps    : \(steps)
+        🏅 Points   : \(points) pts
+
+        Tracked with Runnr
+        """
+    }
+
+    // MARK: - Helpers
+
+    private func buildTimeString(from totalSeconds: Int) -> String {
+        let formatted = formatTime(totalSeconds)      // your existing formatTime()
+        if formatted.hour > 0 {
+            return String(format: "%02dhr %02dmin %02dsec",
+                          formatted.hour, formatted.minute, formatted.second)
+        }
+        return String(format: "%02dmin %02dsec",
+                      formatted.minute, formatted.second)
+    }
+
+    private func showLoadingAlert(message: String) -> UIAlertController {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        
+        let indicator = UIActivityIndicatorView(style: .medium)
+        indicator.startAnimating()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        alert.view.addSubview(indicator)
+        
+        NSLayoutConstraint.activate([
+            indicator.centerXAnchor.constraint(equalTo: alert.view.centerXAnchor),
+            indicator.centerYAnchor.constraint(equalTo: alert.view.centerYAnchor, constant: 16)
+        ])
+        
+        // Give the alert enough height to fit both the message and indicator neatly
+        alert.view.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        
+        present(alert, animated: true)
+        return alert
+    }
 }
 
