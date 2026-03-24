@@ -41,6 +41,11 @@ struct ClubPost : Codable {
     var createdTimestamp: Date
 }
 
+struct ClubPostDetail {
+    var postOwner: UserProfile
+    var post: ClubPost
+}
+
 struct ClubPostImage : Codable {
     var imageID : UUID?
     var postID : UUID?

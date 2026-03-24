@@ -20,7 +20,7 @@ class PostViewDetailViewController: UIViewController {
     // Tracks double-tap like state: false = accent, true = red
     private var isImageLiked = false
     
-    var postDetails: ClubPost?
+    var postDetails: ClubPostDetail?
     var isLiked: Bool = false
     var likeStatusChanged: ((Bool) -> Void)?
     var isOwner: Bool = false
@@ -42,6 +42,10 @@ class PostViewDetailViewController: UIViewController {
         profileImageView.layer.borderWidth = 1
         profileImageView.layer.borderColor = UIColor(named: "AccentColor")?.cgColor ?? UIColor.green.cgColor
 
+        if let url = URL(string: (postDetails?.postOwner.userProfileImageURL)!) {
+            profileImageView.kf.setImage(with: url)
+        }
+        
         followButton.layer.cornerRadius = followButton.frame.height / 2
         followButton.backgroundColor = UIColor(named: "AccentColor") ?? .green
         followButton.setTitleColor(.black, for: .normal)
@@ -123,19 +127,18 @@ class PostViewDetailViewController: UIViewController {
     }
     
     private func populateData() {
-        if let url = URL(string: postDetails!.postImageURL!) {
+        if let url = URL(string: postDetails!.post.postImageURL!) {
             postImageView.kf.setImage(with: url)
         }
         
-        profileImageView.image = UIImage(named: "club1") // Dummy profile
-        nameLabel.text = "Alex Runner"
+        nameLabel.text = postDetails?.postOwner.userName
         //locationLabel.text = "San Francisco, CA"
         // timeLabel removed — hidden in setupUI
         //likeCountLabel.text = "1,245"
     }
     
     private func formatCaptionText() {
-        let text = postDetails?.caption ?? ""
+        let text = postDetails?.post.caption ?? ""
         
         // Default attributes
         let normalAttributes: [NSAttributedString.Key: Any] = [
@@ -178,7 +181,7 @@ class PostViewDetailViewController: UIViewController {
         let deleteButton = UIAlertAction(title: String(localized: "Delete"), style: .destructive, handler: {_ in
             
             Task {
-                await deleteClubPost(postID: self.postDetails!.postID!, postImageURL: self.postDetails!.postImageURL!)
+                await deleteClubPost(postID: self.postDetails!.post.postID!, postImageURL: self.postDetails!.post.postImageURL!)
                 self.dismiss(animated: true)
             }
         })

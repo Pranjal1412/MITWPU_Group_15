@@ -29,7 +29,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
     var isMyClub: Bool = false
     var clubProfileData: Club?
     var myClubProfileData : ClubRoleAndData?
-    private var allPosts: [ClubPost] = []
+    private var allPosts: [ClubPostDetail] = []
 
     var likedPosts: [Bool] = [false, false, false]
     
