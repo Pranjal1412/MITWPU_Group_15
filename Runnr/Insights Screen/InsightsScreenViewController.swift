@@ -329,15 +329,15 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
             case 0: // Distance
                 let current = latest!.distanceCovered
                 cell.labelCardTitle.text = "Distance"
-                cell.settingLabelStyle(withValue: String(format: "%.2f", current!), withUnit: "Km")
-                cell.labelTrend.text = trendText(current: current!, previous: previous!.distanceCovered!, unit: "Km")
+                cell.settingLabelStyle(withValue: String(format: "%.2f", current!), withUnit: "km")
+                cell.labelTrend.text = trendText(current: current!, previous: previous!.distanceCovered!, unit: "km")
                 updateChevron(cell: cell, current: latest?.distanceCovered, previous: previous?.distanceCovered)
                 
             case 1: // Calories
                 let current = Double(latest?.caloriesBurnt ?? 0)
                 cell.labelCardTitle.text = "Calories"
-                cell.settingLabelStyle(withValue: "\(Int(current))", withUnit: "Kcal")
-                cell.labelTrend.text = latest == nil ? "No recorded calories" : previous != nil ? trendText(current: current, previous: Double(previous!.caloriesBurnt!), unit: "Kcal") : "First run"
+                cell.settingLabelStyle(withValue: "\(Int(current))", withUnit: "kcal")
+                cell.labelTrend.text = latest == nil ? "No recorded calories" : previous != nil ? trendText(current: current, previous: Double(previous!.caloriesBurnt!), unit: "kcal") : "First run"
                 updateChevron(cell: cell, current: current, previous: previous.map { Double($0.caloriesBurnt!) })
                 
             case 2: // Steps
@@ -395,12 +395,12 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
                 if latest == nil {
                     cell.labelTrend.text = "No recorded distance"
                     let current = 0
-                    cell.settingLabelStyle(withValue: String(format: "%.2f", current), withUnit: "Km")
+                    cell.settingLabelStyle(withValue: String(format: "%.2f", current), withUnit: "km")
                 }
                 else {
                     cell.labelTrend.text = "First run"
                     let current = latest!.distanceCovered!
-                    cell.settingLabelStyle(withValue: String(format: "%.2f", current), withUnit: "Km")
+                    cell.settingLabelStyle(withValue: String(format: "%.2f", current), withUnit: "km")
                 }
                 
                 updateChevron(cell: cell, current: latest?.distanceCovered, previous: previous?.distanceCovered)
@@ -411,13 +411,13 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
                 if latest == nil {
                     cell.labelTrend.text = "No recorded calories"
                     let current = 0.0
-                    cell.settingLabelStyle(withValue: String(format: "%.2f", current), withUnit: "Kcal")
+                    cell.settingLabelStyle(withValue: String(format: "%.2f", current), withUnit: "kcal")
                     updateChevron(cell: cell, current: current, previous: previous.map { Double($0.caloriesBurnt!)})
                 }
                 else {
                     cell.labelTrend.text = "First run"
                     let current = latest!.caloriesBurnt!
-                    cell.settingLabelStyle(withValue: String(format: "%.2f", current), withUnit: "Kcal")
+                    cell.settingLabelStyle(withValue: String(format: "%.2f", current), withUnit: "kcal")
                     updateChevron(cell: cell, current: Double(current), previous: previous.map { Double($0.caloriesBurnt!)})
                 }
                 
@@ -498,13 +498,13 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
         let graphStore = self.graphStore
         
         Task {
-            // ✅ LOAD DATA FIRST
+            //  LOAD DATA FIRST
             await graphStore.loadData(
                 userID: DataSource.shared.getUserProfile().userID!,
                 referenceDate: Date()
             )
 
-            // ✅ PUSH AFTER DATA IS READY
+            //  PUSH AFTER DATA IS READY
             DispatchQueue.main.async {
 
                 switch indexPath.row {
@@ -535,28 +535,7 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
             }
         }
     }
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        switch indexPath.row {
-//        case 0:
-//            let destinationVC = DistanceViewController()
-//            destinationVC.graphStore = self.graphStore
-//            navigationController?.pushViewController(destinationVC, animated: true)
-//        case 1:
-//            let destinationVC = CaloriesViewController()
-//            destinationVC.graphStore = self.graphStore
-//            navigationController?.pushViewController(destinationVC, animated: true)
-//        case 2:
-//            let destinationVC = StepsViewController()
-//            destinationVC.graphStore = self.graphStore
-//            navigationController?.pushViewController(destinationVC, animated: true)
-//        case 3:
-//            let destinationVC = PaceViewController()
-//            destinationVC.graphStore = self.graphStore
-//            navigationController?.pushViewController(destinationVC, animated: true)
-//        default:
-//            break
-//        }
-//    }
+
 }
 
 // MARK: - Calendar Cell Class
