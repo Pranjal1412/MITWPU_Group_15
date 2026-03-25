@@ -4,6 +4,7 @@ import Kingfisher
 class GameScreenViewController: UIViewController {
     
     //@IBOutlet weak var segmentedControlGame: UISegmentedControl!
+    @IBOutlet weak var viewCurrency: UIView!
     @IBOutlet weak var labelScreenTitle: UILabel!
     @IBOutlet weak var labelTotalPoints: UILabel!
     @IBOutlet weak var buttonUserProfile: UIButton!
@@ -25,6 +26,7 @@ class GameScreenViewController: UIViewController {
         // setupSegmentedControl()
         labelScreenTitle.sizeToFit()
         
+        self.viewCurrency.layer.cornerRadius = self.viewCurrency.frame.height / 2
         self.buttonUserProfile.layer.cornerRadius = self.buttonUserProfile.frame.height / 2
         self.buttonUserProfile.clipsToBounds = true
         

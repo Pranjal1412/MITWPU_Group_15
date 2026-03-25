@@ -3,6 +3,7 @@ import Kingfisher
 
 class ActivityScreenViewController: UIViewController {
     
+    @IBOutlet weak var viewCurrency: UIView!
     @IBOutlet weak var tableViewMyActivity: UITableView!
     @IBOutlet weak var labelRecentActivities: UILabel!
     @IBOutlet weak var segmentedControlActivityScreen: UISegmentedControl!
@@ -58,6 +59,8 @@ class ActivityScreenViewController: UIViewController {
         self.profileImage.layer.cornerRadius = self.profileImage.frame.height / 2
         self.profileImage.clipsToBounds = true
 
+        self.viewCurrency.layer.cornerRadius = self.viewCurrency.frame.height / 2
+        
         self.buttonUserProfile.clipsToBounds = true
     }
     

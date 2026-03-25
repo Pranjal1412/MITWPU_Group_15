@@ -10,6 +10,7 @@ import Kingfisher
 
 class ClubScreenViewController: UIViewController {
 
+    @IBOutlet weak var viewCurrency: UIView!
     @IBOutlet weak var segmentControlClubScreen: UISegmentedControl!
     @IBOutlet weak var searchBarFriendsScreen: UISearchBar!
     @IBOutlet weak var collectionViewExplore: UICollectionView!
@@ -58,7 +59,7 @@ class ClubScreenViewController: UIViewController {
         
         self.profileImage.layer.cornerRadius = self.profileImage.frame.height / 2
         self.profileImage.clipsToBounds = true
-
+        self.viewCurrency.layer.cornerRadius = self.viewCurrency.frame.height / 2
         self.buttonUserProfile.clipsToBounds = true
     }
     

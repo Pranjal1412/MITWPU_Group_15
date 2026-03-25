@@ -4,6 +4,7 @@ import Kingfisher
 
 class InsightsScreenViewController: UIViewController {
 
+    @IBOutlet weak var viewCurrency: UIView!
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var labelStreak: UILabel!
     @IBOutlet weak var labelTotalPoints: UILabel!
@@ -50,7 +51,8 @@ class InsightsScreenViewController: UIViewController {
         
         self.profileImage.layer.cornerRadius = self.profileImage.frame.height / 2
         self.profileImage.clipsToBounds = true
-        buttonUserProfile.clipsToBounds = true
+        self.buttonUserProfile.clipsToBounds = true
+        self.viewCurrency.layer.cornerRadius = self.viewCurrency.frame.height / 2
     }
 
     override func viewWillAppear(_ animated: Bool) {

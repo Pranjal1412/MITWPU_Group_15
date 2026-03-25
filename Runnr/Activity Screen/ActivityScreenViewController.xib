@@ -29,6 +29,7 @@
                 <outlet property="tableViewFriendsActivity" destination="GYY-As-FBA" id="5UJ-Qy-Hpk"/>
                 <outlet property="tableViewMyActivity" destination="O8E-oM-G2U" id="mxW-yk-rqL"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="JpQ-UD-ulq"/>
+                <outlet property="viewCurrency" destination="c6E-ZF-vnQ" id="tKh-gR-Fvh"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -113,6 +114,20 @@
                         <action selector="profileButtonPressed:" destination="-1" eventType="touchUpInside" id="ne4-Dm-dG7"/>
                     </connections>
                 </button>
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="c6E-ZF-vnQ">
+                    <rect key="frame" x="262" y="100" width="20" height="20"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="R" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bWC-ZB-a2e">
+                            <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" name="AccentColor"/>
+                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>

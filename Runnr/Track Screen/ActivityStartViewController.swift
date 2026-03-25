@@ -11,6 +11,7 @@ import Kingfisher
 
 class ActivityStartViewController: UIViewController {
     
+    @IBOutlet weak var viewCurrency: UIView!
     @IBOutlet weak var labelScreenTitle: UILabel!
     @IBOutlet weak var labelTotalPoints: UILabel!
     @IBOutlet weak var buttonStart: UIButton!
@@ -43,6 +44,7 @@ class ActivityStartViewController: UIViewController {
         self.profileImage.layer.cornerRadius = self.profileImage.frame.height / 2
         self.profileImage.clipsToBounds = true
         self.buttonUserProfile.clipsToBounds = true
+        self.viewCurrency.layer.cornerRadius = self.viewCurrency.frame.height / 2
     }
 
     override func viewWillAppear(_ animated: Bool) {
