@@ -75,7 +75,6 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
             }
             
             cell.labelMessage.text = "Challenge accepted!"
-            cell.stackViewButtons.isHidden = true
         }
         
         cell.onDecline = { [weak self] in
@@ -89,7 +88,7 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 122
+        return UITableView.automaticDimension
     }
 }
 

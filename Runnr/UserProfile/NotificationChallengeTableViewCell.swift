@@ -10,17 +10,25 @@ import UIKit
 class NotificationChallengeTableViewCell: UITableViewCell {
 
     @IBOutlet weak var labelMessage: UILabel!
-    @IBOutlet weak var stackViewButtons: UIStackView!
     @IBOutlet weak var buttonAccept: UIButton!
     @IBOutlet weak var buttonDecline: UIButton!
+    @IBOutlet weak var viewNotificationBackground: UIView!
+    @IBOutlet weak var imageviewGameIcon: UIImageView!
+    @IBOutlet weak var labelNotificationHeading: UILabel!
     
     var onAccept: (() -> Void)?
     var onDecline: (() -> Void)?
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        buttonAccept.layer.cornerRadius = buttonAccept.frame.height / 2
-        buttonDecline.layer.cornerRadius = buttonDecline.frame.height / 2
+        self.buttonAccept.layer.cornerRadius = buttonAccept.frame.height / 2
+        self.buttonDecline.layer.cornerRadius = buttonDecline.frame.height / 2
+        self.imageviewGameIcon.layer.cornerRadius = self.imageviewGameIcon.frame.height / 2
+        self.imageviewGameIcon.layer.borderColor = UIColor.accent.cgColor
+        self.imageviewGameIcon.layer.borderWidth = 0.5
+        self.viewNotificationBackground.layer.cornerRadius = 15
+        self.viewNotificationBackground.layer.borderColor = UIColor(named: "outlineColor")?.cgColor
+        self.viewNotificationBackground.layer.borderWidth = 1
         
     }
 
