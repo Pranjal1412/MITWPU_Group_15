@@ -74,7 +74,6 @@ class GraphManager: ObservableObject {
         defer { isLoading = false }
         
         do {
-            // Fetch and store raw data
             if let weekly = try await fetchSummary(userID: userID, period: .weekly, referenceDate: referenceDate) {
                 self.weeklyData = weekly
             }
@@ -90,5 +89,7 @@ class GraphManager: ObservableObject {
         } catch {
             print("Error loading store: \(error)")
         }
+        
+        self.objectWillChange.send()
     }
 }
