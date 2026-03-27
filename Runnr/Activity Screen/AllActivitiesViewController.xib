@@ -15,6 +15,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AllActivitiesViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
+                <outlet property="buttonCalendar" destination="Qt3-ob-unr" id="4qh-nG-B6g"/>
                 <outlet property="tableViewMyActivity" destination="pvh-2Y-Dpa" id="HwP-yw-POC"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -37,6 +38,17 @@
                     <rect key="frame" x="10" y="188" width="382" height="645"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qt3-ob-unr">
+                    <rect key="frame" x="330" y="136" width="40" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" image="calendar" catalog="system">
+                        <color key="baseForegroundColor" name="AccentColor"/>
+                    </buttonConfiguration>
+                    <connections>
+                        <action selector="buttonCalendarTapped:" destination="-1" eventType="touchUpInside" id="rKw-Ov-AY3"/>
+                    </connections>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -53,6 +65,10 @@
         </view>
     </objects>
     <resources>
+        <image name="calendar" catalog="system" width="128" height="107"/>
+        <namedColor name="AccentColor">
+            <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

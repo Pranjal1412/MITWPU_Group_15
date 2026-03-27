@@ -3,12 +3,20 @@ import UIKit
 class AllActivitiesViewController: UIViewController {
     
     @IBOutlet weak var tableViewMyActivity: UITableView!
-
+    @IBOutlet weak var buttonCalendar: UIButton!
+    
     let label = UILabel()
     
     var dataSource = DataSource.shared
+    var selectedFilterDate: Date? = nil
     var myActivity: [ActivityDetails] {
-        dataSource.getAllActivities()
+        guard let date = selectedFilterDate else {
+            return dataSource.getAllActivities()
+        }
+        return dataSource.getAllActivities().filter {
+            guard let activityDate = $0.activity?.activityStartTime else { return false } // ← replace .date with your actual property
+            return Calendar.current.isDate(activityDate, inSameDayAs: date)
+        }
     }
     
     override func viewDidLoad() {
@@ -41,9 +49,24 @@ class AllActivitiesViewController: UIViewController {
         completeText.append(thinText)
         completeText.append(boldText)
         label.attributedText = completeText
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            label.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
     }
     
+    @IBAction func buttonCalendarTapped(_ sender: UIButton) {
+        let calendarVC = CalendarViewController()
+        calendarVC.modalPresentationStyle = .overFullScreen
+        calendarVC.modalTransitionStyle = .crossDissolve
+        calendarVC.delegate = self
+        present(calendarVC, animated: false)
+    }
 }
 
 //MARK: - TableView Settings
@@ -113,11 +136,43 @@ extension AllActivitiesViewController : UITableViewDelegate, UITableViewDataSour
         
         if myActivity.isEmpty {
             label.isHidden = false
-        }
-        else {
+            
+            let thinFont = UIFont(name: "SFProText-Thin", size: 22) ?? UIFont.systemFont(ofSize: 22, weight: .thin)
+            let boldFont = UIFont(name: "SFProText-Bold", size: 22) ?? UIFont.boldSystemFont(ofSize: 22)
+            
+            if selectedFilterDate != nil {
+                // Filtered state - no results for that date
+                let line1 = NSMutableAttributedString(string: "No activities recorded\n", attributes: [.font: thinFont, .foregroundColor: UIColor.lightGray])
+                let line2thin = NSAttributedString(string: "on ", attributes: [.font: thinFont, .foregroundColor: UIColor.lightGray])
+                let line2bold = NSAttributedString(string: "selected date", attributes: [.font: thinFont, .foregroundColor: UIColor.lightGray])
+                line1.append(line2thin)
+                line1.append(line2bold)
+                label.attributedText = line1
+            } else {
+                // No activities at all
+                let thinText = NSAttributedString(string: "No ", attributes: [.font: thinFont, .foregroundColor: UIColor.lightGray])
+                let boldText = NSAttributedString(string: "Activities", attributes: [.font: boldFont, .foregroundColor: UIColor.lightGray])
+                let completeText = NSMutableAttributedString()
+                completeText.append(thinText)
+                completeText.append(boldText)
+                label.attributedText = completeText
+            }
+        } else {
             label.isHidden = true
         }
-        
+    }
+}
+
+extension AllActivitiesViewController: CalendarViewControllerDelegate {
+    
+    func didSelectDate(_ date: Date) {
+        selectedFilterDate = date
+        updateScreenElements()
+    }
+    
+    func didClearFilter() {
+        selectedFilterDate = nil
+        updateScreenElements()
     }
 }
 
