@@ -26,6 +26,12 @@ class ClubScreenViewController: UIViewController {
     
     let systemOS = UIDevice.current.systemVersion
     
+    var filteredFriends: [UserProfile] = []
+    var filteredClubs: [Club] = []
+    var filteredMyClubs: [ClubRoleAndData] = []
+    var isSearchingMyClubs = false
+    var isSearchingFriends = false
+    var isSearchingClubs = false
     var dataSource = DataSource.shared
     var userProfile = DataSource.shared.getUserProfile()
 
@@ -51,6 +57,7 @@ class ClubScreenViewController: UIViewController {
         settingCollectionView()
         settingAttributedText()
         
+        searchBarFriendsScreen.delegate = self
         tableViewFriends.dataSource = self
         tableViewFriends.delegate = self
         tableViewFriends.register(UINib(nibName: "FriendListTableViewCell", bundle: nil), forCellReuseIdentifier: "CustomCell")
@@ -128,7 +135,9 @@ class ClubScreenViewController: UIViewController {
             collectionViewJoinedClub.isHidden = true
            
             buttonAddMoreClubs.isHidden = true
-         case 2:
+        case 2:
+            searchBarFriendsScreen.isHidden = false
+            searchBarFriendsScreen.placeholder = "Search your clubs"
             if myClubArray.isEmpty {
                 buttonCreateClub.isHidden = false
                 labelCreateyourOwnClub.isHidden = false
@@ -261,29 +270,25 @@ extension ClubScreenViewController : UICollectionViewDataSource, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == collectionViewExplore {
-                   return clubsArray.count
-               } else if collectionView == collectionViewJoinedClub {
-                   return myClubArray.count
-               }
-               return 0
-           }
-    
+            return isSearchingClubs ? filteredClubs.count : clubsArray.count
+        } else if collectionView == collectionViewJoinedClub {
+            return isSearchingMyClubs ? filteredMyClubs.count : myClubArray.count  // ← updated
+        }
+        return 0
+    }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         if collectionView == collectionViewExplore {
-            let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ExploreScreenCollectionViewCell
-            cell.configureCell(with: clubsArray[indexPath.row])
-            
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ExploreScreenCollectionViewCell
+            let club = isSearchingClubs ? filteredClubs[indexPath.row] : clubsArray[indexPath.row]
+            cell.configureCell(with: club)
+            return cell
+        } else {
+            let cell = collectionViewJoinedClub.dequeueReusableCell(withReuseIdentifier: "JoinedClubsCollectionViewCell", for: indexPath) as! JoinedClubsCollectionViewCell
+            let myClub = isSearchingMyClubs ? filteredMyClubs[indexPath.row] : myClubArray[indexPath.row]  // ← updated
+            cell.configureCell(with: myClub)
             return cell
         }
-        else {
-            let cell =  collectionViewJoinedClub.dequeueReusableCell(withReuseIdentifier: "JoinedClubsCollectionViewCell", for: indexPath) as! JoinedClubsCollectionViewCell
-            cell.configureCell(with: myClubArray[indexPath.row])
-            
-            return cell
-        }
-
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -316,16 +321,17 @@ extension ClubScreenViewController : UICollectionViewDataSource, UICollectionVie
         let destinationVC = ClubProfileViewController()
         let navigationController = UINavigationController(rootViewController: destinationVC)
         navigationController.isNavigationBarHidden = true
-        
-        if collectionView == collectionViewExplore {
-            destinationVC.clubProfileData = clubsArray[indexPath.row]
-            destinationVC.isMyClub = false
 
+        if collectionView == collectionViewExplore {
+            let club = isSearchingClubs ? filteredClubs[indexPath.row] : clubsArray[indexPath.row]
+            destinationVC.clubProfileData = club
+            destinationVC.isMyClub = false
         } else {
-            destinationVC.myClubProfileData = myClubArray[indexPath.row]
+            let myClub = isSearchingMyClubs ? filteredMyClubs[indexPath.row] : myClubArray[indexPath.row]
+            destinationVC.myClubProfileData = myClub
             destinationVC.isMyClub = true
         }
-       
+
         navigationController.modalPresentationStyle = .fullScreen
         self.present(navigationController, animated: true)
     }
@@ -334,46 +340,94 @@ extension ClubScreenViewController : UICollectionViewDataSource, UICollectionVie
 
 // MARK: - TableView Settings
 
-extension ClubScreenViewController : UITableViewDataSource, UITableViewDelegate {
+extension ClubScreenViewController: UITableViewDataSource, UITableViewDelegate {
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return min(unfollowedUserData.count, 10)
+        let source = isSearchingFriends ? filteredFriends : Array(unfollowedUserData.prefix(10))
+        return source.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+        let source = isSearchingFriends ? filteredFriends : Array(unfollowedUserData.prefix(10))
         let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! FriendListTableViewCell
-
-        cell.configureCell(with: unfollowedUserData[indexPath.row])
+        cell.configureCell(with: source[indexPath.row])
         cell.followAction = { isFollowing in
-            
             if isFollowing {
-                let alert = UIAlertController(
-                    title: "Unfollow",
-                    message: "Are you sure you want to unfollow this user?",
-                    preferredStyle: .alert
-                )
-
+                let alert = UIAlertController(title: "Unfollow", message: "Are you sure you want to unfollow this user?", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-                
-                alert.addAction(UIAlertAction(title: "Unfollow", style: .destructive) { _ in
-                    // perform unfollow
-                })
-
+                alert.addAction(UIAlertAction(title: "Unfollow", style: .destructive) { _ in })
                 self.present(alert, animated: true)
-                
             }
             tableView.reloadRows(at: [indexPath], with: .none)
         }
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
-//        let destinationVC = UserProfileViewController()
-//        destinationVC.isFromFriendsScreen = true
-//        destinationVC.friendData = unfollowedUserData[indexPath.row]
-//        destinationVC.modalPresentationStyle = .fullScreen
-//        self.present(destinationVC, animated: true, completion: nil)
+    }
+}
+
+// MARK: - SearchBar Delegate
+
+extension ClubScreenViewController: UISearchBarDelegate {
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        let query = searchText.lowercased().trimmingCharacters(in: .whitespaces)
+
+        // Segment 0 = Friends
+        if segmentControlClubScreen.selectedSegmentIndex == 0 {
+            if query.isEmpty {
+                isSearchingFriends = false
+                filteredFriends = []
+            } else {
+                isSearchingFriends = true
+                filteredFriends = unfollowedUserData.filter {
+                    $0.userName?.lowercased().contains(query) ?? false
+                }
+            }
+            tableViewFriends.reloadData()
+        }
+
+        // Segment 1 = Explore Clubs
+        if segmentControlClubScreen.selectedSegmentIndex == 1 {
+            if query.isEmpty {
+                isSearchingClubs = false
+                filteredClubs = []
+            } else {
+                isSearchingClubs = true
+                filteredClubs = clubsArray.filter {
+                    $0.clubName.lowercased().contains(query)
+                }
+            }
+            collectionViewExplore.reloadData()
+        }
+        if segmentControlClubScreen.selectedSegmentIndex == 2 {
+            if query.isEmpty {
+                isSearchingMyClubs = false
+                filteredMyClubs = []
+            } else {
+                isSearchingMyClubs = true
+                filteredMyClubs = myClubArray.filter {
+                    $0.club.clubName.lowercased().contains(query)
+                }
+            }
+            collectionViewJoinedClub.reloadData()
+        }
+    }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
+        isSearchingFriends = false
+        isSearchingClubs = false
+        filteredFriends = []
+        filteredClubs = []
+        tableViewFriends.reloadData()
+        collectionViewExplore.reloadData()
+    }
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
 }
