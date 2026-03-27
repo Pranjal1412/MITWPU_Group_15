@@ -8,6 +8,7 @@ class GameScreenViewController: UIViewController {
     @IBOutlet weak var labelScreenTitle: UILabel!
     @IBOutlet weak var labelTotalPoints: UILabel!
     @IBOutlet weak var buttonUserProfile: UIButton!
+    @IBOutlet weak var buttonInfo: UIButton!
     @IBOutlet weak var collectionViewChallenges: UICollectionView!
     @IBOutlet weak var profileImage: UIImageView!
     
@@ -85,6 +86,12 @@ class GameScreenViewController: UIViewController {
         let destinationVC = UserProfileViewController()
         destinationVC.modalPresentationStyle = .fullScreen
         self.present(destinationVC, animated: true)
+    }
+    @IBAction func buttonInfoPressed(_ sender: Any) {
+        let vc = GameDescriptionViewController(nibName: "GameDescriptionViewController", bundle: nil)
+        vc.modalPresentationStyle = .overFullScreen
+        vc.modalTransitionStyle = .crossDissolve
+        present(vc, animated: true)
     }
 }
 
