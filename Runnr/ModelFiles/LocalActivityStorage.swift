@@ -9,7 +9,7 @@ import Foundation
 
 struct LocalActivity: Codable {
     var activity: UserActivity
-    var coordinates: [ActivityRouteCoordinates]
+//    var coordinates: [ActivityRouteCoordinates]
     var paceData: [ActivityPaceGraphData]
 }
 

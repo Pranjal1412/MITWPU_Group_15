@@ -10,6 +10,7 @@ import GoogleMaps
 import CoreMotion
 import AVFoundation
 import Lottie
+import Polyline
 
 class ActivityLiveTrackingViewController: UIViewController {
     
@@ -252,11 +253,18 @@ class ActivityLiveTrackingViewController: UIViewController {
         self.activityManager.totalSteps = local.activity.stepsTaken ?? 0
         self.activityManager.paceGraphData = local.paceData
         
-        for coord in local.coordinates {
-            let coordinate = CLLocationCoordinate2D(latitude: coord.latitude, longitude: coord.longitude)
-            self.mapManager.path.add(coordinate)
+//        for coord in local.coordinates {
+//            let coordinate = CLLocationCoordinate2D(latitude: coord.latitude, longitude: coord.longitude)
+//            self.mapManager.path.add(coordinate)
+//        }
+        if let decodedPath = GMSPath(fromEncodedPath: local.activity.mapCoordinatesPolyline!),
+           let mutablePath = decodedPath.mutableCopy() as? GMSMutablePath {
+            mapManager.path = mutablePath
+            mapManager.routeLine.path = mutablePath
+            mapManager.setRouteLineStyle()
         }
-        self.mapManager.routeLine.path = self.mapManager.path
+
+//        self.mapManager.routeLine.path = self.mapManager.path
         
         let elapsed = local.activity.timeTakenSeconds ?? 0
         self.activityManager.restoreTime(seconds: elapsed)
@@ -301,8 +309,8 @@ class ActivityLiveTrackingViewController: UIViewController {
             let path = self.mapManager.path
             let healthKit = self.healthKitManager
             let datasource = self.datasource
-            let estimatedCalories = self.activityManager.estimatedCalories(activityType: self.activityTypeSelected ?? .running) 
-        
+            let estimatedCalories = self.activityManager.estimatedCalories(activityType: self.activityTypeSelected ?? .running)
+            
             var activityDetails = UserActivity(
                 userID: self.userProfile.userID,
                 activityStartTime: self.activityStartTime ?? Date(),
@@ -322,7 +330,8 @@ class ActivityLiveTrackingViewController: UIViewController {
                 mapImageURL: "",
                 basePoints: self.activityManager.basePointsEarned(),
                 skillPoints: self.activityManager.skillPointsEarned(),
-                elevation: self.activityManager.getTotalElevation()
+                elevation: self.activityManager.getTotalElevation(),
+                mapCoordinatesPolyline: self.convertToPolylineString(path: path)
             )
             
             // Use the pre-captured nav reference — no longer depends on self.navigationController
@@ -352,27 +361,27 @@ class ActivityLiveTrackingViewController: UIViewController {
                         await updateUserActivity(newActivity: activityDetails)
                     }
                     
-                    var routeCoordinates: [ActivityRouteCoordinates] = []
-                    for i in 0..<path.count() {
-                        let coordinate = path.coordinate(at: i)
-                        routeCoordinates.append(
-                            ActivityRouteCoordinates(
-                                activityID: activityID,
-                                latitude: coordinate.latitude,
-                                longitude: coordinate.longitude,
-                                sequence: Int(i)
-                            )
-                        )
-                    }
-                    
+//                    var routeCoordinates: [ActivityRouteCoordinates] = []
+//                    for i in 0..<path.count() {
+//                        let coordinate = path.coordinate(at: i)
+//                        routeCoordinates.append(
+//                            ActivityRouteCoordinates(
+//                                activityID: activityID,
+//                                latitude: coordinate.latitude,
+//                                longitude: coordinate.longitude,
+//                                sequence: Int(i)
+//                            )
+//                        )
+//                    }
+                                    
                     var updatedPaceData = paceGraphData
                     for i in 0..<updatedPaceData.count {
                         updatedPaceData[i].activityID = activityID
                     }
                     
                     await insertActivityPaceGraphData(updatedPaceData)
-                    await insertActivityRouteCoordinates(routeCoordinates)
-                    datasource.setCurrentActivityCoordinates(routeCoordinates)
+//                    await insertActivityRouteCoordinates(routeCoordinates)
+//                    datasource.setCurrentActivityCoordinates(routeCoordinates)
                 }
                 
                 await MainActor.run {
@@ -426,20 +435,20 @@ class ActivityLiveTrackingViewController: UIViewController {
         counter -= 1
     }
         
-    func convertGMSMutablePathAndInsert(_ path: GMSMutablePath, activityID: UUID) async {
-
-        var routeCoordinates: [ActivityRouteCoordinates] = []
-
-        for i in 0..<path.count() {
-            let coordinate = path.coordinate(at: i)
-
-            routeCoordinates.append(
-                ActivityRouteCoordinates(activityID: activityID, latitude: coordinate.latitude, longitude: coordinate.longitude, sequence: Int(i)))
-        }
-
-        await insertActivityRouteCoordinates(routeCoordinates)
-        self.datasource.setCurrentActivityCoordinates(routeCoordinates)
-    }
+//    func convertGMSMutablePathAndInsert(_ path: GMSMutablePath, activityID: UUID) async {
+//
+//        var routeCoordinates: [ActivityRouteCoordinates] = []
+//
+//        for i in 0..<path.count() {
+//            let coordinate = path.coordinate(at: i)
+//
+//            routeCoordinates.append(
+//                ActivityRouteCoordinates(activityID: activityID, latitude: coordinate.latitude, longitude: coordinate.longitude, sequence: Int(i)))
+//        }
+//
+//        await insertActivityRouteCoordinates(routeCoordinates)
+//        self.datasource.setCurrentActivityCoordinates(routeCoordinates)
+//    }
     
     @objc func appWillTerminate() {
         guard isRunActive else { return }
@@ -480,21 +489,22 @@ class ActivityLiveTrackingViewController: UIViewController {
             basePoints: self.activityManager.basePointsEarned(),
             skillPoints: self.activityManager.skillPointsEarned(),
             
-            elevation: self.activityManager.getTotalElevation()
+            elevation: self.activityManager.getTotalElevation(),
+            mapCoordinatesPolyline: self.convertToPolylineString(path: self.mapManager.path)
         )
         
-        var coords: [ActivityRouteCoordinates] = []
+//        var coords: [ActivityRouteCoordinates] = []
+//        
+//        for i in 0..<self.mapManager.path.count() {
+//            let c = self.mapManager.path.coordinate(at: i)
+//            coords.append(ActivityRouteCoordinates(activityID: nil, latitude: c.latitude, longitude: c.longitude, sequence: Int(i)))
+//        }
         
-        for i in 0..<self.mapManager.path.count() {
-            let c = self.mapManager.path.coordinate(at: i)
-            coords.append(ActivityRouteCoordinates(activityID: nil, latitude: c.latitude, longitude: c.longitude, sequence: Int(i)))
-        }
-        
-        let local = LocalActivity(activity: activity, coordinates: coords, paceData: self.activityManager.paceGraphData)
+        let local = LocalActivity(activity: activity, paceData: self.activityManager.paceGraphData)
         
         do {
             LocalActivityStorage.shared.save(local)
-            print("Activity saved locally | points: \(coords.count)")
+            print("Activity saved locally")
         } catch {
             print("FAILED TO ENCODE LOCAL ACTIVITY:", error)
         }
@@ -694,6 +704,19 @@ extension ActivityLiveTrackingViewController {
         self.leftGradientView.frame.origin.x = 0
         addLeadingToTrailingGradient(to: self.leftGradientView)
         self.viewActivityTrack.addSubview(self.leftGradientView)
+    }
+    
+    func convertToPolylineString(path: GMSMutablePath) -> String {
+        var coords: [CLLocationCoordinate2D] = []
+
+        for i in 0..<path.count() {
+            coords.append(path.coordinate(at: i))
+        }
+        // converts CLLocationCoordinate2D into a Encoded polyline string
+        let polylineString = Polyline(coordinates: coords).encodedPolyline
+        print(polylineString)
+        
+        return polylineString
     }
 }
 

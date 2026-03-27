@@ -29,6 +29,7 @@ struct UserActivity: Codable {
     var skillPoints: Int?
     
     var elevation: Double?
+    var mapCoordinatesPolyline: String?
 }
 
 struct ActivityDetails: Codable {

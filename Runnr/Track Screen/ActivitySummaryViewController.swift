@@ -46,23 +46,23 @@ class ActivitySummaryViewController: UIViewController {
                 mapView.settings.rotateGestures = true
                 
                 Task {
-                    let CLcoordinates = self.convertToCLLocationCoordinate2D(for: self.routeCoordinates)
-                    
-                    mapManager.path = self.convertCoordinatesToGMSMutablePath(from: CLcoordinates)
-                    mapManager.routeLine.path = mapManager.path
-                    mapManager.setRouteLineStyle()
+                    if let decodedPath = GMSPath(fromEncodedPath: self.activityData!.activity!.mapCoordinatesPolyline!),
+                       let mutablePath = decodedPath.mutableCopy() as? GMSMutablePath {
+                        mapManager.path = mutablePath
+                        mapManager.routeLine.path = mutablePath
+                        mapManager.setRouteLineStyle()
+                    }
                     
     //                GMSCoordinateBounds() consider like it creates an imaginary rectangle such that it covers every coordinate
     //                the list of coordinates are being set using bounds = bounds.includingCoordinate(coordinate)
-                    var bounds = GMSCoordinateBounds()
-    //                to pass the entire track you need to loop through it
-                    CLcoordinates.forEach { coordinate in
-                        bounds = bounds.includingCoordinate(coordinate)
+                    if let path = GMSPath(fromEncodedPath: self.activityData!.activity!.mapCoordinatesPolyline!) {
+                        
+                        var bounds = GMSCoordinateBounds()
+                        for i in 0..<path.count() {
+                            bounds = bounds.includingCoordinate(path.coordinate(at: i))
+                        }
+                        mapView.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 70))
                     }
-                    
-    //                here we are now adjusting map such that it cover the entire track
-                    mapView.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 70))
-
                 }
                 
                 self.topGradientView.frame.size.height = 100
@@ -74,7 +74,6 @@ class ActivitySummaryViewController: UIViewController {
                 self.view.addSubview(mapView)
                 self.view.addSubview(self.topGradientView)
 
-//                self.view.bringSubviewToFront(self.buttonShowAnalysis)
                 self.userLocation.locationManager.stopUpdatingLocation()
                 self.isMapInitialized = true
             }
@@ -84,28 +83,6 @@ class ActivitySummaryViewController: UIViewController {
 
     
     @IBAction func cancelButtonPressed(_ sender: Any) {
-                self.dismiss(animated: true)
-            }
-
-    func convertToCLLocationCoordinate2D(for coordinates: [ActivityRouteCoordinates]) -> [CLLocationCoordinate2D] {
-                
-        var coordinates: [CLLocationCoordinate2D] = []
-        for coordinate in routeCoordinates {
-            let gmsCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
-            coordinates.append(gmsCoordinate)
-        }
-        
-        return coordinates
+        self.dismiss(animated: true)
     }
-    
-    func convertCoordinatesToGMSMutablePath(from coordinates: [CLLocationCoordinate2D]) -> GMSMutablePath {
-        let path = GMSMutablePath()
-        
-        for coordinate in coordinates {
-            path.add(coordinate)
-        }
-        
-        return path
-    }
-
 }
