@@ -22,10 +22,10 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5SV-PA-O1z" userLabel="Cancel">
-                    <rect key="frame" x="30" y="50" width="45" height="45"/>
+                    <rect key="frame" x="15" y="50" width="45" height="45"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="45" id="5h2-fh-T0f"/>
-                        <constraint firstAttribute="width" constant="45" id="NX4-mB-x0B"/>
+                        <constraint firstAttribute="width" constant="45" id="9Mn-8d-sAr"/>
+                        <constraint firstAttribute="height" constant="45" id="cOP-UU-H25"/>
                     </constraints>
                     <color key="tintColor" name="AccentColor"/>
                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -35,19 +35,11 @@
                     </connections>
                 </button>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="pIc-tF-sFG">
-                    <rect key="frame" x="0.0" y="133" width="393" height="719"/>
+                    <rect key="frame" x="15" y="130" width="363" height="707"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="719" id="3Lr-5t-cQL"/>
-                        <constraint firstAttribute="width" constant="393" id="GL7-C8-agV"/>
-                    </constraints>
                 </tableView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notification Center " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eIg-2n-BHa">
-                    <rect key="frame" x="86" y="50" width="220" height="45"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="45" id="HNE-bM-oaI"/>
-                        <constraint firstAttribute="width" constant="220" id="IM3-el-G9X"/>
-                    </constraints>
+                    <rect key="frame" x="86.666666666666686" y="55" width="220" height="30"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="25"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -56,17 +48,17 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="pIc-tF-sFG" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="19p-Q6-8YV"/>
-                <constraint firstItem="5SV-PA-O1z" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="30" id="4FA-bg-60a"/>
-                <constraint firstItem="eIg-2n-BHa" firstAttribute="leading" secondItem="5SV-PA-O1z" secondAttribute="trailing" constant="11" id="8q0-DZ-tnw"/>
-                <constraint firstItem="pIc-tF-sFG" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="KXt-Eq-vT7"/>
-                <constraint firstItem="eIg-2n-BHa" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="50" id="PfT-kv-Ib3"/>
-                <constraint firstItem="5SV-PA-O1z" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="50" id="cbW-qT-dfI"/>
-                <constraint firstAttribute="bottom" secondItem="pIc-tF-sFG" secondAttribute="bottom" id="pXs-Oe-ejk"/>
-                <constraint firstItem="pIc-tF-sFG" firstAttribute="top" secondItem="eIg-2n-BHa" secondAttribute="bottom" constant="38" id="uar-aJ-yiZ"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="pIc-tF-sFG" secondAttribute="trailing" constant="15" id="0SU-Ue-lka"/>
+                <constraint firstItem="5SV-PA-O1z" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="15" id="4aG-Gb-YIV"/>
+                <constraint firstItem="eIg-2n-BHa" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="55" id="Cyh-rH-ZP1"/>
+                <constraint firstItem="eIg-2n-BHa" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="E3f-IN-bD0"/>
+                <constraint firstItem="pIc-tF-sFG" firstAttribute="top" secondItem="eIg-2n-BHa" secondAttribute="bottom" constant="45" id="RPP-px-DTX"/>
+                <constraint firstAttribute="bottom" secondItem="pIc-tF-sFG" secondAttribute="bottom" constant="15" id="apH-GK-FbP"/>
+                <constraint firstItem="5SV-PA-O1z" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="50" id="lgb-IA-DkU"/>
+                <constraint firstItem="pIc-tF-sFG" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="wXX-cb-NOV"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="338" y="255"/>
+            <point key="canvasLocation" x="336.64122137404581" y="254.92957746478874"/>
         </view>
     </objects>
     <resources>

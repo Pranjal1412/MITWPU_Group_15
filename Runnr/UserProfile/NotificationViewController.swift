@@ -25,7 +25,7 @@ class NotificationViewController: UIViewController {
         
         let nib = UINib(nibName: "NotificationChallengeTableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "NotificationChallengeTableViewCell")
-        
+        tableView.separatorStyle = .none
         loadNotifications()
     }
     
