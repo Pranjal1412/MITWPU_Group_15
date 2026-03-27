@@ -131,7 +131,7 @@ extension InviteFriendViewController: UITableViewDataSource, UITableViewDelegate
                 receiverID: friendID,
                 senderName: senderName,
                 gameID: newGame.gameID,
-                message: "\(senderName) invited you to a Battle Run!",
+                message: "\(senderName) has challenged you to a head-to-head battle. Are you ready?",
                 isRead: false
             )
             await insertBattleInviteNotification(notification)

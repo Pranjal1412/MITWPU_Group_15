@@ -78,3 +78,13 @@ struct BattleInviteNotification: Codable {
     var isRead: Bool
     var createdAt: Date?
 }
+
+struct FollowFriendNotification: Codable {
+    var notificationID: UUID?
+    var senderID: UUID
+    var receiverID: UUID
+    var senderName: String
+    var message: String
+    var isRead: Bool
+    var createdAt: Date?
+}
