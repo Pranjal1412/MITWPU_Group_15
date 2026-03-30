@@ -87,12 +87,7 @@ class GameScreenViewController: UIViewController {
         destinationVC.modalPresentationStyle = .fullScreen
         self.present(destinationVC, animated: true)
     }
-    @IBAction func buttonInfoPressed(_ sender: Any) {
-        let vc = GameDescriptionViewController(nibName: "GameDescriptionViewController", bundle: nil)
-        vc.modalPresentationStyle = .overFullScreen
-        vc.modalTransitionStyle = .crossDissolve
-        present(vc, animated: true)
-    }
+    
 }
 
 extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -172,16 +167,27 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "GameHeaderView", for: indexPath) as! GameSectionHeaderView
         
-        // Update your header config to handle the static 2-section layout
         // Assuming 0 = Seasonal/Battle and 1 = Solo for your header titles
         header.configureHeader(for: 1, tableSection: indexPath.section)
+        header.buttonTapHandler = {
+            let destinationVC = GameDescriptionViewController(nibName: "GameDescriptionViewController", bundle: nil)
+//            destinationVC.modalPresentationStyle = .overFullScreen
+//            destinationVC.modalTransitionStyle = .crossDissolve
+            self.present(destinationVC, animated: true)
+        }
         
         return header
     }
  
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 50)
+        
+        if section == 0 {
+            return CGSize(width: collectionView.frame.width, height: 50)
+        }
+        else {
+            return CGSize(width: collectionView.frame.width, height: 70)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

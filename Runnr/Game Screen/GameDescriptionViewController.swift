@@ -32,18 +32,17 @@ class GameDescriptionViewController: UIViewController {
     @IBOutlet weak var imageView4: UIImageView!
     @IBOutlet weak var label3: UILabel!
     @IBOutlet weak var imageView1: UIImageView!
-
+    @IBOutlet weak var buttonCancel: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
         setupScrollView()
+        setGlassEffect(for: self.buttonCancel, withImage: "multiply")
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        if view.viewWithTag(999) == nil {
-            addDismissButton()
-        }
         setScrollContentSize()
     }
     
@@ -106,45 +105,6 @@ class GameDescriptionViewController: UIViewController {
         view9.layer.borderColor = UIColor.accent.cgColor
     }
 
-    func addDismissButton() {
-        let size: CGFloat = 44
-        let padding: CGFloat = 16
-        let glassButton = UIButton(type: .custom)
-        glassButton.tag = 999
-        glassButton.frame = CGRect(
-            x: padding,                          // top LEFT
-            y: view.safeAreaInsets.top + padding,
-            width: size,
-            height: size
-        )
-        glassButton.layer.cornerRadius = size / 2
-        glassButton.clipsToBounds = true
-
-        let blur = UIBlurEffect(style: .systemUltraThinMaterialDark)
-        let blurView = UIVisualEffectView(effect: blur)
-        blurView.frame = glassButton.bounds
-        blurView.isUserInteractionEnabled = false
-        glassButton.insertSubview(blurView, at: 0)
-
-        let vibrancy = UIVibrancyEffect(blurEffect: blur)
-        let vibrancyView = UIVisualEffectView(effect: vibrancy)
-        vibrancyView.frame = blurView.bounds
-
-        let xLabel = UILabel(frame: vibrancyView.bounds)
-        xLabel.text = "✕"
-        xLabel.textAlignment = .center
-        xLabel.font = UIFont.systemFont(ofSize: 18, weight: .medium)
-        xLabel.textColor = .white
-        vibrancyView.contentView.addSubview(xLabel)
-        blurView.contentView.addSubview(vibrancyView)
-
-        glassButton.layer.borderWidth = 0.5
-        glassButton.layer.borderColor = UIColor.white.withAlphaComponent(0.3).cgColor
-
-        glassButton.addTarget(self, action: #selector(dismissSelf), for: .touchUpInside)
-        view.addSubview(glassButton)
-    }
-
     func makeAttributedString(boldText: String, normalText: String, fontSize: CGFloat = 16) -> NSAttributedString {
         let attributed = NSMutableAttributedString()
 
@@ -170,7 +130,8 @@ class GameDescriptionViewController: UIViewController {
         return attributed
     }
 
-    @objc func dismissSelf() {
-        dismiss(animated: true)
+    @IBAction func buttonCancelTapped(_ sender: UIButton) {
+        self.dismiss(animated: true)
     }
+    
 }

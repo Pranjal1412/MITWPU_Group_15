@@ -10,6 +10,9 @@ import UIKit
 class GameSectionHeaderView: UICollectionReusableView {
 
     @IBOutlet weak var labelSectionHeading: UILabel!
+    @IBOutlet weak var infoButton: UIButton!
+    
+    var buttonTapHandler: (() -> Void)?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -53,10 +56,16 @@ class GameSectionHeaderView: UICollectionReusableView {
         
         if tableSection == 0 {
             labelSectionHeading.attributedText = monthText
+            infoButton.isHidden = false
         }
         else {
             labelSectionHeading.attributedText = newText
+            infoButton.isHidden = true
         }
     }
     
+    @IBAction func gameInfoButtonPressed(_ sender: UIButton) {
+        buttonTapHandler?()
+
+    }
 }
