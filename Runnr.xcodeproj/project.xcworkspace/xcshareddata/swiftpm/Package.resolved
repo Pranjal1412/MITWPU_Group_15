@@ -1,5 +1,5 @@
 {
-  "originHash" : "56600f7b3243276a467cf9c4501859a0e7f8e17b940e33186f719b148c39c6ab",
+  "originHash" : "a8d13852d0d4931e3488e9c34bb2e2969a33cdf08204d4953acc52535615df53",
   "pins" : [
     {
       "identity" : "ios-maps-sdk",
@@ -35,6 +35,15 @@
       "state" : {
         "revision" : "69faaefa7721fba9e434a52c16adf4329c9084db",
         "version" : "4.6.0"
+      }
+    },
+    {
+      "identity" : "polyline",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/raphaelmor/Polyline.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "353f80378dcd8f17eefe8550090c6b1ae3c9da23"
       }
     },
     {

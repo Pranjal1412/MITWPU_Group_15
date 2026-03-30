@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		190B50952F7A2EAB006B54A8 /* Polyline in Frameworks */ = {isa = PBXBuildFile; productRef = 190B50942F7A2EAB006B54A8 /* Polyline */; };
 		199C34232F3F1EF400AF49B3 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 199C34222F3F1EF400AF49B3 /* Kingfisher */; };
 		19DB1F762F2DE362009EDAFD /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = 19DB1F752F2DE362009EDAFD /* Auth */; };
 		19DB1F782F2DE362009EDAFD /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = 19DB1F772F2DE362009EDAFD /* Functions */; };
@@ -76,6 +77,7 @@
 				19DB1F802F2DE362009EDAFD /* Supabase in Frameworks */,
 				19DB1F7C2F2DE362009EDAFD /* Realtime in Frameworks */,
 				19DB1F762F2DE362009EDAFD /* Auth in Frameworks */,
+				190B50952F7A2EAB006B54A8 /* Polyline in Frameworks */,
 				19DB1F7A2F2DE362009EDAFD /* PostgREST in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -146,6 +148,7 @@
 				19DB1F7F2F2DE362009EDAFD /* Supabase */,
 				199C34222F3F1EF400AF49B3 /* Kingfisher */,
 				578598942F6CF300000919B2 /* Lottie */,
+				190B50942F7A2EAB006B54A8 /* Polyline */,
 			);
 			productName = Runnr;
 			productReference = 19FDEE992EEBCC2E00AF027C /* Runnr.app */;
@@ -182,6 +185,7 @@
 				19DB1F742F2DE362009EDAFD /* XCRemoteSwiftPackageReference "supabase-swift" */,
 				199C34212F3F1EF400AF49B3 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				578598932F6CF300000919B2 /* XCRemoteSwiftPackageReference "lottie-spm" */,
+				190B50932F7A2EAB006B54A8 /* XCRemoteSwiftPackageReference "Polyline" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 19217CBC2EA0E064009AFC93;
@@ -462,6 +466,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		190B50932F7A2EAB006B54A8 /* XCRemoteSwiftPackageReference "Polyline" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/raphaelmor/Polyline.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		199C34212F3F1EF400AF49B3 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
@@ -505,6 +517,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		190B50942F7A2EAB006B54A8 /* Polyline */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 190B50932F7A2EAB006B54A8 /* XCRemoteSwiftPackageReference "Polyline" */;
+			productName = Polyline;
+		};
 		199C34222F3F1EF400AF49B3 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 199C34212F3F1EF400AF49B3 /* XCRemoteSwiftPackageReference "Kingfisher" */;
