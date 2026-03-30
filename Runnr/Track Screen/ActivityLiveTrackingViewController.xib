@@ -56,7 +56,7 @@
                     <viewLayoutGuide key="frameLayoutGuide" id="DeU-bN-1C6"/>
                 </scrollView>
                 <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="2" currentPage="1" translatesAutoresizingMaskIntoConstraints="NO" id="6pB-J6-Z0B">
-                    <rect key="frame" x="0.0" y="804" width="402" height="30"/>
+                    <rect key="frame" x="70" y="804" width="262" height="30"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="6JM-FK-6ay"/>
                     </constraints>
@@ -70,12 +70,12 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="6pB-J6-Z0B" secondAttribute="trailing" id="2hW-mE-D9e"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="6pB-J6-Z0B" secondAttribute="trailing" constant="70" id="2hW-mE-D9e"/>
                 <constraint firstItem="j6b-0Z-65B" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="9Xv-rF-G40"/>
                 <constraint firstAttribute="bottom" secondItem="6pB-J6-Z0B" secondAttribute="bottom" constant="40" id="9jP-TK-DX1"/>
                 <constraint firstItem="j6b-0Z-65B" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="IN9-Jg-QcA"/>
                 <constraint firstItem="j6b-0Z-65B" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="MLV-1s-FrE"/>
-                <constraint firstItem="6pB-J6-Z0B" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="S1d-jf-oyD"/>
+                <constraint firstItem="6pB-J6-Z0B" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="70" id="S1d-jf-oyD"/>
                 <constraint firstAttribute="bottom" secondItem="j6b-0Z-65B" secondAttribute="bottom" id="ocI-mT-ZI3"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

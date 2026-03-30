@@ -60,6 +60,7 @@ class ActivityLiveTrackingViewController: UIViewController {
     let topGradientView = UIView()
     let bottomGradientView = UIView()
     let leftGradientView = UIView()
+    let rightGradientView = UIView()
     var activityTypeSelected : ActivityType?
     
     var counter = 3
@@ -111,7 +112,7 @@ class ActivityLiveTrackingViewController: UIViewController {
             
             if self.isMapInitialized == false {
                 
-                let mapView = self.mapManager.initializeMaps(withX: 5, withY: 0, withWidth: self.viewActivityTrack.frame.width - 40.0, withHeight: self.viewActivityTrack.frame.height - 5, location: location.coordinate)
+                let mapView = self.mapManager.initializeMaps(withX: 0, withY: 0, withWidth: self.viewActivityTrack.frame.width, withHeight: self.viewActivityTrack.frame.height, location: location.coordinate)
                 
                 self.mapManager.userLocationMarkerSetting(isEnabled: true)
                 mapView.settings.rotateGestures = true
@@ -434,22 +435,7 @@ class ActivityLiveTrackingViewController: UIViewController {
         
         counter -= 1
     }
-        
-//    func convertGMSMutablePathAndInsert(_ path: GMSMutablePath, activityID: UUID) async {
-//
-//        var routeCoordinates: [ActivityRouteCoordinates] = []
-//
-//        for i in 0..<path.count() {
-//            let coordinate = path.coordinate(at: i)
-//
-//            routeCoordinates.append(
-//                ActivityRouteCoordinates(activityID: activityID, latitude: coordinate.latitude, longitude: coordinate.longitude, sequence: Int(i)))
-//        }
-//
-//        await insertActivityRouteCoordinates(routeCoordinates)
-//        self.datasource.setCurrentActivityCoordinates(routeCoordinates)
-//    }
-    
+            
     @objc func appWillTerminate() {
         guard isRunActive else { return }
         Task { await self.saveActivityLocally() }
@@ -492,14 +478,7 @@ class ActivityLiveTrackingViewController: UIViewController {
             elevation: self.activityManager.getTotalElevation(),
             mapCoordinatesPolyline: self.convertToPolylineString(path: self.mapManager.path)
         )
-        
-//        var coords: [ActivityRouteCoordinates] = []
-//        
-//        for i in 0..<self.mapManager.path.count() {
-//            let c = self.mapManager.path.coordinate(at: i)
-//            coords.append(ActivityRouteCoordinates(activityID: nil, latitude: c.latitude, longitude: c.longitude, sequence: Int(i)))
-//        }
-        
+                
         let local = LocalActivity(activity: activity, paceData: self.activityManager.paceGraphData)
         
         do {
@@ -691,7 +670,7 @@ extension ActivityLiveTrackingViewController {
         addTopGradient(to: self.topGradientView)
         self.viewActivityTrack.addSubview(self.topGradientView)
         
-        self.bottomGradientView.frame.size.height = 10
+        self.bottomGradientView.frame.size.height = 30
         self.bottomGradientView.frame.size.width = self.view.frame.size.width
         self.bottomGradientView.frame.origin.y = view.frame.height - 10
         self.bottomGradientView.frame.origin.x = 0
@@ -699,11 +678,18 @@ extension ActivityLiveTrackingViewController {
         self.viewActivityTrack.addSubview(self.bottomGradientView)
         
         self.leftGradientView.frame.size.height = self.view.frame.size.height
-        self.leftGradientView.frame.size.width = 100
+        self.leftGradientView.frame.size.width = 45
         self.leftGradientView.frame.origin.y = 0
         self.leftGradientView.frame.origin.x = 0
         addLeadingToTrailingGradient(to: self.leftGradientView)
         self.viewActivityTrack.addSubview(self.leftGradientView)
+        
+        self.rightGradientView.frame.size.height = self.view.frame.size.height
+        self.rightGradientView.frame.size.width = 45
+        self.rightGradientView.frame.origin.y = 0
+        self.rightGradientView.frame.origin.x = self.view.frame.size.width - self.leftGradientView.frame.size.width
+        addTrailingToLeadingGradient(to: self.rightGradientView)
+        self.viewActivityTrack.addSubview(self.rightGradientView)
     }
     
     func convertToPolylineString(path: GMSMutablePath) -> String {
@@ -771,7 +757,6 @@ extension ActivityLiveTrackingViewController {
     
     func checkIfGoalSetAndCompleted() {
         
-        // ✅ Safely unwrap distance goal
         guard let distanceGoal = self.distanceGoalSet else {
             return
         }
@@ -833,3 +818,25 @@ extension ActivityLiveTrackingViewController {
     }
 
 }
+
+//        var coords: [ActivityRouteCoordinates] = []
+//
+//        for i in 0..<self.mapManager.path.count() {
+//            let c = self.mapManager.path.coordinate(at: i)
+//            coords.append(ActivityRouteCoordinates(activityID: nil, latitude: c.latitude, longitude: c.longitude, sequence: Int(i)))
+//        }
+
+//    func convertGMSMutablePathAndInsert(_ path: GMSMutablePath, activityID: UUID) async {
+//
+//        var routeCoordinates: [ActivityRouteCoordinates] = []
+//
+//        for i in 0..<path.count() {
+//            let coordinate = path.coordinate(at: i)
+//
+//            routeCoordinates.append(
+//                ActivityRouteCoordinates(activityID: activityID, latitude: coordinate.latitude, longitude: coordinate.longitude, sequence: Int(i)))
+//        }
+//
+//        await insertActivityRouteCoordinates(routeCoordinates)
+//        self.datasource.setCurrentActivityCoordinates(routeCoordinates)
+//    }

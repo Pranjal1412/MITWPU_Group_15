@@ -4,6 +4,7 @@ class FriendListViewController: UIViewController {
 
     @IBOutlet weak var labelTitle: UILabel!
     @IBOutlet weak var tableViewFriends: UITableView!
+    @IBOutlet weak var buttonCancel: UIButton!
     
     var pageTitle: String = "Friends"
     var usersList: [UserProfile] = []
@@ -17,8 +18,7 @@ class FriendListViewController: UIViewController {
         tableViewFriends.dataSource = self
         tableViewFriends.delegate = self
         tableViewFriends.register(UINib(nibName: "FriendListTableViewCell", bundle: nil), forCellReuseIdentifier: "CustomCell")
-        
-        self.view.backgroundColor = .black 
+        setGlassEffect(for: self.buttonCancel, withImage: "multiply")
     }
 
     @IBAction func closeButtonPressed(_ sender: UIButton) {

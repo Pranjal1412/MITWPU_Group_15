@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FriendListViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
+                <outlet property="buttonCancel" destination="uin-Ul-OqL" id="8YB-40-fRv"/>
                 <outlet property="labelTitle" destination="Rtk-4B-r7M" id="cKe-Mh-5vB"/>
                 <outlet property="tableViewFriends" destination="gVb-5s-kK7" id="LhI-M0-N5G"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -22,7 +23,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uin-Ul-OqL" userLabel="Cancel">
-                    <rect key="frame" x="15" y="70" width="45" height="45"/>
+                    <rect key="frame" x="15" y="20" width="45" height="45"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="45" id="7tM-c2-iyO"/>
                         <constraint firstAttribute="height" constant="45" id="PP3-IB-NtS"/>
@@ -38,30 +39,30 @@
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Friends" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rtk-4B-r7M">
-                    <rect key="frame" x="154.33333333333334" y="77.666666666666671" width="84.666666666666657" height="30"/>
+                    <rect key="frame" x="154.33333333333334" y="20" width="84.666666666666657" height="45"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="30" id="t0a-U1-D6c"/>
+                        <constraint firstAttribute="height" constant="45" id="mEw-Sf-zOV"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="25"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="gVb-5s-kK7">
-                    <rect key="frame" x="0.0" y="130" width="393" height="654"/>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="gVb-5s-kK7">
+                    <rect key="frame" x="0.0" y="80" width="393" height="704"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </tableView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <color key="backgroundColor" name="modalBackground"/>
+            <color key="backgroundColor" name="CardLightBlack"/>
             <constraints>
-                <constraint firstItem="Rtk-4B-r7M" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="0a0-00-abc"/>
                 <constraint firstItem="gVb-5s-kK7" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="C10-d0-efA"/>
-                <constraint firstItem="uin-Ul-OqL" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="70" id="D0g-a0-xyZ"/>
+                <constraint firstItem="uin-Ul-OqL" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="D0g-a0-xyZ"/>
                 <constraint firstItem="gVb-5s-kK7" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="D10-f1-ghA"/>
                 <constraint firstItem="uin-Ul-OqL" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="D20-g2-ijK"/>
-                <constraint firstItem="Rtk-4B-r7M" firstAttribute="centerY" secondItem="uin-Ul-OqL" secondAttribute="centerY" id="E2a-b1-cd1"/>
                 <constraint firstItem="gVb-5s-kK7" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="F20-h3-klE"/>
                 <constraint firstItem="gVb-5s-kK7" firstAttribute="top" secondItem="uin-Ul-OqL" secondAttribute="bottom" constant="15" id="G3b-i4-lmN"/>
+                <constraint firstItem="Rtk-4B-r7M" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Ld1-UT-Vwt"/>
+                <constraint firstItem="Rtk-4B-r7M" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="mdT-2O-DQs"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="139.69465648854961" y="19.718309859154932"/>
@@ -73,8 +74,8 @@
         <namedColor name="AccentColor">
             <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="modalBackground">
-            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="CardLightBlack">
+            <color red="0.10199999809265137" green="0.10199999809265137" blue="0.10199999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

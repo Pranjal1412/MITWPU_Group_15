@@ -22,7 +22,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5SV-PA-O1z" userLabel="Cancel">
-                    <rect key="frame" x="15" y="50" width="45" height="45"/>
+                    <rect key="frame" x="15" y="70" width="45" height="45"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="45" id="9Mn-8d-sAr"/>
                         <constraint firstAttribute="height" constant="45" id="cOP-UU-H25"/>
@@ -35,11 +35,14 @@
                     </connections>
                 </button>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="pIc-tF-sFG">
-                    <rect key="frame" x="15" y="130" width="363" height="707"/>
+                    <rect key="frame" x="15" y="160" width="363" height="677"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notification Center " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eIg-2n-BHa">
-                    <rect key="frame" x="86.666666666666686" y="55" width="220" height="30"/>
+                    <rect key="frame" x="86.666666666666686" y="70" width="220" height="45"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="uEk-sv-hdN"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="25"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -50,11 +53,11 @@
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="pIc-tF-sFG" secondAttribute="trailing" constant="15" id="0SU-Ue-lka"/>
                 <constraint firstItem="5SV-PA-O1z" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="15" id="4aG-Gb-YIV"/>
-                <constraint firstItem="eIg-2n-BHa" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="55" id="Cyh-rH-ZP1"/>
+                <constraint firstItem="eIg-2n-BHa" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="70" id="Cyh-rH-ZP1"/>
                 <constraint firstItem="eIg-2n-BHa" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="E3f-IN-bD0"/>
                 <constraint firstItem="pIc-tF-sFG" firstAttribute="top" secondItem="eIg-2n-BHa" secondAttribute="bottom" constant="45" id="RPP-px-DTX"/>
                 <constraint firstAttribute="bottom" secondItem="pIc-tF-sFG" secondAttribute="bottom" constant="15" id="apH-GK-FbP"/>
-                <constraint firstItem="5SV-PA-O1z" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="50" id="lgb-IA-DkU"/>
+                <constraint firstItem="5SV-PA-O1z" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="70" id="lgb-IA-DkU"/>
                 <constraint firstItem="pIc-tF-sFG" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="wXX-cb-NOV"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
