@@ -67,8 +67,13 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
     }
 
     @objc func presentCreatePost() {
-        let vc = CreatePostViewController()
+        let vc = CreateRunEventViewController()
         vc.clubDetails = myClubProfileData?.club
+        vc.modalPresentationStyle = .pageSheet
+        if let sheet = vc.sheetPresentationController {
+            sheet.detents = [.large()]
+            sheet.prefersGrabberVisible = true
+        }
         self.present(vc, animated: true)
     }
 
