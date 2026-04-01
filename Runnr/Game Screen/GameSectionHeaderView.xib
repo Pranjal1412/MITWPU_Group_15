@@ -3,6 +3,7 @@
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -10,22 +11,38 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="GameHeaderView" id="U6b-Vx-4bR" customClass="GameSectionHeaderView" customModule="Runnr" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="152" height="50"/>
+            <rect key="frame" x="0.0" y="0.0" width="311" height="80"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ehp-2H-PSl">
-                    <rect key="frame" x="0.0" y="15" width="152" height="30"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <rect key="frame" x="0.0" y="40" width="269" height="30"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="25"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cIq-By-gqO">
+                    <rect key="frame" x="275" y="40" width="30" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal">
+                        <imageReference key="image" image="info.circle" catalog="system" symbolScale="large"/>
+                    </state>
+                    <connections>
+                        <action selector="gameInfoButtonPressed:" destination="U6b-Vx-4bR" eventType="touchUpInside" id="xWm-vY-TUZ"/>
+                    </connections>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="VXr-Tz-HHm"/>
             <connections>
+                <outlet property="infoButton" destination="cIq-By-gqO" id="Hhy-cy-nwb"/>
                 <outlet property="labelSectionHeading" destination="ehp-2H-PSl" id="Amd-iK-KRD"/>
             </connections>
-            <point key="canvasLocation" x="511.4503816793893" y="185.91549295774649"/>
+            <point key="canvasLocation" x="632.82442748091603" y="185.91549295774649"/>
         </collectionReusableView>
     </objects>
+    <resources>
+        <image name="info.circle" catalog="system" width="128" height="123"/>
+    </resources>
 </document>
