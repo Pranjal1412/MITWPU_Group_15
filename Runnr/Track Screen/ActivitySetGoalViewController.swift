@@ -46,6 +46,10 @@ class ActivitySetGoalViewController: UIViewController {
         
         self.settingScreen()
         self.setupMenu()
+        if let savedActivity = UserDefaults.standard.string(forKey: "lastSelectedActivity") {
+            self.buttonActivity.setTitle(savedActivity, for: .normal)
+            self.buttonActivity.setTitleColor(.accent, for: .normal)
+        }
         self.registerNotifications()
         self.labelAudioFeedback.sizeToFit()
         
@@ -156,24 +160,32 @@ class ActivitySetGoalViewController: UIViewController {
         let walk = UIAction(title: "Walking") { _ in
             self.buttonActivity.setTitle("Walking", for: .normal)
             self.buttonActivity.setTitleColor(.accent, for: .normal)
+            
+            UserDefaults.standard.set("Walking", forKey: "lastSelectedActivity")
 
         }
         
         let run = UIAction(title: "Running") { _ in
             self.buttonActivity.setTitle("Running", for: .normal)
             self.buttonActivity.setTitleColor(.accent, for: .normal)
+            
+            UserDefaults.standard.set("Running", forKey: "lastSelectedActivity")
 
         }
 
         let hike = UIAction(title: "Hiking") { _ in
             self.buttonActivity.setTitle("Hiking", for: .normal)
             self.buttonActivity.setTitleColor(.accent, for: .normal)
+            
+            UserDefaults.standard.set("Hiking", forKey: "lastSelectedActivity")
 
         }
 
         let marathon = UIAction(title: "Marathon") { _ in
             self.buttonActivity.setTitle("Marathon", for: .normal)
             self.buttonActivity.setTitleColor(.accent, for: .normal)
+            
+            UserDefaults.standard.set("Marathon", forKey: "lastSelectedActivity")
 
         }
         
