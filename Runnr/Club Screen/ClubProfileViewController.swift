@@ -17,12 +17,12 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
     @IBOutlet var tableViewLeaderBoard: UITableView!
     @IBOutlet var viewPosts: UIButton!
     @IBOutlet var viewLeaderBoard: UIButton!
-    @IBOutlet var viewTagged: UIButton!
+    //@IBOutlet var viewTagged: UIButton!
     @IBOutlet var buttonBack: UIButton!
     @IBOutlet weak var imageClubBanner: UIImageView!
     @IBOutlet weak var viewPostLine: UIView!
     @IBOutlet weak var viewLeaderboardLine: UIView!
-    @IBOutlet weak var viewTaggedLine: UIView!
+    //@IBOutlet weak var viewTaggedLine: UIView!
     @IBOutlet var leaveClubButton: UIButton!
     @IBOutlet var createNewPostButton: UIButton!
     
@@ -48,15 +48,21 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         buttonBack.layer.cornerRadius = 20
         
         scrollView.contentInsetAdjustmentBehavior = .never
-
-        scrollView.contentSize.height = self.collectionViewPostImages.frame.height + self.collectionViewPostImages.frame.origin.y + 50
         scrollView.showsVerticalScrollIndicator = false
+        
+        showPosts()
         
         self.leaveClubButton.layer.cornerRadius = self.leaveClubButton.frame.height / 2
         
         // Setup Create New Post Button
         createNewPostButton.layer.cornerRadius = createNewPostButton.frame.height / 2
         createNewPostButton.addTarget(self, action: #selector(presentCreatePost), for: .touchUpInside)
+        
+        viewPosts.addTarget(self, action: #selector(postsButtonPressed(_:)), for: .touchUpInside)
+        viewLeaderBoard.addTarget(self, action: #selector(leaderboardButtonPressed(_:)), for: .touchUpInside)
+        
+        viewPostLine.backgroundColor = .accent
+        viewLeaderboardLine.backgroundColor = .white
         
         if isMyClub && myClubProfileData?.role == .owner {
             self.createNewPostButton.isHidden = false
@@ -87,14 +93,9 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
                 allPosts = await fetchAllClubPosts(for: self.clubProfileData!.clubID!) ?? []
             }
             
-            if allPosts.isEmpty {
-                collectionViewPostImages.isHidden = true
-            }
-            else {
-                collectionViewPostImages.isHidden = false
-                collectionViewPostImages.reloadData()
-            }
-
+            collectionViewPostImages.isHidden = false
+            collectionViewPostImages.reloadData()
+            
         }
 
     }
@@ -121,13 +122,13 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         collectionViewPostImages.delegate = self
         collectionViewPostImages.dataSource = self
 
-        let nib = UINib(nibName: "PostCollectionViewCell", bundle: nil)
+        let nib = UINib(nibName: "EventCollectionViewCell", bundle: nil)
         collectionViewPostImages.register(nib, forCellWithReuseIdentifier: "cell")
         
         if let layout = collectionViewPostImages.collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.minimumInteritemSpacing = 2
-            layout.minimumLineSpacing = 2
-            layout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
+            layout.minimumInteritemSpacing = 0
+            layout.minimumLineSpacing = 20
+            layout.sectionInset = UIEdgeInsets(top: 2, left: 0, bottom: 2, right: 0)
         }
         
         tableViewLeaderBoard.dataSource = self
@@ -203,7 +204,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         showTagged()
         sender.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         viewPostLine.backgroundColor = .white
-        viewTaggedLine.backgroundColor = .accent
+        //viewTaggedLine.backgroundColor = .accent
         viewLeaderboardLine.backgroundColor = .white
     }
     
@@ -211,7 +212,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         showLeaderBoard()
         sender.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         viewPostLine.backgroundColor = .white
-        viewTaggedLine.backgroundColor = .white
+        //viewTaggedLine.backgroundColor = .white
         viewLeaderboardLine.backgroundColor = .accent
 
     }
@@ -220,7 +221,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         showPosts()
         sender.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         viewPostLine.backgroundColor = .accent
-        viewTaggedLine.backgroundColor = .white
+        //viewTaggedLine.backgroundColor = .white
         viewLeaderboardLine.backgroundColor = .white
 
     }
@@ -294,19 +295,45 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
     }
     
     @IBAction func backButtonPressed(_ sender: UIButton) {
-        self.dismiss(animated: true)
+        if let nav = self.navigationController {
+            nav.popViewController(animated: true)
+        } else {
+            self.dismiss(animated: true)
+        }
     }
     
     func showPosts() {
         collectionViewPostImages.isHidden = false
         tableViewLeaderBoard.isHidden = true
         createNewPostButton.isHidden = false
+        
+        collectionViewPostImages.isScrollEnabled = false
+        collectionViewPostImages.reloadData()
+        
+        let targetHeight: CGFloat = 580
+        collectionViewPostImages.constraints.forEach { if $0.firstAttribute == .height { collectionViewPostImages.removeConstraint($0) } }
+        collectionViewPostImages.heightAnchor.constraint(equalToConstant: targetHeight).isActive = true
+        
+        scrollView.contentSize.height = self.collectionViewPostImages.frame.origin.y + targetHeight + 50
     }
 
     func showLeaderBoard() {
         collectionViewPostImages.isHidden = true
         tableViewLeaderBoard.isHidden = false
         createNewPostButton.isHidden = true
+        
+        // Ensure table view doesn't scroll inside the main scroll view
+        tableViewLeaderBoard.isScrollEnabled = false
+        tableViewLeaderBoard.reloadData()
+        
+        tableViewLeaderBoard.layoutIfNeeded()
+        let tableHeight = max(tableViewLeaderBoard.contentSize.height, 350)
+        
+        // Set dynamic height constraint to match contents
+        tableViewLeaderBoard.constraints.forEach { if $0.firstAttribute == .height { tableViewLeaderBoard.removeConstraint($0) } }
+        tableViewLeaderBoard.heightAnchor.constraint(equalToConstant: tableHeight).isActive = true
+        
+        scrollView.contentSize.height = self.collectionViewPostImages.frame.origin.y + tableHeight + 50
     }
 
     func showTagged() {
@@ -343,38 +370,23 @@ extension ClubProfileViewController: UICollectionViewDelegate, UICollectionViewD
                                      UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return allPosts.count
+        return 1
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! PostCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! EventCollectionViewCell
 
-        cell.configureCell(with: allPosts[indexPath.row], isLiked: likedPosts[indexPath.row])
-        cell.onLikeToggled = { [weak self] isLiked in
-            self?.likedPosts[indexPath.row] = isLiked
-        }
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        let width = (collectionView.frame.width - 20) / 3
-        return CGSize(width: width, height: width)
+        return CGSize(width: collectionView.frame.width, height: 580)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let postDetailVC = PostViewDetailViewController()
-        postDetailVC.postDetails = allPosts[indexPath.row]
-        postDetailVC.isOwner = isMyClub
         
-        postDetailVC.isLiked = likedPosts[indexPath.row]
-        postDetailVC.likeStatusChanged = { [weak self] isLiked in
-            self?.likedPosts[indexPath.row] = isLiked
-            self?.collectionViewPostImages.reloadItems(at: [indexPath])
-        }
-        postDetailVC.modalPresentationStyle = .pageSheet
-        self.present(postDetailVC, animated: true)
     }
 }

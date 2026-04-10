@@ -18,6 +18,7 @@ class LeaderBoardViewController: UIViewController {
     @IBOutlet var GoldRunner: UIImageView!
     @IBOutlet var SilverRunner: UIImageView!
     @IBOutlet var BronzeRunner: UIImageView!
+    @IBOutlet var backButton: UIButton!
     
     var users: [LeaderboardUser] = leaderboardUsersArray
     private(set) var currentMode: LeaderboardMode = .kilometer
