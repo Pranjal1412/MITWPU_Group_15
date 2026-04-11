@@ -73,6 +73,7 @@ struct BattleInviteNotification: Codable {
     var senderID: UUID
     var receiverID: UUID
     var senderName: String
+    var senderProfileImageURL: String? = nil
     var gameID: UUID?
     var message: String
     var isRead: Bool

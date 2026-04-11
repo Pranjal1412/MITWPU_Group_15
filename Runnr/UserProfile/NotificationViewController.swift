@@ -14,6 +14,8 @@ class NotificationViewController: UIViewController {
     
     private var notifications: [BattleInviteNotification] = DataSource.shared.getBattleInviteNotifications()
     
+    // Tracks which rows are in accepted state
+    private var acceptedRows: Set<Int> = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +38,26 @@ class NotificationViewController: UIViewController {
     private func loadNotifications() {
         guard let userID = DataSource.shared.getUserProfile().userID else { return }
         Task {
-            let fetched = await fetchBattleInviteNotifications(for: userID)
+            var fetched = await fetchBattleInviteNotifications(for: userID)
+            
+            // Enrich each notification with the sender's profile image URL
+            fetched = await withTaskGroup(of: BattleInviteNotification.self) { group -> [BattleInviteNotification] in
+                for notification in fetched {
+                    group.addTask {
+                        var enriched = notification
+                        if let profile = await fetchUserProfile(userId: notification.senderID) {
+                            enriched.senderProfileImageURL = profile.userProfileImageURL
+                        }
+                        return enriched
+                    }
+                }
+                var results: [BattleInviteNotification] = []
+                for await result in group {
+                    results.append(result)
+                }
+                return results
+            }
+            
             await MainActor.run { [weak self] in
                 guard let self = self else { return }
                 // Only replace dummy/existing data if Supabase returns real rows
@@ -62,8 +83,15 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
         let notification = notifications[indexPath.row]
         cell.configure(with: notification)
         
+        // Re-apply accepted visual state for rows already accepted
+        if acceptedRows.contains(indexPath.row) {
+            let myImageURL = DataSource.shared.getUserProfile().userProfileImageURL
+            cell.showAcceptedState(senderImageURL: notification.senderProfileImageURL,
+                                   receiverImageURL: myImageURL)
+        }
+        
         cell.onAccept = { [weak self] in
-            guard self != nil else { return }
+            guard let self = self else { return }
             guard let gameID = notification.gameID else { return }
             let receiverID = notification.receiverID
             
@@ -74,7 +102,15 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
                 DataSource.shared.setGameID(gameID)
             }
             
-            cell.labelMessage.text = "Challenge accepted!"
+            // Mark row as accepted and update UI
+            self.acceptedRows.insert(indexPath.row)
+            let myImageURL = DataSource.shared.getUserProfile().userProfileImageURL
+            cell.showAcceptedState(senderImageURL: notification.senderProfileImageURL,
+                                   receiverImageURL: myImageURL)
+            
+            // Refresh row height for the new layout
+            tableView.beginUpdates()
+            tableView.endUpdates()
         }
         
         cell.onDecline = { [weak self] in
@@ -91,4 +127,3 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
         return UITableView.automaticDimension
     }
 }
-

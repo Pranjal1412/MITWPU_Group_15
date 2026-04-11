@@ -2,6 +2,15 @@ import UIKit
 
 class CreateRunEventViewController: UIViewController, UITextViewDelegate {
 
+    // Club context passed in by presenters (e.g., ClubProfileViewController)
+    public var club: Club?
+
+    // Backward-compatibility alias for older call sites that used `clubDetails`
+    public var clubDetails: Club? {
+        get { club }
+        set { club = newValue }
+    }
+
     // MARK: - IBOutlets
     @IBOutlet weak var eventNameField: UITextField!
     @IBOutlet weak var eventDescTextView: UITextView!
@@ -80,3 +89,4 @@ class CreateRunEventViewController: UIViewController, UITextViewDelegate {
         }
     }
 }
+
