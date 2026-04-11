@@ -1110,4 +1110,15 @@ func fetchBattleInviteNotifications(for receiverID: UUID) async -> [BattleInvite
         return []
     }
 }
+func insertScheduledClubEvent(_ event: ClubEvents) async {
+    do {
+        try await SupabaseManager.shared.client
+            .from("ScheduledClubEvents")
+            .insert(event)
+            .execute()
+    } catch {
+        print("Failed to insert scheduled club event: \(error)")
+    }
+}
+
 

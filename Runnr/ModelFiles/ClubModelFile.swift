@@ -19,6 +19,17 @@ struct Club : Codable {
     var isPublic : Bool
     var memberCount: Int
 }
+struct ClubEvents : Codable {
+    var clubID: UUID?
+    var eventName: String?
+    var eventDescription: String?
+    var eventDate: Date?
+    var startTime: Date?
+    var endTime: Date?
+    var startLocation: String?
+    var endLocation: String?
+    var isCompleted: Bool?
+}
 
 struct ClubMemberRole : Codable {
     var userID : UUID?
