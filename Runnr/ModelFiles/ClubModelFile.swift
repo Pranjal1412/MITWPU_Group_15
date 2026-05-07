@@ -24,8 +24,8 @@ struct ClubEvents : Codable {
     var eventName: String?
     var eventDescription: String?
     var eventDate: Date?
-    var startTime: Date?
-    var endTime: Date?
+    var startTime: String?
+    var endTime: String?
     var startLocation: String?
     var endLocation: String?
     var isCompleted: Bool?
