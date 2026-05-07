@@ -1,5 +1,4 @@
 import UIKit
-import SwiftUI
 
 class CreateRunEventViewController: UIViewController {
 
@@ -10,7 +9,7 @@ class CreateRunEventViewController: UIViewController {
         set { club = newValue }
     }
 
-    // Keep IBOutlets just in case to prevent crashes from xib connects
+    // IBOutlets kept for compatibility but not required for layout
     @IBOutlet weak var eventNameField: UITextField!
     @IBOutlet weak var eventDescTextView: UITextView!
     @IBOutlet weak var dateField: UITextField!
@@ -27,375 +26,456 @@ class CreateRunEventViewController: UIViewController {
     @IBOutlet weak var buttonSave: UIButton!
     @IBOutlet weak var buttonCancel: UIButton!
 
+    // Header bar
+    private let headerView = UIView()
+    private let titleLabel = UILabel()
+    private let closeButton = UIButton(type: .system)
+
+    // MARK: - Programmatic UI
+    private let scrollView = UIScrollView()
+    private let contentStack = UIStackView()
+
+    // Cards
+    private let detailsCard = UIView()
+    private let scheduleCard = UIView()
+    private let locationCard = UIView()
+    private let pollCard = UIView()
+
+    // Inputs (programmatic)
+    private let nameField = UITextField()
+    private let descTextView = UITextView()
+
+    private let datePicker = UIDatePicker()
+    private let startTimePicker = UIDatePicker()
+    private let endTimePicker = UIDatePicker()
+
+    private let startLocationField = UITextField()
+    private let endLocationField = UITextField()
+    private let sameAsStartSwitch = UISwitch()
+
+    private let pollQuestion = UITextField()
+    private let pollOption1 = UITextField()
+    private let pollOption2 = UITextField()
+
+    private let postButton = UIButton(type: .system)
+    private let cancelButton = UIButton(type: .system)
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        title = "New Run Event"
+        view.backgroundColor = UIColor(red: 0.08, green: 0.08, blue: 0.08, alpha: 1.0)
+        view.overrideUserInterfaceStyle = .dark
         
-        // Hide existing views from nib
-        self.view.subviews.forEach { $0.isHidden = true }
-        self.view.backgroundColor = UIColor(red: 0.08, green: 0.08, blue: 0.08, alpha: 1.0)
+        buildHeaderBar()
+
+        view.isOpaque = true
+        view.backgroundColor = UIColor.black
+        scrollView.backgroundColor = UIColor.black
+        scrollView.isOpaque = true
+        contentStack.isOpaque = false
+
+        setupScrollAndStack()
+        buildDetailsSection()
+        buildScheduleSection()
+        buildLocationSection()
+        buildPollSection()
+        buildFooterButtons()
+
+        // Bridge programmatic controls to IBOutlets if XIB connections exist
+        eventNameField = eventNameField ?? nameField
+        eventDescTextView = eventDescTextView ?? descTextView
+        dateField = dateField ?? makeTextFieldForPicker(datePicker)
+        startTimeField = startTimeField ?? makeTextFieldForPicker(startTimePicker)
+        endTimeField = endTimeField ?? makeTextFieldForPicker(endTimePicker)
+        startLocField = startLocField ?? startLocationField
+        endLocField = endLocField ?? endLocationField
+        sameStartSwitch = sameStartSwitch ?? sameAsStartSwitch
+        pollQuestionField = pollQuestionField ?? pollQuestion
+        pollOption1Field = pollOption1Field ?? pollOption1
+        pollOption2Field = pollOption2Field ?? pollOption2
+        buttonSave = buttonSave ?? postButton
+        buttonCancel = buttonCancel ?? cancelButton
+
+        sameAsStartSwitch.addTarget(self, action: #selector(sameStartToggled(_:)), for: .valueChanged)
         
-        let hostingController = UIHostingController(rootView: CreateRunEventView(dismissAction: { [weak self] in
-            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-            self?.dismiss(animated: true)
-        }))
-        
-        hostingController.view.backgroundColor = .clear
-        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
-        addChild(hostingController)
-        view.addSubview(hostingController.view)
-        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+
+    private func buildHeaderBar() {
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        headerView.backgroundColor = UIColor.black
+        headerView.isOpaque = true
+
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.text = "New Run Event"
+        titleLabel.textColor = .white
+        titleLabel.font = .systemFont(ofSize: 18, weight: .semibold)
+        titleLabel.textAlignment = .center
+
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
+        closeButton.setImage(UIImage(systemName: "xmark"), for: .normal)
+        closeButton.tintColor = .white
+        closeButton.backgroundColor = UIColor.white.withAlphaComponent(0.15)
+        closeButton.layer.cornerRadius = 18
+        closeButton.clipsToBounds = true
+        closeButton.addTarget(self, action: #selector(cancelTapped(_:)), for: .touchUpInside)
+
+        view.addSubview(headerView)
+        headerView.addSubview(titleLabel)
+        headerView.addSubview(closeButton)
+
+        let topAnchorRef = view.safeAreaLayoutGuide.topAnchor
+
         NSLayoutConstraint.activate([
-            hostingController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            hostingController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            hostingController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            hostingController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            headerView.topAnchor.constraint(equalTo: topAnchorRef),
+            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            headerView.heightAnchor.constraint(equalToConstant: 56),
+
+            closeButton.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16),
+            closeButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor, constant: 4),
+            closeButton.widthAnchor.constraint(equalToConstant: 36),
+            closeButton.heightAnchor.constraint(equalToConstant: 36),
+
+            titleLabel.centerXAnchor.constraint(equalTo: headerView.centerXAnchor),
+            titleLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor, constant: 4)
         ])
+    }
+
+    // MARK: - Section Builders
+    private func setupScrollAndStack() {
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        contentStack.translatesAutoresizingMaskIntoConstraints = false
+        contentStack.axis = .vertical
+        contentStack.spacing = 16
+
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentStack)
+
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+
+            contentStack.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 16),
+            contentStack.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: 16),
+            contentStack.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: -16),
+            contentStack.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -24),
+            contentStack.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, constant: -32)
+        ])
+    }
+
+    private func buildDetailsSection() {
+        let header = sectionHeader(title: "Event Details")
+        styleCard(detailsCard)
+
+        styleTextField(nameField, placeholder: "Event Name")
+
+        descTextView.text = "Add details about the run..."
+        descTextView.textColor = .secondaryLabel
+        descTextView.font = .systemFont(ofSize: 15)
+        descTextView.backgroundColor = UIColor(red: 0.15, green: 0.15, blue: 0.15, alpha: 1.0)
+        descTextView.layer.cornerRadius = 12
+        descTextView.isOpaque = true
+        descTextView.isScrollEnabled = false
+        descTextView.textContainerInset = UIEdgeInsets(top: 10, left: 12, bottom: 10, right: 12)
+        descTextView.translatesAutoresizingMaskIntoConstraints = false
+
+        let stack = UIStackView(arrangedSubviews: [nameField, descTextView])
+        stack.axis = .vertical
+        stack.spacing = 10
+
+        detailsCard.addSubview(stack)
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            stack.topAnchor.constraint(equalTo: detailsCard.topAnchor, constant: 14),
+            stack.leadingAnchor.constraint(equalTo: detailsCard.leadingAnchor, constant: 14),
+            stack.trailingAnchor.constraint(equalTo: detailsCard.trailingAnchor, constant: -14),
+            stack.bottomAnchor.constraint(equalTo: detailsCard.bottomAnchor, constant: -14),
+            descTextView.heightAnchor.constraint(greaterThanOrEqualToConstant: 90)
+        ])
+
+        contentStack.addArrangedSubview(header)
+        contentStack.setCustomSpacing(6, after: header)
+        contentStack.addArrangedSubview(detailsCard)
+    }
+
+    private func buildScheduleSection() {
+        let header = sectionHeader(title: "Schedule")
+        styleCard(scheduleCard)
+
+        datePicker.preferredDatePickerStyle = .compact
+        datePicker.datePickerMode = .date
+        startTimePicker.preferredDatePickerStyle = .compact
+        startTimePicker.datePickerMode = .time
+        endTimePicker.preferredDatePickerStyle = .compact
+        endTimePicker.datePickerMode = .time
+
+        let dateRow = row(title: "Date", trailing: datePicker)
+        let startRow = row(title: "Start Time", trailing: startTimePicker)
+        let endRow = row(title: "End Time", trailing: endTimePicker)
+
+        let v = UIStackView(arrangedSubviews: [dateRow, divider(), startRow, divider(), endRow])
+        v.axis = .vertical
+        v.spacing = 0
+
+        scheduleCard.addSubview(v)
+        v.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            v.topAnchor.constraint(equalTo: scheduleCard.topAnchor),
+            v.leadingAnchor.constraint(equalTo: scheduleCard.leadingAnchor),
+            v.trailingAnchor.constraint(equalTo: scheduleCard.trailingAnchor),
+            v.bottomAnchor.constraint(equalTo: scheduleCard.bottomAnchor)
+        ])
+
+        scheduleCard.isOpaque = true
+
+        contentStack.addArrangedSubview(header)
+        contentStack.setCustomSpacing(6, after: header)
+        contentStack.addArrangedSubview(scheduleCard)
+    }
+
+    private func buildLocationSection() {
+        let header = sectionHeader(title: "Location")
+        styleCard(locationCard)
+
+        styleTextField(startLocationField, placeholder: "Starting point")
+        styleTextField(endLocationField, placeholder: "Ending point")
+        endLocationField.keyboardType = .default
+        endLocationField.isUserInteractionEnabled = true
+        endLocationField.isEnabled = true
+        endLocationField.addTarget(self, action: #selector(beginEditing(_:)), for: .editingDidBegin)
+
+        let sameRow = UIStackView()
+        sameRow.axis = .horizontal
+        sameRow.alignment = .center
+        sameRow.spacing = 10
+
+        let sameLabel = UILabel()
+        sameLabel.text = "Same as Start"
+        sameLabel.textColor = .secondaryLabel
+        sameLabel.font = .systemFont(ofSize: 15, weight: .semibold)
+        sameRow.addArrangedSubview(sameLabel)
+        sameRow.addArrangedSubview(sameAsStartSwitch)
+
+        locationCard.addSubview(startLocationField)
+        locationCard.addSubview(endLocationField)
+        locationCard.addSubview(sameRow)
+
+        let v = UIStackView(arrangedSubviews: [startLocationField, endLocationField, sameRow])
+        v.axis = .vertical
+        v.spacing = 10
+
+        locationCard.addSubview(v)
+        v.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            v.topAnchor.constraint(equalTo: locationCard.topAnchor, constant: 14),
+            v.leadingAnchor.constraint(equalTo: locationCard.leadingAnchor, constant: 14),
+            v.trailingAnchor.constraint(equalTo: locationCard.trailingAnchor, constant: -14),
+            v.bottomAnchor.constraint(equalTo: locationCard.bottomAnchor, constant: -14)
+        ])
+
+        contentStack.addArrangedSubview(header)
+        contentStack.setCustomSpacing(6, after: header)
+        contentStack.addArrangedSubview(locationCard)
+
+        sameAsStartSwitch.addTarget(self, action: #selector(handleSameAsStartChanged), for: .valueChanged)
+
+        locationCard.isOpaque = true
+    }
+
+    private func buildPollSection() {
+        let header = sectionHeader(title: "Poll")
+        styleCard(pollCard)
+
+        styleTextField(pollQuestion, placeholder: "Are you coming?")
+        styleTextField(pollOption1, placeholder: "Yes")
+        styleTextField(pollOption2, placeholder: "No")
+
+        let v = UIStackView(arrangedSubviews: [pollQuestion, pollOption1, pollOption2])
+        v.axis = .vertical
+        v.spacing = 10
+
+        pollCard.addSubview(v)
+        v.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            v.topAnchor.constraint(equalTo: pollCard.topAnchor, constant: 14),
+            v.leadingAnchor.constraint(equalTo: pollCard.leadingAnchor, constant: 14),
+            v.trailingAnchor.constraint(equalTo: pollCard.trailingAnchor, constant: -14),
+            v.bottomAnchor.constraint(equalTo: pollCard.bottomAnchor, constant: -14)
+        ])
+
+        // Add pencil icon on right side of poll header
+        let pollHeaderRow = UIStackView()
+        pollHeaderRow.axis = .horizontal
+        pollHeaderRow.alignment = .center
+        pollHeaderRow.distribution = .fill
+        pollHeaderRow.spacing = 8
+
+        let editIcon = UIImageView(image: UIImage(systemName: "pencil"))
+        editIcon.tintColor = .white
+        editIcon.setContentHuggingPriority(.required, for: .horizontal)
+
+        pollHeaderRow.addArrangedSubview(header)
+        pollHeaderRow.addArrangedSubview(editIcon)
+
+        contentStack.addArrangedSubview(pollHeaderRow)
+        contentStack.setCustomSpacing(6, after: pollHeaderRow)
+        contentStack.addArrangedSubview(pollCard)
+
+        pollCard.isOpaque = true
+    }
+
+    private func buildFooterButtons() {
+        let h = UIStackView()
+        h.axis = .horizontal
+        h.spacing = 12
+        h.distribution = .fillEqually
+
+        cancelButton.setTitle("Cancel", for: .normal)
+        cancelButton.setTitleColor(.white, for: .normal)
+        cancelButton.backgroundColor = UIColor(white: 0.15, alpha: 1)
+        cancelButton.layer.cornerRadius = 22
+        cancelButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        cancelButton.addTarget(self, action: #selector(cancelTapped(_:)), for: .touchUpInside)
+
+        postButton.setTitle("Post", for: .normal)
+        postButton.setTitleColor(.black, for: .normal)
+        postButton.backgroundColor = .accent
+        postButton.layer.cornerRadius = 22
+        postButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        postButton.addTarget(self, action: #selector(postTapped(_:)), for: .touchUpInside)
+
+        h.addArrangedSubview(cancelButton)
+        h.addArrangedSubview(postButton)
+
+        postButton.addTarget(self, action: #selector(createNewEvent), for: .touchUpInside)
         
-        hostingController.didMove(toParent: self)
+        contentStack.addArrangedSubview(h)
     }
     
-    // Existing actions
-    @IBAction func cancelTapped(_ sender: UIButton) { }
+    @objc func createNewEvent() {
+        let newEvent = ClubEvents(clubID: self.club?.clubID,
+                                  eventName: self.nameField.text,
+                                  eventDescription: self.descTextView.text,
+                                  eventDate: self.datePicker.date,
+                                  isCompleted: false)
+        
+        Task {
+            await insertNewClubEvent(event: newEvent)
+        }
+    }
+
+    // MARK: - Helpers
+    private func sectionHeader(title: String) -> UIView {
+        let container = UIStackView()
+        container.axis = .horizontal
+        container.alignment = .center
+        container.spacing = 10
+
+        let label = UILabel()
+        label.text = title.uppercased()
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 15, weight: .semibold)
+
+        container.addArrangedSubview(label)
+        return container
+    }
+
+    private func row(title: String, trailing: UIView) -> UIView {
+        let row = UIView()
+
+        let titleLabel = UILabel()
+        titleLabel.text = title
+        titleLabel.textColor = .white
+        titleLabel.font = .systemFont(ofSize: 16, weight: .semibold)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        trailing.translatesAutoresizingMaskIntoConstraints = false
+
+        row.addSubview(titleLabel)
+        row.addSubview(trailing)
+
+        NSLayoutConstraint.activate([
+            titleLabel.leadingAnchor.constraint(equalTo: row.leadingAnchor, constant: 14),
+            titleLabel.centerYAnchor.constraint(equalTo: row.centerYAnchor),
+
+            trailing.trailingAnchor.constraint(equalTo: row.trailingAnchor, constant: -14),
+            trailing.centerYAnchor.constraint(equalTo: row.centerYAnchor),
+
+            row.heightAnchor.constraint(equalToConstant: 56)
+        ])
+
+        return row
+    }
+
+    private func divider() -> UIView {
+        let v = UIView()
+        v.backgroundColor = UIColor(white: 0.2, alpha: 1)
+        v.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            v.heightAnchor.constraint(equalToConstant: 1)
+        ])
+        return v
+    }
+
+    private func styleCard(_ v: UIView) {
+        v.backgroundColor = UIColor(red: 0.12, green: 0.12, blue: 0.12, alpha: 1.0)
+        v.layer.cornerRadius = 16
+        v.layer.masksToBounds = true
+        v.isOpaque = true
+    }
+
+    private func styleTextField(_ tf: UITextField, placeholder: String? = nil) {
+        tf.backgroundColor = UIColor(red: 0.15, green: 0.15, blue: 0.15, alpha: 1.0)
+        tf.textColor = .white
+        tf.tintColor = .accent
+        tf.layer.cornerRadius = 12
+        tf.borderStyle = .none
+        tf.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 12, height: 1))
+        tf.leftViewMode = .always
+        tf.attributedPlaceholder = NSAttributedString(string: placeholder ?? "", attributes: [.foregroundColor: UIColor.secondaryLabel])
+        tf.heightAnchor.constraint(equalToConstant: 44).isActive = true
+    }
+
+    private func makeTextFieldForPicker(_ picker: UIDatePicker) -> UITextField {
+        let tf = UITextField()
+        styleTextField(tf)
+        tf.inputView = picker
+        return tf
+    }
+
+    // MARK: - Actions
+    @IBAction func cancelTapped(_ sender: UIButton) {
+        dismiss(animated: true)
+    }
+
     @IBAction func postTapped(_ sender: UIButton) { }
-    @IBAction func sameStartToggled(_ sender: UISwitch) { }
-}
 
-struct PollOptionItem: Identifiable {
-    let id = UUID()
-    var title: String
-    var icon: String
-}
-
-struct CreateRunEventView: View {
-    var dismissAction: () -> Void
-    
-    @State private var eventName: String = ""
-    @State private var eventDetails: String = ""
-    
-    @State private var date: Date = Date()
-    @State private var startTime: Date = Date()
-    @State private var endTime: Date = Date().addingTimeInterval(3600)
-    
-    @State private var startingPoint: String = ""
-    @State private var endingPoint: String = ""
-    @State private var sameAsStart: Bool = false
-    
-    @State private var pollQuestion: String = ""
-    
-    @State private var pollOptions: [PollOptionItem] = [
-        PollOptionItem(title: "Yes", icon: "checkmark.circle.fill"),
-        PollOptionItem(title: "Maybe", icon: "questionmark.circle.fill"),
-        PollOptionItem(title: "No", icon: "xmark.circle.fill")
-    ]
-    
-    let darkGray = Color(red: 0.12, green: 0.12, blue: 0.12)
-    let almostBlack = Color(red: 0.08, green: 0.08, blue: 0.08)
-    let accentGreen = Color(red: 0.68, green: 0.97, blue: 0.27)
-    let textGray = Color(red: 0.6, green: 0.6, blue: 0.6)
-
-    var body: some View {
-        VStack(spacing: 0) {
-            // Header
-            HStack {
-                Button(action: {
-                    dismissAction()
-                }) {
-                    Image(systemName: "xmark")
-                        .font(.system(size: 16, weight: .medium))
-                        .foregroundColor(.white)
-                        .frame(width: 40, height: 40)
-                        .background(Color(white: 0.2))
-                        .clipShape(Circle())
-                }
-                
-                Spacer()
-                
-                Text("New Run Event")
-                    .font(.system(size: 20, weight: .bold))
-                    .foregroundColor(.white)
-                    .offset(x: -20)
-                
-                Spacer()
-            }
-            .padding(.horizontal, 20)
-            .padding(.top, 10)
-            .padding(.bottom, 20)
-            
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 24) {
-                    
-                    // EVENT DETAILS
-                    SectionView(title: "EVENT DETAILS", icon: "doc.text") {
-                        VStack(alignment: .leading, spacing: 0) {
-                            HStack {
-                                Image(systemName: "pencil")
-                                    .foregroundColor(textGray)
-                                    .font(.system(size: 14))
-                                TextField("Event Name", text: $eventName)
-                                    .foregroundColor(.white)
-                                    .font(.system(size: 16))
-                            }
-                            .padding()
-                            
-                            Divider().background(Color(white: 0.25))
-                            
-                            ZStack(alignment: .topLeading) {
-                                if eventDetails.isEmpty {
-                                    Text("Add details about the run...")
-                                        .foregroundColor(textGray)
-                                        .font(.system(size: 16))
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 16)
-                                }
-                                TextEditor(text: $eventDetails)
-                                    .foregroundColor(.white)
-                                    .scrollContentBackground(.hidden)
-                                    .padding(.horizontal, 12)
-                                    .padding(.vertical, 8)
-                                    .frame(minHeight: 100)
-                            }
-                        }
-                        .background(darkGray)
-                        .cornerRadius(12)
-                    }
-                    
-                    // SCHEDULE
-                    SectionView(title: "SCHEDULE", icon: "calendar.badge.clock") {
-                        VStack(alignment: .leading, spacing: 0) {
-                            ScheduleRow(icon: "calendar", title: "Date", color: accentGreen) {
-                                DatePicker("", selection: $date, displayedComponents: .date)
-                                    .labelsHidden()
-                                    .colorScheme(.dark)
-                                    .accentColor(accentGreen)
-                            }
-                            Divider().background(Color(white: 0.25)).padding(.leading, 40)
-                            ScheduleRow(icon: "clock", title: "Start Time", color: accentGreen) {
-                                DatePicker("", selection: $startTime, displayedComponents: .hourAndMinute)
-                                    .labelsHidden()
-                                    .colorScheme(.dark)
-                                    .accentColor(accentGreen)
-                            }
-                            Divider().background(Color(white: 0.25)).padding(.leading, 40)
-                            ScheduleRow(icon: "clock.fill", title: "End Time", color: accentGreen) {
-                                DatePicker("", selection: $endTime, displayedComponents: .hourAndMinute)
-                                    .labelsHidden()
-                                    .colorScheme(.dark)
-                                    .accentColor(accentGreen)
-                            }
-                        }
-                        .background(darkGray)
-                        .cornerRadius(12)
-                    }
-                    
-                    // LOCATION
-                    SectionView(title: "LOCATION", icon: "mappin.and.ellipse") {
-                        VStack(alignment: .leading, spacing: 0) {
-                            HStack {
-                                Image(systemName: "location.north.fill")
-                                    .foregroundColor(textGray)
-                                    .rotationEffect(.degrees(45))
-                                    .frame(width: 24)
-                                TextField("Starting point", text: $startingPoint)
-                                    .foregroundColor(.white)
-                                    .onChange(of: startingPoint) { newValue in
-                                        if sameAsStart {
-                                            endingPoint = newValue
-                                        }
-                                    }
-                            }
-                            .padding()
-                            
-                            Divider().background(Color(white: 0.25)).padding(.leading, 40)
-                            
-                            HStack {
-                                Image(systemName: "flag.fill")
-                                    .foregroundColor(textGray)
-                                    .frame(width: 24)
-                                TextField("Ending point", text: $endingPoint)
-                                    .foregroundColor(sameAsStart ? textGray : .white)
-                                    .disabled(sameAsStart)
-                            }
-                            .padding()
-                            
-                            Divider().background(Color(white: 0.25)).padding(.leading, 40)
-                            
-                            HStack {
-                                Text("Same as Start")
-                                    .foregroundColor(.white)
-                                Spacer()
-                                Toggle("", isOn: $sameAsStart)
-                                    .labelsHidden()
-                                    .tint(accentGreen)
-                                    .scaleEffect(0.9)
-                                    .onChange(of: sameAsStart) { isSame in
-                                        if isSame {
-                                            endingPoint = startingPoint
-                                        } else {
-                                            endingPoint = ""
-                                        }
-                                    }
-                            }
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 12)
-                        }
-                        .background(darkGray)
-                        .cornerRadius(12)
-                    }
-                    
-                    // POLL
-                    SectionView(title: "POLL", icon: "chart.bar.fill") {
-                        VStack(alignment: .leading, spacing: 0) {
-                            HStack(spacing: 12) {
-                                Image(systemName: "questionmark.circle")
-                                    .foregroundColor(textGray)
-                                TextField("Are you coming?", text: $pollQuestion)
-                                    .foregroundColor(.white)
-                            }
-                            .padding()
-                            
-                            ForEach(pollOptions.indices, id: \.self) { index in
-                                Divider().background(Color(white: 0.25)).padding(.leading, 44)
-                                PollOptionRow(option: $pollOptions[index], iconColor: accentGreen) {
-                                    pollOptions.remove(at: index)
-                                }
-                            }
-                            
-                            Divider().background(Color(white: 0.25)).padding(.leading, 44)
-                            
-                            Button(action: {
-                                pollOptions.append(PollOptionItem(title: "", icon: "circle"))
-                            }) {
-                                HStack(spacing: 12) {
-                                    Image(systemName: "plus.circle")
-                                        .foregroundColor(accentGreen)
-                                    Text("+ Add Option")
-                                        .foregroundColor(accentGreen)
-                                    Spacer()
-                                }
-                                .padding()
-                            }
-                        }
-                        .background(darkGray)
-                        .cornerRadius(12)
-                        // Trigger animation when array changes length
-                        .animation(.easeInOut, value: pollOptions.count)
-                    }
-                    
-                    // Bottom Buttons
-                    VStack(spacing: 16) {
-                        Button(action: {
-                            // Gather data into an event structure or submit to presenter here.
-                            dismissAction()
-                        }) {
-                            Text("Create Event")
-                                .font(.system(size: 16, weight: .bold))
-                                .foregroundColor(.black)
-                                .frame(maxWidth: .infinity)
-                                .frame(height: 50)
-                                .background(accentGreen)
-                                .cornerRadius(12)
-                        }
-                        
-                        Button(action: {
-                            dismissAction()
-                        }) {
-                            Text("Save as Draft")
-                                .font(.system(size: 14))
-                                .foregroundColor(textGray)
-                        }
-                    }
-                    .padding(.top, 10)
-                    .padding(.bottom, 30)
-                }
-                .padding(.horizontal, 20)
-            }
+    @IBAction func sameStartToggled(_ sender: UISwitch) {
+        if sender.isOn {
+            endLocationField.text = startLocationField.text
         }
-        .background(almostBlack.edgesIgnoringSafeArea(.all))
-        // Dismiss keyboard on tap
-        .onTapGesture {
-            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        endLocationField.isEnabled = !sender.isOn
+        if !sender.isOn {
+            endLocationField.becomeFirstResponder()
         }
     }
-}
 
-struct SectionView<Content: View>: View {
-    let title: String
-    let icon: String
-    let content: Content
-    let accentGreen = Color(red: 0.68, green: 0.97, blue: 0.27)
-    
-    init(title: String, icon: String, @ViewBuilder content: () -> Content) {
-        self.title = title
-        self.icon = icon
-        self.content = content()
+    @objc private func handleSameAsStartChanged() {
+        endLocationField.isEnabled = !sameAsStartSwitch.isOn
+        if sameAsStartSwitch.isOn { endLocationField.text = startLocationField.text }
     }
     
-    var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack(spacing: 6) {
-                Image(systemName: icon)
-                    .foregroundColor(accentGreen)
-                    .font(.system(size: 14, weight: .bold))
-                Text(title)
-                    .font(.system(size: 14, weight: .bold))
-                    .foregroundColor(.white)
-                    .tracking(1.0)
-            }
-            .padding(.leading, 2)
-            
-            content
-        }
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
     }
-}
-
-struct ScheduleRow<Content: View>: View {
-    let icon: String
-    let title: String
-    let color: Color
-    let pickerContent: Content
     
-    init(icon: String, title: String, color: Color, @ViewBuilder pickerContent: () -> Content) {
-        self.icon = icon
-        self.title = title
-        self.color = color
-        self.pickerContent = pickerContent()
-    }
-
-    var body: some View {
-        HStack {
-            Image(systemName: icon)
-                .foregroundColor(color)
-                .frame(width: 24)
-            Text(title)
-                .foregroundColor(.white)
-            Spacer()
-            pickerContent
-        }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 8)
+    @objc private func beginEditing(_ sender: UITextField) {
+        // no-op, ensures control events are wired and field becomes first responder
     }
 }
-
-struct PollOptionRow: View {
-    @Binding var option: PollOptionItem
-    let iconColor: Color
-    var removeAction: () -> Void
-    
-    var body: some View {
-        HStack {
-            Image(systemName: option.icon)
-                .foregroundColor(iconColor)
-                .frame(width: 24)
-            TextField("Option", text: $option.title)
-                .foregroundColor(.white)
-            Spacer()
-            Button(action: removeAction) {
-                Image(systemName: "minus.circle.fill")
-                    .foregroundColor(Color(red: 0.8, green: 0.2, blue: 0.2))
-                    .font(.system(size: 22))
-            }
-        }
-        .padding()
-    }
-}
-

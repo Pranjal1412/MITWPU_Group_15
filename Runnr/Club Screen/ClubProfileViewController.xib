@@ -22,8 +22,8 @@
                 <outlet property="clubDescription" destination="fQo-zo-K8z" id="MrK-hV-o5b"/>
                 <outlet property="clubMotive" destination="Ia2-Pc-aWS" id="F0j-rP-IxH"/>
                 <outlet property="clubProfileImage" destination="UCV-Fx-SPe" id="0sy-AZ-nCR"/>
-                <outlet property="collectionViewPostImages" destination="vhk-bF-3kY" id="WYE-dS-nQj"/>
-                <outlet property="createNewPostButton" destination="IuV-Wq-3Rt" id="tJJ-OQ-xrb"/>
+                <outlet property="collectionViewClubEvents" destination="vhk-bF-3kY" id="WYE-dS-nQj"/>
+                <outlet property="createNewEventButton" destination="IuV-Wq-3Rt" id="iE8-Tj-y1i"/>
                 <outlet property="imageClubBanner" destination="v4x-TB-JuJ" id="0LC-WZ-fzk"/>
                 <outlet property="joinNowButton" destination="zKw-x3-qze" id="IJp-kj-kq6"/>
                 <outlet property="labelClubName" destination="O42-46-i2J" id="e8H-BX-Qzx"/>

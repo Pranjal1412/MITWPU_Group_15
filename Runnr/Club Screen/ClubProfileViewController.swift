@@ -5,7 +5,7 @@ import Kingfisher
 class ClubProfileViewController: UIViewController, UpdateClubProfile {
     
     @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var collectionViewPostImages: UICollectionView!
+    @IBOutlet weak var collectionViewClubEvents: UICollectionView!
     @IBOutlet weak var viewLine: UIView!
     @IBOutlet weak var clubDescription: UILabel!
     @IBOutlet var clubMotive: UILabel!
@@ -24,12 +24,13 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
     @IBOutlet weak var viewLeaderboardLine: UIView!
     //@IBOutlet weak var viewTaggedLine: UIView!
     @IBOutlet var leaveClubButton: UIButton!
-    @IBOutlet var createNewPostButton: UIButton!
+    @IBOutlet var createNewEventButton: UIButton!
     
     var isMyClub: Bool = false
     var clubProfileData: Club?
     var myClubProfileData : ClubRoleAndData?
     private var allPosts: [ClubPostDetail] = []
+    private var clubEvents: [ClubEvents] = []
 
     var likedPosts: [Bool] = [false, false, false]
     
@@ -41,7 +42,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         settingUpProfileScreenElements()
         settingCollectionAndTableView()
                 
-        collectionViewPostImages.isHidden = false
+        collectionViewClubEvents.isHidden = false
         tableViewLeaderBoard.isHidden = true
         
         setGlassEffect(for: self.buttonBack, withImage: "chevron.backward")
@@ -55,8 +56,8 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         self.leaveClubButton.layer.cornerRadius = self.leaveClubButton.frame.height / 2
         
         // Setup Create New Post Button
-        createNewPostButton.layer.cornerRadius = createNewPostButton.frame.height / 2
-        createNewPostButton.addTarget(self, action: #selector(presentCreatePost), for: .touchUpInside)
+        createNewEventButton.layer.cornerRadius = createNewEventButton.frame.height / 2
+        createNewEventButton.addTarget(self, action: #selector(presentCreateEvent), for: .touchUpInside)
         
         viewPosts.addTarget(self, action: #selector(postsButtonPressed(_:)), for: .touchUpInside)
         viewLeaderBoard.addTarget(self, action: #selector(leaderboardButtonPressed(_:)), for: .touchUpInside)
@@ -65,21 +66,21 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         viewLeaderboardLine.backgroundColor = .white
         
         if isMyClub && myClubProfileData?.role == .owner {
-            self.createNewPostButton.isHidden = false
+            self.createNewEventButton.isHidden = false
         }
         else {
-            self.createNewPostButton.isHidden = true
+            self.createNewEventButton.isHidden = true
         }
     }
 
-    @objc func presentCreatePost() {
+    @objc func presentCreateEvent() {
         let vc = CreateRunEventViewController()
         vc.clubDetails = myClubProfileData?.club
-        vc.modalPresentationStyle = .pageSheet
-        if let sheet = vc.sheetPresentationController {
-            sheet.detents = [.large()]
-            sheet.prefersGrabberVisible = true
-        }
+//        vc.modalPresentationStyle = .pageSheet
+//        if let sheet = vc.sheetPresentationController {
+//            sheet.detents = [.large()]
+//            sheet.prefersGrabberVisible = true
+//        }
         self.present(vc, animated: true)
     }
 
@@ -87,14 +88,16 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         
         Task {
             if isMyClub {
-                allPosts = await fetchAllClubPosts(for: self.myClubProfileData!.club.clubID!) ?? []
+//                allPosts = await fetchAllClubPosts(for: self.myClubProfileData!.club.clubID!) ?? []
+                self.clubEvents = await fetchClubEvents(clubID: self.myClubProfileData!.club.clubID!) ?? []
             }
             else {
-                allPosts = await fetchAllClubPosts(for: self.clubProfileData!.clubID!) ?? []
+//                allPosts = await fetchAllClubPosts(for: self.clubProfileData!.clubID!) ?? []
+                self.clubEvents = await fetchClubEvents(clubID: self.clubProfileData!.clubID!) ?? []
             }
             
-            collectionViewPostImages.isHidden = false
-            collectionViewPostImages.reloadData()
+            collectionViewClubEvents.isHidden = false
+            collectionViewClubEvents.reloadData()
             
         }
 
@@ -119,13 +122,13 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
     }
     
     func settingCollectionAndTableView() {
-        collectionViewPostImages.delegate = self
-        collectionViewPostImages.dataSource = self
+        collectionViewClubEvents.delegate = self
+        collectionViewClubEvents.dataSource = self
 
         let nib = UINib(nibName: "EventCollectionViewCell", bundle: nil)
-        collectionViewPostImages.register(nib, forCellWithReuseIdentifier: "cell")
+        collectionViewClubEvents.register(nib, forCellWithReuseIdentifier: "cell")
         
-        if let layout = collectionViewPostImages.collectionViewLayout as? UICollectionViewFlowLayout {
+        if let layout = collectionViewClubEvents.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.minimumInteritemSpacing = 0
             layout.minimumLineSpacing = 20
             layout.sectionInset = UIEdgeInsets(top: 2, left: 0, bottom: 2, right: 0)
@@ -303,24 +306,24 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
     }
     
     func showPosts() {
-        collectionViewPostImages.isHidden = false
+        collectionViewClubEvents.isHidden = false
         tableViewLeaderBoard.isHidden = true
-        createNewPostButton.isHidden = false
+        createNewEventButton.isHidden = false
         
-        collectionViewPostImages.isScrollEnabled = false
-        collectionViewPostImages.reloadData()
+        collectionViewClubEvents.isScrollEnabled = false
+        collectionViewClubEvents.reloadData()
         
         let targetHeight: CGFloat = 580
-        collectionViewPostImages.constraints.forEach { if $0.firstAttribute == .height { collectionViewPostImages.removeConstraint($0) } }
-        collectionViewPostImages.heightAnchor.constraint(equalToConstant: targetHeight).isActive = true
+        collectionViewClubEvents.constraints.forEach { if $0.firstAttribute == .height { collectionViewClubEvents.removeConstraint($0) } }
+        collectionViewClubEvents.heightAnchor.constraint(equalToConstant: targetHeight).isActive = true
         
-        scrollView.contentSize.height = self.collectionViewPostImages.frame.origin.y + targetHeight + 50
+        scrollView.contentSize.height = self.collectionViewClubEvents.frame.origin.y + targetHeight + 50
     }
 
     func showLeaderBoard() {
-        collectionViewPostImages.isHidden = true
+        collectionViewClubEvents.isHidden = true
         tableViewLeaderBoard.isHidden = false
-        createNewPostButton.isHidden = true
+        createNewEventButton.isHidden = true
         
         // Ensure table view doesn't scroll inside the main scroll view
         tableViewLeaderBoard.isScrollEnabled = false
@@ -333,13 +336,13 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         tableViewLeaderBoard.constraints.forEach { if $0.firstAttribute == .height { tableViewLeaderBoard.removeConstraint($0) } }
         tableViewLeaderBoard.heightAnchor.constraint(equalToConstant: tableHeight).isActive = true
         
-        scrollView.contentSize.height = self.collectionViewPostImages.frame.origin.y + tableHeight + 50
+        scrollView.contentSize.height = self.collectionViewClubEvents.frame.origin.y + tableHeight + 50
     }
 
     func showTagged() {
-        collectionViewPostImages.isHidden = false
+        collectionViewClubEvents.isHidden = false
         tableViewLeaderBoard.isHidden = true
-        createNewPostButton.isHidden = false
+        createNewEventButton.isHidden = false
     }
 }
 
@@ -366,17 +369,16 @@ extension ClubProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
 // MARK: - CollectionView Settings
 
-extension ClubProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource,
-                                     UICollectionViewDelegateFlowLayout {
+extension ClubProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        return self.clubEvents.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! EventCollectionViewCell
-
+        cell.configureCell(event: clubEvents[indexPath.row])
         return cell
     }
 

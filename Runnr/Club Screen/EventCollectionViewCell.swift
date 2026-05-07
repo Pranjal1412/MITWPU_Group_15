@@ -32,4 +32,8 @@ class EventCollectionViewCell: UICollectionViewCell {
         viewMain.layer.cornerRadius = 15
     }
 
+    func configureCell(event: ClubEvents) {
+        labelEventName.text = event.eventName
+        labelEventDescription.text = event.eventDescription
+    }
 }

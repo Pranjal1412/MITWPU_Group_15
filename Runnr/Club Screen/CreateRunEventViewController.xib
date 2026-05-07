@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24128" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -28,11 +29,11 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <rect key="frame" x="0.0" y="0.0" width="393" height="1000"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hX1-8b-3cF">
-                    <rect key="frame" x="20" y="59" width="45" height="45"/>
+                    <rect key="frame" x="20" y="118" width="45" height="45"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="45" id="1z8-h5-6bJ"/>
                         <constraint firstAttribute="height" constant="45" id="2k8-h5-7bJ"/>
@@ -44,13 +45,13 @@
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New Run Event" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fN2-2P-h4v">
-                    <rect key="frame" x="130.66666666666666" y="71" width="131.99999999999997" height="21.666666666666671"/>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                    <rect key="frame" x="128.66666666666669" y="129" width="135.66666666666669" height="23"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aB8-Cq-71k">
-                    <rect key="frame" x="328" y="59" width="45" height="45"/>
+                    <rect key="frame" x="328" y="118" width="45" height="45"/>
                     <color key="backgroundColor" red="0.070588235289999995" green="0.070588235289999995" blue="0.078431372550000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="45" id="b8J-f5-1Lh"/>
@@ -62,177 +63,163 @@
                         <action selector="postTapped:" destination="-1" eventType="touchUpInside" id="z1X-1H-8B2"/>
                     </connections>
                 </button>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="scroll-main">
-                    <rect key="frame" x="0.0" y="114" width="393" height="738"/>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="scroll-main">
+                    <rect key="frame" x="0.0" y="173" width="393" height="827"/>
                     <subviews>
-                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="stack-main">
-                            <rect key="frame" x="20" y="20" width="353" height="576"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="EVENT DETAILS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lbl-name">
+                            <rect key="frame" x="20" y="18" width="353" height="20"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="   Event Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tf-name">
+                            <rect key="frame" x="20" y="54" width="353" height="47"/>
+                            <color key="backgroundColor" red="0.10980392160000001" green="0.10980392160000001" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="h-name"/>
+                            </constraints>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" text=" Add details about the run..." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="tv-desc">
+                            <rect key="frame" x="20" y="108" width="353" height="108"/>
+                            <color key="backgroundColor" red="0.10980392160000001" green="0.10980392160000001" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="100" id="h-desc"/>
+                            </constraints>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        </textView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="SCHEDULE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lbl-sched">
+                            <rect key="frame" x="20" y="224.33333333333331" width="353" height="20"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="LOCATION" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lbl-loc">
+                            <rect key="frame" x="20" y="419" width="353" height="17"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Starting Point" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tf-startloc">
+                            <rect key="frame" x="20" y="444.33333333333337" width="353" height="40"/>
+                            <color key="backgroundColor" red="0.10980392160000001" green="0.10980392160000001" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="h-sl"/>
+                            </constraints>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Ending Point" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tf-endloc">
+                            <rect key="frame" x="20" y="499.33333333333337" width="353" height="40"/>
+                            <color key="backgroundColor" red="0.10980392160000001" green="0.10980392160000001" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="h-el"/>
+                            </constraints>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v-switch">
+                            <rect key="frame" x="20" y="554.33333333333337" width="353" height="31"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lbl-name">
-                                    <rect key="frame" x="0.0" y="0.0" width="353" height="17"/>
-                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
-                                    <color key="textColor" systemColor="systemGrayColor"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Same as Start" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lbl-same">
+                                    <rect key="frame" x="0.0" y="7" width="90.333333333333329" height="17"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Morning Run" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tf-name">
-                                    <rect key="frame" x="0.0" y="32" width="353" height="40"/>
+                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="sw-same">
+                                    <rect key="frame" x="292" y="1.6666666666666572" width="63" height="28"/>
+                                    <color key="onTintColor" name="AccentColor"/>
+                                    <connections>
+                                        <action selector="sameStartToggled:" destination="-1" eventType="valueChanged" id="x-same"/>
+                                    </connections>
+                                </switch>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="lbl-same" firstAttribute="centerY" secondItem="v-switch" secondAttribute="centerY" id="cw-lbl-c"/>
+                                <constraint firstItem="sw-same" firstAttribute="centerY" secondItem="v-switch" secondAttribute="centerY" id="cw-same-c"/>
+                                <constraint firstItem="lbl-same" firstAttribute="leading" secondItem="v-switch" secondAttribute="leading" id="cw-same-l"/>
+                                <constraint firstAttribute="trailing" secondItem="sw-same" secondAttribute="trailing" id="cw-same-t"/>
+                                <constraint firstAttribute="height" constant="31" id="h-switch"/>
+                            </constraints>
+                        </view>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Poll" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lbl-poll">
+                            <rect key="frame" x="20" y="601.33333333333337" width="353" height="17"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
+                            <color key="textColor" systemColor="systemGrayColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Are you coming?" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tf-pq">
+                            <rect key="frame" x="20" y="633.33333333333337" width="353" height="40"/>
+                            <color key="backgroundColor" red="0.10980392160000001" green="0.10980392160000001" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="h-pq"/>
+                            </constraints>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Yes" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tf-po1">
+                            <rect key="frame" x="20" y="688.33333333333337" width="353" height="40"/>
+                            <color key="backgroundColor" red="0.10980392160000001" green="0.10980392160000001" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="h-po1"/>
+                            </constraints>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="No" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tf-po2">
+                            <rect key="frame" x="20" y="743.33333333333337" width="353" height="40"/>
+                            <color key="backgroundColor" red="0.10980392160000001" green="0.10980392160000001" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="h-po2"/>
+                            </constraints>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="stack-sched">
+                            <rect key="frame" x="20" y="263" width="199" height="40"/>
+                            <subviews>
+                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Date" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tf-date">
+                                    <rect key="frame" x="0.0" y="0.0" width="59.666666666666664" height="40"/>
                                     <color key="backgroundColor" red="0.10980392160000001" green="0.10980392160000001" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="40" id="h-name"/>
-                                    </constraints>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lbl-desc">
-                                    <rect key="frame" x="0.0" y="87" width="353" height="17"/>
-                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
-                                    <color key="textColor" systemColor="systemGrayColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="tv-desc">
-                                    <rect key="frame" x="0.0" y="119" width="353" height="100"/>
+                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Start" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tf-start">
+                                    <rect key="frame" x="69.666666666666671" y="0.0" width="59.666666666666671" height="40"/>
                                     <color key="backgroundColor" red="0.10980392160000001" green="0.10980392160000001" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="100" id="h-desc"/>
-                                    </constraints>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                </textView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Schedule" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lbl-sched">
-                                    <rect key="frame" x="0.0" y="234" width="353" height="17"/>
-                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
-                                    <color key="textColor" systemColor="systemGrayColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="stack-sched">
-                                    <rect key="frame" x="0.0" y="266" width="353" height="40"/>
-                                    <subviews>
-                                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Date" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tf-date">
-                                            <rect key="frame" x="0.0" y="0.0" width="111" height="40"/>
-                                            <color key="backgroundColor" red="0.10980392160000001" green="0.10980392160000001" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <textInputTraits key="textInputTraits"/>
-                                        </textField>
-                                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Start" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tf-start">
-                                            <rect key="frame" x="121" y="0.0" width="111" height="40"/>
-                                            <color key="backgroundColor" red="0.10980392160000001" green="0.10980392160000001" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <textInputTraits key="textInputTraits"/>
-                                        </textField>
-                                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="End" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tf-end">
-                                            <rect key="frame" x="242" y="0.0" width="111" height="40"/>
-                                            <color key="backgroundColor" red="0.10980392160000001" green="0.10980392160000001" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <textInputTraits key="textInputTraits"/>
-                                        </textField>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="40" id="h-sched"/>
-                                    </constraints>
-                                </stackView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lbl-loc">
-                                    <rect key="frame" x="0.0" y="321" width="353" height="17"/>
-                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
-                                    <color key="textColor" systemColor="systemGrayColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Starting Point" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tf-startloc">
-                                    <rect key="frame" x="0.0" y="353" width="353" height="40"/>
-                                    <color key="backgroundColor" red="0.10980392160000001" green="0.10980392160000001" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="40" id="h-sl"/>
-                                    </constraints>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
-                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Ending Point" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tf-endloc">
-                                    <rect key="frame" x="0.0" y="408" width="353" height="40"/>
+                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="End" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tf-end">
+                                    <rect key="frame" x="139.33333333333334" y="0.0" width="59.666666666666657" height="40"/>
                                     <color key="backgroundColor" red="0.10980392160000001" green="0.10980392160000001" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="40" id="h-el"/>
-                                    </constraints>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits"/>
-                                </textField>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v-switch">
-                                    <rect key="frame" x="0.0" y="463" width="353" height="31"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Same as Start" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lbl-same">
-                                            <rect key="frame" x="0.0" y="7" width="91" height="17"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="sw-same">
-                                            <rect key="frame" x="304" y="0.0" width="51" height="31"/>
-                                            <color key="onTintColor" name="AccentColor"/>
-                                            <connections>
-                                                <action selector="sameStartToggled:" destination="-1" eventType="valueChanged" id="x-same"/>
-                                            </connections>
-                                        </switch>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="sw-same" secondAttribute="trailing" id="cw-same-t"/>
-                                        <constraint firstItem="sw-same" firstAttribute="centerY" secondItem="v-switch" secondAttribute="centerY" id="cw-same-c"/>
-                                        <constraint firstItem="lbl-same" firstAttribute="leading" secondItem="v-switch" secondAttribute="leading" id="cw-same-l"/>
-                                        <constraint firstItem="lbl-same" firstAttribute="centerY" secondItem="v-switch" secondAttribute="centerY" id="cw-lbl-c"/>
-                                        <constraint firstAttribute="height" constant="31" id="h-switch"/>
-                                    </constraints>
-                                </view>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Poll" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lbl-poll">
-                                    <rect key="frame" x="0.0" y="509" width="353" height="17"/>
-                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
-                                    <color key="textColor" systemColor="systemGrayColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Are you coming?" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tf-pq">
-                                    <rect key="frame" x="0.0" y="541" width="353" height="40"/>
-                                    <color key="backgroundColor" red="0.10980392160000001" green="0.10980392160000001" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="40" id="h-pq"/>
-                                    </constraints>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits"/>
-                                </textField>
-                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Yes" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tf-po1">
-                                    <rect key="frame" x="0.0" y="596" width="353" height="40"/>
-                                    <color key="backgroundColor" red="0.10980392160000001" green="0.10980392160000001" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="40" id="h-po1"/>
-                                    </constraints>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits"/>
-                                </textField>
-                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="No" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tf-po2">
-                                    <rect key="frame" x="0.0" y="651" width="353" height="40"/>
-                                    <color key="backgroundColor" red="0.10980392160000001" green="0.10980392160000001" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="40" id="h-po2"/>
-                                    </constraints>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
                             </subviews>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="h-sched"/>
+                            </constraints>
                         </stackView>
                     </subviews>
-                    <constraints>
-                        <constraint firstItem="stack-main" firstAttribute="leading" secondItem="scroll-main" secondAttribute="leading" constant="20" id="s-lead"/>
-                        <constraint firstItem="stack-main" firstAttribute="trailing" secondItem="scroll-main" secondAttribute="trailing" constant="-20" id="s-trail"/>
-                        <constraint firstItem="stack-main" firstAttribute="top" secondItem="scroll-main" secondAttribute="top" constant="20" id="s-top"/>
-                        <constraint firstItem="stack-main" firstAttribute="bottom" secondItem="scroll-main" secondAttribute="bottom" constant="-40" id="s-bot"/>
-                        <constraint firstItem="stack-main" firstAttribute="width" secondItem="scroll-main" secondAttribute="width" constant="-40" id="s-wid"/>
-                    </constraints>
                 </scrollView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
@@ -249,7 +236,8 @@
                 <constraint firstItem="fN2-2P-h4v" firstAttribute="centerY" secondItem="hX1-8b-3cF" secondAttribute="centerY" id="S9Q-c9-uth"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="aB8-Cq-71k" secondAttribute="trailing" constant="20" id="cUj-yb-unz"/>
             </constraints>
-            <point key="canvasLocation" x="61.068702290076331" y="-11.267605633802818"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="55.725190839694655" y="-23.239436619718312"/>
         </view>
     </objects>
     <resources>
