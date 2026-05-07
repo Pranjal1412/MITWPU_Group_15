@@ -282,6 +282,34 @@ extension ClubScreenViewController : UICollectionViewDataSource, UICollectionVie
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ExploreScreenCollectionViewCell
             let club = isSearchingClubs ? filteredClubs[indexPath.row] : clubsArray[indexPath.row]
             cell.configureCell(with: club)
+            
+            cell.joinAction = { [weak self] in
+                guard let self = self else { return }
+                Task {
+                    await insertNewClubMember(newMember: ClubMemberRole(userID: self.userProfile.userID!, clubID: club.clubID!, role: .member))
+                    
+                    var updatedClub = club
+                    updatedClub.memberCount += 1
+                    await updateClubInfo(clubID: club.clubID!, updatedData: updatedClub)
+                    
+                    let exploreClubs = await fetchExploreClubData(userID: self.userProfile.userID!)
+                    self.dataSource.setclubsArray(exploreClubs)
+                    
+                    let userClubs = await fetchMyClubsWithRoles(userID: self.userProfile.userID!)
+                    self.dataSource.setMyClubs(userClubs)
+                    
+                    await MainActor.run {
+                        if self.myClubArray.isEmpty == false {
+                            self.collectionViewJoinedClub.isHidden = false
+                            self.labelYourClubs.isHidden = false
+                            self.buttonAddMoreClubs.isHidden = false
+                        }
+                        
+                        self.collectionViewJoinedClub.reloadData()
+                    }
+                }
+            }
+            
             return cell
         } else {
             let cell = collectionViewJoinedClub.dequeueReusableCell(withReuseIdentifier: "JoinedClubsCollectionViewCell", for: indexPath) as! JoinedClubsCollectionViewCell
@@ -365,6 +393,13 @@ extension ClubScreenViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        let source = isSearchingFriends ? filteredFriends : Array(unfollowedUserData.prefix(10))
+        let destinationVC = UserProfileViewController()
+        destinationVC.isFromFriendsScreen = true
+        destinationVC.friendData = source[indexPath.row]
+        destinationVC.modalPresentationStyle = .fullScreen
+        self.present(destinationVC, animated: true, completion: nil)
     }
 }
 

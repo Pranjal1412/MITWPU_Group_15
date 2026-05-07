@@ -168,10 +168,18 @@ class UserProfileViewController: UIViewController {
         
         if isFromFriendsScreen {
             self.buttonSettings.isHidden = true
-            self.buttonEditProfile.setTitle(String(localized: "Follow"), for: .normal)
-            self.buttonEditProfile.backgroundColor = .accent
-            self.buttonEditProfile.setTitleColor(.black, for: .normal)
-
+            
+            let isFollowing = DataSource.shared.getFollowingUser().contains(where: { $0.userID == friendData?.userID })
+            
+            if isFollowing {
+                self.buttonEditProfile.setTitle(String(localized: "Following"), for: .normal)
+                self.buttonEditProfile.backgroundColor = .lightGray
+                self.buttonEditProfile.setTitleColor(.label, for: .normal)
+            } else {
+                self.buttonEditProfile.setTitle(String(localized: "Follow"), for: .normal)
+                self.buttonEditProfile.backgroundColor = .accent
+                self.buttonEditProfile.setTitleColor(.black, for: .normal)
+            }
         } else {
             self.buttonSettings.isHidden = false
             self.buttonEditProfile.setTitle(String(localized: "Edit Profile"), for: .normal)
@@ -193,64 +201,83 @@ class UserProfileViewController: UIViewController {
             if let url = URL(string: friend.userProfileImageURL!) {
                 self.imageProfile.kf.setImage(with: url)
             }
-
+            self.labelFollowingCount.setTitle("-", for: .normal)
+            self.labelFollowerCount.setTitle("-", for: .normal)
+            self.labelTotalPointsCount.text = "-"
+            self.labelTotalActivitiesCount.text = "-"
+            self.labelTotalDistanceCount.text = "-"
         } else {
             self.labelUsername.text = userProfile.userName
             if let url = URL(string: self.userProfile.userProfileImageURL!) {
                 self.imageProfile.kf.setImage(with: url)
             }
+            self.labelFollowingCount.setTitle(String(userStats?.numberOfFollowing ?? 0), for: .normal)
+            self.labelFollowerCount.setTitle(String(userStats?.numberOfFollowers ?? 0), for: .normal)
+            self.labelTotalPointsCount.text = String(userStats?.totalPointsEarned ?? 0)
+            self.labelTotalActivitiesCount.text = String(userStats?.totalActivities ?? 0)
+            self.labelTotalDistanceCount.text = String(format: "%.1f", (userStats?.totalDistanceCovered ?? 0.0))
         }
         
-        self.labelFollowingCount.setTitle(String(userStats!.numberOfFollowing), for: .normal)
-        self.labelFollowerCount.setTitle(String(userStats!.numberOfFollowers), for: .normal)
-        self.labelTotalPointsCount.text = String(self.userStats?.totalPointsEarned ?? 0)
-        self.labelTotalActivitiesCount.text = String(self.userStats?.totalActivities ?? 0)
-        self.labelTotalDistanceCount.text = String(format: "%.1f", (self.userStats?.totalDistanceCovered ?? 0.0))
+        let currentUserId = friendData?.userID ?? userProfile.userID!
         
-        let totalDistance = Int(self.userStats?.totalDistanceCovered ?? 0.0)
-        
-        if totalDistance <= 600 {
-            if totalDistance == 0 && totalDistance < 50 {
-                self.imageCategoryBadge.image = UIImage(named: runnrCategories[0].badge)
-                self.labelCategory.text = runnrCategories[0].name.rawValue
-                self.labelCategoryGoal.text = "\(runnrCategories[0].goal) Km"
-                self.labelCategory.tag = 0
-            }
-            else if totalDistance >= 50 && totalDistance < 250 {
-                self.imageCategoryBadge.image = UIImage(named: runnrCategories[1].badge)
-                self.labelCategory.text = runnrCategories[1].name.rawValue
-                self.labelCategory.tag = 1
-                self.labelCategoryGoal.text = "\(runnrCategories[1].goal) Km"
-            }
-            else if totalDistance >= 250 && totalDistance < 600 {
-                self.imageCategoryBadge.image = UIImage(named: runnrCategories[2].badge)
-                self.labelCategory.text = runnrCategories[2].name.rawValue
-                self.labelCategoryGoal.text = "\(runnrCategories[2].goal) Km"
-                self.labelCategory.tag = 2
-            }
+        Task {
+            let followers = await fetchFollowersList(userID: currentUserId)
+            let following = await fetchFollowingList(userID: currentUserId)
+            let liveStats = await fetchUserStats(userId: currentUserId) ?? userStats
             
-            self.progressView.progress = Float(totalDistance) / Float(runnrCategories[self.labelCategory.tag].goal)
-            
-            let thinFont = UIFont(name: "SFProText-Light", size: 15) ?? UIFont.systemFont(ofSize: 15, weight: .light)
-            let boldFont = UIFont(name: "SFProText-Bold", size: 17) ?? UIFont.systemFont(ofSize: 17, weight: .medium)
-            
-            let text = NSMutableAttributedString(string: "\(runnrCategories[self.labelCategory.tag].goal - totalDistance) km to ", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
-            text.append(NSAttributedString(string: "\(runnrCategories[self.labelCategory.tag+1].name)", attributes: [.font: boldFont, .foregroundColor: UIColor.white]))
-            self.labelCategoryGoalLeft.attributedText = text
-
+            await MainActor.run {
+                self.labelFollowerCount.setTitle(String(followers.count), for: .normal)
+                self.labelFollowingCount.setTitle(String(following.count), for: .normal)
+                
+                guard let stats = liveStats else { return }
+                
+                self.labelTotalPointsCount.text = String(stats.totalPointsEarned)
+                self.labelTotalActivitiesCount.text = String(stats.totalActivities)
+                self.labelTotalDistanceCount.text = String(format: "%.1f", stats.totalDistanceCovered)
+                
+                let totalDistance = Int(stats.totalDistanceCovered)
+                
+                if totalDistance <= 600 {
+                    if totalDistance == 0 && totalDistance < 50 {
+                        self.imageCategoryBadge.image = UIImage(named: runnrCategories[0].badge)
+                        self.labelCategory.text = runnrCategories[0].name.rawValue
+                        self.labelCategoryGoal.text = "\(runnrCategories[0].goal) Km"
+                        self.labelCategory.tag = 0
+                    }
+                    else if totalDistance >= 50 && totalDistance < 250 {
+                        self.imageCategoryBadge.image = UIImage(named: runnrCategories[1].badge)
+                        self.labelCategory.text = runnrCategories[1].name.rawValue
+                        self.labelCategory.tag = 1
+                        self.labelCategoryGoal.text = "\(runnrCategories[1].goal) Km"
+                    }
+                    else if totalDistance >= 250 && totalDistance < 600 {
+                        self.imageCategoryBadge.image = UIImage(named: runnrCategories[2].badge)
+                        self.labelCategory.text = runnrCategories[2].name.rawValue
+                        self.labelCategoryGoal.text = "\(runnrCategories[2].goal) Km"
+                        self.labelCategory.tag = 2
+                    }
+                    
+                    self.progressView.progress = Float(totalDistance) / Float(runnrCategories[self.labelCategory.tag].goal)
+                    
+                    let thinFont = UIFont(name: "SFProText-Light", size: 15) ?? UIFont.systemFont(ofSize: 15, weight: .light)
+                    let boldFont = UIFont(name: "SFProText-Bold", size: 17) ?? UIFont.systemFont(ofSize: 17, weight: .medium)
+                    
+                    let text = NSMutableAttributedString(string: "\(runnrCategories[self.labelCategory.tag].goal - totalDistance) km to ", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
+                    text.append(NSAttributedString(string: "\(runnrCategories[self.labelCategory.tag+1].name)", attributes: [.font: boldFont, .foregroundColor: UIColor.white]))
+                    self.labelCategoryGoalLeft.attributedText = text
+                }
+                else {
+                    self.imageCategoryBadge.image = UIImage(named: runnrCategories[3].badge)
+                    self.labelCategory.text = runnrCategories[3].name.rawValue
+                    
+                    self.progressView.progress = 1
+                    self.labelCategoryGoalLeft.text = String(localized: "Goal Completed!")
+                    self.labelCategoryGoalLeft.sizeToFit()
+                    self.labelCategoryGoal.text = String(localized: "More to Come!!")
+                    self.labelCategoryGoal.sizeToFit()
+                }
+            }
         }
-        
-        else {
-            self.imageCategoryBadge.image = UIImage(named: runnrCategories[3].badge)
-            self.labelCategory.text = runnrCategories[3].name.rawValue
-            
-            self.progressView.progress = 1
-            self.labelCategoryGoalLeft.text = String(localized: "Goal Completed!")
-            self.labelCategoryGoalLeft.sizeToFit()
-            self.labelCategoryGoal.text = String(localized: "More to Come!!")
-            self.labelCategoryGoal.sizeToFit()
-        }
-        
     }
 
 }
