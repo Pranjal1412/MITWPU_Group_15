@@ -707,6 +707,19 @@ func updateGamePlayerTwo(gameID: UUID, playerTwoID: UUID) async {
     }
 }
 
+func updateGameAsCompleted(gameID: UUID) async {
+    do {
+        try await SupabaseManager.shared.client
+            .from("TerritoryGame")
+            .update(["isCompleted": true])
+            .eq("gameID", value: gameID)
+            .execute()
+        print("Game marked as completed.")
+    } catch {
+        print("updateGameAsCompleted failed: \(error)")
+    }
+}
+
 func fetchActiveGameForUser(userID: UUID) async -> TerritoryGame? {
     do {
         let games: [TerritoryGame] = try await SupabaseManager.shared.client
