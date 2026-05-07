@@ -285,12 +285,24 @@ extension ClubScreenViewController : UICollectionViewDataSource, UICollectionVie
             
             cell.joinAction = { [weak self] in
                 guard let self = self else { return }
+                
+                // Immediately open the club profile as a joined member
+                var joinedClub = club
+                joinedClub.memberCount += 1
+                let myClubData = ClubRoleAndData(role: .member, club: joinedClub)
+                
+                let destinationVC = ClubProfileViewController()
+                let navigationController = UINavigationController(rootViewController: destinationVC)
+                navigationController.isNavigationBarHidden = true
+                destinationVC.myClubProfileData = myClubData
+                destinationVC.isMyClub = true
+                navigationController.modalPresentationStyle = .fullScreen
+                self.present(navigationController, animated: true)
+                
                 Task {
                     await insertNewClubMember(newMember: ClubMemberRole(userID: self.userProfile.userID!, clubID: club.clubID!, role: .member))
                     
-                    var updatedClub = club
-                    updatedClub.memberCount += 1
-                    await updateClubInfo(clubID: club.clubID!, updatedData: updatedClub)
+                    await updateClubInfo(clubID: club.clubID!, updatedData: joinedClub)
                     
                     let exploreClubs = await fetchExploreClubData(userID: self.userProfile.userID!)
                     self.dataSource.setclubsArray(exploreClubs)
@@ -306,6 +318,7 @@ extension ClubScreenViewController : UICollectionViewDataSource, UICollectionVie
                         }
                         
                         self.collectionViewJoinedClub.reloadData()
+                        self.collectionViewExplore.reloadData()
                     }
                 }
             }
