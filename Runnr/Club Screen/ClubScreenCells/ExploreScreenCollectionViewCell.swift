@@ -16,6 +16,7 @@ class ExploreScreenCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var ClubSport: UILabel!
     @IBOutlet weak var LabelTitle: UILabel!
     @IBOutlet weak var imageSportType: UIImageView!
+    var joinAction: (() -> Void)?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -25,6 +26,28 @@ class ExploreScreenCollectionViewCell: UICollectionViewCell {
         buttonJoinClub.layer.cornerRadius = buttonJoinClub.frame.height / 2
         clubProfile.layer.cornerRadius = 11.89
         clubProfile.clipsToBounds = true
+        
+        buttonJoinClub.addTarget(self, action: #selector(joinTapped), for: .touchUpInside)
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        buttonJoinClub.setTitle("Join", for: .normal)
+        buttonJoinClub.setTitleColor(.black, for: .normal)
+        buttonJoinClub.backgroundColor = .accent
+        buttonJoinClub.layer.borderWidth = 0
+    }
+
+    @objc func joinTapped() {
+        if buttonJoinClub.title(for: .normal) == "Join" {
+            buttonJoinClub.setTitle("Joined", for: .normal)
+            buttonJoinClub.setTitleColor(.accent, for: .normal)
+            buttonJoinClub.backgroundColor = .black
+            buttonJoinClub.layer.borderColor = UIColor.accent.cgColor
+            buttonJoinClub.layer.borderWidth = 1
+            
+            joinAction?()
+        }
     }
 
     func configureCell(with data: Club) {
