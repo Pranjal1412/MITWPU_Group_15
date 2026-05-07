@@ -25,6 +25,7 @@
                 <outlet property="collectionViewClubEvents" destination="vhk-bF-3kY" id="WYE-dS-nQj"/>
                 <outlet property="createNewEventButton" destination="IuV-Wq-3Rt" id="iE8-Tj-y1i"/>
                 <outlet property="imageClubBanner" destination="v4x-TB-JuJ" id="0LC-WZ-fzk"/>
+                <outlet property="imageOwnerProfile" destination="eVd-GF-pKE" id="Vp7-wQ-JoN"/>
                 <outlet property="joinNowButton" destination="zKw-x3-qze" id="IJp-kj-kq6"/>
                 <outlet property="labelClubName" destination="O42-46-i2J" id="e8H-BX-Qzx"/>
                 <outlet property="labelNumberOfMembers" destination="IC5-KH-tEN" id="l9G-PD-ee8"/>
@@ -33,6 +34,7 @@
                 <outlet property="scrollView" destination="zue-5g-IEe" id="ScB-K9-giX"/>
                 <outlet property="tableViewLeaderBoard" destination="T1Z-XT-fnx" id="JUP-Uw-cmW"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="viewBackgroundOwner" destination="vh9-zg-kJe" id="4gz-kd-kHc"/>
                 <outlet property="viewLeaderBoard" destination="vm8-Wi-3zL" id="d5y-j7-rkj"/>
                 <outlet property="viewLeaderboardLine" destination="4B5-kA-ts2" id="svC-25-adO"/>
                 <outlet property="viewLine" destination="i5M-Pr-FkT" id="try-Co-a9u"/>
@@ -104,7 +106,6 @@
                             <rect key="frame" x="20" y="665" width="362" height="35"/>
                             <color key="backgroundColor" name="AccentColor"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="362" id="QqT-dE-oDY"/>
                                 <constraint firstAttribute="height" constant="35" id="l4C-A1-tbC"/>
                             </constraints>
                             <fontDescription key="fontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="14.470000267028809"/>
@@ -267,7 +268,6 @@
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="120" id="Ad5-e2-vwN"/>
                                         <constraint firstAttribute="height" constant="36" id="Xij-KI-hPY"/>
                                     </constraints>
                                 </stackView>
@@ -275,7 +275,6 @@
                                     <rect key="frame" x="286" y="21" width="84" height="25"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="25" id="v0u-WG-NGa"/>
-                                        <constraint firstAttribute="width" constant="84" id="x3n-yT-snP"/>
                                     </constraints>
                                     <color key="tintColor" name="AccentColor"/>
                                     <state key="normal" title="Button"/>
@@ -289,7 +288,6 @@
                             <constraints>
                                 <constraint firstItem="SLB-0t-yTO" firstAttribute="top" secondItem="vh9-zg-kJe" secondAttribute="top" constant="21" id="3kH-Ro-5nn"/>
                                 <constraint firstAttribute="bottom" secondItem="eVd-GF-pKE" secondAttribute="bottom" constant="8" id="MyS-mc-VJ9"/>
-                                <constraint firstAttribute="width" constant="383" id="Rkb-Cw-ZfK"/>
                                 <constraint firstItem="85y-6F-Ybw" firstAttribute="leading" secondItem="eVd-GF-pKE" secondAttribute="trailing" constant="12" id="Y9E-wW-KkA"/>
                                 <constraint firstItem="85y-6F-Ybw" firstAttribute="top" secondItem="vh9-zg-kJe" secondAttribute="top" constant="13" id="Zax-jE-GYV"/>
                                 <constraint firstItem="eVd-GF-pKE" firstAttribute="leading" secondItem="vh9-zg-kJe" secondAttribute="leading" constant="20" id="bO9-4u-uVA"/>
@@ -366,6 +364,7 @@
                         <constraint firstItem="v4x-TB-JuJ" firstAttribute="trailing" secondItem="fKU-rL-P8n" secondAttribute="trailing" id="9jI-7w-AWM"/>
                         <constraint firstItem="T1Z-XT-fnx" firstAttribute="top" secondItem="kYH-8F-5ZQ" secondAttribute="bottom" constant="11" id="AGP-zU-hKg"/>
                         <constraint firstItem="UCV-Fx-SPe" firstAttribute="top" secondItem="v9Q-Hd-v96" secondAttribute="top" constant="200" id="Bol-bd-yzl"/>
+                        <constraint firstItem="fKU-rL-P8n" firstAttribute="trailing" secondItem="vh9-zg-kJe" secondAttribute="trailing" constant="10" id="BrA-X0-fs1"/>
                         <constraint firstItem="Ia2-Pc-aWS" firstAttribute="leading" secondItem="fKU-rL-P8n" secondAttribute="leading" constant="20" id="FAZ-VI-nKC"/>
                         <constraint firstItem="O42-46-i2J" firstAttribute="top" secondItem="v4x-TB-JuJ" secondAttribute="bottom" constant="15" id="Hir-oH-ZMX"/>
                         <constraint firstItem="fQo-zo-K8z" firstAttribute="top" secondItem="Ia2-Pc-aWS" secondAttribute="bottom" constant="10" id="IZh-8G-r1R"/>
@@ -374,6 +373,7 @@
                         <constraint firstItem="fKU-rL-P8n" firstAttribute="bottom" secondItem="IuV-Wq-3Rt" secondAttribute="bottom" constant="30" id="LeW-ig-F54"/>
                         <constraint firstItem="j9f-9a-Ldu" firstAttribute="top" secondItem="O42-46-i2J" secondAttribute="bottom" constant="27" id="MaT-Sx-bgZ"/>
                         <constraint firstItem="vhk-bF-3kY" firstAttribute="leading" secondItem="fKU-rL-P8n" secondAttribute="leading" id="Mxj-Yb-7Ga"/>
+                        <constraint firstItem="fKU-rL-P8n" firstAttribute="trailing" secondItem="zKw-x3-qze" secondAttribute="trailing" constant="20" id="PcV-bQ-1A0"/>
                         <constraint firstItem="fQo-zo-K8z" firstAttribute="leading" secondItem="fKU-rL-P8n" secondAttribute="leading" constant="20" id="Syw-cn-uAw"/>
                         <constraint firstItem="vh9-zg-kJe" firstAttribute="top" secondItem="aBE-c7-ITX" secondAttribute="bottom" constant="8" id="TZd-xZ-SJf"/>
                         <constraint firstItem="T1Z-XT-fnx" firstAttribute="trailing" secondItem="fKU-rL-P8n" secondAttribute="trailing" id="UmU-yi-UCr"/>

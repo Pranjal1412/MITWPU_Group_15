@@ -25,6 +25,8 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
     //@IBOutlet weak var viewTaggedLine: UIView!
     @IBOutlet var leaveClubButton: UIButton!
     @IBOutlet var createNewEventButton: UIButton!
+    @IBOutlet weak var viewBackgroundOwner: UIView!
+    @IBOutlet weak var imageOwnerProfile: UIImageView!
     
     var isMyClub: Bool = false
     var clubProfileData: Club?
@@ -200,7 +202,8 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         clubProfileImage.clipsToBounds = true
         
         joinNowButton.layer.cornerRadius = joinNowButton.frame.height / 2.0
-                
+        self.viewBackgroundOwner.layer.cornerRadius = 15
+        self.imageOwnerProfile.layer.cornerRadius = imageOwnerProfile.frame.height / 2.0
     }
     
     @IBAction func taggedButtonPressed(_ sender: UIButton) {
