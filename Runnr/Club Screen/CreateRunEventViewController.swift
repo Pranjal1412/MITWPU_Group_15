@@ -409,11 +409,24 @@ class CreateRunEventViewController: UIViewController {
         contentStack.addArrangedSubview(h)
     }
     
+    private func formatTime12Hour(_ date: Date) -> String {
+        let df = DateFormatter()
+        df.locale = Locale(identifier: "en_US_POSIX")
+        df.timeZone = TimeZone.current
+        df.dateFormat = "h:mm a"
+        return df.string(from: date)
+    }
+
     @objc func createNewEvent() {
+        let startTimeString = formatTime12Hour(startTimePicker.date)
+        let endTimeString = formatTime12Hour(endTimePicker.date)
+        
         let newEvent = ClubEvents(clubID: self.club?.clubID,
                                   eventName: self.nameField.text,
                                   eventDescription: self.descTextView.text,
                                   eventDate: self.datePicker.date,
+                                  startTime: startTimeString,
+                                  endTime: endTimeString,
                                   startLocation: self.startLocationField.text,
                                   endLocation: self.endLocationField.text,
                                   isCompleted: false)
@@ -649,3 +662,4 @@ extension CreateRunEventViewController: MKLocalSearchCompleterDelegate, UITableV
         return 44
     }
 }
+
