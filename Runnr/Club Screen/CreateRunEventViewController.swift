@@ -353,7 +353,21 @@ class CreateRunEventViewController: UIViewController {
         h.addArrangedSubview(cancelButton)
         h.addArrangedSubview(postButton)
 
+        postButton.addTarget(self, action: #selector(createNewEvent), for: .touchUpInside)
+        
         contentStack.addArrangedSubview(h)
+    }
+    
+    @objc func createNewEvent() {
+        let newEvent = ClubEvents(clubID: self.club?.clubID,
+                                  eventName: self.nameField.text,
+                                  eventDescription: self.descTextView.text,
+                                  eventDate: self.datePicker.date,
+                                  isCompleted: false)
+        
+        Task {
+            await insertNewClubEvent(event: newEvent)
+        }
     }
 
     // MARK: - Helpers

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24128" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -22,8 +22,8 @@
                 <outlet property="clubDescription" destination="fQo-zo-K8z" id="MrK-hV-o5b"/>
                 <outlet property="clubMotive" destination="Ia2-Pc-aWS" id="F0j-rP-IxH"/>
                 <outlet property="clubProfileImage" destination="UCV-Fx-SPe" id="0sy-AZ-nCR"/>
-                <outlet property="collectionViewPostImages" destination="vhk-bF-3kY" id="WYE-dS-nQj"/>
-                <outlet property="createNewPostButton" destination="IuV-Wq-3Rt" id="tJJ-OQ-xrb"/>
+                <outlet property="collectionViewClubEvents" destination="vhk-bF-3kY" id="WYE-dS-nQj"/>
+                <outlet property="createNewEventButton" destination="IuV-Wq-3Rt" id="iE8-Tj-y1i"/>
                 <outlet property="imageClubBanner" destination="v4x-TB-JuJ" id="0LC-WZ-fzk"/>
                 <outlet property="joinNowButton" destination="zKw-x3-qze" id="IJp-kj-kq6"/>
                 <outlet property="labelClubName" destination="O42-46-i2J" id="e8H-BX-Qzx"/>
@@ -466,7 +466,7 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.2196078431372549" blue="0.23529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

@@ -9,9 +9,16 @@ import UIKit
 
 class EventCollectionViewCell: UICollectionViewCell {
 
+    @IBOutlet weak var labelEventName: UILabel!
+    @IBOutlet weak var labelEventDescription: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
 
+    func configureCell(event: ClubEvents) {
+        labelEventName.text = event.eventName
+        labelEventDescription.text = event.eventDescription
+    }
 }

@@ -588,6 +588,38 @@ func saveClubBannerImage(clubID: UUID, with image: UIImage) async -> String? {
     }
 }
 
+func insertNewClubEvent(event: ClubEvents) async {
+    do {
+        try await SupabaseManager.shared.client
+            .from("ScheduledClubEvents")
+            .insert(event)
+            .execute()
+        
+        print("Insert Successfull!")
+    }
+    catch {
+        print("Error creating club: \(error)")
+    }
+}
+
+func fetchClubEvents(clubID: UUID) async -> [ClubEvents]? {
+    do {
+        let allEvents: [ClubEvents] = try await SupabaseManager.shared.client
+            .from("ScheduledClubEvents")
+            .select()
+            .eq("clubID", value: clubID)
+            .execute()
+            .value
+        
+        print("Fetch Successfull!")
+        return allEvents
+    }
+    catch {
+        print("Error creating club: \(error)")
+        return nil
+    }
+
+}
 
 //MARK: - Graph Queries
 
