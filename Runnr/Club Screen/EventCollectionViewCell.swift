@@ -21,7 +21,7 @@ class EventCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var buttonYes: UIButton!
     @IBOutlet weak var labelAreYouComing: UILabel!
     @IBOutlet weak var labelEndAt: UILabel!
-    @IBOutlet weak var labelSunriseRun: UILabel!
+    @IBOutlet weak var labelEvent: UILabel!
     @IBOutlet weak var viewMain: UIView!
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -33,7 +33,7 @@ class EventCollectionViewCell: UICollectionViewCell {
     }
 
     func configureCell(event: ClubEvents) {
-        labelEventName.text = event.eventName
-        labelEventDescription.text = event.eventDescription
+        labelEvent.text = event.eventName
+        labelDescriptionOfEvent.text = event.eventDescription
     }
 }
