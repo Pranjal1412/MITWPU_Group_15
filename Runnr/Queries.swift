@@ -707,6 +707,19 @@ func updateGamePlayerTwo(gameID: UUID, playerTwoID: UUID) async {
     }
 }
 
+func updateGameAsCompleted(gameID: UUID) async {
+    do {
+        try await SupabaseManager.shared.client
+            .from("TerritoryGame")
+            .update(["isCompleted": true])
+            .eq("gameID", value: gameID)
+            .execute()
+        print("Game marked as completed.")
+    } catch {
+        print("updateGameAsCompleted failed: \(error)")
+    }
+}
+
 func fetchActiveGameForUser(userID: UUID) async -> TerritoryGame? {
     do {
         let games: [TerritoryGame] = try await SupabaseManager.shared.client
@@ -1142,15 +1155,6 @@ func fetchBattleInviteNotifications(for receiverID: UUID) async -> [BattleInvite
         return []
     }
 }
-func insertScheduledClubEvent(_ event: ClubEvents) async {
-    do {
-        try await SupabaseManager.shared.client
-            .from("ScheduledClubEvents")
-            .insert(event)
-            .execute()
-    } catch {
-        print("Failed to insert scheduled club event: \(error)")
-    }
-}
+
 
 

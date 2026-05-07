@@ -129,6 +129,15 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
                 self.present(inviteVC, animated: true)
             }
             
+            cell.onGameEnded = { [weak self] isWinner in
+                guard let self = self, isWinner else { return }
+                
+                let winnerVC = WinnerViewController()
+                winnerVC.modalPresentationStyle = .overFullScreen
+                winnerVC.modalTransitionStyle = .crossDissolve
+                self.present(winnerVC, animated: true)
+            }
+            
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "soloChallengeCell", for: indexPath) as! SoloChallengeCollectionViewCell

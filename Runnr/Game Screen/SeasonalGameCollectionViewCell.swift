@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Supabase
 
 class SeasonalGameCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var viewCellBackground: UIView!
@@ -24,10 +25,16 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var labelBattleRun: UILabel!
     @IBOutlet weak var viewCountDown: UIView!
     
+    private var countdownLabels: [UILabel] = []
+    private var countdownTimer: Timer?
+    private var overlayView: UIView?
+    
     let userProfile = DataSource.shared.getUserProfile()
     
     // Closure called when user taps "Invite Friend" — set by the parent VC
     var onInviteFriendTapped: (() -> Void)?
+    // Closure called when game ends
+    var onGameEnded: ((Bool) -> Void)?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -55,7 +62,91 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
         imageView3.clipsToBounds = true
         
         labelGoal.isHidden = true  // permanently hidden — progress bar is shown instead
+        
+        overlayView = viewCountDown.superview
+        setupCountdownLabels()
         refreshData()
+    }
+
+    private func setupCountdownLabels() {
+        var labels: [UILabel] = []
+        for subview in viewCountDown.subviews {
+            if let container = subview as? UIView, container.subviews.count == 1, let label = container.subviews.first as? UILabel {
+                if label.font.pointSize == 24 {
+                    labels.append(label)
+                }
+            }
+        }
+        labels.sort { $0.superview!.frame.minX < $1.superview!.frame.minX }
+        countdownLabels = labels
+    }
+
+    private func updateCountdownUI(timeRemaining: TimeInterval) {
+        guard countdownLabels.count == 4 else { return }
+        
+        let days = Int(timeRemaining) / 86400
+        let hours = (Int(timeRemaining) % 86400) / 3600
+        let minutes = (Int(timeRemaining) % 3600) / 60
+        let seconds = Int(timeRemaining) % 60
+        
+        countdownLabels[0].text = String(format: "%02d", days)
+        countdownLabels[1].text = String(format: "%02d", hours)
+        countdownLabels[2].text = String(format: "%02d", minutes)
+        countdownLabels[3].text = String(format: "%02d", seconds)
+    }
+
+    private func checkGameAvailability() -> (isActive: Bool, timeRemaining: TimeInterval?) {
+        let calendar = Calendar.current
+        let now = Date()
+        let components = calendar.dateComponents([.day, .month, .year], from: now)
+        
+        if let day = components.day, day >= 1 && day <= 7 {
+            return (true, nil)
+        } else {
+            var nextMonthComponents = DateComponents()
+            nextMonthComponents.month = 1
+            let nextMonth = calendar.date(byAdding: nextMonthComponents, to: now)!
+            
+            var startOfNextMonthComponents = calendar.dateComponents([.month, .year], from: nextMonth)
+            startOfNextMonthComponents.day = 1
+            startOfNextMonthComponents.hour = 0
+            startOfNextMonthComponents.minute = 0
+            startOfNextMonthComponents.second = 0
+            
+            let startOfNextMonth = calendar.date(from: startOfNextMonthComponents)!
+            let timeRemaining = startOfNextMonth.timeIntervalSince(now)
+            return (false, timeRemaining)
+        }
+    }
+
+    private func startCountdown(timeRemaining: TimeInterval) {
+        countdownTimer?.invalidate()
+        var remaining = timeRemaining
+        
+        updateCountdownUI(timeRemaining: remaining)
+        overlayView?.isHidden = false
+        buttonInviteFriend.isEnabled = false
+        buttonInviteFriend.backgroundColor = .systemGray2
+        
+        countdownTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
+            guard let self = self else {
+                timer.invalidate()
+                return
+            }
+            remaining -= 1
+            if remaining <= 0 {
+                timer.invalidate()
+                self.refreshData() // Refresh to unlock the game
+            } else {
+                self.updateCountdownUI(timeRemaining: remaining)
+            }
+        }
+    }
+
+    private func stopCountdown() {
+        countdownTimer?.invalidate()
+        countdownTimer = nil
+        overlayView?.isHidden = true
     }
 
     // Called every time the cell is displayed (from cellForItemAt) to get fresh data
@@ -63,12 +154,33 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
         Task {
             guard let userID = userProfile.userID else { return }
 
+            let availability = checkGameAvailability()
+
+            if !availability.isActive {
+                // Game is currently inactive (e.g., after the 10th)
+                if let existingGame = await fetchActiveGameForUser(userID: userID), let gameID = existingGame.gameID {
+                    await settleGame(gameID: gameID, timeRemaining: availability.timeRemaining)
+                } else {
+                    await MainActor.run {
+                        buttonInviteFriend.isEnabled = false
+                        buttonInviteFriend.backgroundColor = .systemGray2
+                        progressViewCapturedTiles.progress = 0
+                        if let timeRemaining = availability.timeRemaining {
+                            startCountdown(timeRemaining: timeRemaining)
+                        }
+                    }
+                }
+                return
+            }
+
+            // Game IS active (days 1-10)
             if let cachedGameID = DataSource.shared.getGameID() {
                 // Verify the game still exists in Supabase (may have been deleted)
                 if let _ = await fetchActiveGameForUser(userID: userID) {
                     await MainActor.run {
                         buttonInviteFriend.isEnabled = false
                         buttonInviteFriend.backgroundColor = .systemGray2
+                        stopCountdown()
                     }
                     await updateTileProgress(gameID: cachedGameID)
                 } else {
@@ -78,6 +190,7 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
                         buttonInviteFriend.isEnabled = true
                         buttonInviteFriend.backgroundColor = .accent
                         progressViewCapturedTiles.progress = 0
+                        stopCountdown()
                     }
                 }
                 return
@@ -90,14 +203,16 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
                 await MainActor.run {
                     buttonInviteFriend.isEnabled = false
                     buttonInviteFriend.backgroundColor = .systemGray2
+                    stopCountdown()
                 }
                 await updateTileProgress(gameID: gameID)
             } else {
-                // No active game at all
+                // No active game at all, user can start one
                 await MainActor.run {
                     buttonInviteFriend.isEnabled = true
                     buttonInviteFriend.backgroundColor = .accent
                     progressViewCapturedTiles.progress = 0
+                    stopCountdown()
                 }
             }
         }
@@ -110,7 +225,42 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
             await MainActor.run {
                 progressViewCapturedTiles.isHidden = false
                 progressViewCapturedTiles.progress = Float(capturedCount) / Float(totalTiles)
-                viewCountDown.isHidden = (capturedCount < totalTiles)
+            }
+            
+            if capturedCount >= totalTiles {
+                // User finished the game early
+                await settleGame(gameID: gameID)
+            }
+        }
+    }
+
+    private func settleGame(gameID: UUID, timeRemaining: TimeInterval? = nil) async {
+        if let tiles = await fetchGameTileStatus(gameID: gameID) {
+            let capturedCount = tiles.filter { $0.ownerID != nil }.count
+            let myTilesCount = tiles.filter { $0.ownerID == self.userProfile.userID }.count
+            let opponentTilesCount = capturedCount - myTilesCount
+            let isWinner = myTilesCount >= opponentTilesCount
+            
+            await updateGameAsCompleted(gameID: gameID)
+            DataSource.shared.clearGameID()
+            
+            await MainActor.run {
+                self.onGameEnded?(isWinner)
+                
+                if let tr = timeRemaining {
+                    startCountdown(timeRemaining: tr)
+                } else {
+                    // Finished early, calculate time to next month
+                    var calendar = Calendar.current
+                    var nextMonthComponents = DateComponents()
+                    nextMonthComponents.month = 1
+                    let nextMonth = calendar.date(byAdding: nextMonthComponents, to: Date())!
+                    var startOfNextMonthComponents = calendar.dateComponents([.month, .year], from: nextMonth)
+                    startOfNextMonthComponents.day = 1
+                    let startOfNextMonth = calendar.date(from: startOfNextMonthComponents)!
+                    let tRemaining = startOfNextMonth.timeIntervalSince(Date())
+                    startCountdown(timeRemaining: tRemaining)
+                }
             }
         }
     }
@@ -119,5 +269,16 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
         onInviteFriendTapped?()
     }
     
-
+    private func updateGameAsCompleted(gameID: UUID) async {
+        do {
+            try await SupabaseManager.shared.client
+                .from("TerritoryGame")
+                .update(["isCompleted": true])
+                .eq("gameID", value: gameID)
+                .execute()
+            print("Game marked as completed.")
+        } catch {
+            print("updateGameAsCompleted failed: \\(error)")
+        }
+    }
 }

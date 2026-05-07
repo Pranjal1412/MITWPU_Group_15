@@ -1,4 +1,5 @@
 import UIKit
+import MapKit
 
 class CreateRunEventViewController: UIViewController {
 
@@ -60,6 +61,15 @@ class CreateRunEventViewController: UIViewController {
     private let postButton = UIButton(type: .system)
     private let cancelButton = UIButton(type: .system)
 
+    // MapKit properties
+    private var searchCompleter = MKLocalSearchCompleter()
+    private var searchResults = [MKLocalSearchCompletion]()
+    private var activeTextField: UITextField?
+
+    // Suggestions UI
+    private let suggestionsTableView = UITableView()
+    private var suggestionsHeightConstraint: NSLayoutConstraint?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -98,6 +108,10 @@ class CreateRunEventViewController: UIViewController {
         buttonCancel = buttonCancel ?? cancelButton
 
         sameAsStartSwitch.addTarget(self, action: #selector(sameStartToggled(_:)), for: .valueChanged)
+        
+        setupSuggestionsTableView()
+        setupSearchCompleter()
+        setupTextFieldDelegates()
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tap.cancelsTouchesInView = false
@@ -142,6 +156,43 @@ class CreateRunEventViewController: UIViewController {
 
             titleLabel.centerXAnchor.constraint(equalTo: headerView.centerXAnchor),
             titleLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor, constant: 4)
+        ])
+    }
+
+    private func setupSearchCompleter() {
+        searchCompleter.delegate = self
+        searchCompleter.resultTypes = .address
+    }
+
+    private func setupTextFieldDelegates() {
+        startLocationField.delegate = self
+        endLocationField.delegate = self
+        
+        // Add targets for text changes
+        startLocationField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        endLocationField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+    }
+
+    private func setupSuggestionsTableView() {
+        suggestionsTableView.delegate = self
+        suggestionsTableView.dataSource = self
+        suggestionsTableView.backgroundColor = UIColor(red: 0.15, green: 0.15, blue: 0.15, alpha: 1.0)
+        suggestionsTableView.separatorColor = UIColor(white: 0.3, alpha: 1.0)
+        suggestionsTableView.layer.cornerRadius = 12
+        suggestionsTableView.clipsToBounds = true
+        suggestionsTableView.isHidden = true
+        suggestionsTableView.translatesAutoresizingMaskIntoConstraints = false
+        suggestionsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "SuggestionCell")
+        
+        view.addSubview(suggestionsTableView)
+        
+        // We will update the top anchor dynamically based on which text field is active
+        suggestionsHeightConstraint = suggestionsTableView.heightAnchor.constraint(equalToConstant: 0)
+        
+        NSLayoutConstraint.activate([
+            suggestionsTableView.leadingAnchor.constraint(equalTo: locationCard.leadingAnchor, constant: 14),
+            suggestionsTableView.trailingAnchor.constraint(equalTo: locationCard.trailingAnchor, constant: -14),
+            suggestionsHeightConstraint!
         ])
     }
 
@@ -358,11 +409,26 @@ class CreateRunEventViewController: UIViewController {
         contentStack.addArrangedSubview(h)
     }
     
+    private func formatTime12Hour(_ date: Date) -> String {
+        let df = DateFormatter()
+        df.locale = Locale(identifier: "en_US_POSIX")
+        df.timeZone = TimeZone.current
+        df.dateFormat = "h:mm a"
+        return df.string(from: date)
+    }
+
     @objc func createNewEvent() {
+        let startTimeString = formatTime12Hour(startTimePicker.date)
+        let endTimeString = formatTime12Hour(endTimePicker.date)
+        
         let newEvent = ClubEvents(clubID: self.club?.clubID,
                                   eventName: self.nameField.text,
                                   eventDescription: self.descTextView.text,
                                   eventDate: self.datePicker.date,
+                                  startTime: startTimeString,
+                                  endTime: endTimeString,
+                                  startLocation: self.startLocationField.text,
+                                  endLocation: self.endLocationField.text,
                                   isCompleted: false)
         
         Task {
@@ -479,3 +545,121 @@ class CreateRunEventViewController: UIViewController {
         // no-op, ensures control events are wired and field becomes first responder
     }
 }
+
+// MARK: - MapKit & TableView Delegates
+extension CreateRunEventViewController: MKLocalSearchCompleterDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
+    
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        activeTextField = textField
+        if let text = textField.text, !text.isEmpty {
+            searchCompleter.queryFragment = text
+            updateSuggestionsPosition(below: textField)
+        } else {
+            searchResults = []
+            suggestionsTableView.reloadData()
+            hideSuggestions()
+        }
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == startLocationField || textField == endLocationField {
+            activeTextField = textField
+            if let text = textField.text, !text.isEmpty {
+                searchCompleter.queryFragment = text
+                updateSuggestionsPosition(below: textField)
+            }
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        // Delay hiding to allow table view selection to register
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.hideSuggestions()
+        }
+    }
+
+    private func updateSuggestionsPosition(below textField: UITextField) {
+        // Remove existing top anchor
+        suggestionsTableView.constraints.forEach { constraint in
+            if constraint.firstAttribute == .top {
+                suggestionsTableView.removeConstraint(constraint)
+            }
+        }
+        
+        // Find the constraint in the view as well
+        view.constraints.forEach { constraint in
+            if (constraint.firstItem as? UIView) == suggestionsTableView && constraint.firstAttribute == .top {
+                view.removeConstraint(constraint)
+            }
+        }
+
+        let topAnchor = suggestionsTableView.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 4)
+        topAnchor.isActive = true
+        view.layoutIfNeeded()
+    }
+
+    private func hideSuggestions() {
+        suggestionsTableView.isHidden = true
+        suggestionsHeightConstraint?.constant = 0
+        view.layoutIfNeeded()
+    }
+
+    // MKLocalSearchCompleterDelegate
+    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+        searchResults = completer.results
+        suggestionsTableView.reloadData()
+        
+        if !searchResults.isEmpty {
+            suggestionsTableView.isHidden = false
+            let height = min(CGFloat(searchResults.count * 44), 200.0)
+            suggestionsHeightConstraint?.constant = height
+            view.layoutIfNeeded()
+        } else {
+            hideSuggestions()
+        }
+    }
+
+    func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
+        print("Search completer failed: \(error.localizedDescription)")
+    }
+
+    // UITableViewDataSource
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return searchResults.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SuggestionCell", for: indexPath)
+        let suggestion = searchResults[indexPath.row]
+        
+        cell.backgroundColor = .clear
+        cell.textLabel?.textColor = .white
+        cell.textLabel?.font = .systemFont(ofSize: 14)
+        cell.textLabel?.text = suggestion.title + " " + suggestion.subtitle
+        
+        let selectionView = UIView()
+        selectionView.backgroundColor = UIColor.white.withAlphaComponent(0.1)
+        cell.selectedBackgroundView = selectionView
+        
+        return cell
+    }
+
+    // UITableViewDelegate
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let suggestion = searchResults[indexPath.row]
+        let fullAddress = suggestion.title + (suggestion.subtitle.isEmpty ? "" : ", " + suggestion.subtitle)
+        
+        activeTextField?.text = fullAddress
+        hideSuggestions()
+        view.endEditing(true)
+        
+        if activeTextField == startLocationField && sameAsStartSwitch.isOn {
+            endLocationField.text = fullAddress
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 44
+    }
+}
+
