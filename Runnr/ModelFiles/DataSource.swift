@@ -16,6 +16,7 @@ class DataSource {
     private var friendActivities: [ActivityDetails] = []
     private var clubsArray : [Club] = []
     private var myClubsArray : [ClubRoleAndData] = []
+    private var clubEvents: [ClubEvents] = []
     
     private var gameID: UUID?
     private var gameDetails: TerritoryGame?
@@ -159,6 +160,14 @@ class DataSource {
 
     func setFriendsActivityData(_ data: [ActivityDetails]) {
         self.friendActivities = data
+    }
+    
+    func setClubEvents(_ events: [ClubEvents]) {
+        self.clubEvents = events
+    }
+    
+    func getClubEvents() -> [ClubEvents] {
+        return self.clubEvents
     }
     
     func setGameID(_ gameID: UUID) {
