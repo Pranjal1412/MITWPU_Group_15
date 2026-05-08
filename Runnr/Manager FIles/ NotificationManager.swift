@@ -121,19 +121,37 @@ class NotificationManager {
     }
     
     private func fireLocalNotification(_ n: RunnrNotification) {
+
         let content = UNMutableNotificationContent()
-        content.title = n.title
-        content.body = n.body ?? ""
+
         content.sound = .default
         content.badge = NSNumber(value: unreadCount)
-        
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
-        
+
+        // FOLLOW NOTIFICATION
+        if n.type == "friend_joined" {
+
+            content.title = n.title
+
+            // DO NOT SHOW UUID
+            content.body = ""
+
+        } else {
+
+            content.title = n.title
+            content.body = n.body ?? ""
+        }
+
+        let trigger = UNTimeIntervalNotificationTrigger(
+            timeInterval: 0.1,
+            repeats: false
+        )
+
         let request = UNNotificationRequest(
             identifier: n.id.uuidString,
             content: content,
             trigger: trigger
         )
+
         UNUserNotificationCenter.current().add(request)
     }
     
