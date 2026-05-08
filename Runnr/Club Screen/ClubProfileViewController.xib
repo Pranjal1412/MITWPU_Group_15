@@ -307,7 +307,7 @@
                             </constraints>
                         </stackView>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="T1Z-XT-fnx">
-                            <rect key="frame" x="17" y="621" width="368" height="233"/>
+                            <rect key="frame" x="10" y="621" width="382" height="233"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </tableView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IuV-Wq-3Rt">
@@ -337,14 +337,14 @@
                         <constraint firstItem="fKU-rL-P8n" firstAttribute="trailing" secondItem="fQo-zo-K8z" secondAttribute="trailing" constant="17" id="NHL-Ic-IYh"/>
                         <constraint firstItem="6a6-zm-KJV" firstAttribute="leading" secondItem="fKU-rL-P8n" secondAttribute="leading" constant="17" id="O1N-Ul-5dg"/>
                         <constraint firstItem="Ia2-Pc-aWS" firstAttribute="top" secondItem="6a6-zm-KJV" secondAttribute="bottom" constant="15" id="PlP-ti-JF0"/>
-                        <constraint firstItem="fKU-rL-P8n" firstAttribute="trailing" secondItem="T1Z-XT-fnx" secondAttribute="trailing" constant="17" id="Q0V-t1-Ijp"/>
+                        <constraint firstItem="fKU-rL-P8n" firstAttribute="trailing" secondItem="T1Z-XT-fnx" secondAttribute="trailing" constant="10" id="Q0V-t1-Ijp"/>
                         <constraint firstItem="fKU-rL-P8n" firstAttribute="trailing" secondItem="vhk-bF-3kY" secondAttribute="trailing" constant="17" id="QUr-aI-qwV"/>
                         <constraint firstItem="fQo-zo-K8z" firstAttribute="leading" secondItem="fKU-rL-P8n" secondAttribute="leading" constant="17" id="RKU-S7-f9e"/>
                         <constraint firstItem="fKU-rL-P8n" firstAttribute="bottom" secondItem="T1Z-XT-fnx" secondAttribute="bottom" constant="20" id="UcG-se-o1s"/>
                         <constraint firstItem="fKU-rL-P8n" firstAttribute="trailing" secondItem="vh9-zg-kJe" secondAttribute="trailing" constant="17" id="Udi-Ja-TFC"/>
                         <constraint firstItem="fKU-rL-P8n" firstAttribute="trailing" secondItem="zKw-x3-qze" secondAttribute="trailing" constant="17" id="VSa-4p-bHN"/>
                         <constraint firstItem="zKw-x3-qze" firstAttribute="top" secondItem="vh9-zg-kJe" secondAttribute="bottom" constant="15" id="XYG-wF-BFP"/>
-                        <constraint firstItem="T1Z-XT-fnx" firstAttribute="leading" secondItem="fKU-rL-P8n" secondAttribute="leading" constant="17" id="Y0R-jg-kq6"/>
+                        <constraint firstItem="T1Z-XT-fnx" firstAttribute="leading" secondItem="fKU-rL-P8n" secondAttribute="leading" constant="10" id="Y0R-jg-kq6"/>
                         <constraint firstItem="vh9-zg-kJe" firstAttribute="leading" secondItem="fKU-rL-P8n" secondAttribute="leading" constant="17" id="YZc-9J-ZTX"/>
                         <constraint firstItem="j9f-9a-Ldu" firstAttribute="leading" secondItem="fKU-rL-P8n" secondAttribute="leading" constant="17" id="ZRy-Ra-AJA"/>
                         <constraint firstItem="vhk-bF-3kY" firstAttribute="top" secondItem="xfj-MJ-Ib8" secondAttribute="bottom" constant="15" id="aVn-iT-uBG"/>

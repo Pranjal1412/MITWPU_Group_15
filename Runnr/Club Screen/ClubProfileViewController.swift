@@ -1,4 +1,3 @@
-
 import UIKit
 import Kingfisher
 
@@ -29,6 +28,10 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
     @IBOutlet weak var imageOwnerProfile: UIImageView!
     @IBOutlet weak var labelClubOwnerName: UILabel!
     
+    private let noEventsLabel = UILabel()
+    private let noEventsIconView = UIImageView()
+    private let noEventsStack = UIStackView()
+    
     var isMyClub: Bool = false
     var clubProfileData: Club?
     var myClubProfileData : ClubRoleAndData?
@@ -44,6 +47,8 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+//        showPosts()
+        buildEmptyStateView()
         settingUpProfileScreenElements()
         settingCollectionAndTableView()
                 
@@ -56,7 +61,6 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         scrollView.contentInsetAdjustmentBehavior = .never
         scrollView.showsVerticalScrollIndicator = false
         
-        showPosts()
         
         self.leaveClubButton.layer.cornerRadius = self.leaveClubButton.frame.height / 2
         
@@ -82,11 +86,6 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
     @objc func presentCreateEvent() {
         let vc = CreateRunEventViewController()
         vc.clubDetails = myClubProfileData?.club
-//        vc.modalPresentationStyle = .pageSheet
-//        if let sheet = vc.sheetPresentationController {
-//            sheet.detents = [.large()]
-//            sheet.prefersGrabberVisible = true
-//        }
         self.present(vc, animated: true)
     }
 
@@ -104,7 +103,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
             
             collectionViewClubEvents.isHidden = false
             collectionViewClubEvents.reloadData()
-            
+            noEventsStack.isHidden = !clubEvents.isEmpty
         }
 
     }
@@ -124,6 +123,44 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         if let url = URL(string: (myClubProfileData!.club.clubBannerImageURL!)) {
             self.imageClubBanner.kf.setImage(with: url)
         }
+
+    }
+    
+    func buildEmptyStateView() {
+        // Setup empty state (icon + label)
+        noEventsIconView.image = UIImage(systemName: "calendar.badge.exclamationmark")
+        noEventsIconView.tintColor = .tertiaryLabel
+        noEventsIconView.contentMode = .scaleAspectFit
+        noEventsIconView.setContentHuggingPriority(.required, for: .vertical)
+        noEventsIconView.setContentCompressionResistancePriority(.required, for: .vertical)
+
+        noEventsLabel.text = "No events yet"
+        noEventsLabel.textColor = .secondaryLabel
+        noEventsLabel.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        noEventsLabel.textAlignment = .center
+        noEventsLabel.numberOfLines = 0
+
+        noEventsStack.axis = .vertical
+        noEventsStack.alignment = .center
+        noEventsStack.spacing = 8
+        noEventsStack.translatesAutoresizingMaskIntoConstraints = false
+        noEventsStack.isHidden = true
+
+        noEventsStack.addArrangedSubview(noEventsIconView)
+        noEventsStack.addArrangedSubview(noEventsLabel)
+
+        noEventsIconView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            noEventsIconView.widthAnchor.constraint(equalToConstant: 36),
+            noEventsIconView.heightAnchor.constraint(equalToConstant: 36)
+        ])
+
+        scrollView.addSubview(noEventsStack)
+        NSLayoutConstraint.activate([
+            noEventsStack.centerXAnchor.constraint(equalTo: collectionViewClubEvents.centerXAnchor),
+            noEventsStack.topAnchor.constraint(equalTo: collectionViewClubEvents.topAnchor, constant: 40),
+            noEventsStack.widthAnchor.constraint(lessThanOrEqualTo: scrollView.widthAnchor, constant: -40)
+        ])
 
     }
     
@@ -328,8 +365,8 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
     
     @IBAction func backButtonPressed(_ sender: UIButton) {
         if let nav = self.navigationController {
-            nav.popViewController(animated: true)
-        } else {
+            nav.dismiss(animated: true)
+        } else if self.presentingViewController != nil {
             self.dismiss(animated: true)
         }
     }
@@ -349,6 +386,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         
         collectionViewClubEvents.isScrollEnabled = false
         collectionViewClubEvents.reloadData()
+        noEventsStack.isHidden = !clubEvents.isEmpty
         
         let targetHeight: CGFloat = 580
         collectionViewClubEvents.constraints.forEach { if $0.firstAttribute == .height { collectionViewClubEvents.removeConstraint($0) } }
@@ -365,6 +403,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         // Ensure table view doesn't scroll inside the main scroll view
         tableViewLeaderBoard.isScrollEnabled = false
         tableViewLeaderBoard.reloadData()
+        noEventsStack.isHidden = true
         
         tableViewLeaderBoard.layoutIfNeeded()
         let tableHeight = max(tableViewLeaderBoard.contentSize.height, 350)
@@ -380,6 +419,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         collectionViewClubEvents.isHidden = false
         tableViewLeaderBoard.isHidden = true
         createNewEventButton.isHidden = false
+        noEventsStack.isHidden = !clubEvents.isEmpty
     }
 }
 
@@ -429,3 +469,4 @@ extension ClubProfileViewController: UICollectionViewDelegate, UICollectionViewD
         
     }
 }
+
