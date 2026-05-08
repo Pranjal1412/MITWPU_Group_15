@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24765" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24743"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -17,7 +17,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ActivityAnalysisViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
                 <outlet property="buttonCancel" destination="weN-iG-qFz" id="6lE-Fz-RQj"/>
-                <outlet property="buttonOptions" destination="X98-K1-Hza" id="ioz-8A-UYV"/>
                 <outlet property="buttonViewMap" destination="gZn-R1-qAE" id="HM1-xL-yrz"/>
                 <outlet property="collectionViewPhotos" destination="oRR-gO-k1O" id="NHd-PO-tTX"/>
                 <outlet property="labelActivityDate" destination="OAc-nC-YPY" id="IKx-5g-6Ki"/>
@@ -488,9 +487,6 @@
                     </constraints>
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="plain" image="ellipsis" catalog="system"/>
-                    <connections>
-                        <action selector="didTapOnMoreOptions:" destination="-1" eventType="touchUpInside" id="8gE-5L-4Cq"/>
-                    </connections>
                 </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
@@ -506,6 +502,11 @@
                 <constraint firstItem="MbJ-Ym-WSI" firstAttribute="top" secondItem="weN-iG-qFz" secondAttribute="bottom" constant="30" id="mdr-wh-M5v"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="subviews">
+                    <exclude reference="X98-K1-Hza"/>
+                </mask>
+            </variation>
             <point key="canvasLocation" x="464.17910447761193" y="260.86956521739131"/>
         </view>
     </objects>
@@ -524,7 +525,7 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray2Color">
-            <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.68235294120000001" green="0.68235294120000001" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tableSeparatorLightColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.12" colorSpace="custom" customColorSpace="sRGB"/>
