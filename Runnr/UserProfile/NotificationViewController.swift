@@ -13,6 +13,7 @@ class NotificationViewController: UIViewController {
     private var battleNotifications: [BattleInviteNotification] = DataSource.shared.getBattleInviteNotifications()
     private var generalNotifications: [RunnrNotification] { NotificationManager.shared.notifications }
     private var acceptedRows: Set<Int> = []
+    private var followerProfiles: [UUID: (name: String, imageURL: String?)] = [:]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,21 +35,45 @@ class NotificationViewController: UIViewController {
         let clubNib = UINib(nibName: "NotificationClubEventTableViewCell", bundle: nil)
         tableView.register(clubNib, forCellReuseIdentifier: "NotificationClubEventTableViewCell")
         
+        let followNib = UINib(nibName: "NotificationFollowTableViewCell", bundle: nil)
+        tableView.register(followNib, forCellReuseIdentifier: "NotificationFollowTableViewCell")
+        
         tableView.separatorStyle = .none
         
         NotificationManager.shared.onUpdate = { [weak self] in
-            self?.tableView.reloadData()
+            guard let self = self else { return }
+            Task { await self.loadFollowerProfiles() }
         }
         
         loadNotifications()
         
         Task {
+            await loadFollowerProfiles()
             await NotificationManager.shared.markAllRead()
         }
     }
     
     @IBAction func buttonBackPressed(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    private func loadFollowerProfiles() async {
+        let followNotifications = generalNotifications.filter { $0.type == "friend_joined" }
+        
+        for notification in followNotifications {
+            guard let body = notification.body,
+                  let followerID = UUID(uuidString: body) else { continue }
+            
+            if followerProfiles[followerID] != nil { continue }
+            
+            if let profile = await fetchUserProfile(userId: followerID) {
+                followerProfiles[followerID] = (name: profile.userName ?? "Someone", imageURL: profile.userProfileImageURL)
+            }
+        }
+        
+        await MainActor.run {
+            self.tableView.reloadData()
+        }
     }
     
     private func loadNotifications() {
@@ -89,7 +114,6 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
     func numberOfSections(in tableView: UITableView) -> Int { 2 }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        // Only show "Challenges" header when there are battle notifications, nothing for general
         if section == 0 {
             return battleNotifications.isEmpty ? nil : "Challenges"
         }
@@ -147,9 +171,29 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
             return cell
             
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationClubEventTableViewCell", for: indexPath) as! NotificationClubEventTableViewCell
-            cell.configure(with: generalNotifications[indexPath.row])
-            return cell
+            let notification = generalNotifications[indexPath.row]
+            
+            if notification.type == "friend_joined" {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationFollowTableViewCell", for: indexPath) as! NotificationFollowTableViewCell
+                
+                var name = "Someone"
+                var imageURL: String? = nil
+                
+                if let body = notification.body, let followerID = UUID(uuidString: body) {
+                    if let profile = followerProfiles[followerID] {
+                        name = profile.name
+                        imageURL = profile.imageURL
+                    }
+                }
+                
+                cell.configure(with: notification, followerName: name, followerImageURL: imageURL)
+                return cell
+                
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationClubEventTableViewCell", for: indexPath) as! NotificationClubEventTableViewCell
+                cell.configure(with: notification)
+                return cell
+            }
         }
     }
     
