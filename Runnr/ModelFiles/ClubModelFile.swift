@@ -10,6 +10,7 @@ import UIKit
 
 struct Club : Codable {
     var clubID : UUID?
+    var clubOwnerID: UUID?
     var clubName: String
     var clubProfileImageURL : String?
     var clubBannerImageURL : String?
@@ -19,6 +20,7 @@ struct Club : Codable {
     var isPublic : Bool
     var memberCount: Int
 }
+
 struct ClubEvents : Codable {
     var clubID: UUID?
     var eventName: String?

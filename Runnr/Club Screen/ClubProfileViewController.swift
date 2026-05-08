@@ -27,17 +27,20 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
     @IBOutlet var createNewEventButton: UIButton!
     @IBOutlet weak var viewBackgroundOwner: UIView!
     @IBOutlet weak var imageOwnerProfile: UIImageView!
+    @IBOutlet weak var labelClubOwnerName: UILabel!
     
     var isMyClub: Bool = false
     var clubProfileData: Club?
     var myClubProfileData : ClubRoleAndData?
-    private var allPosts: [ClubPostDetail] = []
-    private var clubEvents: [ClubEvents] = []
-
-    var likedPosts: [Bool] = [false, false, false]
     
+    private var clubOwnerDetails: UserProfile?
+    private var clubEvents: [ClubEvents] = []
     private var userProfileData = DataSource.shared.getUserProfile()
     
+    //    var likedPosts: [Bool] = [false, false, false]
+    //    private var allPosts: [ClubPostDetail] = []
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -72,6 +75,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         }
         else {
             self.createNewEventButton.isHidden = true
+
         }
     }
 
@@ -173,6 +177,17 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
             joinNowButton.layer.borderWidth = 1
 
             leaveClubButton.isHidden = false
+            
+            Task {
+                self.clubOwnerDetails = await fetchUserProfile(userId: myClubProfileData?.club.clubOwnerID ?? UUID())
+                if let clubOwner = clubOwnerDetails {
+                    self.labelClubOwnerName.text = clubOwner.userName
+                    if let url = URL(string: (clubOwner.userProfileImageURL ?? "")) {
+                        self.imageOwnerProfile.kf.setImage(with: url)
+                    }
+                    
+                }
+            }
         }
         else {
             
@@ -182,6 +197,17 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
             
             if let url = URL(string: (clubProfileData!.clubBannerImageURL!)) {
                 self.imageClubBanner.kf.setImage(with: url)
+            }
+            
+            Task {
+                self.clubOwnerDetails = await fetchUserProfile(userId: clubProfileData?.clubOwnerID ?? UUID())
+                if let clubOwner = clubOwnerDetails {
+                    self.labelClubOwnerName.text = clubOwner.userName
+                    if let url = URL(string: (clubOwner.userProfileImageURL ?? "")) {
+                        self.imageOwnerProfile.kf.setImage(with: url)
+                    }
+                    
+                }
             }
 
             labelClubName.text = clubProfileData?.clubName
@@ -306,6 +332,14 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         } else {
             self.dismiss(animated: true)
         }
+    }
+    
+    @IBAction func viewOwnerProfile(_ sender: UIButton) {
+        let destinationVC = UserProfileViewController(nibName: "UserProfileViewController", bundle: nil)
+        destinationVC.friendData = clubOwnerDetails
+        destinationVC.isFromFriendsScreen = true
+        destinationVC.modalPresentationStyle = .fullScreen
+        self.present(destinationVC, animated: true)
     }
     
     func showPosts() {

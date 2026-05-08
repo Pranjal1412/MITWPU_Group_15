@@ -28,6 +28,7 @@
                 <outlet property="imageOwnerProfile" destination="eVd-GF-pKE" id="Vp7-wQ-JoN"/>
                 <outlet property="joinNowButton" destination="zKw-x3-qze" id="IJp-kj-kq6"/>
                 <outlet property="labelClubName" destination="O42-46-i2J" id="e8H-BX-Qzx"/>
+                <outlet property="labelClubOwnerName" destination="t6m-LC-4nu" id="DRl-66-pGb"/>
                 <outlet property="labelNumberOfMembers" destination="IC5-KH-tEN" id="l9G-PD-ee8"/>
                 <outlet property="labelSportType" destination="LCy-GY-3OV" id="fKK-cG-2Bx"/>
                 <outlet property="leaveClubButton" destination="0kR-ne-qE1" id="vnH-au-l5O"/>
@@ -206,7 +207,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vh9-zg-kJe">
                             <rect key="frame" x="17" y="446" width="368" height="70"/>
                             <subviews>
-                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="club1" translatesAutoresizingMaskIntoConstraints="NO" id="eVd-GF-pKE">
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="club1" translatesAutoresizingMaskIntoConstraints="NO" id="eVd-GF-pKE">
                                     <rect key="frame" x="15" y="10" width="50" height="50"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="50" id="SEi-pU-6ZJ"/>
@@ -231,7 +232,7 @@
                                     </subviews>
                                 </stackView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SLB-0t-yTO">
-                                    <rect key="frame" x="269" y="22.666666666666686" width="84" height="25"/>
+                                    <rect key="frame" x="276.66666666666669" y="22.666666666666686" width="76.333333333333314" height="25"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="25" id="2cK-V7-vmV"/>
                                     </constraints>
@@ -241,6 +242,9 @@
                                         <fontDescription key="titleFontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="10"/>
                                         <color key="baseForegroundColor" red="0.050980389119999997" green="0.050980389119999997" blue="0.050980389119999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     </buttonConfiguration>
+                                    <connections>
+                                        <action selector="viewOwnerProfile:" destination="-1" eventType="touchUpInside" id="TDb-rP-BEH"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <color key="backgroundColor" name="CardLightBlack"/>
@@ -411,7 +415,7 @@
                 <constraint firstItem="zue-5g-IEe" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="ppg-3n-WMD"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="880.59701492537306" y="129.7482837528604"/>
+            <point key="canvasLocation" x="815" y="34"/>
         </view>
     </objects>
     <resources>
@@ -434,7 +438,7 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.2196078431372549" blue="0.23529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

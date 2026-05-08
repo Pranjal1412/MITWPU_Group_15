@@ -27,7 +27,8 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var clubProfileImage: UIImageView!
     
     var currentPage = 1
-    var clubDraft : ClubRoleAndData?
+    var clubDraft : Club?
+    var userProfile = DataSource.shared.getUserProfile()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,21 +47,21 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
         
         clubProfileImage.layer.cornerRadius = self.clubProfileImage.frame.height / 2
         
-        self.clubDraft = ClubRoleAndData(role: .owner, club: Club(clubName: "", clubMotive: "", clubDescription: "", clubSport: .running, isPublic: true, memberCount: 1))
+//        self.clubDraft = ClubRoleAndData(role: .owner, club: Club(clubName: "", clubMotive: "", clubDescription: "", clubSport: .running, isPublic: true, memberCount: 1))
         
     }
 
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField == clubNameTextField {
-            clubDraft?.club.clubName = textField.text ?? ""
+            clubDraft?.clubName = textField.text ?? ""
         }
     }
     
     @IBAction func nextButtonPressed(_ sender: UIButton) {
         
         if currentPage == 2 {
-            if clubDraft?.club.clubMotive == "" {
+            if clubDraft?.clubMotive == "" {
                 let alert = UIAlertController(title: "Selection Required", message: "Please select a club description to continue.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alert, animated: true)
@@ -77,24 +78,25 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
             if let presenter = self.presentingViewController {
                 self.dismiss(animated: true) {
                     Task{
-                        let clubData = await insertNewClubData(newClub: self.clubDraft!.club) ?? self.clubDraft!.club
-                        self.clubDraft?.club = clubData
+                        self.clubDraft?.clubOwnerID = self.userProfile.userID
+                        let clubData = await insertNewClubData(newClub: self.clubDraft!) ?? self.clubDraft!
+                        self.clubDraft? = clubData
                         
-                        if let newURL = await saveClubProfileImage(clubID: (self.clubDraft?.club.clubID)!, with: self.clubProfileImage.image!) {
-                            self.clubDraft?.club.clubProfileImageURL = newURL
+                        if let newURL = await saveClubProfileImage(clubID: (self.clubDraft?.clubID)!, with: self.clubProfileImage.image!) {
+                            self.clubDraft?.clubProfileImageURL = newURL
                         }
                         
-                        if let newURL = await saveClubBannerImage(clubID: (self.clubDraft?.club.clubID)!, with: UIImage(named: "Club")!) {
-                            self.clubDraft?.club.clubBannerImageURL = newURL
+                        if let newURL = await saveClubBannerImage(clubID: (self.clubDraft?.clubID)!, with: UIImage(named: "Club")!) {
+                            self.clubDraft?.clubBannerImageURL = newURL
                         }
                         
-                        await updateClubInfo(clubID: self.clubDraft!.club.clubID!, updatedData: self.clubDraft!.club)
+                        await updateClubInfo(clubID: self.clubDraft!.clubID!, updatedData: self.clubDraft!)
                         
                         let rootVC = ClubProfileViewController(nibName: "ClubProfileViewController", bundle: nil)
                         let destinationVC = UINavigationController(rootViewController: rootVC)
                         destinationVC.isNavigationBarHidden = true
                         rootVC.isMyClub = true
-                        rootVC.myClubProfileData = self.clubDraft!
+                        rootVC.myClubProfileData = ClubRoleAndData(role: .owner, club: self.clubDraft!)
                         destinationVC.modalPresentationStyle = .fullScreen
                         presenter.present(destinationVC, animated: true)
                     }
@@ -124,7 +126,7 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func clubPrivacy(_ sender: UISwitch) {
-        self.clubDraft?.club.isPublic = sender.isOn
+        self.clubDraft?.isPublic = sender.isOn
     }
     
     @IBAction func dismissModalPressed(_ sender: Any) {
@@ -290,7 +292,7 @@ extension CreateClubViewController: UICollectionViewDataSource, UICollectionView
             cell.configureCell(with: clubActivityOptions[indexPath.row])
             cell.viewCellBackground.layer.cornerRadius = 10.0
             
-            if clubDraft?.club.clubSport == clubActivityOptions[indexPath.row].title {
+            if clubDraft?.clubSport == clubActivityOptions[indexPath.row].title {
                 cell.viewCellBackground.layer.borderColor = UIColor.accent.cgColor
                 cell.imageActivity.tintColor = .accent
                 cell.labelActivityTitle.textColor = .accent
@@ -310,7 +312,7 @@ extension CreateClubViewController: UICollectionViewDataSource, UICollectionView
             cell.labelDescription.text = clubDescriptions[indexPath.row]
             cell.viewCellBackground.layer.cornerRadius = 10.0
             
-            if clubDraft?.club.clubMotive == clubDescriptions[indexPath.row] {
+            if clubDraft?.clubMotive == clubDescriptions[indexPath.row] {
                 cell.imageSelected.isHidden = false
                 cell.viewCellBackground.layer.borderColor = UIColor.accent.cgColor
                 cell.viewCellBackground.layer.borderWidth = 3
@@ -354,10 +356,10 @@ extension CreateClubViewController: UICollectionViewDataSource, UICollectionView
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if self.currentPage == 1 {
-            clubDraft?.club.clubSport = clubActivityOptions[indexPath.row].title
+            clubDraft?.clubSport = clubActivityOptions[indexPath.row].title
         }
         else {
-            clubDraft?.club.clubMotive = clubDescriptions[indexPath.row]
+            clubDraft?.clubMotive = clubDescriptions[indexPath.row]
         }
         
         collectionView.reloadData()
@@ -391,7 +393,7 @@ extension CreateClubViewController {
 
 extension CreateClubViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
-        clubDraft?.club.clubDescription = textView.text
+        clubDraft?.clubDescription = textView.text
     }
 }
 
