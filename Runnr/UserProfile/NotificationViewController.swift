@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import Supabase
 
 class NotificationViewController: UIViewController {
 
@@ -199,5 +200,30 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: nil) { [weak self] _, _, completion in
+            guard let self = self else { return }
+            if indexPath.section == 0 {
+                self.battleNotifications.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            } else {
+                let notification = self.generalNotifications[indexPath.row]
+                NotificationManager.shared.notifications.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                Task {
+                    try? await SupabaseManager.shared.client
+                        .from("notifications")
+                        .delete()
+                        .eq("id", value: notification.id)
+                        .execute()
+                }
+            }
+            completion(true)
+        }
+        deleteAction.image = UIImage(systemName: "trash.fill")
+        deleteAction.backgroundColor = .systemRed
+        return UISwipeActionsConfiguration(actions: [deleteAction])
     }
 }
