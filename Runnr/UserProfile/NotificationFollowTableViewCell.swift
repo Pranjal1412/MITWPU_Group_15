@@ -22,7 +22,6 @@ class NotificationFollowTableViewCell: UITableViewCell {
         self.viewBackground.layer.cornerRadius = 15
         self.viewBackground.layer.borderWidth = 1
         self.viewBackground.layer.borderColor = UIColor(named: "outlineColor")?.cgColor
-        
         self.imageUserProfile.layer.cornerRadius = self.imageUserProfile.frame.height / 2
     }
     

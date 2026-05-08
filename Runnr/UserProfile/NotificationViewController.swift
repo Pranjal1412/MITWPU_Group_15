@@ -2,8 +2,6 @@
 //  NotificationViewController.swift
 //  Runnr
 //
-//  Created by Aditi Bhange on 18/03/26.
-//
 
 import UIKit
 
@@ -12,9 +10,8 @@ class NotificationViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var closeButton: UIButton!
     
-    private var notifications: [BattleInviteNotification] = DataSource.shared.getBattleInviteNotifications()
-    
-    // Tracks which rows are in accepted state
+    private var battleNotifications: [BattleInviteNotification] = DataSource.shared.getBattleInviteNotifications()
+    private var generalNotifications: [RunnrNotification] { NotificationManager.shared.notifications }
     private var acceptedRows: Set<Int> = []
 
     override func viewDidLoad() {
@@ -22,13 +19,32 @@ class NotificationViewController: UIViewController {
 
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.estimatedRowHeight = 140
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.cellLayoutMarginsFollowReadableWidth = false
+        tableView.contentInset = .zero
+        tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNonzeroMagnitude))
+        tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNonzeroMagnitude))
         
         setGlassEffect(for: self.closeButton, withImage: "multiply")
         
-        let nib = UINib(nibName: "NotificationChallengeTableViewCell", bundle: nil)
-        tableView.register(nib, forCellReuseIdentifier: "NotificationChallengeTableViewCell")
+        let challengeNib = UINib(nibName: "NotificationChallengeTableViewCell", bundle: nil)
+        tableView.register(challengeNib, forCellReuseIdentifier: "NotificationChallengeTableViewCell")
+        
+        let clubNib = UINib(nibName: "NotificationClubEventTableViewCell", bundle: nil)
+        tableView.register(clubNib, forCellReuseIdentifier: "NotificationClubEventTableViewCell")
+        
         tableView.separatorStyle = .none
+        
+        NotificationManager.shared.onUpdate = { [weak self] in
+            self?.tableView.reloadData()
+        }
+        
         loadNotifications()
+        
+        Task {
+            await NotificationManager.shared.markAllRead()
+        }
     }
     
     @IBAction func buttonBackPressed(_ sender: UIButton) {
@@ -40,7 +56,6 @@ class NotificationViewController: UIViewController {
         Task {
             var fetched = await fetchBattleInviteNotifications(for: userID)
             
-            // Enrich each notification with the sender's profile image URL
             fetched = await withTaskGroup(of: BattleInviteNotification.self) { group -> [BattleInviteNotification] in
                 for notification in fetched {
                     group.addTask {
@@ -52,78 +67,93 @@ class NotificationViewController: UIViewController {
                     }
                 }
                 var results: [BattleInviteNotification] = []
-                for await result in group {
-                    results.append(result)
-                }
+                for await result in group { results.append(result) }
                 return results
             }
             
             await MainActor.run { [weak self] in
                 guard let self = self else { return }
-                // Only replace dummy/existing data if Supabase returns real rows
                 if !fetched.isEmpty {
-                    self.notifications = fetched
+                    self.battleNotifications = fetched
                     DataSource.shared.setBattleInviteNotifications(fetched)
                 }
                 self.tableView?.reloadData()
             }
         }
     }
-
 }
 
+// MARK: - TableView
 extension NotificationViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int { 2 }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        // Only show "Challenges" header when there are battle notifications, nothing for general
+        if section == 0 {
+            return battleNotifications.isEmpty ? nil : "Challenges"
+        }
+        return nil
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0 && !battleNotifications.isEmpty {
+            return UITableView.automaticDimension
+        }
+        return CGFloat.leastNonzeroMagnitude
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return CGFloat.leastNonzeroMagnitude
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return notifications.count
+        section == 0 ? battleNotifications.count : generalNotifications.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationChallengeTableViewCell", for: indexPath) as! NotificationChallengeTableViewCell
         
-        let notification = notifications[indexPath.row]
-        cell.configure(with: notification)
-        
-        // Re-apply accepted visual state for rows already accepted
-        if acceptedRows.contains(indexPath.row) {
-            let myImageURL = DataSource.shared.getUserProfile().userProfileImageURL
-            cell.showAcceptedState(senderImageURL: notification.senderProfileImageURL,
-                                   receiverImageURL: myImageURL)
-        }
-        
-        cell.onAccept = { [weak self] in
-            guard let self = self else { return }
-            guard let gameID = notification.gameID else { return }
-            let receiverID = notification.receiverID
+        if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationChallengeTableViewCell", for: indexPath) as! NotificationChallengeTableViewCell
+            let notification = battleNotifications[indexPath.row]
+            cell.configure(with: notification)
             
-            Task {
-                // Use the receiverID from the notification — this is always the invited player's ID,
-                // set at invite time, so it's correct regardless of which device runs this code.
-                await updateGamePlayerTwo(gameID: gameID, playerTwoID: receiverID)
-                DataSource.shared.setGameID(gameID)
+            if acceptedRows.contains(indexPath.row) {
+                let myImageURL = DataSource.shared.getUserProfile().userProfileImageURL
+                cell.showAcceptedState(senderImageURL: notification.senderProfileImageURL,
+                                       receiverImageURL: myImageURL)
             }
             
-            // Mark row as accepted and update UI
-            self.acceptedRows.insert(indexPath.row)
-            let myImageURL = DataSource.shared.getUserProfile().userProfileImageURL
-            cell.showAcceptedState(senderImageURL: notification.senderProfileImageURL,
-                                   receiverImageURL: myImageURL)
+            cell.onAccept = { [weak self] in
+                guard let self = self else { return }
+                guard let gameID = notification.gameID else { return }
+                Task { await updateGamePlayerTwo(gameID: gameID, playerTwoID: notification.receiverID) }
+                DataSource.shared.setGameID(gameID)
+                self.acceptedRows.insert(indexPath.row)
+                let myImageURL = DataSource.shared.getUserProfile().userProfileImageURL
+                cell.showAcceptedState(senderImageURL: notification.senderProfileImageURL,
+                                       receiverImageURL: myImageURL)
+                tableView.beginUpdates()
+                tableView.endUpdates()
+            }
             
-            // Refresh row height for the new layout
-            tableView.beginUpdates()
-            tableView.endUpdates()
+            cell.onDecline = { [weak self] in
+                guard let self = self else { return }
+                guard indexPath.row < self.battleNotifications.count else { return }
+                self.battleNotifications.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            }
+            
+            return cell
+            
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationClubEventTableViewCell", for: indexPath) as! NotificationClubEventTableViewCell
+            cell.configure(with: generalNotifications[indexPath.row])
+            return cell
         }
-        
-        cell.onDecline = { [weak self] in
-            guard let self = self else { return }
-            guard indexPath.row < self.notifications.count else { return }
-            self.notifications.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        }
-        
-        return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        UITableView.automaticDimension
     }
 }

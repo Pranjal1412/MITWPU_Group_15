@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24765" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24743"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -17,21 +17,23 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="NotificationClubEventTableViewCell" customModule="Runnr" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="366" height="115"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="119" id="KGk-i7-Jjw" customClass="NotificationClubEventTableViewCell" customModule="Runnr" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="366" height="119"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="366" height="115"/>
+                <rect key="frame" x="0.0" y="0.0" width="366" height="119"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sunday Morning Run" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HI8-Q4-a9o">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Sunday Morning Run" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="HI8-Q4-a9o">
                         <rect key="frame" x="65" y="15" width="286" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" name="SFPro-Bold" family="SF Pro" pointSize="15"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="264-Cf-AmV">
-                        <rect key="frame" x="65" y="38" width="286" height="46"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="264-Cf-AmV">
+                        <rect key="frame" x="65" y="38" width="281" height="46"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <constraints>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="46" id="CpY-qT-1eH"/>
                         </constraints>
@@ -40,16 +42,18 @@
                         <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Tw6-Hv-Z2y">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Tw6-Hv-Z2y">
                         <rect key="frame" x="15" y="15" width="40" height="40"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" name="AccentColorLight"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="40" id="TBu-ND-fpY"/>
                             <constraint firstAttribute="height" constant="40" id="YZ1-zS-9vl"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sunday, 27 March 7:00PM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oly-S9-IHN">
-                        <rect key="frame" x="65" y="89" width="286" height="12"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sunday, 27 March 7:00PM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="oly-S9-IHN">
+                        <rect key="frame" x="65" y="89" width="281" height="11"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="tintColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <fontDescription key="fontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="10"/>
                         <color key="textColor" red="0.3921568627" green="0.3803921569" blue="0.3803921569" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -61,10 +65,11 @@
                     <constraint firstItem="264-Cf-AmV" firstAttribute="top" secondItem="HI8-Q4-a9o" secondAttribute="bottom" constant="5" id="13l-lx-sSC"/>
                     <constraint firstItem="264-Cf-AmV" firstAttribute="leading" secondItem="Tw6-Hv-Z2y" secondAttribute="trailing" constant="10" id="8oj-Ej-Ar1"/>
                     <constraint firstItem="oly-S9-IHN" firstAttribute="top" secondItem="264-Cf-AmV" secondAttribute="bottom" constant="5" id="GWu-Mc-YYQ"/>
+                    <constraint firstAttribute="bottom" secondItem="oly-S9-IHN" secondAttribute="bottom" constant="25" id="K1Q-b7-KhY"/>
                     <constraint firstItem="HI8-Q4-a9o" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="aeq-y0-jYY"/>
                     <constraint firstItem="Tw6-Hv-Z2y" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="dC8-oK-6OC"/>
-                    <constraint firstAttribute="trailing" secondItem="264-Cf-AmV" secondAttribute="trailing" constant="15" id="ikh-wH-veL"/>
-                    <constraint firstAttribute="trailing" secondItem="oly-S9-IHN" secondAttribute="trailing" constant="15" id="n5J-7Z-FmS"/>
+                    <constraint firstAttribute="trailing" secondItem="264-Cf-AmV" secondAttribute="trailing" constant="20" id="ikh-wH-veL"/>
+                    <constraint firstAttribute="trailing" secondItem="oly-S9-IHN" secondAttribute="trailing" constant="20" id="n5J-7Z-FmS"/>
                     <constraint firstAttribute="trailing" secondItem="HI8-Q4-a9o" secondAttribute="trailing" constant="15" id="raS-bl-DNr"/>
                     <constraint firstItem="oly-S9-IHN" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="65" id="yyz-Pk-VdA"/>
                     <constraint firstItem="Tw6-Hv-Z2y" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="zOo-tx-nOv"/>
@@ -72,6 +77,11 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <constraints>
+                <constraint firstItem="H2p-sc-9uM" firstAttribute="top" secondItem="njF-e1-oar" secondAttribute="top" id="4Cu-QS-p9t"/>
+                <constraint firstItem="H2p-sc-9uM" firstAttribute="leading" secondItem="njF-e1-oar" secondAttribute="leading" id="4OI-x5-kAi"/>
+                <constraint firstItem="H2p-sc-9uM" firstAttribute="trailing" secondItem="njF-e1-oar" secondAttribute="trailing" id="7gc-jt-Qhu"/>
+            </constraints>
             <connections>
                 <outlet property="imageClubProfile" destination="Tw6-Hv-Z2y" id="qsy-HB-s0V"/>
                 <outlet property="labelEventDescription" destination="264-Cf-AmV" id="iXd-nj-m3v"/>
@@ -79,7 +89,7 @@
                 <outlet property="labelTimestamp" destination="oly-S9-IHN" id="e26-vq-9DD"/>
                 <outlet property="viewBackground" destination="H2p-sc-9uM" id="Ijg-Rg-D4T"/>
             </connections>
-            <point key="canvasLocation" x="154" y="135"/>
+            <point key="canvasLocation" x="151.14503816793894" y="136.26760563380282"/>
         </tableViewCell>
     </objects>
     <resources>

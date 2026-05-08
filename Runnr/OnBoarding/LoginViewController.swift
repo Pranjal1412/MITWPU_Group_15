@@ -88,9 +88,11 @@ class LoginViewController: UIViewController {
             }
         }
     }
-    
     func checkSession() async {
-        if supabase.auth.currentSession != nil {            
+        if let session = supabase.auth.currentSession {
+            Task {
+                await NotificationManager.shared.start(userId: session.user.id)
+            }
             self.navigationController?.popToRootViewController(animated: false)
         }
     }
