@@ -206,7 +206,9 @@ class UserProfileViewController: UIViewController {
             self.labelTotalPointsCount.text = "-"
             self.labelTotalActivitiesCount.text = "-"
             self.labelTotalDistanceCount.text = "-"
-        } else {
+        }
+        
+        else {
             self.labelUsername.text = userProfile.userName
             if let url = URL(string: self.userProfile.userProfileImageURL!) {
                 self.imageProfile.kf.setImage(with: url)
