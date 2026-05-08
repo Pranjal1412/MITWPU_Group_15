@@ -47,8 +47,7 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
         
         clubProfileImage.layer.cornerRadius = self.clubProfileImage.frame.height / 2
         
-//        self.clubDraft = ClubRoleAndData(role: .owner, club: Club(clubName: "", clubMotive: "", clubDescription: "", clubSport: .running, isPublic: true, memberCount: 1))
-        
+        self.clubDraft = Club(clubName: "", clubMotive: "", clubDescription: "", clubSport: .running, isPublic: false, memberCount: 1)
     }
 
     
