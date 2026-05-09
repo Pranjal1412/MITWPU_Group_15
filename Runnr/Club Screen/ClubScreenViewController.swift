@@ -24,6 +24,18 @@ class ClubScreenViewController: UIViewController {
     @IBOutlet weak var buttonUserProfile: UIButton!
     @IBOutlet weak var profileImage: UIImageView!
     
+    private let noClubsLabel: UILabel = {
+        let label = UILabel()
+        label.text = "No new clubs available"
+        label.textAlignment = .center
+        label.textColor = .secondaryLabel
+        label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        label.isHidden = true
+        label.numberOfLines = 2
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     let systemOS = UIDevice.current.systemVersion
     
     var filteredFriends: [UserProfile] = []
@@ -68,6 +80,13 @@ class ClubScreenViewController: UIViewController {
         self.profileImage.clipsToBounds = true
         self.viewCurrency.layer.cornerRadius = self.viewCurrency.frame.height / 2
         self.buttonUserProfile.clipsToBounds = true
+        
+        view.addSubview(noClubsLabel)
+        NSLayoutConstraint.activate([
+            noClubsLabel.centerXAnchor.constraint(equalTo: collectionViewExplore.centerXAnchor),
+            noClubsLabel.centerYAnchor.constraint(equalTo: collectionViewExplore.centerYAnchor),
+            noClubsLabel.widthAnchor.constraint(lessThanOrEqualTo: collectionViewExplore.widthAnchor, constant: -40)
+        ])
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -102,6 +121,7 @@ class ClubScreenViewController: UIViewController {
             
             collectionViewJoinedClub.reloadData()
             collectionViewExplore.reloadData()
+            updateNoClubsLabelVisibility()
 //            buttonAddMoreClubs.isHidden = true
 
             segmentShiftAction(segmentControlClubScreen)
@@ -125,6 +145,7 @@ class ClubScreenViewController: UIViewController {
             labelYourClubs.isHidden = true
             
             buttonAddMoreClubs.isHidden = true
+            updateNoClubsLabelVisibility()
          case 1:
             collectionViewExplore.isHidden = false
             buttonCreateClub.isHidden = true
@@ -135,6 +156,7 @@ class ClubScreenViewController: UIViewController {
             collectionViewJoinedClub.isHidden = true
            
             buttonAddMoreClubs.isHidden = true
+            updateNoClubsLabelVisibility()
         case 2:
             searchBarFriendsScreen.isHidden = false
             searchBarFriendsScreen.placeholder = "Search your clubs"
@@ -159,7 +181,7 @@ class ClubScreenViewController: UIViewController {
                 
                 collectionViewJoinedClub.reloadData()
             }
-            
+            updateNoClubsLabelVisibility()
          default:
              break
          }
@@ -261,6 +283,10 @@ class ClubScreenViewController: UIViewController {
         self.present(destinationVC, animated: true, completion: nil)
     }
     
+    private func updateNoClubsLabelVisibility() {
+        let isVisible = segmentControlClubScreen.selectedSegmentIndex == 1 && (isSearchingClubs ? filteredClubs.isEmpty : clubsArray.isEmpty)
+        noClubsLabel.isHidden = !isVisible || !(collectionViewExplore.isHidden == false)
+    }
     
 }
 
@@ -319,6 +345,7 @@ extension ClubScreenViewController : UICollectionViewDataSource, UICollectionVie
                         
                         self.collectionViewJoinedClub.reloadData()
                         self.collectionViewExplore.reloadData()
+                        self.updateNoClubsLabelVisibility()
                     }
                 }
             }
@@ -449,6 +476,7 @@ extension ClubScreenViewController: UISearchBarDelegate {
                 }
             }
             collectionViewExplore.reloadData()
+            updateNoClubsLabelVisibility()
         }
         if segmentControlClubScreen.selectedSegmentIndex == 2 {
             if query.isEmpty {
@@ -473,9 +501,11 @@ extension ClubScreenViewController: UISearchBarDelegate {
         filteredClubs = []
         tableViewFriends.reloadData()
         collectionViewExplore.reloadData()
+        updateNoClubsLabelVisibility()
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
     }
 }
+
