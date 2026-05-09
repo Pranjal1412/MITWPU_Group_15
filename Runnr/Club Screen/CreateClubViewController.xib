@@ -33,6 +33,7 @@
                 <outlet property="page1" destination="FB7-uv-gIg" id="Qgd-Rb-uUb"/>
                 <outlet property="page2" destination="ZDG-Mi-7ph" id="QmD-3U-j7u"/>
                 <outlet property="page3" destination="xbG-6v-sn0" id="7Wy-fd-e0J"/>
+                <outlet property="switchIsPublic" destination="Sw6-hg-drf" id="iLy-9q-rj1"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -297,7 +298,7 @@
                 <constraint firstItem="Biy-ss-bQ1" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="ZZj-C1-5va"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-69" y="36"/>
+            <point key="canvasLocation" x="-691" y="29"/>
         </view>
     </objects>
     <resources>
@@ -313,7 +314,7 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="tertiarySystemFillColor">
-            <color red="0.46274509800000002" green="0.46274509800000002" blue="0.50196078430000002" alpha="0.12" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.46274509803921571" green="0.46274509803921571" blue="0.50196078431372548" alpha="0.12" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

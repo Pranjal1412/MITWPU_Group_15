@@ -302,7 +302,7 @@ extension ClubScreenViewController : UICollectionViewDataSource, UICollectionVie
                 Task {
                     await insertNewClubMember(newMember: ClubMemberRole(userID: self.userProfile.userID!, clubID: club.clubID!, role: .member))
                     
-                    await updateClubInfo(clubID: club.clubID!, updatedData: joinedClub)
+                    await updateClubInfo(updatedData: joinedClub)
                     
                     let exploreClubs = await fetchExploreClubData(userID: self.userProfile.userID!)
                     self.dataSource.setclubsArray(exploreClubs)

@@ -25,6 +25,7 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var clubDescriptionTextField: UITextView!
     @IBOutlet var buttonBack: UIButton!
     @IBOutlet weak var clubProfileImage: UIImageView!
+    @IBOutlet weak var switchIsPublic: UISwitch!
     
     var currentPage = 1
     var clubDraft : Club?
@@ -47,7 +48,7 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
         
         clubProfileImage.layer.cornerRadius = self.clubProfileImage.frame.height / 2
         
-        self.clubDraft = Club(clubName: "", clubMotive: "", clubDescription: "", clubSport: .running, isPublic: false, memberCount: 1)
+        self.clubDraft = Club(clubName: "", clubMotive: "", clubDescription: "", clubSport: .running, isPublic: switchIsPublic.isOn, memberCount: 1)
     }
 
     
@@ -77,27 +78,29 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
             if let presenter = self.presentingViewController {
                 self.dismiss(animated: true) {
                     Task{
-                        self.clubDraft?.clubOwnerID = self.userProfile.userID
-                        let clubData = await insertNewClubData(newClub: self.clubDraft!) ?? self.clubDraft!
-                        self.clubDraft? = clubData
-                        
-                        if let newURL = await saveClubProfileImage(clubID: (self.clubDraft?.clubID)!, with: self.clubProfileImage.image!) {
-                            self.clubDraft?.clubProfileImageURL = newURL
+                        if var clubDraft = self.clubDraft {
+                            clubDraft.clubOwnerID = self.userProfile.userID
+                            let clubData = await insertNewClubData(newClub: clubDraft) ?? self.clubDraft!
+                            clubDraft = clubData
+                            
+                            if let newURL = await saveClubProfileImage(clubID: clubDraft.clubID!, with: self.clubProfileImage.image!) {
+                                clubDraft.clubProfileImageURL = newURL
+                            }
+                            
+                            if let newURL = await saveClubBannerImage(clubID: (clubDraft.clubID)!, with: UIImage(named: "Club")!) {
+                                clubDraft.clubBannerImageURL = newURL
+                            }
+                            
+                            await updateClubInfo(updatedData: clubDraft)
+                            
+                            let rootVC = ClubProfileViewController(nibName: "ClubProfileViewController", bundle: nil)
+                            let destinationVC = UINavigationController(rootViewController: rootVC)
+                            destinationVC.isNavigationBarHidden = true
+                            rootVC.isMyClub = true
+                            rootVC.myClubProfileData = ClubRoleAndData(role: .owner, club: clubDraft)
+                            destinationVC.modalPresentationStyle = .fullScreen
+                            presenter.present(destinationVC, animated: true)
                         }
-                        
-                        if let newURL = await saveClubBannerImage(clubID: (self.clubDraft?.clubID)!, with: UIImage(named: "Club")!) {
-                            self.clubDraft?.clubBannerImageURL = newURL
-                        }
-                        
-                        await updateClubInfo(clubID: self.clubDraft!.clubID!, updatedData: self.clubDraft!)
-                        
-                        let rootVC = ClubProfileViewController(nibName: "ClubProfileViewController", bundle: nil)
-                        let destinationVC = UINavigationController(rootViewController: rootVC)
-                        destinationVC.isNavigationBarHidden = true
-                        rootVC.isMyClub = true
-                        rootVC.myClubProfileData = ClubRoleAndData(role: .owner, club: self.clubDraft!)
-                        destinationVC.modalPresentationStyle = .fullScreen
-                        presenter.present(destinationVC, animated: true)
                     }
                     
                 }

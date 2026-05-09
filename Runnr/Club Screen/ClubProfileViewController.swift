@@ -313,7 +313,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
                     
                     var updatedClub = self.clubProfileData!
                     updatedClub.memberCount += 1
-                    await updateClubInfo(clubID: clubID, updatedData: updatedClub)
+                    await updateClubInfo(updatedData: updatedClub)
                     
                     joinNowButton.setTitle("Joined", for: .normal)
                     joinNowButton.setTitleColor(.accent, for: .normal)
@@ -351,7 +351,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
                         
                         var updatedClub = self.myClubProfileData!.club
                         updatedClub.memberCount = max(0, updatedClub.memberCount - 1)
-                        await updateClubInfo(clubID: clubID, updatedData: updatedClub)
+                        await updateClubInfo(updatedData: updatedClub)
                     }
                 }
                 

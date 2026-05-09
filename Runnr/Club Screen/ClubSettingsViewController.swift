@@ -102,7 +102,7 @@ class ClubSettingsViewController: UIViewController, UITextViewDelegate {
             }
 
             
-            await updateClubInfo(clubID: self.clubProfileData!.clubID!, updatedData: self.clubProfileData!)
+            await updateClubInfo(updatedData: self.clubProfileData!)
             self.delegate?.updatedClubData(club: self.clubProfileData!)
             self.dismiss(animated: true)
         }

@@ -382,19 +382,30 @@ func deleteImageFromStorage(imageURL: String) async {
 
 // MARK: - Club Data
 func fetchExploreClubData(userID: UUID) async -> [Club] {
-
     do {
-        let joinedClubs: [ClubMemberRole] = try await SupabaseManager.shared.client
+        async let joinedClubsTask: [ClubMemberRole] = SupabaseManager.shared.client
             .from("ClubMemberRole")
             .select()
             .eq("userID", value: userID)
             .execute()
             .value
-        
-        let clubIDs = joinedClubs.map { $0.clubID }
-        
-        // If user has no clubs, return all clubs
-        if clubIDs.isEmpty {
+
+        async let ownedClubsTask: [Club] = SupabaseManager.shared.client
+            .from("Club")
+            .select("clubID")
+            .eq("clubOwnerID", value: userID)
+            .execute()
+            .value
+
+        let joinedClubs = try await joinedClubsTask
+        let ownedClubs = try await ownedClubsTask
+
+        let memberIDs = joinedClubs.compactMap { $0.clubID }
+        let ownerIDs = ownedClubs.compactMap { $0.clubID }
+
+        let excludedIDs = Array(Set(memberIDs + ownerIDs))
+
+        if excludedIDs.isEmpty {
             return try await SupabaseManager.shared.client
                 .from("Club")
                 .select("*")
@@ -402,8 +413,9 @@ func fetchExploreClubData(userID: UUID) async -> [Club] {
                 .value
         }
 
-        // Convert UUIDs into SQL array string
-        let formattedIDs = clubIDs.map { "\"\($0!.uuidString)\"" }.joined(separator: ",")
+        let formattedIDs = excludedIDs
+            .map { "\"\($0.uuidString)\"" }
+            .joined(separator: ",")
 
         let clubs: [Club] = try await SupabaseManager.shared.client
             .from("Club")
@@ -411,10 +423,10 @@ func fetchExploreClubData(userID: UUID) async -> [Club] {
             .not("clubID", operator: .in, value: "(\(formattedIDs))")
             .execute()
             .value
-        
+
         return clubs
-    }
-    catch {
+
+    } catch {
         print("Failed to fetch \(error)")
         return []
     }
@@ -422,7 +434,7 @@ func fetchExploreClubData(userID: UUID) async -> [Club] {
 
 func fetchMyClubsWithRoles(userID: UUID) async -> [ClubRoleAndData] {
     do {
-        let response: [ClubRoleAndData] = try await SupabaseManager.shared.client
+        async let memberClubsTask: [ClubRoleAndData] = SupabaseManager.shared.client
             .from("ClubMemberRole")
             .select("""
                 role,
@@ -431,8 +443,32 @@ func fetchMyClubsWithRoles(userID: UUID) async -> [ClubRoleAndData] {
             .eq("userID", value: userID)
             .execute()
             .value
-        
-        return response
+
+        async let ownedClubsTask: [Club] = SupabaseManager.shared.client
+            .from("Club")
+            .select()
+            .eq("clubOwnerID", value: userID)
+            .execute()
+            .value
+
+        let memberClubs = try await memberClubsTask
+        let ownedClubs = try await ownedClubsTask
+
+        let ownerClubs = ownedClubs.map {
+            ClubRoleAndData(role: .owner, club: $0)
+        }
+
+        var combined = memberClubs + ownerClubs
+
+        // remove duplicates if owner is also present in member table
+        var seen = Set<UUID>()
+        combined = combined.filter {
+            guard let id = $0.club.clubID else { return false }
+            return seen.insert(id).inserted
+        }
+
+        return combined
+
     } catch {
         print("Error fetching joined data: \(error)")
         return []
@@ -459,12 +495,12 @@ func insertNewClubData(newClub: Club) async -> Club? {
     }
 }
 
-func updateClubInfo(clubID: UUID, updatedData: Club) async {
+func updateClubInfo(updatedData: Club) async {
     do {
         try await SupabaseManager.shared.client
             .from("Club")
             .update(updatedData)
-            .eq("clubID", value: clubID)
+            .eq("clubID", value: updatedData.clubID!)
             .execute()
     }
     catch {
