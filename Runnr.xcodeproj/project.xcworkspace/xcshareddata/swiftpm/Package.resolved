@@ -1,6 +1,15 @@
 {
-  "originHash" : "a8d13852d0d4931e3488e9c34bb2e2969a33cdf08204d4953acc52535615df53",
+  "originHash" : "d3b463499d350f7f0aa8055750138f4d5f4a42c5178db5f58b5ebb896029e08e",
   "pins" : [
+    {
+      "identity" : "fscalendar",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/WenchaoD/FSCalendar",
+      "state" : {
+        "revision" : "0fbdec5172fccb90f707472eeaea4ffe095278f6",
+        "version" : "2.8.4"
+      }
+    },
     {
       "identity" : "ios-maps-sdk",
       "kind" : "remoteSourceControl",
