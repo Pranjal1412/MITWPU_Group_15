@@ -22,8 +22,8 @@
             <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wUb-TE-QxE" userLabel="Cancel">
-                    <rect key="frame" x="1" y="70" width="45" height="45"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wUb-TE-QxE" userLabel="Cancel">
+                    <rect key="frame" x="15" y="70" width="45" height="45"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="45" id="afc-17-wmf"/>
                         <constraint firstAttribute="height" constant="45" id="eJG-wH-AuA"/>
@@ -33,7 +33,9 @@
                     <state key="normal">
                         <imageReference key="image" image="chevron.backward" catalog="system" symbolScale="large"/>
                     </state>
-                    <buttonConfiguration key="configuration" style="plain" image="multiply" catalog="system"/>
+                    <buttonConfiguration key="configuration" style="plain" image="multiply" catalog="system">
+                        <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" scale="small"/>
+                    </buttonConfiguration>
                     <connections>
                         <action selector="cancelButtonPressed:" destination="-1" eventType="touchUpInside" id="v4t-c5-NhL"/>
                     </connections>
@@ -59,7 +61,7 @@
                 <constraint firstItem="wUb-TE-QxE" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="70" id="FFi-lt-qso"/>
                 <constraint firstItem="CXN-2p-Uuo" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="70" id="Hjl-84-O94"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ege-q7-9QV" secondAttribute="trailing" id="Ima-ce-wRl"/>
-                <constraint firstItem="wUb-TE-QxE" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="1" id="J61-Jv-iPd"/>
+                <constraint firstItem="wUb-TE-QxE" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="15" id="J61-Jv-iPd"/>
                 <constraint firstAttribute="bottom" secondItem="ege-q7-9QV" secondAttribute="bottom" id="g8i-iZ-FXP"/>
                 <constraint firstItem="ege-q7-9QV" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="nuU-dL-DYy"/>
                 <constraint firstItem="ege-q7-9QV" firstAttribute="top" secondItem="CXN-2p-Uuo" secondAttribute="bottom" constant="20" id="rVq-ad-1T4"/>

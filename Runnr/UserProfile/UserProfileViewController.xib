@@ -67,7 +67,7 @@
                         <action selector="navigateToSettings:" destination="-1" eventType="touchUpInside" id="jfh-DU-nuY"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uin-Ul-OqL" userLabel="Cancel">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uin-Ul-OqL" userLabel="Cancel">
                     <rect key="frame" x="10" y="70" width="45" height="45"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="45" id="7tM-c2-iyO"/>

@@ -43,7 +43,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xDQ-3m-mbB">
-                    <rect key="frame" x="0.0" y="145" width="402" height="729"/>
+                    <rect key="frame" x="0.0" y="145" width="402" height="661"/>
                     <subviews>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="6A4-Va-OoK">
                             <rect key="frame" x="25" y="45" width="352" height="352"/>
@@ -131,13 +131,13 @@
                 <constraint firstItem="xDQ-3m-mbB" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="1hC-Hw-TEw"/>
                 <constraint firstItem="xDQ-3m-mbB" firstAttribute="top" secondItem="dDs-5u-QI8" secondAttribute="bottom" constant="15" id="O2z-dq-MrH"/>
                 <constraint firstItem="xDQ-3m-mbB" firstAttribute="top" secondItem="dDs-5u-QI8" secondAttribute="bottom" constant="15" id="brc-Ey-FW6"/>
-                <constraint firstAttribute="bottom" secondItem="xDQ-3m-mbB" secondAttribute="bottom" id="gxS-nF-tnh"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="xDQ-3m-mbB" secondAttribute="bottom" id="gxS-nF-tnh"/>
                 <constraint firstItem="xDQ-3m-mbB" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="nSD-mA-cBN"/>
                 <constraint firstItem="dDs-5u-QI8" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="90" id="nfB-rW-QU5"/>
                 <constraint firstItem="dDs-5u-QI8" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="zrT-2a-UR7"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="122" y="177"/>
+            <point key="canvasLocation" x="120.61068702290076" y="176.7605633802817"/>
         </view>
     </objects>
     <resources>

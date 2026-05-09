@@ -40,7 +40,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="K2z-qr-zcq">
-                    <rect key="frame" x="10" y="148" width="382" height="706"/>
+                    <rect key="frame" x="10" y="148" width="382" height="653"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="jBf-ch-Av8">
                         <size key="itemSize" width="128" height="128"/>
@@ -89,12 +89,12 @@
                 <constraint firstItem="ak8-md-SGm" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="9qY-np-3JE"/>
                 <constraint firstItem="ak8-md-SGm" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="90" id="Kgv-zj-dVP"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="K2z-qr-zcq" secondAttribute="trailing" constant="10" id="NNt-xY-i8d"/>
-                <constraint firstAttribute="bottom" secondItem="K2z-qr-zcq" secondAttribute="bottom" constant="20" id="WK1-Nc-XoJ"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="K2z-qr-zcq" secondAttribute="bottom" constant="5" id="WK1-Nc-XoJ"/>
                 <constraint firstItem="K2z-qr-zcq" firstAttribute="top" secondItem="ak8-md-SGm" secondAttribute="bottom" constant="18" id="mhp-x2-dKh"/>
                 <constraint firstItem="K2z-qr-zcq" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="10" id="uea-0W-yip"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-267.16417910447757" y="153.77574370709382"/>
+            <point key="canvasLocation" x="48" y="138"/>
         </view>
     </objects>
     <resources>

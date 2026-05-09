@@ -38,7 +38,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="O8E-oM-G2U">
-                    <rect key="frame" x="10" y="256" width="382" height="618"/>
+                    <rect key="frame" x="10" y="256" width="382" height="550"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="hlx-DK-JO3">
@@ -92,7 +92,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="GYY-As-FBA">
-                    <rect key="frame" x="10" y="211" width="382" height="663"/>
+                    <rect key="frame" x="10" y="211" width="382" height="595"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="user3" translatesAutoresizingMaskIntoConstraints="NO" id="14P-IP-6UJ">
@@ -140,12 +140,12 @@
                 <constraint firstItem="GYY-As-FBA" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="10" id="Nb0-Dd-r15"/>
                 <constraint firstItem="hlx-DK-JO3" firstAttribute="top" secondItem="8mf-cO-d31" secondAttribute="bottom" constant="20" id="Tcl-UJ-tXX"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="hlx-DK-JO3" secondAttribute="trailing" constant="16" id="Teu-MP-5lW"/>
-                <constraint firstAttribute="bottom" secondItem="O8E-oM-G2U" secondAttribute="bottom" id="ZoI-Te-yyo"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="O8E-oM-G2U" secondAttribute="bottom" id="ZoI-Te-yyo"/>
                 <constraint firstItem="O8E-oM-G2U" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="10" id="aRq-lj-RIM"/>
                 <constraint firstItem="8mf-cO-d31" firstAttribute="top" secondItem="wne-ou-9Cc" secondAttribute="bottom" constant="20" id="azD-Gh-n8s"/>
                 <constraint firstItem="GYY-As-FBA" firstAttribute="top" secondItem="8mf-cO-d31" secondAttribute="bottom" constant="25" id="fVd-0i-X99"/>
                 <constraint firstItem="wne-ou-9Cc" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="90" id="oku-gs-ORb"/>
-                <constraint firstAttribute="bottom" secondItem="GYY-As-FBA" secondAttribute="bottom" id="wI0-jo-X1L"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="GYY-As-FBA" secondAttribute="bottom" id="wI0-jo-X1L"/>
                 <constraint firstItem="8mf-cO-d31" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="wkM-vu-Vdh"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="GYY-As-FBA" secondAttribute="trailing" constant="10" id="wti-x4-YWf"/>
             </constraints>

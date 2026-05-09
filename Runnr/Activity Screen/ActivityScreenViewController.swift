@@ -64,6 +64,8 @@ class ActivityScreenViewController: UIViewController {
         self.profileImage.clipsToBounds = true
         self.viewCurrency.layer.cornerRadius = self.viewCurrency.frame.height / 2
         self.buttonUserProfile.clipsToBounds = true
+        
+        self.navigationController?.navigationBar.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {

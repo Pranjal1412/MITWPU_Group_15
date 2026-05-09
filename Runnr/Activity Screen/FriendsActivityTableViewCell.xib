@@ -18,10 +18,10 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cellFriends" id="3QG-Sv-n8x" customClass="FriendsActivityTableViewCell" customModule="Runnr" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="382" height="440"/>
+            <rect key="frame" x="0.0" y="0.0" width="382" height="410"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3QG-Sv-n8x" id="hxc-IF-Ah8">
-                <rect key="frame" x="0.0" y="0.0" width="382" height="440"/>
+                <rect key="frame" x="0.0" y="0.0" width="382" height="410"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x8M-0F-BGY">
@@ -269,9 +269,9 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="x8M-0F-BGY" firstAttribute="leading" secondItem="hxc-IF-Ah8" secondAttribute="leading" id="NMC-vy-ybN"/>
+                    <constraint firstAttribute="bottom" secondItem="x8M-0F-BGY" secondAttribute="bottom" id="Qqi-mm-flu"/>
                     <constraint firstAttribute="trailing" secondItem="x8M-0F-BGY" secondAttribute="trailing" id="kcc-eT-zrT"/>
                     <constraint firstItem="x8M-0F-BGY" firstAttribute="top" secondItem="hxc-IF-Ah8" secondAttribute="top" id="v2o-oF-0Xk"/>
-                    <constraint firstAttribute="bottom" secondItem="x8M-0F-BGY" secondAttribute="bottom" constant="30" id="xTB-6m-0wl"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="vbJ-qI-1C7"/>
@@ -292,7 +292,7 @@
                 <outlet property="mapImage" destination="aZh-DZ-WC2" id="jGz-sy-R9D"/>
                 <outlet property="viewMainBackground" destination="x8M-0F-BGY" id="vuT-A0-dDU"/>
             </connections>
-            <point key="canvasLocation" x="-1082.4427480916031" y="-61.267605633802823"/>
+            <point key="canvasLocation" x="-1270.2290076335878" y="-59.154929577464792"/>
         </tableViewCell>
     </objects>
     <resources>
