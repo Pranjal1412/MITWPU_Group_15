@@ -1,4 +1,5 @@
 import UIKit
+import FSCalendar
 
 protocol CalendarViewControllerDelegate: AnyObject {
     func didSelectDate(_ date: Date)
@@ -8,13 +9,13 @@ protocol CalendarViewControllerDelegate: AnyObject {
 class CalendarViewController: UIViewController {
     
     weak var delegate: CalendarViewControllerDelegate?
+    var activityDates: [Date] = []
     
     private let containerView = UIView()
-    private let calendarView = UICalendarView()
-    private let clearButton = UIButton(type: .system)
     private let titleLabel = UILabel()
     private let dragHandle = UIView()
-    private var calendarSelection: UICalendarSelectionSingleDate?
+    private let clearButton = UIButton(type: .system)
+    private let calendar = FSCalendar()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,7 +46,7 @@ class CalendarViewController: UIViewController {
             containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            containerView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.65)
+            containerView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.55)
         ])
     }
     
@@ -83,23 +84,55 @@ class CalendarViewController: UIViewController {
     }
     
     private func setupCalendar() {
-        calendarView.calendar = .current
-        calendarView.locale = .current
-        calendarView.fontDesign = .rounded
-        calendarView.tintColor = UIColor(hex: "adf845")
-        calendarView.isUserInteractionEnabled = true
-        calendarView.translatesAutoresizingMaskIntoConstraints = false
+        calendar.translatesAutoresizingMaskIntoConstraints = false
+        calendar.delegate = self
+        calendar.dataSource = self
+        calendar.allowsMultipleSelection = false
+        calendar.scrollDirection = .horizontal
+        calendar.pagingEnabled = true
+        calendar.today = Date()
+        calendar.placeholderType = .none
         
-        let selection = UICalendarSelectionSingleDate(delegate: self)
-        calendarView.selectionBehavior = selection
-        calendarSelection = selection
-        calendarView.availableDateRange = DateInterval(start: .distantPast, end: Date())
+        // MARK: Appearance
+        let appearance = calendar.appearance
         
-        containerView.addSubview(calendarView)
+        // Header (Month + Year)
+        appearance.headerTitleColor = .white
+        appearance.headerTitleFont = UIFont(name: "SFProText-Bold", size: 17) ?? UIFont.boldSystemFont(ofSize: 17)
+        appearance.headerMinimumDissolvedAlpha = 0.0
+        
+        // Weekday labels
+        appearance.weekdayTextColor = .systemGray
+        appearance.weekdayFont = UIFont(name: "SFProText-Medium", size: 13) ?? UIFont.systemFont(ofSize: 13, weight: .medium)
+        
+        // Default date number color
+        appearance.titleDefaultColor = .white
+        appearance.titleFont = UIFont(name: "SFProText-Regular", size: 16) ?? UIFont.systemFont(ofSize: 16)
+        
+        // Today's date highlight
+        appearance.todayColor = UIColor(hex: "adf845").withAlphaComponent(0.3)
+        appearance.titleTodayColor = UIColor(hex: "adf845")
+        
+        // Selected date
+        appearance.selectionColor = UIColor(hex: "adf845").withAlphaComponent(0.4)
+        appearance.titleSelectionColor = UIColor(hex: "adf845")
+        
+        // No dots
+        appearance.eventDefaultColor = .clear
+        appearance.eventSelectionColor = .clear
+        
+        // Background
+        calendar.backgroundColor = .clear
+        calendar.calendarHeaderView.backgroundColor = .clear
+        calendar.calendarWeekdayView.backgroundColor = .clear
+        
+        containerView.addSubview(calendar)
+        
         NSLayoutConstraint.activate([
-            calendarView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
-            calendarView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8),
-            calendarView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
+            calendar.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            calendar.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8),
+            calendar.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
+            calendar.heightAnchor.constraint(equalToConstant: 320)
         ])
     }
     
@@ -112,13 +145,14 @@ class CalendarViewController: UIViewController {
         containerView.addSubview(clearButton)
         
         NSLayoutConstraint.activate([
-            clearButton.topAnchor.constraint(equalTo: calendarView.bottomAnchor, constant: 8),
+            clearButton.topAnchor.constraint(equalTo: calendar.bottomAnchor, constant: 8),
             clearButton.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             clearButton.bottomAnchor.constraint(lessThanOrEqualTo: containerView.safeAreaLayoutGuide.bottomAnchor, constant: -12)
         ])
     }
     
     // MARK: - Animations
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         containerView.transform = CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.height)
@@ -152,23 +186,79 @@ class CalendarViewController: UIViewController {
     }
 }
 
-// MARK: - UICalendarSelectionSingleDateDelegate
-extension CalendarViewController: UICalendarSelectionSingleDateDelegate {
-    func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
-        guard let components = dateComponents,
-              let date = Calendar.current.date(from: components) else { return }
+// MARK: - FSCalendarDelegate
+
+extension CalendarViewController: FSCalendarDelegate {
+    
+    func calendar(
+        _ calendar: FSCalendar,
+        didSelect date: Date,
+        at monthPosition: FSCalendarMonthPosition
+    ) {
         delegate?.didSelectDate(date)
         animateDismiss()
     }
     
-    func dateSelection(_ selection: UICalendarSelectionSingleDate, canSelectDate dateComponents: DateComponents?) -> Bool {
-        return true
+    func minimumDate(for calendar: FSCalendar) -> Date {
+        return Date.distantPast
+    }
+    
+    func maximumDate(for calendar: FSCalendar) -> Date {
+        return Date()
+    }
+}
+
+// MARK: - FSCalendarDataSource
+
+extension CalendarViewController: FSCalendarDataSource {
+    
+    func calendar(
+        _ calendar: FSCalendar,
+        numberOfEventsFor date: Date
+    ) -> Int {
+        return 0
+    }
+}
+
+// MARK: - FSCalendarDelegateAppearance
+
+extension CalendarViewController: FSCalendarDelegateAppearance {
+    
+    func calendar(
+        _ calendar: FSCalendar,
+        appearance: FSCalendarAppearance,
+        titleDefaultColorFor date: Date
+    ) -> UIColor? {
+        
+        let hasActivity = activityDates.contains {
+            Calendar.current.isDate($0, inSameDayAs: date)
+        }
+        
+        return hasActivity ? UIColor(hex: "adf845") : nil
+    }
+    
+    func calendar(
+        _ calendar: FSCalendar,
+        appearance: FSCalendarAppearance,
+        titleSelectionColorFor date: Date
+    ) -> UIColor? {
+        
+        let hasActivity = activityDates.contains {
+            Calendar.current.isDate($0, inSameDayAs: date)
+        }
+        
+        return hasActivity ? UIColor(hex: "adf845") : nil
     }
 }
 
 // MARK: - UIGestureRecognizerDelegate
+
 extension CalendarViewController: UIGestureRecognizerDelegate {
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+    
+    func gestureRecognizer(
+        _ gestureRecognizer: UIGestureRecognizer,
+        shouldReceive touch: UITouch
+    ) -> Bool {
         return !containerView.frame.contains(touch.location(in: view))
     }
 }
