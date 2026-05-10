@@ -15,6 +15,7 @@
 		19DB1F7C2F2DE362009EDAFD /* Realtime in Frameworks */ = {isa = PBXBuildFile; productRef = 19DB1F7B2F2DE362009EDAFD /* Realtime */; };
 		19DB1F7E2F2DE362009EDAFD /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = 19DB1F7D2F2DE362009EDAFD /* Storage */; };
 		19DB1F802F2DE362009EDAFD /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 19DB1F7F2F2DE362009EDAFD /* Supabase */; };
+		3EEA5C1E2FB0E4300030C1FE /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 3EEA5C1D2FB0E4300030C1FE /* FSCalendar */; };
 		3EFF282D2F1A5D4300D7F427 /* JTAppleCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 3EFF282C2F1A5D4300D7F427 /* JTAppleCalendar */; };
 		578598952F6CF300000919B2 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 578598942F6CF300000919B2 /* Lottie */; };
 		C9DFB4A42F24C08F0002325C /* runResumed.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9DFB4A12F24BF6F0002325C /* runResumed.mp3 */; };
@@ -69,6 +70,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3EFF282D2F1A5D4300D7F427 /* JTAppleCalendar in Frameworks */,
+				3EEA5C1E2FB0E4300030C1FE /* FSCalendar in Frameworks */,
 				F903F4572EB653FC0066B9A1 /* GoogleMaps in Frameworks */,
 				19DB1F7E2F2DE362009EDAFD /* Storage in Frameworks */,
 				199C34232F3F1EF400AF49B3 /* Kingfisher in Frameworks */,
@@ -149,6 +151,7 @@
 				199C34222F3F1EF400AF49B3 /* Kingfisher */,
 				578598942F6CF300000919B2 /* Lottie */,
 				190B50942F7A2EAB006B54A8 /* Polyline */,
+				3EEA5C1D2FB0E4300030C1FE /* FSCalendar */,
 			);
 			productName = Runnr;
 			productReference = 19FDEE992EEBCC2E00AF027C /* Runnr.app */;
@@ -186,6 +189,7 @@
 				199C34212F3F1EF400AF49B3 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				578598932F6CF300000919B2 /* XCRemoteSwiftPackageReference "lottie-spm" */,
 				190B50932F7A2EAB006B54A8 /* XCRemoteSwiftPackageReference "Polyline" */,
+				3EEA5C1C2FB0E4300030C1FE /* XCRemoteSwiftPackageReference "FSCalendar" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 19217CBC2EA0E064009AFC93;
@@ -490,6 +494,14 @@
 				minimumVersion = 2.5.1;
 			};
 		};
+		3EEA5C1C2FB0E4300030C1FE /* XCRemoteSwiftPackageReference "FSCalendar" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/WenchaoD/FSCalendar";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.8.4;
+			};
+		};
 		3EFF282B2F1A5D4300D7F427 /* XCRemoteSwiftPackageReference "JTAppleCalendar" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/patchthecode/JTAppleCalendar";
@@ -556,6 +568,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 19DB1F742F2DE362009EDAFD /* XCRemoteSwiftPackageReference "supabase-swift" */;
 			productName = Supabase;
+		};
+		3EEA5C1D2FB0E4300030C1FE /* FSCalendar */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3EEA5C1C2FB0E4300030C1FE /* XCRemoteSwiftPackageReference "FSCalendar" */;
+			productName = FSCalendar;
 		};
 		3EFF282C2F1A5D4300D7F427 /* JTAppleCalendar */ = {
 			isa = XCSwiftPackageProductDependency;

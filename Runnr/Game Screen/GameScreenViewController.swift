@@ -62,16 +62,29 @@ class GameScreenViewController: UIViewController {
         //        tapGesture.cancelsTouchesInView = false
         //        view.addGestureRecognizer(tapGesture)
         //
+
+        // ✅ Added bottom inset for tab bar breathing room
+        collectionViewChallenges.contentInset = UIEdgeInsets(
+            top: 0,
+            left: 0,
+            bottom: (tabBarController?.tabBar.frame.height ?? 80) - 60,
+            right: 0
+        )
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         let profileImageURL = DataSource.shared.getUserProfile().userProfileImageURL
-        
-        if let urlString = profileImageURL, let url = URL(string: urlString) {
-            self.profileImage.kf.setImage(with: url)
-        }
+
+            if let urlString = profileImageURL, let url = URL(string: urlString) {
+                self.profileImage.kf.setImage(with: url)
+                self.profileImage.layer.borderWidth = 0
+                self.profileImage.layer.borderColor = UIColor.clear.cgColor
+            } else {
+                self.profileImage.layer.borderWidth = 1
+                self.profileImage.layer.borderColor = UIColor(named: "AccentColor")?.cgColor
+            }
         
         Task {
             let challenges = await getWeeklySoloChallenges(userProfile: userProfile)
@@ -187,8 +200,7 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
         
         return header
     }
- 
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         
         if section == 0 {
@@ -213,10 +225,6 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
         return 15
     }
 }
-
-
-
-
 
 
 //    func setupSegmentedControl() {
@@ -365,4 +373,3 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
 //        return 15
 //    }
 //}
-

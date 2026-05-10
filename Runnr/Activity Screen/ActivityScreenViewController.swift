@@ -74,6 +74,11 @@ class ActivityScreenViewController: UIViewController {
         if let urlString = profileImageURL,
            let url = URL(string: urlString) {
             self.profileImage.kf.setImage(with: url)
+            self.profileImage.layer.borderWidth = 0
+            self.profileImage.layer.borderColor = UIColor.clear.cgColor
+        } else {
+            self.profileImage.layer.borderWidth = 1
+            self.profileImage.layer.borderColor = UIColor(named: "AccentColor")?.cgColor
         }
         
         loader.startAnimating()

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24765" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24743"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -24,6 +24,8 @@
                 <outlet property="buttonGoogle" destination="jJ7-6Z-twB" id="mEq-Yy-wBM"/>
                 <outlet property="buttonSignUp" destination="d0I-ak-poB" id="g6D-DK-ReM"/>
                 <outlet property="labelScreenTitle" destination="jLJ-hG-Rtn" id="HP7-DJ-Y0K"/>
+                <outlet property="textFieldEmail" destination="Clm-So-LpD" id="NTs-iT-lpP"/>
+                <outlet property="textFieldPassword" destination="fPj-yi-mUB" id="amR-6w-9Z8"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="viewEmailBackground" destination="wdd-Wx-T4w" id="mcg-1Y-P2H"/>
                 <outlet property="viewPasswordBackground" destination="oSs-yp-5eG" id="TnK-Ph-Dnb"/>
@@ -122,7 +124,7 @@
                             <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="16"/>
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                            <state key="normal" title="SignUp with Google">
+                            <state key="normal" title="Sign Up with Google">
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </state>
                             <connections>
@@ -138,13 +140,18 @@
                             <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="16"/>
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                            <state key="normal" title="    SignUp with Apple ID">
+                            <state key="normal" title="   Sign Up with Apple ID">
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <imageReference key="image" image="apple.logo" catalog="system" symbolScale="large"/>
                             </state>
                         </button>
                     </subviews>
                 </stackView>
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="K2K-Fr-dyO">
+                    <rect key="frame" x="31" y="509" width="200" height="128"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
