@@ -414,9 +414,9 @@ func fetchExploreClubData(userID: UUID) async -> [Club] {
         }
 
         let formattedIDs = excludedIDs
-            .map { "\"\($0.uuidString)\"" }
+            .map { $0.uuidString }
             .joined(separator: ",")
-
+        
         let clubs: [Club] = try await SupabaseManager.shared.client
             .from("Club")
             .select("*")

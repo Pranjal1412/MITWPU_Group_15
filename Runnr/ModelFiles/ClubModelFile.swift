@@ -8,17 +8,17 @@
 import Foundation
 import UIKit
 
-struct Club : Codable {
-    var clubID : UUID?
+struct Club: Codable {
+    var clubID: UUID?
     var clubOwnerID: UUID?
-    var clubName: String
-    var clubProfileImageURL : String?
-    var clubBannerImageURL : String?
-    var clubMotive : String
-    var clubDescription : String
-    var clubSport : ActivityType
-    var isPublic : Bool
-    var memberCount: Int
+    var clubName: String?
+    var clubProfileImageURL: String?
+    var clubBannerImageURL: String?
+    var clubMotive: String?
+    var clubDescription: String?
+    var clubSport: ActivityType?
+    var isPublic: Bool?
+    var memberCount: Int?
 }
 
 struct ClubEvents : Codable {

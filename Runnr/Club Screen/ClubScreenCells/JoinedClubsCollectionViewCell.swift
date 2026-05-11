@@ -28,16 +28,16 @@ class JoinedClubsCollectionViewCell: UICollectionViewCell {
             
     func configureCell(with data: ClubRoleAndData) {
         ClubName.text = data.club.clubName
-        Sport.text = data.club.clubSport.rawValue
+        Sport.text = data.club.clubSport?.rawValue
         
         if let url = URL(string: data.club.clubProfileImageURL!) {
             self.ClubProfileImage.kf.setImage(with: url)
         }
         
-        let formattedNumberOfMembers = formatMemberCount(data.club.memberCount)
+        let formattedNumberOfMembers = formatMemberCount(data.club.memberCount ?? 0)
         NumberOfRunners.text = String(formattedNumberOfMembers)
 
-        imageSportType.image = UIImage(systemName: setSportImage(for: data.club.clubSport.rawValue))
+        imageSportType.image = UIImage(systemName: setSportImage(for: data.club.clubSport!.rawValue))
         //ClubProfileImage.image = data.clubProfileImg
     }
    
