@@ -640,6 +640,14 @@
 				minimumVersion = 2.5.1;
 			};
 		};
+		3EEA5C1C2FB0E4300030C1FE /* XCRemoteSwiftPackageReference "FSCalendar" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/WenchaoD/FSCalendar";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.8.4;
+			};
+		};
 		3EFF282B2F1A5D4300D7F427 /* XCRemoteSwiftPackageReference "JTAppleCalendar" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/patchthecode/JTAppleCalendar";
@@ -714,6 +722,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 19DB1F742F2DE362009EDAFD /* XCRemoteSwiftPackageReference "supabase-swift" */;
 			productName = Supabase;
+		};
+		3EEA5C1D2FB0E4300030C1FE /* FSCalendar */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3EEA5C1C2FB0E4300030C1FE /* XCRemoteSwiftPackageReference "FSCalendar" */;
+			productName = FSCalendar;
 		};
 		3EFF282C2F1A5D4300D7F427 /* JTAppleCalendar */ = {
 			isa = XCSwiftPackageProductDependency;

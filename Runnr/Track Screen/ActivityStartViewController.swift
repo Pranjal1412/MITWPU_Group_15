@@ -50,9 +50,14 @@ class ActivityStartViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         let profileImageURL = DataSource.shared.getUserProfile().userProfileImageURL
 
-        if let url = URL(string: profileImageURL!) {
-            self.profileImage.kf.setImage(with: url)
-        }
+        if let urlString = profileImageURL, let url = URL(string: urlString) {
+                self.profileImage.kf.setImage(with: url)
+                self.profileImage.layer.borderWidth = 0
+                self.profileImage.layer.borderColor = UIColor.clear.cgColor
+            } else {
+                self.profileImage.layer.borderWidth = 1
+                self.profileImage.layer.borderColor = UIColor(named: "AccentColor")?.cgColor
+            }
 
         self.labelTotalPoints.text = "\(totalPoints)"
     }
