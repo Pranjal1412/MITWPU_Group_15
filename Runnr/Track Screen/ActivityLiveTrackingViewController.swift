@@ -11,6 +11,7 @@ import CoreMotion
 import AVFoundation
 import Lottie
 import Polyline
+import Combine
 
 class ActivityLiveTrackingViewController: UIViewController {
     
@@ -80,6 +81,7 @@ class ActivityLiveTrackingViewController: UIViewController {
     
     let loaderView = UIView()
     var lottieView: LottieAnimationView!
+    var cancellables = Set<AnyCancellable>()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -107,6 +109,15 @@ class ActivityLiveTrackingViewController: UIViewController {
         }
         
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        
+        WatchConnectivityManager.shared.$recentMessage
+            .receive(on: RunLoop.main)
+            .sink { [weak self] message in
+                if let heartRate = message["heartRate"] as? Double {
+                    self?.labelHeartRateCounter.text = String(format: "%.0f", heartRate)
+                }
+            }
+            .store(in: &cancellables)
         
         userLocation.onLocationUpdate = { location in
             
