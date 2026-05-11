@@ -302,7 +302,7 @@ extension ClubScreenViewController: UICollectionViewDataSource, UICollectionView
                 guard let self = self else { return }
                 
                 var joinedClub = club
-                joinedClub.memberCount += 1
+                joinedClub.memberCount! += 1
                 let myClubData = ClubRoleAndData(role: .member, club: joinedClub)
                 
                 let destinationVC = ClubProfileViewController()
@@ -445,7 +445,7 @@ extension ClubScreenViewController: UISearchBarDelegate {
             } else {
                 isSearchingClubs = true
                 filteredClubs = clubsArray.filter {
-                    $0.clubName.lowercased().contains(query)
+                    $0.clubName!.lowercased().contains(query)
                 }
             }
             collectionViewExplore.reloadData()
@@ -459,7 +459,7 @@ extension ClubScreenViewController: UISearchBarDelegate {
             } else {
                 isSearchingMyClubs = true
                 filteredMyClubs = myClubArray.filter {
-                    $0.club.clubName.lowercased().contains(query)
+                    $0.club.clubName!.lowercased().contains(query)
                 }
             }
             collectionViewJoinedClub.reloadData()

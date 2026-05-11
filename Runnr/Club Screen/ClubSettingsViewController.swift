@@ -64,7 +64,7 @@ class ClubSettingsViewController: UIViewController, UITextViewDelegate {
         self.textFieldClubName.text = clubProfileData?.clubName
         self.textFieldTagline.text = clubProfileData?.clubMotive
         self.textViewClubBio.text = clubProfileData?.clubDescription
-        self.textFieldClubSport.text = clubProfileData?.clubSport.rawValue
+        self.textFieldClubSport.text = clubProfileData?.clubSport?.rawValue
     }
     
     @IBAction func buttonSave(_ sender: UIButton) {

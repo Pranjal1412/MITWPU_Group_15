@@ -112,7 +112,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         self.myClubProfileData?.club = club
         
         labelClubName.text = myClubProfileData?.club.clubName
-        labelSportType.text = myClubProfileData?.club.clubSport.rawValue
+        labelSportType.text = myClubProfileData?.club.clubSport?.rawValue
         clubDescription.text = myClubProfileData?.club.clubDescription
         clubMotive.text = myClubProfileData?.club.clubMotive
         
@@ -186,8 +186,8 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
     func settingUpProfileScreenElements() {
         if isMyClub {
             labelClubName.text = myClubProfileData?.club.clubName
-            labelSportType.text = myClubProfileData?.club.clubSport.rawValue
-            labelNumberOfMembers.text = String(myClubProfileData!.club.memberCount) + " Members"
+            labelSportType.text = myClubProfileData?.club.clubSport?.rawValue
+            labelNumberOfMembers.text = String(myClubProfileData!.club.memberCount ?? 0) + " Members"
             clubDescription.text = myClubProfileData?.club.clubDescription
             clubMotive.text = myClubProfileData?.club.clubMotive
             
@@ -248,8 +248,8 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
             }
 
             labelClubName.text = clubProfileData?.clubName
-            labelSportType.text = clubProfileData?.clubSport.rawValue
-            labelNumberOfMembers.text = String(clubProfileData!.memberCount) + " Members"
+            labelSportType.text = clubProfileData?.clubSport?.rawValue
+            labelNumberOfMembers.text = String(clubProfileData!.memberCount ?? 0) + " Members"
             clubDescription.text = clubProfileData?.clubDescription
             clubMotive.text = clubProfileData?.clubMotive
             
@@ -312,7 +312,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
                     await insertNewClubMember(newMember: ClubMemberRole(userID: self.userProfileData.userID, clubID: clubID, role: .member))
                     
                     var updatedClub = self.clubProfileData!
-                    updatedClub.memberCount += 1
+                    updatedClub.memberCount! += 1
                     await updateClubInfo(updatedData: updatedClub)
                     
                     joinNowButton.setTitle("Joined", for: .normal)
@@ -350,7 +350,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
                         await removeClubMember(userID: userID, clubID: clubID)
                         
                         var updatedClub = self.myClubProfileData!.club
-                        updatedClub.memberCount = max(0, updatedClub.memberCount - 1)
+                        updatedClub.memberCount = max(0, updatedClub.memberCount ?? 0 - 1)
                         await updateClubInfo(updatedData: updatedClub)
                     }
                 }
