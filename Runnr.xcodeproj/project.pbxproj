@@ -324,7 +324,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.DevTeam.group15;
+				PRODUCT_BUNDLE_IDENTIFIER = com.DevTeam.runnr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -371,7 +371,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.DevTeam.group15;
+				PRODUCT_BUNDLE_IDENTIFIER = com.DevTeam.runnr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -515,6 +515,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Runnr Watch App Watch App/Runnr Watch App Watch App.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = A624XAHBM7;
@@ -531,8 +532,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.DevTeam.group15.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.DevTeam.runnr.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -552,6 +554,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Runnr Watch App Watch App/Runnr Watch App Watch App.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = A624XAHBM7;
@@ -568,8 +571,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.DevTeam.group15.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.DevTeam.runnr.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -638,14 +642,6 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 2.5.1;
-			};
-		};
-		3EEA5C1C2FB0E4300030C1FE /* XCRemoteSwiftPackageReference "FSCalendar" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/WenchaoD/FSCalendar";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.8.4;
 			};
 		};
 		3EFF282B2F1A5D4300D7F427 /* XCRemoteSwiftPackageReference "JTAppleCalendar" */ = {
@@ -722,11 +718,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 19DB1F742F2DE362009EDAFD /* XCRemoteSwiftPackageReference "supabase-swift" */;
 			productName = Supabase;
-		};
-		3EEA5C1D2FB0E4300030C1FE /* FSCalendar */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3EEA5C1C2FB0E4300030C1FE /* XCRemoteSwiftPackageReference "FSCalendar" */;
-			productName = FSCalendar;
 		};
 		3EFF282C2F1A5D4300D7F427 /* JTAppleCalendar */ = {
 			isa = XCSwiftPackageProductDependency;

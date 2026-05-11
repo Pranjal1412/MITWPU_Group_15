@@ -30,26 +30,12 @@ struct ContentView: View {
                 }
                 .tint(.red)
             } else {
-                Text("Runnr.")
-                    .font(.system(size: 24, weight: .black))
-                    .foregroundColor(Color("AccentColor"))
+                Text("Ready to Run")
                 
-                Spacer()
-                
-                Button(action: {
+                Button("Start Run") {
                     workoutManager.startWorkout()
-                }) {
-                    Text("START")
-                        .font(.system(size: 20, weight: .heavy))
-                        .foregroundColor(.black)
-                        .frame(width: 100, height: 100)
-                        .background(Color("AccentColor"))
-                        .clipShape(Circle())
-                        .shadow(color: Color("AccentColor").opacity(0.5), radius: 10)
                 }
-                .buttonStyle(PlainButtonStyle())
-                
-                Spacer()
+                .tint(.green)
             }
         }
         .padding()
