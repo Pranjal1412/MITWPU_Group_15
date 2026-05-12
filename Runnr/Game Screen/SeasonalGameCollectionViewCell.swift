@@ -100,7 +100,7 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
         let now = Date()
         let components = calendar.dateComponents([.day, .month, .year], from: now)
         
-        if let day = components.day, day >= 1 && day <= 7 {
+        if let day = components.day, day >= 1 && day <= 15 {
             return (true, nil)
         } else {
             var nextMonthComponents = DateComponents()

@@ -40,15 +40,11 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
     private var clubOwnerDetails: UserProfile?
     private var clubEvents: [ClubEvents] = []
     private var userProfileData = DataSource.shared.getUserProfile()
-    
-    //    var likedPosts: [Bool] = [false, false, false]
-    //    private var allPosts: [ClubPostDetail] = []
-
+    private var dataSource = DataSource.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        showPosts()
         buildEmptyStateView()
         settingUpProfileScreenElements()
         settingCollectionAndTableView()
@@ -59,17 +55,16 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         setGlassEffect(for: self.buttonBack, withImage: "chevron.backward")
         buttonBack.layer.cornerRadius = 20
         
-        scrollView.contentInsetAdjustmentBehavior = .never
+//        scrollView.contentInsetAdjustmentBehavior = .never
         scrollView.showsVerticalScrollIndicator = false
         
         
         self.leaveClubButton.layer.cornerRadius = self.leaveClubButton.frame.height / 2
         
-        // Setup Create New Post Button
         createNewEventButton.layer.cornerRadius = createNewEventButton.frame.height / 2
         createNewEventButton.addTarget(self, action: #selector(presentCreateEvent), for: .touchUpInside)
         
-        viewPosts.addTarget(self, action: #selector(postsButtonPressed(_:)), for: .touchUpInside)
+        viewPosts.addTarget(self, action: #selector(createEventButtonPressed(_:)), for: .touchUpInside)
         viewLeaderBoard.addTarget(self, action: #selector(leaderboardButtonPressed(_:)), for: .touchUpInside)
         
         viewPostLine.backgroundColor = .accent
@@ -101,6 +96,8 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
                 self.clubEvents = await fetchClubEvents(clubID: self.clubProfileData!.clubID!) ?? []
             }
 
+            dataSource.setClubEvents(self.clubEvents)
+            
             DispatchQueue.main.async {
                 self.collectionViewClubEvents.reloadData()
                 self.collectionViewClubEvents.layoutIfNeeded()
@@ -109,6 +106,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
             }
         }
     }
+    
     func updatedClubData(club: Club) {
         self.myClubProfileData?.club = club
         
@@ -124,7 +122,6 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         if let url = URL(string: (myClubProfileData!.club.clubBannerImageURL!)) {
             self.imageClubBanner.kf.setImage(with: url)
         }
-
     }
     
     func buildEmptyStateView() {
@@ -297,8 +294,8 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
 
     }
     
-    @IBAction func postsButtonPressed(_ sender: UIButton) {
-        showPosts()
+    @IBAction func createEventButtonPressed(_ sender: UIButton) {
+        showEvents()
         sender.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         viewPostLine.backgroundColor = .accent
         //viewTaggedLine.backgroundColor = .white
@@ -390,7 +387,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         self.present(destinationVC, animated: true)
     }
     
-    func showPosts() {
+    func showEvents() {
         collectionViewClubEvents.isHidden = false
         tableViewLeaderBoard.isHidden = true
         createNewEventButton.isHidden = false
