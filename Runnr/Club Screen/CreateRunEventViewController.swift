@@ -89,8 +89,12 @@ class CreateRunEventViewController: UIViewController {
         buildDetailsSection()
         buildScheduleSection()
         buildLocationSection()
-        buildPollSection()
+//        buildPollSection()
         buildFooterButtons()
+
+        // Wire validation handlers for time pickers
+        startTimePicker.addTarget(self, action: #selector(handleStartTimeChanged), for: .valueChanged)
+        endTimePicker.addTarget(self, action: #selector(handleEndTimeChanged), for: .valueChanged)
 
         // Bridge programmatic controls to IBOutlets if XIB connections exist
         eventNameField = eventNameField ?? nameField
@@ -116,6 +120,8 @@ class CreateRunEventViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
+
+        normalizeEndTimeIfNeeded()
     }
 
     private func buildHeaderBar() {
@@ -265,6 +271,12 @@ class CreateRunEventViewController: UIViewController {
         startTimePicker.datePickerMode = .time
         endTimePicker.preferredDatePickerStyle = .compact
         endTimePicker.datePickerMode = .time
+
+        // Validation: disallow past dates and use 5-minute intervals
+        let startOfToday = Calendar.current.startOfDay(for: Date())
+        datePicker.minimumDate = startOfToday
+        startTimePicker.minuteInterval = 5
+        endTimePicker.minuteInterval = 5
 
         let dateRow = row(title: "Date", trailing: datePicker)
         let startRow = row(title: "Start Time", trailing: startTimePicker)
@@ -418,6 +430,14 @@ class CreateRunEventViewController: UIViewController {
     }
 
     @objc func createNewEvent() {
+        // Final validation: clamp date and ensure end > start
+        let todayStart = Calendar.current.startOfDay(for: Date())
+        let selectedDayStart = Calendar.current.startOfDay(for: datePicker.date)
+        if selectedDayStart < todayStart {
+            datePicker.setDate(todayStart, animated: true)
+        }
+        normalizeEndTimeIfNeeded()
+
         let startTimeString = formatTime12Hour(startTimePicker.date)
         let endTimeString = formatTime12Hour(endTimePicker.date)
         
@@ -433,7 +453,30 @@ class CreateRunEventViewController: UIViewController {
         
         Task {
             await insertNewClubEvent(event: newEvent)
+            self.dismiss(animated: true)
         }
+    }
+
+    // MARK: - Validation Helpers
+    private func normalizeEndTimeIfNeeded() {
+        let start = startTimePicker.date
+        var end = endTimePicker.date
+        if end <= start {
+            if let adjusted = Calendar.current.date(byAdding: .minute, value: 30, to: start) {
+                end = adjusted
+            } else {
+                end = start.addingTimeInterval(30 * 60)
+            }
+            endTimePicker.setDate(end, animated: false)
+        }
+    }
+
+    @objc private func handleStartTimeChanged() {
+        normalizeEndTimeIfNeeded()
+    }
+
+    @objc private func handleEndTimeChanged() {
+        normalizeEndTimeIfNeeded()
     }
 
     // MARK: - Helpers
