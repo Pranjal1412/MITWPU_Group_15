@@ -50,7 +50,7 @@
                                 </buttonConfiguration>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3BC-BE-Q4w">
-                                <rect key="frame" x="20" y="63" width="336" height="0.0"/>
+                                <rect key="frame" x="20" y="63" width="336" height="49"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                                 <string key="text">Saturday 6AM. Sunrise, fresh air, good people. We start at The Grind Cafe and finish strong at Marina Park. Whether you're chasing a PR or just chasing the sunrise, this one's for you. See you there.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>

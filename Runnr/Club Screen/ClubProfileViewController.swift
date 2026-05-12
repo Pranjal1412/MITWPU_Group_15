@@ -27,6 +27,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
     @IBOutlet weak var viewBackgroundOwner: UIView!
     @IBOutlet weak var imageOwnerProfile: UIImageView!
     @IBOutlet weak var labelClubOwnerName: UILabel!
+    @IBOutlet weak var collectionviewHeightConstraint: NSLayoutConstraint!
     
     private let noEventsLabel = UILabel()
     private let noEventsIconView = UIImageView()
@@ -90,24 +91,24 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        
+        super.viewWillAppear(animated)
+
         Task {
             if isMyClub {
-//                allPosts = await fetchAllClubPosts(for: self.myClubProfileData!.club.clubID!) ?? []
                 self.clubEvents = await fetchClubEvents(clubID: self.myClubProfileData!.club.clubID!) ?? []
             }
             else {
-//                allPosts = await fetchAllClubPosts(for: self.clubProfileData!.clubID!) ?? []
                 self.clubEvents = await fetchClubEvents(clubID: self.clubProfileData!.clubID!) ?? []
             }
-            
-            collectionViewClubEvents.isHidden = false
-            collectionViewClubEvents.reloadData()
-            noEventsStack.isHidden = !clubEvents.isEmpty
-        }
 
+            DispatchQueue.main.async {
+                self.collectionViewClubEvents.reloadData()
+                self.collectionViewClubEvents.layoutIfNeeded()
+                self.updateCollectionViewHeight()
+                self.noEventsStack.isHidden = !self.clubEvents.isEmpty
+            }
+        }
     }
-    
     func updatedClubData(club: Club) {
         self.myClubProfileData?.club = club
         
@@ -167,7 +168,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
     func settingCollectionAndTableView() {
         collectionViewClubEvents.delegate = self
         collectionViewClubEvents.dataSource = self
-
+        collectionViewClubEvents.isScrollEnabled = false
         let nib = UINib(nibName: "EventCollectionViewCell", bundle: nil)
         collectionViewClubEvents.register(nib, forCellWithReuseIdentifier: "cell")
         
@@ -183,6 +184,16 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
 
     }
     
+    func updateCollectionViewHeight() {
+
+        collectionViewClubEvents.collectionViewLayout.invalidateLayout()
+        collectionViewClubEvents.layoutIfNeeded()
+        
+        let height = collectionViewClubEvents.collectionViewLayout.collectionViewContentSize.height
+        collectionviewHeightConstraint.constant = height
+        view.layoutIfNeeded()
+    }
+
     func settingUpProfileScreenElements() {
         if isMyClub {
             labelClubName.text = myClubProfileData?.club.clubName
@@ -383,18 +394,12 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         collectionViewClubEvents.isHidden = false
         tableViewLeaderBoard.isHidden = true
         createNewEventButton.isHidden = false
-        
-        collectionViewClubEvents.isScrollEnabled = false
-        collectionViewClubEvents.reloadData()
-        noEventsStack.isHidden = !clubEvents.isEmpty
-        
-        let targetHeight: CGFloat = 580
-        collectionViewClubEvents.constraints.forEach { if $0.firstAttribute == .height { collectionViewClubEvents.removeConstraint($0) } }
-        collectionViewClubEvents.heightAnchor.constraint(equalToConstant: targetHeight).isActive = true
-        
-        scrollView.contentSize.height = self.collectionViewClubEvents.frame.origin.y + targetHeight + 50
-    }
 
+        collectionViewClubEvents.reloadData()
+        updateCollectionViewHeight()
+        noEventsStack.isHidden = !clubEvents.isEmpty
+    }
+    
     func showLeaderBoard() {
         collectionViewClubEvents.isHidden = true
         tableViewLeaderBoard.isHidden = false
@@ -403,6 +408,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         // Ensure table view doesn't scroll inside the main scroll view
         tableViewLeaderBoard.isScrollEnabled = false
         tableViewLeaderBoard.reloadData()
+        
         noEventsStack.isHidden = true
         
         tableViewLeaderBoard.layoutIfNeeded()
