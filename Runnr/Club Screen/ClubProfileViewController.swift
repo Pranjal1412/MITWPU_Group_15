@@ -1,7 +1,7 @@
 import UIKit
 import Kingfisher
 
-class ClubProfileViewController: UIViewController, UpdateClubProfile {
+class ClubProfileViewController: UIViewController, UpdateClubProfile, CreateRunEventDelegate {
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var collectionViewClubEvents: UICollectionView!
@@ -81,6 +81,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
 
     @objc func presentCreateEvent() {
         let vc = CreateRunEventViewController()
+        vc.delegate = self
         vc.clubDetails = myClubProfileData?.club
         self.present(vc, animated: true)
     }
@@ -424,6 +425,15 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         createNewEventButton.isHidden = false
         noEventsStack.isHidden = !clubEvents.isEmpty
     }
+    
+    func didCreateEvent() {
+        self.clubEvents = dataSource.getClubEvents()
+        DispatchQueue.main.async {
+            self.collectionViewClubEvents.reloadData()
+            self.updateCollectionViewHeight()
+        }
+    }
+
 }
 
 

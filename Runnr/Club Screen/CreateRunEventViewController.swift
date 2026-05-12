@@ -1,6 +1,10 @@
 import UIKit
 import MapKit
 
+protocol CreateRunEventDelegate {
+    func didCreateEvent()
+}
+
 class CreateRunEventViewController: UIViewController {
 
     public var club: Club?
@@ -70,6 +74,8 @@ class CreateRunEventViewController: UIViewController {
     private let suggestionsTableView = UITableView()
     private var suggestionsHeightConstraint: NSLayoutConstraint?
     private var datasource = DataSource.shared
+    
+    var delegate: CreateRunEventDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -460,6 +466,9 @@ class CreateRunEventViewController: UIViewController {
             var eventsArray = datasource.getClubEvents()
             eventsArray.append(newEvent)
             datasource.setClubEvents(eventsArray)
+            
+            delegate?.didCreateEvent()
+            
             self.dismiss(animated: true)
         }
     }
