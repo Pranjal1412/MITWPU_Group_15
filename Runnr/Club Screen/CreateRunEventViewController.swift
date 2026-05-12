@@ -123,6 +123,9 @@ class CreateRunEventViewController: UIViewController {
         view.addGestureRecognizer(tap)
 
         normalizeEndTimeIfNeeded()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
     private func buildHeaderBar() {
@@ -591,6 +594,52 @@ class CreateRunEventViewController: UIViewController {
     @objc private func beginEditing(_ sender: UITextField) {
         // no-op, ensures control events are wired and field becomes first responder
     }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
+              let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval,
+              let curveRaw = userInfo[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt else { return }
+
+        // Convert keyboard frame to this view's coordinate system
+        let kbEndFrame = view.convert(keyboardFrame, from: nil)
+        let bottomInset = max(0, view.bounds.maxY - kbEndFrame.origin.y)
+
+        // Apply insets so content is fully scrollable above the keyboard
+        var insets = scrollView.contentInset
+        insets.bottom = bottomInset + 20 // extra padding for clarity
+
+        let indicators = UIEdgeInsets(top: scrollView.scrollIndicatorInsets.top,
+                                      left: scrollView.scrollIndicatorInsets.left,
+                                      bottom: bottomInset,
+                                      right: scrollView.scrollIndicatorInsets.right)
+
+        let options = UIView.AnimationOptions(rawValue: curveRaw << 16)
+        UIView.animate(withDuration: duration, delay: 0, options: options, animations: {
+            self.scrollView.contentInset = insets
+            self.scrollView.scrollIndicatorInsets = indicators
+            self.view.layoutIfNeeded()
+        }, completion: { _ in
+            // Ensure the currently editing field is visible
+            if let firstResponder = self.view.findFirstResponder() {
+                let targetFrame = firstResponder.convert(firstResponder.bounds, to: self.scrollView)
+                self.scrollView.scrollRectToVisible(targetFrame.insetBy(dx: 0, dy: -12), animated: true)
+            }
+        })
+    }
+
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval,
+              let curveRaw = userInfo[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt else { return }
+
+        let options = UIView.AnimationOptions(rawValue: curveRaw << 16)
+        UIView.animate(withDuration: duration, delay: 0, options: options, animations: {
+            self.scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+            self.scrollView.scrollIndicatorInsets = .zero
+            self.view.layoutIfNeeded()
+        })
+    }
 }
 
 // MARK: - MapKit & TableView Delegates
@@ -710,3 +759,12 @@ extension CreateRunEventViewController: MKLocalSearchCompleterDelegate, UITableV
     }
 }
 
+private extension UIView {
+    func findFirstResponder() -> UIView? {
+        if isFirstResponder { return self }
+        for sub in subviews {
+            if let found = sub.findFirstResponder() { return found }
+        }
+        return nil
+    }
+}
