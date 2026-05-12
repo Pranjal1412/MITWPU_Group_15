@@ -526,7 +526,7 @@
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "We read your heart rate and activity data to track your workout.";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We save your workout data to HealthKit to provide post-run insights.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.DevTeam.group15;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.DevTeam.runnr;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -565,7 +565,7 @@
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "We read your heart rate and activity data to track your workout.";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We save your workout data to HealthKit to provide post-run insights.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.DevTeam.group15;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.DevTeam.runnr;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
