@@ -69,7 +69,8 @@ class CreateRunEventViewController: UIViewController {
     // Suggestions UI
     private let suggestionsTableView = UITableView()
     private var suggestionsHeightConstraint: NSLayoutConstraint?
-
+    private var datasource = DataSource.shared
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -453,6 +454,9 @@ class CreateRunEventViewController: UIViewController {
         
         Task {
             await insertNewClubEvent(event: newEvent)
+            var eventsArray = datasource.getClubEvents()
+            eventsArray.append(newEvent)
+            datasource.setClubEvents(eventsArray)
             self.dismiss(animated: true)
         }
     }
