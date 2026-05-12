@@ -74,16 +74,6 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="vhk-bF-3kY">
-                            <rect key="frame" x="17" y="621" width="368" height="233"/>
-                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="RJd-tg-ipB">
-                                <size key="itemSize" width="128" height="128"/>
-                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                            </collectionViewFlowLayout>
-                        </collectionView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Just for fun" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ia2-Pc-aWS">
                             <rect key="frame" x="17" y="374" width="368" height="30"/>
                             <constraints>
@@ -320,6 +310,16 @@
                             <rect key="frame" x="10" y="621" width="382" height="233"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </tableView>
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="vhk-bF-3kY">
+                            <rect key="frame" x="10" y="621" width="382" height="233"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="RJd-tg-ipB">
+                                <size key="itemSize" width="128" height="128"/>
+                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            </collectionViewFlowLayout>
+                        </collectionView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IuV-Wq-3Rt">
                             <rect key="frame" x="332" y="799" width="45" height="45"/>
                             <color key="backgroundColor" name="AccentColor"/>
@@ -348,7 +348,7 @@
                         <constraint firstItem="6a6-zm-KJV" firstAttribute="leading" secondItem="fKU-rL-P8n" secondAttribute="leading" constant="17" id="O1N-Ul-5dg"/>
                         <constraint firstItem="Ia2-Pc-aWS" firstAttribute="top" secondItem="6a6-zm-KJV" secondAttribute="bottom" constant="15" id="PlP-ti-JF0"/>
                         <constraint firstItem="fKU-rL-P8n" firstAttribute="trailing" secondItem="T1Z-XT-fnx" secondAttribute="trailing" constant="10" id="Q0V-t1-Ijp"/>
-                        <constraint firstItem="fKU-rL-P8n" firstAttribute="trailing" secondItem="vhk-bF-3kY" secondAttribute="trailing" constant="17" id="QUr-aI-qwV"/>
+                        <constraint firstItem="fKU-rL-P8n" firstAttribute="trailing" secondItem="vhk-bF-3kY" secondAttribute="trailing" constant="10" id="QUr-aI-qwV"/>
                         <constraint firstItem="fQo-zo-K8z" firstAttribute="leading" secondItem="fKU-rL-P8n" secondAttribute="leading" constant="17" id="RKU-S7-f9e"/>
                         <constraint firstItem="fKU-rL-P8n" firstAttribute="bottom" secondItem="T1Z-XT-fnx" secondAttribute="bottom" constant="20" id="UcG-se-o1s"/>
                         <constraint firstItem="fKU-rL-P8n" firstAttribute="trailing" secondItem="vh9-zg-kJe" secondAttribute="trailing" constant="17" id="Udi-Ja-TFC"/>
@@ -363,7 +363,7 @@
                         <constraint firstItem="xfj-MJ-Ib8" firstAttribute="top" secondItem="zKw-x3-qze" secondAttribute="bottom" constant="10" id="eB2-ou-wbm"/>
                         <constraint firstItem="fKU-rL-P8n" firstAttribute="trailing" secondItem="Ia2-Pc-aWS" secondAttribute="trailing" constant="17" id="eyi-s8-K3f"/>
                         <constraint firstItem="fKU-rL-P8n" firstAttribute="trailing" secondItem="IuV-Wq-3Rt" secondAttribute="trailing" constant="25" id="fHK-ub-uVF"/>
-                        <constraint firstItem="vhk-bF-3kY" firstAttribute="leading" secondItem="fKU-rL-P8n" secondAttribute="leading" constant="17" id="hFr-pM-llT"/>
+                        <constraint firstItem="vhk-bF-3kY" firstAttribute="leading" secondItem="fKU-rL-P8n" secondAttribute="leading" constant="10" id="hFr-pM-llT"/>
                         <constraint firstItem="v4x-TB-JuJ" firstAttribute="trailing" secondItem="fKU-rL-P8n" secondAttribute="trailing" id="iaN-X7-aym"/>
                         <constraint firstItem="fKU-rL-P8n" firstAttribute="trailing" secondItem="O42-46-i2J" secondAttribute="trailing" constant="17" id="k9Y-J1-b9Q"/>
                         <constraint firstItem="j9f-9a-Ldu" firstAttribute="top" secondItem="O42-46-i2J" secondAttribute="bottom" constant="30" id="niU-pc-0Gq"/>
@@ -425,7 +425,7 @@
                 <constraint firstItem="zue-5g-IEe" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="ppg-3n-WMD"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="815" y="34"/>
+            <point key="canvasLocation" x="-482" y="-202"/>
         </view>
     </objects>
     <resources>
