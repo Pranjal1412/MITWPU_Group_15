@@ -15,9 +15,9 @@
 		19DB1F7C2F2DE362009EDAFD /* Realtime in Frameworks */ = {isa = PBXBuildFile; productRef = 19DB1F7B2F2DE362009EDAFD /* Realtime */; };
 		19DB1F7E2F2DE362009EDAFD /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = 19DB1F7D2F2DE362009EDAFD /* Storage */; };
 		19DB1F802F2DE362009EDAFD /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 19DB1F7F2F2DE362009EDAFD /* Supabase */; };
-		3EEA5C1E2FB0E4300030C1FE /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 3EEA5C1D2FB0E4300030C1FE /* FSCalendar */; };
 		3EFF282D2F1A5D4300D7F427 /* JTAppleCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 3EFF282C2F1A5D4300D7F427 /* JTAppleCalendar */; };
 		578598952F6CF300000919B2 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 578598942F6CF300000919B2 /* Lottie */; };
+		C961E1362FAFBF8E00C291D2 /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = C961E1352FAFBF8E00C291D2 /* FSCalendar */; };
 		C9DFB4A42F24C08F0002325C /* runResumed.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9DFB4A12F24BF6F0002325C /* runResumed.mp3 */; };
 		C9DFB4A52F24C08F0002325C /* youHaveCompleted.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9DFB4A32F24BF6F0002325C /* youHaveCompleted.mp3 */; };
 		C9DFB4A62F24C08F0002325C /* runStarted.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C9DFB4A22F24BF6F0002325C /* runStarted.mp3 */; };
@@ -31,7 +31,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		19FDEE992EEBCC2E00AF027C /* Runnr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Runnr.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C961DCCA2FAFBA9E00C291D2 /* Runnr Watch App Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Runnr Watch App Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C961EA052FAFC3E300C291D2 /* Runnr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Runnr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9DFB49E2F24BF6F0002325C /* keepGoing.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = keepGoing.mp3; sourceTree = "<group>"; };
 		C9DFB49F2F24BF6F0002325C /* runCompleted.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = runCompleted.mp3; sourceTree = "<group>"; };
 		C9DFB4A02F24BF6F0002325C /* runPaused.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = runPaused.mp3; sourceTree = "<group>"; };
@@ -44,6 +45,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		C961DCDA2FAFBAD600C291D2 /* Exceptions for "Runnr" folder in "Runnr Watch App Watch App" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Manager FIles/WatchConnectivityManager.swift",
+			);
+			target = C961DCC92FAFBA9E00C291D2 /* Runnr Watch App Watch App */;
+		};
 		F98894D12EAE5CE000DA7055 /* Exceptions for "Runnr" folder in "Runnr" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -58,8 +66,14 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				F98894D12EAE5CE000DA7055 /* Exceptions for "Runnr" folder in "Runnr" target */,
+				C961DCDA2FAFBAD600C291D2 /* Exceptions for "Runnr" folder in "Runnr Watch App Watch App" target */,
 			);
 			path = Runnr;
+			sourceTree = "<group>";
+		};
+		C961DCCB2FAFBA9E00C291D2 /* Runnr Watch App Watch App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Runnr Watch App Watch App";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -70,7 +84,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3EFF282D2F1A5D4300D7F427 /* JTAppleCalendar in Frameworks */,
-				3EEA5C1E2FB0E4300030C1FE /* FSCalendar in Frameworks */,
+				C961E1362FAFBF8E00C291D2 /* FSCalendar in Frameworks */,
 				F903F4572EB653FC0066B9A1 /* GoogleMaps in Frameworks */,
 				19DB1F7E2F2DE362009EDAFD /* Storage in Frameworks */,
 				199C34232F3F1EF400AF49B3 /* Kingfisher in Frameworks */,
@@ -84,6 +98,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C961DCC72FAFBA9E00C291D2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -92,7 +113,9 @@
 			children = (
 				C9DFB49C2F24BF470002325C /* Resources */,
 				19217CC72EA0E064009AFC93 /* Runnr */,
-				19FDEE992EEBCC2E00AF027C /* Runnr.app */,
+				C961DCCA2FAFBA9E00C291D2 /* Runnr Watch App Watch App.app */,
+				C961DCCB2FAFBA9E00C291D2 /* Runnr Watch App Watch App */,
+				C961EA052FAFC3E300C291D2 /* Runnr.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -151,10 +174,32 @@
 				199C34222F3F1EF400AF49B3 /* Kingfisher */,
 				578598942F6CF300000919B2 /* Lottie */,
 				190B50942F7A2EAB006B54A8 /* Polyline */,
-				3EEA5C1D2FB0E4300030C1FE /* FSCalendar */,
+				C961E1352FAFBF8E00C291D2 /* FSCalendar */,
 			);
 			productName = Runnr;
-			productReference = 19FDEE992EEBCC2E00AF027C /* Runnr.app */;
+			productReference = C961EA052FAFC3E300C291D2 /* Runnr.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C961DCC92FAFBA9E00C291D2 /* Runnr Watch App Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C961DCD22FAFBA9E00C291D2 /* Build configuration list for PBXNativeTarget "Runnr Watch App Watch App" */;
+			buildPhases = (
+				C961DCC62FAFBA9E00C291D2 /* Sources */,
+				C961DCC72FAFBA9E00C291D2 /* Frameworks */,
+				C961DCC82FAFBA9E00C291D2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				C961DCCB2FAFBA9E00C291D2 /* Runnr Watch App Watch App */,
+			);
+			name = "Runnr Watch App Watch App";
+			packageProductDependencies = (
+			);
+			productName = "Runnr Watch App Watch App";
+			productReference = C961DCCA2FAFBA9E00C291D2 /* Runnr Watch App Watch App.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -169,6 +214,9 @@
 				TargetAttributes = {
 					19217CC42EA0E064009AFC93 = {
 						CreatedOnToolsVersion = 26.0.1;
+					};
+					C961DCC92FAFBA9E00C291D2 = {
+						CreatedOnToolsVersion = 26.0;
 					};
 				};
 			};
@@ -189,7 +237,7 @@
 				199C34212F3F1EF400AF49B3 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				578598932F6CF300000919B2 /* XCRemoteSwiftPackageReference "lottie-spm" */,
 				190B50932F7A2EAB006B54A8 /* XCRemoteSwiftPackageReference "Polyline" */,
-				3EEA5C1C2FB0E4300030C1FE /* XCRemoteSwiftPackageReference "FSCalendar" */,
+				C961E1342FAFBF8E00C291D2 /* XCRemoteSwiftPackageReference "FSCalendar" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 19217CBC2EA0E064009AFC93;
@@ -197,6 +245,7 @@
 			projectRoot = "";
 			targets = (
 				19217CC42EA0E064009AFC93 /* Runnr */,
+				C961DCC92FAFBA9E00C291D2 /* Runnr Watch App Watch App */,
 			);
 		};
 /* End PBXProject section */
@@ -218,10 +267,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C961DCC82FAFBA9E00C291D2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		19217CC12EA0E064009AFC93 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C961DCC62FAFBA9E00C291D2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -446,6 +509,84 @@
 			};
 			name = Release;
 		};
+		C961DCD32FAFBA9E00C291D2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Runnr Watch App Watch App/Runnr Watch App Watch App.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = A624XAHBM7;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Runnr-Watch-App-Watch-App-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Runnr Watch App";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "We read your heart rate and activity data to track your workout.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We save your workout data to HealthKit to provide post-run insights.";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.DevTeam.runnr;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.DevTeam.runnr.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.6;
+			};
+			name = Debug;
+		};
+		C961DCD42FAFBA9E00C291D2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Runnr Watch App Watch App/Runnr Watch App Watch App.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = A624XAHBM7;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Runnr-Watch-App-Watch-App-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Runnr Watch App";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "We read your heart rate and activity data to track your workout.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We save your workout data to HealthKit to provide post-run insights.";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.DevTeam.runnr;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.DevTeam.runnr.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.6;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -463,6 +604,15 @@
 			buildConfigurations = (
 				19217CD92EA0E065009AFC93 /* Debug */,
 				19217CDA2EA0E065009AFC93 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C961DCD22FAFBA9E00C291D2 /* Build configuration list for PBXNativeTarget "Runnr Watch App Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C961DCD32FAFBA9E00C291D2 /* Debug */,
+				C961DCD42FAFBA9E00C291D2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -494,14 +644,6 @@
 				minimumVersion = 2.5.1;
 			};
 		};
-		3EEA5C1C2FB0E4300030C1FE /* XCRemoteSwiftPackageReference "FSCalendar" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/WenchaoD/FSCalendar";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.8.4;
-			};
-		};
 		3EFF282B2F1A5D4300D7F427 /* XCRemoteSwiftPackageReference "JTAppleCalendar" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/patchthecode/JTAppleCalendar";
@@ -516,6 +658,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 4.6.0;
+			};
+		};
+		C961E1342FAFBF8E00C291D2 /* XCRemoteSwiftPackageReference "FSCalendar" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/WenchaoD/FSCalendar.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.8.4;
 			};
 		};
 		F903F4552EB653FC0066B9A1 /* XCRemoteSwiftPackageReference "ios-maps-sdk" */ = {
@@ -569,11 +719,6 @@
 			package = 19DB1F742F2DE362009EDAFD /* XCRemoteSwiftPackageReference "supabase-swift" */;
 			productName = Supabase;
 		};
-		3EEA5C1D2FB0E4300030C1FE /* FSCalendar */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3EEA5C1C2FB0E4300030C1FE /* XCRemoteSwiftPackageReference "FSCalendar" */;
-			productName = FSCalendar;
-		};
 		3EFF282C2F1A5D4300D7F427 /* JTAppleCalendar */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3EFF282B2F1A5D4300D7F427 /* XCRemoteSwiftPackageReference "JTAppleCalendar" */;
@@ -583,6 +728,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 578598932F6CF300000919B2 /* XCRemoteSwiftPackageReference "lottie-spm" */;
 			productName = Lottie;
+		};
+		C961E1352FAFBF8E00C291D2 /* FSCalendar */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C961E1342FAFBF8E00C291D2 /* XCRemoteSwiftPackageReference "FSCalendar" */;
+			productName = FSCalendar;
 		};
 		F903F4562EB653FC0066B9A1 /* GoogleMaps */ = {
 			isa = XCSwiftPackageProductDependency;
