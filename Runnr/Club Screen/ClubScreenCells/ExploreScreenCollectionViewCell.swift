@@ -35,5 +35,8 @@ class ExploreScreenCollectionViewCell: UICollectionViewCell {
         if let url = URL(string: data.clubProfileImageURL!) {
             clubProfile.kf.setImage(with: url)
         }
+        else {
+            self.clubProfile.image = UIImage(named: "Club")
+        }
     }
 }

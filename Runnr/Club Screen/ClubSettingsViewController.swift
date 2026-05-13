@@ -56,10 +56,17 @@ class ClubSettingsViewController: UIViewController, UITextViewDelegate {
         if let url = URL(string: clubProfileData?.clubProfileImageURL ?? "") {
             imageClubProfile.kf.setImage(with: url)
         }
+        else {
+            self.imageClubProfile.image = UIImage(named: "Club")
+        }
         
         if let url = URL(string: clubProfileData?.clubBannerImageURL ?? "") {
             imageClubBanner.kf.setImage(with: url)
         }
+        else {
+            self.imageClubBanner.image = UIImage(named: "ClubBanner")
+        }
+        
         self.imageClubProfile.layer.cornerRadius = 10
         self.textFieldClubName.text = clubProfileData?.clubName
         self.textFieldTagline.text = clubProfileData?.clubMotive
@@ -74,12 +81,14 @@ class ClubSettingsViewController: UIViewController, UITextViewDelegate {
         self.clubProfileData!.clubSport = ActivityType(rawValue: self.textFieldClubSport.text ?? "") ?? self.clubProfileData!.clubSport
         
         Task {
-            let originalProfileURL = self.clubProfileData!.clubProfileImageURL!
-            let originalBannerURL = self.clubProfileData!.clubBannerImageURL!
+            let originalProfileURL = self.clubProfileData!.clubProfileImageURL ?? ""
+            let originalBannerURL = self.clubProfileData!.clubBannerImageURL ?? ""
             
             if self.profileImageChanged == true {
                 
-                await deleteImageFromStorage(imageURL: self.clubProfileData!.clubProfileImageURL!)
+                if originalProfileURL != "" {
+                    await deleteImageFromStorage(imageURL: originalProfileURL)
+                }
                 
                 if let newURL = await saveClubProfileImage(clubID: (self.clubProfileData?.clubID)!, with: self.imageClubProfile.image!) {
                     self.clubProfileData!.clubProfileImageURL = newURL
@@ -91,8 +100,10 @@ class ClubSettingsViewController: UIViewController, UITextViewDelegate {
             
             if self.bannerImageChanged == true {
                 
-                await deleteImageFromStorage(imageURL: self.clubProfileData!.clubBannerImageURL!)
-                
+                if originalBannerURL != "" {
+                    await deleteImageFromStorage(imageURL: originalBannerURL)
+                }
+
                 if let newURL = await saveClubBannerImage(clubID: (self.clubProfileData?.clubID)!, with: self.imageClubBanner.image!) {
                     self.clubProfileData!.clubBannerImageURL = newURL
                 }

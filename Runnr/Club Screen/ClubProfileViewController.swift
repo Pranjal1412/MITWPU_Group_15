@@ -16,18 +16,18 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile, CreateRunE
     @IBOutlet var tableViewLeaderBoard: UITableView!
     @IBOutlet var viewPosts: UIButton!
     @IBOutlet var viewLeaderBoard: UIButton!
-    //@IBOutlet var viewTagged: UIButton!
     @IBOutlet var buttonBack: UIButton!
     @IBOutlet weak var imageClubBanner: UIImageView!
     @IBOutlet weak var viewPostLine: UIView!
     @IBOutlet weak var viewLeaderboardLine: UIView!
-    //@IBOutlet weak var viewTaggedLine: UIView!
     @IBOutlet var leaveClubButton: UIButton!
     @IBOutlet var createNewEventButton: UIButton!
     @IBOutlet weak var viewBackgroundOwner: UIView!
     @IBOutlet weak var imageOwnerProfile: UIImageView!
     @IBOutlet weak var labelClubOwnerName: UILabel!
     @IBOutlet weak var collectionviewHeightConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var labelDummyText: UILabel!
     
     private let noEventsLabel = UILabel()
     private let noEventsIconView = UIImageView()
@@ -119,9 +119,15 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile, CreateRunE
         if let url = URL(string: (myClubProfileData!.club.clubProfileImageURL!)) {
             self.clubProfileImage.kf.setImage(with: url)
         }
+        else {
+            self.clubProfileImage.image = UIImage(named: "Club")
+        }
 
         if let url = URL(string: (myClubProfileData!.club.clubBannerImageURL!)) {
             self.imageClubBanner.kf.setImage(with: url)
+        }
+        else {
+            self.imageClubBanner.image = UIImage(named: "ClubBanner")
         }
     }
     
@@ -200,13 +206,27 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile, CreateRunE
             clubDescription.text = myClubProfileData?.club.clubDescription
             clubMotive.text = myClubProfileData?.club.clubMotive
             
-            if let url = URL(string: (myClubProfileData!.club.clubProfileImageURL!)) {
-                self.clubProfileImage.kf.setImage(with: url)
+            if clubDescription.text == "" {
+                self.labelDummyText.text = ""
+            }
+            else {
+                self.labelDummyText.text = "  "
             }
             
-            if let url = URL(string: (myClubProfileData!.club.clubBannerImageURL!)) {
+            if let url = URL(string: (myClubProfileData!.club.clubProfileImageURL ?? "")) {
+                self.clubProfileImage.kf.setImage(with: url)
+            }
+            else {
+                self.clubProfileImage.image = UIImage(named: "Club")
+            }
+            
+            if let url = URL(string: (myClubProfileData!.club.clubBannerImageURL ?? "")) {
                 self.imageClubBanner.kf.setImage(with: url)
             }
+            else {
+                self.imageClubBanner.image = UIImage(named: "ClubBanner")
+            }
+
             
             if myClubProfileData?.role == .owner {
                 joinNowButton.setTitle("Edit Club Profile", for: .normal)
@@ -237,13 +257,20 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile, CreateRunE
         }
         else {
             
-            if let url = URL(string: (clubProfileData!.clubProfileImageURL!)) {
+            if let url = URL(string: (clubProfileData!.clubProfileImageURL ?? "")) {
                 self.clubProfileImage.kf.setImage(with: url)
             }
+            else {
+                self.clubProfileImage.image = UIImage(named: "Club")
+            }
             
-            if let url = URL(string: (clubProfileData!.clubBannerImageURL!)) {
+            if let url = URL(string: (clubProfileData!.clubBannerImageURL ?? "")) {
                 self.imageClubBanner.kf.setImage(with: url)
             }
+            else {
+                self.imageClubBanner.image = UIImage(named: "ClubBanner")
+            }
+
             
             Task {
                 self.clubOwnerDetails = await fetchUserProfile(userId: clubProfileData?.clubOwnerID ?? UUID())
@@ -261,6 +288,13 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile, CreateRunE
             labelNumberOfMembers.text = String(clubProfileData!.memberCount ?? 0) + " Members"
             clubDescription.text = clubProfileData?.clubDescription
             clubMotive.text = clubProfileData?.clubMotive
+            
+            if clubDescription.text == "" {
+                self.labelDummyText.text = ""
+            }
+            else {
+                self.labelDummyText.text = "  "
+            }
             
             joinNowButton.setTitle("Join Now", for: .normal)
             
@@ -348,8 +382,8 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile, CreateRunE
             Task {
                 if isOwner {
                     // Delete Club
-                    if let clubID = self.myClubProfileData?.club.clubID {
-                        await deleteClub(clubID: clubID)
+                    if let club = self.myClubProfileData?.club {
+                        await deleteClub(clubDetails: club)
                     }
                 } else {
                     // Leave Club

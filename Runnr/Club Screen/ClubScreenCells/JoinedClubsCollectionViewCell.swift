@@ -30,8 +30,11 @@ class JoinedClubsCollectionViewCell: UICollectionViewCell {
         ClubName.text = data.club.clubName
         Sport.text = data.club.clubSport?.rawValue
         
-        if let url = URL(string: data.club.clubProfileImageURL!) {
+        if let url = URL(string: data.club.clubProfileImageURL ?? "") {
             self.ClubProfileImage.kf.setImage(with: url)
+        }
+        else {
+            self.ClubProfileImage.image = UIImage(named: "Club")
         }
         
         let formattedNumberOfMembers = formatMemberCount(data.club.memberCount ?? 0)
