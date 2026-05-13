@@ -14,22 +14,7 @@ class CreateRunEventViewController: UIViewController {
         set { club = newValue }
     }
 
-    // IBOutlets kept for compatibility but not required for layout
-    @IBOutlet weak var eventNameField: UITextField!
-    @IBOutlet weak var eventDescTextView: UITextView!
-    @IBOutlet weak var dateField: UITextField!
-    @IBOutlet weak var startTimeField: UITextField!
-    @IBOutlet weak var endTimeField: UITextField!
-    @IBOutlet weak var startLocField: UITextField!
-    @IBOutlet weak var endLocField: UITextField!
-    @IBOutlet weak var sameStartSwitch: UISwitch!
-    
-    @IBOutlet weak var pollQuestionField: UITextField!
-    @IBOutlet weak var pollOption1Field: UITextField!
-    @IBOutlet weak var pollOption2Field: UITextField!
 
-    @IBOutlet weak var buttonSave: UIButton!
-    @IBOutlet weak var buttonCancel: UIButton!
 
     // Header bar
     private let headerView = UIView()
@@ -44,7 +29,6 @@ class CreateRunEventViewController: UIViewController {
     private let detailsCard = UIView()
     private let scheduleCard = UIView()
     private let locationCard = UIView()
-    private let pollCard = UIView()
 
     // Inputs (programmatic)
     private let nameField = UITextField()
@@ -58,9 +42,6 @@ class CreateRunEventViewController: UIViewController {
     private let endLocationField = UITextField()
     private let sameAsStartSwitch = UISwitch()
 
-    private let pollQuestion = UITextField()
-    private let pollOption1 = UITextField()
-    private let pollOption2 = UITextField()
 
     private let postButton = UIButton(type: .system)
     private let cancelButton = UIButton(type: .system)
@@ -96,27 +77,14 @@ class CreateRunEventViewController: UIViewController {
         buildDetailsSection()
         buildScheduleSection()
         buildLocationSection()
-//        buildPollSection()
+
         buildFooterButtons()
 
         // Wire validation handlers for time pickers
         startTimePicker.addTarget(self, action: #selector(handleStartTimeChanged), for: .valueChanged)
         endTimePicker.addTarget(self, action: #selector(handleEndTimeChanged), for: .valueChanged)
 
-        // Bridge programmatic controls to IBOutlets if XIB connections exist
-        eventNameField = eventNameField ?? nameField
-        eventDescTextView = eventDescTextView ?? descTextView
-        dateField = dateField ?? makeTextFieldForPicker(datePicker)
-        startTimeField = startTimeField ?? makeTextFieldForPicker(startTimePicker)
-        endTimeField = endTimeField ?? makeTextFieldForPicker(endTimePicker)
-        startLocField = startLocField ?? startLocationField
-        endLocField = endLocField ?? endLocationField
-        sameStartSwitch = sameStartSwitch ?? sameAsStartSwitch
-        pollQuestionField = pollQuestionField ?? pollQuestion
-        pollOption1Field = pollOption1Field ?? pollOption1
-        pollOption2Field = pollOption2Field ?? pollOption2
-        buttonSave = buttonSave ?? postButton
-        buttonCancel = buttonCancel ?? cancelButton
+
 
         sameAsStartSwitch.addTarget(self, action: #selector(sameStartToggled(_:)), for: .valueChanged)
         
@@ -361,47 +329,6 @@ class CreateRunEventViewController: UIViewController {
         locationCard.isOpaque = true
     }
 
-    private func buildPollSection() {
-        let header = sectionHeader(title: "Poll")
-        styleCard(pollCard)
-
-        styleTextField(pollQuestion, placeholder: "Are you coming?")
-        styleTextField(pollOption1, placeholder: "Yes")
-        styleTextField(pollOption2, placeholder: "No")
-
-        let v = UIStackView(arrangedSubviews: [pollQuestion, pollOption1, pollOption2])
-        v.axis = .vertical
-        v.spacing = 10
-
-        pollCard.addSubview(v)
-        v.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            v.topAnchor.constraint(equalTo: pollCard.topAnchor, constant: 14),
-            v.leadingAnchor.constraint(equalTo: pollCard.leadingAnchor, constant: 14),
-            v.trailingAnchor.constraint(equalTo: pollCard.trailingAnchor, constant: -14),
-            v.bottomAnchor.constraint(equalTo: pollCard.bottomAnchor, constant: -14)
-        ])
-
-        // Add pencil icon on right side of poll header
-        let pollHeaderRow = UIStackView()
-        pollHeaderRow.axis = .horizontal
-        pollHeaderRow.alignment = .center
-        pollHeaderRow.distribution = .fill
-        pollHeaderRow.spacing = 8
-
-        let editIcon = UIImageView(image: UIImage(systemName: "pencil"))
-        editIcon.tintColor = .white
-        editIcon.setContentHuggingPriority(.required, for: .horizontal)
-
-        pollHeaderRow.addArrangedSubview(header)
-        pollHeaderRow.addArrangedSubview(editIcon)
-
-        contentStack.addArrangedSubview(pollHeaderRow)
-        contentStack.setCustomSpacing(6, after: pollHeaderRow)
-        contentStack.addArrangedSubview(pollCard)
-
-        pollCard.isOpaque = true
-    }
 
     private func buildFooterButtons() {
         let h = UIStackView()
@@ -575,13 +502,13 @@ class CreateRunEventViewController: UIViewController {
     }
 
     // MARK: - Actions
-    @IBAction func cancelTapped(_ sender: UIButton) {
+    @objc func cancelTapped(_ sender: UIButton) {
         dismiss(animated: true)
     }
 
-    @IBAction func postTapped(_ sender: UIButton) { }
+    @objc func postTapped(_ sender: UIButton) { }
 
-    @IBAction func sameStartToggled(_ sender: UISwitch) {
+    @objc func sameStartToggled(_ sender: UISwitch) {
         if sender.isOn {
             endLocationField.text = startLocationField.text
         }

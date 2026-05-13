@@ -431,6 +431,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile, CreateRunE
         DispatchQueue.main.async {
             self.collectionViewClubEvents.reloadData()
             self.updateCollectionViewHeight()
+            self.noEventsStack.isHidden = !self.clubEvents.isEmpty
         }
     }
 

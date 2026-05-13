@@ -350,7 +350,7 @@ extension ClubScreenViewController: UICollectionViewDataSource, UICollectionView
             return CGSize(width: width, height: 211)
         } else {
             let width = (collectionViewExplore.frame.width - 80) / 2
-            return CGSize(width: width, height: 246)
+            return CGSize(width: width, height: 211)
         }
     }
     
