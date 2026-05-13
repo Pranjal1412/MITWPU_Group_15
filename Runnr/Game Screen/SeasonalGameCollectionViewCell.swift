@@ -36,6 +36,17 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
     // Closure called when game ends
     var onGameEnded: ((Bool) -> Void)?
     
+    private func updateSeasonLabel(for date: Date = Date()) {
+        let calendar = Calendar.current
+        let month = calendar.component(.month, from: date)
+        let formatter = DateFormatter()
+        formatter.locale = .current // or Locale(identifier: "en_US") for a fixed language
+        formatter.dateFormat = "LLLL" // full month name in the current locale
+        let monthName = formatter.string(from: date)
+        let seasonNumber = month // Season number aligns with month number
+        labelSeason1Month.text = "SEASON \(seasonNumber): \(monthName) Conquest"
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
         configure()
@@ -66,6 +77,9 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
         overlayView = viewCountDown.superview
         setupCountdownLabels()
         refreshData()
+        updateSeasonLabel()
+        
+        
     }
 
     private func setupCountdownLabels() {
@@ -152,6 +166,7 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
     // Called every time the cell is displayed (from cellForItemAt) to get fresh data
     func refreshData() {
         Task {
+            await MainActor.run { self.updateSeasonLabel() }
             guard let userID = userProfile.userID else { return }
 
             let availability = checkGameAvailability()
@@ -282,3 +297,4 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
         }
     }
 }
+

@@ -13,6 +13,7 @@ class UserProfileViewController: UIViewController {
     @IBOutlet weak var imageProfile: UIImageView!
     @IBOutlet weak var imageCategoryBadge: UIImageView!
     @IBOutlet weak var buttonEditProfile: UIButton!
+    @IBOutlet weak var buttonCancel: UIButton!
     @IBOutlet weak var buttonSettings: UIButton!
     @IBOutlet weak var labelUsername: UILabel!
     @IBOutlet weak var labelBiography: UILabel!
@@ -143,6 +144,8 @@ class UserProfileViewController: UIViewController {
     }
     
     func settingsElements() {
+        
+        setGlassEffect(for: self.buttonCancel, withImage: "multiply")
         
         if userProfile.userBio != nil || userProfile.userBio != "" {
             self.labelBiography.text = userProfile.userBio
