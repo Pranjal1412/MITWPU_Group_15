@@ -30,9 +30,8 @@ class ExploreScreenCollectionViewCell: UICollectionViewCell {
         LabelTitle.text = data.clubName
         ClubSport.text = data.clubSport?.rawValue
         NumberOfRunners.text = String(data.memberCount ?? 0)
-//        MARK: - Force unwrap
-//        imageSportType.image = UIImage(systemName: setSportImage(for: data.clubSport.rawValue))
-        if let url = URL(string: data.clubProfileImageURL!) {
+        
+        if let url = URL(string: data.clubProfileImageURL ?? "") {
             clubProfile.kf.setImage(with: url)
         }
         else {
