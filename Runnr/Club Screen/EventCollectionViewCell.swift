@@ -9,35 +9,48 @@ import UIKit
 
 class EventCollectionViewCell: UICollectionViewCell {
 
-    @IBOutlet weak var buttonDate: UIButton!
-    @IBOutlet weak var buttonTime: UIButton!
-    @IBOutlet weak var labelDescriptionOfEvent: UILabel!
-    @IBOutlet weak var viewEventStartEnd: UIView!
-    @IBOutlet weak var labelStartFrom: UILabel!
-    @IBOutlet weak var labelDateAndTime: UILabel!
-    @IBOutlet weak var labelDateTime: UILabel!
-    @IBOutlet weak var buttonMaybe: UIButton!
-    @IBOutlet weak var buttonNo: UIButton!
-    @IBOutlet weak var buttonYes: UIButton!
-    @IBOutlet weak var labelAreYouComing: UILabel!
-    @IBOutlet weak var labelEndAt: UILabel!
-    @IBOutlet weak var labelEvent: UILabel!
+    @IBOutlet weak var labelEventDescription: UILabel!
+    @IBOutlet weak var labelEventDate: UILabel!
+    @IBOutlet weak var labelStartTime: UILabel!
+    @IBOutlet weak var labelEventName: UILabel!
     @IBOutlet weak var viewMain: UIView!
+    @IBOutlet weak var labelStartAddress: UILabel!
+    @IBOutlet weak var labelEndAddress: UILabel!
+    @IBOutlet weak var viewDateBackground: UIView!
+    @IBOutlet weak var viewTimeBackground: UIView!
+    @IBOutlet weak var labelDummyText: UILabel!
+    
+    @IBOutlet weak var viewPollBackground: UIView!
+    @IBOutlet weak var pollButtonJoining: UIButton!
+    @IBOutlet weak var pollButtonMaybe: UIButton!
+    @IBOutlet weak var pollButtonNo: UIButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         setup()
-        // Initialization code
     }
+    
     func setup() {
-        viewMain.layer.cornerRadius = 15
-        viewEventStartEnd.layer.cornerRadius = 15
+        self.viewMain.layer.cornerRadius = 15
+        self.viewDateBackground.layer.cornerRadius = 15
+        self.viewTimeBackground.layer.cornerRadius = 15
+        self.viewPollBackground.layer.cornerRadius = 15
     }
 
     func configureCell(event: ClubEvents) {
-        labelEvent.text = event.eventName
-        labelDescriptionOfEvent.text = event.eventDescription
-        labelStartFrom.text = "Start: " + (event.startLocation ?? "")
-        labelEndAt.text = "Finish: " + (event.endLocation ?? "")
+        self.labelEventName.text = event.eventName
+        self.labelEventDescription.text = event.eventDescription
+        
+        if event.eventDescription == "" {
+            self.labelDummyText.text = ""
+        }
+        else {
+            self.labelDummyText.text = " "
+
+        }
+        
+        self.labelStartAddress.text = (event.startLocation ?? "")
+        self.labelEndAddress.text = (event.endLocation ?? "")
         // Format date (e.g., May 7, 2026)
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US_POSIX")
@@ -53,23 +66,8 @@ class EventCollectionViewCell: UICollectionViewCell {
         let startTimeString = (event.startTime) ?? ""
         let endTimeString = (event.endTime) ?? ""
 
-        // labelDateAndTime: date + startTime
-        if !dateString.isEmpty && !startTimeString.isEmpty {
-            labelDateAndTime.text = "\(dateString)  \(startTimeString)"
-        } else if !dateString.isEmpty {
-            labelDateAndTime.text = dateString
-        } else {
-            labelDateAndTime.text = startTimeString
-        }
-
-        // labelDateTime: date + endTime
-        if !dateString.isEmpty && !endTimeString.isEmpty {
-            labelDateTime.text = "\(dateString)  \(endTimeString)"
-        } else if !dateString.isEmpty {
-            labelDateTime.text = dateString
-        } else {
-            labelDateTime.text = endTimeString
-        }
+        self.labelEventDate.text = dateString
+        self.labelStartTime.text = startTimeString
     }
 }
 
