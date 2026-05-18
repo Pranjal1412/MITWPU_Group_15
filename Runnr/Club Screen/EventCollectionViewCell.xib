@@ -405,6 +405,12 @@
                 <outlet property="pollButtonJoining" destination="d37-kj-qYN" id="I4S-gy-aFt"/>
                 <outlet property="pollButtonMaybe" destination="XqC-Uc-arA" id="r2F-e3-0hn"/>
                 <outlet property="pollButtonNo" destination="cxK-Ho-DXZ" id="qnZ-tn-E2a"/>
+                <outlet property="progressBarJoining" destination="0uo-CY-8Tv" id="pBJ-j1-PBa"/>
+                <outlet property="progressBarMaybe" destination="mBk-i3-FLy" id="pBM-j2-PBb"/>
+                <outlet property="progressBarNo" destination="489-xH-1cH" id="pBN-j3-PBc"/>
+                <outlet property="labelPctJoining" destination="HUI-5p-ssn" id="lPJ-k1-LBa"/>
+                <outlet property="labelPctMaybe" destination="AET-2T-D1A" id="lPM-k2-LBb"/>
+                <outlet property="labelPctNo" destination="7NC-3S-TPY" id="lPN-k3-LBc"/>
                 <outlet property="viewDateBackground" destination="Bif-7x-bmU" id="0fE-gG-7UG"/>
                 <outlet property="viewMain" destination="u5h-w7-Mhe" id="OxV-YC-1s0"/>
                 <outlet property="viewPollBackground" destination="nWi-aw-fGP" id="UyW-JW-ZEq"/>
