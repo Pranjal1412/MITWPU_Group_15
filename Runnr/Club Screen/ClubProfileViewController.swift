@@ -139,14 +139,14 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile, CreateRunE
         clubDescription.text = myClubProfileData?.club.clubDescription
         clubMotive.text = myClubProfileData?.club.clubMotive
         
-        if let url = URL(string: (myClubProfileData!.club.clubProfileImageURL!)) {
+        if let url = URL(string: (myClubProfileData!.club.clubProfileImageURL ?? "")) {
             self.clubProfileImage.kf.setImage(with: url)
         }
         else {
             self.clubProfileImage.image = UIImage(named: "Club")
         }
 
-        if let url = URL(string: (myClubProfileData!.club.clubBannerImageURL!)) {
+        if let url = URL(string: (myClubProfileData!.club.clubBannerImageURL ?? "")) {
             self.imageClubBanner.kf.setImage(with: url)
         }
         else {

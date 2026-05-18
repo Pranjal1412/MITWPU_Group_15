@@ -67,11 +67,11 @@ class UserProfileViewController: UIViewController {
         if isFromFriendsScreen {
             UIView.performWithoutAnimation {
                 if self.buttonEditProfile.title(for: .normal) == "Follow" {
-                    self.buttonEditProfile.setTitle("Following", for: .normal)
+                    self.buttonEditProfile.setTitle(String(localized: "Following"), for: .normal)
                     self.buttonEditProfile.backgroundColor = .lightGray
                     self.buttonEditProfile.setTitleColor(.label, for: .normal)
                 } else {
-                    self.buttonEditProfile.setTitle("Follow", for: .normal)
+                    self.buttonEditProfile.setTitle(String(localized: "Follow"), for: .normal)
                     self.buttonEditProfile.backgroundColor = .accent
                     self.buttonEditProfile.setTitleColor(.black, for: .normal)
                 }
@@ -121,7 +121,7 @@ class UserProfileViewController: UIViewController {
             
             let friendListVC = FriendListViewController()
             friendListVC.usersList = followersList
-            friendListVC.pageTitle = "Followers"
+            friendListVC.pageTitle = String(localized: "Followers")
             friendListVC.showFollowButton = true
             
             self.present(friendListVC, animated: true, completion: nil)
@@ -137,7 +137,7 @@ class UserProfileViewController: UIViewController {
             
             let friendListVC = FriendListViewController()
             friendListVC.usersList = followingList
-            friendListVC.pageTitle = "Following"
+            friendListVC.pageTitle = String(localized: "Following")
             friendListVC.showFollowButton = false
             self.present(friendListVC, animated: true, completion: nil)
         }
