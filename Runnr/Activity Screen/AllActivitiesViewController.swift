@@ -5,6 +5,7 @@ class AllActivitiesViewController: UIViewController {
     
     @IBOutlet weak var tableViewMyActivity: UITableView!
     @IBOutlet weak var buttonCalendar: UIButton!
+    @IBOutlet weak var buttonBack: UIButton!
     
     let label = UILabel()
     
@@ -28,6 +29,8 @@ class AllActivitiesViewController: UIViewController {
         super.viewDidLoad()
         settingLabel()
         settingTableView()
+        
+        setGlassEffect(for: self.buttonBack, withImage: "chevron.left")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -101,6 +104,11 @@ class AllActivitiesViewController: UIViewController {
         
         present(calendarVC, animated: false)
     }
+    
+    @IBAction func backButtonPressed(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
 }
 
 // MARK: - TableView Settings

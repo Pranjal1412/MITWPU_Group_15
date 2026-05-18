@@ -59,8 +59,8 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile, CreateRunE
         scrollView.showsVerticalScrollIndicator = false
         
         
-        self.leaveClubButton.layer.cornerRadius = self.leaveClubButton.frame.height / 2
-        
+//        self.leaveClubButton.layer.cornerRadius = self.leaveClubButton.frame.height / 2
+
         createNewEventButton.layer.cornerRadius = createNewEventButton.frame.height / 2
         createNewEventButton.addTarget(self, action: #selector(presentCreateEvent), for: .touchUpInside)
         
@@ -230,11 +230,12 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile, CreateRunE
             
             if myClubProfileData?.role == .owner {
                 joinNowButton.setTitle("Edit Club Profile", for: .normal)
-                leaveClubButton.setTitle("Delete", for: .normal)
+                
+                setGlassEffect(for: self.leaveClubButton, withImage: "trash")
             }
             else {
                 joinNowButton.setTitle("Joined", for: .normal)
-                leaveClubButton.setTitle("Leave", for: .normal)
+                setGlassEffect(for: self.leaveClubButton, withImage: "door.left.hand.open")
             }
             
             joinNowButton.setTitleColor(.accent, for: .normal)
