@@ -21,6 +21,7 @@
                 <outlet property="buttonActivity" destination="amk-i3-LWg" id="rlA-iv-B8o"/>
                 <outlet property="buttonCancel" destination="VXE-42-Ogw" id="M5V-30-xcd"/>
                 <outlet property="buttonStart" destination="gzs-Np-AhN" id="PNM-5G-546"/>
+                <outlet property="labelActivity" destination="C8K-bl-KvE" id="E3z-LK-BBX"/>
                 <outlet property="labelAudioFeedback" destination="qPU-ae-qn0" id="9OV-fc-ISs"/>
                 <outlet property="labelDistance" destination="K07-cz-d2z" id="wCX-rf-2Z2"/>
                 <outlet property="labelScreenTitle" destination="hSZ-0b-JWD" id="icb-EQ-Rfn"/>
@@ -150,9 +151,8 @@
                                             <rect key="frame" x="0.0" y="178" width="322" height="115"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="26d-AA-wHm">
-                                                    <rect key="frame" x="15" y="15" width="140" height="20"/>
+                                                    <rect key="frame" x="14.999999999999996" y="15" width="42.666666666666657" height="20"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="140" id="MR3-oO-p5E"/>
                                                         <constraint firstAttribute="height" constant="20" id="Yuf-g2-QmW"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
@@ -369,7 +369,7 @@
                 <constraint firstItem="hsK-Vy-pe3" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="EH2-Kf-9Fo"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-25" y="104"/>
+            <point key="canvasLocation" x="90" y="80"/>
         </view>
     </objects>
     <resources>

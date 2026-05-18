@@ -42,6 +42,8 @@ class ActivityAnalysisViewController: UIViewController {
     @IBOutlet weak var viewHRGraphContainer: UIView!
     @IBOutlet weak var buttonViewMap: UIButton!
     @IBOutlet weak var buttonCancel: UIButton!
+    @IBOutlet weak var labelPointSectionTitle: UILabel!
+    @IBOutlet weak var labelPaceSetionTitle: UILabel!
     
     var activityData: ActivityDetails?
     private let activityImages = DataSource.shared.getCurrentActivityImages() ?? []
@@ -162,9 +164,10 @@ class ActivityAnalysisViewController: UIViewController {
     func settingUpActivityAnalysisScreenElements() {
         setGlassEffect(for: self.buttonCancel, withImage: "multiply")
 
-        buttonViewMap.layer.cornerRadius = 27
-        buttonViewMap.layer.borderWidth = 2
-        buttonViewMap.layer.borderColor = UIColor.accent.cgColor
+        self.buttonViewMap.layer.cornerRadius = 27
+        self.buttonViewMap.layer.borderWidth = 2
+        self.buttonViewMap.layer.borderColor = UIColor.accent.cgColor
+        self.buttonViewMap.setTitle(String(localized: "View Map"), for: .normal)
         
         labelUserName.text = activityData?.userDetails?.userName
         labelUserName.sizeToFit()
@@ -185,16 +188,27 @@ class ActivityAnalysisViewController: UIViewController {
         
         labelActivityRemark.text = activityData?.activity?.activityRemark
         
-        labelDistance.text = String(localized: "Distance"); labelDistance.sizeToFit()
-        labelPace.text = String(localized: "Pace"); labelPace.sizeToFit()
-        labelTime.text = String(localized: "Time"); labelTime.sizeToFit()
-        labelCalories.text = String(localized: "Calories"); labelCalories.sizeToFit()
-        labelSteps.text = String(localized: "Steps Taken"); labelSteps.sizeToFit()
-        labelElevation.text = String(localized: "Elevation"); labelElevation.sizeToFit()
+        labelDistance.text = String(localized: "Distance")
+        labelDistance.sizeToFit()
+        labelPace.text = String(localized: "Pace")
+        labelPace.sizeToFit()
+        labelTime.text = String(localized: "Time")
+        labelTime.sizeToFit()
+        labelCalories.text = String(localized: "Calories")
+        labelCalories.sizeToFit()
+        labelSteps.text = String(localized: "Steps Taken")
+        labelSteps.sizeToFit()
+        labelElevation.text = String(localized: "Elevation")
+        labelElevation.sizeToFit()
         
         labelBasePoints.text = String(localized: "Base Points: ") + String(self.activityData!.activity!.basePoints!)
         labelSkillPoints.text = String(localized: "Skill Points: ") + String((self.activityData?.activity?.skillPoints!)!)
         labelTotalPoints.text = String(localized: "Points: ") + String(self.activityData!.activity!.basePoints! + self.activityData!.activity!.skillPoints!)
+        
+        self.labelPointSectionTitle.text = String(localized: "Points Earned")
+        self.labelPaceSetionTitle.text = String(localized: "Pace Insights")
+        self.labelHeartRate.text = String(localized: "Heart Rate")
+        self.labelPhotosHeading.text = String(localized: "Photos")
         
         viewActivityStats.layer.cornerRadius = 10
     }

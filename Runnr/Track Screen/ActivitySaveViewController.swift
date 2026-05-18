@@ -193,9 +193,9 @@ class ActivitySaveViewController: UIViewController {
         let formattedTime = formatTime(self.activityData.timeTakenSeconds!)
         labelTimeValue.text = String(format: "%02d : %02d : %02d", formattedTime.hour, formattedTime.minute, formattedTime.second)
         labelTimeValue.sizeToFit()
-        labelCalories.text = NSLocalizedString( "Calories", comment: "")
+        labelCalories.text = String(localized: "Calories")
 //        labelCaloriesValue.text = String(format: "%d", self.activityData.caloriesBurnt!) + " kcal"
-        labelDistance.text = NSLocalizedString( "Distance", comment: "")
+        labelDistance.text = String(localized: "Distance")
         labelDistanceValue.text = String(format: "%.2f", self.activityData.distanceCovered!) + " " + self.activityData.distanceUnit!.rawValue
         labelCaloriesValue.text = String(self.activityData.caloriesBurnt!) + " kcal"
         
