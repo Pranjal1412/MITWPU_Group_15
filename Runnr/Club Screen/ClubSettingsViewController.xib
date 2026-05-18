@@ -202,7 +202,7 @@
                             </constraints>
                         </stackView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RUNNING STYLE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2f8-Qm-YzD">
-                            <rect key="frame" x="15" y="573" width="144.33333333333334" height="22"/>
+                            <rect key="frame" x="15" y="573" width="142.33333333333334" height="22"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="22" id="ktK-h4-ht6"/>
                             </constraints>
@@ -396,6 +396,13 @@
                             <exclude reference="Ye0-hL-U0n"/>
                             <exclude reference="Yj3-v3-RMT"/>
                             <exclude reference="wPY-GX-Xk0"/>
+                        </mask>
+                        <mask key="constraints">
+                            <exclude reference="DwT-qk-hS8"/>
+                            <exclude reference="DpL-7d-MzD"/>
+                            <exclude reference="Waq-IJ-K6w"/>
+                            <exclude reference="DNn-rA-EkD"/>
+                            <exclude reference="aGW-Sj-qlE"/>
                         </mask>
                     </variation>
                 </scrollView>

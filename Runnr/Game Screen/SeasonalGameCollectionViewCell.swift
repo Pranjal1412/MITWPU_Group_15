@@ -266,7 +266,7 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
                     startCountdown(timeRemaining: tr)
                 } else {
                     // Finished early, calculate time to next month
-                    var calendar = Calendar.current
+                    let calendar = Calendar.current
                     var nextMonthComponents = DateComponents()
                     nextMonthComponents.month = 1
                     let nextMonth = calendar.date(byAdding: nextMonthComponents, to: Date())!

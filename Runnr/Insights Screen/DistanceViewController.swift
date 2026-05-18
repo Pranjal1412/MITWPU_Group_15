@@ -200,8 +200,8 @@ class DistanceViewController: UIViewController {
         fullText.append(unitsText)
         labelDistanceCovered.attributedText = fullText
         
-        let boldFont = UIFont.systemFont(ofSize: 32, weight: .bold)
-        let thin2Font = UIFont.systemFont(ofSize: 15)
+//        let boldFont = UIFont.systemFont(ofSize: 32, weight: .bold)
+//        let thin2Font = UIFont.systemFont(ofSize: 15)
         
         labelNumber.text = "--"
         labelNumber.textColor = UIColor.accent

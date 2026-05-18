@@ -320,7 +320,6 @@ class ActivityLiveTrackingViewController: UIViewController {
             let paceGraphData = self.activityManager.paceGraphData
             let path = self.mapManager.path
             let healthKit = self.healthKitManager
-            let datasource = self.datasource
             let estimatedCalories = self.activityManager.estimatedCalories(activityType: self.activityTypeSelected ?? .running)
             
             var activityDetails = UserActivity(

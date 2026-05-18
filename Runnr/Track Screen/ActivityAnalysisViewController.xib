@@ -507,6 +507,9 @@
                 <mask key="subviews">
                     <exclude reference="X98-K1-Hza"/>
                 </mask>
+                <mask key="constraints">
+                    <exclude reference="ScL-Vn-JNs"/>
+                </mask>
             </variation>
             <point key="canvasLocation" x="1006" y="-224"/>
         </view>

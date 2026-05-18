@@ -335,6 +335,10 @@
                         <mask key="subviews">
                             <exclude reference="gi2-9z-eM3"/>
                         </mask>
+                        <mask key="constraints">
+                            <exclude reference="2z6-40-7gi"/>
+                            <exclude reference="TMH-Ai-79k"/>
+                        </mask>
                     </variation>
                 </scrollView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QYz-9T-11T" userLabel="Settings">
