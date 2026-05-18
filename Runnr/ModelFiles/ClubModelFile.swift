@@ -22,6 +22,7 @@ struct Club: Codable {
 }
 
 struct ClubEvents : Codable {
+    var eventID: UUID?         // primary key of ScheduledClubEvents (column name: "id")
     var clubID: UUID?
     var eventName: String?
     var eventDescription: String?
@@ -31,6 +32,44 @@ struct ClubEvents : Codable {
     var startLocation: String?
     var endLocation: String?
     var isCompleted: Bool?
+
+    // Supabase column is "id", but we use eventID in Swift
+    enum CodingKeys: String, CodingKey {
+        case eventID        = "id"
+        case clubID
+        case eventName
+        case eventDescription
+        case eventDate
+        case startTime
+        case endTime
+        case startLocation
+        case endLocation
+        case isCompleted
+    }
+}
+
+// MARK: - Poll Types
+
+enum PollVoteType: String, Codable {
+    case joining  = "joining"
+    case maybe    = "maybe"
+    case notGoing = "not_going"
+}
+
+/// Stored in Supabase `EventPollVote` table.
+struct EventPollVote: Codable {
+    var voteID:   UUID?
+    var eventID:  UUID?
+    var userID:   UUID?
+    var voteType: PollVoteType
+}
+
+/// In-memory summary of poll results for one event.
+struct EventPollSummary {
+    var joiningCount:  Int
+    var maybeCount:    Int
+    var notGoingCount: Int
+    var myVote:        PollVoteType?  // nil = current user hasn't voted
 }
 
 struct ClubMemberRole : Codable {

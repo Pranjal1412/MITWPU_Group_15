@@ -643,6 +643,71 @@ func fetchClubEvents(clubID: UUID) async -> [ClubEvents]? {
 
 }
 
+// MARK: - Event Poll Queries
+
+/// Fetches all votes for a given event and returns a summary including the current user's vote.
+func fetchPollSummary(eventID: UUID, userID: UUID) async -> EventPollSummary {
+    do {
+        let votes: [EventPollVote] = try await SupabaseManager.shared.client
+            .from("EventPollVote")
+            .select()
+            .eq("eventID", value: eventID)
+            .execute()
+            .value
+
+        let joiningCount  = votes.filter { $0.voteType == .joining  }.count
+        let maybeCount    = votes.filter { $0.voteType == .maybe    }.count
+        let notGoingCount = votes.filter { $0.voteType == .notGoing }.count
+        let myVote        = votes.first(where: { $0.userID == userID })?.voteType
+
+        return EventPollSummary(joiningCount: joiningCount,
+                                maybeCount: maybeCount,
+                                notGoingCount: notGoingCount,
+                                myVote: myVote)
+    } catch {
+        print("fetchPollSummary failed: \(error)")
+        return EventPollSummary(joiningCount: 0, maybeCount: 0, notGoingCount: 0, myVote: nil)
+    }
+}
+
+/// Inserts or updates (upserts) the current user's vote for an event.
+/// The unique constraint on (eventID, userID) ensures only one vote per user per event.
+func upsertPollVote(eventID: UUID, userID: UUID, voteType: PollVoteType) async {
+    // Use a payload struct without voteID so Supabase auto-generates it on INSERT
+    // and only updates voteType on conflict (eventID, userID).
+    struct PollVotePayload: Encodable {
+        let eventID:  UUID
+        let userID:   UUID
+        let voteType: PollVoteType
+    }
+    do {
+        let payload = PollVotePayload(eventID: eventID, userID: userID, voteType: voteType)
+        try await SupabaseManager.shared.client
+            .from("EventPollVote")
+            .upsert(payload, onConflict: "eventID,userID")
+            .execute()
+        print("Poll vote upserted successfully")
+    } catch {
+        print("upsertPollVote failed: \(error)")
+    }
+}
+
+/// Removes the current user's vote for an event (used for toggle-off).
+func deletePollVote(eventID: UUID, userID: UUID) async {
+    do {
+        try await SupabaseManager.shared.client
+            .from("EventPollVote")
+            .delete()
+            .eq("eventID", value: eventID)
+            .eq("userID", value: userID)
+            .execute()
+        print("Poll vote deleted successfully")
+    } catch {
+        print("deletePollVote failed: \(error)")
+    }
+}
+
+
 //MARK: - Graph Queries
 
 func fetchSummary(userID: UUID, period: Period, referenceDate: Date) async throws -> [SummaryRow]? {

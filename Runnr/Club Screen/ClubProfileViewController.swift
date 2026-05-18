@@ -39,6 +39,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile, CreateRunE
     
     private var clubOwnerDetails: UserProfile?
     private var clubEvents: [ClubEvents] = []
+    private var pollSummaries: [UUID: EventPollSummary] = [:]
     private var userProfileData = DataSource.shared.getUserProfile()
     private var dataSource = DataSource.shared
 
@@ -98,7 +99,29 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile, CreateRunE
             }
 
             dataSource.setClubEvents(self.clubEvents)
-            
+
+            // Fetch poll summaries for all events in parallel
+            let currentUserID = userProfileData.userID ?? UUID()
+            var summaries: [UUID: EventPollSummary] = [:]
+
+            await withTaskGroup(of: (UUID, EventPollSummary)?.self) { group in
+                for event in self.clubEvents {
+                    if let eventID = event.eventID {
+                        group.addTask {
+                            let summary = await fetchPollSummary(eventID: eventID, userID: currentUserID)
+                            return (eventID, summary)
+                        }
+                    }
+                }
+                for await result in group {
+                    if let (id, summary) = result {
+                        summaries[id] = summary
+                    }
+                }
+            }
+
+            self.pollSummaries = summaries
+
             DispatchQueue.main.async {
                 self.collectionViewClubEvents.reloadData()
                 self.collectionViewClubEvents.layoutIfNeeded()
@@ -504,7 +527,10 @@ extension ClubProfileViewController: UICollectionViewDelegate, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! EventCollectionViewCell
-        cell.configureCell(event: clubEvents[indexPath.row])
+        let event = clubEvents[indexPath.row]
+        let summary = event.eventID.flatMap { pollSummaries[$0] }
+        cell.configureCell(event: event, pollSummary: summary)
+        cell.delegate = self
         return cell
     }
 
@@ -517,3 +543,60 @@ extension ClubProfileViewController: UICollectionViewDelegate, UICollectionViewD
     }
 }
 
+// MARK: - Poll Delegate
+
+extension ClubProfileViewController: EventPollCellDelegate {
+
+    func pollCell(_ cell: EventCollectionViewCell,
+                  didVote voteType: PollVoteType,
+                  for eventID: UUID) {
+
+        let userID = userProfileData.userID ?? UUID()
+
+        // --- Optimistic local update ---
+        var summary = pollSummaries[eventID] ??
+            EventPollSummary(joiningCount: 0, maybeCount: 0, notGoingCount: 0, myVote: nil)
+
+        if summary.myVote == voteType {
+            // Toggle off: user tapped their current choice again
+            switch voteType {
+            case .joining:  summary.joiningCount  = max(0, summary.joiningCount  - 1)
+            case .maybe:    summary.maybeCount    = max(0, summary.maybeCount    - 1)
+            case .notGoing: summary.notGoingCount = max(0, summary.notGoingCount - 1)
+            }
+            summary.myVote = nil
+        } else {
+            // Switch or new vote: decrement old count first
+            if let old = summary.myVote {
+                switch old {
+                case .joining:  summary.joiningCount  = max(0, summary.joiningCount  - 1)
+                case .maybe:    summary.maybeCount    = max(0, summary.maybeCount    - 1)
+                case .notGoing: summary.notGoingCount = max(0, summary.notGoingCount - 1)
+                }
+            }
+            switch voteType {
+            case .joining:  summary.joiningCount  += 1
+            case .maybe:    summary.maybeCount    += 1
+            case .notGoing: summary.notGoingCount += 1
+            }
+            summary.myVote = voteType
+        }
+
+        pollSummaries[eventID] = summary
+
+        // Reload just that cell immediately so counts and highlight refresh
+        if let indexPath = collectionViewClubEvents.indexPath(for: cell) {
+            collectionViewClubEvents.reloadItems(at: [indexPath])
+        }
+
+        // --- Persist to Supabase in background ---
+        let wasToggleOff = (summary.myVote == nil)
+        Task {
+            if wasToggleOff {
+                await deletePollVote(eventID: eventID, userID: userID)
+            } else {
+                await upsertPollVote(eventID: eventID, userID: userID, voteType: voteType)
+            }
+        }
+    }
+}
