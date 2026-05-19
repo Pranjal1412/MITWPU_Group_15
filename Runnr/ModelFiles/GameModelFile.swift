@@ -31,7 +31,7 @@ enum TileOwner: Equatable {
     case none, player(Player)
 }
 struct TileState {
-    let id: String;
+    let id: String
     var owner: TileOwner
 }
 
@@ -63,17 +63,17 @@ struct AssignedChallengesProgress: Codable {
     var challengeDetails: SoloChallenges
 }
 
-//struct GetRandomChallengesParams: Encodable, Sendable {
+// struct GetRandomChallengesParams: Encodable, Sendable {
 //    let p_user_id: UUID
 //    let p_difficulty: String
-//}
+// }
 
 struct BattleInviteNotification: Codable {
     var notificationID: UUID?
     var senderID: UUID
     var receiverID: UUID
     var senderName: String
-    var senderProfileImageURL: String? = nil
+    var senderProfileImageURL: String?
     var gameID: UUID?
     var message: String
     var isRead: Bool

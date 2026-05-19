@@ -85,9 +85,9 @@ class EventCollectionViewCell: UICollectionViewCell {
         }
 
         // Wire tap actions
-        pollButtonJoining.addTarget(self, action: #selector(joiningTapped),  for: .touchUpInside)
-        pollButtonMaybe.addTarget(self,   action: #selector(maybeTapped),    for: .touchUpInside)
-        pollButtonNo.addTarget(self,      action: #selector(notGoingTapped), for: .touchUpInside)
+        pollButtonJoining.addTarget(self, action: #selector(joiningTapped), for: .touchUpInside)
+        pollButtonMaybe.addTarget(self, action: #selector(maybeTapped), for: .touchUpInside)
+        pollButtonNo.addTarget(self, action: #selector(notGoingTapped), for: .touchUpInside)
     }
 
     // MARK: - Configure
@@ -131,9 +131,9 @@ class EventCollectionViewCell: UICollectionViewCell {
         let notGoingPct = total > 0 ? Int(round(Double(notGoing) / Double(total) * 100)) : 0
 
         // Animate progress bars
-        progressBarJoining.setProgress(joiningFrac,  animated: true)
-        progressBarMaybe.setProgress(maybeFrac,      animated: true)
-        progressBarNo.setProgress(notGoingFrac,      animated: true)
+        progressBarJoining.setProgress(joiningFrac, animated: true)
+        progressBarMaybe.setProgress(maybeFrac, animated: true)
+        progressBarNo.setProgress(notGoingFrac, animated: true)
 
         // Update percentage labels
         labelPctJoining.text = "\(joiningPct)%"
@@ -142,9 +142,9 @@ class EventCollectionViewCell: UICollectionViewCell {
 
         // Style circle vote buttons
         let accentColor = UIColor(named: "AccentColor") ?? .systemGreen
-        styleVoteButton(pollButtonJoining, isSelected: myVote == .joining,  color: accentColor)
-        styleVoteButton(pollButtonMaybe,   isSelected: myVote == .maybe,    color: .systemOrange)
-        styleVoteButton(pollButtonNo,      isSelected: myVote == .notGoing, color: .systemRed)
+        styleVoteButton(pollButtonJoining, isSelected: myVote == .joining, color: accentColor)
+        styleVoteButton(pollButtonMaybe, isSelected: myVote == .maybe, color: .systemOrange)
+        styleVoteButton(pollButtonNo, isSelected: myVote == .notGoing, color: .systemRed)
     }
 
     /// Swaps the circle icon between filled (selected) and outline (unselected).
@@ -160,8 +160,8 @@ class EventCollectionViewCell: UICollectionViewCell {
 
     // MARK: - Actions
 
-    @objc private func joiningTapped()  { handleVote(.joining)  }
-    @objc private func maybeTapped()    { handleVote(.maybe)    }
+    @objc private func joiningTapped() { handleVote(.joining)  }
+    @objc private func maybeTapped() { handleVote(.maybe)    }
     @objc private func notGoingTapped() { handleVote(.notGoing) }
 
     private func handleVote(_ voteType: PollVoteType) {

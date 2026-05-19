@@ -21,7 +21,7 @@ struct Club: Codable {
     var memberCount: Int?
 }
 
-struct ClubEvents : Codable {
+struct ClubEvents: Codable {
     var eventID: UUID?         // primary key of ScheduledClubEvents (column name: "id")
     var clubID: UUID?
     var eventName: String?
@@ -58,36 +58,36 @@ enum PollVoteType: String, Codable {
 
 /// Stored in Supabase `EventPollVote` table.
 struct EventPollVote: Codable {
-    var voteID:   UUID?
-    var eventID:  UUID?
-    var userID:   UUID?
+    var voteID: UUID?
+    var eventID: UUID?
+    var userID: UUID?
     var voteType: PollVoteType
 }
 
 /// In-memory summary of poll results for one event.
 struct EventPollSummary {
-    var joiningCount:  Int
-    var maybeCount:    Int
+    var joiningCount: Int
+    var maybeCount: Int
     var notGoingCount: Int
-    var myVote:        PollVoteType?  // nil = current user hasn't voted
+    var myVote: PollVoteType?  // nil = current user hasn't voted
 }
 
-struct ClubMemberRole : Codable {
-    var userID : UUID?
-    var clubID : UUID?
-    var role : ClubRoleType
+struct ClubMemberRole: Codable {
+    var userID: UUID?
+    var clubID: UUID?
+    var role: ClubRoleType
 }
 
-struct ClubRoleAndData : Codable {
-    var role : ClubRoleType
-    var club : Club
+struct ClubRoleAndData: Codable {
+    var role: ClubRoleType
+    var club: Club
 }
 
-struct ClubPost : Codable {
-    var postID : UUID?
-    var clubID : UUID?
+struct ClubPost: Codable {
+    var postID: UUID?
+    var clubID: UUID?
     var postOwner: UUID?
-    var caption : String
+    var caption: String
     var postImageURL: String?
     var likeCount: Int
     var createdTimestamp: Date
@@ -98,16 +98,16 @@ struct ClubPostDetail {
     var post: ClubPost
 }
 
-struct ClubPostImage : Codable {
-    var imageID : UUID?
-    var postID : UUID?
-    var imageURL : String?
-    var sequence : Int
+struct ClubPostImage: Codable {
+    var imageID: UUID?
+    var postID: UUID?
+    var imageURL: String?
+    var sequence: Int
 }
 
-struct ClubTaggedPost : Codable {
-    var activityID : UUID?
-    var clubID : UUID?
+struct ClubTaggedPost: Codable {
+    var activityID: UUID?
+    var clubID: UUID?
 }
 
 struct FollowerAndFollowing: Codable {
@@ -115,7 +115,7 @@ struct FollowerAndFollowing: Codable {
     var followingID: UUID
 }
 
-let clubActivityOptions : [ClubActivityOptions] = [
+let clubActivityOptions: [ClubActivityOptions] = [
     ClubActivityOptions(image: UIImage(systemName: "figure.run")!, title: .running),
     ClubActivityOptions(image: UIImage(systemName: "figure.hiking")!, title: .hiking),
     ClubActivityOptions(image: UIImage(systemName: "figure.walk")!, title: .walking),
@@ -146,7 +146,7 @@ enum LeaderboardMode {
 
 struct ClubActivityOptions {
     let image: UIImage
-    let title:  ActivityType
+    let title: ActivityType
 }
 
 let leaderBoardArray: [LeaderBoard] = [
@@ -155,7 +155,7 @@ LeaderBoard(badge: "badge 2", levelName: "Pacer", levelDescription: "50.00 - 249
 LeaderBoard(badge: "badge 3", levelName: "Achiever", levelDescription: "250.00 - 999.9 Kilometers"),
 LeaderBoard(badge: "badge 4", levelName: "Champion", levelDescription: "1,000.00 - 4,999.9 Kilometers")
 ]
-    
+
 let leaderboardUsersArray: [LeaderboardUser] = [
     LeaderboardUser(
         name: "Ava Brooks",
@@ -193,4 +193,3 @@ let leaderboardUsersArray: [LeaderboardUser] = [
         points: 270
     )
 ]
-

@@ -4,7 +4,7 @@ class WinnerViewController: UIViewController {
 
     var rewardPoints: Int = 200
     var messageText: String = "You dominated the map and captured the most territories this month."
-    
+
     // UI Elements
     private let containerView = UIView()
     private let titleLabel = UILabel()
@@ -20,13 +20,13 @@ class WinnerViewController: UIViewController {
 
     private func setupUI() {
         view.backgroundColor = UIColor.black.withAlphaComponent(0.6) // Dimmed background
-        
+
         // Container
         containerView.backgroundColor = UIColor(red: 0.12, green: 0.12, blue: 0.12, alpha: 1.0) // Dark gray
         containerView.layer.cornerRadius = 20
         containerView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(containerView)
-        
+
         // Title
         titleLabel.text = "SEASON\nCHAMPION!"
         titleLabel.numberOfLines = 2
@@ -40,7 +40,7 @@ class WinnerViewController: UIViewController {
         }
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(titleLabel)
-        
+
         // Trophy Image (using SF Symbols as placeholder for the generated asset)
         let config = UIImage.SymbolConfiguration(pointSize: 100, weight: .regular)
         trophyImageView.image = UIImage(systemName: "trophy.fill", withConfiguration: config)
@@ -48,7 +48,7 @@ class WinnerViewController: UIViewController {
         trophyImageView.contentMode = .scaleAspectFit
         trophyImageView.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(trophyImageView)
-        
+
         // Message Label
         messageLabel.text = messageText
         messageLabel.numberOfLines = 0
@@ -57,7 +57,7 @@ class WinnerViewController: UIViewController {
         messageLabel.textColor = .lightGray
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(messageLabel)
-        
+
         // Points Label
         pointsLabel.text = "+\(rewardPoints) POINTS"
         pointsLabel.textAlignment = .center
@@ -71,7 +71,7 @@ class WinnerViewController: UIViewController {
         pointsLabel.layer.masksToBounds = false
         pointsLabel.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(pointsLabel)
-        
+
         // Claim Button
         claimButton.setTitle("Claim Reward", for: .normal)
         claimButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
@@ -81,28 +81,28 @@ class WinnerViewController: UIViewController {
         claimButton.translatesAutoresizingMaskIntoConstraints = false
         claimButton.addTarget(self, action: #selector(claimTapped), for: .touchUpInside)
         containerView.addSubview(claimButton)
-        
+
         // Constraints
         NSLayoutConstraint.activate([
             containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             containerView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.85),
-            
+
             titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 30),
             titleLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-            
+
             trophyImageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
             trophyImageView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             trophyImageView.heightAnchor.constraint(equalToConstant: 150),
             trophyImageView.widthAnchor.constraint(equalToConstant: 150),
-            
+
             messageLabel.topAnchor.constraint(equalTo: trophyImageView.bottomAnchor, constant: 20),
             messageLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
             messageLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
-            
+
             pointsLabel.topAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: 20),
             pointsLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-            
+
             claimButton.topAnchor.constraint(equalTo: pointsLabel.bottomAnchor, constant: 30),
             claimButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
             claimButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),

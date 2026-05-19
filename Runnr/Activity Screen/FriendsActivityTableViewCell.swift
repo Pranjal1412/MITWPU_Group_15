@@ -2,7 +2,7 @@ import UIKit
 import Kingfisher
 
 class FriendsActivityTableViewCell: UITableViewCell {
-    
+
     @IBOutlet weak var mapImage: UIImageView!
     @IBOutlet weak var viewMainBackground: UIView!
     @IBOutlet weak var labelName: UILabel!
@@ -29,8 +29,8 @@ class FriendsActivityTableViewCell: UITableViewCell {
         collectionViewPhotos.delegate   = self
 
         let nib = UINib(nibName: "FriendsPhotosCollectionViewCell", bundle: nil)
-        collectionViewPhotos.register(nib,forCellWithReuseIdentifier: "friendCell")
-        
+        collectionViewPhotos.register(nib, forCellWithReuseIdentifier: "friendCell")
+
         self.viewMainBackground.layer.cornerRadius = 20
     }
 
@@ -38,22 +38,22 @@ class FriendsActivityTableViewCell: UITableViewCell {
         labelName.text = data.userDetails!.userName
         labelDate.text = formatDate(with: data.activity!.activityStartTime!)
         labelRunTitle.text = data.activity!.activityTitle
-        
+
         self.labelDummy.text = ""
         if data.activity!.activityRemark != "" {
             self.labelDummy.text = "Dummy Text"
         }
-        
+
         if let url = URL(string: data.activity!.mapImageURL!) {
             self.mapImage.kf.setImage(with: url)
         }
-        
+
         if let url = URL(string: data.userDetails!.userProfileImageURL!) {
             self.imageProfile.kf.setImage(with: url)
         }
-        
+
         self.mapImage.layer.cornerRadius = 10
-        
+
         labelNote.text = data.activity!.activityRemark
         labelDistance.text = "Distance"
         labelPace.text = "Pace"
@@ -76,24 +76,24 @@ class FriendsActivityTableViewCell: UITableViewCell {
                                            attributes: [.font: unitFont, .foregroundColor: highlightColor]))
         labelPaceContent.attributedText = paceText
         var timeText = NSMutableAttributedString()
-        
+
         let formattedTime = formatTime(data.activity!.timeTakenSeconds!)
 
         if formattedTime.hour != 0 {
             timeText = NSMutableAttributedString(string: String(format: "%02d", formattedTime.hour), attributes: [.font: valueFont, .foregroundColor: UIColor.accent])
             timeText.append(NSAttributedString(string: "hr ", attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
         }
-        
+
         timeText.append(NSAttributedString(string: String(format: "%02d", formattedTime.minute), attributes: [.font: valueFont, .foregroundColor: UIColor.accent]))
-        
+
         timeText.append(NSAttributedString(string: "min ", attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
-        
+
         timeText.append(NSAttributedString(string: " " + String(format: "%02d", formattedTime.second), attributes: [.font: valueFont, .foregroundColor: UIColor.accent]))
-        
+
         timeText.append(NSAttributedString(string: "sec", attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
-        
+
         labelTimeContent.attributedText = timeText
-        
+
         labelPaceContent.minimumScaleFactor = 0.5
         collectionViewPhotos.backgroundColor = .clear
 //        setPhotos(activity.activityPhotos)
@@ -114,10 +114,10 @@ extension FriendsActivityTableViewCell: UICollectionViewDataSource,
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "friendCell",for: indexPath) as? FriendsPhotosCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "friendCell", for: indexPath) as? FriendsPhotosCollectionViewCell else {
             return UICollectionViewCell()
         }
-        
+
         let imageName = photos[indexPath.row]
         cell.configure(with: imageName)
         return cell
@@ -132,5 +132,5 @@ extension FriendsActivityTableViewCell: UICollectionViewDataSource,
         }
         return CGSize(width: width, height: height)
     }
-    
+
 }

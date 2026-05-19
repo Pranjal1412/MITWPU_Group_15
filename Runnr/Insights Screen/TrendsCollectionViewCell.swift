@@ -16,12 +16,10 @@ class TrendsCollectionViewCell: UICollectionViewCell {
         viewDistanceCell.layer.cornerRadius = 20
         viewDistanceCell.layer.masksToBounds = false
         viewDistanceCell.clipsToBounds = false
-        
-       
+
     }
     func configureCell(with data: DistanceCardData) {
         labelDistanceTrends.text = data.trends
     }
 
 }
-

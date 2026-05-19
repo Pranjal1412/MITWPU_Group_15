@@ -24,16 +24,14 @@ class PrivacyControlsViewController: UIViewController {
         scrollViewMainScreen.showsVerticalScrollIndicator = false
         // Do any additional setup after loading the view.
     }
-    
+
     @IBAction func buttonSaveTapped(_ sender: Any) {
     }
-    
-    
+
     @IBAction func buttonCancelTapped(_ sender: Any) {
         self.dismiss(animated: true)
     }
-    
-    
+
     func configure() {
         viewSocial.layer.cornerRadius = 15
         viewSocial.clipsToBounds = true
@@ -44,7 +42,6 @@ class PrivacyControlsViewController: UIViewController {
         segmentControlActivityPrivacy.layer.borderColor = UIColor.accent.cgColor
         segmentControlActivityPrivacy.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
     }
-
 
     /*
     // MARK: - Navigation

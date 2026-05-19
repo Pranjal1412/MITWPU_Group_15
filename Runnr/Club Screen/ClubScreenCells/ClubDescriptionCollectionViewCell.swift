@@ -12,9 +12,5 @@ class ClubDescriptionCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var viewCellBackground: UIView!
     @IBOutlet weak var labelDescription: UILabel!
     @IBOutlet weak var imageSelected: UIImageView!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
 
 }

@@ -9,10 +9,10 @@ import UIKit
 import Supabase
 
 class SettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    
+
     @IBOutlet weak var buttonCancel: UIButton!
     @IBOutlet weak var tableViewSettings: UITableView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -26,34 +26,34 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     @IBAction func cancelButtonPressed(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return settingsArray.count
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return settingsArray[section]!.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsTableViewCell", for: indexPath) as? SettingsTableViewCell else {
             return UITableViewCell()
         }
-        
+
         let section = indexPath.section
         let cellData = settingsArray[section]![indexPath.row]
         cell.configureCell(with: cellData)
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
     }
-    
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 30
     }
-    
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 
         let headerView = UIView()
@@ -80,51 +80,49 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         return headerView
     }
 
-
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+
         tableView.deselectRow(at: indexPath, animated: true)
         let cellSelected = settingsArray[indexPath.section]![indexPath.row]
-        
+
         switch cellSelected.title {
-        case "Connect a Device" :
+        case "Connect a Device":
             self.present(ConnectDeviceViewController(), animated: true)
-            
-        case "Logout" :
+
+        case "Logout":
             let alert = UIAlertController(title: "Logout", message: "Are you sure you want to logout?", preferredStyle: .alert)
-            
+
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-            let logoutAction = UIAlertAction(title: "Logout", style: .destructive) { (action) in
-                
+            let logoutAction = UIAlertAction(title: "Logout", style: .destructive) { (_) in
+
                 Task {
                     try await SupabaseManager.shared.client.auth.signOut()
                     print("Session deleted successfully")
-                    
+
                     if let presenter = self.presentingViewController {
                         self.dismiss(animated: true) {
                             presenter.dismiss(animated: false, completion: nil)
                         }
                     }
                 }
-                
+
             }
-            
+
             alert.addAction(cancelAction)
             alert.addAction(logoutAction)
             present(alert, animated: true, completion: nil)
-            
-        case "Privacy Controls" :
+
+        case "Privacy Controls":
             self.present(PrivacyControlsViewController(), animated: true)
-            
+
         default:
             break
         }
-        
-        if cellSelected.title == "Logout" {
-            
-        }
-        
-    }
-    
-}
 
+        if cellSelected.title == "Logout" {
+
+        }
+
+    }
+
+}

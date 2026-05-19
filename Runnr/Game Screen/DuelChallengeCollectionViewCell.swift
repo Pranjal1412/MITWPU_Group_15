@@ -24,12 +24,12 @@ class DuelChallengeCollectionViewCell: UICollectionViewCell {
     @IBOutlet var progressBarOverview: UIProgressView!
     @IBOutlet var yourProgressOverview: UILabel!
     @IBOutlet var opponentProgressOverview: UILabel!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         setupUI()
     }
-    
+
     private func setupUI() {
         imageViewYou.isHidden = true
         imageViewOpponent.isHidden = true
@@ -40,18 +40,18 @@ class DuelChallengeCollectionViewCell: UICollectionViewCell {
         labelTrailingValue.isHidden = true
         viewCellBackground.layer.cornerRadius = 15
         viewCellBackground.clipsToBounds = true
-        
+
         viewYourName.layer.cornerRadius = viewYourName.frame.height/2
         viewOpponent.layer.cornerRadius = viewOpponent.frame.height/2
         viewOpponent.backgroundColor = .white
-        
+
         viewReward.layer.cornerRadius = 10
         viewReward.layer.borderWidth = 1
         viewReward.layer.borderColor = UIColor.accent.cgColor
-        
+
         trailingView.layer.cornerRadius = trailingView.frame.height / 2
     }
-    
+
     func setExpanded() {
         imageViewYou.isHidden.toggle()
         imageViewOpponent.isHidden.toggle()
@@ -64,19 +64,17 @@ class DuelChallengeCollectionViewCell: UICollectionViewCell {
         yourProgressOverview.isHidden.toggle()
         opponentProgressOverview.isHidden.toggle()
 
-        
         imageViewYou.layer.cornerRadius = imageViewYou.frame.height / 2
         imageViewYou.layer.borderWidth = 2
         imageViewYou.layer.borderColor = UIColor.accent.cgColor
-        
+
         imageViewOpponent.layer.cornerRadius = imageViewOpponent.frame.height / 2
         imageViewOpponent.layer.borderWidth = 2
         imageViewOpponent.layer.borderColor = UIColor.white.cgColor
-        
+
         viewVS.layer.cornerRadius = viewVS.frame.height / 2
         viewVS.clipsToBounds = true
-        
-    }
-    
-}
 
+    }
+
+}

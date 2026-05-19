@@ -11,8 +11,8 @@ class PaceViewController: UIViewController {
     @IBOutlet weak var labelAveragePace: UILabel!
     @IBOutlet weak var collectionViewPace: UICollectionView!
     @IBOutlet weak var viewGraphContainer: UIView!
-    
-    var graphStore: GraphManager? = nil
+
+    var graphStore: GraphManager?
     let dataSource = DataSource.shared
     private var hostingController: UIHostingController<PaceChartView>?
     private var userProfile = DataSource.shared.getUserProfile()
@@ -20,10 +20,10 @@ class PaceViewController: UIViewController {
     private var selectedDate: Date = Date()
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         segmentControlAveragePace.selectedSegmentIndex = 0
         graphStore?.selectedPeriod = .weekly
-       
+
         updateDateDisplay()
 
         navigationItem.title = "Average Pace"
@@ -49,10 +49,10 @@ class PaceViewController: UIViewController {
         settingLabelStyle()
         setupGraph()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+
         updateTopValueForSelectedSegment()
     }
 
@@ -60,7 +60,7 @@ class PaceViewController: UIViewController {
         super.viewDidLayoutSubviews()
         scrollViewMain.contentSize.height = collectionViewPace.frame.height + collectionViewPace.frame.origin.y + 100
     }
-    
+
     @IBAction func buttonRangeClicked(_ sender: Any) {
 
         let alert = UIAlertController(title: "Select Date\n\n\n\n\n\n\n\n", message: nil, preferredStyle: .alert)
@@ -72,7 +72,6 @@ class PaceViewController: UIViewController {
             datePicker.date = selectedDate
         datePicker.maximumDate = Date()
 
-            
             alert.view.addSubview(datePicker)
 
             NSLayoutConstraint.activate([
@@ -96,7 +95,6 @@ class PaceViewController: UIViewController {
             present(alert, animated: true)
     }
 
-    
     func updateDateDisplay() {
 
         let formatter = DateFormatter()
@@ -133,7 +131,7 @@ class PaceViewController: UIViewController {
             break
         }
     }
-    
+
     func updateTopValueForSelectedSegment() {
 
         guard let graphStore = graphStore else { return }
@@ -156,12 +154,11 @@ class PaceViewController: UIViewController {
         }
     }
 
-    
     @IBAction func segmentControlClicked(_ sender: UISegmentedControl) {
         updateDateDisplay()
         updateTopValueForSelectedSegment()
     }
-    
+
     func setupGraph() {
 //        let graphView = PaceChartView(store: graphStore ?? GraphManager())
         guard let graphStore = graphStore else { return }
@@ -183,11 +180,11 @@ class PaceViewController: UIViewController {
 
         hc.didMove(toParent: self)
     }
-    
+
     func settingLabelStyle() {
         let mediumFont = UIFont(name: "SFProText-Bold", size: 15) ?? UIFont.systemFont(ofSize: 15, weight: .bold)
         let thinFont = UIFont(name: "SFProText-Light", size: 10) ?? UIFont.systemFont(ofSize: 10)
-        
+
         let titleText = NSAttributedString(
             string: "Average Pace ",
             attributes: [.font: mediumFont, .foregroundColor: UIColor.white]
@@ -196,7 +193,7 @@ class PaceViewController: UIViewController {
             string: "(min/km)",
             attributes: [.font: thinFont, .foregroundColor: UIColor.white]
         )
-        
+
         let fullText = NSMutableAttributedString()
         fullText.append(titleText)
         fullText.append(unitsText)
@@ -204,7 +201,7 @@ class PaceViewController: UIViewController {
 
         // SAME CHANGE (placeholder)
         let boldFont = UIFont(name: "SFProText-Bold", size: 32) ?? UIFont.systemFont(ofSize: 32, weight: .bold)
-        
+
         labelNumber.text = "--"
         labelNumber.textColor = UIColor(named: "AccentColor") ?? UIColor.white
         labelNumber.font = boldFont
@@ -212,7 +209,7 @@ class PaceViewController: UIViewController {
 
 }
 
-//extension PaceViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+// extension PaceViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 //    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 //        return averagePaceTrends.count
 //    }
@@ -230,7 +227,7 @@ class PaceViewController: UIViewController {
 //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
 //        return 10
 //    }
-//}
+// }
 
 struct PaceChartView: View {
     @ObservedObject var store: GraphManager
@@ -239,4 +236,3 @@ struct PaceChartView: View {
         ResponsiveBarChart(data: store.chartData(for: store.selectedPeriod, metric: .pace))
     }
 }
-

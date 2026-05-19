@@ -33,19 +33,19 @@ class GameDescriptionViewController: UIViewController {
     @IBOutlet weak var label3: UILabel!
     @IBOutlet weak var imageView1: UIImageView!
     @IBOutlet weak var buttonCancel: UIButton!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
         setupScrollView()
         setGlassEffect(for: self.buttonCancel, withImage: "multiply")
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         setScrollContentSize()
     }
-    
+
     func setupScrollView() {
         scrollViewMain.showsVerticalScrollIndicator = false
         scrollViewMain.showsHorizontalScrollIndicator = false
@@ -133,5 +133,5 @@ class GameDescriptionViewController: UIViewController {
     @IBAction func buttonCancelTapped(_ sender: UIButton) {
         self.dismiss(animated: true)
     }
-    
+
 }

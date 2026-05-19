@@ -9,9 +9,4 @@ import UIKit
 
 class BadgeCollectionViewCell: UICollectionViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
 }

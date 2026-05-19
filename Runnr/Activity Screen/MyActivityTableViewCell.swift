@@ -18,28 +18,28 @@ class MyActivityTableViewCell: UITableViewCell {
     @IBOutlet weak var labelNote: UILabel!
     @IBOutlet weak var labelDummy: UILabel!
     @IBOutlet weak var viewMainBackground: UIView!
-    
+
     private var profileImageURL = DataSource.shared.getUserProfile().userProfileImageURL
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         selectionStyle = .none
         self.viewMainBackground.layer.cornerRadius = 20
-        
+
         if let url = URL(string: profileImageURL!) {
             self.imageProfile.kf.setImage(with: url)
         }
     }
-    
+
     func configure(with activity: UserActivity) {
-        
+
         labelDate.text = formatDate(with: activity.activityStartTime!)
         labelRunTitle.text = activity.activityTitle
 
         if let url = URL(string: activity.mapImageURL!) {
             self.imageRun.kf.setImage(with: url)
         }
-        
+
         self.labelDummy.text = ""
         if activity.activityRemark != "" {
             self.labelDummy.text = "Dummy Text"
@@ -59,31 +59,31 @@ class MyActivityTableViewCell: UITableViewCell {
         let distanceText = NSMutableAttributedString(
             string: String(format: "%.2f", activity.distanceCovered!),
             attributes: [.font: valueFont, .foregroundColor: UIColor.accent])
-        
+
         distanceText.append(NSAttributedString(string: " " + activity.distanceUnit!.rawValue, attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
         labelDistanceContent.attributedText = distanceText
 
-        let paceText = NSMutableAttributedString(string: String(format: "%.2f", activity.avgPace!),attributes: [.font: valueFont, .foregroundColor: UIColor.accent])
-        paceText.append(NSAttributedString(string: " " + activity.paceUnit!.rawValue,attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
+        let paceText = NSMutableAttributedString(string: String(format: "%.2f", activity.avgPace!), attributes: [.font: valueFont, .foregroundColor: UIColor.accent])
+        paceText.append(NSAttributedString(string: " " + activity.paceUnit!.rawValue, attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
         labelPaceContent.attributedText = paceText
 
         var timeText = NSMutableAttributedString()
-        
+
         let formattedTime = formatTime(activity.timeTakenSeconds!)
-        
+
         if formattedTime.hour != 0 {
             timeText = NSMutableAttributedString(string: String(format: "%02d", formattedTime.hour), attributes: [.font: valueFont, .foregroundColor: UIColor.accent])
             timeText.append(NSAttributedString(string: "hr ", attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
         }
-        
+
         timeText.append(NSAttributedString(string: String(format: "%02d", formattedTime.minute), attributes: [.font: valueFont, .foregroundColor: UIColor.accent]))
-        
+
         timeText.append(NSAttributedString(string: "min", attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
-        
+
         timeText.append(NSAttributedString(string: " " + String(format: "%02d", formattedTime.second), attributes: [.font: valueFont, .foregroundColor: UIColor.accent]))
-        
+
         timeText.append(NSAttributedString(string: "sec", attributes: [.font: unitFont, .foregroundColor: UIColor.accent]))
-        
+
         labelTimeContent.attributedText = timeText
     }
 

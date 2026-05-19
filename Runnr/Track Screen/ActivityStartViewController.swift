@@ -10,32 +10,32 @@ import GoogleMaps
 import Kingfisher
 
 class ActivityStartViewController: UIViewController {
-    
+
     @IBOutlet weak var viewCurrency: UIView!
     @IBOutlet weak var labelScreenTitle: UILabel!
     @IBOutlet weak var labelTotalPoints: UILabel!
     @IBOutlet weak var buttonStart: UIButton!
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var buttonUserProfile: UIButton!
-    
+
     let userLocation = UserLocationManager()
     var isMapInitialized = false
     let topGradientView = UIView()
     let bottomGradientView = UIView()
-    var newUserAlert : Bool?
-    
+    var newUserAlert: Bool?
+
     var dataSource = DataSource.shared
     var hasShownRecoveryAlert = false
     var totalPoints: Int {
         dataSource.getTotalRunnrPoints()
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-                    
+
         self.userLocation.locationManager.requestWhenInUseAuthorization()
         self.userLocation.locationManager.startUpdatingLocation()
-        
+
         self.setStartButton()
         self.labelScreenTitle.text = NSLocalizedString("Runnr.", comment: "")
         self.labelScreenTitle.textColor = .accent
@@ -61,7 +61,7 @@ class ActivityStartViewController: UIViewController {
 
         self.labelTotalPoints.text = "\(totalPoints)"
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         if self.newUserAlert == true {
             let destinationVC = IntroductionViewController()
@@ -70,22 +70,22 @@ class ActivityStartViewController: UIViewController {
             self.present(destinationVC, animated: true, completion: nil)
             self.newUserAlert = false
         }
-        
+
         if let recovered = LocalActivityStorage.shared.load(), !hasShownRecoveryAlert {
             hasShownRecoveryAlert = true
             handleRecoveredActivity(recovered)
         }
     }
-    
+
     override func viewDidLayoutSubviews() {
         self.userLocation.onLocationUpdate = { location in
-            
+
             if self.isMapInitialized == false {
-                
+
                 let mapManager = MapManager()
                 let topOffset = self.labelScreenTitle.frame.height + self.labelScreenTitle.frame.origin.y + 20.0
                 var mapView = GMSMapView()
-                
+
                 if #available(iOS 26.0, *) {
                     mapView = mapManager.initializeMaps(withX: 0.0, withY: topOffset,
                                                        withWidth: self.view.frame.width,
@@ -98,33 +98,33 @@ class ActivityStartViewController: UIViewController {
                                                        withHeight: self.view.frame.height - topOffset - bottomInset,
                                                        location: location.coordinate)
                 }
-                
+
                 mapView.settings.scrollGestures = false
                 mapView.settings.zoomGestures = false
                 mapView.settings.rotateGestures = false
-                
+
                 self.topGradientView.frame.size.height = 100
                 self.topGradientView.frame.size.width = mapView.frame.width
                 self.topGradientView.frame.origin.y = mapView.frame.origin.y - 5
                 self.topGradientView.frame.origin.x = mapView.frame.origin.x
                 addTopGradient(to: self.topGradientView)
-                
+
                 self.view.addSubview(mapView)
                 self.view.addSubview(self.topGradientView)
-                
+
                 self.view.bringSubviewToFront(self.buttonStart)
                 self.userLocation.locationManager.stopUpdatingLocation()
                 self.isMapInitialized = true
             }
         }
     }
-    
+
     @IBAction func profileButtonPressed(_ sender: UIButton) {
         let destinationVC = UserProfileViewController()
         destinationVC.modalPresentationStyle = .fullScreen
         self.present(destinationVC, animated: true, completion: nil)
     }
-    
+
     func setStartButton() {
         buttonStart.frame = CGRect(x: (UIScreen.main.bounds.width - 150)/2.0,
                                    y: (UIScreen.main.bounds.height - 150)/2.0,
@@ -138,7 +138,7 @@ class ActivityStartViewController: UIViewController {
         buttonStart.layer.shadowOpacity = 0.5
         buttonStart.layer.shadowRadius = self.buttonUserProfile.frame.height / 2
     }
-    
+
     func handleRecoveredActivity(_ local: LocalActivity) {
         let alert = UIAlertController(
             title: "Resume Run?",
@@ -155,37 +155,35 @@ class ActivityStartViewController: UIViewController {
 //        alert.addAction(UIAlertAction(title: "End & Save", style: .default, handler: { _ in
 //            self.saveRecoveredActivity(local)
 //        }))
-        
 
-        
         present(alert, animated: true)
     }
-    
+
     func resumeActivity(_ local: LocalActivity) {
         LocalActivityStorage.shared.clear()
-        
+
         let rootVC = ActivityLiveTrackingViewController(nibName: "ActivityLiveTrackingViewController", bundle: nil)
         rootVC.recoveredActivity = local
-        
+
         let navController = UINavigationController(rootViewController: rootVC)
         navController.modalPresentationStyle = .fullScreen
         navController.setNavigationBarHidden(true, animated: false)
         self.present(navController, animated: true)
     }
-    
-//    MARK: - Save activity navigation
+
+// MARK: - Save activity navigation
     func saveRecoveredActivity(_ local: LocalActivity) {
         LocalActivityStorage.shared.clear()
         print("Recovered activity finalized")
     }
-    
+
     @IBAction func startButtonPressed() {
         let destinationVC = ActivitySetGoalViewController()
-        
+
         if #available(iOS 26.0, *) {
             destinationVC.modalPresentationStyle = .overFullScreen
         }
-        
+
         self.present(destinationVC, animated: true, completion: nil)
     }
 }

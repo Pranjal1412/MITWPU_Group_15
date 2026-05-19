@@ -35,29 +35,29 @@ struct RunnrNotification: Codable, Identifiable {
 }
 
 class NotificationManager {
-    
+
     static let shared = NotificationManager()
-    
+
     var notifications: [RunnrNotification] = []
     var unreadCount: Int = 0
-    
+
     var onUpdate: (() -> Void)?
-    
+
     private var channel: RealtimeChannelV2?
-    
+
     private init() {}
-    
+
     func start(userId: UUID) async {
         print("NotificationManager started for user: \(userId)")
         await fetchAll(userId: userId)
         await subscribeRealtime(userId: userId)
         requestLocalPermission()
     }
-    
+
     func stop() async {
         await channel?.unsubscribe()
     }
-    
+
     // MARK: - Fetch
     private func fetchAll(userId: UUID) async {
         do {
@@ -77,22 +77,22 @@ class NotificationManager {
             print("Notification fetch error: \(error)")
         }
     }
-    
+
     // MARK: - Realtime
     private func subscribeRealtime(userId: UUID) async {
         channel = SupabaseManager.shared.client.realtimeV2.channel("notifications:\(userId)")
-        
+
         let changes = await channel?.postgresChange(
             InsertAction.self,
             schema: "public",
             table: "notifications",
             filter: "user_id=eq.\(userId)"
         )
-        
+
         await channel?.subscribe()
-        
+
         guard let changes else { return }
-        
+
         for await change in changes {
             let decoder = JSONDecoder()
             decoder.dateDecodingStrategy = .iso8601
@@ -105,21 +105,21 @@ class NotificationManager {
                 }
             }
         }
-        
+
         // If we reach here, the channel closed — reconnect after 3 seconds
         print("Realtime channel closed, reconnecting...")
         try? await Task.sleep(nanoseconds: 3_000_000_000)
         await subscribeRealtime(userId: userId)
     }
-    
+
     // MARK: - Local Notification
     private func requestLocalPermission() {
         UNUserNotificationCenter.current()
-            .requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+            .requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in
                 print("Notification permission granted: \(granted)")
             }
     }
-    
+
     private func fireLocalNotification(_ notification: RunnrNotification) {
 
         let content = UNMutableNotificationContent()
@@ -153,35 +153,35 @@ class NotificationManager {
         )
         UNUserNotificationCenter.current().add(request)
     }
-    
+
     // MARK: - Mark Read
     func markAllRead() async {
         guard !notifications.isEmpty else { return }
         unreadCount = 0
         notifications = notifications.map { var notification = $0; notification.isRead = true; return notification }
         DispatchQueue.main.async { self.onUpdate?() }
-        
+
         try? await SupabaseManager.shared.client
             .from("notifications")
             .update(["is_read": true])
             .eq("user_id", value: notifications.first!.userId)
             .eq("is_read", value: false)
             .execute()
-        
+
         try? await UNUserNotificationCenter.current().setBadgeCount(0)
     }
-    
+
     func fetchLatest(userId: UUID) async {
         await fetchAll(userId: userId)
     }
-    
+
     func markRead(_ id: UUID) async {
         notifications = notifications.map {
             var notification = $0; if notification.id == id { notification.isRead = true }; return notification
         }
         unreadCount = max(0, unreadCount - 1)
         DispatchQueue.main.async { self.onUpdate?() }
-        
+
         try? await SupabaseManager.shared.client
             .from("notifications")
             .update(["is_read": true])

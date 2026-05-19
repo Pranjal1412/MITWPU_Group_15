@@ -10,7 +10,7 @@ import PhotosUI
 import Kingfisher
 
 class CreatePostViewController: UIViewController, UITextViewDelegate {
-    
+
     @IBOutlet weak var buttonSave: UIButton!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var textView: UITextView!
@@ -20,16 +20,16 @@ class CreatePostViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var imagePost: UIImageView!
     @IBOutlet weak var addPhotosView: UIView!
     @IBOutlet weak var clubNameLabel: UILabel!
-    
+
     private let userProfile = DataSource.shared.getUserProfile()
     let placeholderText = "What's on your mind?"
     var clubDetails: Club?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         // Ensure dashed border frame updates correctly if resized
@@ -37,12 +37,12 @@ class CreatePostViewController: UIViewController, UITextViewDelegate {
             dashedLayer.path = UIBezierPath(roundedRect: mediaContainerView.bounds, cornerRadius: 16).cgPath
             dashedLayer.frame = mediaContainerView.bounds
         }
-        
+
     }
-    
+
     @IBAction func addPostImage(_ sender: UIButton) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
+
         let cameraButton = UIAlertAction(title: String(localized: "Camera"), style: .default, handler: {_ in
             self.openCamera()
         })
@@ -50,16 +50,16 @@ class CreatePostViewController: UIViewController, UITextViewDelegate {
             self.openPhotoLibrary()
         })
         let cancelButton = UIAlertAction(title: String("Cancel"), style: .cancel)
-        
+
         alert.addAction(cameraButton)
         alert.addAction(photoLibraryButton)
         alert.addAction(cancelButton)
-        
+
         self.present(alert, animated: true)
     }
-    
+
     private func setupUI() {
-        
+
         textView.layer.borderWidth = 2
         textView.layer.borderColor = UIColor.cardLightBlack.cgColor
         textView.layer.cornerRadius = 15
@@ -70,16 +70,16 @@ class CreatePostViewController: UIViewController, UITextViewDelegate {
         // Profile Image setup
         profileImageView.layer.cornerRadius = 20
         profileImageView.clipsToBounds = true
-        
+
         if let url = URL(string: clubDetails!.clubProfileImageURL!) {
             profileImageView.kf.setImage(with: url)
         }
-        
+
         clubNameLabel.text = clubDetails?.clubName
         textView.delegate = self
         textView.text = placeholderText
         textView.textColor = .darkGray
-        
+
         setupMediaContainer()
         self.imagePost.clipsToBounds = true
         self.mediaContainerView.clipsToBounds = true
@@ -94,7 +94,7 @@ class CreatePostViewController: UIViewController, UITextViewDelegate {
         dashedBorder.lineDashPattern = [6, 4]
         dashedBorder.lineWidth = 1
         mediaContainerView.layer.addSublayer(dashedBorder)
-        
+
         // Add StackView for center content
         let contentStack = UIStackView()
         contentStack.axis = .vertical
@@ -102,18 +102,17 @@ class CreatePostViewController: UIViewController, UITextViewDelegate {
         contentStack.spacing = 15
         contentStack.translatesAutoresizingMaskIntoConstraints = false
         mediaContainerView.addSubview(contentStack)
-        
+
         NSLayoutConstraint.activate([
             contentStack.centerXAnchor.constraint(equalTo: mediaContainerView.centerXAnchor),
             contentStack.centerYAnchor.constraint(equalTo: mediaContainerView.centerYAnchor)
         ])
-        
+
         self.addPhotosView.layer.cornerRadius = addPhotosView.layer.frame.height / 2
         self.addPhotosView.clipsToBounds = true
-        
+
     }
 
-    
     // MARK: - UITextViewDelegate Placeholder Logic
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == placeholderText {
@@ -121,7 +120,7 @@ class CreatePostViewController: UIViewController, UITextViewDelegate {
             textView.textColor = .white
         }
     }
-    
+
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
             textView.text = placeholderText
@@ -131,30 +130,30 @@ class CreatePostViewController: UIViewController, UITextViewDelegate {
 
     @IBAction func cancelTapped(_ sender: UIButton) {
         let alertController = UIAlertController(title: "Discard Changes", message: "Do you want to discard your current changes?", preferredStyle: .alert)
-        
+
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         let discardAction = UIAlertAction(title: "Discard", style: .destructive) { _ in
             self.dismiss(animated: true)
 
         }
-        
+
         alertController.addAction(cancelAction)
         alertController.addAction(discardAction)
         self.present(alertController, animated: true)
 
     }
-    
+
     @IBAction func postTapped(_ sender: UIButton) {
         Task {
             let newPost = ClubPost(clubID: clubDetails!.clubID, postOwner: userProfile.userID, caption: textView.text, postImageURL: "", likeCount: 0, createdTimestamp: Date())
-            
+
             var post = await insertNewClubPost(postDetails: newPost)!
-            
+
             if let postID = post.postID {
                 let imageURl = await saveClubPostImage(postID: postID, with: self.imagePost.image!)
                 post.postImageURL = imageURl
             }
-            
+
             await updateClubPost(postDetails: post)
             self.dismiss(animated: true, completion: nil)
         }
@@ -162,7 +161,7 @@ class CreatePostViewController: UIViewController, UITextViewDelegate {
 }
 
 extension CreatePostViewController: PHPickerViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
+
     func openPhotoLibrary() {
         var config = PHPickerConfiguration()
         config.filter = .images
@@ -184,13 +183,13 @@ extension CreatePostViewController: PHPickerViewControllerDelegate, UIImagePicke
         picker.delegate = self
         present(picker, animated: true)
     }
-    
+
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
 
         for result in results {
             let provider = result.itemProvider
-            
+
             if provider.canLoadObject(ofClass: UIImage.self) {
                 provider.loadObject(ofClass: UIImage.self) { image, _ in
                     DispatchQueue.main.async {
@@ -201,17 +200,16 @@ extension CreatePostViewController: PHPickerViewControllerDelegate, UIImagePicke
                 }
             }
         }
-                
+
     }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         picker.dismiss(animated: true)
         if let image = info[.originalImage] as? UIImage {
             self.imagePost.image = image
         }
     }
 }
-
 
 //    private func setupBottomActions() {
 //        bottomActionsStack.backgroundColor = UIColor(white: 0.11, alpha: 1)

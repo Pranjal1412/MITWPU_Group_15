@@ -12,26 +12,26 @@ class ActivitySummaryViewController: UIViewController {
 
     @IBOutlet weak var buttonBack: UIButton!
     @IBOutlet weak var labelActivityHeading: UILabel!
-    
+
     var isNewActivity: Bool = false
     var isMapInitialized: Bool = false
 
     let topGradientView = UIView()
-    
+
     private let userLocation = UserLocationManager()
     private var activityData = DataSource.shared.getCurrentActivity()
     private var routeCoordinates = DataSource.shared.getCurrentActivityCoordinates()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-                        
+
         setGlassEffect(for: self.buttonBack, withImage: "chevron.backward")
-        
+
         self.labelActivityHeading.text = activityData?.activity?.activityTitle
-        
+
         self.userLocation.locationManager.startUpdatingLocation()
         self.userLocation.onLocationUpdate = { location in
-            
+
             if self.isMapInitialized == false {
                 let mapManager = MapManager()
 
@@ -44,11 +44,11 @@ class ActivitySummaryViewController: UIViewController {
                     withHeight: self.view.frame.height - topOffset,
                     location: location.coordinate
                 )
-                
+
                 mapView.settings.scrollGestures = true
                 mapView.settings.zoomGestures = true
                 mapView.settings.rotateGestures = true
-                
+
                 Task {
                     // Safely unwrap polyline — skips route drawing if nil
                     if let polyline = self.activityData?.activity?.mapCoordinatesPolyline,
@@ -58,7 +58,7 @@ class ActivitySummaryViewController: UIViewController {
                         mapManager.routeLine.path = mutablePath
                         mapManager.setRouteLineStyle()
                     }
-                    
+
                     // Safely unwrap polyline — skips camera fit if nil
                     if let polyline = self.activityData?.activity?.mapCoordinatesPolyline,
                        let path = GMSPath(fromEncodedPath: polyline) {
@@ -69,13 +69,13 @@ class ActivitySummaryViewController: UIViewController {
                         mapView.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 70))
                     }
                 }
-                
+
                 self.topGradientView.frame.size.height = 100
                 self.topGradientView.frame.size.width = mapView.frame.size.width
                 self.topGradientView.frame.origin.y = mapView.frame.origin.y - 10
                 self.topGradientView.frame.origin.x = mapView.frame.origin.x
                 addTopGradient(to: self.topGradientView)
-                
+
                 self.view.addSubview(mapView)
                 self.view.addSubview(self.topGradientView)
 

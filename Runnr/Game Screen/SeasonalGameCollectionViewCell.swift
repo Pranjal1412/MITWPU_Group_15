@@ -24,18 +24,18 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var imageViewGameBackground: UIImageView!
     @IBOutlet weak var labelBattleRun: UILabel!
     @IBOutlet weak var viewCountDown: UIView!
-    
+
     private var countdownLabels: [UILabel] = []
     private var countdownTimer: Timer?
     private var overlayView: UIView?
-    
+
     let userProfile = DataSource.shared.getUserProfile()
-    
+
     // Closure called when user taps "Invite Friend" — set by the parent VC
     var onInviteFriendTapped: (() -> Void)?
     // Closure called when game ends
     var onGameEnded: ((Bool) -> Void)?
-    
+
     private func updateSeasonLabel(for date: Date = Date()) {
         let calendar = Calendar.current
         let month = calendar.component(.month, from: date)
@@ -57,12 +57,12 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
         viewCellBackground.layer.cornerRadius = 15
         viewCountDown.layer.cornerRadius = 15
         viewCellBackground.clipsToBounds = true
-        if(progressViewCapturedTiles.progress == 1){
+        if progressViewCapturedTiles.progress == 1 {
             viewCountDown.isHidden = false
         }
         viewMonthlyEvent.layer.cornerRadius = viewMonthlyEvent.frame.height / 2
         viewMonthlyEvent.clipsToBounds = true
-        
+
         buttonInviteFriend.layer.cornerRadius = buttonInviteFriend.frame.size.height / 2
         buttonInviteFriend.clipsToBounds = true
         imageView1.layer.cornerRadius = imageView1.frame.size.height / 2
@@ -71,15 +71,14 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
         imageView2.clipsToBounds = true
         imageView3.layer.cornerRadius = imageView1.frame.size.height / 2
         imageView3.clipsToBounds = true
-        
+
         labelGoal.isHidden = true  // permanently hidden — progress bar is shown instead
-        
+
         overlayView = viewCountDown.superview
         setupCountdownLabels()
         refreshData()
         updateSeasonLabel()
-        
-        
+
     }
 
     private func setupCountdownLabels() {
@@ -97,12 +96,12 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
 
     private func updateCountdownUI(timeRemaining: TimeInterval) {
         guard countdownLabels.count == 4 else { return }
-        
+
         let days = Int(timeRemaining) / 86400
         let hours = (Int(timeRemaining) % 86400) / 3600
         let minutes = (Int(timeRemaining) % 3600) / 60
         let seconds = Int(timeRemaining) % 60
-        
+
         countdownLabels[0].text = String(format: "%02d", days)
         countdownLabels[1].text = String(format: "%02d", hours)
         countdownLabels[2].text = String(format: "%02d", minutes)
@@ -113,20 +112,20 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
         let calendar = Calendar.current
         let now = Date()
         let components = calendar.dateComponents([.day, .month, .year], from: now)
-        
+
         if let day = components.day, day >= 1 && day <= 15 {
             return (true, nil)
         } else {
             var nextMonthComponents = DateComponents()
             nextMonthComponents.month = 1
             let nextMonth = calendar.date(byAdding: nextMonthComponents, to: now)!
-            
+
             var startOfNextMonthComponents = calendar.dateComponents([.month, .year], from: nextMonth)
             startOfNextMonthComponents.day = 1
             startOfNextMonthComponents.hour = 0
             startOfNextMonthComponents.minute = 0
             startOfNextMonthComponents.second = 0
-            
+
             let startOfNextMonth = calendar.date(from: startOfNextMonthComponents)!
             let timeRemaining = startOfNextMonth.timeIntervalSince(now)
             return (false, timeRemaining)
@@ -136,12 +135,12 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
     private func startCountdown(timeRemaining: TimeInterval) {
         countdownTimer?.invalidate()
         var remaining = timeRemaining
-        
+
         updateCountdownUI(timeRemaining: remaining)
         overlayView?.isHidden = false
         buttonInviteFriend.isEnabled = false
         buttonInviteFriend.backgroundColor = .systemGray2
-        
+
         countdownTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
             guard let self = self else {
                 timer.invalidate()
@@ -241,7 +240,7 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
                 progressViewCapturedTiles.isHidden = false
                 progressViewCapturedTiles.progress = Float(capturedCount) / Float(totalTiles)
             }
-            
+
             if capturedCount >= totalTiles {
                 // User finished the game early
                 await settleGame(gameID: gameID)
@@ -255,13 +254,13 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
             let myTilesCount = tiles.filter { $0.ownerID == self.userProfile.userID }.count
             let opponentTilesCount = capturedCount - myTilesCount
             let isWinner = myTilesCount >= opponentTilesCount
-            
+
             await updateGameAsCompleted(gameID: gameID)
             DataSource.shared.clearGameID()
-            
+
             await MainActor.run {
                 self.onGameEnded?(isWinner)
-                
+
                 if let tr = timeRemaining {
                     startCountdown(timeRemaining: tr)
                 } else {
@@ -279,11 +278,11 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
             }
         }
     }
-    
+
     @IBAction func inviteFriendClicked(_ sender: UIButton) {
         onInviteFriendTapped?()
     }
-    
+
     private func updateGameAsCompleted(gameID: UUID) async {
         do {
             try await SupabaseManager.shared.client
@@ -297,4 +296,3 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
         }
     }
 }
-

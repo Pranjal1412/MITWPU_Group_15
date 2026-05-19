@@ -7,11 +7,11 @@
 
 import UIKit
 
-var isSignUpComplete : Bool {
+var isSignUpComplete: Bool {
     get {
         return UserDefaults.standard.object(forKey: "isSignUpComplete") as? Bool ?? false
     }
-    
+
     set(value) {
         UserDefaults.standard.set(value, forKey: "isSignUpComplete")
         UserDefaults.standard.synchronize()
@@ -24,7 +24,7 @@ func isValidEmail(_ email: UITextField?) -> Bool {
         let emailString = email.text!
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         let emailPred = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
-        
+
         if emailPred.evaluate(with: emailString) {
             email.textColor = .accent
             return true
@@ -34,10 +34,10 @@ func isValidEmail(_ email: UITextField?) -> Bool {
             return false
         }
     }
-    else{
+    else {
         return false
     }
-    
+
 }
 
 func addTopGradient(to view: UIView) {
@@ -155,13 +155,12 @@ func addTrailingToLeadingGradient(to view: UIView) {
         UIColor.black.withAlphaComponent(0.8).cgColor,
         UIColor.black.cgColor
     ]
-    
+
     gradient.startPoint = CGPoint(x: 0.0, y: 0.5)
     gradient.endPoint   = CGPoint(x: 1.0, y: 0.5)
 
     view.layer.insertSublayer(gradient, at: 0)
 }
-
 
 func addBlurAndGradient(to view: UIView) {
     // Blur
@@ -194,7 +193,6 @@ func addHorizontalCardGradient(to view: UIView) {
 
     view.layer.insertSublayer(gradient, at: 0)
 }
-
 
 func formatDate(with date: Date) -> String {
     let formatter = DateFormatter()
@@ -268,20 +266,20 @@ func setSportImage(for activity: String) -> String {
 }
 
 func resizeImageIfNeeded(_ image: UIImage, maxDimension: CGFloat) -> UIImage {
-    
+
     let size = image.size
-    
+
     if max(size.width, size.height) <= maxDimension {
         return image
     }
-    
+
     let scale = maxDimension / max(size.width, size.height)
-    
+
     let newSize = CGSize(
         width: size.width * scale,
         height: size.height * scale
     )
-    
+
     let renderer = UIGraphicsImageRenderer(size: newSize)
     return renderer.image { _ in
         image.draw(in: CGRect(origin: .zero, size: newSize))
@@ -291,14 +289,14 @@ func resizeImageIfNeeded(_ image: UIImage, maxDimension: CGFloat) -> UIImage {
 func getCurrentWeekStart() -> String {
     var calendar = Calendar(identifier: .iso8601)
     calendar.timeZone = TimeZone.current
-    
+
     let now = Date()
     let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: now)
     let startOfWeek = calendar.date(from: components)!
-    
+
     let formatter = DateFormatter()
     formatter.dateFormat = "yyyy-MM-dd"
     formatter.timeZone = TimeZone.current
-    
+
     return formatter.string(from: startOfWeek)
 }

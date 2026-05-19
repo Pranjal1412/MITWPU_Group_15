@@ -8,13 +8,11 @@ protocol CreateRunEventDelegate {
 class CreateRunEventViewController: UIViewController {
 
     public var club: Club?
-    
+
     public var clubDetails: Club? {
         get { club }
         set { club = newValue }
     }
-
-
 
     // Header bar
     private let headerView = UIView()
@@ -42,7 +40,6 @@ class CreateRunEventViewController: UIViewController {
     private let endLocationField = UITextField()
     private let sameAsStartSwitch = UISwitch()
 
-
     private let postButton = UIButton(type: .system)
     private let cancelButton = UIButton(type: .system)
 
@@ -55,16 +52,16 @@ class CreateRunEventViewController: UIViewController {
     private let suggestionsTableView = UITableView()
     private var suggestionsHeightConstraint: NSLayoutConstraint?
     private var datasource = DataSource.shared
-    
+
     var delegate: CreateRunEventDelegate?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = "New Run Event"
         view.backgroundColor = UIColor(red: 0.08, green: 0.08, blue: 0.08, alpha: 1.0)
         view.overrideUserInterfaceStyle = .dark
-        
+
         buildHeaderBar()
 
         view.isOpaque = true
@@ -84,20 +81,18 @@ class CreateRunEventViewController: UIViewController {
         startTimePicker.addTarget(self, action: #selector(handleStartTimeChanged), for: .valueChanged)
         endTimePicker.addTarget(self, action: #selector(handleEndTimeChanged), for: .valueChanged)
 
-
-
         sameAsStartSwitch.addTarget(self, action: #selector(sameStartToggled(_:)), for: .valueChanged)
-        
+
         setupSuggestionsTableView()
         setupSearchCompleter()
         setupTextFieldDelegates()
-        
+
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
 
         normalizeEndTimeIfNeeded()
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
@@ -151,7 +146,7 @@ class CreateRunEventViewController: UIViewController {
     private func setupTextFieldDelegates() {
         startLocationField.delegate = self
         endLocationField.delegate = self
-        
+
         // Add targets for text changes
         startLocationField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         endLocationField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
@@ -167,12 +162,12 @@ class CreateRunEventViewController: UIViewController {
         suggestionsTableView.isHidden = true
         suggestionsTableView.translatesAutoresizingMaskIntoConstraints = false
         suggestionsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "SuggestionCell")
-        
+
         view.addSubview(suggestionsTableView)
-        
+
         // We will update the top anchor dynamically based on which text field is active
         suggestionsHeightConstraint = suggestionsTableView.heightAnchor.constraint(equalToConstant: 0)
-        
+
         NSLayoutConstraint.activate([
             suggestionsTableView.leadingAnchor.constraint(equalTo: locationCard.leadingAnchor, constant: 14),
             suggestionsTableView.trailingAnchor.constraint(equalTo: locationCard.trailingAnchor, constant: -14),
@@ -329,7 +324,6 @@ class CreateRunEventViewController: UIViewController {
         locationCard.isOpaque = true
     }
 
-
     private func buildFooterButtons() {
         let hStack = UIStackView()
         hStack.axis = .horizontal
@@ -354,10 +348,10 @@ class CreateRunEventViewController: UIViewController {
         hStack.addArrangedSubview(postButton)
 
         postButton.addTarget(self, action: #selector(createNewEvent), for: .touchUpInside)
-        
+
         contentStack.addArrangedSubview(hStack)
     }
-    
+
     private func formatTime12Hour(_ date: Date) -> String {
         let df = DateFormatter()
         df.locale = Locale(identifier: "en_US_POSIX")
@@ -377,7 +371,7 @@ class CreateRunEventViewController: UIViewController {
 
         let startTimeString = formatTime12Hour(startTimePicker.date)
         let endTimeString = formatTime12Hour(endTimePicker.date)
-        
+
         let newEvent = ClubEvents(clubID: self.club?.clubID,
                                   eventName: self.nameField.text,
                                   eventDescription: self.descTextView.text,
@@ -387,15 +381,15 @@ class CreateRunEventViewController: UIViewController {
                                   startLocation: self.startLocationField.text,
                                   endLocation: self.endLocationField.text,
                                   isCompleted: false)
-        
+
         Task {
             await insertNewClubEvent(event: newEvent)
             var eventsArray = datasource.getClubEvents()
             eventsArray.append(newEvent)
             datasource.setClubEvents(eventsArray)
-            
+
             delegate?.didCreateEvent()
-            
+
             self.dismiss(animated: true)
         }
     }
@@ -522,15 +516,15 @@ class CreateRunEventViewController: UIViewController {
         endLocationField.isEnabled = !sameAsStartSwitch.isOn
         if sameAsStartSwitch.isOn { endLocationField.text = startLocationField.text }
     }
-    
+
     @objc private func dismissKeyboard() {
         view.endEditing(true)
     }
-    
+
     @objc private func beginEditing(_ sender: UITextField) {
         // no-op, ensures control events are wired and field becomes first responder
     }
-    
+
     @objc private func keyboardWillShow(_ notification: Notification) {
         guard let userInfo = notification.userInfo,
               let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
@@ -580,7 +574,7 @@ class CreateRunEventViewController: UIViewController {
 
 // MARK: - MapKit & TableView Delegates
 extension CreateRunEventViewController: MKLocalSearchCompleterDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
-    
+
     @objc func textFieldDidChange(_ textField: UITextField) {
         activeTextField = textField
         if let text = textField.text, !text.isEmpty {
@@ -592,7 +586,7 @@ extension CreateRunEventViewController: MKLocalSearchCompleterDelegate, UITableV
             hideSuggestions()
         }
     }
-    
+
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == startLocationField || textField == endLocationField {
             activeTextField = textField
@@ -602,7 +596,7 @@ extension CreateRunEventViewController: MKLocalSearchCompleterDelegate, UITableV
             }
         }
     }
-    
+
     func textFieldDidEndEditing(_ textField: UITextField) {
         // Delay hiding to allow table view selection to register
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -617,7 +611,7 @@ extension CreateRunEventViewController: MKLocalSearchCompleterDelegate, UITableV
                 suggestionsTableView.removeConstraint(constraint)
             }
         }
-        
+
         // Find the constraint in the view as well
         view.constraints.forEach { constraint in
             if (constraint.firstItem as? UIView) == suggestionsTableView && constraint.firstAttribute == .top {
@@ -640,7 +634,7 @@ extension CreateRunEventViewController: MKLocalSearchCompleterDelegate, UITableV
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
         searchResults = completer.results
         suggestionsTableView.reloadData()
-        
+
         if !searchResults.isEmpty {
             suggestionsTableView.isHidden = false
             let height = min(CGFloat(searchResults.count * 44), 200.0)
@@ -663,16 +657,16 @@ extension CreateRunEventViewController: MKLocalSearchCompleterDelegate, UITableV
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SuggestionCell", for: indexPath)
         let suggestion = searchResults[indexPath.row]
-        
+
         cell.backgroundColor = .clear
         cell.textLabel?.textColor = .white
         cell.textLabel?.font = .systemFont(ofSize: 14)
         cell.textLabel?.text = suggestion.title + " " + suggestion.subtitle
-        
+
         let selectionView = UIView()
         selectionView.backgroundColor = UIColor.white.withAlphaComponent(0.1)
         cell.selectedBackgroundView = selectionView
-        
+
         return cell
     }
 
@@ -680,16 +674,16 @@ extension CreateRunEventViewController: MKLocalSearchCompleterDelegate, UITableV
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let suggestion = searchResults[indexPath.row]
         let fullAddress = suggestion.title + (suggestion.subtitle.isEmpty ? "" : ", " + suggestion.subtitle)
-        
+
         activeTextField?.text = fullAddress
         hideSuggestions()
         view.endEditing(true)
-        
+
         if activeTextField == startLocationField && sameAsStartSwitch.isOn {
             endLocationField.text = fullAddress
         }
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 44
     }

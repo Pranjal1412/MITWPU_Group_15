@@ -18,13 +18,13 @@ class LeaderBoardViewController: UIViewController {
     @IBOutlet var silverRunner: UIImageView!
     @IBOutlet var bronzeRunner: UIImageView!
     @IBOutlet var backButton: UIButton!
-    
+
     var users: [LeaderboardUser] = leaderboardUsersArray
     private(set) var currentMode: LeaderboardMode = .kilometer
 
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.showsVerticalScrollIndicator = false
@@ -32,19 +32,19 @@ class LeaderBoardViewController: UIViewController {
                                 forCellReuseIdentifier: "LeaderboardListTableViewCell")
         setMode(.kilometer)
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         makeCircular(goldRunner)
         makeCircular(silverRunner)
         makeCircular(bronzeRunner)
     }
-    
+
     private func makeCircular(_ imageView: UIImageView) {
         imageView.layer.cornerRadius = imageView.frame.width / 2
         imageView.clipsToBounds = true
     }
-    
+
     @IBAction func totalKmTapped(_ sender: UIButton) {
         setMode(.kilometer)
     }

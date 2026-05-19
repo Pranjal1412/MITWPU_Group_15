@@ -11,16 +11,12 @@ class AddPhotosCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var imagePhotos: UIImageView!
     @IBOutlet weak var buttonDeletePhoto: UIButton!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
+
     func configureCell(hideCancel value: Bool) {
-        
+
         if value == false {
             self.buttonDeletePhoto.isHidden = value
-            
+
             if #available(iOS 26.0, *) {
                 self.buttonDeletePhoto.configuration = .glass()
                 self.buttonDeletePhoto.tintColor = .accent
@@ -34,7 +30,7 @@ class AddPhotosCollectionViewCell: UICollectionViewCell {
         else {
             self.buttonDeletePhoto.isHidden = value
         }
-                
+
         self.imagePhotos.layer.cornerRadius = 10
         self.imagePhotos.clipsToBounds = true
     }

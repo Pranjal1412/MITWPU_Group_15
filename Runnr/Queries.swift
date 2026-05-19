@@ -81,15 +81,15 @@ func updateUserProfile(userID: UUID, newProfile: UserProfile) async {
 }
 
 func saveProfileImage(userID: UUID, with image: UIImage) async -> String? {
-    
+
     let resizedImage = resizeImageIfNeeded(image, maxDimension: 400)
-    
+
     if let imageData = resizedImage.jpegData(compressionQuality: 0.8) {
         let filePath = "profiles/\(userID)_\(Int(Date().timeIntervalSince1970)).jpg"
-        
+
         if let url = await saveAndFetchImageURL(with: filePath, imageData: imageData) {
             return url
-            
+
         } else {
             print("Upload failed")
             return nil
@@ -134,7 +134,7 @@ func insertActivity(_ activity: UserActivity) async -> UserActivity? {
 }
 
 func updateUserActivity(newActivity: UserActivity) async {
-    
+
     do {
         try await SupabaseManager.shared.client
             .from("UserActivity")
@@ -147,7 +147,7 @@ func updateUserActivity(newActivity: UserActivity) async {
     }
 }
 
-func deleteUserActivity(activityID : UUID, mapImageURL : String) async {
+func deleteUserActivity(activityID: UUID, mapImageURL: String) async {
     do {
         let images = await fetchActivityImages(activityID)
         for image in images {
@@ -159,10 +159,10 @@ func deleteUserActivity(activityID : UUID, mapImageURL : String) async {
             .delete()
             .eq("activityID", value: activityID)
             .execute()
-        
+
         await deleteImageFromStorage(imageURL: mapImageURL)
     }
-    
+
     catch {
         print("Deletion failed: \(error)")
     }
@@ -170,7 +170,7 @@ func deleteUserActivity(activityID : UUID, mapImageURL : String) async {
 
 func fetchAllMyActivities(userProfile: UserProfile) async -> [ActivityDetails] {
     do {
-        
+
         let response: [UserActivity] = try await SupabaseManager.shared.client
             .from("UserActivity")
             .select()
@@ -178,14 +178,14 @@ func fetchAllMyActivities(userProfile: UserProfile) async -> [ActivityDetails] {
             .order("activityStartTime", ascending: false)
             .execute()
             .value
-        
+
         let result = response.map { activity in
             ActivityDetails(
                 userDetails: userProfile,
                 activity: activity
             )
         }
-        
+
         return result
     }
     catch {
@@ -195,14 +195,14 @@ func fetchAllMyActivities(userProfile: UserProfile) async -> [ActivityDetails] {
 }
 
 func saveMapImage(activityID: UUID, with image: UIImage) async -> String? {
-    
+
     let resizedImage = resizeImageIfNeeded(image, maxDimension: 700)
     if let imageData = resizedImage.jpegData(compressionQuality: 0.9) {
         let filePath = "activityMapImages/\(activityID)_\(Int(Date().timeIntervalSince1970)).jpg"
-        
+
         if let url = await saveAndFetchImageURL(with: filePath, imageData: imageData) {
             return url
-            
+
         } else {
             print("Upload failed")
             return nil
@@ -215,14 +215,14 @@ func saveMapImage(activityID: UUID, with image: UIImage) async -> String? {
 }
 
 func saveActivityImages(activityID: UUID, with image: UIImage, seq: Int) async -> String? {
-    
+
     let resizedImage = resizeImageIfNeeded(image, maxDimension: 700)
     if let imageData = resizedImage.jpegData(compressionQuality: 0.9) {
         let filePath = "ActivityImages/\(activityID)_\(Int(Date().timeIntervalSince1970))_\(seq).jpg"
-        
+
         if let url = await saveAndFetchImageURL(with: filePath, imageData: imageData) {
             return url
-            
+
         } else {
             print("Upload failed")
             return nil
@@ -249,7 +249,7 @@ func insertActivityImages(_ images: [ActivityPhotos]) async {
 }
 
 func fetchActivityImages(_ activityID: UUID) async -> [ActivityPhotos] {
-    
+
     do {
         let images: [ActivityPhotos] = try await SupabaseManager.shared.client
           .from("ActivityPhotos")
@@ -260,15 +260,13 @@ func fetchActivityImages(_ activityID: UUID) async -> [ActivityPhotos] {
           .value
 
         return images
-        
+
     } catch {
         print("Failed to fetch route coordinates:", error)
         return []
     }
-    
+
 }
-
-
 
 // MARK: - User Activity Route Coordinates
 func insertActivityRouteCoordinates(_ coordinates: [ActivityRouteCoordinates]) async {
@@ -286,7 +284,7 @@ func insertActivityRouteCoordinates(_ coordinates: [ActivityRouteCoordinates]) a
 }
 
 func fetchActivityRouteCoordinates(_ activityID: UUID) async -> [ActivityRouteCoordinates] {
-    
+
     do {
         let coordinates: [ActivityRouteCoordinates] = try await SupabaseManager.shared.client
           .from("ActivityRouteCoordinates")
@@ -301,7 +299,7 @@ func fetchActivityRouteCoordinates(_ activityID: UUID) async -> [ActivityRouteCo
         print("Failed to fetch route coordinates:", error)
         return []
     }
-    
+
 }
 
 // MARK: - User Activity Pace Graph Activity
@@ -320,7 +318,7 @@ func insertActivityPaceGraphData(_ graphData: [ActivityPaceGraphData]) async {
 }
 
 func fetchActivityPaceGraphData(_ activityID: UUID) async -> [ActivityPaceGraphData] {
-    
+
     do {
         let graphData: [ActivityPaceGraphData] = try await SupabaseManager.shared.client
             .from("ActivityPaceGraphData")
@@ -329,7 +327,7 @@ func fetchActivityPaceGraphData(_ activityID: UUID) async -> [ActivityPaceGraphD
             .order("distanceValue", ascending: true)
             .execute()
             .value
-        
+
         return graphData
     }
     catch {
@@ -346,11 +344,11 @@ func saveAndFetchImageURL(with filepath: String, imageData: Data) async -> Strin
         try await SupabaseManager.shared.client.storage
             .from("publicMedia")
             .upload(filepath, data: imageData, options: FileOptions(contentType: "image/jpeg", upsert: true))
-        
+
         let publicURL = try SupabaseManager.shared.client.storage
             .from("publicMedia")
             .getPublicURL(path: filepath)
-        
+
         return publicURL.absoluteString
 
     }
@@ -370,7 +368,7 @@ func deleteImageFromStorage(imageURL: String) async {
         // replacing the remaining part with empty string
         let path = fullPath.replacingOccurrences(of: "/storage/v1/object/public/publicMedia/", with: "")
         print(path)
-        
+
         try await SupabaseManager.shared.client.storage
             .from("publicMedia")
             .remove(paths: [path])
@@ -416,7 +414,7 @@ func fetchExploreClubData(userID: UUID) async -> [Club] {
         let formattedIDs = excludedIDs
             .map { $0.uuidString }
             .joined(separator: ",")
-        
+
         let clubs: [Club] = try await SupabaseManager.shared.client
             .from("Club")
             .select("*")
@@ -484,11 +482,11 @@ func insertNewClubData(newClub: Club) async -> Club? {
             .single()
             .execute()
             .value
-        
+
         print(insertedClub)
         print("Club created and ownership assigned automatically!")
         return insertedClub
-        
+
     } catch {
         print("Error creating club: \(error)")
         return nil
@@ -508,14 +506,13 @@ func updateClubInfo(updatedData: Club) async {
     }
 }
 
-
 func insertNewClubMember(newMember: ClubMemberRole) async {
     do {
         try await SupabaseManager.shared.client
             .from("ClubMemberRole")
             .insert(newMember)
             .execute()
-        
+
         print("Insert Successfull!")
     }
     catch {
@@ -547,14 +544,14 @@ func deleteClub(clubDetails: Club) async {
 //            .single()
 //            .execute()
 //            .value
-        
+
         if let profileURL = clubDetails.clubProfileImageURL, !profileURL.isEmpty {
             await deleteImageFromStorage(imageURL: profileURL)
         }
         if let bannerURL = clubDetails.clubBannerImageURL, !bannerURL.isEmpty {
             await deleteImageFromStorage(imageURL: bannerURL)
         }
-        
+
         // Now delete the club — CASCADE handles ClubMemberRole and ClubPost rows
         try await SupabaseManager.shared.client
             .from("Club")
@@ -569,15 +566,15 @@ func deleteClub(clubDetails: Club) async {
 }
 
 func saveClubProfileImage(clubID: UUID, with image: UIImage) async -> String? {
-    
+
     let resizedImage = resizeImageIfNeeded(image, maxDimension: 400)
-    
+
     if let imageData = resizedImage.jpegData(compressionQuality: 0.8) {
         let filePath = "clubImages/clubProfile/\(clubID)_\(Int(Date().timeIntervalSince1970)).jpg"
-        
+
         if let url = await saveAndFetchImageURL(with: filePath, imageData: imageData) {
             return url
-            
+
         } else {
             print("Upload failed")
             return nil
@@ -590,15 +587,15 @@ func saveClubProfileImage(clubID: UUID, with image: UIImage) async -> String? {
 }
 
 func saveClubBannerImage(clubID: UUID, with image: UIImage) async -> String? {
-    
+
     let resizedImage = resizeImageIfNeeded(image, maxDimension: 400)
-    
+
     if let imageData = resizedImage.jpegData(compressionQuality: 0.8) {
         let filePath = "clubImages/clubBanner/\(clubID)_\(Int(Date().timeIntervalSince1970)).jpg"
-        
+
         if let url = await saveAndFetchImageURL(with: filePath, imageData: imageData) {
             return url
-            
+
         } else {
             print("Upload failed")
             return nil
@@ -616,7 +613,7 @@ func insertNewClubEvent(event: ClubEvents) async {
             .from("ScheduledClubEvents")
             .insert(event)
             .execute()
-        
+
         print("Insert Successfull!")
     }
     catch {
@@ -632,7 +629,7 @@ func fetchClubEvents(clubID: UUID) async -> [ClubEvents]? {
             .eq("clubID", value: clubID)
             .execute()
             .value
-        
+
         print("Fetch Successfull!")
         return allEvents
     }
@@ -676,8 +673,8 @@ func upsertPollVote(eventID: UUID, userID: UUID, voteType: PollVoteType) async {
     // Use a payload struct without voteID so Supabase auto-generates it on INSERT
     // and only updates voteType on conflict (eventID, userID).
     struct PollVotePayload: Encodable {
-        let eventID:  UUID
-        let userID:   UUID
+        let eventID: UUID
+        let userID: UUID
         let voteType: PollVoteType
     }
     do {
@@ -707,51 +704,50 @@ func deletePollVote(eventID: UUID, userID: UUID) async {
     }
 }
 
-
-//MARK: - Graph Queries
+// MARK: - Graph Queries
 
 func fetchSummary(userID: UUID, period: Period, referenceDate: Date) async throws -> [SummaryRow]? {
-    
-    let parameters : [String: String] = ["user_id": userID.uuidString, "time_period": period.rawValue, "reference_date": "\(referenceDate)"]
-    
+
+    let parameters: [String: String] = ["user_id": userID.uuidString, "time_period": period.rawValue, "reference_date": "\(referenceDate)"]
+
     do {
         let response: [SummaryRow] = try await SupabaseManager.shared.client
-            .rpc("get_user_activity_summary",params: parameters)
+            .rpc("get_user_activity_summary", params: parameters)
             .execute()
             .value
-        
+
         return response
     }
     catch {
         print("Failure fetching summary: \(error)")
         return nil
     }
-    
+
 }
 
-//MARK: - Game Settings
+// MARK: - Game Settings
 
 func downloadTerritoryFile() async -> URL? {
     do {
-        //document url fetched
+        // document url fetched
         let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        //appended fileName to create a full url
+        // appended fileName to create a full url
         let localURL = documents.appendingPathComponent("Territory.reality")
-                
+
         if FileManager.default.fileExists(atPath: localURL.path) == false {
             // raw data from supabase of the game is downloaded
             let data = try await SupabaseManager.shared.client.storage
                 .from("game-assets")
                 .download(path: "Territory.reality")
-            
-            //writes the data to the given path in local URL
+
+            // writes the data to the given path in local URL
             try data.write(to: localURL, options: .atomic)
-            
+
             return localURL
         }
-        
+
         return localURL
-        
+
     } catch {
         print("Download failed:", error)
         return nil
@@ -760,7 +756,7 @@ func downloadTerritoryFile() async -> URL? {
 
 func insertNewGame(gameData: TerritoryGame) async -> TerritoryGame? {
     do {
-                
+
         let insertedGame: TerritoryGame = try await SupabaseManager.shared.client
             .from("TerritoryGame")
             .insert(gameData)
@@ -768,7 +764,7 @@ func insertNewGame(gameData: TerritoryGame) async -> TerritoryGame? {
             .single()
             .execute()
             .value
-                
+
         return insertedGame
 
     }
@@ -786,7 +782,6 @@ func updateGamePlayerTwo(gameID: UUID, playerTwoID: UUID) async {
             .eq("gameID", value: gameID)
             .select()
             .execute()
-        
 
         print("UPDATE RESPONSE:", response)
     } catch {
@@ -826,13 +821,13 @@ func fetchActiveGameForUser(userID: UUID) async -> TerritoryGame? {
 
 func fetchGameTileStatus(gameID: UUID) async -> [TerritoryHexTile]? {
     do {
-        let tileStatus : [TerritoryHexTile] = try await SupabaseManager.shared.client
+        let tileStatus: [TerritoryHexTile] = try await SupabaseManager.shared.client
             .from("TerritoryHexTile")
             .select()
             .eq("gameID", value: gameID)
             .execute()
             .value
-            
+
         return tileStatus
     }
     catch {
@@ -861,7 +856,7 @@ func upsertGameTiles(_ tiles: [TerritoryHexTile]) async {
                     .eq("tileID", value: tile.tileID)
                     .eq("gameID", value: tile.gameID)
                     .execute()
-                    
+
                 try await SupabaseManager.shared.client
                     .from("TerritoryHexTile")
                     .insert(tile)
@@ -874,7 +869,7 @@ func upsertGameTiles(_ tiles: [TerritoryHexTile]) async {
     }
 }
 
-//MARK: - Solo Challenges Queries
+// MARK: - Solo Challenges Queries
 
 func getWeeklySoloChallenges(userProfile: UserProfile) async -> [AssignedChallengesProgress]? {
 
@@ -895,7 +890,7 @@ func getWeeklySoloChallenges(userProfile: UserProfile) async -> [AssignedChallen
 
             // get new 3 random challenge
             let newChallenges: [SoloChallenges] = try await SupabaseManager.shared.client
-                .rpc("get_random_solo_challenges", params: ["p_user_id": userProfile.userID!.uuidString,"p_difficulty": userProfile.userLevel!.rawValue])
+                .rpc("get_random_solo_challenges", params: ["p_user_id": userProfile.userID!.uuidString, "p_difficulty": userProfile.userLevel!.rawValue])
                 .execute()
                 .value
 
@@ -912,25 +907,25 @@ func getWeeklySoloChallenges(userProfile: UserProfile) async -> [AssignedChallen
 
             assignedChallenges = challengesSelected
         }
-            
+
         let challengeIDs = assignedChallenges.map { $0.challengeID }
-        
+
         let soloChallenges: [SoloChallenges] = try await SupabaseManager.shared.client
             .from("SoloChallenges")
             .select()
             .in("challengeID", values: challengeIDs)
             .execute()
             .value
-        
+
         // converting the solochallenges array into a dictionary of [UUID : SoloChallenges]
-        let challengeMap = Dictionary(uniqueKeysWithValues:soloChallenges.map { ($0.challengeID, $0) })
+        let challengeMap = Dictionary(uniqueKeysWithValues: soloChallenges.map { ($0.challengeID, $0) })
 
         return assignedChallenges.compactMap { assigned in
             // now based on the challengeID from assigned which is of type AssignedChallenges we get soloChallenge from challengeMap in detail constant
             guard let details = challengeMap[assigned.challengeID] else { return nil }
-            return AssignedChallengesProgress(assignedChallenge: assigned,challengeDetails: details)
+            return AssignedChallengesProgress(assignedChallenge: assigned, challengeDetails: details)
         }
-        
+
     } catch {
         print("Error fetching weekly challenges: \(error)")
         return nil
@@ -940,19 +935,19 @@ func getWeeklySoloChallenges(userProfile: UserProfile) async -> [AssignedChallen
 func updateAssignedChallengeRewards(challenge: AssignedChallenges) async {
     do {
         try await SupabaseManager.shared.client
-            .from ("AssignedSoloChallenges")
+            .from("AssignedSoloChallenges")
             .update(challenge)
             .eq("userID", value: challenge.userID)
             .eq("challengeID", value: challenge.challengeID)
             .execute()
-            
+
     }
     catch {
         print("Updation failed: \(error)")
     }
 }
 
-//MARK: - Friends Follow/Unfollow
+// MARK: - Friends Follow/Unfollow
 
 // Returns UserProfile rows for all users the current user has NOT yet followed (excluding themselves).
 func fetchUnfollowedUsers(currentUserID: UUID) async -> [UserProfile] {
@@ -961,11 +956,10 @@ func fetchUnfollowedUsers(currentUserID: UUID) async -> [UserProfile] {
         let followed: [FollowerAndFollowing] = try await SupabaseManager.shared.client
             .from("FollowerAndFollowing")
             .select()
-            .eq("FollowerID", value: currentUserID) //users ID
+            .eq("FollowerID", value: currentUserID) // users ID
             .execute()
             .value
 
-        
         let followedIDs = followed.map { $0.followingID } // get IDs of friends user follows
 
         // 2. Fetch all user profiles
@@ -976,7 +970,7 @@ func fetchUnfollowedUsers(currentUserID: UUID) async -> [UserProfile] {
                 .neq("userID", value: currentUserID)
                 .execute()
                 .value
-            
+
             return allUsers
         }
 
@@ -991,9 +985,9 @@ func fetchUnfollowedUsers(currentUserID: UUID) async -> [UserProfile] {
             .not("userID", operator: .in, value: "(\(formattedIDs))")
             .execute()
             .value
-        
+
         return allUsers
-        
+
     } catch {
         print("fetchUnfollowedUsers failed: \(error)")
         return []
@@ -1011,12 +1005,12 @@ func fetchFollowedUsersAtivities(currentUserID: UUID) async -> [ActivityDetails]
             .value
 
         let followedIDs = followed.map { $0.followingID }.filter { $0 != currentUserID }
-  
+
         let activities: [ActivityDetails] = try await SupabaseManager.shared.client
             .rpc("get_friends_latest_activity", params: ["friend_ids": followedIDs])
             .execute()
             .value
-        
+
         return activities
 
     } catch {
@@ -1034,13 +1028,13 @@ func fetchFollowersList(userID: UUID) async -> [UserProfile] {
             .eq("FollowingID", value: userID)
             .execute()
             .value
-            
+
         let followerIDs = followers.map { $0.followerID }
-        
+
         if followerIDs.isEmpty {
             return []
         }
-                
+
         // 2. Fetch their user profiles
         let users: [UserProfile] = try await SupabaseManager.shared.client
             .from("UserProfile")
@@ -1048,9 +1042,9 @@ func fetchFollowersList(userID: UUID) async -> [UserProfile] {
             .in("userID", values: followerIDs)
             .execute()
             .value
-            
+
         return users
-        
+
     } catch {
         print("fetchFollowersList failed: \(error)")
         return []
@@ -1066,13 +1060,13 @@ func fetchFollowingList(userID: UUID) async -> [UserProfile] {
             .eq("FollowerID", value: userID)
             .execute()
             .value
-            
+
         let followingIDs = following.map { $0.followingID }
-        
+
         if followingIDs.isEmpty {
             return []
         }
-            
+
         // 2. Fetch their user profiles
         let users: [UserProfile] = try await SupabaseManager.shared.client
             .from("UserProfile")
@@ -1080,9 +1074,9 @@ func fetchFollowingList(userID: UUID) async -> [UserProfile] {
             .in("userID", values: followingIDs)
             .execute()
             .value
-            
+
         return users
-        
+
     } catch {
         print("fetchFollowingList failed: \(error)")
         return []
@@ -1102,7 +1096,7 @@ func insertFollowedUser(followerID: UUID, followingID: UUID) async {
     }
 }
 
-//MARK: - Club Post
+// MARK: - Club Post
 
 func insertNewClubPost(postDetails: ClubPost) async -> ClubPost? {
     do {
@@ -1113,7 +1107,7 @@ func insertNewClubPost(postDetails: ClubPost) async -> ClubPost? {
             .single()
             .execute()
             .value
-        
+
         return newPost
     }
     catch {
@@ -1129,7 +1123,7 @@ func updateClubPost(postDetails: ClubPost) async {
             .update(postDetails)
             .eq("postID", value: postDetails.postID)
             .execute()
-        
+
     }
     catch {
         print("Error inserting new club post: \(error)")
@@ -1145,24 +1139,24 @@ func fetchAllClubPosts(for clubID: UUID) async -> [ClubPostDetail]? {
             .order("createdTimestamp")
             .execute()
             .value
-        
+
         let postOwnerIDs = allPosts.map { $0.postOwner }
-        
+
         let ownerDetails: [UserProfile] = try await SupabaseManager.shared.client
             .from("UserProfile")
             .select("*")
             .in("userID", values: postOwnerIDs)
             .execute()
             .value
-        
+
         // Create dictionary for quick lookup
         let ownerDict = Dictionary(uniqueKeysWithValues: ownerDetails.map { ($0.userID, $0) })
-        
+
         // Map into ClubPostDetail
         let result: [ClubPostDetail] = allPosts.compactMap { post in
-            
+
             guard let owner = ownerDict[post.postOwner] else { return nil }
-            
+
             return ClubPostDetail(postOwner: owner, post: post)
         }
 
@@ -1174,15 +1168,15 @@ func fetchAllClubPosts(for clubID: UUID) async -> [ClubPostDetail]? {
     }
 }
 
-func deleteClubPost(postID : UUID, postImageURL : String) async {
+func deleteClubPost(postID: UUID, postImageURL: String) async {
     do {
-        
+
         try await SupabaseManager.shared.client
             .from("ClubPost")
             .delete()
             .eq("postID", value: postID)
             .execute()
-        
+
         await deleteImageFromStorage(imageURL: postImageURL)
     }
     catch {
@@ -1190,16 +1184,15 @@ func deleteClubPost(postID : UUID, postImageURL : String) async {
     }
 }
 
-
 func saveClubPostImage(postID: UUID, with image: UIImage) async -> String? {
-    
+
     let resizedImage = resizeImageIfNeeded(image, maxDimension: 400)
     if let imageData = resizedImage.jpegData(compressionQuality: 0.8) {
         let filePath = "clubImages/clubPost/\(postID)_\(Int(Date().timeIntervalSince1970)).jpg"
-        
+
         if let url = await saveAndFetchImageURL(with: filePath, imageData: imageData) {
             return url
-            
+
         } else {
             print("Upload failed")
             return nil
@@ -1219,7 +1212,7 @@ func insertBattleInviteNotification(_ notification: BattleInviteNotification) as
             .from("BattleInviteNotification")
             .insert(notification)
             .execute()
-        
+
         print("Battle invite notification inserted successfully")
     } catch {
         print("Insert notification failed: \(error)")

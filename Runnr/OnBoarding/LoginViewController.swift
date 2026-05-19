@@ -7,7 +7,7 @@ import UIKit
 import Supabase
 
 class LoginViewController: UIViewController {
-    
+
     @IBOutlet weak var labelScreenTitle: UILabel!
     @IBOutlet weak var viewEmailBackground: UIView!
     @IBOutlet weak var viewPasswordBackground: UIView!
@@ -17,50 +17,50 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var buttonApple: UIButton!
     @IBOutlet weak var buttonLogin: UIButton!
     @IBOutlet weak var buttonBack: UIButton!
-    
+
     let supabase = SupabaseManager.shared.client
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.hidesBackButton = true
-        
+
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGesture.cancelsTouchesInView = false
         view.addGestureRecognizer(tapGesture)
-        
+
         let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         swipeGesture.direction = .down
         view.addGestureRecognizer(swipeGesture)
-        
+
         settingTitle()
         settingViews()
         settingButton()
         settingTextFields()
     }
-    
+
     // MARK: - Keyboard
-    
+
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-    
+
     // MARK: - Setup
-    
+
     func settingTitle() {
         let thinFont = UIFont(name: "SF-Pro-Display-Thin", size: 33) ?? UIFont.systemFont(ofSize: 33, weight: .thin)
         let boldFont = UIFont(name: "SF-Pro-Display-Bold", size: 33) ?? UIFont.boldSystemFont(ofSize: 35)
-        
+
         let thinText = NSAttributedString(string: "Login to", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
         let boldText = NSAttributedString(string: " Runnr", attributes: [.font: boldFont, .foregroundColor: UIColor.white])
-        
+
         let attributedString = NSMutableAttributedString()
         attributedString.append(thinText)
         attributedString.append(boldText)
-        
+
         labelScreenTitle.attributedText = attributedString
         labelScreenTitle.sizeToFit()
     }
-    
+
     func settingViews() {
         viewEmailBackground.backgroundColor = .clear
         viewPasswordBackground.backgroundColor = .clear
@@ -71,7 +71,7 @@ class LoginViewController: UIViewController {
         viewEmailBackground.layer.borderWidth = 0.5
         viewPasswordBackground.layer.borderWidth = 0.5
     }
-    
+
     func settingButton() {
         buttonLogin.layer.cornerRadius = buttonLogin.frame.height / 2
         buttonLogin.setTitle(String(localized: "Login"), for: .normal)
@@ -79,11 +79,11 @@ class LoginViewController: UIViewController {
         buttonGoogle.layer.cornerRadius = buttonGoogle.frame.height / 2
         setGlassEffect(for: self.buttonBack, withImage: "chevron.backward")
     }
-    
+
     func settingTextFields() {
         textFieldEmail.delegate = self
         textFieldPassword.delegate = self
-        
+
         textFieldEmail.keyboardType = .emailAddress
         textFieldEmail.autocapitalizationType = .none
         textFieldEmail.autocorrectionType = .no
@@ -93,7 +93,7 @@ class LoginViewController: UIViewController {
             string: String(localized: "Email"),
             attributes: [.foregroundColor: UIColor.lightGray]
         )
-        
+
         textFieldPassword.isSecureTextEntry = true
         textFieldPassword.returnKeyType = .done
         textFieldPassword.textColor = .white
@@ -102,9 +102,9 @@ class LoginViewController: UIViewController {
             attributes: [.foregroundColor: UIColor.lightGray]
         )
     }
-    
+
     // MARK: - Validation
-    
+
     func validateInputs() -> Bool {
         guard let email = textFieldEmail.text, !email.trimmingCharacters(in: .whitespaces).isEmpty else {
             showAlert(title: String(localized: "Missing Email"), message: String(localized: "Please enter your email address."))
@@ -116,30 +116,30 @@ class LoginViewController: UIViewController {
         }
         return true
     }
-    
+
     func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: String(localized: "OK"), style: .default))
         present(alert, animated: true)
     }
-    
+
     // MARK: - Actions
-    
+
     @IBAction func loginButtonPressed(_ sender: UIButton) {
         guard validateInputs() else { return }
-        
+
         let email = textFieldEmail.text!.trimmingCharacters(in: .whitespaces)
         let password = textFieldPassword.text!
-        
+
         buttonLogin.isEnabled = false
-        
+
         Task {
             do {
                 let session = try await supabase.auth.signIn(
                     email: email,
                     password: password
                 )
-                
+
                 await MainActor.run {
                     self.buttonLogin.isEnabled = true
                     Task {
@@ -156,11 +156,11 @@ class LoginViewController: UIViewController {
             }
         }
     }
-    
+
     @IBAction func backButtonPressed(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
     }
-    
+
     @IBAction func buttonGooglePressed(_ sender: UIButton) {
         Task {
             do {
@@ -174,9 +174,9 @@ class LoginViewController: UIViewController {
             }
         }
     }
-    
+
     // MARK: - Session
-    
+
     func checkSession() async {
         if let session = supabase.auth.currentSession {
             Task {

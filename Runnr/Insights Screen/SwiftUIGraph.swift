@@ -13,12 +13,12 @@ struct ResponsiveBarChart: View {
     @State private var selectedItem: DayData?
 
     var maxYValue: Double {
-        data.map{$0.value}.max() ?? 1
+        data.map {$0.value}.max() ?? 1
     }
 
     var body: some View {
 
-        GeometryReader { geo in
+        GeometryReader { _ in
 
             Chart {
 
@@ -75,7 +75,7 @@ struct ResponsiveBarChart: View {
             .chartYScale(domain: 0...maxYValue)
 
             .chartXAxis {
-                AxisMarks(values: data.map{$0.label}) { value in
+                AxisMarks(values: data.map {$0.label}) { _ in
                     AxisGridLine()
                         .foregroundStyle(.white.opacity(0.5))
                     AxisTick()
@@ -127,11 +127,10 @@ struct ResponsiveBarChart: View {
     }
 }
 
-
-//import SwiftUI
-//import Charts
+// import SwiftUI
+// import Charts
 //
-//struct ResponsiveBarChart: View {
+// struct ResponsiveBarChart: View {
 //    let data: [DayData]
 //    
 //    var maxYValue : DayData? {
@@ -184,4 +183,4 @@ struct ResponsiveBarChart: View {
 //        }
 //        .background(Color.black)
 //    }
-//}
+// }

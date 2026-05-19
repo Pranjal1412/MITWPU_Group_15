@@ -2,8 +2,8 @@ import UIKit
 import Kingfisher
 
 class GameScreenViewController: UIViewController {
-    
-    //@IBOutlet weak var segmentedControlGame: UISegmentedControl!
+
+    // @IBOutlet weak var segmentedControlGame: UISegmentedControl!
     @IBOutlet weak var viewCurrency: UIView!
     @IBOutlet weak var labelScreenTitle: UILabel!
     @IBOutlet weak var labelTotalPoints: UILabel!
@@ -11,53 +11,53 @@ class GameScreenViewController: UIViewController {
     @IBOutlet weak var buttonInfo: UIButton!
     @IBOutlet weak var collectionViewChallenges: UICollectionView!
     @IBOutlet weak var profileImage: UIImageView!
-    
+
     private let sideInset: CGFloat = 9
     var dataSource = DataSource.shared
     var totalPoints: Int {
         dataSource.getTotalRunnrPoints()
     }
-    
+
     private var userProfile = DataSource.shared.getUserProfile()
-    //private var expandedIndexPath: IndexPath?
-    
+    // private var expandedIndexPath: IndexPath?
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // setupSegmentedControl()
         labelScreenTitle.sizeToFit()
-        
+
         self.viewCurrency.layer.cornerRadius = self.viewCurrency.frame.height / 2
         self.buttonUserProfile.layer.cornerRadius = self.buttonUserProfile.frame.height / 2
         self.buttonUserProfile.clipsToBounds = true
-        
+
         self.profileImage.layer.cornerRadius = self.profileImage.frame.height / 2
         self.profileImage.clipsToBounds = true
-        
+
         collectionViewChallenges.delegate = self
         collectionViewChallenges.dataSource = self
-        
+
         collectionViewChallenges.register(
             UINib(nibName: "SoloChallengeCollectionViewCell", bundle: nil),
             forCellWithReuseIdentifier: "soloChallengeCell"
         )
-        
+
         collectionViewChallenges.register(
             UINib(nibName: "SeasonalGameCollectionViewCell", bundle: nil),
             forCellWithReuseIdentifier: "seasonalGameCell"
         )
-        
+
         //        collectionViewChallenges.register(
         //            UINib(nibName: "DuelChallengeCollectionViewCell", bundle: nil),
         //            forCellWithReuseIdentifier: "weeklyClashCell"
         //        )
-        
+
         self.collectionViewChallenges.register(
             UINib(nibName: "GameSectionHeaderView", bundle: nil),
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: "GameHeaderView"
         )
-        
+
         //        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleBackgroundTap(_:)))
         //        tapGesture.cancelsTouchesInView = false
         //        view.addGestureRecognizer(tapGesture)
@@ -71,10 +71,10 @@ class GameScreenViewController: UIViewController {
             right: 0
         )
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         let profileImageURL = DataSource.shared.getUserProfile().userProfileImageURL
 
             if let urlString = profileImageURL, let url = URL(string: urlString) {
@@ -85,31 +85,31 @@ class GameScreenViewController: UIViewController {
                 self.profileImage.layer.borderWidth = 1
                 self.profileImage.layer.borderColor = UIColor(named: "AccentColor")?.cgColor
             }
-        
+
         Task {
             let challenges = await getWeeklySoloChallenges(userProfile: userProfile)
             dataSource.setSoloChallenges(challenges ?? [])
             collectionViewChallenges.reloadData()
         }
-        
+
         self.labelTotalPoints.text = "\(totalPoints)"
     }
-    
+
     @IBAction func profileButtonPressed(_ sender: UIButton) {
         let destinationVC = UserProfileViewController()
         destinationVC.modalPresentationStyle = .fullScreen
         self.present(destinationVC, animated: true)
     }
-    
+
 }
 
 extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
+
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         // Section 0: Seasonal, Section 1: Solo
         return 2
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if section == 0 {
             return 1 // The Seasonal Challenge
@@ -117,32 +117,32 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             return dataSource.getSoloChallenges().count // Dynamic list of Solo Challenges
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "seasonalGameCell", for: indexPath) as? SeasonalGameCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            
+
             cell.refreshData()
             cell.onInviteFriendTapped = { [weak self] in
                 guard let self = self else { return }
                 let inviteVC = InviteFriendViewController()
-                
+
                 inviteVC.modalPresentationStyle = .pageSheet
                 if let sheet = inviteVC.sheetPresentationController {
                     sheet.detents = [.medium(), .large()]
                     sheet.prefersGrabberVisible = true
                 }
-                
+
                 inviteVC.onInviteSent = { _ in
                     cell.buttonInviteFriend.isEnabled = false
                     cell.buttonInviteFriend.backgroundColor = .systemGray2
                 }
-                
+
                 self.present(inviteVC, animated: true)
             }
-            
+
             cell.onGameEnded = { [weak self] isWinner in
                 guard let self = self, isWinner else { return }
                 let winnerVC = WinnerViewController()
@@ -151,7 +151,7 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
                 self.present(winnerVC, animated: true)
             }
             return cell
-            
+
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "soloChallengeCell", for: indexPath) as? SoloChallengeCollectionViewCell else {
                 return UICollectionViewCell()
@@ -163,7 +163,7 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             return cell
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             guard let cell = collectionView.cellForItem(at: indexPath) as? SeasonalGameCollectionViewCell else { return }
@@ -183,7 +183,7 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
         }
         // Battle Run is only accessible after the invited player accepts — no tap-to-open here
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "GameHeaderView", for: indexPath) as? GameSectionHeaderView else {
             return UICollectionReusableView()
@@ -194,12 +194,12 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             let destinationVC = GameDescriptionViewController(nibName: "GameDescriptionViewController", bundle: nil)
             self.present(destinationVC, animated: true)
         }
-        
+
         return header
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        
+
         if section == 0 {
             return CGSize(width: collectionView.frame.width, height: 50)
         }
@@ -207,7 +207,7 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             return CGSize(width: collectionView.frame.width, height: 70)
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = collectionView.frame.width
         if indexPath.section == 0 {
@@ -216,7 +216,7 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             return CGSize(width: width, height: 140) // Height for Solo
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 15
     }
@@ -258,9 +258,9 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
 //            self.collectionViewChallenges.performBatchUpdates(nil)
 //        }
 //    }
-//}
+// }
 //
-//extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+// extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 //
 //    func numberOfSections(in collectionView: UICollectionView) -> Int {
 //        return segmentedControlGame.selectedSegmentIndex == 0 ? 1 : 2
@@ -367,4 +367,4 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
 //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
 //        return 15
 //    }
-//}
+// }

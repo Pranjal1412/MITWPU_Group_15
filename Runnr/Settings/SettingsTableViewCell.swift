@@ -11,15 +11,10 @@ class SettingsTableViewCell: UITableViewCell {
 
     @IBOutlet weak var cellSymbol: UIImageView!
     @IBOutlet weak var cellTitle: UILabel!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
 
     func configureCell(with data: Settings) {
         self.cellTitle.text = data.title
         self.cellSymbol.image = data.symbol
     }
-    
+
 }

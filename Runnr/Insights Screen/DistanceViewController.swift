@@ -2,7 +2,7 @@ import UIKit
 import SwiftUI
 
 class DistanceViewController: UIViewController {
-    
+
     @IBOutlet weak var scrollViewMain: UIScrollView!
     @IBOutlet weak var buttonWeekDates: UIButton!
     @IBOutlet weak var segmentControlDistance: UISegmentedControl!
@@ -11,8 +11,8 @@ class DistanceViewController: UIViewController {
     @IBOutlet weak var labelDistanceCovered: UILabel!
     @IBOutlet weak var weekRangeLabel: UILabel!
     @IBOutlet weak var viewGraphContainer: UIView!
-    
-    var graphStore: GraphManager? = nil
+
+    var graphStore: GraphManager?
     let dataSource = DataSource.shared
     private var hostingController: UIHostingController<DistanceGraphView>?
     private var userProfile = DataSource.shared.getUserProfile()
@@ -20,47 +20,46 @@ class DistanceViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         segmentControlDistance.selectedSegmentIndex = 0
         graphStore?.selectedPeriod = .weekly
-       
+
         updateDisplay()
 //        updateTopValueForSelectedSegment()
 
-        
         navigationItem.title = "Distance"
         let appearance = UINavigationBarAppearance()
         appearance.configureWithTransparentBackground()
         appearance.titleTextAttributes = [.font: UIFont.systemFont(ofSize: 22, weight: .bold)]
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        
+
 //        collectionViewDistance.dataSource = self
 //        collectionViewDistance.delegate = self
         let nib = UINib(nibName: "TrendsCollectionViewCell", bundle: nil)
         collectionViewDistance.register(nib, forCellWithReuseIdentifier: "cell")
-        
+
         segmentControlDistance.layer.borderWidth = 0.5
         segmentControlDistance.layer.borderColor = UIColor.accent.cgColor
         segmentControlDistance.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
-        
+
         settingLabelStyle()
         setupGraph()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+
         updateTopValueForSelectedSegment()
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         scrollViewMain.contentSize.height =
         collectionViewDistance.frame.height +
         collectionViewDistance.frame.origin.y + 100
     }
-    
+
     @IBAction func buttonRangeClicked(_ sender: Any) {
 
         let alert = UIAlertController(title: "Select Date\n\n\n\n\n\n\n\n", message: nil, preferredStyle: .alert)
@@ -71,7 +70,7 @@ class DistanceViewController: UIViewController {
             datePicker.translatesAutoresizingMaskIntoConstraints = false
             datePicker.date = selectedDate
             datePicker.maximumDate = Date()
-            
+
             alert.view.addSubview(datePicker)
 
             NSLayoutConstraint.activate([
@@ -95,7 +94,6 @@ class DistanceViewController: UIViewController {
             present(alert, animated: true)
     }
 
-    
     func updateDisplay() {
 
         let formatter = DateFormatter()
@@ -132,7 +130,7 @@ class DistanceViewController: UIViewController {
             break
         }
     }
-    
+
     func updateTopValueForSelectedSegment() {
 
         guard let graphStore = graphStore else { return }
@@ -154,12 +152,12 @@ class DistanceViewController: UIViewController {
             self.labelNumber.text = String(format: "%.2f", total)
         }
     }
-    
+
     @IBAction func segmentControlClicked(_ sender: UISegmentedControl) {
         updateDisplay()
         updateTopValueForSelectedSegment()
     }
-    
+
     func setupGraph() {
 //        let graphView = DistanceGraphView(store: graphStore ?? GraphManager())
         guard let graphStore = graphStore else { return }
@@ -181,11 +179,11 @@ class DistanceViewController: UIViewController {
 
         hc.didMove(toParent: self)
     }
-    
+
     func settingLabelStyle() {
         let mediumFont = UIFont.systemFont(ofSize: 15, weight: .bold)
         let thinFont = UIFont.systemFont(ofSize: 10)
-        
+
         let titleText = NSAttributedString(
             string: "Distance Covered ",
             attributes: [.font: mediumFont, .foregroundColor: UIColor.white]
@@ -194,19 +192,19 @@ class DistanceViewController: UIViewController {
             string: "(Km)",
             attributes: [.font: thinFont, .foregroundColor: UIColor.white]
         )
-        
+
         let fullText = NSMutableAttributedString()
         fullText.append(titleText)
         fullText.append(unitsText)
         labelDistanceCovered.attributedText = fullText
-        
+
 //        let boldFont = UIFont.systemFont(ofSize: 32, weight: .bold)
 //        let thin2Font = UIFont.systemFont(ofSize: 15)
-        
+
         labelNumber.text = "--"
         labelNumber.textColor = UIColor.accent
         labelNumber.font = UIFont.systemFont(ofSize: 32, weight: .bold)
-        
+
 //        let numberText = NSAttributedString(
 //            string: "20.3 ",
 //            attributes: [.font: boldFont, .foregroundColor: UIColor.accent]
@@ -226,7 +224,7 @@ class DistanceViewController: UIViewController {
 
 // MARK: - Collection View Settings
 
-//extension DistanceViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+// extension DistanceViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 //        
 //    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 //        distanceTrends.count
@@ -253,9 +251,9 @@ class DistanceViewController: UIViewController {
 //                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
 //        10
 //    }
-//}
+// }
 
-//MARK: - Distance Graph
+// MARK: - Distance Graph
 
 struct DistanceGraphView: View {
     @ObservedObject var store: GraphManager

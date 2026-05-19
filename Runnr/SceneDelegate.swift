@@ -5,15 +5,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     let supabase = SupabaseManager.shared.client
-    
-    
+
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Since you are using a Storyboard (Main), iOS handles the window setup.
         // You only need to verify the scene exists.
         guard let _ = (scene as? UIWindowScene) else { return }
-        
+
         window?.overrideUserInterfaceStyle = .dark
-            
+
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -33,7 +32,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // THIS IS CRITICAL: This handles the redirect back from Google to your app
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         guard (URLContexts.first?.url) != nil else { return }
-        
+
     }
-    
+
 }

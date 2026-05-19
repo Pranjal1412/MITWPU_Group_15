@@ -5,7 +5,6 @@
 //  Created by SDC-USER on 29/01/26.
 //
 
-
 enum Gender: String, Codable {
     case male, female, other
 }

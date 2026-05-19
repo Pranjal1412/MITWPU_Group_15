@@ -18,33 +18,33 @@ class ActivitySetGoalViewController: UIViewController {
     @IBOutlet weak var labelTime: UILabel!
     @IBOutlet weak var labelActivity: UILabel!
     @IBOutlet weak var buttonCancel: UIButton!
-    
+
     @IBOutlet weak var viewBackgroungActivity: UIView!
     @IBOutlet weak var viewBackgroundDistance: UIView!
     @IBOutlet weak var viewBackgroundTime: UIView!
     @IBOutlet weak var viewBackgroundAudio: UIView!
-    
+
     @IBOutlet weak var switchAudioFeedback: UISwitch!
     @IBOutlet weak var buttonActivity: UIButton!
-    
+
     var originalYValue: CGFloat = 0
     var keyboardTappedCount = 2
     var distanceGoal = 0.0
     var hourGoal = 0
     var minuteGoal = 0
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGesture.cancelsTouchesInView = false
         view.addGestureRecognizer(tapGesture)
-        
+
         view.backgroundColor = .clear
         self.viewMainBackground.layer.cornerRadius = 20
         self.viewSubBackground.layer.cornerRadius = 15
-        
+
         self.originalYValue = view.frame.origin.y
-        
+
         self.settingScreen()
         self.setupMenu()
         if let savedActivity = UserDefaults.standard.string(forKey: "lastSelectedActivity") {
@@ -54,58 +54,56 @@ class ActivitySetGoalViewController: UIViewController {
         self.registerNotifications()
         self.labelAudioFeedback.text = String(localized: "Audio Feedback")
         self.labelAudioFeedback.sizeToFit()
-        
+
         self.labelTime.text = String(localized: "Time")
         self.labelTime.sizeToFit()
-        
+
         self.labelActivity.text = String(localized: "Activity")
-        
+
         setGlassEffect(for: self.buttonCancel, withImage: "multiply")
-        
+
     }
-    
+
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-    
+
     func settingScreen() {
         let thinFont = UIFont(name: "SF-Pro-Display-Thin", size: 33) ?? UIFont.systemFont(ofSize: 33, weight: .thin)
         let boldFont = UIFont(name: "SF-Pro-Display-Bold", size: 33) ?? UIFont.boldSystemFont(ofSize: 33)
-        
-        let thinText = NSAttributedString(string: String(localized: "Set Your "), attributes: [.font: thinFont , .foregroundColor: UIColor.white])
-        let boldText = NSAttributedString(string: String(localized: "Goal"), attributes: [.font: boldFont , .foregroundColor: UIColor.white])
-        
+
+        let thinText = NSAttributedString(string: String(localized: "Set Your "), attributes: [.font: thinFont, .foregroundColor: UIColor.white])
+        let boldText = NSAttributedString(string: String(localized: "Goal"), attributes: [.font: boldFont, .foregroundColor: UIColor.white])
+
         let attributedString = NSMutableAttributedString()
         attributedString.append(thinText)
         attributedString.append(boldText)
         self.labelScreenTitle.attributedText = attributedString
-        
-        
+
         let regularFont = UIFont(name: "SF-Pro-Display-Thin", size: 20) ?? UIFont.systemFont(ofSize: 20, weight: .regular)
         let lightFont = UIFont(name: "SF-Pro-Display-Bold", size: 13) ?? UIFont.systemFont(ofSize: 13, weight: .light)
-        
-        
-        let regularText = NSAttributedString(string: String(localized: "Distance"), attributes: [.font: regularFont , .foregroundColor: UIColor.white])
-        let lightText = NSAttributedString(string: " (Km)", attributes: [.font: lightFont , .foregroundColor: UIColor.white])
-        
+
+        let regularText = NSAttributedString(string: String(localized: "Distance"), attributes: [.font: regularFont, .foregroundColor: UIColor.white])
+        let lightText = NSAttributedString(string: " (Km)", attributes: [.font: lightFont, .foregroundColor: UIColor.white])
+
         let fullDistancetext = NSMutableAttributedString()
         fullDistancetext.append(regularText)
         fullDistancetext.append(lightText)
         self.labelDistance.attributedText = fullDistancetext
-        
+
         self.buttonStart.layer.cornerRadius = buttonStart.frame.height / 2
-        
+
         self.viewBackgroundTime.layer.cornerRadius = 15
         self.viewBackgroundAudio.layer.cornerRadius = 15
         self.viewBackgroundDistance.layer.cornerRadius = 15
         self.viewBackgroungActivity.layer.cornerRadius = 15
     }
-    
+
     @IBAction func buttonStartActivityPressed(_ sender: UIButton) {
-                
+
         if self.buttonActivity.titleLabel?.text != "Select Activity" {
             if let presenter = self.presentingViewController {
-                            
+
     //          now we are writing that upon dimissal of the screen perform the following code
                 self.dismiss(animated: true) {
 
@@ -115,8 +113,7 @@ class ActivitySetGoalViewController: UIViewController {
                     rootController.distanceGoalSet = self.distanceGoal
                     rootController.minGoalSet = self.minuteGoal
                     rootController.hourGoalSet = self.hourGoal
-                    
-                    
+
                     let navigationController = UINavigationController(rootViewController: rootController)
 
                     navigationController.modalPresentationStyle = .fullScreen
@@ -132,13 +129,13 @@ class ActivitySetGoalViewController: UIViewController {
             alert.addAction(cancelAction)
             self.present(alert, animated: true, completion: nil)
         }
-        
+
     }
-    
+
     @IBAction func cancelButtonPressed(_ sender: UIButton) {
         self.dismiss(animated: true)
     }
-    
+
     @IBAction func distanceGoalSet(_ sender: UITextField) {
         if let text = sender.text {
             let value = Double(text) ?? 0.0
@@ -151,31 +148,31 @@ class ActivitySetGoalViewController: UIViewController {
             else if sender.tag == 2 {
                 self.minuteGoal = Int(value)
             }
-            
+
         } else {
             distanceGoal = 0.0
         }
-    }    
-    
+    }
+
     func setupMenu() {
 
         let defaultActivity = UIAction(title: "Select Activity") { _ in
             self.buttonActivity.setTitle("Select Activity", for: .normal)
             self.buttonActivity.setTitleColor(.darkGray, for: .normal)
         }
-        
+
         let walk = UIAction(title: "Walking") { _ in
             self.buttonActivity.setTitle("Walking", for: .normal)
             self.buttonActivity.setTitleColor(.accent, for: .normal)
-            
+
             UserDefaults.standard.set("Walking", forKey: "lastSelectedActivity")
 
         }
-        
+
         let run = UIAction(title: "Running") { _ in
             self.buttonActivity.setTitle("Running", for: .normal)
             self.buttonActivity.setTitleColor(.accent, for: .normal)
-            
+
             UserDefaults.standard.set("Running", forKey: "lastSelectedActivity")
 
         }
@@ -183,7 +180,7 @@ class ActivitySetGoalViewController: UIViewController {
         let hike = UIAction(title: "Hiking") { _ in
             self.buttonActivity.setTitle("Hiking", for: .normal)
             self.buttonActivity.setTitleColor(.accent, for: .normal)
-            
+
             UserDefaults.standard.set("Hiking", forKey: "lastSelectedActivity")
 
         }
@@ -191,42 +188,41 @@ class ActivitySetGoalViewController: UIViewController {
         let marathon = UIAction(title: "Marathon") { _ in
             self.buttonActivity.setTitle("Marathon", for: .normal)
             self.buttonActivity.setTitleColor(.accent, for: .normal)
-            
+
             UserDefaults.standard.set("Marathon", forKey: "lastSelectedActivity")
 
         }
-        
+
         self.buttonActivity.menu = UIMenu(children: [defaultActivity, walk, run, hike, marathon])
         self.buttonActivity.showsMenuAsPrimaryAction = true
         self.buttonActivity.setTitleColor(.accent, for: .normal)
     }
-    
+
 }
 
 // MARK: - Keyboard Settings
 
 extension ActivitySetGoalViewController {
-    
+
     @IBAction func viewBackgroundClicked(_ sender: UIControl) {
         view.endEditing(true)
     }
-    
-    
+
     func registerNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
     @objc private func keyboardWillShow(notification: NSNotification) {
-        if self.keyboardTappedCount > 0{
+        if self.keyboardTappedCount > 0 {
             self.view.frame.origin.y -= 70
             self.keyboardTappedCount -= 1
         }
     }
-    
+
     @objc private func keyboardWillHide(notification: NSNotification) {
         self.view.frame.origin.y = self.originalYValue
         self.keyboardTappedCount = 2
     }
-    
+
 }

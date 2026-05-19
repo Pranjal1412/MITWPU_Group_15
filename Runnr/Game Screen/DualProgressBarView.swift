@@ -37,7 +37,7 @@ final class DualProgressBarView: UIView {
         addSubview(leftBar)
         addSubview(rightBar)
         addSubview(centerIcon)
-        
+
         // Set initial values
         maxValue = 10
         leftValue = 7.4
@@ -46,16 +46,16 @@ final class DualProgressBarView: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        
+
         // Only layout if we have a valid frame
         guard bounds.width > 0 && bounds.height > 0 else { return }
-        
+
         updateBars()
     }
-    
+
     private func updateBars() {
         guard bounds.width > 0 && bounds.height > 0 else { return }
-        
+
         let barHeight: CGFloat = 6
         let halfWidth = bounds.width / 2
 
@@ -120,10 +120,9 @@ final class DualProgressBarView: UIView {
     }
 }
 
-
-//import UIKit
+// import UIKit
 //
-//final class DualProgressBarView: UIView {
+// final class DualProgressBarView: UIView {
 //
 //    var maxValue: CGFloat = 10 { didSet { setNeedsLayout() } }
 //    var leftValue: CGFloat = 0 { didSet { setNeedsLayout() } }
@@ -238,5 +237,5 @@ final class DualProgressBarView: UIView {
 //            height: iconSize
 //        )
 //    }
-//}
+// }
 //

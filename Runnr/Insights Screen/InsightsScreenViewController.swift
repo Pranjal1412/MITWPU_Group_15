@@ -24,14 +24,14 @@ class InsightsScreenViewController: UIViewController {
     private var myActivities: [ActivityDetails] {
         dataSource.getAllActivities()
     }
-    
+
     private var calendarView: JTACMonthView!
     private var dataSource = DataSource.shared
     private var userProfile = DataSource.shared.getUserProfile()
     private var latestActivity: UserActivity?
     private var previousActivity: UserActivity?
     private var greenDates: Set<Date> = []
-    
+
     private var graphStore = GraphManager()
 
     var totalPoints: Int {
@@ -46,9 +46,9 @@ class InsightsScreenViewController: UIViewController {
         setupScrollView()
         setupCollectionView()
         setupCalendar()
-        
+
         buttonUserProfile.layer.cornerRadius = buttonUserProfile.frame.height / 2
-        
+
         self.profileImage.layer.cornerRadius = self.profileImage.frame.height / 2
         self.profileImage.clipsToBounds = true
         self.buttonUserProfile.clipsToBounds = true
@@ -80,7 +80,7 @@ class InsightsScreenViewController: UIViewController {
                 self.collectionViewInsightsCards.reloadData()
             }
         }
-        
+
         Task {
             await graphStore.loadData(userID: userProfile.userID!, referenceDate: Date())
         }
@@ -124,13 +124,13 @@ class InsightsScreenViewController: UIViewController {
         else if diff < 0 { return "\(Int(abs(diff))) \(unit) less than last run" }
         else { return "Same as last run" }
     }
-    
+
     private func paceTrendText(current: Double, previous: Double) -> String {
         let diff = Int(current - previous)
         let absDiff = abs(diff)
-        
+
         let text: String
-        
+
         if absDiff >= 60 {
             let minutes = absDiff / 60
             let seconds = absDiff % 60
@@ -138,7 +138,7 @@ class InsightsScreenViewController: UIViewController {
         } else {
             text = "\(absDiff)s"
         }
-        
+
         if diff < 0 {
             return "\(text) faster than last run"
         } else if diff > 0 {
@@ -147,7 +147,7 @@ class InsightsScreenViewController: UIViewController {
             return "Same as last run"
         }
     }
-    
+
     private func updateChevron(
         cell: InsightsScreenCollectionViewCell,
         current: Double?,
@@ -159,7 +159,7 @@ class InsightsScreenViewController: UIViewController {
                 .withTintColor(.systemBlue, renderingMode: .alwaysOriginal)
             return
         }
-        
+
         if isPace {
             // Reverse logic for pace (lower = better)
             if current < previous {
@@ -190,18 +190,18 @@ class InsightsScreenViewController: UIViewController {
 
 // MARK: - JTAppleCalendar Delegate & DataSource
 extension InsightsScreenViewController: JTACMonthViewDelegate, JTACMonthViewDataSource {
-    
+
     private func setupCalendar() {
         calendarView = JTACMonthView()
         calendarView.translatesAutoresizingMaskIntoConstraints = false
         calendarView.backgroundColor = .clear
         calendarView.scrollDirection = .horizontal
         calendarView.scrollingMode = .stopAtEachSection
-        
+
         calendarView.register(CalendarDayCell.self, forCellWithReuseIdentifier: "dateCell")
         calendarView.calendarDelegate = self
         calendarView.calendarDataSource = self
-        
+
         scrollViewInsights.addSubview(calendarHeaderLabel)
         scrollViewInsights.addSubview(calendarView)
 
@@ -209,7 +209,7 @@ extension InsightsScreenViewController: JTACMonthViewDelegate, JTACMonthViewData
             // Header Position
             calendarHeaderLabel.topAnchor.constraint(equalTo: labelStreak.bottomAnchor, constant: 20),
             calendarHeaderLabel.leadingAnchor.constraint(equalTo: scrollViewInsights.contentLayoutGuide.leadingAnchor, constant: 25),
-            
+
             // Calendar Position
             calendarView.topAnchor.constraint(equalTo: calendarHeaderLabel.bottomAnchor, constant: 10),
             calendarView.leadingAnchor.constraint(equalTo: scrollViewInsights.contentLayoutGuide.leadingAnchor, constant: 25),
@@ -218,7 +218,7 @@ extension InsightsScreenViewController: JTACMonthViewDelegate, JTACMonthViewData
             calendarView.heightAnchor.constraint(equalToConstant: 300),
             calendarView.bottomAnchor.constraint(equalTo: scrollViewInsights.contentLayoutGuide.bottomAnchor, constant: -40)
         ])
-        
+
         // Initialize header text
         calendarView.scrollToDate(Date(), animateScroll: false)
         calendarView.visibleDates { (visibleDates) in
@@ -242,7 +242,7 @@ extension InsightsScreenViewController: JTACMonthViewDelegate, JTACMonthViewData
 
     // MARK: Green Dates Based on Actual Activities
     private func prepareGreenDates() {
-        greenDates.removeAll() //revents old or duplicate dates, empties the set
+        greenDates.removeAll() // revents old or duplicate dates, empties the set
         let calendar = Calendar.current
         for activityDetail in myActivities {
             let activityDate = calendar.startOfDay(for: (activityDetail.activity?.activityStartTime!)!)
@@ -254,13 +254,12 @@ extension InsightsScreenViewController: JTACMonthViewDelegate, JTACMonthViewData
         calendarView.reloadData()
     }
 
-    
     func configureCalendar(_ calendar: JTACMonthView) -> ConfigurationParameters {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy MM dd"
         let startDate = formatter.date(from: "2024 01 01")!
         let endDate = formatter.date(from: "2026 12 31")!
-        
+
         return ConfigurationParameters(
             startDate: startDate,
             endDate: endDate,
@@ -269,8 +268,8 @@ extension InsightsScreenViewController: JTACMonthViewDelegate, JTACMonthViewData
             generateOutDates: .tillEndOfGrid
         )
     }
-    
-    //create and configure cell
+
+    // create and configure cell
     func calendar(_ calendar: JTACMonthView, cellForItemAt date: Date, cellState: CellState, indexPath: IndexPath) -> JTACDayCell {
         guard let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: "dateCell", for: indexPath) as? CalendarDayCell else {
             return JTACDayCell()
@@ -278,13 +277,13 @@ extension InsightsScreenViewController: JTACMonthViewDelegate, JTACMonthViewData
         self.configureCell(view: cell, cellState: cellState, date: date)
         return cell
     }
-    
-    //reapply UI before showing (for final correctness)
+
+    // reapply UI before showing (for final correctness)
     func calendar(_ calendar: JTACMonthView, willDisplay cell: JTACDayCell, forItemAt date: Date, cellState: CellState, indexPath: IndexPath) {
         configureCell(view: cell, cellState: cellState, date: date)
     }
-    
-    //to update month header
+
+    // to update month header
     func calendar(_ calendar: JTACMonthView, didScrollToDateSegmentWith visibleDates: DateSegmentInfo) {
         updateHeader(visibleDates: visibleDates)
     }
@@ -293,7 +292,7 @@ extension InsightsScreenViewController: JTACMonthViewDelegate, JTACMonthViewData
         guard let cell = view as? CalendarDayCell else { return }
 
         let calendar = Calendar.current
-        //normalized date: A date where the time part is removed, so only the calendar day matters.
+        // normalized date: A date where the time part is removed, so only the calendar day matters.
         let normalizedDate = calendar.startOfDay(for: date)
         let today = calendar.startOfDay(for: Date())
 
@@ -324,20 +323,19 @@ extension InsightsScreenViewController: JTACMonthViewDelegate, JTACMonthViewData
 
 // MARK: - CollectionView Extension
 extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
        return 4
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? InsightsScreenCollectionViewCell else {
             return UICollectionViewCell()
         }
         let latest = latestActivity
         let previous = previousActivity
-        
+
         if latest != nil && previous != nil {
-            
+
             switch indexPath.row {
             case 0: // Distance
                 let current = latest!.distanceCovered
@@ -345,27 +343,27 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
                 cell.settingLabelStyle(withValue: String(format: "%.2f", current!), withUnit: "km")
                 cell.labelTrend.text = trendText(current: current!, previous: previous!.distanceCovered!, unit: "km")
                 updateChevron(cell: cell, current: latest?.distanceCovered, previous: previous?.distanceCovered)
-                
+
             case 1: // Calories
                 let current = Double(latest?.caloriesBurnt ?? 0)
                 cell.labelCardTitle.text = "Calories"
                 cell.settingLabelStyle(withValue: "\(Int(current))", withUnit: "kcal")
                 cell.labelTrend.text = latest == nil ? "No recorded calories" : previous != nil ? trendText(current: current, previous: Double(previous!.caloriesBurnt!), unit: "kcal") : "First run"
                 updateChevron(cell: cell, current: current, previous: previous.map { Double($0.caloriesBurnt!) })
-                
+
             case 2: // Steps
                 let current = Double(latest!.stepsTaken ?? 0)
                 cell.labelCardTitle.text = "Steps"
                 cell.settingLabelStyle(withValue: "\(Int(current))", withUnit: "steps")
                 cell.labelTrend.text = trendText(current: current, previous: Double(previous!.stepsTaken!), unit: "steps")
                 updateChevron(cell: cell, current: current, previous: previous.map { Double($0.stepsTaken!) })
-                
+
             case 3: // Average Pace
                 guard let latest = latest,
                       let previous = previous,
                       let latestSeconds = latest.timeTakenSeconds,
                       let previousSeconds = previous.timeTakenSeconds else {
-                    
+
                     cell.imageViewChevron.image = UIImage(systemName: "minus")
                     cell.imageViewChevron.tintColor = UIColor.systemBlue
                     return cell
@@ -373,13 +371,13 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
 
                 let newFormattedTime = formatTime(latestSeconds)
                 let formattedTime = formatTime(previousSeconds)
-                
+
                 let curMin = newFormattedTime.minute
                 let curSec = newFormattedTime.second
                 let current = Double(curMin * 60 + curSec)
 
                 cell.labelCardTitle.text = "Average Pace"
-                
+
                 let displayText = String(format: "%d:%02d", curMin, curSec)
                 cell.settingLabelStyle(withValue: displayText, withUnit: "min/km")
 
@@ -395,7 +393,7 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
                     previous: previousValue,
                     isPace: true
                 )
-                
+
             default:
                 break
             }
@@ -404,7 +402,7 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
             switch indexPath.row {
             case 0: // Distance
                 cell.labelCardTitle.text = "Distance"
-                
+
                 if latest == nil {
                     cell.labelTrend.text = "No recorded distance"
                     let current = 0
@@ -415,12 +413,12 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
                     let current = latest!.distanceCovered!
                     cell.settingLabelStyle(withValue: String(format: "%.2f", current), withUnit: "km")
                 }
-                
+
                 updateChevron(cell: cell, current: latest?.distanceCovered, previous: previous?.distanceCovered)
-                
+
             case 1: // Calories
                 cell.labelCardTitle.text = "Calories"
-                
+
                 if latest == nil {
                     cell.labelTrend.text = "No recorded calories"
                     let current = 0.0
@@ -433,11 +431,10 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
                     cell.settingLabelStyle(withValue: String(format: "%.2f", current), withUnit: "kcal")
                     updateChevron(cell: cell, current: Double(current), previous: previous.map { Double($0.caloriesBurnt!)})
                 }
-                
-                
+
             case 2: // Steps
                 cell.labelCardTitle.text = "Steps"
-                
+
                 if latest == nil {
                     cell.labelTrend.text = "No recorded steps"
                     let current = 0.0
@@ -450,11 +447,10 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
                     cell.settingLabelStyle(withValue: String(format: "%.2f", current), withUnit: "steps")
                     updateChevron(cell: cell, current: Double(current), previous: previous.map { Double($0.stepsTaken!)})
                 }
-                
-                
+
             case 3: // Average Pace
                 cell.labelCardTitle.text = "Average Pace"
-                
+
                 if latest == nil {
                     cell.labelTrend.text = "No recorded pace"
                     let current = 0.0
@@ -471,33 +467,32 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
                     let curMin = formatted.minute
                     let curSec = formatted.second
                     let current = Double(curMin * 60 + curSec)
-                    
+
                     let displayText = String(format: "%d:%02d", curMin, curSec)
                     cell.settingLabelStyle(withValue: displayText, withUnit: "min/km")
-                    
+
                     if previous == nil {
                         cell.labelTrend.text = "First run"
                         updateChevron(cell: cell, current: current, previous: nil)
                     } else {
                         let prevFormatted = formatTime(previous!.timeTakenSeconds ?? 0)
                         let prevSeconds = Double(prevFormatted.minute * 60 + prevFormatted.second)
-                        
+
                         cell.labelTrend.text = trendText(current: current,
                                                          previous: prevSeconds,
                                                          unit: "s")
-                        
+
                         updateChevron(cell: cell,
                                       current: current,
                                       previous: prevSeconds)
                     }
                 }
-                
+
             default:
                 break
             }
         }
-        
-        
+
         return cell
     }
 
@@ -505,11 +500,11 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
         let width = (collectionView.bounds.width - 10) / 2
         return CGSize(width: width, height: width)
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
         let graphStore = self.graphStore
-        
+
         Task {
             //  LOAD DATA FIRST
             await graphStore.loadData(
@@ -580,11 +575,11 @@ class CalendarDayCell: JTACDayCell {
          bounds → its internal coordinate system
          layer → the visual backing (rounded corners, shadows, borders)
          */
-        
+
         setupUI()
     }
-    
-    //init(coder:) is the initializer used when a view is loaded from a storyboard or XIB.
+
+    // init(coder:) is the initializer used when a view is loaded from a storyboard or XIB.
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -601,10 +596,10 @@ class CalendarDayCell: JTACDayCell {
         dateLabel.textAlignment = .center
         dateLabel.textColor = .white
         dateLabel.font = .systemFont(ofSize: 16, weight: .medium)
-        
+
         contentView.addSubview(flameImageView)
         contentView.addSubview(dateLabel)
-        
+
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
         flameImageView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -617,7 +612,7 @@ class CalendarDayCell: JTACDayCell {
 
             // Date Label constraints
             dateLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            dateLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            dateLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
 
@@ -627,4 +622,3 @@ class CalendarDayCell: JTACDayCell {
         dateLabel.text = ""
     }
 }
-

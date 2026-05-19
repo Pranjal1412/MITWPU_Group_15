@@ -44,7 +44,7 @@ class ActivityAnalysisViewController: UIViewController {
     @IBOutlet weak var buttonCancel: UIButton!
     @IBOutlet weak var labelPointSectionTitle: UILabel!
     @IBOutlet weak var labelPaceSetionTitle: UILabel!
-    
+
     var activityData: ActivityDetails?
     private let activityImages = DataSource.shared.getCurrentActivityImages() ?? []
     private var datasource = DataSource.shared
@@ -52,10 +52,10 @@ class ActivityAnalysisViewController: UIViewController {
     var isNewActivity: Bool = false
     private var hasShownNewActivityAlert = false
     var onActivityDeleted: (() -> Void)?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         settingCollectionView()
         settingAttributedText()
         settingUpActivityAnalysisScreenElements()
@@ -66,23 +66,23 @@ class ActivityAnalysisViewController: UIViewController {
         addChild(hostingController)
         hostingController.view.translatesAutoresizingMaskIntoConstraints = false
         viewGraphContainer.addSubview(hostingController.view)
-        
+
         NSLayoutConstraint.activate([
             hostingController.view.topAnchor.constraint(equalTo: self.viewGraphContainer.topAnchor),
             hostingController.view.bottomAnchor.constraint(equalTo: self.viewGraphContainer.bottomAnchor),
             hostingController.view.leadingAnchor.constraint(equalTo: self.viewGraphContainer.leadingAnchor),
             hostingController.view.trailingAnchor.constraint(equalTo: self.viewGraphContainer.trailingAnchor)
         ])
-        
+
         hostingController.didMove(toParent: self)
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         if self.activityData?.activity?.avgHeartRate == nil {
             self.labelHeartRate.isHidden = true
             self.labelAvgHRValue.isHidden = true
             self.viewHRGraphContainer.isHidden = true
-            
+
             if self.activityImages.count == 0 {
                 self.labelPhotosHeading.isHidden = true
                 scrollView.contentSize.height = self.viewGraphContainer.frame.origin.y + self.viewGraphContainer.frame.height + 50
@@ -95,7 +95,7 @@ class ActivityAnalysisViewController: UIViewController {
             self.labelHeartRate.isHidden = false
             self.labelAvgHRValue.isHidden = false
             self.viewHRGraphContainer.isHidden = false
-            
+
             if self.activityImages.count == 0 {
                 self.labelPhotosHeading.isHidden = true
                 scrollView.contentSize.height = self.viewHRGraphContainer.frame.origin.y + self.viewHRGraphContainer.frame.height + 10
@@ -106,10 +106,10 @@ class ActivityAnalysisViewController: UIViewController {
             }
         }
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+
         if self.isNewActivity && !hasShownNewActivityAlert {
             hasShownNewActivityAlert = true
             let alert = UIAlertController(
@@ -121,10 +121,10 @@ class ActivityAnalysisViewController: UIViewController {
             self.present(alert, animated: true)
         }
     }
-    
+
     func deleteActivityAlert(userActivity: ActivityDetails) {
         let alert = UIAlertController(title: "Delete Activity", message: "Are you sure you want to delete this activity?", preferredStyle: .alert)
-        
+
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         alert.addAction(UIAlertAction(title: "Delete", style: .destructive) { _ in
             Task {
@@ -138,10 +138,10 @@ class ActivityAnalysisViewController: UIViewController {
                 }
             }
         })
-        
+
         present(alert, animated: true)
     }
-    
+
     @IBAction func cancelButtonPressed(_ sender: UIButton) {
         if self.isNewActivity {
             if let presenter = self.presentingViewController {
@@ -153,14 +153,14 @@ class ActivityAnalysisViewController: UIViewController {
             self.dismiss(animated: true)
         }
     }
-       
+
     @IBAction func viewMapButtonPressed(_ sender: UIButton) {
         let destinationVC = ActivitySummaryViewController()
         destinationVC.isNewActivity = self.isNewActivity
         destinationVC.modalPresentationStyle = .overFullScreen
         self.present(destinationVC, animated: true)
     }
-    
+
     func settingUpActivityAnalysisScreenElements() {
         setGlassEffect(for: self.buttonCancel, withImage: "multiply")
 
@@ -168,26 +168,26 @@ class ActivityAnalysisViewController: UIViewController {
         self.buttonViewMap.layer.borderWidth = 2
         self.buttonViewMap.layer.borderColor = UIColor.accent.cgColor
         self.buttonViewMap.setTitle(String(localized: "View Map"), for: .normal)
-        
+
         labelUserName.text = activityData?.userDetails?.userName
         labelUserName.sizeToFit()
-        
+
         let profileImageURL = activityData?.userDetails?.userProfileImageURL
         if let url = URL(string: profileImageURL!) {
             self.userProfileImage.kf.setImage(with: url)
         }
-        
+
         self.userProfileImage.layer.cornerRadius = self.userProfileImage.frame.size.height / 2
         self.userProfileImage.clipsToBounds = true
-        
+
         labelActivityTitle.text = activityData?.activity?.activityTitle
         labelActivityTitle.sizeToFit()
-        
+
         labelActivityDate.text = formatDate(with: (activityData?.activity?.activityStartTime!)!)
         labelActivityDate.sizeToFit()
-        
+
         labelActivityRemark.text = activityData?.activity?.activityRemark
-        
+
         labelDistance.text = String(localized: "Distance")
         labelDistance.sizeToFit()
         labelPace.text = String(localized: "Pace")
@@ -200,33 +200,33 @@ class ActivityAnalysisViewController: UIViewController {
         labelSteps.sizeToFit()
         labelElevation.text = String(localized: "Elevation")
         labelElevation.sizeToFit()
-        
+
         labelBasePoints.text = String(localized: "Base Points: ") + String(self.activityData!.activity!.basePoints!)
         labelSkillPoints.text = String(localized: "Skill Points: ") + String((self.activityData?.activity?.skillPoints!)!)
         labelTotalPoints.text = String(localized: "Points: ") + String(self.activityData!.activity!.basePoints! + self.activityData!.activity!.skillPoints!)
-        
+
         self.labelPointSectionTitle.text = String(localized: "Points Earned")
         self.labelPaceSetionTitle.text = String(localized: "Pace Insights")
         self.labelHeartRate.text = String(localized: "Heart Rate")
         self.labelPhotosHeading.text = String(localized: "Photos")
-        
+
         viewActivityStats.layer.cornerRadius = 10
     }
-    
+
     func settingAttributedText() {
         let thinFont = UIFont(name: "SFProText-Light", size: 11) ?? UIFont.systemFont(ofSize: 11, weight: .light)
         let boldFont = UIFont(name: "SFProText-Bold", size: 22) ?? UIFont.systemFont(ofSize: 22, weight: .medium)
-        
+
         let distanceText = NSMutableAttributedString(string: String(format: "%.2f", self.activityData!.activity!.distanceCovered!), attributes: [.font: boldFont, .foregroundColor: UIColor.white])
         distanceText.append(NSAttributedString(string: " " + self.activityData!.activity!.distanceUnit!.rawValue, attributes: [.font: thinFont, .foregroundColor: UIColor.white]))
         labelDistanceValue.attributedText = distanceText
         labelDistanceValue.textColor = .accent
-        
+
         let paceText = NSMutableAttributedString(string: String(format: "%.2f", self.activityData!.activity!.avgPace!), attributes: [.font: boldFont, .foregroundColor: UIColor.white])
         paceText.append(NSAttributedString(string: self.activityData!.activity!.paceUnit!.rawValue, attributes: [.font: thinFont, .foregroundColor: UIColor.white]))
         labelPaceValue.attributedText = paceText
         labelPaceValue.textColor = .accent
-        
+
         var timeText = NSMutableAttributedString(string: "")
         let formattedTime = formatTime(self.activityData!.activity!.timeTakenSeconds!)
         if formattedTime.hour != 0 {
@@ -238,15 +238,15 @@ class ActivityAnalysisViewController: UIViewController {
         timeText.append(NSAttributedString(string: " " + String(format: "%02d", formattedTime.second), attributes: [.font: boldFont, .foregroundColor: UIColor.accent]))
         timeText.append(NSAttributedString(string: "sec", attributes: [.font: thinFont, .foregroundColor: UIColor.accent]))
         labelTimeValue.attributedText = timeText
-        
+
         let caloriesText = NSMutableAttributedString(string: String(self.activityData!.activity!.caloriesBurnt!), attributes: [.font: boldFont, .foregroundColor: UIColor.white])
         caloriesText.append(NSAttributedString(string: " kcal", attributes: [.font: thinFont, .foregroundColor: UIColor.white]))
         labelCaloriesValue.attributedText = caloriesText
         labelCaloriesValue.textColor = .accent
-        
+
         labelStepsValue.text = String(format: "%d", self.activityData!.activity!.stepsTaken!)
         self.labelAvgHRValue.text = "Average Heart Rate: " + String(format: "%.1f", self.activityData!.activity!.avgHeartRate ?? 0.0)
-        
+
         let elevationText = NSMutableAttributedString(
             string: String(format: "%.1f", self.activityData!.activity!.elevation ?? 0.0),
             attributes: [.font: boldFont, .foregroundColor: UIColor.white]
@@ -254,7 +254,7 @@ class ActivityAnalysisViewController: UIViewController {
         elevationText.append(NSAttributedString(string: " m", attributes: [.font: thinFont, .foregroundColor: UIColor.white]))
         labelElevationValue.attributedText = elevationText
         labelElevationValue.textColor = .accent
-        
+
         self.labelTimeValue.sizeToFit()
         self.labelDistanceValue.sizeToFit()
         self.labelPaceValue.sizeToFit()
@@ -267,17 +267,17 @@ class ActivityAnalysisViewController: UIViewController {
 // MARK: - Add Photos CollectionView Settings
 
 extension ActivityAnalysisViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
+
     func settingCollectionView() {
         collectionViewPhotos.dataSource = self
         collectionViewPhotos.delegate = self
         collectionViewPhotos.register(UINib(nibName: "AddPhotosCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AddPhotosCollectionViewCell")
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.activityImages.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddPhotosCollectionViewCell", for: indexPath) as? AddPhotosCollectionViewCell else {
             return UICollectionViewCell()
@@ -289,11 +289,11 @@ extension ActivityAnalysisViewController: UICollectionViewDataSource, UICollecti
         }
         return cell
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 100, height: 100)
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 10.0
     }
@@ -330,7 +330,7 @@ struct GraphView: View {
         }
         .background(Color(.black))
     }
-    
+
     @ChartContentBuilder
     func iteratePaceData(_ paceData: [ActivityPaceGraphData]) -> some ChartContent {
         ForEach(paceData, id: \.activityID) { data in
@@ -390,9 +390,9 @@ extension ActivityAnalysisViewController {
     // MARK: - Build Share Card (pure function — no UIKit hierarchy needed)
 
     func buildShareCard(mapImage: UIImage?) -> UIImage {
-        let cardWidth:  CGFloat = 390
+        let cardWidth: CGFloat = 390
         let cardHeight: CGFloat = 700
-        let mapHeight:  CGFloat = 350
+        let mapHeight: CGFloat = 350
         let cardSize = CGSize(width: cardWidth, height: cardHeight)
 
         let format = UIGraphicsImageRendererFormat()
@@ -428,7 +428,7 @@ extension ActivityAnalysisViewController {
                                       locations: [0.7, 1.0])!
             context.drawLinearGradient(gradient,
                                        start: CGPoint(x: 0, y: mapHeight - 100),
-                                       end:   CGPoint(x: 0, y: mapHeight),
+                                       end: CGPoint(x: 0, y: mapHeight),
                                        options: [])
 
             let brandAttrs: [NSAttributedString.Key: Any] = [
@@ -470,8 +470,8 @@ extension ActivityAnalysisViewController {
             let activity = activityData?.activity
             let row1: [(label: String, value: String, unit: String)] = [
                 ("DISTANCE", String(format: "%.2f", activity?.distanceCovered ?? 0), activity?.distanceUnit?.rawValue ?? "km"),
-                ("PACE",     String(format: "%.2f", activity?.avgPace ?? 0),         activity?.paceUnit?.rawValue ?? "/km"),
-                ("TIME",     buildTimeStringShort(from: activity?.timeTakenSeconds ?? 0), "")
+                ("PACE", String(format: "%.2f", activity?.avgPace ?? 0), activity?.paceUnit?.rawValue ?? "/km"),
+                ("TIME", buildTimeStringShort(from: activity?.timeTakenSeconds ?? 0), "")
             ]
             let row1Y = dividerY + 12
             drawStatRow(row1, yBase: row1Y, cardWidth: cardWidth, isPoints: [false, false, false], context: context)
@@ -482,8 +482,8 @@ extension ActivityAnalysisViewController {
             let points = (activity?.basePoints ?? 0) + (activity?.skillPoints ?? 0)
             let row2: [(label: String, value: String, unit: String)] = [
                 ("CALORIES", "\(activity?.caloriesBurnt ?? 0)", "kcal"),
-                ("STEPS",    "\(activity?.stepsTaken ?? 0)",    "steps"),
-                ("POINTS",   "\(points)",                       "points")
+                ("STEPS", "\(activity?.stepsTaken ?? 0)", "steps"),
+                ("POINTS", "\(points)", "points")
             ]
             drawStatRow(row2, yBase: midDividerY + 12, cardWidth: cardWidth, isPoints: [false, false, true], context: context)
 
@@ -536,12 +536,12 @@ extension ActivityAnalysisViewController {
 
     // MARK: - Draw Divider
 
-    private func drawDivider(at y: CGFloat, from x1: CGFloat, to x2: CGFloat,
+    private func drawDivider(at yAxis: CGFloat, from x1: CGFloat, to x2: CGFloat,
                              color: String, context: CGContext) {
         UIColor(hex: color).setStroke()
         let path = UIBezierPath()
-        path.move(to: CGPoint(x: x1, y: y))
-        path.addLine(to: CGPoint(x: x2, y: y))
+        path.move(to: CGPoint(x: x1, y: yAxis))
+        path.addLine(to: CGPoint(x: x2, y: yAxis))
         path.lineWidth = 1
         path.stroke()
     }
@@ -583,9 +583,9 @@ extension UIColor {
         var rgb: UInt64 = 0
         Scanner(string: hexStr).scanHexInt64(&rgb)
         self.init(
-            red:   CGFloat((rgb >> 16) & 0xFF) / 255,
+            red: CGFloat((rgb >> 16) & 0xFF) / 255,
             green: CGFloat((rgb >> 8)  & 0xFF) / 255,
-            blue:  CGFloat( rgb        & 0xFF) / 255,
+            blue: CGFloat( rgb        & 0xFF) / 255,
             alpha: 1.0
         )
     }

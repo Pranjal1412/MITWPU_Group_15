@@ -1,44 +1,44 @@
 import HealthKit
 
 final class HealthKitManager {
-    
+
     static let shared = HealthKitManager()
     private let healthStore = HKHealthStore()
-    
+
     // 1. Request Permission (Read-only)
     func requestPermission(completion: @escaping (Bool) -> Void) {
         guard HKHealthStore.isHealthDataAvailable() else {
             completion(false)
             return
         }
-        
+
         let typesToRead: Set = [
             HKObjectType.quantityType(forIdentifier: .heartRate)!,
             HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!
         ]
-        
+
         healthStore.requestAuthorization(toShare: nil, read: typesToRead) { success, _ in
             DispatchQueue.main.async { completion(success) }
         }
     }
-    
+
     // 2. Fetch Calories (Sum for the run duration)
     func fetchCalories(from start: Date, to end: Date, completion: @escaping (Double) -> Void) {
         guard let calorieType = HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned) else {
             completion(0)
             return
         }
-        
+
         // CHANGED: removed .strictStartDate
         let predicate = HKQuery.predicateForSamples(withStart: start, end: end, options: [])
-        
+
         let query = HKStatisticsQuery(quantityType: calorieType, quantitySamplePredicate: predicate, options: .cumulativeSum) { _, result, _ in
             let total = result?.sumQuantity()?.doubleValue(for: .kilocalorie()) ?? 0
             DispatchQueue.main.async { completion(total) }
         }
         healthStore.execute(query)
     }
-    
+
     // 3. Fetch Heart Rate (Average for the run duration)
     private func fetchAverageHeartRate(from start: Date, to end: Date, completion: @escaping (Double?) -> Void) {
 
@@ -46,7 +46,7 @@ final class HealthKitManager {
             completion(nil)
             return
         }
-        
+
 // tells the healthKit to give only heart-rate samples recorded between start and end
         // CHANGED: removed .strictStartDate
         let predicate = HKQuery.predicateForSamples(withStart: start, end: end, options: [])
@@ -65,7 +65,7 @@ final class HealthKitManager {
 
         healthStore.execute(query)
     }
-    
+
     func fetchAverageHeartRateAsync(from start: Date, to end: Date) async -> Double? {
 
         await withCheckedContinuation { continuation in
@@ -84,10 +84,9 @@ final class HealthKitManager {
     }
 }
 
-
-//import HealthKit
+// import HealthKit
 //
-//final class HealthKitManager {
+// final class HealthKitManager {
 //    
 //    static let shared = HealthKitManager()
 //    private let healthStore = HKHealthStore()
@@ -165,4 +164,4 @@ final class HealthKitManager {
 //            }
 //        }
 //    }
-//}
+// }

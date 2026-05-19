@@ -15,15 +15,15 @@ class GraphManager: ObservableObject {
     @Published var monthlyData: [SummaryRow] = []
     @Published var yearlyData: [SummaryRow] = []
     @Published var isLoading = false
-    
+
     @Published var selectedPeriod: Period = .weekly
-    
+
     var referenceDate: Date = Date()
 
     // This helper transforms the raw rows into chart-ready DayData
     func chartData(for period: Period, metric: Metric) -> [DayData] {
         let rows: [SummaryRow]
-        
+
         switch period {
             case .weekly:
                 rows = weeklyData
@@ -49,7 +49,7 @@ class GraphManager: ObservableObject {
 
             // Create a label based on the date (e.g., "Mon", "Feb", etc.)
             let label = formatLabel(for: row.date, in: period)
-            
+
             return DayData(label: label, value: value)
         }
     }
@@ -67,29 +67,29 @@ class GraphManager: ObservableObject {
     // Call your fetchSummary function here to populate the arrays
     @MainActor
     func loadData(userID: UUID, referenceDate: Date) async {
-        
+
         self.referenceDate = referenceDate
-        
+
         isLoading = true
         defer { isLoading = false }
-        
+
         do {
             if let weekly = try await fetchSummary(userID: userID, period: .weekly, referenceDate: referenceDate) {
                 self.weeklyData = weekly
             }
-            
+
             if let monthly = try await fetchSummary(userID: userID, period: .monthly, referenceDate: referenceDate) {
                 self.monthlyData = monthly
             }
-            
+
             if let yearly = try await fetchSummary(userID: userID, period: .yearly, referenceDate: referenceDate) {
                 self.yearlyData = yearly
             }
-            
+
         } catch {
             print("Error loading store: \(error)")
         }
-        
+
         self.objectWillChange.send()
     }
 }

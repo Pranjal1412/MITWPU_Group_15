@@ -13,7 +13,7 @@ class NotificationFollowTableViewCell: UITableViewCell {
     @IBOutlet weak var labelMessage: UILabel!
     // @IBOutlet weak var buttonFollow: UIButton!
     @IBOutlet weak var labelTimeStamp: UILabel!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         setupUI()
@@ -32,21 +32,21 @@ class NotificationFollowTableViewCell: UITableViewCell {
         self.labelMessage.numberOfLines = 0
         self.labelTimeStamp.numberOfLines = 0
     }
-    
+
     func configure(with notification: RunnrNotification, followerName: String, followerImageURL: String?) {
         labelMessage.text = "\(followerName) started following you"
-        
+
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, d MMM HH:mm"
         labelTimeStamp.text = formatter.string(from: notification.createdAt)
-        
+
         if let urlString = followerImageURL, let url = URL(string: urlString) {
             imageUserProfile.kf.setImage(with: url, placeholder: UIImage(systemName: "person.circle.fill"))
         } else {
             imageUserProfile.image = UIImage(systemName: "person.circle.fill")
             imageUserProfile.tintColor = UIColor.accent
         }
-        
+
         // buttonFollow.isHidden = true
     }
 }

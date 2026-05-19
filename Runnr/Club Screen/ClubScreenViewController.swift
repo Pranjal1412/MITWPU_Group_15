@@ -23,7 +23,7 @@ class ClubScreenViewController: UIViewController {
     @IBOutlet weak var labelTotalPoints: UILabel!
     @IBOutlet weak var buttonUserProfile: UIButton!
     @IBOutlet weak var profileImage: UIImageView!
-    
+
     private let noClubsLabel: UILabel = {
         let label = UILabel()
         label.text = "No new clubs available"
@@ -35,7 +35,7 @@ class ClubScreenViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     let systemOS = UIDevice.current.systemVersion
 
     var filteredFriends: [UserProfile] = []
@@ -62,32 +62,32 @@ class ClubScreenViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // Dismiss keyboard on tap anywhere
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGesture.cancelsTouchesInView = false
         view.addGestureRecognizer(tapGesture)
-        
+
         // Dismiss keyboard on swipe down
         let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         swipeGesture.direction = .down
         view.addGestureRecognizer(swipeGesture)
-        
+
         settingUpClubScreenElements()
         settingCollectionView()
         settingAttributedText()
-        
+
         searchBarFriendsScreen.delegate = self
         tableViewFriends.dataSource = self
         tableViewFriends.delegate = self
         tableViewFriends.register(UINib(nibName: "FriendListTableViewCell", bundle: nil), forCellReuseIdentifier: "CustomCell")
-        
+
         self.buttonUserProfile.layer.cornerRadius = self.buttonUserProfile.frame.height / 2
         self.profileImage.layer.cornerRadius = self.profileImage.frame.height / 2
         self.profileImage.clipsToBounds = true
         self.viewCurrency.layer.cornerRadius = self.viewCurrency.frame.height / 2
         self.buttonUserProfile.clipsToBounds = true
-        
+
         view.addSubview(noClubsLabel)
         NSLayoutConstraint.activate([
             noClubsLabel.centerXAnchor.constraint(equalTo: collectionViewExplore.centerXAnchor),
@@ -95,13 +95,13 @@ class ClubScreenViewController: UIViewController {
             noClubsLabel.widthAnchor.constraint(lessThanOrEqualTo: collectionViewExplore.widthAnchor, constant: -40)
         ])
     }
-    
+
     // MARK: - Keyboard
-    
+
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         let profileImageURL = DataSource.shared.getUserProfile().userProfileImageURL
 
@@ -113,19 +113,19 @@ class ClubScreenViewController: UIViewController {
                 self.profileImage.layer.borderWidth = 1
                 self.profileImage.layer.borderColor = UIColor(named: "AccentColor")?.cgColor
             }
-        
+
         Task {
             let exploreClubs = await fetchExploreClubData(userID: self.userProfile.userID!)
             self.dataSource.setclubsArray(exploreClubs)
-            
+
             let userClubs = await fetchMyClubsWithRoles(userID: userProfile.userID!)
             self.dataSource.setMyClubs(userClubs)
-            
+
             let unFollowedUser = await fetchUnfollowedUsers(currentUserID: userProfile.userID!)
             self.dataSource.setUnFollowedUser(unFollowedUser)
-            
+
             tableViewFriends.reloadData()
-            
+
             if myClubArray.isEmpty == false {
                 collectionViewJoinedClub.isHidden = false
                 labelYourClubs.isHidden = false
@@ -135,19 +135,19 @@ class ClubScreenViewController: UIViewController {
                 labelYourClubs.isHidden = true
                 buttonAddMoreClubs.isHidden = true
             }
-            
+
             collectionViewJoinedClub.reloadData()
             collectionViewExplore.reloadData()
             updateNoClubsLabelVisibility()
 
             segmentShiftAction(segmentControlClubScreen)
         }
-        
+
         self.labelTotalPoints.text = "\(totalPoints)"
     }
-    
+
     @IBAction func segmentShiftAction(_ sender: UISegmentedControl) {
-        
+
         switch sender.selectedSegmentIndex {
         case 0:
             collectionViewExplore.isHidden = true
@@ -196,32 +196,32 @@ class ClubScreenViewController: UIViewController {
             break
         }
     }
-    
+
     @IBAction func profileButtonPressed(_ sender: UIButton) {
         let destinationVC = UserProfileViewController()
         destinationVC.modalPresentationStyle = .fullScreen
         self.present(destinationVC, animated: true, completion: nil)
     }
-    
+
     func settingUpClubScreenElements() {
         buttonCreateClub.isHidden = true
         labelCreateyourOwnClub.isHidden = true
         tableViewFriends.isHidden = true
         buttonAddMoreClubs.isHidden = true
-        
+
         searchBarFriendsScreen.placeholder = "Search for clubs"
         buttonCreateClub.layer.cornerRadius = buttonCreateClub.frame.height / 2
         buttonCreateClub.clipsToBounds = true
-        
+
         segmentControlClubScreen.selectedSegmentIndex = 1
         segmentControlClubScreen.layer.borderWidth = 0.5
         segmentControlClubScreen.layer.borderColor = UIColor.accent.cgColor
         segmentControlClubScreen.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
-        
+
         searchBarFriendsScreen.backgroundColor = .clear
         searchBarFriendsScreen.barTintColor = .clear
         searchBarFriendsScreen.isTranslucent = true
-        
+
         buttonAddMoreClubs.layer.cornerRadius = buttonAddMoreClubs.frame.height / 2
         buttonAddMoreClubs.clipsToBounds = true
     }
@@ -232,7 +232,7 @@ class ClubScreenViewController: UIViewController {
         collectionViewExplore.register(UINib(nibName: "ExploreScreenCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "cell")
         view.overrideUserInterfaceStyle = .dark
         collectionViewExplore.contentInset = UIEdgeInsets(top: 0, left: 30, bottom: 30, right: 30)
-        
+
         collectionViewJoinedClub.dataSource = self
         collectionViewJoinedClub.delegate = self
         collectionViewJoinedClub.register(
@@ -241,11 +241,11 @@ class ClubScreenViewController: UIViewController {
         )
         collectionViewJoinedClub.contentInset = UIEdgeInsets(top: 0, left: 30, bottom: 30, right: 30)
     }
-    
+
     func settingAttributedText() {
         labelCreateyourOwnClub.textAlignment = .center
         labelYourClubs.numberOfLines = 1
-        
+
         let thinFont = UIFont(name: "SFProText-UltraThin", size: 33) ?? UIFont.systemFont(ofSize: 33, weight: .ultraLight)
         let boldFont = UIFont(name: "SFProText-Semibold", size: 33) ?? UIFont.systemFont(ofSize: 33, weight: .semibold)
 
@@ -272,7 +272,7 @@ class ClubScreenViewController: UIViewController {
         }
         self.present(destinationVC, animated: true, completion: nil)
     }
-    
+
     private func updateNoClubsLabelVisibility() {
         let isVisible = segmentControlClubScreen.selectedSegmentIndex == 1 && (isSearchingClubs ? filteredClubs.isEmpty : clubsArray.isEmpty)
         noClubsLabel.isHidden = !isVisible || !(collectionViewExplore.isHidden == false)
@@ -282,7 +282,7 @@ class ClubScreenViewController: UIViewController {
 // MARK: - CollectionView Settings
 
 extension ClubScreenViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == collectionViewExplore {
             return isSearchingClubs ? filteredClubs.count : clubsArray.count
@@ -291,7 +291,7 @@ extension ClubScreenViewController: UICollectionViewDataSource, UICollectionView
         }
         return 0
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == collectionViewExplore {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? ExploreScreenCollectionViewCell else {
@@ -299,14 +299,14 @@ extension ClubScreenViewController: UICollectionViewDataSource, UICollectionView
             }
             let club = isSearchingClubs ? filteredClubs[indexPath.row] : clubsArray[indexPath.row]
             cell.configureCell(with: club)
-            
+
             cell.joinAction = { [weak self] in
                 guard let self = self else { return }
-                
+
                 var joinedClub = club
                 joinedClub.memberCount! += 1
                 let myClubData = ClubRoleAndData(role: .member, club: joinedClub)
-                
+
                 let destinationVC = ClubProfileViewController()
                 let navigationController = UINavigationController(rootViewController: destinationVC)
                 navigationController.isNavigationBarHidden = true
@@ -314,17 +314,17 @@ extension ClubScreenViewController: UICollectionViewDataSource, UICollectionView
                 destinationVC.isMyClub = true
                 navigationController.modalPresentationStyle = .fullScreen
                 self.present(navigationController, animated: true)
-                
+
                 Task {
                     await insertNewClubMember(newMember: ClubMemberRole(userID: self.userProfile.userID!, clubID: club.clubID!, role: .member))
                     await updateClubInfo(updatedData: joinedClub)
-                    
+
                     let exploreClubs = await fetchExploreClubData(userID: self.userProfile.userID!)
                     self.dataSource.setclubsArray(exploreClubs)
-                    
+
                     let userClubs = await fetchMyClubsWithRoles(userID: self.userProfile.userID!)
                     self.dataSource.setMyClubs(userClubs)
-                    
+
                     await MainActor.run {
                         if self.myClubArray.isEmpty == false {
                             self.collectionViewJoinedClub.isHidden = false
@@ -347,7 +347,7 @@ extension ClubScreenViewController: UICollectionViewDataSource, UICollectionView
             return cell
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == collectionViewJoinedClub {
             let width = (collectionViewJoinedClub.frame.width - 80) / 2
@@ -357,11 +357,11 @@ extension ClubScreenViewController: UICollectionViewDataSource, UICollectionView
             return CGSize(width: width, height: 211)
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 20
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 20
     }
@@ -397,7 +397,7 @@ extension ClubScreenViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let source = isSearchingFriends ? filteredFriends : Array(unfollowedUserData.prefix(10))
-        
+
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as? FriendListTableViewCell else {
             return UITableViewCell()
         }

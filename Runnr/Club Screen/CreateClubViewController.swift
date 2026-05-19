@@ -26,41 +26,40 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var buttonBack: UIButton!
     @IBOutlet weak var clubProfileImage: UIImageView!
     @IBOutlet weak var switchIsPublic: UISwitch!
-    
+
     var currentPage = 1
-    var clubDraft : Club?
+    var clubDraft: Club?
     var userProfile = DataSource.shared.getUserProfile()
     private var isCLubProfileChanged: Bool = false
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         updateUI()
         settingUpCreateClubScreenElements()
-        
+
         self.collectionViewClubActivity.dataSource = self
         self.collectionViewClubActivity.delegate = self
-        
+
         self.collectionViewClubActivity.register(UINib(nibName: "SelectActivityCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "SelectActivityCollectionViewCell")
         self.collectionViewClubActivity.register(UINib(nibName: "ClubDescriptionCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ClubDescriptionCollectionViewCell")
-        
+
         clubNameTextField.delegate = self
         clubDescriptionTextField.delegate = self
-        
+
         clubProfileImage.layer.cornerRadius = self.clubProfileImage.frame.height / 2
-        
+
         self.clubDraft = Club(clubName: "", clubMotive: "", clubDescription: "", clubSport: .running, isPublic: switchIsPublic.isOn, memberCount: 1)
     }
 
-    
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField == clubNameTextField {
             clubDraft?.clubName = textField.text ?? ""
         }
     }
-    
+
     @IBAction func nextButtonPressed(_ sender: UIButton) {
-        
+
         if currentPage == 2 {
             if clubDraft?.clubMotive == "" {
                 let alert = UIAlertController(title: "Selection Required", message: "Please select a club description to continue.", preferredStyle: .alert)
@@ -69,21 +68,21 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
                 return
             }
         }
-        
+
         if currentPage < 3 {
             currentPage += 1
             updateUI()
         }
-        
+
         else {
             if let presenter = self.presentingViewController {
                 self.dismiss(animated: true) {
-                    Task{
+                    Task {
                         if var clubDraft = self.clubDraft {
                             clubDraft.clubOwnerID = self.userProfile.userID
                             let clubData = await insertNewClubData(newClub: clubDraft) ?? self.clubDraft!
                             clubDraft = clubData
-                            
+
                             if self.isCLubProfileChanged == true {
                                 if let newURL = await saveClubProfileImage(clubID: clubDraft.clubID!, with: self.clubProfileImage.image!) {
                                     clubDraft.clubProfileImageURL = newURL
@@ -93,9 +92,9 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
 //                            if let newURL = await saveClubBannerImage(clubID: (clubDraft.clubID)!, with: UIImage(named: "Club")!) {
 //                                clubDraft.clubBannerImageURL = newURL
 //                            }
-                            
+
                             await updateClubInfo(updatedData: clubDraft)
-                            
+
                             let rootVC = ClubProfileViewController(nibName: "ClubProfileViewController", bundle: nil)
                             let destinationVC = UINavigationController(rootViewController: rootVC)
                             destinationVC.isNavigationBarHidden = true
@@ -105,16 +104,16 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
                             presenter.present(destinationVC, animated: true)
                         }
                     }
-                    
+
                 }
             }
-                    
+
         }
     }
 
     @IBAction func selectClubprofileTapped(_ sender: UIButton) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
+
         let cameraButton = UIAlertAction(title: String(localized: "Camera"), style: .default, handler: {_ in
             self.openCamera()
         })
@@ -126,14 +125,14 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
         alert.addAction(cameraButton)
         alert.addAction(photoLibraryButton)
         alert.addAction(cancelButton)
-        
+
         self.present(alert, animated: true)
     }
-    
+
     @IBAction func clubPrivacy(_ sender: UISwitch) {
         self.clubDraft?.isPublic = sender.isOn
     }
-    
+
     @IBAction func dismissModalPressed(_ sender: Any) {
         if currentPage == 1 {
             self.dismiss(animated: true, completion: nil)
@@ -147,18 +146,18 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
             updateUI()
         }
     }
-        
+
     func updateUI() {
         switch currentPage {
         case 1:
             setFirstPageText()
             pageIndicator(p1: .accent, p2: .gray, p3: .gray)
             buttonNext.setTitle("Next", for: .normal)
-            
+
             self.collectionViewClubActivity.isHidden = false
             self.collectionViewClubActivity.reloadData()
             self.lastpageView.isHidden = true
-            
+
         case 2:
             setSecondPageText()
             pageIndicator(p1: .gray, p2: .accent, p3: .gray)
@@ -167,7 +166,7 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
             self.collectionViewClubActivity.isHidden = false
             self.collectionViewClubActivity.reloadData()
             self.lastpageView.isHidden = true
-            
+
         case 3:
             setThirdPageText()
             pageIndicator(p1: .gray, p2: .gray, p3: .accent)
@@ -175,70 +174,70 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
             buttonBack.setImage(UIImage(systemName: "chevron.left"), for: .normal)
             self.collectionViewClubActivity.isHidden = true
             lastpageView.isHidden = false
-            
+
             registerNotifications()
             hideKeyboardWhenTappedAround()
-            
+
         default:
             break
         }
-        
+
     }
 
     func settingUpCreateClubScreenElements() {
-        
+
         view.backgroundColor = .clear
-        
+
         modalView.layer.cornerRadius = 20
         modalView.clipsToBounds = true
 
         buttonNext.layer.cornerRadius = buttonNext.frame.height / 2.0
         buttonNext.titleLabel?.textColor = UIColor.black
-        
+
         labelSubtitleCreateClub.textAlignment = .center
         labelSubtitleCreateClub.textColor = .white
         labelSubtitleCreateClub.numberOfLines = 2
         labelSubtitleCreateClub.sizeToFit()
-        
+
         clubNameView.layer.cornerRadius = 10
         clubNameView.clipsToBounds = true
         clubNameView.layer.borderColor = UIColor.gray.cgColor
         clubNameView.layer.borderWidth = 1.0
-        
+
         clubDescriptionView.layer.cornerRadius = 10
         clubDescriptionView.clipsToBounds = true
         clubDescriptionView.layer.borderColor = UIColor.gray.cgColor
         clubDescriptionView.layer.borderWidth = 1.0
-        
+
         page1.layer.cornerRadius = page1.frame.height / 2.0
         page2.layer.cornerRadius = page2.frame.height / 2.0
         page3.layer.cornerRadius = page3.frame.height / 2.0
     }
-    
+
     func setFirstPageText() {
         labelCreateClub.numberOfLines = 1
         labelCreateClub.textAlignment = .center
-        
-        let thinFont = UIFont(name: "SFProText-UltraThin",size: 33) ?? UIFont.systemFont(ofSize: 33, weight: .ultraLight)
-        let boldFont = UIFont(name: "SFProText-Semibold",size: 33) ?? UIFont.systemFont(ofSize: 33, weight: .semibold)
-        
-        let firstPart = NSAttributedString(string: "Choose your",attributes: [.font: thinFont, .foregroundColor: UIColor.white])
-        let secondPart = NSAttributedString(string: " Sport",attributes: [.font: boldFont, .foregroundColor: UIColor.white])
+
+        let thinFont = UIFont(name: "SFProText-UltraThin", size: 33) ?? UIFont.systemFont(ofSize: 33, weight: .ultraLight)
+        let boldFont = UIFont(name: "SFProText-Semibold", size: 33) ?? UIFont.systemFont(ofSize: 33, weight: .semibold)
+
+        let firstPart = NSAttributedString(string: "Choose your", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
+        let secondPart = NSAttributedString(string: " Sport", attributes: [.font: boldFont, .foregroundColor: UIColor.white])
 
         let attributedText = NSMutableAttributedString()
         attributedText.append(firstPart)
         attributedText.append(secondPart)
-        
+
         labelCreateClub.attributedText = attributedText
         labelSubtitleCreateClub.text = "Launch your club with your favourite sport!"
 
     }
-    
+
     func setSecondPageText() {
-            
-            let thinFont = UIFont(name: "SFProText-UltraThin",size: 33)
+
+            let thinFont = UIFont(name: "SFProText-UltraThin", size: 33)
                 ?? UIFont.systemFont(ofSize: 33, weight: .ultraLight)
-            let boldFont = UIFont(name: "SFProText-Semibold",size: 33)
+            let boldFont = UIFont(name: "SFProText-Semibold", size: 33)
                 ?? UIFont.systemFont(ofSize: 33, weight: .semibold)
 
             let firstPart = NSAttributedString(string: "Describe your", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
@@ -247,16 +246,16 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
             let final = NSMutableAttributedString()
             final.append(firstPart)
             final.append(secondPart)
-        
+
             labelCreateClub.attributedText = final
             labelSubtitleCreateClub.text = "Unlock your club’s identity, pick any one"
         }
-    
+
     func setThirdPageText() {
-           
-           let thinFont = UIFont(name: "SFProText-UltraThin",size: 33)
+
+           let thinFont = UIFont(name: "SFProText-UltraThin", size: 33)
                ?? UIFont.systemFont(ofSize: 33, weight: .ultraLight)
-           let boldFont = UIFont(name: "SFProText-Semibold",size: 33)
+           let boldFont = UIFont(name: "SFProText-Semibold", size: 33)
                ?? UIFont.systemFont(ofSize: 33, weight: .semibold)
 
            let firstPart = NSAttributedString(string: "Name your", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
@@ -265,22 +264,22 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
            let final = NSMutableAttributedString()
            final.append(firstPart)
            final.append(secondPart)
-        
+
            labelCreateClub.attributedText = final
            labelSubtitleCreateClub.text = "Shape your club and bring it to life!"
        }
-    
+
     func pageIndicator(p1: UIColor, p2: UIColor, p3: UIColor) {
         page1.backgroundColor = p1
         page2.backgroundColor = p2
         page3.backgroundColor = p3
     }
-   
+
 }
 
-//MARK: - Collection View Settings
+// MARK: - Collection View Settings
 extension CreateClubViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if self.currentPage == 1 {
             return clubActivityOptions.count
@@ -289,16 +288,16 @@ extension CreateClubViewController: UICollectionViewDataSource, UICollectionView
             return clubDescriptions.count
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if self.currentPage == 1 {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SelectActivityCollectionViewCell", for: indexPath) as? SelectActivityCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            
+
             cell.configureCell(with: clubActivityOptions[indexPath.row])
             cell.viewCellBackground.layer.cornerRadius = 10.0
-            
+
             if clubDraft?.clubSport == clubActivityOptions[indexPath.row].title {
                 cell.viewCellBackground.layer.borderColor = UIColor.accent.cgColor
                 cell.imageActivity.tintColor = .accent
@@ -310,17 +309,17 @@ extension CreateClubViewController: UICollectionViewDataSource, UICollectionView
                 cell.labelActivityTitle.textColor = .white
                 cell.viewCellBackground.layer.borderWidth = 1
             }
-            
+
             return cell
         }
         else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ClubDescriptionCollectionViewCell", for: indexPath) as? ClubDescriptionCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            
+
             cell.labelDescription.text = clubDescriptions[indexPath.row]
             cell.viewCellBackground.layer.cornerRadius = 10.0
-            
+
             if clubDraft?.clubMotive == clubDescriptions[indexPath.row] {
                 cell.imageSelected.isHidden = false
                 cell.viewCellBackground.layer.borderColor = UIColor.accent.cgColor
@@ -332,45 +331,45 @@ extension CreateClubViewController: UICollectionViewDataSource, UICollectionView
                 cell.viewCellBackground.layer.borderWidth = 1
                 cell.labelDescription.textColor = .lightGray
             }
-            
+
             return cell
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if self.currentPage == 1 {
             let width = (self.collectionViewClubActivity.frame.width - 60) / 2
             let height = (self.collectionViewClubActivity.frame.height - 60) / 2
-            
+
             return CGSize(width: width, height: height)
         }
         else {
-            
+
             return CGSize(width: collectionView.frame.width, height: CGFloat(Int(collectionView.frame.height - 60) / clubDescriptions.count))
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 20
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 20
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+
         if self.currentPage == 1 {
             clubDraft?.clubSport = clubActivityOptions[indexPath.row].title
         }
         else {
             clubDraft?.clubMotive = clubDescriptions[indexPath.row]
         }
-        
+
         collectionView.reloadData()
     }
 }
@@ -385,18 +384,18 @@ extension CreateClubViewController {
     @objc func hideKeyboard() {
         view.endEditing(true)
     }
-    
+
     func registerNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
-    @objc private func keyboardWillShow(notification: NSNotification){
-        
+    @objc private func keyboardWillShow(notification: NSNotification) {
+
     }
-    
-    @objc private func keyboardWillHide(notification: NSNotification){
-        
+
+    @objc private func keyboardWillHide(notification: NSNotification) {
+
     }
 }
 
@@ -406,9 +405,9 @@ extension CreateClubViewController: UITextViewDelegate {
     }
 }
 
-//MARK: - Photo Settings
+// MARK: - Photo Settings
 extension CreateClubViewController: PHPickerViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
+
     func openPhotoLibrary() {
         var config = PHPickerConfiguration()
         config.filter = .images
@@ -431,13 +430,12 @@ extension CreateClubViewController: PHPickerViewControllerDelegate, UIImagePicke
         present(picker, animated: true)
     }
 
-    
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
 
         for result in results {
             let provider = result.itemProvider
-            
+
             if provider.canLoadObject(ofClass: UIImage.self) {
                 provider.loadObject(ofClass: UIImage.self) { image, _ in
                     DispatchQueue.main.async {
@@ -449,17 +447,15 @@ extension CreateClubViewController: PHPickerViewControllerDelegate, UIImagePicke
                 }
             }
         }
-                
+
     }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         picker.dismiss(animated: true)
-//MARK: - Not working
+// MARK: - Not working
         if let image = info[.originalImage] as? UIImage {
             self.clubProfileImage.image = image
             self.isCLubProfileChanged = true
         }
     }
 }
-
-

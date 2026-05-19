@@ -18,7 +18,7 @@ class UserProfileViewController: UIViewController {
     @IBOutlet weak var labelUsername: UILabel!
     @IBOutlet weak var labelBiography: UILabel!
     @IBOutlet weak var labelSpacing: UILabel!
-    
+
     @IBOutlet weak var labelScreenTitle: UILabel!
     @IBOutlet weak var labelTotalPoints: UILabel!
     @IBOutlet weak var labelTotalPointsCount: UILabel!
@@ -30,12 +30,12 @@ class UserProfileViewController: UIViewController {
     @IBOutlet weak var labelCategoryGoal: UILabel!
     @IBOutlet weak var labelCategoryGoalLeft: UILabel!
     @IBOutlet weak var buttonNotification: UIButton!
-    
+
     @IBOutlet var labelFollowingCount: UIButton!
     @IBOutlet var labelFollowing: UIButton!
     @IBOutlet var labelFollowerCount: UIButton!
     @IBOutlet var labelFollower: UIButton!
-    
+
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var stackProgress: UIStackView!
@@ -43,10 +43,10 @@ class UserProfileViewController: UIViewController {
     private var userProfile = DataSource.shared.getUserProfile()
     private let userStats = DataSource.shared.getUserStats()
     private var dataSource = DataSource.shared
-    
+
     var isFromFriendsScreen: Bool = false
     var friendData: UserProfile?
-        
+
     override func viewDidLoad() {
         super.viewDidLoad()
         settingsElements()
@@ -83,11 +83,11 @@ class UserProfileViewController: UIViewController {
         destinationVC.delegate = self
         self.present(destinationVC, animated: true, completion: nil)
     }
-    
+
     @IBAction func buttonBackPressed(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
-    
+
     @IBAction func navigateToSettings(_ sender: UIButton) {
         if let presenter = self.presentingViewController {
             self.dismiss(animated: true) {
@@ -98,7 +98,7 @@ class UserProfileViewController: UIViewController {
             }
         }
     }
-    
+
     @IBAction func navigateToNotification(_ sender: UIButton) {
         let notificationVC = NotificationViewController(nibName: "NotificationViewController", bundle: nil)
         if let presenter = self.presentingViewController {
@@ -111,30 +111,30 @@ class UserProfileViewController: UIViewController {
             self.present(notificationVC, animated: true, completion: nil)
         }
     }
-    
+
     @IBAction func followersTapped(_ sender: UIButton) {
         let currentUserId = friendData?.userID ?? userProfile.userID!
-        
+
         Task {
             let followersList = await fetchFollowersList(userID: currentUserId)
             self.dataSource.setFollowedUser(followersList)
-            
+
             let friendListVC = FriendListViewController()
             friendListVC.usersList = followersList
             friendListVC.pageTitle = String(localized: "Followers")
             friendListVC.showFollowButton = true
-            
+
             self.present(friendListVC, animated: true, completion: nil)
         }
     }
-    
+
     @IBAction func followingTapped(_ sender: UIButton) {
         let currentUserId = friendData?.userID ?? userProfile.userID!
-        
+
         Task {
             let followingList = await fetchFollowingList(userID: currentUserId)
             self.dataSource.setFollowingUser(followingList)
-            
+
             let friendListVC = FriendListViewController()
             friendListVC.usersList = followingList
             friendListVC.pageTitle = String(localized: "Following")
@@ -142,26 +142,26 @@ class UserProfileViewController: UIViewController {
             self.present(friendListVC, animated: true, completion: nil)
         }
     }
-    
+
     func settingsElements() {
-        
+
         setGlassEffect(for: self.buttonCancel, withImage: "multiply")
-        
+
         if userProfile.userBio != nil || userProfile.userBio != "" {
             self.labelBiography.text = userProfile.userBio
             self.labelSpacing.text = "Spacing"
         }
-        
+
         self.labelScreenTitle.text = String(localized: "Profile")
-        
+
         self.labelFollower.setTitle(String(localized: "Followers"), for: .normal)
         self.labelFollowing.setTitle(String(localized: "Following"), for: .normal)
-        
+
         if isFromFriendsScreen {
             self.buttonSettings.isHidden = true
-            
+
             let isFollowing = DataSource.shared.getFollowingUser().contains(where: { $0.userID == friendData?.userID })
-            
+
             if isFollowing {
                 self.buttonEditProfile.setTitle(String(localized: "Following"), for: .normal)
                 self.buttonEditProfile.backgroundColor = .lightGray
@@ -176,14 +176,14 @@ class UserProfileViewController: UIViewController {
             self.buttonEditProfile.setTitle(String(localized: "Edit Profile"), for: .normal)
             self.buttonEditProfile.setTitleColor(.label, for: .normal)
         }
-        
+
         self.labelTotalPoints.text = String(localized: "Total Points")
         self.labelTotalDistance.text = String(localized: "Total Distance")
         self.labelTotalActivities.text = String(localized: "Total Activities")
 
         buttonEditProfile.layer.cornerRadius = 10.0
     }
-    
+
     func loadAllData() {
         if let friend = friendData {
             self.labelUsername.text = friend.userName
@@ -216,26 +216,26 @@ class UserProfileViewController: UIViewController {
             self.labelTotalActivitiesCount.text = String(userStats?.totalActivities ?? 0)
             self.labelTotalDistanceCount.text = String(format: "%.1f", (userStats?.totalDistanceCovered ?? 0.0))
         }
-        
+
         let currentUserId = friendData?.userID ?? userProfile.userID!
-        
+
         Task {
             let followers = await fetchFollowersList(userID: currentUserId)
             let following = await fetchFollowingList(userID: currentUserId)
             let liveStats = await fetchUserStats(userId: currentUserId) ?? userStats
-            
+
             await MainActor.run {
                 self.labelFollowerCount.setTitle(String(followers.count), for: .normal)
                 self.labelFollowingCount.setTitle(String(following.count), for: .normal)
-                
+
                 guard let stats = liveStats else { return }
-                
+
                 self.labelTotalPointsCount.text = String(stats.totalPointsEarned)
                 self.labelTotalActivitiesCount.text = String(stats.totalActivities)
                 self.labelTotalDistanceCount.text = String(format: "%.1f", stats.totalDistanceCovered)
-                
+
                 let totalDistance = Int(stats.totalDistanceCovered)
-                
+
                 if totalDistance <= 600 {
                     if totalDistance == 0 && totalDistance < 50 {
                         self.imageCategoryBadge.image = UIImage(named: runnrCategories[0].badge)
@@ -253,19 +253,19 @@ class UserProfileViewController: UIViewController {
                         self.labelCategoryGoal.text = "\(runnrCategories[2].goal) Km"
                         self.labelCategory.tag = 2
                     }
-                    
+
                     self.progressView.progress = Float(totalDistance) / Float(runnrCategories[self.labelCategory.tag].goal)
-                    
+
                     let thinFont = UIFont(name: "SFProText-Light", size: 15) ?? UIFont.systemFont(ofSize: 15, weight: .light)
                     let boldFont = UIFont(name: "SFProText-Bold", size: 17) ?? UIFont.systemFont(ofSize: 17, weight: .medium)
-                    
+
                     let text = NSMutableAttributedString(string: "\(runnrCategories[self.labelCategory.tag].goal - totalDistance) km to ", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
                     text.append(NSAttributedString(string: "\(runnrCategories[self.labelCategory.tag+1].name)", attributes: [.font: boldFont, .foregroundColor: UIColor.white]))
                     self.labelCategoryGoalLeft.attributedText = text
                 } else {
                     self.imageCategoryBadge.image = UIImage(named: runnrCategories[3].badge)
                     self.labelCategory.text = runnrCategories[3].name.rawValue
-                    
+
                     self.progressView.progress = 1
                     self.labelCategoryGoalLeft.text = String(localized: "Goal Completed!")
                     self.labelCategoryGoalLeft.sizeToFit()
@@ -280,15 +280,15 @@ class UserProfileViewController: UIViewController {
 // MARK: - Collection View Settings
 
 extension UserProfileViewController: UICollectionViewDataSource {
-    
+
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 2
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BestActivitiesCollectionViewCell", for: indexPath) as? BestActivitiesCollectionViewCell else {
             return UICollectionViewCell()
@@ -296,11 +296,11 @@ extension UserProfileViewController: UICollectionViewDataSource {
         cell.configureCell()
         return cell
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SectionHeaderView", for: indexPath) as? SectionHeaderView else {
             return UICollectionReusableView()
@@ -309,24 +309,24 @@ extension UserProfileViewController: UICollectionViewDataSource {
         sectionHeader.labelSectionHeading.text = "Best Activities"
         return sectionHeader
     }
-    
+
     func generateLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { section, env in
+        let layout = UICollectionViewCompositionalLayout { section, _ in
             let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(25))
             let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
-            
+
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 10)
-            
+
             let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(self.view.frame.width - 60), heightDimension: .estimated(140))
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 1)
-            
+
             let section = NSCollectionLayoutSection(group: group)
             section.orthogonalScrollingBehavior = .continuous
             section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 20, trailing: 10)
             section.boundarySupplementaryItems = [headerItem]
-            
+
             return section
         }
         return layout
@@ -336,12 +336,12 @@ extension UserProfileViewController: UICollectionViewDataSource {
 // MARK: - Edit Profile Delegate
 
 extension UserProfileViewController: EditProfileDelegate {
-    
+
     func didUpdateProfile() {
         self.userProfile = DataSource.shared.getUserProfile()
         self.labelUsername.text = userProfile.userName
         self.labelBiography.text = userProfile.userBio
-        
+
         if let urlString = userProfile.userProfileImageURL, let url = URL(string: urlString) {
             self.imageProfile.kf.setImage(with: url)
             self.imageProfile.layer.borderWidth = 0
