@@ -802,6 +802,22 @@ func updateGameAsCompleted(gameID: UUID) async {
     }
 }
 
+func fetchGameByGameID(gameID: UUID) async -> TerritoryGame? {
+    do {
+        let game: TerritoryGame = try await SupabaseManager.shared.client
+            .from("TerritoryGame")
+            .select()
+            .eq("gameID", value: gameID)
+            .single()
+            .execute()
+            .value
+        return game
+    } catch {
+        print("Fetch game by ID failed: \(error)")
+        return nil
+    }
+}
+
 func fetchActiveGameForUser(userID: UUID) async -> TerritoryGame? {
     do {
         let games: [TerritoryGame] = try await SupabaseManager.shared.client

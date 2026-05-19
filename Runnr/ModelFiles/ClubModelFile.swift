@@ -113,6 +113,11 @@ struct ClubTaggedPost: Codable {
 struct FollowerAndFollowing: Codable {
     var followerID: UUID
     var followingID: UUID
+
+    enum CodingKeys: String, CodingKey {
+        case followerID = "FollowerID"
+        case followingID = "FollowingID"
+    }
 }
 
 let clubActivityOptions: [ClubActivityOptions] = [

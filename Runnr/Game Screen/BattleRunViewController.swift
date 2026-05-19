@@ -92,7 +92,15 @@ class BattleRunViewController: UIViewController {
 
     func fetchOpponentDetails() async {
         guard let myUserID = DataSource.shared.getUserProfile().userID else { return }
-        guard let activeGame = await fetchActiveGameForUser(userID: myUserID) else { return }
+        
+        var activeGame: TerritoryGame?
+        if let gameID = self.gameID {
+            activeGame = await fetchGameByGameID(gameID: gameID)
+        }
+        if activeGame == nil {
+            activeGame = await fetchActiveGameForUser(userID: myUserID)
+        }
+        guard let activeGame = activeGame else { return }
 
         let opponentID = (activeGame.playerOneID == myUserID) ? activeGame.playerTwoID : activeGame.playerOneID
         guard let opponentID = opponentID else { return }
