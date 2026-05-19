@@ -105,7 +105,6 @@ class FriendsActivityTableViewCell: UITableViewCell {
     }
 }
 
-//MARK: - CollectionView Settings
 extension FriendsActivityTableViewCell: UICollectionViewDataSource,
                                         UICollectionViewDelegate,
                                         UICollectionViewDelegateFlowLayout {
@@ -115,25 +114,23 @@ extension FriendsActivityTableViewCell: UICollectionViewDataSource,
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "friendCell",for: indexPath) as! FriendsPhotosCollectionViewCell
-
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "friendCell",for: indexPath) as? FriendsPhotosCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        
         let imageName = photos[indexPath.row]
         cell.configure(with: imageName)
-        
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
         var width = 152.0
         let height = collectionView.bounds.height
         if indexPath.row == 2 {
             width = collectionView.bounds.width - 32.0
-            
         }
         return CGSize(width: width, height: height)
-
     }
     
 }

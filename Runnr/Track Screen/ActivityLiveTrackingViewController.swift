@@ -123,7 +123,8 @@ class ActivityLiveTrackingViewController: UIViewController {
             
             if self.isMapInitialized == false {
                 
-                let mapView = self.mapManager.initializeMaps(withX: 0, withY: 0, withWidth: self.viewActivityTrack.frame.width, withHeight: self.viewActivityTrack.frame.height, location: location.coordinate)
+                let mapView = self.mapManager.initializeMaps(withX: 0, withY: 0, withWidth: self.viewActivityTrack.frame.width,
+                                                             withHeight: self.viewActivityTrack.frame.height, location: location.coordinate)
                 
                 self.mapManager.userLocationMarkerSetting(isEnabled: true)
                 mapView.settings.rotateGestures = true
@@ -284,10 +285,9 @@ class ActivityLiveTrackingViewController: UIViewController {
         self.labelDistanceCounter.text = String(format: "%.2f", self.activityManager.totalDistance)
     }
     
-    @IBAction func EndRunButtonPressed(_ sender: UIButton) {
+    @IBAction func endRunButtonPressed(_ sender: UIButton) {
         
         self.activityEndTime = Date()
-        
         guard let nav = self.navigationController else {
             print("No navigation controller on button press")
             return
@@ -320,7 +320,6 @@ class ActivityLiveTrackingViewController: UIViewController {
             let paceGraphData = self.activityManager.paceGraphData
             let path = self.mapManager.path
             let healthKit = self.healthKitManager
-            let datasource = self.datasource
             let estimatedCalories = self.activityManager.estimatedCalories(activityType: self.activityTypeSelected ?? .running)
             
             var activityDetails = UserActivity(
@@ -372,28 +371,13 @@ class ActivityLiveTrackingViewController: UIViewController {
                         activityDetails.mapImageURL = mapImageURL
                         await updateUserActivity(newActivity: activityDetails)
                     }
-                    
-//                    var routeCoordinates: [ActivityRouteCoordinates] = []
-//                    for i in 0..<path.count() {
-//                        let coordinate = path.coordinate(at: i)
-//                        routeCoordinates.append(
-//                            ActivityRouteCoordinates(
-//                                activityID: activityID,
-//                                latitude: coordinate.latitude,
-//                                longitude: coordinate.longitude,
-//                                sequence: Int(i)
-//                            )
-//                        )
-//                    }
                                     
                     var updatedPaceData = paceGraphData
-                    for i in 0..<updatedPaceData.count {
-                        updatedPaceData[i].activityID = activityID
+                    for index in 0..<updatedPaceData.count {
+                        updatedPaceData[index].activityID = activityID
                     }
                     
                     await insertActivityPaceGraphData(updatedPaceData)
-//                    await insertActivityRouteCoordinates(routeCoordinates)
-//                    datasource.setCurrentActivityCoordinates(routeCoordinates)
                 }
                 
                 await MainActor.run {
@@ -557,28 +541,22 @@ extension ActivityLiveTrackingViewController : UIScrollViewDelegate {
         scrollView.contentSize.width = view.frame.width * 2
         scrollView.contentSize.height = scrollView.frame.height
         
-            for i in 0..<2 {
-                let page = UIView(frame: CGRect(x: CGFloat(i) * view.frame.width, y: 0,
+            for index in 0..<2 {
+                let page = UIView(frame: CGRect(x: CGFloat(index) * view.frame.width, y: 0,
                                                 width: scrollView.frame.width, height: scrollView.frame.height))
                 page.backgroundColor = .yellow
                 
-                switch i {
+                switch index {
                 case 0:
                     self.viewActivityTrack.frame = CGRect(x: 0, y: 0, width: page.frame.width, height: page.frame.height)
                     page.addSubview(viewActivityTrack)
                     
                 case 1:
                     self.viewActivityProgress.frame = CGRect(x: 0, y: 0, width: page.frame.width, height: page.frame.height)
-                    
                     page.addSubview(self.viewActivityProgress)
-                                                            
-//                case 2: 
-//                    self.viewActivitySettings.frame = CGRect(x: 0, y: 0, width: page.frame.width, height: page.frame.height)
-//                    page.addSubview(self.viewActivitySettings)
-                    
+                                                                                
                 default: break
                 }
-
                 scrollView.addSubview(page)
             }
         scrollView.contentOffset = CGPoint(x: view.frame.width, y: 0)
@@ -706,8 +684,8 @@ extension ActivityLiveTrackingViewController {
     func convertToPolylineString(path: GMSMutablePath) -> String {
         var coords: [CLLocationCoordinate2D] = []
 
-        for i in 0..<path.count() {
-            coords.append(path.coordinate(at: i))
+        for index in 0..<path.count() {
+            coords.append(path.coordinate(at: index))
         }
         // converts CLLocationCoordinate2D into a Encoded polyline string
         let polylineString = Polyline(coordinates: coords).encodedPolyline

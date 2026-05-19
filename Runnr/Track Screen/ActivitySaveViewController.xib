@@ -81,7 +81,7 @@
                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                     <state key="normal" image="checkmark" catalog="system"/>
                     <connections>
-                        <action selector="SaveButtonPressed:" destination="-1" eventType="touchUpInside" id="pOR-Ou-pUi"/>
+                        <action selector="saveButtonPressed:" destination="-1" eventType="touchUpInside" id="pOR-Ou-pUi"/>
                     </connections>
                 </button>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="scw-9n-W4L">
@@ -107,7 +107,7 @@
                                     <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done"/>
                                 </textField>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tuesday , 23 July 2024 at 7:12 pm" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oUU-DM-QcU">
-                                    <rect key="frame" x="0.0" y="35" width="248" height="25"/>
+                                    <rect key="frame" x="0.0" y="35" width="245" height="25"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="25" id="8oT-Ku-dd1"/>
                                     </constraints>
@@ -474,7 +474,7 @@
                 <constraint firstItem="tSy-p3-WHQ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="15" id="wKl-8e-FG8"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="94.656488549618317" y="238.02816901408451"/>
+            <point key="canvasLocation" x="-734" y="62"/>
         </view>
     </objects>
     <resources>

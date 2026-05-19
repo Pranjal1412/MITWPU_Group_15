@@ -34,7 +34,9 @@ extension FriendListViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! FriendListTableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as? FriendListTableViewCell else {
+            return UITableViewCell()
+        }
         
         let user = usersList[indexPath.row]
         cell.configureCell(with: user)

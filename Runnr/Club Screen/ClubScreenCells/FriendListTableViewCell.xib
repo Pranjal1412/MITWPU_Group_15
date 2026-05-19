@@ -62,8 +62,8 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="FriendName" destination="3ZM-Bn-26z" id="jG9-VD-Fa9"/>
                 <outlet property="buttonFollow" destination="XnX-1m-uu5" id="l9J-Bv-EZU"/>
+                <outlet property="friendName" destination="3ZM-Bn-26z" id="jG9-VD-Fa9"/>
                 <outlet property="imageProfileFriends" destination="Ke3-PK-Uyg" id="fV8-KL-dmV"/>
             </connections>
             <point key="canvasLocation" x="-38" y="-46"/>

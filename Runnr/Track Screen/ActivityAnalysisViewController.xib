@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24765" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24743"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -32,8 +32,10 @@
                 <outlet property="labelElevationValue" destination="Tl8-em-gxU" id="IR8-9P-9Xx"/>
                 <outlet property="labelHeartRate" destination="il7-a2-DWo" id="iK3-Vw-nRD"/>
                 <outlet property="labelPace" destination="X6v-kC-Mqa" id="qA9-Au-45a"/>
+                <outlet property="labelPaceSetionTitle" destination="oYJ-x8-1Ru" id="3rJ-y9-sqH"/>
                 <outlet property="labelPaceValue" destination="Iqm-i6-q9I" id="Sel-rU-APO"/>
                 <outlet property="labelPhotosHeading" destination="5yf-hO-ZK5" id="qcD-Xk-t8e"/>
+                <outlet property="labelPointSectionTitle" destination="lEk-JT-3G8" id="v07-l7-Pnl"/>
                 <outlet property="labelSkillPoints" destination="daG-ak-O7F" id="aUL-ng-LEL"/>
                 <outlet property="labelSteps" destination="DhW-Zi-N9I" id="xgm-wh-LVR"/>
                 <outlet property="labelStepsValue" destination="EuY-xv-Ct3" id="wSI-Ow-Eyu"/>
@@ -377,7 +379,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lya-8q-2UJ">
-                            <rect key="frame" x="25" y="830.66666666666663" width="352" height="199.99999999999989"/>
+                            <rect key="frame" x="25" y="830.33333333333337" width="352" height="200.00000000000011"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="200" id="0IT-I7-Uqu"/>
@@ -395,7 +397,7 @@
                             </collectionViewFlowLayout>
                         </collectionView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Average Heart Rate: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Slo-Od-bEJ">
-                            <rect key="frame" x="25" y="802.66666666666663" width="352" height="18"/>
+                            <rect key="frame" x="25" y="802.66666666666663" width="352" height="17.666666666666629"/>
                             <fontDescription key="fontDescription" name="SFPro-Regular" family="SF Pro" pointSize="15"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
@@ -411,7 +413,6 @@
                             <rect key="frame" x="27" y="1266" width="348" height="54"/>
                             <color key="backgroundColor" red="0.67843137249999996" green="0.97254901959999995" blue="0.27058823529999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="348" id="8Rz-h7-7ok"/>
                                 <constraint firstAttribute="height" constant="54" id="TB9-MC-Uw8"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
@@ -506,8 +507,11 @@
                 <mask key="subviews">
                     <exclude reference="X98-K1-Hza"/>
                 </mask>
+                <mask key="constraints">
+                    <exclude reference="ScL-Vn-JNs"/>
+                </mask>
             </variation>
-            <point key="canvasLocation" x="464.17910447761193" y="260.86956521739131"/>
+            <point key="canvasLocation" x="1006" y="-224"/>
         </view>
     </objects>
     <resources>

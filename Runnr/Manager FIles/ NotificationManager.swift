@@ -120,7 +120,7 @@ class NotificationManager {
             }
     }
     
-    private func fireLocalNotification(_ n: RunnrNotification) {
+    private func fireLocalNotification(_ notification: RunnrNotification) {
 
         let content = UNMutableNotificationContent()
 
@@ -128,17 +128,17 @@ class NotificationManager {
         content.badge = NSNumber(value: unreadCount)
 
         // FOLLOW NOTIFICATION
-        if n.type == "friend_joined" {
+        if notification.type == "friend_joined" {
 
-            content.title = n.title
+            content.title = notification.title
 
             // DO NOT SHOW UUID
             content.body = ""
 
         } else {
 
-            content.title = n.title
-            content.body = n.body ?? ""
+            content.title = notification.title
+            content.body = notification.body ?? ""
         }
 
         let trigger = UNTimeIntervalNotificationTrigger(
@@ -147,11 +147,10 @@ class NotificationManager {
         )
 
         let request = UNNotificationRequest(
-            identifier: n.id.uuidString,
+            identifier: notification.id.uuidString,
             content: content,
             trigger: trigger
         )
-
         UNUserNotificationCenter.current().add(request)
     }
     
@@ -159,7 +158,7 @@ class NotificationManager {
     func markAllRead() async {
         guard !notifications.isEmpty else { return }
         unreadCount = 0
-        notifications = notifications.map { var n = $0; n.isRead = true; return n }
+        notifications = notifications.map { var notification = $0; notification.isRead = true; return notification }
         DispatchQueue.main.async { self.onUpdate?() }
         
         try? await SupabaseManager.shared.client
@@ -178,7 +177,7 @@ class NotificationManager {
     
     func markRead(_ id: UUID) async {
         notifications = notifications.map {
-            var n = $0; if n.id == id { n.isRead = true }; return n
+            var notification = $0; if notification.id == id { notification.isRead = true }; return notification
         }
         unreadCount = max(0, unreadCount - 1)
         DispatchQueue.main.async { self.onUpdate?() }

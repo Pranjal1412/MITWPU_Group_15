@@ -63,8 +63,8 @@ class ActivitySummaryViewController: UIViewController {
                     if let polyline = self.activityData?.activity?.mapCoordinatesPolyline,
                        let path = GMSPath(fromEncodedPath: polyline) {
                         var bounds = GMSCoordinateBounds()
-                        for i in 0..<path.count() {
-                            bounds = bounds.includingCoordinate(path.coordinate(at: i))
+                        for index in 0..<path.count() {
+                            bounds = bounds.includingCoordinate(path.coordinate(at: index))
                         }
                         mapView.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 70))
                     }

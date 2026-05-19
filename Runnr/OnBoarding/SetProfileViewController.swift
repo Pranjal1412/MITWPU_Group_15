@@ -135,9 +135,10 @@ class SetProfileViewController: UIViewController, UITextViewDelegate {
             
             Task {
                 await insertUserProfile(self.userProfile)
-                
                 if self.userProfile.userID != nil {
-                    await insertUserStats(UserStats(userID: self.userProfile.userID!, numberOfFollowers: 100, numberOfFollowing: 0, totalPointsEarned: 0, totalDistanceCovered: 0, totalActivities: 0, longestStreak: 0))
+                    await insertUserStats(UserStats(userID: self.userProfile.userID!, numberOfFollowers: 100,
+                                                    numberOfFollowing: 0, totalPointsEarned: 0, totalDistanceCovered: 0,
+                                                    totalActivities: 0, longestStreak: 0))
                 }
                 
                 if let presenter = self.presentingViewController as? UINavigationController {
@@ -146,18 +147,16 @@ class SetProfileViewController: UIViewController, UITextViewDelegate {
                     }
                 }
             }
-            
         }
-        
     }
     
     func completeUserProfile() {
         switch selectedButton?.tag {
-            case 0:
+        case 0:
             self.userProfile.gender = .male
-            case 1:
+        case 1:
             self.userProfile.gender = .female
-            case 2:
+        case 2:
             self.userProfile.gender = .other
         default:
             self.userProfile.gender = nil

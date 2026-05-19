@@ -414,9 +414,9 @@ func fetchExploreClubData(userID: UUID) async -> [Club] {
         }
 
         let formattedIDs = excludedIDs
-            .map { "\"\($0.uuidString)\"" }
+            .map { $0.uuidString }
             .joined(separator: ",")
-
+        
         let clubs: [Club] = try await SupabaseManager.shared.client
             .from("Club")
             .select("*")
@@ -537,35 +537,21 @@ func removeClubMember(userID: UUID, clubID: UUID) async {
     }
 }
 
-func deleteClub(clubID: UUID) async {
+func deleteClub(clubDetails: Club) async {
     do {
-        // Delete post images from storage before CASCADE removes the rows
-        let posts: [ClubPost] = try await SupabaseManager.shared.client
-            .from("ClubPost")
-            .select()
-            .eq("clubID", value: clubID)
-            .execute()
-            .value
-        
-        for post in posts {
-            if let imageURL = post.postImageURL, !imageURL.isEmpty {
-                await deleteImageFromStorage(imageURL: imageURL)
-            }
-        }
-        
         // Delete club profile and banner images from storage
-        let club: Club = try await SupabaseManager.shared.client
-            .from("Club")
-            .select()
-            .eq("clubID", value: clubID)
-            .single()
-            .execute()
-            .value
+//        let club: Club = try await SupabaseManager.shared.client
+//            .from("Club")
+//            .select()
+//            .eq("clubID", value: clubDetails.clubID)
+//            .single()
+//            .execute()
+//            .value
         
-        if let profileURL = club.clubProfileImageURL, !profileURL.isEmpty {
+        if let profileURL = clubDetails.clubProfileImageURL, !profileURL.isEmpty {
             await deleteImageFromStorage(imageURL: profileURL)
         }
-        if let bannerURL = club.clubBannerImageURL, !bannerURL.isEmpty {
+        if let bannerURL = clubDetails.clubBannerImageURL, !bannerURL.isEmpty {
             await deleteImageFromStorage(imageURL: bannerURL)
         }
         
@@ -573,7 +559,7 @@ func deleteClub(clubID: UUID) async {
         try await SupabaseManager.shared.client
             .from("Club")
             .delete()
-            .eq("clubID", value: clubID)
+            .eq("clubID", value: clubDetails.clubID)
             .execute()
 
         print("Club deleted successfully!")
@@ -656,6 +642,71 @@ func fetchClubEvents(clubID: UUID) async -> [ClubEvents]? {
     }
 
 }
+
+// MARK: - Event Poll Queries
+
+/// Fetches all votes for a given event and returns a summary including the current user's vote.
+func fetchPollSummary(eventID: UUID, userID: UUID) async -> EventPollSummary {
+    do {
+        let votes: [EventPollVote] = try await SupabaseManager.shared.client
+            .from("EventPollVote")
+            .select()
+            .eq("eventID", value: eventID)
+            .execute()
+            .value
+
+        let joiningCount  = votes.filter { $0.voteType == .joining  }.count
+        let maybeCount    = votes.filter { $0.voteType == .maybe    }.count
+        let notGoingCount = votes.filter { $0.voteType == .notGoing }.count
+        let myVote        = votes.first(where: { $0.userID == userID })?.voteType
+
+        return EventPollSummary(joiningCount: joiningCount,
+                                maybeCount: maybeCount,
+                                notGoingCount: notGoingCount,
+                                myVote: myVote)
+    } catch {
+        print("fetchPollSummary failed: \(error)")
+        return EventPollSummary(joiningCount: 0, maybeCount: 0, notGoingCount: 0, myVote: nil)
+    }
+}
+
+/// Inserts or updates (upserts) the current user's vote for an event.
+/// The unique constraint on (eventID, userID) ensures only one vote per user per event.
+func upsertPollVote(eventID: UUID, userID: UUID, voteType: PollVoteType) async {
+    // Use a payload struct without voteID so Supabase auto-generates it on INSERT
+    // and only updates voteType on conflict (eventID, userID).
+    struct PollVotePayload: Encodable {
+        let eventID:  UUID
+        let userID:   UUID
+        let voteType: PollVoteType
+    }
+    do {
+        let payload = PollVotePayload(eventID: eventID, userID: userID, voteType: voteType)
+        try await SupabaseManager.shared.client
+            .from("EventPollVote")
+            .upsert(payload, onConflict: "eventID,userID")
+            .execute()
+        print("Poll vote upserted successfully")
+    } catch {
+        print("upsertPollVote failed: \(error)")
+    }
+}
+
+/// Removes the current user's vote for an event (used for toggle-off).
+func deletePollVote(eventID: UUID, userID: UUID) async {
+    do {
+        try await SupabaseManager.shared.client
+            .from("EventPollVote")
+            .delete()
+            .eq("eventID", value: eventID)
+            .eq("userID", value: userID)
+            .execute()
+        print("Poll vote deleted successfully")
+    } catch {
+        print("deletePollVote failed: \(error)")
+    }
+}
+
 
 //MARK: - Graph Queries
 
@@ -915,7 +966,7 @@ func fetchUnfollowedUsers(currentUserID: UUID) async -> [UserProfile] {
             .value
 
         
-        let followedIDs = followed.map { $0.FollowingID } // get IDs of friends user follows
+        let followedIDs = followed.map { $0.followingID } // get IDs of friends user follows
 
         // 2. Fetch all user profiles
         if followedIDs.isEmpty {
@@ -959,7 +1010,7 @@ func fetchFollowedUsersAtivities(currentUserID: UUID) async -> [ActivityDetails]
             .execute()
             .value
 
-        let followedIDs = followed.map { $0.FollowingID }.filter { $0 != currentUserID }
+        let followedIDs = followed.map { $0.followingID }.filter { $0 != currentUserID }
   
         let activities: [ActivityDetails] = try await SupabaseManager.shared.client
             .rpc("get_friends_latest_activity", params: ["friend_ids": followedIDs])
@@ -984,7 +1035,7 @@ func fetchFollowersList(userID: UUID) async -> [UserProfile] {
             .execute()
             .value
             
-        let followerIDs = followers.map { $0.FollowerID }
+        let followerIDs = followers.map { $0.followerID }
         
         if followerIDs.isEmpty {
             return []
@@ -1016,7 +1067,7 @@ func fetchFollowingList(userID: UUID) async -> [UserProfile] {
             .execute()
             .value
             
-        let followingIDs = following.map { $0.FollowingID }
+        let followingIDs = following.map { $0.followingID }
         
         if followingIDs.isEmpty {
             return []
@@ -1041,7 +1092,7 @@ func fetchFollowingList(userID: UUID) async -> [UserProfile] {
 // Inserts a follow relationship into the FollowerAndFollowing table.
 func insertFollowedUser(followerID: UUID, followingID: UUID) async {
     do {
-        let record = FollowerAndFollowing(FollowerID: followerID, FollowingID: followingID)
+        let record = FollowerAndFollowing(followerID: followerID, followingID: followingID)
         try await SupabaseManager.shared.client
             .from("FollowerAndFollowing")
             .insert(record)
@@ -1143,7 +1194,6 @@ func deleteClubPost(postID : UUID, postImageURL : String) async {
 func saveClubPostImage(postID: UUID, with image: UIImage) async -> String? {
     
     let resizedImage = resizeImageIfNeeded(image, maxDimension: 400)
-    
     if let imageData = resizedImage.jpegData(compressionQuality: 0.8) {
         let filePath = "clubImages/clubPost/\(postID)_\(Int(Date().timeIntervalSince1970)).jpg"
         
@@ -1191,6 +1241,3 @@ func fetchBattleInviteNotifications(for receiverID: UUID) async -> [BattleInvite
         return []
     }
 }
-
-
-

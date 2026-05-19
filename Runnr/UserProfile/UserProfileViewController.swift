@@ -13,6 +13,7 @@ class UserProfileViewController: UIViewController {
     @IBOutlet weak var imageProfile: UIImageView!
     @IBOutlet weak var imageCategoryBadge: UIImageView!
     @IBOutlet weak var buttonEditProfile: UIButton!
+    @IBOutlet weak var buttonCancel: UIButton!
     @IBOutlet weak var buttonSettings: UIButton!
     @IBOutlet weak var labelUsername: UILabel!
     @IBOutlet weak var labelBiography: UILabel!
@@ -66,11 +67,11 @@ class UserProfileViewController: UIViewController {
         if isFromFriendsScreen {
             UIView.performWithoutAnimation {
                 if self.buttonEditProfile.title(for: .normal) == "Follow" {
-                    self.buttonEditProfile.setTitle("Following", for: .normal)
+                    self.buttonEditProfile.setTitle(String(localized: "Following"), for: .normal)
                     self.buttonEditProfile.backgroundColor = .lightGray
                     self.buttonEditProfile.setTitleColor(.label, for: .normal)
                 } else {
-                    self.buttonEditProfile.setTitle("Follow", for: .normal)
+                    self.buttonEditProfile.setTitle(String(localized: "Follow"), for: .normal)
                     self.buttonEditProfile.backgroundColor = .accent
                     self.buttonEditProfile.setTitleColor(.black, for: .normal)
                 }
@@ -120,7 +121,7 @@ class UserProfileViewController: UIViewController {
             
             let friendListVC = FriendListViewController()
             friendListVC.usersList = followersList
-            friendListVC.pageTitle = "Followers"
+            friendListVC.pageTitle = String(localized: "Followers")
             friendListVC.showFollowButton = true
             
             self.present(friendListVC, animated: true, completion: nil)
@@ -136,13 +137,15 @@ class UserProfileViewController: UIViewController {
             
             let friendListVC = FriendListViewController()
             friendListVC.usersList = followingList
-            friendListVC.pageTitle = "Following"
+            friendListVC.pageTitle = String(localized: "Following")
             friendListVC.showFollowButton = false
             self.present(friendListVC, animated: true, completion: nil)
         }
     }
     
     func settingsElements() {
+        
+        setGlassEffect(for: self.buttonCancel, withImage: "multiply")
         
         if userProfile.userBio != nil || userProfile.userBio != "" {
             self.labelBiography.text = userProfile.userBio
@@ -287,7 +290,9 @@ extension UserProfileViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BestActivitiesCollectionViewCell", for: indexPath) as! BestActivitiesCollectionViewCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BestActivitiesCollectionViewCell", for: indexPath) as? BestActivitiesCollectionViewCell else {
+            return UICollectionViewCell()
+        }
         cell.configureCell()
         return cell
     }
@@ -297,7 +302,9 @@ extension UserProfileViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SectionHeaderView", for: indexPath) as! SectionHeaderView
+        guard let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SectionHeaderView", for: indexPath) as? SectionHeaderView else {
+            return UICollectionReusableView()
+        }
         sectionHeader.imageSection.image = UIImage(systemName: "trophy.fill")
         sectionHeader.labelSectionHeading.text = "Best Activities"
         return sectionHeader

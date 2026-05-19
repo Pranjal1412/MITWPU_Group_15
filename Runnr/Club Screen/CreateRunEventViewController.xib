@@ -11,19 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CreateRunEventViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
-                <outlet property="buttonCancel" destination="hX1-8b-3cF" id="Jy9-yh-pYd"/>
-                <outlet property="buttonSave" destination="aB8-Cq-71k" id="bL7-2y-f5k"/>
-                <outlet property="dateField" destination="tf-date" id="cnx-date"/>
-                <outlet property="endLocField" destination="tf-endloc" id="cnx-endloc"/>
-                <outlet property="endTimeField" destination="tf-end" id="cnx-endtime"/>
-                <outlet property="eventDescTextView" destination="tv-desc" id="cnx-desc"/>
-                <outlet property="eventNameField" destination="tf-name" id="cnx-name"/>
-                <outlet property="pollOption1Field" destination="tf-po1" id="cnx-po1"/>
-                <outlet property="pollOption2Field" destination="tf-po2" id="cnx-po2"/>
-                <outlet property="pollQuestionField" destination="tf-pq" id="cnx-pq"/>
-                <outlet property="sameStartSwitch" destination="sw-same" id="cnx-switch"/>
-                <outlet property="startLocField" destination="tf-startloc" id="cnx-startloc"/>
-                <outlet property="startTimeField" destination="tf-start" id="cnx-start"/>
+
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -41,7 +29,7 @@
                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <state key="normal" image="multiply" catalog="system"/>
                     <connections>
-                        <action selector="cancelTapped:" destination="-1" eventType="touchUpInside" id="qA2-H3-k7F"/>
+
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New Run Event" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fN2-2P-h4v">
@@ -60,7 +48,7 @@
                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <state key="normal" image="checkmark" catalog="system"/>
                     <connections>
-                        <action selector="postTapped:" destination="-1" eventType="touchUpInside" id="z1X-1H-8B2"/>
+
                     </connections>
                 </button>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="scroll-main">
@@ -140,7 +128,7 @@
                                     <rect key="frame" x="292" y="1.6666666666666572" width="63" height="28"/>
                                     <color key="onTintColor" name="AccentColor"/>
                                     <connections>
-                                        <action selector="sameStartToggled:" destination="-1" eventType="valueChanged" id="x-same"/>
+
                                     </connections>
                                 </switch>
                             </subviews>
@@ -153,43 +141,7 @@
                                 <constraint firstAttribute="height" constant="31" id="h-switch"/>
                             </constraints>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Poll" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lbl-poll">
-                            <rect key="frame" x="20" y="601.33333333333337" width="353" height="17"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
-                            <color key="textColor" systemColor="systemGrayColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Are you coming?" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tf-pq">
-                            <rect key="frame" x="20" y="633.33333333333337" width="353" height="40"/>
-                            <color key="backgroundColor" red="0.10980392160000001" green="0.10980392160000001" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="40" id="h-pq"/>
-                            </constraints>
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits"/>
-                        </textField>
-                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Yes" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tf-po1">
-                            <rect key="frame" x="20" y="688.33333333333337" width="353" height="40"/>
-                            <color key="backgroundColor" red="0.10980392160000001" green="0.10980392160000001" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="40" id="h-po1"/>
-                            </constraints>
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits"/>
-                        </textField>
-                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="No" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tf-po2">
-                            <rect key="frame" x="20" y="743.33333333333337" width="353" height="40"/>
-                            <color key="backgroundColor" red="0.10980392160000001" green="0.10980392160000001" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="40" id="h-po2"/>
-                            </constraints>
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits"/>
-                        </textField>
+
                         <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="stack-sched">
                             <rect key="frame" x="20" y="263" width="199" height="40"/>
                             <subviews>

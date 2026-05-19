@@ -42,10 +42,10 @@ struct UserCategory {
 }
 
 let runnrCategories: [UserCategory] = [
-    UserCategory(name: .Starter, goal: 50, badge: "badge 1"),
-    UserCategory(name: .Pacer, goal: 250, badge: "badge 2"),
-    UserCategory(name: .Achiever, goal: 600, badge: "badge 3"),
-    UserCategory(name: .Champion, goal: 1000, badge: "badge 4")]
+    UserCategory(name: .starter, goal: 50, badge: "badge 1"),
+    UserCategory(name: .pacer, goal: 250, badge: "badge 2"),
+    UserCategory(name: .achiever, goal: 600, badge: "badge 3"),
+    UserCategory(name: .champion, goal: 1000, badge: "badge 4")]
 
 
 struct Settings {

@@ -272,7 +272,9 @@ extension InsightsScreenViewController: JTACMonthViewDelegate, JTACMonthViewData
     
     //create and configure cell
     func calendar(_ calendar: JTACMonthView, cellForItemAt date: Date, cellState: CellState, indexPath: IndexPath) -> JTACDayCell {
-        let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: "dateCell", for: indexPath) as! CalendarDayCell
+        guard let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: "dateCell", for: indexPath) as? CalendarDayCell else {
+            return JTACDayCell()
+        }
         self.configureCell(view: cell, cellState: cellState, date: date)
         return cell
     }
@@ -323,10 +325,14 @@ extension InsightsScreenViewController: JTACMonthViewDelegate, JTACMonthViewData
 // MARK: - CollectionView Extension
 extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int { 4 }
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+       return 4
+    }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! InsightsScreenCollectionViewCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? InsightsScreenCollectionViewCell else {
+            return UICollectionViewCell()
+        }
         let latest = latestActivity
         let previous = previousActivity
         
@@ -578,14 +584,10 @@ class CalendarDayCell: JTACDayCell {
         setupUI()
     }
     
-    
     //init(coder:) is the initializer used when a view is loaded from a storyboard or XIB.
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-        /*
-         init(coder:) is required by UIKit for storyboard-based views, and we include it with fatalError only to satisfy the compiler and to crash loudly if someone accidentally uses the wrong initialization path.
-         */
     }
 
     private func setupUI() {

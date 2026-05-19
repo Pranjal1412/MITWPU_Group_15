@@ -23,7 +23,7 @@ class DuelChallengeCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var labelTrailingValue: UILabel!
     @IBOutlet var progressBarOverview: UIProgressView!
     @IBOutlet var yourProgressOverview: UILabel!
-    @IBOutlet var OpponentProgressOverview: UILabel!
+    @IBOutlet var opponentProgressOverview: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -62,7 +62,7 @@ class DuelChallengeCollectionViewCell: UICollectionViewCell {
         labelTrailingValue.isHidden.toggle()
         progressBarOverview.isHidden.toggle()
         yourProgressOverview.isHidden.toggle()
-        OpponentProgressOverview.isHidden.toggle()
+        opponentProgressOverview.isHidden.toggle()
 
         
         imageViewYou.layer.cornerRadius = imageViewYou.frame.height / 2

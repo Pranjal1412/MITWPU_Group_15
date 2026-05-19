@@ -28,13 +28,13 @@ enum PaceUnit: String, Codable {
 }
 
 enum RunnrCategory: String, Codable {
-    case Starter = "Starter"
-    case Pacer = "Pacer"
-    case Achiever = "Achiever"
-    case Champion = "Champion"
+    case starter = "Starter"
+    case pacer = "Pacer"
+    case achiever = "Achiever"
+    case champion = "Champion"
 }
 
-enum ClubRoleType : String, Codable{
+enum ClubRoleType: String, Codable {
     case owner = "Owner"
     case member = "Member"
 }

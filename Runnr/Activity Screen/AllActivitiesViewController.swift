@@ -5,6 +5,7 @@ class AllActivitiesViewController: UIViewController {
     
     @IBOutlet weak var tableViewMyActivity: UITableView!
     @IBOutlet weak var buttonCalendar: UIButton!
+    @IBOutlet weak var buttonBack: UIButton!
     
     let label = UILabel()
     
@@ -28,6 +29,8 @@ class AllActivitiesViewController: UIViewController {
         super.viewDidLoad()
         settingLabel()
         settingTableView()
+        
+        setGlassEffect(for: self.buttonBack, withImage: "chevron.left")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -101,6 +104,11 @@ class AllActivitiesViewController: UIViewController {
         
         present(calendarVC, animated: false)
     }
+    
+    @IBAction func backButtonPressed(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
 }
 
 // MARK: - TableView Settings
@@ -142,15 +150,11 @@ extension AllActivitiesViewController: UITableViewDelegate, UITableViewDataSourc
     
     // MARK: Cell
     
-    func tableView(
-        _ tableView: UITableView,
-        cellForRowAt indexPath: IndexPath
-    ) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(
-            withIdentifier: "cell",
-            for: indexPath
-        ) as! MyActivityTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? MyActivityTableViewCell else {
+            return UITableViewCell()
+        }
         cell.backgroundColor = .clear
         cell.contentView.backgroundColor = .clear
         
@@ -160,30 +164,19 @@ extension AllActivitiesViewController: UITableViewDelegate, UITableViewDataSourc
         return cell
     }
     
-    // MARK: Select
-    
-    func tableView(
-        _ tableView: UITableView,
-        didSelectRowAt indexPath: IndexPath
-    ) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let activity = myActivity[indexPath.section]
         
         Task {
             self.dataSource.setCurrentActivity(activity)
             
-            let routeCoordinates = await fetchActivityRouteCoordinates(
-                activity.activity!.activityID!
-            )
+            let routeCoordinates = await fetchActivityRouteCoordinates(activity.activity!.activityID!)
             self.dataSource.setCurrentActivityCoordinates(routeCoordinates)
             
-            let paceData = await fetchActivityPaceGraphData(
-                activity.activity!.activityID!
-            )
+            let paceData = await fetchActivityPaceGraphData(activity.activity!.activityID!)
             self.dataSource.setCurrentActivityPaceData(paceData)
             
-            let activityImages = await fetchActivityImages(
-                activity.activity!.activityID!
-            )
+            let activityImages = await fetchActivityImages(activity.activity!.activityID!)
             self.dataSource.setCurrentActivityImages(activityImages)
             
             await MainActor.run {

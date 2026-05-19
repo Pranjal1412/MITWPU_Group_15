@@ -23,7 +23,7 @@ class ActivitySaveViewController: UIViewController {
     @IBOutlet weak var imageViewMap: UIImageView!
     @IBOutlet weak var buttonAddPhotos: UIButton!
     @IBOutlet weak var switchIsActivityPublic: UISwitch!
-    @IBOutlet weak var textViewRemark: UITextView! 
+    @IBOutlet weak var textViewRemark: UITextView!
     @IBOutlet weak var textFieldActivityTitle: UITextField!
     @IBOutlet weak var viewRemark: UIView!
     @IBOutlet weak var labelRunSummary: UILabel!
@@ -46,7 +46,6 @@ class ActivitySaveViewController: UIViewController {
     var activityManager: UserActivityManager!
     private var dataSource = DataSource.shared
     private var userStats = DataSource.shared.getUserStats()
-    
     private var selectedImages: [UIImage] = []
     
     override func viewDidLoad() {
@@ -64,9 +63,7 @@ class ActivitySaveViewController: UIViewController {
 
         setGlassEffect(for: self.buttonSaveActivity, withImage: "checkmark")
         setGlassEffect(for: self.buttonDeleteActivity, withImage: "multiply")
-        
         scrollViewSaveActivity.contentSize.height = stackAddPhotos.frame.origin.y + stackAddPhotos.frame.size.height + 30
-
         collectionViewAddPhotos.register(UINib(nibName: "AddPhotosCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AddPhotosCollectionViewCell")
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         
@@ -98,8 +95,7 @@ class ActivitySaveViewController: UIViewController {
         
     }
     
-    @IBAction func SaveButtonPressed(_ sender: UIButton) {
-        
+    @IBAction func saveButtonPressed(_ sender: UIButton) {
         if textFieldActivityTitle.text == "" {
             textFieldActivityTitle.text = defaultActivityTitle()
         }
@@ -112,22 +108,19 @@ class ActivitySaveViewController: UIViewController {
         self.activityData.activityRemark = self.textViewRemark.text
         self.activityData.isPublic = self.switchIsActivityPublic.isOn
         
-        
         Task {
             await updateUserActivity(newActivity: activityData)
-            
             var finalImageURLs : [ActivityPhotos] = []
             
-            for i in 0..<selectedImages.count {
-                let url = await saveActivityImages(activityID: activityData.activityID!, with: selectedImages[i], seq: i) ?? ""
-                finalImageURLs.append(ActivityPhotos(activityID: activityData.activityID!, photoURL: url, sequence: i))
+            for index in 0..<selectedImages.count {
+                let url = await saveActivityImages(activityID: activityData.activityID!, with: selectedImages[index], seq: index) ?? ""
+                finalImageURLs.append(ActivityPhotos(activityID: activityData.activityID!, photoURL: url, sequence: index))
             }
             
             await insertActivityImages(finalImageURLs)
             
             self.userStats?.totalPointsEarned += (self.activityData.basePoints ?? 0) + (self.activityData.skillPoints ?? 0)
             self.userStats?.totalDistanceCovered += self.activityData.distanceCovered ?? 0
-
             self.dataSource.setCurrentActivity(ActivityDetails(userDetails: DataSource.shared.getUserProfile(), activity: activityData))
             self.dataSource.resetMyActivities()
             self.dataSource.setUserStats(self.userStats!)
@@ -138,7 +131,6 @@ class ActivitySaveViewController: UIViewController {
             let destinationVC = ActivityAnalysisViewController()
             destinationVC.activityData = ActivityDetails(userDetails: DataSource.shared.getUserProfile(), activity: activityData)
             destinationVC.isNewActivity = true
-            
             destinationVC.modalPresentationStyle = .fullScreen
             navigationController?.present(destinationVC, animated: true)
         }        
@@ -193,9 +185,9 @@ class ActivitySaveViewController: UIViewController {
         let formattedTime = formatTime(self.activityData.timeTakenSeconds!)
         labelTimeValue.text = String(format: "%02d : %02d : %02d", formattedTime.hour, formattedTime.minute, formattedTime.second)
         labelTimeValue.sizeToFit()
-        labelCalories.text = NSLocalizedString( "Calories", comment: "")
+        labelCalories.text = String(localized: "Calories")
 //        labelCaloriesValue.text = String(format: "%d", self.activityData.caloriesBurnt!) + " kcal"
-        labelDistance.text = NSLocalizedString( "Distance", comment: "")
+        labelDistance.text = String(localized: "Distance")
         labelDistanceValue.text = String(format: "%.2f", self.activityData.distanceCovered!) + " " + self.activityData.distanceUnit!.rawValue
         labelCaloriesValue.text = String(self.activityData.caloriesBurnt!) + " kcal"
         
@@ -366,7 +358,9 @@ extension ActivitySaveViewController : UICollectionViewDataSource, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddPhotosCollectionViewCell", for: indexPath) as! AddPhotosCollectionViewCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddPhotosCollectionViewCell", for: indexPath) as? AddPhotosCollectionViewCell else {
+            return UICollectionViewCell()
+        }
                 
         let image = self.selectedImages[indexPath.row]
         cell.buttonDeletePhoto.tag = indexPath.row

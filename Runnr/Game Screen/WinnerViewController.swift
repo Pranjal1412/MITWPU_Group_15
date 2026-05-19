@@ -2,7 +2,7 @@ import UIKit
 
 class WinnerViewController: UIViewController {
 
-    var rewardPoints: Int = 500
+    var rewardPoints: Int = 200
     var messageText: String = "You dominated the map and captured the most territories this month."
     
     // UI Elements
@@ -112,7 +112,14 @@ class WinnerViewController: UIViewController {
     }
 
     @objc private func claimTapped() {
-        // Here we could add points to user's profile and dismiss
+        if var stats = DataSource.shared.getUserStats() {
+            let userID = stats.userID
+            stats.totalPointsEarned += rewardPoints
+            DataSource.shared.setUserStats(stats)
+            Task {
+                await updateUserStats(userID: userID, newStats: stats)
+            }
+        }
         dismiss(animated: true, completion: nil)
     }
 }

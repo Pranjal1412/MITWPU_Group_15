@@ -21,23 +21,19 @@ class ActivityScreenViewController: UIViewController {
     
     private let label = UILabel()
     private let loader = UIActivityIndicatorView(style: .large)
-
-    var totalPoints: Int {
-        dataSource.getUserStats()?.totalPointsEarned ?? 0
-    }
-    
     private var dataSource = DataSource.shared
     
     private var userProfile: UserProfile {
         DataSource.shared.getUserProfile()
     }
-    
     private var myActivity: [ActivityDetails] {
         dataSource.getAllActivities()
     }
-    
     private var friendsActivity: [ActivityDetails] {
         dataSource.getFriendsActivityData()
+    }
+    var totalPoints: Int {
+        dataSource.getUserStats()?.totalPointsEarned ?? 0
     }
     
     override func viewDidLoad() {
@@ -99,55 +95,32 @@ class ActivityScreenViewController: UIViewController {
     
     func settingLabelStyle() {
         self.labelScreenTitle.text = String(localized: "Activities")
-        labelScreenTitle.sizeToFit()
+        self.labelScreenTitle.sizeToFit()
         
         let thinFont = UIFont(name: "SFProText-Thin", size: 25) ?? UIFont.systemFont(ofSize: 25, weight: .thin)
         let boldFont = UIFont(name: "SFProText-Bold", size: 25) ?? UIFont.boldSystemFont(ofSize: 25)
         
-        let recentText = NSAttributedString(
-            string: "Recent ",
-            attributes: [
-                .font: thinFont,
-                .foregroundColor: UIColor.white
-            ]
-        )
-        
-        let activitiesText = NSAttributedString(
-            string: "Activities",
-            attributes: [
-                .font: boldFont,
-                .foregroundColor: UIColor.white
-            ]
-        )
+        let recentText = NSAttributedString(string: "Recent ",
+                                            attributes: [.font: thinFont, .foregroundColor: UIColor.white])
+        let activitiesText = NSAttributedString(string: "Activities",
+                                                attributes: [.font: boldFont, .foregroundColor: UIColor.white])
 
         let fullText = NSMutableAttributedString()
         fullText.append(recentText)
         fullText.append(activitiesText)
 
-        let thinText = NSAttributedString(
-            string: "No ",
-            attributes: [
-                .font: thinFont,
-                .foregroundColor: UIColor.lightGray
-            ]
-        )
-        
-        let boldText = NSAttributedString(
-            string: "Activities",
-            attributes: [
-                .font: boldFont,
-                .foregroundColor: UIColor.lightGray
-            ]
-        )
+        let thinText = NSAttributedString(string: "No ",
+                                          attributes: [.font: thinFont, .foregroundColor: UIColor.lightGray])
+        let boldText = NSAttributedString(string: "Activities",
+                                          attributes: [.font: boldFont, .foregroundColor: UIColor.lightGray])
         
         let completeText = NSMutableAttributedString()
         completeText.append(thinText)
         completeText.append(boldText)
         
         labelRecentActivities.attributedText = fullText
-        label.attributedText = completeText
-        
         labelRecentActivities.sizeToFit()
+        label.attributedText = completeText
     }
     
     func settingTableView() {
@@ -160,11 +133,6 @@ class ActivityScreenViewController: UIViewController {
         tableViewMyActivity.rowHeight = UITableView.automaticDimension
         tableViewMyActivity.estimatedRowHeight = 500
         
-        tableViewMyActivity.register(
-            UINib(nibName: "MyActivityTableViewCell", bundle: nil),
-            forCellReuseIdentifier: "cell"
-        )
-        
         tableViewFriendsActivity.delegate = self
         tableViewFriendsActivity.dataSource = self
         tableViewFriendsActivity.showsVerticalScrollIndicator = false
@@ -173,40 +141,28 @@ class ActivityScreenViewController: UIViewController {
         tableViewFriendsActivity.rowHeight = UITableView.automaticDimension
         tableViewFriendsActivity.estimatedRowHeight = 500
         
-        tableViewFriendsActivity.register(
-            UINib(nibName: "FriendsActivityTableViewCell", bundle: nil),
-            forCellReuseIdentifier: "cellFriends"
-        )
+        tableViewMyActivity.register(UINib(nibName: "MyActivityTableViewCell", bundle: nil),
+                                     forCellReuseIdentifier: "cell")
+        tableViewFriendsActivity.register(UINib(nibName: "FriendsActivityTableViewCell", bundle: nil),
+                                          forCellReuseIdentifier: "cellFriends")
     }
 
     func settingSegmentedControl() {
         segmentedControlActivityScreen.layer.borderWidth = 0.5
         segmentedControlActivityScreen.layer.borderColor = UIColor.accent.cgColor
-        
-        segmentedControlActivityScreen.setTitleTextAttributes(
-            [.foregroundColor: UIColor.black],
-            for: .selected
-        )
+        segmentedControlActivityScreen.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
     }
     
     func updateScreenElements() {
-        
         let isFriendsSegment = segmentedControlActivityScreen.selectedSegmentIndex == 1
-        
-        let isEmpty = isFriendsSegment
-        ? friendsActivity.isEmpty
-        : myActivity.isEmpty
-        
+        let isEmpty = isFriendsSegment ? friendsActivity.isEmpty : myActivity.isEmpty
         label.isHidden = !isEmpty
         
         if isFriendsSegment {
-            
             stackRecentActivities.isHidden = true
             tableViewMyActivity.isHidden = true
             tableViewFriendsActivity.isHidden = isEmpty
-            
         } else {
-            
             stackRecentActivities.isHidden = isEmpty
             tableViewMyActivity.isHidden = isEmpty
             tableViewFriendsActivity.isHidden = true
@@ -216,32 +172,17 @@ class ActivityScreenViewController: UIViewController {
         tableViewFriendsActivity.reloadData()
     }
 
-    // MARK: - Helper
-
-    private func fetchAndPrepare(
-        activity: ActivityDetails,
-        completion: @escaping () -> Void
-    ) {
+    private func fetchAndPrepare(activity: ActivityDetails, completion: @escaping () -> Void) {
         Task {
-            
             self.dataSource.setCurrentActivity(activity)
             
-            let routeCoordinates = await fetchActivityRouteCoordinates(
-                activity.activity!.activityID!
-            )
-            
+            let routeCoordinates = await fetchActivityRouteCoordinates(activity.activity!.activityID!)
             self.dataSource.setCurrentActivityCoordinates(routeCoordinates)
             
-            let paceData = await fetchActivityPaceGraphData(
-                activity.activity!.activityID!
-            )
-            
+            let paceData = await fetchActivityPaceGraphData(activity.activity!.activityID!)
             self.dataSource.setCurrentActivityPaceData(paceData)
             
-            let activityImages = await fetchActivityImages(
-                activity.activity!.activityID!
-            )
-            
+            let activityImages = await fetchActivityImages(activity.activity!.activityID!)
             self.dataSource.setCurrentActivityImages(activityImages)
             
             await MainActor.run {
@@ -251,8 +192,8 @@ class ActivityScreenViewController: UIViewController {
     }
     
     @IBAction func chevronToAllActivities(_ sender: UIButton) {
-        let vc = AllActivitiesViewController()
-        navigationController?.pushViewController(vc, animated: true)
+        let destinationVC = AllActivitiesViewController()
+        navigationController?.pushViewController(destinationVC, animated: true)
     }
     
     @IBAction func segmentChangeToFriends(_ sender: UISegmentedControl) {
@@ -269,11 +210,7 @@ class ActivityScreenViewController: UIViewController {
 // MARK: - TableView
 
 extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    // MARK: Sections
-    
     func numberOfSections(in tableView: UITableView) -> Int {
-        
         if tableView == tableViewMyActivity {
             return min(myActivity.count, 3)
         }
@@ -285,13 +222,9 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
         return 0
     }
     
-    // MARK: Rows
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
-    
-    // MARK: Footer spacing
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 25
@@ -303,49 +236,34 @@ extension ActivityScreenViewController: UITableViewDelegate, UITableViewDataSour
         return view
     }
 
-    // MARK: Cell
-    
-    func tableView(
-        _ tableView: UITableView,
-        cellForRowAt indexPath: IndexPath
-    ) -> UITableViewCell {
-        
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == tableViewMyActivity {
-            
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: "cell",
-                for: indexPath
-            ) as! MyActivityTableViewCell
-            
+
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? MyActivityTableViewCell else {
+                return UITableViewCell()
+            }
+
             cell.backgroundColor = .clear
             cell.contentView.backgroundColor = .clear
-            
             cell.configure(with: myActivity[indexPath.section].activity!)
-            
+
             return cell
-            
+
         } else {
-            
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: "cellFriends",
-                for: indexPath
-            ) as! FriendsActivityTableViewCell
-            
+
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "cellFriends", for: indexPath) as? FriendsActivityTableViewCell else {
+                return UITableViewCell()
+            }
+
             cell.backgroundColor = .clear
             cell.contentView.backgroundColor = .clear
-            
             cell.configure(with: friendsActivity[indexPath.section])
-            
+
             return cell
         }
     }
 
-    // MARK: Select
-    
-    func tableView(
-        _ tableView: UITableView,
-        didSelectRowAt indexPath: IndexPath
-    ) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if tableView == tableViewMyActivity {
             

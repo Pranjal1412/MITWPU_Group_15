@@ -11,7 +11,7 @@ import Kingfisher
 class FriendListTableViewCell: UITableViewCell {
 
     @IBOutlet weak var imageProfileFriends: UIImageView!
-    @IBOutlet var FriendName: UILabel!
+    @IBOutlet var friendName: UILabel!
     @IBOutlet var buttonFollow: UIButton!
     
     var isFollowing = false
@@ -28,7 +28,7 @@ class FriendListTableViewCell: UITableViewCell {
     }
 
     func configureCell(with data: UserProfile) {
-        FriendName.text = data.userName
+        friendName.text = data.userName
         
         if let url = URL(string: data.userProfileImageURL!) {
             self.imageProfileFriends.kf.setImage(with: url)

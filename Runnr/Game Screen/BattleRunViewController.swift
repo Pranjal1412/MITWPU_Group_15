@@ -496,4 +496,3 @@ class BattleRunViewController: UIViewController {
             game.tiles[name] = TileState(id: name, owner: .none)
         }
     }
-

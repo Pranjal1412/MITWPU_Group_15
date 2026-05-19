@@ -175,7 +175,6 @@
             </constraints>
             <size key="customSize" width="389" height="149"/>
             <connections>
-                <outlet property="OpponentProgressOverview" destination="leZ-h4-PyL" id="gRZ-xr-CkR"/>
                 <outlet property="imageViewOpponent" destination="1aD-pb-pgI" id="frV-w7-iAt"/>
                 <outlet property="imageViewYou" destination="0tS-CY-nwR" id="LPo-8q-hLY"/>
                 <outlet property="labelCriteria" destination="Ose-Yn-wXF" id="tQw-TV-uvf"/>
@@ -186,6 +185,7 @@
                 <outlet property="labelWeeklyClash" destination="VQt-Az-138" id="SVA-vm-tPs"/>
                 <outlet property="labelYourName" destination="xeb-l2-XMD" id="kuF-K7-lhW"/>
                 <outlet property="opponentProgress" destination="29o-x3-38V" id="1GC-ch-5pt"/>
+                <outlet property="opponentProgressOverview" destination="leZ-h4-PyL" id="gRZ-xr-CkR"/>
                 <outlet property="progressBar" destination="HIA-zy-EkN" id="unQ-UV-XVc"/>
                 <outlet property="progressBarOverview" destination="3sw-RX-ZLj" id="8B1-R5-ueK"/>
                 <outlet property="trailingLabel" destination="xwO-kr-a1X" id="QJU-FW-hrm"/>

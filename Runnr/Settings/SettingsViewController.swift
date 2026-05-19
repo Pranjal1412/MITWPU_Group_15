@@ -36,13 +36,13 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsTableViewCell", for: indexPath) as! SettingsTableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsTableViewCell", for: indexPath) as? SettingsTableViewCell else {
+            return UITableViewCell()
+        }
         
         let section = indexPath.section
         let cellData = settingsArray[section]![indexPath.row]
-        
         cell.configureCell(with: cellData)
-        
         return cell
     }
     

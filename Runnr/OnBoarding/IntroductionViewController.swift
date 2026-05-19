@@ -59,12 +59,12 @@ extension IntroductionViewController : UIScrollViewDelegate {
         scrollView.contentSize.width = scrollView.frame.width * 3
         scrollView.contentSize.height = scrollView.frame.height
         
-            for i in 0..<3 {
-                let page = UIView(frame: CGRect(x: CGFloat(i) * scrollView.frame.width, y: 0,
+            for index in 0..<3 {
+                let page = UIView(frame: CGRect(x: CGFloat(index) * scrollView.frame.width, y: 0,
                                                 width: scrollView.frame.width, height: scrollView.frame.height))
                 page.backgroundColor = .yellow
                 
-                switch i {
+                switch index {
                 case 0:
                     self.viewScreenOne.frame = CGRect(x: 0, y: 0, width: page.frame.width, height: page.frame.height)
                     page.addSubview(viewScreenOne)

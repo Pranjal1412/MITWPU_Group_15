@@ -1,7 +1,7 @@
 import UIKit
 import Kingfisher
 
-class ClubProfileViewController: UIViewController, UpdateClubProfile {
+class ClubProfileViewController: UIViewController, UpdateClubProfile, CreateRunEventDelegate {
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var collectionViewClubEvents: UICollectionView!
@@ -16,38 +16,34 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
     @IBOutlet var tableViewLeaderBoard: UITableView!
     @IBOutlet var viewPosts: UIButton!
     @IBOutlet var viewLeaderBoard: UIButton!
-    //@IBOutlet var viewTagged: UIButton!
     @IBOutlet var buttonBack: UIButton!
     @IBOutlet weak var imageClubBanner: UIImageView!
     @IBOutlet weak var viewPostLine: UIView!
     @IBOutlet weak var viewLeaderboardLine: UIView!
-    //@IBOutlet weak var viewTaggedLine: UIView!
     @IBOutlet var leaveClubButton: UIButton!
     @IBOutlet var createNewEventButton: UIButton!
     @IBOutlet weak var viewBackgroundOwner: UIView!
     @IBOutlet weak var imageOwnerProfile: UIImageView!
     @IBOutlet weak var labelClubOwnerName: UILabel!
-    
+    @IBOutlet weak var collectionviewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var labelDummyText: UILabel!
+        
+    var isMyClub: Bool = false
+    var clubProfileData: Club?
+    var myClubProfileData: ClubRoleAndData?
+
     private let noEventsLabel = UILabel()
     private let noEventsIconView = UIImageView()
     private let noEventsStack = UIStackView()
-    
-    var isMyClub: Bool = false
-    var clubProfileData: Club?
-    var myClubProfileData : ClubRoleAndData?
-    
     private var clubOwnerDetails: UserProfile?
     private var clubEvents: [ClubEvents] = []
+    private var pollSummaries: [UUID: EventPollSummary] = [:]
     private var userProfileData = DataSource.shared.getUserProfile()
-    
-    //    var likedPosts: [Bool] = [false, false, false]
-    //    private var allPosts: [ClubPostDetail] = []
-
+    private var dataSource = DataSource.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        showPosts()
         buildEmptyStateView()
         settingUpProfileScreenElements()
         settingCollectionAndTableView()
@@ -58,76 +54,93 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         setGlassEffect(for: self.buttonBack, withImage: "chevron.backward")
         buttonBack.layer.cornerRadius = 20
         
-        scrollView.contentInsetAdjustmentBehavior = .never
         scrollView.showsVerticalScrollIndicator = false
-        
-        
-        self.leaveClubButton.layer.cornerRadius = self.leaveClubButton.frame.height / 2
-        
-        // Setup Create New Post Button
+
         createNewEventButton.layer.cornerRadius = createNewEventButton.frame.height / 2
         createNewEventButton.addTarget(self, action: #selector(presentCreateEvent), for: .touchUpInside)
         
-        viewPosts.addTarget(self, action: #selector(postsButtonPressed(_:)), for: .touchUpInside)
+        viewPosts.addTarget(self, action: #selector(createEventButtonPressed(_:)), for: .touchUpInside)
         viewLeaderBoard.addTarget(self, action: #selector(leaderboardButtonPressed(_:)), for: .touchUpInside)
-        
         viewPostLine.backgroundColor = .accent
         viewLeaderboardLine.backgroundColor = .white
         
         if isMyClub && myClubProfileData?.role == .owner {
             self.createNewEventButton.isHidden = false
-        }
-        else {
+        } else {
             self.createNewEventButton.isHidden = true
 
         }
     }
 
     @objc func presentCreateEvent() {
-        let vc = CreateRunEventViewController()
-        vc.clubDetails = myClubProfileData?.club
-        self.present(vc, animated: true)
+        let destinationVC = CreateRunEventViewController()
+        destinationVC.delegate = self
+        destinationVC.clubDetails = myClubProfileData?.club
+        self.present(destinationVC, animated: true)
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        
+        super.viewWillAppear(animated)
+
         Task {
             if isMyClub {
-//                allPosts = await fetchAllClubPosts(for: self.myClubProfileData!.club.clubID!) ?? []
                 self.clubEvents = await fetchClubEvents(clubID: self.myClubProfileData!.club.clubID!) ?? []
-            }
-            else {
-//                allPosts = await fetchAllClubPosts(for: self.clubProfileData!.clubID!) ?? []
+            } else {
                 self.clubEvents = await fetchClubEvents(clubID: self.clubProfileData!.clubID!) ?? []
             }
-            
-            collectionViewClubEvents.isHidden = false
-            collectionViewClubEvents.reloadData()
-            noEventsStack.isHidden = !clubEvents.isEmpty
-        }
+            dataSource.setClubEvents(self.clubEvents)
 
+            // Fetch poll summaries for all events in parallel
+            let currentUserID = userProfileData.userID ?? UUID()
+            var summaries: [UUID: EventPollSummary] = [:]
+
+            await withTaskGroup(of: (UUID, EventPollSummary)?.self) { group in
+                for event in self.clubEvents {
+                    if let eventID = event.eventID {
+                        group.addTask {
+                            let summary = await fetchPollSummary(eventID: eventID, userID: currentUserID)
+                            return (eventID, summary)
+                        }
+                    }
+                }
+                for await result in group {
+                    if let (id, summary) = result {
+                        summaries[id] = summary
+                    }
+                }
+            }
+
+            self.pollSummaries = summaries
+            DispatchQueue.main.async {
+                self.collectionViewClubEvents.reloadData()
+                self.collectionViewClubEvents.layoutIfNeeded()
+                self.updateCollectionViewHeight()
+                self.noEventsStack.isHidden = !self.clubEvents.isEmpty
+            }
+        }
     }
     
     func updatedClubData(club: Club) {
         self.myClubProfileData?.club = club
+        self.labelClubName.text = myClubProfileData?.club.clubName
+        self.labelSportType.text = myClubProfileData?.club.clubSport?.rawValue
+        self.clubDescription.text = myClubProfileData?.club.clubDescription
+        self.clubMotive.text = myClubProfileData?.club.clubMotive
         
-        labelClubName.text = myClubProfileData?.club.clubName
-        labelSportType.text = myClubProfileData?.club.clubSport.rawValue
-        clubDescription.text = myClubProfileData?.club.clubDescription
-        clubMotive.text = myClubProfileData?.club.clubMotive
-        
-        if let url = URL(string: (myClubProfileData!.club.clubProfileImageURL!)) {
+        if let url = URL(string: (myClubProfileData!.club.clubProfileImageURL ?? "")) {
             self.clubProfileImage.kf.setImage(with: url)
+        } else {
+            self.clubProfileImage.image = UIImage(named: "Club")
         }
 
-        if let url = URL(string: (myClubProfileData!.club.clubBannerImageURL!)) {
+        if let url = URL(string: (myClubProfileData!.club.clubBannerImageURL ?? "")) {
             self.imageClubBanner.kf.setImage(with: url)
+        } else {
+            self.imageClubBanner.image = UIImage(named: "ClubBanner")
         }
-
     }
     
     func buildEmptyStateView() {
-        // Setup empty state (icon + label)
         noEventsIconView.image = UIImage(systemName: "calendar.badge.exclamationmark")
         noEventsIconView.tintColor = .tertiaryLabel
         noEventsIconView.contentMode = .scaleAspectFit
@@ -161,13 +174,12 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
             noEventsStack.topAnchor.constraint(equalTo: collectionViewClubEvents.topAnchor, constant: 40),
             noEventsStack.widthAnchor.constraint(lessThanOrEqualTo: scrollView.widthAnchor, constant: -40)
         ])
-
     }
     
     func settingCollectionAndTableView() {
         collectionViewClubEvents.delegate = self
         collectionViewClubEvents.dataSource = self
-
+        collectionViewClubEvents.isScrollEnabled = false
         let nib = UINib(nibName: "EventCollectionViewCell", bundle: nil)
         collectionViewClubEvents.register(nib, forCellWithReuseIdentifier: "cell")
         
@@ -179,33 +191,52 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         
         tableViewLeaderBoard.dataSource = self
         tableViewLeaderBoard.delegate = self
-        tableViewLeaderBoard.register(UINib(nibName: "ClubLeaderboardTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
+        tableViewLeaderBoard.register(UINib(nibName: "ClubLeaderboardTableViewCell", bundle: nil),
+                                      forCellReuseIdentifier: "cell")
 
     }
     
+    func updateCollectionViewHeight() {
+        collectionViewClubEvents.collectionViewLayout.invalidateLayout()
+        collectionViewClubEvents.layoutIfNeeded()
+        let height = collectionViewClubEvents.collectionViewLayout.collectionViewContentSize.height
+        collectionviewHeightConstraint.constant = height
+        view.layoutIfNeeded()
+    }
+
     func settingUpProfileScreenElements() {
         if isMyClub {
             labelClubName.text = myClubProfileData?.club.clubName
-            labelSportType.text = myClubProfileData?.club.clubSport.rawValue
-            labelNumberOfMembers.text = String(myClubProfileData!.club.memberCount) + " Members"
+            labelSportType.text = myClubProfileData?.club.clubSport?.rawValue
+            labelNumberOfMembers.text = String(myClubProfileData!.club.memberCount ?? 0) + " Members"
             clubDescription.text = myClubProfileData?.club.clubDescription
             clubMotive.text = myClubProfileData?.club.clubMotive
             
-            if let url = URL(string: (myClubProfileData!.club.clubProfileImageURL!)) {
-                self.clubProfileImage.kf.setImage(with: url)
+            if clubDescription.text == "" {
+                self.labelDummyText.text = ""
+            } else {
+                self.labelDummyText.text = "  "
             }
             
-            if let url = URL(string: (myClubProfileData!.club.clubBannerImageURL!)) {
-                self.imageClubBanner.kf.setImage(with: url)
+            if let url = URL(string: (myClubProfileData!.club.clubProfileImageURL ?? "")) {
+                self.clubProfileImage.kf.setImage(with: url)
+            } else {
+                self.clubProfileImage.image = UIImage(named: "Club")
             }
+            
+            if let url = URL(string: (myClubProfileData!.club.clubBannerImageURL ?? "")) {
+                self.imageClubBanner.kf.setImage(with: url)
+            } else {
+                self.imageClubBanner.image = UIImage(named: "ClubBanner")
+            }
+
             
             if myClubProfileData?.role == .owner {
                 joinNowButton.setTitle("Edit Club Profile", for: .normal)
-                leaveClubButton.setTitle("Delete", for: .normal)
-            }
-            else {
+                setGlassEffect(for: self.leaveClubButton, withImage: "trash")
+            } else {
                 joinNowButton.setTitle("Joined", for: .normal)
-                leaveClubButton.setTitle("Leave", for: .normal)
+                setGlassEffect(for: self.leaveClubButton, withImage: "door.left.hand.open")
             }
             
             joinNowButton.setTitleColor(.accent, for: .normal)
@@ -222,18 +253,20 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
                     if let url = URL(string: (clubOwner.userProfileImageURL ?? "")) {
                         self.imageOwnerProfile.kf.setImage(with: url)
                     }
-                    
                 }
             }
-        }
-        else {
+        } else {
             
-            if let url = URL(string: (clubProfileData!.clubProfileImageURL!)) {
+            if let url = URL(string: (clubProfileData!.clubProfileImageURL ?? "")) {
                 self.clubProfileImage.kf.setImage(with: url)
+            } else {
+                self.clubProfileImage.image = UIImage(named: "Club")
             }
             
-            if let url = URL(string: (clubProfileData!.clubBannerImageURL!)) {
+            if let url = URL(string: (clubProfileData!.clubBannerImageURL ?? "")) {
                 self.imageClubBanner.kf.setImage(with: url)
+            } else {
+                self.imageClubBanner.image = UIImage(named: "ClubBanner")
             }
             
             Task {
@@ -243,28 +276,30 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
                     if let url = URL(string: (clubOwner.userProfileImageURL ?? "")) {
                         self.imageOwnerProfile.kf.setImage(with: url)
                     }
-                    
                 }
             }
 
             labelClubName.text = clubProfileData?.clubName
-            labelSportType.text = clubProfileData?.clubSport.rawValue
-            labelNumberOfMembers.text = String(clubProfileData!.memberCount) + " Members"
+            labelSportType.text = clubProfileData?.clubSport?.rawValue
+            labelNumberOfMembers.text = String(clubProfileData!.memberCount ?? 0) + " Members"
             clubDescription.text = clubProfileData?.clubDescription
             clubMotive.text = clubProfileData?.clubMotive
             
-            joinNowButton.setTitle("Join Now", for: .normal)
+            if clubDescription.text == "" {
+                self.labelDummyText.text = ""
+            } else {
+                self.labelDummyText.text = "  "
+            }
             
-            joinNowButton.setTitleColor(.black, for: .normal)
-            joinNowButton.backgroundColor = .accent
-            
-            leaveClubButton.isHidden = true
+            self.joinNowButton.setTitle("Join Now", for: .normal)
+            self.joinNowButton.setTitleColor(.black, for: .normal)
+            self.joinNowButton.backgroundColor = .accent
+            self.leaveClubButton.isHidden = true
         }
         
-        clubProfileImage.layer.cornerRadius = 15
-        clubProfileImage.clipsToBounds = true
-        
-        joinNowButton.layer.cornerRadius = joinNowButton.frame.height / 2.0
+        self.clubProfileImage.layer.cornerRadius = 15
+        self.clubProfileImage.clipsToBounds = true
+        self.joinNowButton.layer.cornerRadius = joinNowButton.frame.height / 2.0
         self.viewBackgroundOwner.layer.cornerRadius = 15
         self.imageOwnerProfile.layer.cornerRadius = imageOwnerProfile.frame.height / 2.0
     }
@@ -273,7 +308,6 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         showTagged()
         sender.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         viewPostLine.backgroundColor = .white
-        //viewTaggedLine.backgroundColor = .accent
         viewLeaderboardLine.backgroundColor = .white
     }
     
@@ -281,51 +315,40 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         showLeaderBoard()
         sender.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         viewPostLine.backgroundColor = .white
-        //viewTaggedLine.backgroundColor = .white
         viewLeaderboardLine.backgroundColor = .accent
-
     }
     
-    @IBAction func postsButtonPressed(_ sender: UIButton) {
-        showPosts()
+    @IBAction func createEventButtonPressed(_ sender: UIButton) {
+        showEvents()
         sender.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         viewPostLine.backgroundColor = .accent
-        //viewTaggedLine.backgroundColor = .white
         viewLeaderboardLine.backgroundColor = .white
-
     }
     
     @IBAction func editClubProfilePressed(_ sender: UIButton) {
-       
         Task {
-            
             if joinNowButton.titleLabel?.text == "Edit Club Profile" {
                 let destinationVC = ClubSettingsViewController()
-//                destinationVC.modalPresentationStyle = .fullScreen
                 destinationVC.delegate = self
                 destinationVC.clubProfileData = myClubProfileData?.club
                 self.present(destinationVC, animated: true)
-            }
-            
-            else if joinNowButton.titleLabel?.text == "Join Now" {
+            } else if joinNowButton.titleLabel?.text == "Join Now" {
                 if let clubID = self.clubProfileData?.clubID {
                     await insertNewClubMember(newMember: ClubMemberRole(userID: self.userProfileData.userID, clubID: clubID, role: .member))
                     
                     var updatedClub = self.clubProfileData!
-                    updatedClub.memberCount += 1
+                    updatedClub.memberCount! += 1
                     await updateClubInfo(updatedData: updatedClub)
                     
-                    joinNowButton.setTitle("Joined", for: .normal)
-                    joinNowButton.setTitleColor(.accent, for: .normal)
-                    joinNowButton.backgroundColor = .black
-                    joinNowButton.layer.borderColor = UIColor.accent.cgColor
-                    joinNowButton.layer.borderWidth = 1
+                    self.joinNowButton.setTitle("Joined", for: .normal)
+                    self.joinNowButton.setTitleColor(.accent, for: .normal)
+                    self.joinNowButton.backgroundColor = .black
+                    self.joinNowButton.layer.borderColor = UIColor.accent.cgColor
+                    self.joinNowButton.layer.borderWidth = 1
                 }
             }
         }
-        
     }
-    
     
     @IBAction func leaveClubPressed(_ sender: UIButton) {
         let isOwner = myClubProfileData?.role == .owner
@@ -339,8 +362,8 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
             Task {
                 if isOwner {
                     // Delete Club
-                    if let clubID = self.myClubProfileData?.club.clubID {
-                        await deleteClub(clubID: clubID)
+                    if let club = self.myClubProfileData?.club {
+                        await deleteClub(clubDetails: club)
                     }
                 } else {
                     // Leave Club
@@ -348,9 +371,8 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
                        let clubID = self.myClubProfileData?.club.clubID {
                         
                         await removeClubMember(userID: userID, clubID: clubID)
-                        
                         var updatedClub = self.myClubProfileData!.club
-                        updatedClub.memberCount = max(0, updatedClub.memberCount - 1)
+                        updatedClub.memberCount = max(0, updatedClub.memberCount ?? 0 - 1)
                         await updateClubInfo(updatedData: updatedClub)
                     }
                 }
@@ -379,39 +401,28 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         self.present(destinationVC, animated: true)
     }
     
-    func showPosts() {
+    func showEvents() {
         collectionViewClubEvents.isHidden = false
         tableViewLeaderBoard.isHidden = true
         createNewEventButton.isHidden = false
-        
-        collectionViewClubEvents.isScrollEnabled = false
-        collectionViewClubEvents.reloadData()
-        noEventsStack.isHidden = !clubEvents.isEmpty
-        
-        let targetHeight: CGFloat = 580
-        collectionViewClubEvents.constraints.forEach { if $0.firstAttribute == .height { collectionViewClubEvents.removeConstraint($0) } }
-        collectionViewClubEvents.heightAnchor.constraint(equalToConstant: targetHeight).isActive = true
-        
-        scrollView.contentSize.height = self.collectionViewClubEvents.frame.origin.y + targetHeight + 50
-    }
 
+        collectionViewClubEvents.reloadData()
+        updateCollectionViewHeight()
+        noEventsStack.isHidden = !clubEvents.isEmpty
+    }
+    
     func showLeaderBoard() {
         collectionViewClubEvents.isHidden = true
         tableViewLeaderBoard.isHidden = false
         createNewEventButton.isHidden = true
-        
-        // Ensure table view doesn't scroll inside the main scroll view
+
         tableViewLeaderBoard.isScrollEnabled = false
         tableViewLeaderBoard.reloadData()
         noEventsStack.isHidden = true
-        
         tableViewLeaderBoard.layoutIfNeeded()
         let tableHeight = max(tableViewLeaderBoard.contentSize.height, 350)
-        
-        // Set dynamic height constraint to match contents
         tableViewLeaderBoard.constraints.forEach { if $0.firstAttribute == .height { tableViewLeaderBoard.removeConstraint($0) } }
         tableViewLeaderBoard.heightAnchor.constraint(equalToConstant: tableHeight).isActive = true
-        
         scrollView.contentSize.height = self.collectionViewClubEvents.frame.origin.y + tableHeight + 50
     }
 
@@ -421,9 +432,16 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile {
         createNewEventButton.isHidden = false
         noEventsStack.isHidden = !clubEvents.isEmpty
     }
+    
+    func didCreateEvent() {
+        self.clubEvents = dataSource.getClubEvents()
+        DispatchQueue.main.async {
+            self.collectionViewClubEvents.reloadData()
+            self.updateCollectionViewHeight()
+            self.noEventsStack.isHidden = !self.clubEvents.isEmpty
+        }
+    }
 }
-
-
 // MARK: - TableView Settings
 
 extension ClubProfileViewController: UITableViewDataSource, UITableViewDelegate {
@@ -432,8 +450,9 @@ extension ClubProfileViewController: UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ClubLeaderboardTableViewCell
-        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? ClubLeaderboardTableViewCell else {
+            return UITableViewCell()
+        }
         cell.configureCell(with: leaderBoardArray[indexPath.row])
         return cell
     }
@@ -454,19 +473,77 @@ extension ClubProfileViewController: UICollectionViewDelegate, UICollectionViewD
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! EventCollectionViewCell
-        cell.configureCell(event: clubEvents[indexPath.row])
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? EventCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        let event = clubEvents[indexPath.row]
+        let summary = event.eventID.flatMap { pollSummaries[$0] }
+        cell.configureCell(event: event, pollSummary: summary)
+        cell.delegate = self
         return cell
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-
-        return CGSize(width: collectionView.frame.width, height: 370)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: 570)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
     }
 }
 
+// MARK: - Poll Delegate
+extension ClubProfileViewController: EventPollCellDelegate {
+
+    func pollCell(_ cell: EventCollectionViewCell,
+                  didVote voteType: PollVoteType,
+                  for eventID: UUID) {
+
+        let userID = userProfileData.userID ?? UUID()
+
+        // --- Optimistic local update ---
+        var summary = pollSummaries[eventID] ??
+            EventPollSummary(joiningCount: 0, maybeCount: 0, notGoingCount: 0, myVote: nil)
+
+        if summary.myVote == voteType {
+            // Toggle off: user tapped their current choice again
+            switch voteType {
+            case .joining:  summary.joiningCount  = max(0, summary.joiningCount  - 1)
+            case .maybe:    summary.maybeCount    = max(0, summary.maybeCount    - 1)
+            case .notGoing: summary.notGoingCount = max(0, summary.notGoingCount - 1)
+            }
+            summary.myVote = nil
+        } else {
+            // Switch or new vote: decrement old count first
+            if let old = summary.myVote {
+                switch old {
+                case .joining:  summary.joiningCount  = max(0, summary.joiningCount  - 1)
+                case .maybe:    summary.maybeCount    = max(0, summary.maybeCount    - 1)
+                case .notGoing: summary.notGoingCount = max(0, summary.notGoingCount - 1)
+                }
+            }
+            switch voteType {
+            case .joining:  summary.joiningCount  += 1
+            case .maybe:    summary.maybeCount    += 1
+            case .notGoing: summary.notGoingCount += 1
+            }
+            summary.myVote = voteType
+        }
+
+        pollSummaries[eventID] = summary
+
+        // Reload just that cell immediately so counts and highlight refresh
+        if let indexPath = collectionViewClubEvents.indexPath(for: cell) {
+            collectionViewClubEvents.reloadItems(at: [indexPath])
+        }
+
+        // --- Persist to Supabase in background ---
+        let wasToggleOff = (summary.myVote == nil)
+        Task {
+            if wasToggleOff {
+                await deletePollVote(eventID: eventID, userID: userID)
+            } else {
+                await upsertPollVote(eventID: eventID, userID: userID, voteType: voteType)
+            }
+        }
+    }
+}

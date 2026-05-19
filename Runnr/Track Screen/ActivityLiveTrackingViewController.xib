@@ -143,7 +143,7 @@
                         <imageReference key="image" image="square.fill" catalog="system" symbolScale="large"/>
                     </state>
                     <connections>
-                        <action selector="EndRunButtonPressed:" destination="-1" eventType="touchUpInside" id="Jwk-Vj-Dd5"/>
+                        <action selector="endRunButtonPressed:" destination="-1" eventType="touchUpInside" id="Jwk-Vj-Dd5"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pWn-id-S1M" userLabel="pauseRun">

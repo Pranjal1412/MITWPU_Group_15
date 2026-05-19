@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 class LeaderBoardViewController: UIViewController {
 
     @IBOutlet var totalKmLine: UIView!
@@ -15,9 +14,9 @@ class LeaderBoardViewController: UIViewController {
     @IBOutlet var pointLine: UIView!
     @IBOutlet var labelValueTitle: UILabel!
     @IBOutlet var tableView: UITableView!
-    @IBOutlet var GoldRunner: UIImageView!
-    @IBOutlet var SilverRunner: UIImageView!
-    @IBOutlet var BronzeRunner: UIImageView!
+    @IBOutlet var goldRunner: UIImageView!
+    @IBOutlet var silverRunner: UIImageView!
+    @IBOutlet var bronzeRunner: UIImageView!
     @IBOutlet var backButton: UIButton!
     
     var users: [LeaderboardUser] = leaderboardUsersArray
@@ -26,20 +25,19 @@ class LeaderBoardViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
                 
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.showsVerticalScrollIndicator = false
-        
-        tableView.register(UINib(nibName: "LeaderboardListTableViewCell", bundle: nil), forCellReuseIdentifier: "LeaderboardListTableViewCell")
-        
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        self.tableView.showsVerticalScrollIndicator = false
+        self.tableView.register(UINib(nibName: "LeaderboardListTableViewCell", bundle: nil),
+                                forCellReuseIdentifier: "LeaderboardListTableViewCell")
         setMode(.kilometer)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        makeCircular(GoldRunner)
-        makeCircular(SilverRunner)
-        makeCircular(BronzeRunner)
+        makeCircular(goldRunner)
+        makeCircular(silverRunner)
+        makeCircular(bronzeRunner)
     }
     
     private func makeCircular(_ imageView: UIImageView) {
@@ -95,19 +93,18 @@ class LeaderBoardViewController: UIViewController {
 
 }
 
-//MARK: - TableView Settings
+// MARK: - TableView Settings
 
-extension LeaderBoardViewController : UITableViewDelegate, UITableViewDataSource {
+extension LeaderBoardViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         users.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        let cell = tableView.dequeueReusableCell(
-            withIdentifier: "LeaderboardListTableViewCell",
-            for: indexPath
-        ) as! LeaderboardListTableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "LeaderboardListTableViewCell", for: indexPath) as? LeaderboardListTableViewCell else {
+            return UITableViewCell()
+        }
 
         let user = users[indexPath.row]
 
@@ -129,7 +126,4 @@ extension LeaderBoardViewController : UITableViewDelegate, UITableViewDataSource
 
         return cell
     }
-
-    
-    
 }

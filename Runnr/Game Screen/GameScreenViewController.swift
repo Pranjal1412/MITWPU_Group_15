@@ -119,11 +119,12 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         if indexPath.section == 0 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "seasonalGameCell", for: indexPath) as! SeasonalGameCollectionViewCell
-            cell.refreshData()
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "seasonalGameCell", for: indexPath) as? SeasonalGameCollectionViewCell else {
+                return UICollectionViewCell()
+            }
             
+            cell.refreshData()
             cell.onInviteFriendTapped = { [weak self] in
                 guard let self = self else { return }
                 let inviteVC = InviteFriendViewController()
@@ -144,18 +145,18 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             
             cell.onGameEnded = { [weak self] isWinner in
                 guard let self = self, isWinner else { return }
-                
                 let winnerVC = WinnerViewController()
                 winnerVC.modalPresentationStyle = .overFullScreen
                 winnerVC.modalTransitionStyle = .crossDissolve
                 self.present(winnerVC, animated: true)
             }
-            
             return cell
-        } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "soloChallengeCell", for: indexPath) as! SoloChallengeCollectionViewCell
-            let soloChallenges = dataSource.getSoloChallenges()
             
+        } else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "soloChallengeCell", for: indexPath) as? SoloChallengeCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            let soloChallenges = dataSource.getSoloChallenges()
             if !soloChallenges.isEmpty {
                 cell.configureCell(challenge: soloChallenges[indexPath.row])
             }
@@ -164,9 +165,7 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
         if indexPath.section == 0 {
-            
             guard let cell = collectionView.cellForItem(at: indexPath) as? SeasonalGameCollectionViewCell else { return }
 
             if !cell.buttonInviteFriend.isEnabled {
@@ -182,19 +181,17 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
                 }
             }
         }
-        
         // Battle Run is only accessible after the invited player accepts — no tap-to-open here
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "GameHeaderView", for: indexPath) as! GameSectionHeaderView
-        
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "GameHeaderView", for: indexPath) as? GameSectionHeaderView else {
+            return UICollectionReusableView()
+        }
         // Assuming 0 = Seasonal/Battle and 1 = Solo for your header titles
         header.configureHeader(for: 1, tableSection: indexPath.section)
         header.buttonTapHandler = {
             let destinationVC = GameDescriptionViewController(nibName: "GameDescriptionViewController", bundle: nil)
-//            destinationVC.modalPresentationStyle = .overFullScreen
-//            destinationVC.modalTransitionStyle = .crossDissolve
             self.present(destinationVC, animated: true)
         }
         
@@ -213,7 +210,6 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = collectionView.frame.width
-        
         if indexPath.section == 0 {
             return CGSize(width: width, height: 335) // Height for Seasonal
         } else {
@@ -225,7 +221,6 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
         return 15
     }
 }
-
 
 //    func setupSegmentedControl() {
 //        segmentedControlGame.layer.borderColor = UIColor.accent.cgColor

@@ -16,6 +16,7 @@ class ActivitySetGoalViewController: UIViewController {
     @IBOutlet weak var labelAudioFeedback: UILabel!
     @IBOutlet weak var labelDistance: UILabel!
     @IBOutlet weak var labelTime: UILabel!
+    @IBOutlet weak var labelActivity: UILabel!
     @IBOutlet weak var buttonCancel: UIButton!
     
     @IBOutlet weak var viewBackgroungActivity: UIView!
@@ -51,7 +52,13 @@ class ActivitySetGoalViewController: UIViewController {
             self.buttonActivity.setTitleColor(.accent, for: .normal)
         }
         self.registerNotifications()
+        self.labelAudioFeedback.text = String(localized: "Audio Feedback")
         self.labelAudioFeedback.sizeToFit()
+        
+        self.labelTime.text = String(localized: "Time")
+        self.labelTime.sizeToFit()
+        
+        self.labelActivity.text = String(localized: "Activity")
         
         setGlassEffect(for: self.buttonCancel, withImage: "multiply")
         
@@ -65,8 +72,8 @@ class ActivitySetGoalViewController: UIViewController {
         let thinFont = UIFont(name: "SF-Pro-Display-Thin", size: 33) ?? UIFont.systemFont(ofSize: 33, weight: .thin)
         let boldFont = UIFont(name: "SF-Pro-Display-Bold", size: 33) ?? UIFont.boldSystemFont(ofSize: 33)
         
-        let thinText = NSAttributedString(string: "Set Your ", attributes: [.font: thinFont , .foregroundColor: UIColor.white])
-        let boldText = NSAttributedString(string: "Goal", attributes: [.font: boldFont , .foregroundColor: UIColor.white])
+        let thinText = NSAttributedString(string: String(localized: "Set Your "), attributes: [.font: thinFont , .foregroundColor: UIColor.white])
+        let boldText = NSAttributedString(string: String(localized: "Goal"), attributes: [.font: boldFont , .foregroundColor: UIColor.white])
         
         let attributedString = NSMutableAttributedString()
         attributedString.append(thinText)
@@ -78,8 +85,8 @@ class ActivitySetGoalViewController: UIViewController {
         let lightFont = UIFont(name: "SF-Pro-Display-Bold", size: 13) ?? UIFont.systemFont(ofSize: 13, weight: .light)
         
         
-        let regularText = NSAttributedString(string: "Distance ", attributes: [.font: regularFont , .foregroundColor: UIColor.white])
-        let lightText = NSAttributedString(string: "(Km)", attributes: [.font: lightFont , .foregroundColor: UIColor.white])
+        let regularText = NSAttributedString(string: String(localized: "Distance"), attributes: [.font: regularFont , .foregroundColor: UIColor.white])
+        let lightText = NSAttributedString(string: " (Km)", attributes: [.font: lightFont , .foregroundColor: UIColor.white])
         
         let fullDistancetext = NSMutableAttributedString()
         fullDistancetext.append(regularText)

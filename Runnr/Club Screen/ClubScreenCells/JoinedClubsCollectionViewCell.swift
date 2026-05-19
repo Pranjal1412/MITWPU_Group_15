@@ -10,10 +10,10 @@ import Kingfisher
 
 class JoinedClubsCollectionViewCell: UICollectionViewCell {
 
-    @IBOutlet var ClubProfileImage: UIImageView!
-    @IBOutlet var ClubName: UILabel!
-    @IBOutlet var NumberOfRunners: UILabel!
-    @IBOutlet var Sport: UILabel!
+    @IBOutlet var clubProfileImage: UIImageView!
+    @IBOutlet var labelClubName: UILabel!
+    @IBOutlet var labelNumberOfRunners: UILabel!
+    @IBOutlet var labelSportType: UILabel!
     @IBOutlet var joinedClubView: UIView!
     @IBOutlet weak var imageSportType: UIImageView!
     
@@ -22,22 +22,25 @@ class JoinedClubsCollectionViewCell: UICollectionViewCell {
         joinedClubView.layer.cornerRadius = 10
         joinedClubView.clipsToBounds = true
         
-        ClubProfileImage.layer.cornerRadius = 10
-        ClubProfileImage.clipsToBounds = true
+        clubProfileImage.layer.cornerRadius = 10
+        clubProfileImage.clipsToBounds = true
     }
             
     func configureCell(with data: ClubRoleAndData) {
-        ClubName.text = data.club.clubName
-        Sport.text = data.club.clubSport.rawValue
+        labelClubName.text = data.club.clubName
+        labelSportType.text = data.club.clubSport?.rawValue
         
-        if let url = URL(string: data.club.clubProfileImageURL!) {
-            self.ClubProfileImage.kf.setImage(with: url)
+        if let url = URL(string: data.club.clubProfileImageURL ?? "") {
+            self.clubProfileImage.kf.setImage(with: url)
+        }
+        else {
+            self.clubProfileImage.image = UIImage(named: "Club")
         }
         
-        let formattedNumberOfMembers = formatMemberCount(data.club.memberCount)
-        NumberOfRunners.text = String(formattedNumberOfMembers)
+        let formattedNumberOfMembers = formatMemberCount(data.club.memberCount ?? 0)
+        labelNumberOfRunners.text = String(formattedNumberOfMembers)
 
-        imageSportType.image = UIImage(systemName: setSportImage(for: data.club.clubSport.rawValue))
+        imageSportType.image = UIImage(systemName: setSportImage(for: data.club.clubSport!.rawValue))
         //ClubProfileImage.image = data.clubProfileImg
     }
    

@@ -294,7 +294,9 @@ extension ClubScreenViewController: UICollectionViewDataSource, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == collectionViewExplore {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ExploreScreenCollectionViewCell
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? ExploreScreenCollectionViewCell else {
+                return UICollectionViewCell()
+            }
             let club = isSearchingClubs ? filteredClubs[indexPath.row] : clubsArray[indexPath.row]
             cell.configureCell(with: club)
             
@@ -302,7 +304,7 @@ extension ClubScreenViewController: UICollectionViewDataSource, UICollectionView
                 guard let self = self else { return }
                 
                 var joinedClub = club
-                joinedClub.memberCount += 1
+                joinedClub.memberCount! += 1
                 let myClubData = ClubRoleAndData(role: .member, club: joinedClub)
                 
                 let destinationVC = ClubProfileViewController()
@@ -337,7 +339,9 @@ extension ClubScreenViewController: UICollectionViewDataSource, UICollectionView
             }
             return cell
         } else {
-            let cell = collectionViewJoinedClub.dequeueReusableCell(withReuseIdentifier: "JoinedClubsCollectionViewCell", for: indexPath) as! JoinedClubsCollectionViewCell
+            guard let cell = collectionViewJoinedClub.dequeueReusableCell(withReuseIdentifier: "JoinedClubsCollectionViewCell", for: indexPath) as? JoinedClubsCollectionViewCell else {
+                return UICollectionViewCell()
+            }
             let myClub = isSearchingMyClubs ? filteredMyClubs[indexPath.row] : myClubArray[indexPath.row]
             cell.configureCell(with: myClub)
             return cell
@@ -350,7 +354,7 @@ extension ClubScreenViewController: UICollectionViewDataSource, UICollectionView
             return CGSize(width: width, height: 211)
         } else {
             let width = (collectionViewExplore.frame.width - 80) / 2
-            return CGSize(width: width, height: 246)
+            return CGSize(width: width, height: 211)
         }
     }
     
@@ -393,11 +397,16 @@ extension ClubScreenViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let source = isSearchingFriends ? filteredFriends : Array(unfollowedUserData.prefix(10))
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! FriendListTableViewCell
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as? FriendListTableViewCell else {
+            return UITableViewCell()
+        }
         cell.configureCell(with: source[indexPath.row])
         cell.followAction = { isFollowing in
             if isFollowing {
-                let alert = UIAlertController(title: "Unfollow", message: "Are you sure you want to unfollow this user?", preferredStyle: .alert)
+                let alert = UIAlertController(title: "Unfollow",
+                                              message: "Are you sure you want to unfollow this user?",
+                                              preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
                 alert.addAction(UIAlertAction(title: "Unfollow", style: .destructive) { _ in })
                 self.present(alert, animated: true)
@@ -445,7 +454,7 @@ extension ClubScreenViewController: UISearchBarDelegate {
             } else {
                 isSearchingClubs = true
                 filteredClubs = clubsArray.filter {
-                    $0.clubName.lowercased().contains(query)
+                    $0.clubName!.lowercased().contains(query)
                 }
             }
             collectionViewExplore.reloadData()
@@ -459,7 +468,7 @@ extension ClubScreenViewController: UISearchBarDelegate {
             } else {
                 isSearchingMyClubs = true
                 filteredMyClubs = myClubArray.filter {
-                    $0.club.clubName.lowercased().contains(query)
+                    $0.club.clubName!.lowercased().contains(query)
                 }
             }
             collectionViewJoinedClub.reloadData()

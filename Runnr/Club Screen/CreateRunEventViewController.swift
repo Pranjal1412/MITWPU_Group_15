@@ -1,6 +1,10 @@
 import UIKit
 import MapKit
 
+protocol CreateRunEventDelegate {
+    func didCreateEvent()
+}
+
 class CreateRunEventViewController: UIViewController {
 
     public var club: Club?
@@ -10,22 +14,7 @@ class CreateRunEventViewController: UIViewController {
         set { club = newValue }
     }
 
-    // IBOutlets kept for compatibility but not required for layout
-    @IBOutlet weak var eventNameField: UITextField!
-    @IBOutlet weak var eventDescTextView: UITextView!
-    @IBOutlet weak var dateField: UITextField!
-    @IBOutlet weak var startTimeField: UITextField!
-    @IBOutlet weak var endTimeField: UITextField!
-    @IBOutlet weak var startLocField: UITextField!
-    @IBOutlet weak var endLocField: UITextField!
-    @IBOutlet weak var sameStartSwitch: UISwitch!
-    
-    @IBOutlet weak var pollQuestionField: UITextField!
-    @IBOutlet weak var pollOption1Field: UITextField!
-    @IBOutlet weak var pollOption2Field: UITextField!
 
-    @IBOutlet weak var buttonSave: UIButton!
-    @IBOutlet weak var buttonCancel: UIButton!
 
     // Header bar
     private let headerView = UIView()
@@ -40,7 +29,6 @@ class CreateRunEventViewController: UIViewController {
     private let detailsCard = UIView()
     private let scheduleCard = UIView()
     private let locationCard = UIView()
-    private let pollCard = UIView()
 
     // Inputs (programmatic)
     private let nameField = UITextField()
@@ -54,9 +42,6 @@ class CreateRunEventViewController: UIViewController {
     private let endLocationField = UITextField()
     private let sameAsStartSwitch = UISwitch()
 
-    private let pollQuestion = UITextField()
-    private let pollOption1 = UITextField()
-    private let pollOption2 = UITextField()
 
     private let postButton = UIButton(type: .system)
     private let cancelButton = UIButton(type: .system)
@@ -69,7 +54,10 @@ class CreateRunEventViewController: UIViewController {
     // Suggestions UI
     private let suggestionsTableView = UITableView()
     private var suggestionsHeightConstraint: NSLayoutConstraint?
-
+    private var datasource = DataSource.shared
+    
+    var delegate: CreateRunEventDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -89,23 +77,14 @@ class CreateRunEventViewController: UIViewController {
         buildDetailsSection()
         buildScheduleSection()
         buildLocationSection()
-        buildPollSection()
+
         buildFooterButtons()
 
-        // Bridge programmatic controls to IBOutlets if XIB connections exist
-        eventNameField = eventNameField ?? nameField
-        eventDescTextView = eventDescTextView ?? descTextView
-        dateField = dateField ?? makeTextFieldForPicker(datePicker)
-        startTimeField = startTimeField ?? makeTextFieldForPicker(startTimePicker)
-        endTimeField = endTimeField ?? makeTextFieldForPicker(endTimePicker)
-        startLocField = startLocField ?? startLocationField
-        endLocField = endLocField ?? endLocationField
-        sameStartSwitch = sameStartSwitch ?? sameAsStartSwitch
-        pollQuestionField = pollQuestionField ?? pollQuestion
-        pollOption1Field = pollOption1Field ?? pollOption1
-        pollOption2Field = pollOption2Field ?? pollOption2
-        buttonSave = buttonSave ?? postButton
-        buttonCancel = buttonCancel ?? cancelButton
+        // Wire validation handlers for time pickers
+        startTimePicker.addTarget(self, action: #selector(handleStartTimeChanged), for: .valueChanged)
+        endTimePicker.addTarget(self, action: #selector(handleEndTimeChanged), for: .valueChanged)
+
+
 
         sameAsStartSwitch.addTarget(self, action: #selector(sameStartToggled(_:)), for: .valueChanged)
         
@@ -116,6 +95,11 @@ class CreateRunEventViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
+
+        normalizeEndTimeIfNeeded()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
     private func buildHeaderBar() {
@@ -266,21 +250,27 @@ class CreateRunEventViewController: UIViewController {
         endTimePicker.preferredDatePickerStyle = .compact
         endTimePicker.datePickerMode = .time
 
+        // Validation: disallow past dates and use 5-minute intervals
+        let startOfToday = Calendar.current.startOfDay(for: Date())
+        datePicker.minimumDate = startOfToday
+        startTimePicker.minuteInterval = 5
+        endTimePicker.minuteInterval = 5
+
         let dateRow = row(title: "Date", trailing: datePicker)
         let startRow = row(title: "Start Time", trailing: startTimePicker)
         let endRow = row(title: "End Time", trailing: endTimePicker)
 
-        let v = UIStackView(arrangedSubviews: [dateRow, divider(), startRow, divider(), endRow])
-        v.axis = .vertical
-        v.spacing = 0
+        let vStack = UIStackView(arrangedSubviews: [dateRow, divider(), startRow, divider(), endRow])
+        vStack.axis = .vertical
+        vStack.spacing = 0
 
-        scheduleCard.addSubview(v)
-        v.translatesAutoresizingMaskIntoConstraints = false
+        scheduleCard.addSubview(vStack)
+        vStack.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            v.topAnchor.constraint(equalTo: scheduleCard.topAnchor),
-            v.leadingAnchor.constraint(equalTo: scheduleCard.leadingAnchor),
-            v.trailingAnchor.constraint(equalTo: scheduleCard.trailingAnchor),
-            v.bottomAnchor.constraint(equalTo: scheduleCard.bottomAnchor)
+            vStack.topAnchor.constraint(equalTo: scheduleCard.topAnchor),
+            vStack.leadingAnchor.constraint(equalTo: scheduleCard.leadingAnchor),
+            vStack.trailingAnchor.constraint(equalTo: scheduleCard.trailingAnchor),
+            vStack.bottomAnchor.constraint(equalTo: scheduleCard.bottomAnchor)
         ])
 
         scheduleCard.isOpaque = true
@@ -317,17 +307,17 @@ class CreateRunEventViewController: UIViewController {
         locationCard.addSubview(endLocationField)
         locationCard.addSubview(sameRow)
 
-        let v = UIStackView(arrangedSubviews: [startLocationField, endLocationField, sameRow])
-        v.axis = .vertical
-        v.spacing = 10
+        let vStack = UIStackView(arrangedSubviews: [startLocationField, endLocationField, sameRow])
+        vStack.axis = .vertical
+        vStack.spacing = 10
 
-        locationCard.addSubview(v)
-        v.translatesAutoresizingMaskIntoConstraints = false
+        locationCard.addSubview(vStack)
+        vStack.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            v.topAnchor.constraint(equalTo: locationCard.topAnchor, constant: 14),
-            v.leadingAnchor.constraint(equalTo: locationCard.leadingAnchor, constant: 14),
-            v.trailingAnchor.constraint(equalTo: locationCard.trailingAnchor, constant: -14),
-            v.bottomAnchor.constraint(equalTo: locationCard.bottomAnchor, constant: -14)
+            vStack.topAnchor.constraint(equalTo: locationCard.topAnchor, constant: 14),
+            vStack.leadingAnchor.constraint(equalTo: locationCard.leadingAnchor, constant: 14),
+            vStack.trailingAnchor.constraint(equalTo: locationCard.trailingAnchor, constant: -14),
+            vStack.bottomAnchor.constraint(equalTo: locationCard.bottomAnchor, constant: -14)
         ])
 
         contentStack.addArrangedSubview(header)
@@ -339,53 +329,12 @@ class CreateRunEventViewController: UIViewController {
         locationCard.isOpaque = true
     }
 
-    private func buildPollSection() {
-        let header = sectionHeader(title: "Poll")
-        styleCard(pollCard)
-
-        styleTextField(pollQuestion, placeholder: "Are you coming?")
-        styleTextField(pollOption1, placeholder: "Yes")
-        styleTextField(pollOption2, placeholder: "No")
-
-        let v = UIStackView(arrangedSubviews: [pollQuestion, pollOption1, pollOption2])
-        v.axis = .vertical
-        v.spacing = 10
-
-        pollCard.addSubview(v)
-        v.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            v.topAnchor.constraint(equalTo: pollCard.topAnchor, constant: 14),
-            v.leadingAnchor.constraint(equalTo: pollCard.leadingAnchor, constant: 14),
-            v.trailingAnchor.constraint(equalTo: pollCard.trailingAnchor, constant: -14),
-            v.bottomAnchor.constraint(equalTo: pollCard.bottomAnchor, constant: -14)
-        ])
-
-        // Add pencil icon on right side of poll header
-        let pollHeaderRow = UIStackView()
-        pollHeaderRow.axis = .horizontal
-        pollHeaderRow.alignment = .center
-        pollHeaderRow.distribution = .fill
-        pollHeaderRow.spacing = 8
-
-        let editIcon = UIImageView(image: UIImage(systemName: "pencil"))
-        editIcon.tintColor = .white
-        editIcon.setContentHuggingPriority(.required, for: .horizontal)
-
-        pollHeaderRow.addArrangedSubview(header)
-        pollHeaderRow.addArrangedSubview(editIcon)
-
-        contentStack.addArrangedSubview(pollHeaderRow)
-        contentStack.setCustomSpacing(6, after: pollHeaderRow)
-        contentStack.addArrangedSubview(pollCard)
-
-        pollCard.isOpaque = true
-    }
 
     private func buildFooterButtons() {
-        let h = UIStackView()
-        h.axis = .horizontal
-        h.spacing = 12
-        h.distribution = .fillEqually
+        let hStack = UIStackView()
+        hStack.axis = .horizontal
+        hStack.spacing = 12
+        hStack.distribution = .fillEqually
 
         cancelButton.setTitle("Cancel", for: .normal)
         cancelButton.setTitleColor(.white, for: .normal)
@@ -401,12 +350,12 @@ class CreateRunEventViewController: UIViewController {
         postButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
         postButton.addTarget(self, action: #selector(postTapped(_:)), for: .touchUpInside)
 
-        h.addArrangedSubview(cancelButton)
-        h.addArrangedSubview(postButton)
+        hStack.addArrangedSubview(cancelButton)
+        hStack.addArrangedSubview(postButton)
 
         postButton.addTarget(self, action: #selector(createNewEvent), for: .touchUpInside)
         
-        contentStack.addArrangedSubview(h)
+        contentStack.addArrangedSubview(hStack)
     }
     
     private func formatTime12Hour(_ date: Date) -> String {
@@ -418,6 +367,14 @@ class CreateRunEventViewController: UIViewController {
     }
 
     @objc func createNewEvent() {
+        // Final validation: clamp date and ensure end > start
+        let todayStart = Calendar.current.startOfDay(for: Date())
+        let selectedDayStart = Calendar.current.startOfDay(for: datePicker.date)
+        if selectedDayStart < todayStart {
+            datePicker.setDate(todayStart, animated: true)
+        }
+        normalizeEndTimeIfNeeded()
+
         let startTimeString = formatTime12Hour(startTimePicker.date)
         let endTimeString = formatTime12Hour(endTimePicker.date)
         
@@ -433,7 +390,36 @@ class CreateRunEventViewController: UIViewController {
         
         Task {
             await insertNewClubEvent(event: newEvent)
+            var eventsArray = datasource.getClubEvents()
+            eventsArray.append(newEvent)
+            datasource.setClubEvents(eventsArray)
+            
+            delegate?.didCreateEvent()
+            
+            self.dismiss(animated: true)
         }
+    }
+
+    // MARK: - Validation Helpers
+    private func normalizeEndTimeIfNeeded() {
+        let start = startTimePicker.date
+        var end = endTimePicker.date
+        if end <= start {
+            if let adjusted = Calendar.current.date(byAdding: .minute, value: 30, to: start) {
+                end = adjusted
+            } else {
+                end = start.addingTimeInterval(30 * 60)
+            }
+            endTimePicker.setDate(end, animated: false)
+        }
+    }
+
+    @objc private func handleStartTimeChanged() {
+        normalizeEndTimeIfNeeded()
+    }
+
+    @objc private func handleEndTimeChanged() {
+        normalizeEndTimeIfNeeded()
     }
 
     // MARK: - Helpers
@@ -480,20 +466,20 @@ class CreateRunEventViewController: UIViewController {
     }
 
     private func divider() -> UIView {
-        let v = UIView()
-        v.backgroundColor = UIColor(white: 0.2, alpha: 1)
-        v.translatesAutoresizingMaskIntoConstraints = false
+        let vStack = UIView()
+        vStack.backgroundColor = UIColor(white: 0.2, alpha: 1)
+        vStack.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            v.heightAnchor.constraint(equalToConstant: 1)
+            vStack.heightAnchor.constraint(equalToConstant: 1)
         ])
-        return v
+        return vStack
     }
 
-    private func styleCard(_ v: UIView) {
-        v.backgroundColor = UIColor(red: 0.12, green: 0.12, blue: 0.12, alpha: 1.0)
-        v.layer.cornerRadius = 16
-        v.layer.masksToBounds = true
-        v.isOpaque = true
+    private func styleCard(_ vStack: UIView) {
+        vStack.backgroundColor = UIColor(red: 0.12, green: 0.12, blue: 0.12, alpha: 1.0)
+        vStack.layer.cornerRadius = 16
+        vStack.layer.masksToBounds = true
+        vStack.isOpaque = true
     }
 
     private func styleTextField(_ tf: UITextField, placeholder: String? = nil) {
@@ -516,13 +502,13 @@ class CreateRunEventViewController: UIViewController {
     }
 
     // MARK: - Actions
-    @IBAction func cancelTapped(_ sender: UIButton) {
+    @objc func cancelTapped(_ sender: UIButton) {
         dismiss(animated: true)
     }
 
-    @IBAction func postTapped(_ sender: UIButton) { }
+    @objc func postTapped(_ sender: UIButton) { }
 
-    @IBAction func sameStartToggled(_ sender: UISwitch) {
+    @objc func sameStartToggled(_ sender: UISwitch) {
         if sender.isOn {
             endLocationField.text = startLocationField.text
         }
@@ -543,6 +529,52 @@ class CreateRunEventViewController: UIViewController {
     
     @objc private func beginEditing(_ sender: UITextField) {
         // no-op, ensures control events are wired and field becomes first responder
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
+              let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval,
+              let curveRaw = userInfo[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt else { return }
+
+        // Convert keyboard frame to this view's coordinate system
+        let kbEndFrame = view.convert(keyboardFrame, from: nil)
+        let bottomInset = max(0, view.bounds.maxY - kbEndFrame.origin.y)
+
+        // Apply insets so content is fully scrollable above the keyboard
+        var insets = scrollView.contentInset
+        insets.bottom = bottomInset + 20 // extra padding for clarity
+
+        let indicators = UIEdgeInsets(top: scrollView.scrollIndicatorInsets.top,
+                                      left: scrollView.scrollIndicatorInsets.left,
+                                      bottom: bottomInset,
+                                      right: scrollView.scrollIndicatorInsets.right)
+
+        let options = UIView.AnimationOptions(rawValue: curveRaw << 16)
+        UIView.animate(withDuration: duration, delay: 0, options: options, animations: {
+            self.scrollView.contentInset = insets
+            self.scrollView.scrollIndicatorInsets = indicators
+            self.view.layoutIfNeeded()
+        }, completion: { _ in
+            // Ensure the currently editing field is visible
+            if let firstResponder = self.view.findFirstResponder() {
+                let targetFrame = firstResponder.convert(firstResponder.bounds, to: self.scrollView)
+                self.scrollView.scrollRectToVisible(targetFrame.insetBy(dx: 0, dy: -12), animated: true)
+            }
+        })
+    }
+
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval,
+              let curveRaw = userInfo[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt else { return }
+
+        let options = UIView.AnimationOptions(rawValue: curveRaw << 16)
+        UIView.animate(withDuration: duration, delay: 0, options: options, animations: {
+            self.scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+            self.scrollView.scrollIndicatorInsets = .zero
+            self.view.layoutIfNeeded()
+        })
     }
 }
 
@@ -663,3 +695,12 @@ extension CreateRunEventViewController: MKLocalSearchCompleterDelegate, UITableV
     }
 }
 
+private extension UIView {
+    func findFirstResponder() -> UIView? {
+        if isFirstResponder { return self }
+        for sub in subviews {
+            if let found = sub.findFirstResponder() { return found }
+        }
+        return nil
+    }
+}

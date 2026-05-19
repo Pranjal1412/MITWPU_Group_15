@@ -33,8 +33,8 @@ class MapManager {
 
         
         do {
-           if let MapstyleURL = Bundle.main.url(forResource: "GoogleMapStyle", withExtension: "json") {
-               mapView.mapStyle = try GMSMapStyle(contentsOfFileURL: MapstyleURL)
+           if let mapstyleURL = Bundle.main.url(forResource: "GoogleMapStyle", withExtension: "json") {
+               mapView.mapStyle = try GMSMapStyle(contentsOfFileURL: mapstyleURL)
            } else {
                NSLog("Unable to find GoogleMapStyle.json")
            }
@@ -82,18 +82,3 @@ class MapManager {
 //        endMarker.map = mapView
 //    }
 }
-
-// MARK: - to be deleted
-
-//        let systemOS = UIDevice.current.systemVersion
-//
-//        if systemOS < "26" {
-//            mapView = GMSMapView.map(withFrame: CGRect(x: leadingInset, y: topOffset, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - (topOffset + bottomInset)) , camera: camera)
-//        }
-//
-//        else {
-//            mapView = GMSMapView.map(withFrame: CGRect(x: leadingInset, y: topOffset, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - topOffset), camera: camera)
-//
-//        }
-
-//        mapView = GMSMapView.map(withFrame: CGRect(x: leadingInset, y: topOffset, width: UIScreen.main.bounds.width - (leadingInset + trailingInset), height: UIScreen.main.bounds.height - (topOffset + bottomInset)) , camera: camera)

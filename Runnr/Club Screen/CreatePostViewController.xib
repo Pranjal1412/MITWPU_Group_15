@@ -258,6 +258,14 @@
                     <exclude reference="j8g-7U-F1B"/>
                     <exclude reference="m9N-qO-6vV"/>
                 </mask>
+                <mask key="constraints">
+                    <exclude reference="7nL-p9-9dL"/>
+                    <exclude reference="IyV-A0-0oO"/>
+                    <exclude reference="N2Z-E4-4sR"/>
+                    <exclude reference="O3a-F5-5tS"/>
+                    <exclude reference="R6d-I8-8wV"/>
+                    <exclude reference="CsP-u4-4iL"/>
+                </mask>
             </variation>
             <point key="canvasLocation" x="61.068702290076331" y="-11.267605633802818"/>
         </view>

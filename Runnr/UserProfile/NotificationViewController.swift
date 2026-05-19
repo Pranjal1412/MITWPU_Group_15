@@ -139,7 +139,9 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationChallengeTableViewCell", for: indexPath) as! NotificationChallengeTableViewCell
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationChallengeTableViewCell", for: indexPath) as? NotificationChallengeTableViewCell else {
+                return UITableViewCell()
+            }
             let notification = battleNotifications[indexPath.row]
             cell.configure(with: notification)
             
@@ -175,7 +177,9 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
             let notification = generalNotifications[indexPath.row]
             
             if notification.type == "friend_joined" {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationFollowTableViewCell", for: indexPath) as! NotificationFollowTableViewCell
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationFollowTableViewCell", for: indexPath) as? NotificationFollowTableViewCell else {
+                    return UITableViewCell()
+                }
                 
                 var name = "Someone"
                 var imageURL: String? = nil
@@ -191,7 +195,9 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
                 return cell
                 
             } else {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationClubEventTableViewCell", for: indexPath) as! NotificationClubEventTableViewCell
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationClubEventTableViewCell", for: indexPath) as? NotificationClubEventTableViewCell else {
+                    return UITableViewCell()
+                }
                 cell.configure(with: notification)
                 return cell
             }

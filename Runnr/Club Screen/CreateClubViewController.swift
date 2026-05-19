@@ -30,6 +30,7 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
     var currentPage = 1
     var clubDraft : Club?
     var userProfile = DataSource.shared.getUserProfile()
+    private var isCLubProfileChanged: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,13 +84,15 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
                             let clubData = await insertNewClubData(newClub: clubDraft) ?? self.clubDraft!
                             clubDraft = clubData
                             
-                            if let newURL = await saveClubProfileImage(clubID: clubDraft.clubID!, with: self.clubProfileImage.image!) {
-                                clubDraft.clubProfileImageURL = newURL
+                            if self.isCLubProfileChanged == true {
+                                if let newURL = await saveClubProfileImage(clubID: clubDraft.clubID!, with: self.clubProfileImage.image!) {
+                                    clubDraft.clubProfileImageURL = newURL
+                                }
                             }
-                            
-                            if let newURL = await saveClubBannerImage(clubID: (clubDraft.clubID)!, with: UIImage(named: "Club")!) {
-                                clubDraft.clubBannerImageURL = newURL
-                            }
+
+//                            if let newURL = await saveClubBannerImage(clubID: (clubDraft.clubID)!, with: UIImage(named: "Club")!) {
+//                                clubDraft.clubBannerImageURL = newURL
+//                            }
                             
                             await updateClubInfo(updatedData: clubDraft)
                             
@@ -289,7 +292,9 @@ extension CreateClubViewController: UICollectionViewDataSource, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if self.currentPage == 1 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SelectActivityCollectionViewCell", for: indexPath) as! SelectActivityCollectionViewCell
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SelectActivityCollectionViewCell", for: indexPath) as? SelectActivityCollectionViewCell else {
+                return UICollectionViewCell()
+            }
             
             cell.configureCell(with: clubActivityOptions[indexPath.row])
             cell.viewCellBackground.layer.cornerRadius = 10.0
@@ -309,7 +314,9 @@ extension CreateClubViewController: UICollectionViewDataSource, UICollectionView
             return cell
         }
         else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ClubDescriptionCollectionViewCell", for: indexPath) as! ClubDescriptionCollectionViewCell
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ClubDescriptionCollectionViewCell", for: indexPath) as? ClubDescriptionCollectionViewCell else {
+                return UICollectionViewCell()
+            }
             
             cell.labelDescription.text = clubDescriptions[indexPath.row]
             cell.viewCellBackground.layer.cornerRadius = 10.0
@@ -436,6 +443,7 @@ extension CreateClubViewController: PHPickerViewControllerDelegate, UIImagePicke
                     DispatchQueue.main.async {
                         if let image = image as? UIImage {
                             self.clubProfileImage.image = image
+                            self.isCLubProfileChanged = true
                         }
                     }
                 }
@@ -449,6 +457,7 @@ extension CreateClubViewController: PHPickerViewControllerDelegate, UIImagePicke
 //MARK: - Not working
         if let image = info[.originalImage] as? UIImage {
             self.clubProfileImage.image = image
+            self.isCLubProfileChanged = true
         }
     }
 }

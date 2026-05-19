@@ -125,7 +125,9 @@ class ViewController: UIViewController {
     func setUpTabBar() {
         let activitiesVC = ActivityScreenViewController()
         let itemOne = UINavigationController(rootViewController: activitiesVC)
-        let iconOne = UITabBarItem(title:NSLocalizedString("Activities", comment: ""), image: UIImage(systemName: "figure.run.square.stack.fill"), selectedImage: UIImage(systemName: "figure.run.square.stack.fill"))
+        let iconOne = UITabBarItem(title: NSLocalizedString("Activities", comment: ""),
+                                   image: UIImage(systemName: "figure.run.square.stack.fill"),
+                                   selectedImage: UIImage(systemName: "figure.run.square.stack.fill"))
         itemOne.tabBarItem = iconOne
         
         let itemTwo = ClubScreenViewController()

@@ -36,6 +36,17 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
     // Closure called when game ends
     var onGameEnded: ((Bool) -> Void)?
     
+    private func updateSeasonLabel(for date: Date = Date()) {
+        let calendar = Calendar.current
+        let month = calendar.component(.month, from: date)
+        let formatter = DateFormatter()
+        formatter.locale = .current // or Locale(identifier: "en_US") for a fixed language
+        formatter.dateFormat = "LLLL" // full month name in the current locale
+        let monthName = formatter.string(from: date)
+        let seasonNumber = month // Season number aligns with month number
+        labelSeason1Month.text = "SEASON \(seasonNumber): \(monthName) Conquest"
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
         configure()
@@ -66,6 +77,9 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
         overlayView = viewCountDown.superview
         setupCountdownLabels()
         refreshData()
+        updateSeasonLabel()
+        
+        
     }
 
     private func setupCountdownLabels() {
@@ -100,7 +114,7 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
         let now = Date()
         let components = calendar.dateComponents([.day, .month, .year], from: now)
         
-        if let day = components.day, day >= 1 && day <= 7 {
+        if let day = components.day, day >= 1 && day <= 15 {
             return (true, nil)
         } else {
             var nextMonthComponents = DateComponents()
@@ -152,6 +166,7 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
     // Called every time the cell is displayed (from cellForItemAt) to get fresh data
     func refreshData() {
         Task {
+            await MainActor.run { self.updateSeasonLabel() }
             guard let userID = userProfile.userID else { return }
 
             let availability = checkGameAvailability()
@@ -251,7 +266,7 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
                     startCountdown(timeRemaining: tr)
                 } else {
                     // Finished early, calculate time to next month
-                    var calendar = Calendar.current
+                    let calendar = Calendar.current
                     var nextMonthComponents = DateComponents()
                     nextMonthComponents.month = 1
                     let nextMonth = calendar.date(byAdding: nextMonthComponents, to: Date())!
@@ -282,3 +297,4 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
         }
     }
 }
+

@@ -69,12 +69,12 @@
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <connections>
-                <outlet property="ClubName" destination="lc6-4L-PB8" id="0DI-wp-vBl"/>
-                <outlet property="ClubProfileImage" destination="M29-zx-iTy" id="jaO-JC-uqE"/>
-                <outlet property="NumberOfRunners" destination="2Fa-Zw-TCm" id="EAF-aU-7ef"/>
-                <outlet property="Sport" destination="LLQ-9i-4q3" id="3EY-E3-5gl"/>
+                <outlet property="clubProfileImage" destination="M29-zx-iTy" id="jaO-JC-uqE"/>
                 <outlet property="imageSportType" destination="WzJ-wY-RmZ" id="xcI-bm-lIq"/>
                 <outlet property="joinedClubView" destination="aiL-H0-3j9" id="ANW-VT-vr1"/>
+                <outlet property="labelClubName" destination="lc6-4L-PB8" id="0DI-wp-vBl"/>
+                <outlet property="labelNumberOfRunners" destination="2Fa-Zw-TCm" id="EAF-aU-7ef"/>
+                <outlet property="labelSportType" destination="LLQ-9i-4q3" id="3EY-E3-5gl"/>
             </connections>
             <point key="canvasLocation" x="-25.190839694656489" y="-59.507042253521128"/>
         </collectionViewCell>
