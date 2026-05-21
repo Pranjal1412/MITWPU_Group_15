@@ -824,7 +824,7 @@ func fetchActiveGameForUser(userID: UUID) async -> TerritoryGame? {
             .from("TerritoryGame")
             .select()
             .or("playerOneID.eq.\(userID),playerTwoID.eq.\(userID)")
-            .or("isCompleted.is.null,isCompleted.eq.false")
+            .eq("isCompleted", value: false)
             .limit(1)
             .execute()
             .value
