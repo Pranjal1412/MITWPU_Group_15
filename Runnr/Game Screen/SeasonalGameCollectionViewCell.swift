@@ -180,7 +180,11 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
                     if let completedGame = await fetchRecentlyCompletedGameForUser(userID: userID),
                        let gameID = completedGame.gameID {
                         // Show the result to this user (they may not have seen it yet)
-                        await showCompletedGameResult(gameID: gameID, userID: userID)
+                        let lastSeenID = UserDefaults.standard.string(forKey: "LastSeenCompletedGameID")
+                        if lastSeenID != gameID.uuidString {
+                            await showCompletedGameResult(game: completedGame, userID: userID)
+                            UserDefaults.standard.set(gameID.uuidString, forKey: "LastSeenCompletedGameID")
+                        }
                     }
                     await MainActor.run {
                         buttonInviteFriend.isEnabled = false
@@ -220,7 +224,11 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
                     DataSource.shared.clearGameID()
                     if let completedGame = await fetchRecentlyCompletedGameForUser(userID: userID),
                        let gameID = completedGame.gameID {
-                        await showCompletedGameResult(gameID: gameID, userID: userID)
+                        let lastSeenID = UserDefaults.standard.string(forKey: "LastSeenCompletedGameID")
+                        if lastSeenID != gameID.uuidString {
+                            await showCompletedGameResult(game: completedGame, userID: userID)
+                            UserDefaults.standard.set(gameID.uuidString, forKey: "LastSeenCompletedGameID")
+                        }
                         // Start countdown to next season
                         await MainActor.run {
                             let calendar = Calendar.current
@@ -268,7 +276,11 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
                 // Check for recently completed game the user hasn't seen
                 if let completedGame = await fetchRecentlyCompletedGameForUser(userID: userID),
                    let gameID = completedGame.gameID {
-                    await showCompletedGameResult(gameID: gameID, userID: userID)
+                    let lastSeenID = UserDefaults.standard.string(forKey: "LastSeenCompletedGameID")
+                    if lastSeenID != gameID.uuidString {
+                        await showCompletedGameResult(game: completedGame, userID: userID)
+                        UserDefaults.standard.set(gameID.uuidString, forKey: "LastSeenCompletedGameID")
+                    }
                     await MainActor.run {
                         let calendar = Calendar.current
                         var nextMonthComponents = DateComponents()
@@ -316,8 +328,11 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
             let myTilesCount = tiles.filter { $0.ownerID == self.userProfile.userID }.count
             let opponentTilesCount = capturedCount - myTilesCount
             let isWinner = myTilesCount >= opponentTilesCount
+            
+            // Determine winner ID to save to the database before we clear the tiles
+            let winnerID = isWinner ? self.userProfile.userID : (tiles.first(where: { $0.ownerID != self.userProfile.userID && $0.ownerID != nil })?.ownerID)
 
-            await updateGameAsCompleted(gameID: gameID)
+            await updateGameAsCompleted(gameID: gameID, winnerID: winnerID)
             DataSource.shared.clearGameID()
 
             await MainActor.run {
@@ -342,17 +357,11 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
     }
 
     /// Shows the game result to a user who may not have been online when the game was settled.
-    /// Determines winner/loser from tile ownership and fires onGameEnded.
-    private func showCompletedGameResult(gameID: UUID, userID: UUID) async {
-        if let tiles = await fetchGameTileStatus(gameID: gameID) {
-            let capturedCount = tiles.filter { $0.ownerID != nil }.count
-            let myTilesCount = tiles.filter { $0.ownerID == userID }.count
-            let opponentTilesCount = capturedCount - myTilesCount
-            let isWinner = myTilesCount >= opponentTilesCount
-
-            await MainActor.run {
-                self.onGameEnded?(isWinner)
-            }
+    /// Determines winner/loser from the game record's winnerID and fires onGameEnded.
+    private func showCompletedGameResult(game: TerritoryGame, userID: UUID) async {
+        let isWinner = (game.winnerID == userID)
+        await MainActor.run {
+            self.onGameEnded?(isWinner)
         }
     }
 
@@ -364,16 +373,69 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
         }
     }
 
-    private func updateGameAsCompleted(gameID: UUID) async {
+    private func updateGameAsCompleted(gameID: UUID, winnerID: UUID?) async {
+        // Update game to completed first so results are visible temporarily
         do {
+            var updateData: [String: AnyJSON] = ["isCompleted": true]
+            if let winner = winnerID {
+                updateData["winnerID"] = .string(winner.uuidString)
+            }
             try await SupabaseManager.shared.client
                 .from("TerritoryGame")
-                .update(["isCompleted": true])
+                .update(updateData)
                 .eq("gameID", value: gameID)
                 .execute()
             print("Game marked as completed.")
         } catch {
-            print("updateGameAsCompleted failed: \\(error)")
+            print("Failed to mark game as completed: \(error)")
+        }
+
+        // Clear data from related tables independently
+        do {
+            try await SupabaseManager.shared.client
+                .from("TerritoryHexTile")
+                .delete()
+                .eq("gameID", value: gameID)
+                .execute()
+            print("Cleared TerritoryHexTiles.")
+        } catch {
+            print("Failed to clear TerritoryHexTiles: \(error)")
+        }
+
+        do {
+            try await SupabaseManager.shared.client
+                .from("BattleInviteNotification")
+                .delete()
+                .eq("gameID", value: gameID)
+                .execute()
+            print("Cleared BattleInviteNotifications.")
+        } catch {
+            print("Failed to clear BattleInviteNotifications: \(error)")
+        }
+
+        do {
+            // We use the same gameID in the data jsonb for general notifications if any
+            try await SupabaseManager.shared.client
+                .from("notifications")
+                .delete()
+                .eq("data->>gameID", value: gameID.uuidString)
+                .execute()
+            print("Cleared general notifications.")
+        } catch {
+            print("Failed to clear general notifications: \(error)")
+        }
+        
+        // The user explicitly requested to clear TerritoryGame table as well.
+        // We delete it last so any dependent queries finish first.
+        do {
+            try await SupabaseManager.shared.client
+                .from("TerritoryGame")
+                .delete()
+                .eq("gameID", value: gameID)
+                .execute()
+            print("Cleared TerritoryGame.")
+        } catch {
+            print("Failed to clear TerritoryGame: \(error)")
         }
     }
 }
