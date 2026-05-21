@@ -5,19 +5,14 @@
 
 import UIKit
 
-// MARK: - Poll Delegate
-
 protocol EventPollCellDelegate: AnyObject {
     func pollCell(_ cell: EventCollectionViewCell,
                   didVote voteType: PollVoteType,
                   for eventID: UUID)
 }
 
-// MARK: - Cell
-
 class EventCollectionViewCell: UICollectionViewCell {
 
-    // MARK: - Existing IBOutlets
     @IBOutlet weak var labelEventDescription: UILabel!
     @IBOutlet weak var labelEventDate: UILabel!
     @IBOutlet weak var labelStartTime: UILabel!
@@ -29,35 +24,25 @@ class EventCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var viewTimeBackground: UIView!
     @IBOutlet weak var labelDummyText: UILabel!
     @IBOutlet weak var viewPollBackground: UIView!
-
-    // Vote circle buttons (small 45pt circles in the XIB)
     @IBOutlet weak var pollButtonJoining: UIButton!
     @IBOutlet weak var pollButtonMaybe: UIButton!
     @IBOutlet weak var pollButtonNo: UIButton!
-
-    // Progress bars already in the XIB — connect via IBOutlet
     @IBOutlet weak var progressBarJoining: UIProgressView!
     @IBOutlet weak var progressBarMaybe: UIProgressView!
     @IBOutlet weak var progressBarNo: UIProgressView!
-
-    // Percentage labels already in the XIB — connect via IBOutlet
     @IBOutlet weak var labelPctJoining: UILabel!
     @IBOutlet weak var labelPctMaybe: UILabel!
     @IBOutlet weak var labelPctNo: UILabel!
+    @IBOutlet weak var labelPollQuestion: UILabel!
 
-    // MARK: - State
     weak var delegate: EventPollCellDelegate?
     private var eventID: UUID?
     private var pollSummary: EventPollSummary?
-
-    // MARK: - Lifecycle
 
     override func awakeFromNib() {
         super.awakeFromNib()
         setup()
     }
-
-    // MARK: - Setup
 
     private func setup() {
         viewMain.layer.cornerRadius           = 15
@@ -96,22 +81,28 @@ class EventCollectionViewCell: UICollectionViewCell {
         self.eventID     = event.eventID
         self.pollSummary = pollSummary
 
-        labelEventName.text        = event.eventName
+        labelEventName.text = event.eventName
         labelEventDescription.text = event.eventDescription
-        labelDummyText.text        = (event.eventDescription == "") ? "" : " "
-        labelStartAddress.text     = event.startLocation ?? ""
-        labelEndAddress.text       = event.endLocation   ?? ""
+        labelDummyText.text = (event.eventDescription == "") ? "" : " "
+        labelStartAddress.text = event.startLocation ?? ""
+        labelEndAddress.text = event.endLocation   ?? ""
 
-        let df        = DateFormatter()
-        df.locale     = Locale(identifier: "en_US_POSIX")
+        if event.isCompleted ?? false {
+            self.viewPollBackground.isHidden = true
+            self.labelPollQuestion.isHidden = true
+        } else {
+            self.viewPollBackground.isHidden = false
+            self.labelPollQuestion.isHidden = false
+        }
+        
+        let df = DateFormatter()
+        df.locale = Locale(identifier: "en_US_POSIX")
         df.dateFormat = "MMM d, yyyy"
         labelEventDate.text = event.eventDate.map { df.string(from: $0) } ?? ""
         labelStartTime.text = event.startTime ?? ""
 
         updatePollUI()
     }
-
-    // MARK: - Poll UI
 
     private func updatePollUI() {
         let joining  = pollSummary?.joiningCount  ?? 0
@@ -147,7 +138,6 @@ class EventCollectionViewCell: UICollectionViewCell {
         styleVoteButton(pollButtonNo, isSelected: myVote == .notGoing, color: .systemRed)
     }
 
-    /// Swaps the circle icon between filled (selected) and outline (unselected).
     private func styleVoteButton(_ button: UIButton, isSelected: Bool, color: UIColor) {
         let iconName = isSelected ? "checkmark.circle.fill" : "circle"
         var config   = UIButton.Configuration.plain()
@@ -157,8 +147,6 @@ class EventCollectionViewCell: UICollectionViewCell {
         config.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4)
         button.configuration = config
     }
-
-    // MARK: - Actions
 
     @objc private func joiningTapped() { handleVote(.joining)  }
     @objc private func maybeTapped() { handleVote(.maybe)    }

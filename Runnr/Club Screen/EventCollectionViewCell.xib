@@ -167,8 +167,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nWi-aw-fGP">
                                 <rect key="frame" x="15" y="367.66666666666669" width="363" height="173.00000000000006"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="YRI-Uy-QFu">
-                                        <rect key="frame" x="0.0" y="15.000000000000004" width="346" height="34.333333333333343"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="YRI-Uy-QFu">
+                                        <rect key="frame" x="0.0" y="15.000000000000004" width="348" height="34.333333333333343"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d37-kj-qYN">
                                                 <rect key="frame" x="0.0" y="0.0" width="45" height="34.333333333333336"/>
@@ -181,24 +181,24 @@
                                                     <imageReference key="image" image="circle" catalog="system" symbolScale="small"/>
                                                 </buttonConfiguration>
                                             </button>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fill" alignment="fill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="QCo-Qr-wgz">
-                                                <rect key="frame" x="45" y="0.33333333333331439" width="301" height="34"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="QCo-Qr-wgz">
+                                                <rect key="frame" x="45" y="0.33333333333331439" width="303" height="34"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Joining" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ltn-UV-2Z0">
-                                                        <rect key="frame" x="0.0" y="0.0" width="301" height="17"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="303" height="17"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="oqW-Dt-Ysm" userLabel="progressStack">
-                                                        <rect key="frame" x="0.0" y="22" width="301" height="12"/>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="oqW-Dt-Ysm" userLabel="progressStack">
+                                                        <rect key="frame" x="0.0" y="22" width="303" height="12"/>
                                                         <subviews>
                                                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0uo-CY-8Tv">
-                                                                <rect key="frame" x="0.0" y="4" width="264.33333333333331" height="4"/>
+                                                                <rect key="frame" x="0.0" y="4" width="266.33333333333331" height="4"/>
                                                                 <color key="progressTintColor" name="AccentColor"/>
                                                             </progressView>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100%" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HUI-5p-ssn">
-                                                                <rect key="frame" x="272.33333333333331" y="0.0" width="28.666666666666686" height="12"/>
+                                                                <rect key="frame" x="274.33333333333331" y="0.0" width="28.666666666666686" height="12"/>
                                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="10"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
@@ -217,8 +217,8 @@
                                             </stackView>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="M1v-Ef-DPF">
-                                        <rect key="frame" x="0.0" y="69.333333333333314" width="346" height="34.333333333333343"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="M1v-Ef-DPF">
+                                        <rect key="frame" x="0.0" y="69.333333333333314" width="348" height="34.333333333333343"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XqC-Uc-arA">
                                                 <rect key="frame" x="0.0" y="0.0" width="45" height="34.333333333333336"/>
@@ -231,24 +231,24 @@
                                                     <imageReference key="image" image="circle" catalog="system" symbolScale="small"/>
                                                 </buttonConfiguration>
                                             </button>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fill" alignment="fill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="DrM-zZ-cnn">
-                                                <rect key="frame" x="45" y="0.33333333333331439" width="301" height="34"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="DrM-zZ-cnn">
+                                                <rect key="frame" x="45" y="0.33333333333331439" width="303" height="34"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Maybe" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DCz-Cs-eMe">
-                                                        <rect key="frame" x="0.0" y="0.0" width="301" height="17"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="303" height="17"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="U7S-VF-qke" userLabel="progressStack">
-                                                        <rect key="frame" x="0.0" y="22" width="301" height="12"/>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="U7S-VF-qke" userLabel="progressStack">
+                                                        <rect key="frame" x="0.0" y="22" width="303" height="12"/>
                                                         <subviews>
                                                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="mBk-i3-FLy">
-                                                                <rect key="frame" x="0.0" y="4" width="264.33333333333331" height="4"/>
+                                                                <rect key="frame" x="0.0" y="4" width="266.33333333333331" height="4"/>
                                                                 <color key="progressTintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             </progressView>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100%" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AET-2T-D1A">
-                                                                <rect key="frame" x="272.33333333333331" y="0.0" width="28.666666666666686" height="12"/>
+                                                                <rect key="frame" x="274.33333333333331" y="0.0" width="28.666666666666686" height="12"/>
                                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="10"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
@@ -267,7 +267,7 @@
                                             </stackView>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="MeE-at-sWK">
+                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="MeE-at-sWK">
                                         <rect key="frame" x="0.0" y="123.66666666666661" width="348" height="34.333333333333329"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cxK-Ho-DXZ">
@@ -281,7 +281,7 @@
                                                     <imageReference key="image" image="circle" catalog="system" symbolScale="small"/>
                                                 </buttonConfiguration>
                                             </button>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fill" alignment="fill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="IID-NU-bZj">
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="IID-NU-bZj">
                                                 <rect key="frame" x="45" y="0.33333333333337123" width="303" height="34"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8fv-zE-VCY">
@@ -290,7 +290,7 @@
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="MIT-dn-mPb" userLabel="progressStack">
+                                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="MIT-dn-mPb" userLabel="progressStack">
                                                         <rect key="frame" x="0.0" y="21.999999999999943" width="303" height="12"/>
                                                         <subviews>
                                                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="489-xH-1cH">
@@ -403,6 +403,7 @@
                 <outlet property="labelPctJoining" destination="HUI-5p-ssn" id="lPJ-k1-LBa"/>
                 <outlet property="labelPctMaybe" destination="AET-2T-D1A" id="lPM-k2-LBb"/>
                 <outlet property="labelPctNo" destination="7NC-3S-TPY" id="lPN-k3-LBc"/>
+                <outlet property="labelPollQuestion" destination="adz-3k-PuL" id="vT0-jr-H8C"/>
                 <outlet property="labelStartAddress" destination="LZ8-WO-8eE" id="0PA-8Q-Znx"/>
                 <outlet property="labelStartTime" destination="qnH-gP-GCB" id="Djm-YW-EJZ"/>
                 <outlet property="pollButtonJoining" destination="d37-kj-qYN" id="I4S-gy-aFt"/>

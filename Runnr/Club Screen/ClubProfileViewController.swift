@@ -483,6 +483,12 @@ extension ClubProfileViewController: UICollectionViewDelegate, UICollectionViewD
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let eventCompleted = clubEvents[indexPath.row].isCompleted ?? false
+        
+        if eventCompleted {
+            return CGSize(width: collectionView.frame.width, height: 350)
+        }
+        
         return CGSize(width: collectionView.frame.width, height: 570)
     }
 

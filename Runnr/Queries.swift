@@ -623,6 +623,10 @@ func insertNewClubEvent(event: ClubEvents) async {
 
 func fetchClubEvents(clubID: UUID) async -> [ClubEvents]? {
     do {
+        try await SupabaseManager.shared.client
+            .rpc("mark_completed_events")
+            .execute()
+
         let allEvents: [ClubEvents] = try await SupabaseManager.shared.client
             .from("ScheduledClubEvents")
             .select()
