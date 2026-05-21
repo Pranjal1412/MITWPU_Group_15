@@ -390,39 +390,14 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
             print("Failed to mark game as completed: \(error)")
         }
 
-        // Clear data from related tables independently
+        // Clear data from related tables via RPC to bypass RLS constraints
         do {
             try await SupabaseManager.shared.client
-                .from("TerritoryHexTile")
-                .delete()
-                .eq("gameID", value: gameID)
+                .rpc("cleanup_completed_game", params: ["p_game_id": gameID.uuidString])
                 .execute()
-            print("Cleared TerritoryHexTiles.")
+            print("Successfully cleared tiles and notifications via RPC.")
         } catch {
-            print("Failed to clear TerritoryHexTiles: \(error)")
-        }
-
-        do {
-            try await SupabaseManager.shared.client
-                .from("BattleInviteNotification")
-                .delete()
-                .eq("gameID", value: gameID)
-                .execute()
-            print("Cleared BattleInviteNotifications.")
-        } catch {
-            print("Failed to clear BattleInviteNotifications: \(error)")
-        }
-
-        do {
-            // We use the same gameID in the data jsonb for general notifications if any
-            try await SupabaseManager.shared.client
-                .from("notifications")
-                .delete()
-                .eq("data->>gameID", value: gameID.uuidString)
-                .execute()
-            print("Cleared general notifications.")
-        } catch {
-            print("Failed to clear general notifications: \(error)")
+            print("Failed to clear data via RPC: \(error)")
         }
     }
 }
