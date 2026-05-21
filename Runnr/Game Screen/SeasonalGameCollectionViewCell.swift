@@ -113,7 +113,7 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
         let now = Date()
         let components = calendar.dateComponents([.day, .month, .year], from: now)
 
-        if let day = components.day, day >= 1 && day <= 20 {
+        if let day = components.day, day >= 1 && day <= 25 {
             return (true, nil)
         } else {
             var nextMonthComponents = DateComponents()
@@ -125,7 +125,6 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
             startOfNextMonthComponents.hour = 0
             startOfNextMonthComponents.minute = 0
             startOfNextMonthComponents.second = 0
-
             let startOfNextMonth = calendar.date(from: startOfNextMonthComponents)!
             let timeRemaining = startOfNextMonth.timeIntervalSince(now)
             return (false, timeRemaining)
@@ -171,13 +170,20 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
             let availability = checkGameAvailability()
 
             if !availability.isActive {
-                // Game is currently inactive (e.g., after the 10th)
+                // Game is currently inactive (e.g., after the 25th)
                 if let existingGame = await fetchActiveGameForUser(userID: userID), let gameID = existingGame.gameID {
                     await settleGame(gameID: gameID, timeRemaining: availability.timeRemaining)
                 } else {
+                    // No active game — check if a recently completed game needs result shown
+                    if let completedGame = await fetchRecentlyCompletedGameForUser(userID: userID),
+                       let gameID = completedGame.gameID {
+                        // Show the result to this user (they may not have seen it yet)
+                        await showCompletedGameResult(gameID: gameID, userID: userID)
+                    }
                     await MainActor.run {
                         buttonInviteFriend.isEnabled = false
                         buttonInviteFriend.backgroundColor = .systemGray2
+                        buttonInviteFriend.setTitle("Invite Friend", for: .normal)
                         progressViewCapturedTiles.progress = 0
                         if let timeRemaining = availability.timeRemaining {
                             startCountdown(timeRemaining: timeRemaining)
@@ -187,24 +193,52 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
                 return
             }
 
-            // Game IS active (days 1-10)
+            // Game IS active (days 1-25)
             if let cachedGameID = DataSource.shared.getGameID() {
                 // Verify the game still exists in Supabase (may have been deleted)
-                if let _ = await fetchActiveGameForUser(userID: userID) {
+                if let activeGame = await fetchActiveGameForUser(userID: userID) {
+                    let isAccepted = activeGame.playerTwoID != nil
                     await MainActor.run {
-                        buttonInviteFriend.isEnabled = false
-                        buttonInviteFriend.backgroundColor = .systemGray2
+                        if isAccepted {
+                            // Game accepted — show "Start Game"
+                            buttonInviteFriend.isEnabled = true
+                            buttonInviteFriend.backgroundColor = .accent
+                            buttonInviteFriend.setTitle("Start Game", for: .normal)
+                        } else {
+                            // Waiting for opponent to accept — show "Invited"
+                            buttonInviteFriend.isEnabled = false
+                            buttonInviteFriend.backgroundColor = .systemGray2
+                            buttonInviteFriend.setTitle("Invited", for: .normal)
+                        }
                         stopCountdown()
                     }
                     await updateTileProgress(gameID: cachedGameID)
                 } else {
-                    // Deleted from Supabase — clear stale cache and reset UI
+                    // Game was completed or deleted — check if we need to show results
                     DataSource.shared.clearGameID()
-                    await MainActor.run {
-                        buttonInviteFriend.isEnabled = true
-                        buttonInviteFriend.backgroundColor = .accent
-                        progressViewCapturedTiles.progress = 0
-                        stopCountdown()
+                    if let completedGame = await fetchRecentlyCompletedGameForUser(userID: userID),
+                       let gameID = completedGame.gameID {
+                        await showCompletedGameResult(gameID: gameID, userID: userID)
+                        // Start countdown to next season
+                        await MainActor.run {
+                            let calendar = Calendar.current
+                            var nextMonthComponents = DateComponents()
+                            nextMonthComponents.month = 1
+                            let nextMonth = calendar.date(byAdding: nextMonthComponents, to: Date())!
+                            var startOfNextMonthComponents = calendar.dateComponents([.month, .year], from: nextMonth)
+                            startOfNextMonthComponents.day = 1
+                            let startOfNextMonth = calendar.date(from: startOfNextMonthComponents)!
+                            let tRemaining = startOfNextMonth.timeIntervalSince(Date())
+                            startCountdown(timeRemaining: tRemaining)
+                        }
+                    } else {
+                        await MainActor.run {
+                            buttonInviteFriend.isEnabled = true
+                            buttonInviteFriend.backgroundColor = .accent
+                            buttonInviteFriend.setTitle("Invite Friend", for: .normal)
+                            progressViewCapturedTiles.progress = 0
+                            stopCountdown()
+                        }
                     }
                 }
                 return
@@ -214,19 +248,45 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
             if let existingGame = await fetchActiveGameForUser(userID: userID),
                let gameID = existingGame.gameID {
                 DataSource.shared.setGameID(gameID)
+                let isAccepted = existingGame.playerTwoID != nil
                 await MainActor.run {
-                    buttonInviteFriend.isEnabled = false
-                    buttonInviteFriend.backgroundColor = .systemGray2
+                    if isAccepted {
+                        buttonInviteFriend.isEnabled = true
+                        buttonInviteFriend.backgroundColor = .accent
+                        buttonInviteFriend.setTitle("Start Game", for: .normal)
+                    } else {
+                        buttonInviteFriend.isEnabled = false
+                        buttonInviteFriend.backgroundColor = .systemGray2
+                        buttonInviteFriend.setTitle("Invited", for: .normal)
+                    }
                     stopCountdown()
                 }
                 await updateTileProgress(gameID: gameID)
             } else {
-                // No active game at all, user can start one
-                await MainActor.run {
-                    buttonInviteFriend.isEnabled = true
-                    buttonInviteFriend.backgroundColor = .accent
-                    progressViewCapturedTiles.progress = 0
-                    stopCountdown()
+                // Check for recently completed game the user hasn't seen
+                if let completedGame = await fetchRecentlyCompletedGameForUser(userID: userID),
+                   let gameID = completedGame.gameID {
+                    await showCompletedGameResult(gameID: gameID, userID: userID)
+                    await MainActor.run {
+                        let calendar = Calendar.current
+                        var nextMonthComponents = DateComponents()
+                        nextMonthComponents.month = 1
+                        let nextMonth = calendar.date(byAdding: nextMonthComponents, to: Date())!
+                        var startOfNextMonthComponents = calendar.dateComponents([.month, .year], from: nextMonth)
+                        startOfNextMonthComponents.day = 1
+                        let startOfNextMonth = calendar.date(from: startOfNextMonthComponents)!
+                        let tRemaining = startOfNextMonth.timeIntervalSince(Date())
+                        startCountdown(timeRemaining: tRemaining)
+                    }
+                } else {
+                    // No active game at all, user can start one
+                    await MainActor.run {
+                        buttonInviteFriend.isEnabled = true
+                        buttonInviteFriend.backgroundColor = .accent
+                        buttonInviteFriend.setTitle("Invite Friend", for: .normal)
+                        progressViewCapturedTiles.progress = 0
+                        stopCountdown()
+                    }
                 }
             }
         }
@@ -275,6 +335,21 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
                     let tRemaining = startOfNextMonth.timeIntervalSince(Date())
                     startCountdown(timeRemaining: tRemaining)
                 }
+            }
+        }
+    }
+
+    /// Shows the game result to a user who may not have been online when the game was settled.
+    /// Determines winner/loser from tile ownership and fires onGameEnded.
+    private func showCompletedGameResult(gameID: UUID, userID: UUID) async {
+        if let tiles = await fetchGameTileStatus(gameID: gameID) {
+            let capturedCount = tiles.filter { $0.ownerID != nil }.count
+            let myTilesCount = tiles.filter { $0.ownerID == userID }.count
+            let opponentTilesCount = capturedCount - myTilesCount
+            let isWinner = myTilesCount >= opponentTilesCount
+
+            await MainActor.run {
+                self.onGameEnded?(isWinner)
             }
         }
     }

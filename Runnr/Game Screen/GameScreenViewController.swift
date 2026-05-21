@@ -138,17 +138,25 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
                 inviteVC.onInviteSent = { _ in
                     cell.buttonInviteFriend.isEnabled = false
                     cell.buttonInviteFriend.backgroundColor = .systemGray2
+                    cell.buttonInviteFriend.setTitle("Invited", for: .normal)
                 }
 
                 self.present(inviteVC, animated: true)
             }
 
             cell.onGameEnded = { [weak self] isWinner in
-                guard let self = self, isWinner else { return }
-                let winnerVC = WinnerViewController()
-                winnerVC.modalPresentationStyle = .overFullScreen
-                winnerVC.modalTransitionStyle = .crossDissolve
-                self.present(winnerVC, animated: true)
+                guard let self = self else { return }
+                if isWinner {
+                    let winnerVC = WinnerViewController()
+                    winnerVC.modalPresentationStyle = .overFullScreen
+                    winnerVC.modalTransitionStyle = .crossDissolve
+                    self.present(winnerVC, animated: true)
+                } else {
+                    let gameOverVC = GameOverViewController()
+                    gameOverVC.modalPresentationStyle = .overFullScreen
+                    gameOverVC.modalTransitionStyle = .crossDissolve
+                    self.present(gameOverVC, animated: true)
+                }
             }
             return cell
 
@@ -168,20 +176,13 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
         if indexPath.section == 0 {
             guard let cell = collectionView.cellForItem(at: indexPath) as? SeasonalGameCollectionViewCell else { return }
 
-            if !cell.buttonInviteFriend.isEnabled {
-                Task {
-                    guard let userID = DataSource.shared.getUserProfile().userID else { return }
-                    if let game = await fetchActiveGameForUser(userID: userID), game.playerTwoID != nil {
-                        await MainActor.run {
-                            let destinationVC = BattleRunViewController()
-                            destinationVC.modalPresentationStyle = .fullScreen
-                            self.present(destinationVC, animated: true)
-                        }
-                    }
-                }
+            // Only navigate to BattleRun when button shows "Start Game" (game accepted)
+            if cell.buttonInviteFriend.title(for: .normal) == "Start Game" {
+                let destinationVC = BattleRunViewController()
+                destinationVC.modalPresentationStyle = .fullScreen
+                self.present(destinationVC, animated: true)
             }
         }
-        // Battle Run is only accessible after the invited player accepts — no tap-to-open here
     }
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
