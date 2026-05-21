@@ -167,7 +167,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nWi-aw-fGP">
                                 <rect key="frame" x="15" y="367.66666666666669" width="363" height="173.00000000000006"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="YRI-Uy-QFu">
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="YRI-Uy-QFu">
                                         <rect key="frame" x="0.0" y="15.000000000000004" width="346" height="34.333333333333343"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d37-kj-qYN">
@@ -181,7 +181,7 @@
                                                     <imageReference key="image" image="circle" catalog="system" symbolScale="small"/>
                                                 </buttonConfiguration>
                                             </button>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="QCo-Qr-wgz">
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fill" alignment="fill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="QCo-Qr-wgz">
                                                 <rect key="frame" x="45" y="0.33333333333331439" width="301" height="34"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Joining" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ltn-UV-2Z0">
@@ -190,7 +190,7 @@
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="oqW-Dt-Ysm" userLabel="progressStack">
+                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="oqW-Dt-Ysm" userLabel="progressStack">
                                                         <rect key="frame" x="0.0" y="22" width="301" height="12"/>
                                                         <subviews>
                                                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0uo-CY-8Tv">
@@ -217,7 +217,7 @@
                                             </stackView>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="M1v-Ef-DPF">
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="M1v-Ef-DPF">
                                         <rect key="frame" x="0.0" y="69.333333333333314" width="346" height="34.333333333333343"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XqC-Uc-arA">
@@ -231,7 +231,7 @@
                                                     <imageReference key="image" image="circle" catalog="system" symbolScale="small"/>
                                                 </buttonConfiguration>
                                             </button>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="DrM-zZ-cnn">
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fill" alignment="fill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="DrM-zZ-cnn">
                                                 <rect key="frame" x="45" y="0.33333333333331439" width="301" height="34"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Maybe" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DCz-Cs-eMe">
@@ -240,7 +240,7 @@
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="U7S-VF-qke" userLabel="progressStack">
+                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="U7S-VF-qke" userLabel="progressStack">
                                                         <rect key="frame" x="0.0" y="22" width="301" height="12"/>
                                                         <subviews>
                                                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="mBk-i3-FLy">
@@ -267,7 +267,7 @@
                                             </stackView>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="MeE-at-sWK">
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="MeE-at-sWK">
                                         <rect key="frame" x="0.0" y="123.66666666666661" width="348" height="34.333333333333329"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cxK-Ho-DXZ">
@@ -281,7 +281,7 @@
                                                     <imageReference key="image" image="circle" catalog="system" symbolScale="small"/>
                                                 </buttonConfiguration>
                                             </button>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="IID-NU-bZj">
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fill" alignment="fill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="IID-NU-bZj">
                                                 <rect key="frame" x="45" y="0.33333333333337123" width="303" height="34"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8fv-zE-VCY">
@@ -290,7 +290,7 @@
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="MIT-dn-mPb" userLabel="progressStack">
+                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="MIT-dn-mPb" userLabel="progressStack">
                                                         <rect key="frame" x="0.0" y="21.999999999999943" width="303" height="12"/>
                                                         <subviews>
                                                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="489-xH-1cH">
@@ -326,9 +326,9 @@
                                     <constraint firstItem="MeE-at-sWK" firstAttribute="top" secondItem="M1v-Ef-DPF" secondAttribute="bottom" constant="20" id="KAw-dq-XRN"/>
                                     <constraint firstAttribute="height" constant="173" id="L8s-6I-1Yu"/>
                                     <constraint firstAttribute="trailing" secondItem="MeE-at-sWK" secondAttribute="trailing" constant="15" id="PhD-yI-Yb7"/>
-                                    <constraint firstAttribute="trailing" secondItem="M1v-Ef-DPF" secondAttribute="trailing" constant="17" id="PvA-Pi-6MT"/>
+                                    <constraint firstAttribute="trailing" secondItem="M1v-Ef-DPF" secondAttribute="trailing" constant="15" id="PvA-Pi-6MT"/>
                                     <constraint firstItem="YRI-Uy-QFu" firstAttribute="leading" secondItem="nWi-aw-fGP" secondAttribute="leading" id="Q0m-w8-uzm"/>
-                                    <constraint firstAttribute="trailing" secondItem="YRI-Uy-QFu" secondAttribute="trailing" constant="17" id="Rjf-nY-miM"/>
+                                    <constraint firstAttribute="trailing" secondItem="YRI-Uy-QFu" secondAttribute="trailing" constant="15" id="Rjf-nY-miM"/>
                                     <constraint firstItem="MeE-at-sWK" firstAttribute="leading" secondItem="nWi-aw-fGP" secondAttribute="leading" id="dWQ-nD-673"/>
                                     <constraint firstItem="M1v-Ef-DPF" firstAttribute="leading" secondItem="nWi-aw-fGP" secondAttribute="leading" id="s1Y-Wl-eJx"/>
                                 </constraints>
