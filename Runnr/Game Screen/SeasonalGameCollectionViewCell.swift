@@ -33,6 +33,8 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
 
     // Closure called when user taps "Invite Friend" — set by the parent VC
     var onInviteFriendTapped: (() -> Void)?
+    // Closure called when user taps "Start Game" — set by the parent VC
+    var onStartGameTapped: (() -> Void)?
     // Closure called when game ends
     var onGameEnded: ((Bool) -> Void)?
 
@@ -355,7 +357,11 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
     }
 
     @IBAction func inviteFriendClicked(_ sender: UIButton) {
-        onInviteFriendTapped?()
+        if sender.title(for: .normal) == "Start Game" {
+            onStartGameTapped?()
+        } else {
+            onInviteFriendTapped?()
+        }
     }
 
     private func updateGameAsCompleted(gameID: UUID) async {

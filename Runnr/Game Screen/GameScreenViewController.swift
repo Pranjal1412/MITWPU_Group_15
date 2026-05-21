@@ -144,6 +144,13 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
                 self.present(inviteVC, animated: true)
             }
 
+            cell.onStartGameTapped = { [weak self] in
+                guard let self = self else { return }
+                let destinationVC = BattleRunViewController()
+                destinationVC.modalPresentationStyle = .fullScreen
+                self.present(destinationVC, animated: true)
+            }
+
             cell.onGameEnded = { [weak self] isWinner in
                 guard let self = self else { return }
                 if isWinner {
