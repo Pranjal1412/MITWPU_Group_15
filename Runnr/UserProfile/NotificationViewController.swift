@@ -58,6 +58,11 @@ class NotificationViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadNotifications()
+    }
+
     private func loadFollowerProfiles() async {
         let followNotifications = generalNotifications.filter { $0.type == "friend_joined" }
 
@@ -99,10 +104,8 @@ class NotificationViewController: UIViewController {
 
             await MainActor.run { [weak self] in
                 guard let self = self else { return }
-                if !fetched.isEmpty {
-                    self.battleNotifications = fetched
-                    DataSource.shared.setBattleInviteNotifications(fetched)
-                }
+                self.battleNotifications = fetched
+                DataSource.shared.setBattleInviteNotifications(fetched)
                 self.tableView?.reloadData()
             }
         }
