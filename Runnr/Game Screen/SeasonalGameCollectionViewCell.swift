@@ -390,6 +390,18 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
             print("Failed to mark game as completed: \(error)")
         }
 
+        // Clear tiles directly via Swift since we know this bypasses any SQL column casing issues
+        do {
+            try await SupabaseManager.shared.client
+                .from("TerritoryHexTile")
+                .delete()
+                .eq("gameID", value: gameID)
+                .execute()
+            print("Cleared TerritoryHexTiles.")
+        } catch {
+            print("Failed to clear TerritoryHexTiles: \(error)")
+        }
+
         // Clear data from related tables via RPC to bypass RLS constraints
         do {
             try await SupabaseManager.shared.client
