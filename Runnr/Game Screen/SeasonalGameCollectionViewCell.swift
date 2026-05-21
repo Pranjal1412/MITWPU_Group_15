@@ -424,18 +424,5 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
         } catch {
             print("Failed to clear general notifications: \(error)")
         }
-        
-        // The user explicitly requested to clear TerritoryGame table as well.
-        // We delete it last so any dependent queries finish first.
-        do {
-            try await SupabaseManager.shared.client
-                .from("TerritoryGame")
-                .delete()
-                .eq("gameID", value: gameID)
-                .execute()
-            print("Cleared TerritoryGame.")
-        } catch {
-            print("Failed to clear TerritoryGame: \(error)")
-        }
     }
 }
