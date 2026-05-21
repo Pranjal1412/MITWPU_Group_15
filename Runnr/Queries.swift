@@ -819,12 +819,22 @@ func fetchGameByGameID(gameID: UUID) async -> TerritoryGame? {
 }
 
 func fetchActiveGameForUser(userID: UUID) async -> TerritoryGame? {
+    let calendar = Calendar.current
+    let now = Date()
+    let components = calendar.dateComponents([.year, .month], from: now)
+    guard let startOfMonth = calendar.date(from: components) else { return nil }
+    
+    // Convert to ISO8601 for Supabase timestamp comparison
+    let formatter = ISO8601DateFormatter()
+    let startOfMonthString = formatter.string(from: startOfMonth)
+
     do {
         let games: [TerritoryGame] = try await SupabaseManager.shared.client
             .from("TerritoryGame")
             .select()
             .or("playerOneID.eq.\(userID),playerTwoID.eq.\(userID)")
             .eq("isCompleted", value: false)
+            .gte("startDate", value: startOfMonthString)
             .limit(1)
             .execute()
             .value
@@ -836,12 +846,22 @@ func fetchActiveGameForUser(userID: UUID) async -> TerritoryGame? {
 }
 
 func fetchRecentlyCompletedGameForUser(userID: UUID) async -> TerritoryGame? {
+    let calendar = Calendar.current
+    let now = Date()
+    let components = calendar.dateComponents([.year, .month], from: now)
+    guard let startOfMonth = calendar.date(from: components) else { return nil }
+    
+    // Convert to ISO8601 for Supabase timestamp comparison
+    let formatter = ISO8601DateFormatter()
+    let startOfMonthString = formatter.string(from: startOfMonth)
+
     do {
         let games: [TerritoryGame] = try await SupabaseManager.shared.client
             .from("TerritoryGame")
             .select()
             .or("playerOneID.eq.\(userID),playerTwoID.eq.\(userID)")
             .eq("isCompleted", value: true)
+            .gte("startDate", value: startOfMonthString)
             .order("endDate", ascending: false)
             .limit(1)
             .execute()
