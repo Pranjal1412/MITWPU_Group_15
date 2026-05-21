@@ -102,6 +102,8 @@ class NotificationViewController: UIViewController {
                 return results
             }
 
+            await NotificationManager.shared.fetchLatest(userId: userID)
+            
             await MainActor.run { [weak self] in
                 guard let self = self else { return }
                 self.battleNotifications = fetched
