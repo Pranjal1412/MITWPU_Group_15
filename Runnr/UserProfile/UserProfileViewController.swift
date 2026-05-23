@@ -46,6 +46,7 @@ class UserProfileViewController: UIViewController {
 
     var isFromFriendsScreen: Bool = false
     var friendData: UserProfile?
+    var isFollowButtonHidden: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -145,6 +146,10 @@ class UserProfileViewController: UIViewController {
 
     func settingsElements() {
 
+        if isFollowButtonHidden {
+            self.buttonEditProfile.isHidden = true
+        }
+        
         setGlassEffect(for: self.buttonCancel, withImage: "multiply")
 
         if userProfile.userBio != nil || userProfile.userBio != "" {

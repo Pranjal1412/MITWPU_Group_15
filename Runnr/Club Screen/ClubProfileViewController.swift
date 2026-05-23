@@ -396,6 +396,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile, CreateRunE
         let destinationVC = UserProfileViewController(nibName: "UserProfileViewController", bundle: nil)
         destinationVC.friendData = clubOwnerDetails
         destinationVC.isFromFriendsScreen = true
+        destinationVC.isFollowButtonHidden = true
         destinationVC.modalPresentationStyle = .fullScreen
         self.present(destinationVC, animated: true)
     }

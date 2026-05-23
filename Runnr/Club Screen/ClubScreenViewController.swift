@@ -422,6 +422,7 @@ extension ClubScreenViewController: UITableViewDataSource, UITableViewDelegate {
         let destinationVC = UserProfileViewController()
         destinationVC.isFromFriendsScreen = true
         destinationVC.friendData = source[indexPath.row]
+        destinationVC.isFollowButtonHidden = true
         destinationVC.modalPresentationStyle = .fullScreen
         self.present(destinationVC, animated: true, completion: nil)
     }

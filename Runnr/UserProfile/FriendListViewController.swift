@@ -54,6 +54,7 @@ extension FriendListViewController: UITableViewDataSource, UITableViewDelegate {
 
         let destinationVC = UserProfileViewController()
         destinationVC.isFromFriendsScreen = true
+        destinationVC.isFollowButtonHidden = true
         destinationVC.friendData = usersList[indexPath.row]
         destinationVC.modalPresentationStyle = .fullScreen
         self.present(destinationVC, animated: true, completion: nil)
