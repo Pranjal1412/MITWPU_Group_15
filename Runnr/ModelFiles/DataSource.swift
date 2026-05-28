@@ -321,7 +321,7 @@ class DataSource {
     }
 
     func shareActivity(atIndex index: Int, presentingViewController: UIViewController) {
-        let shareMessage = "Check out my run on Runnr!"
+        let shareMessage = "Check out my run on RUNR.!"
         let itemsToShare: [Any] = [shareMessage]
         let activityVC = UIActivityViewController(activityItems: itemsToShare, applicationActivities: nil)
         presentingViewController.present(activityVC, animated: true)

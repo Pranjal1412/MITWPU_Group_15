@@ -37,7 +37,7 @@ class ActivityStartViewController: UIViewController {
         self.userLocation.locationManager.startUpdatingLocation()
 
         self.setStartButton()
-        self.labelScreenTitle.text = NSLocalizedString("Runnr.", comment: "")
+        self.labelScreenTitle.text = NSLocalizedString("RUNR.", comment: "")
         self.labelScreenTitle.textColor = .accent
         self.labelScreenTitle.sizeToFit()
         self.buttonUserProfile.layer.cornerRadius = self.buttonUserProfile.frame.height / 2

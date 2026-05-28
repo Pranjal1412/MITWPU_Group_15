@@ -107,7 +107,7 @@
                                     <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done"/>
                                 </textField>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tuesday , 23 July 2024 at 7:12 pm" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oUU-DM-QcU">
-                                    <rect key="frame" x="0.0" y="35" width="245" height="25"/>
+                                    <rect key="frame" x="0.0" y="35" width="248" height="25"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="25" id="8oT-Ku-dd1"/>
                                     </constraints>
@@ -340,7 +340,7 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Anyone on Runnr can see your activity" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ChB-wk-awk">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Anyone on RUNR. can see your activity" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ChB-wk-awk">
                                             <rect key="frame" x="0.0" y="24.666666666666629" width="275" height="20"/>
                                             <fontDescription key="fontDescription" name="SFPro-Regular" family="SF Pro" pointSize="14"/>
                                             <nil key="textColor"/>

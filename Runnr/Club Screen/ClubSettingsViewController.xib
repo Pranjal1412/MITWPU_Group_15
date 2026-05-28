@@ -202,7 +202,7 @@
                             </constraints>
                         </stackView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RUNNING STYLE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2f8-Qm-YzD">
-                            <rect key="frame" x="15" y="573" width="142.33333333333334" height="22"/>
+                            <rect key="frame" x="15" y="573" width="144.33333333333334" height="22"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="22" id="ktK-h4-ht6"/>
                             </constraints>
@@ -302,7 +302,7 @@
                                 <constraint firstAttribute="width" constant="362" id="sfg-my-QEu"/>
                             </constraints>
                         </stackView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Anyone on Runnr can see your activity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oW3-wp-gWg">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Anyone on RUNR. can see your activity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oW3-wp-gWg">
                             <rect key="frame" x="20" y="745" width="362" height="15.666666666666629"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="15.67" id="MmI-Cm-vEJ"/>

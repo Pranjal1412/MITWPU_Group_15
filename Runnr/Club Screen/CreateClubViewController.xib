@@ -190,7 +190,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Anyone on Runnr can see your activity" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wfm-Re-Jx9">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Anyone on RUNR. can see your activity" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wfm-Re-Jx9">
                                                     <rect key="frame" x="0.0" y="25" width="275" height="20"/>
                                                     <fontDescription key="fontDescription" name="SFPro-Regular" family="SF Pro" pointSize="14"/>
                                                     <nil key="textColor"/>
@@ -298,7 +298,7 @@
                 <constraint firstItem="Biy-ss-bQ1" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="ZZj-C1-5va"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-273" y="58"/>
+            <point key="canvasLocation" x="55" y="-57"/>
         </view>
     </objects>
     <resources>

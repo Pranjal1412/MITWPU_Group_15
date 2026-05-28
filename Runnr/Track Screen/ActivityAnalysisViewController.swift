@@ -436,7 +436,7 @@ extension ActivityAnalysisViewController {
                 .foregroundColor: UIColor(hex: "#ADF845"),
                 .kern: 4.0
             ]
-            NSAttributedString(string: "Runnr.", attributes: brandAttrs).draw(at: CGPoint(x: 20, y: 16))
+            NSAttributedString(string: "RUNR.", attributes: brandAttrs).draw(at: CGPoint(x: 20, y: 16))
 
             let avatarY    = mapHeight + 16
             let avatarRect = CGRect(x: 20, y: avatarY, width: 44, height: 44)
@@ -495,7 +495,7 @@ extension ActivityAnalysisViewController {
                 .foregroundColor: UIColor(hex: "#444444"),
                 .kern: 2.5
             ]
-            let tagStr  = NSAttributedString(string: "Tracked with Runnr.", attributes: tagAttrs)
+            let tagStr  = NSAttributedString(string: "Tracked with RUNR.", attributes: tagAttrs)
             let tagSize = tagStr.size()
             tagStr.draw(at: CGPoint(x: (cardWidth - tagSize.width) / 2, y: barY + 12))
         }

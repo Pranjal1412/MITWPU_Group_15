@@ -26,7 +26,7 @@ class IntroductionViewController: UIViewController {
 
     @IBAction func skipButtonPressed(_ sender: UIButton) {
         self.dismiss(animated: true) {
-            let alert = UIAlertController(title: String(localized: "Welcome to Runnr."), message: String(localized: "Congratulations! You’ve earned 100 points!"), preferredStyle: .alert)
+            let alert = UIAlertController(title: String(localized: "Welcome to RUNR."), message: String(localized: "Congratulations! You’ve earned 100 points!"), preferredStyle: .alert)
 
             let claimAction = UIAlertAction(title: String(localized: "Claim!"), style: .default, handler: nil)
             alert.addAction(claimAction)
