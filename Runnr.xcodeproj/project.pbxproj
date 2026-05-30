@@ -31,6 +31,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9A91F36B2FCB3EB500651CC1 /* Runnr Watch App Watch App */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Runnr Watch App Watch App"; sourceTree = "<group>"; };
 		C961DCCA2FAFBA9E00C291D2 /* Runnr Watch App Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Runnr Watch App Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C961EA052FAFC3E300C291D2 /* Runnr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Runnr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9DFB49E2F24BF6F0002325C /* keepGoing.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = keepGoing.mp3; sourceTree = "<group>"; };
@@ -71,11 +72,6 @@
 			path = Runnr;
 			sourceTree = "<group>";
 		};
-		C961DCCB2FAFBA9E00C291D2 /* Runnr Watch App Watch App */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Runnr Watch App Watch App";
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,7 +110,7 @@
 				C9DFB49C2F24BF470002325C /* Resources */,
 				19217CC72EA0E064009AFC93 /* Runnr */,
 				C961DCCA2FAFBA9E00C291D2 /* Runnr Watch App Watch App.app */,
-				C961DCCB2FAFBA9E00C291D2 /* Runnr Watch App Watch App */,
+				9A91F36B2FCB3EB500651CC1 /* Runnr Watch App Watch App */,
 				C961EA052FAFC3E300C291D2 /* Runnr.app */,
 			);
 			sourceTree = "<group>";
@@ -192,9 +188,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				C961DCCB2FAFBA9E00C291D2 /* Runnr Watch App Watch App */,
 			);
 			name = "Runnr Watch App Watch App";
 			packageProductDependencies = (
@@ -325,7 +318,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = A624XAHBM7;
+				DEVELOPMENT_TEAM = C5V32CXBL9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Runnr/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = RUNR.;
@@ -347,7 +340,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.DevTeam.Runnr;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pranjal.dev1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -546,6 +539,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Runnr-Watch-App-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Runnr Watch App";
+				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "We read your data to track your workout.";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "We read your heart rate and activity data to track your workout.";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We save your workout data to HealthKit to provide post-run insights.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
@@ -585,6 +579,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Runnr-Watch-App-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Runnr Watch App";
+				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "We read your data to track your workout.";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "We read your heart rate and activity data to track your workout.";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We save your workout data to HealthKit to provide post-run insights.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
