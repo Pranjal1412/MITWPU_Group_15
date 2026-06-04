@@ -208,15 +208,27 @@ class JoinUsViewController: UIViewController {
     func checkSession() {
         if let session = supabase.auth.currentSession {
             let user = session.user
-            self.userProfile.userID = user.id
-            self.userProfile.emailAddress = user.email ?? ""
-            self.userProfile.userName = user.userMetadata["full_name"]?.stringValue ?? ""
-            self.userProfile.userProfileImageURL = user.userMetadata["avatar_url"]?.stringValue ?? ""
-            DataSource.shared.setUserProfile(self.userProfile)
+            
+            Task {
+                if let userProfile = await fetchUserProfile(userId: user.id) {
+                    DataSource.shared.setUserProfile(userProfile)
+                    isSignUpComplete = true
+                    self.navigationController?.popToRootViewController(animated: false)
+                }
+                else {
+                    self.userProfile.userID = user.id
+                    self.userProfile.emailAddress = user.email ?? ""
+                    self.userProfile.userName = user.userMetadata["full_name"]?.stringValue ?? ""
+                    self.userProfile.userProfileImageURL = user.userMetadata["avatar_url"]?.stringValue ?? ""
+                    DataSource.shared.setUserProfile(self.userProfile)
+                    
+                    let destinationVC = SetProfileViewController()
+                    destinationVC.modalPresentationStyle = .fullScreen
+                    self.present(destinationVC, animated: true)
+                }
+            }
 
-            let destinationVC = SetProfileViewController()
-            destinationVC.modalPresentationStyle = .fullScreen
-            self.present(destinationVC, animated: true)
+
         }
     }
 }

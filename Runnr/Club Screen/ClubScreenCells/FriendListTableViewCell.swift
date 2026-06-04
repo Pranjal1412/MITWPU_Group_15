@@ -33,6 +33,9 @@ class FriendListTableViewCell: UITableViewCell {
         if let url = URL(string: data.userProfileImageURL!) {
             self.imageProfileFriends.kf.setImage(with: url)
         }
+        else {
+            self.imageProfileFriends.image = UIImage(systemName: "person.crop.circle")
+        }
 
         self.followingID = data.userID
 
