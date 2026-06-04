@@ -40,13 +40,9 @@ class JoinUsViewController: UIViewController {
         settingTextFields()
     }
 
-    // MARK: - Keyboard
-
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-
-    // MARK: - Setup
 
     func settingTitle() {
         let thinFont = UIFont(name: "SF-Pro-Display-Thin", size: 33) ?? UIFont.systemFont(ofSize: 33, weight: .thin)
@@ -85,12 +81,6 @@ class JoinUsViewController: UIViewController {
         setGlassEffect(for: self.buttonBack, withImage: "chevron.backward")
         self.buttonBack.tintColor = .white
         self.buttonBack.setImage(UIImage(systemName: "chevron.left"), for: .normal)
-//        buttonGoogle.layer.borderWidth = 1
-//        let borderColor = UIColor.white.cgColor
-//        buttonGoogle.layer.borderColor = borderColor
-//        buttonApple.layer.borderWidth = 1
-//        buttonApple.layer.borderColor = borderColor
-
     }
 
     func settingTextFields() {
@@ -116,8 +106,6 @@ class JoinUsViewController: UIViewController {
         )
     }
 
-    // MARK: - Validation
-
     func validateInputs() -> Bool {
         guard let email = textFieldEmail.text, !email.trimmingCharacters(in: .whitespaces).isEmpty else {
             showAlert(title: String(localized: "Missing Email"), message: String(localized: "Please enter your email address."))
@@ -139,8 +127,6 @@ class JoinUsViewController: UIViewController {
         alert.addAction(UIAlertAction(title: String(localized: "OK"), style: .default))
         present(alert, animated: true)
     }
-
-    // MARK: - Actions
 
     @IBAction func signUpButtonPressed(_ sender: UIButton) {
         guard validateInputs() else { return }
@@ -227,8 +213,6 @@ class JoinUsViewController: UIViewController {
                     self.present(destinationVC, animated: true)
                 }
             }
-
-
         }
     }
 }
