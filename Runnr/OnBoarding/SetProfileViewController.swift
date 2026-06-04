@@ -7,6 +7,7 @@
 
 import UIKit
 import PhotosUI
+import Kingfisher
 
 class SetProfileViewController: UIViewController, UITextViewDelegate {
 
@@ -30,7 +31,8 @@ class SetProfileViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var textFieldUsername: UITextField!
     @IBOutlet weak var buttonProfileImage: UIButton!
     @IBOutlet weak var profileImage: UIImageView!
-
+    @IBOutlet weak var labelPageCount: UILabel!
+    
     private var selectedButton: UIButton?
     var userProfile = DataSource.shared.getUserProfile()
     let supabase = SupabaseManager.shared
@@ -41,6 +43,12 @@ class SetProfileViewController: UIViewController, UITextViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.selectedButton = self.buttonOther
+        self.selectedButton!.backgroundColor = .accent.withAlphaComponent(0.1)
+        self.selectedButton!.setTitleColor(.accent, for: .normal)
+        self.selectedButton!.layer.borderWidth = 2
+        self.selectedButton!.layer.borderColor = self.selectedButton!.backgroundColor?.cgColor
 
         self.viewMainOne.frame.origin.x = 25
         self.viewMainOne.frame.origin.y = self.labelSubHeading.frame.height + self.labelSubHeading.frame.origin.y + 30
@@ -53,7 +61,21 @@ class SetProfileViewController: UIViewController, UITextViewDelegate {
         self.textFieldUsername.text = self.userProfile.userName
 
         self.profileImage.layer.cornerRadius = self.profileImage.frame.height / 2
+        if let url = URL(string: self.userProfile.userProfileImageURL ?? "") {
+            self.profileImage.kf.setImage(with: url)
+        }
+        self.profileURl = self.userProfile.userProfileImageURL ?? ""
 
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+        tapGesture.cancelsTouchesInView = false
+        viewMainOne.addGestureRecognizer(tapGesture)
+        viewMainTwo.addGestureRecognizer(tapGesture)
+
+        let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(viewTapped))
+        swipeGesture.direction = .down
+        viewMainOne.addGestureRecognizer(swipeGesture)
+        viewMainTwo.addGestureRecognizer(tapGesture)
+        
         setScreenElements()
 
     }
@@ -86,10 +108,9 @@ class SetProfileViewController: UIViewController, UITextViewDelegate {
     @IBAction func backButtonPressed(_ sender: UIButton) {
 
         self.buttonNext.setTitle(String(localized: "Next"), for: .normal)
-
         self.progressBar.setProgress(0.5, animated: true)
-
         self.buttonBack.isHidden = true
+        self.labelPageCount.text = "1 OF 2"
 
         UIView.animate(withDuration: 0.5) {
             self.viewMainOne.frame.origin.x += self.viewMainOne.frame.width + 50
@@ -121,6 +142,7 @@ class SetProfileViewController: UIViewController, UITextViewDelegate {
         if self.buttonNext.titleLabel?.text == "Next" {
             self.buttonNext.setTitle(String(localized: "Complete Profile"), for: .normal)
             self.progressBar.setProgress(1, animated: true)
+            self.labelPageCount.text = "2 OF 2"
             self.buttonBack.isHidden = false
 
             UIView.animate(withDuration: 0.5) {
@@ -135,9 +157,13 @@ class SetProfileViewController: UIViewController, UITextViewDelegate {
             Task {
                 await insertUserProfile(self.userProfile)
                 if self.userProfile.userID != nil {
-                    await insertUserStats(UserStats(userID: self.userProfile.userID!, numberOfFollowers: 100,
-                                                    numberOfFollowing: 0, totalPointsEarned: 0, totalDistanceCovered: 0,
-                                                    totalActivities: 0, longestStreak: 0))
+                    await insertUserStats(UserStats(userID: self.userProfile.userID!,
+                                                    numberOfFollowers: 0,
+                                                    numberOfFollowing: 0,
+                                                    totalPointsEarned: 100,
+                                                    totalDistanceCovered: 0,
+                                                    totalActivities: 0,
+                                                    longestStreak: 0))
                 }
 
                 if let presenter = self.presentingViewController as? UINavigationController {
@@ -161,7 +187,9 @@ class SetProfileViewController: UIViewController, UITextViewDelegate {
             self.userProfile.gender = nil
         }
 
-        self.userProfile.userName = self.username
+        if self.username != "" {
+            self.userProfile.userName = self.username
+        }
         self.userProfile.height = Double(self.height)
         self.userProfile.weight = Double(self.weight)
         self.userProfile.userLevel = .none

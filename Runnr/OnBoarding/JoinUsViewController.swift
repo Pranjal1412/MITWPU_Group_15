@@ -210,6 +210,8 @@ class JoinUsViewController: UIViewController {
             let user = session.user
             self.userProfile.userID = user.id
             self.userProfile.emailAddress = user.email ?? ""
+            self.userProfile.userName = user.userMetadata["full_name"]?.stringValue ?? ""
+            self.userProfile.userProfileImageURL = user.userMetadata["avatar_url"]?.stringValue ?? ""
             DataSource.shared.setUserProfile(self.userProfile)
 
             let destinationVC = SetProfileViewController()

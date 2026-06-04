@@ -29,6 +29,7 @@
                 <outlet property="buttonUserProfile" destination="OUx-lk-Uce" id="L8K-u6-w66"/>
                 <outlet property="labelFullName" destination="yF2-UG-7N6" id="dXe-Nm-eIY"/>
                 <outlet property="labelHeading" destination="u2y-Al-6i2" id="vf4-J1-Mne"/>
+                <outlet property="labelPageCount" destination="3B5-xV-6W3" id="Rus-Qg-nHO"/>
                 <outlet property="labelSubHeading" destination="U6n-c8-nBq" id="Hkd-NC-a0U"/>
                 <outlet property="profileImage" destination="37W-cU-qXC" id="wnc-nb-rbI"/>
                 <outlet property="progressBar" destination="bbS-ew-Wem" id="vlG-Rf-OMb"/>
@@ -294,7 +295,7 @@
             <connections>
                 <action selector="viewTapped:" destination="-1" eventType="touchUpInside" id="thO-uN-hKS"/>
             </connections>
-            <point key="canvasLocation" x="-112" y="156"/>
+            <point key="canvasLocation" x="-699" y="172"/>
         </view>
     </objects>
     <resources>
@@ -315,7 +316,7 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray2Color">
-            <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.68235294120000001" green="0.68235294120000001" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

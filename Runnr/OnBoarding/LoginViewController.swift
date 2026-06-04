@@ -38,13 +38,10 @@ class LoginViewController: UIViewController {
         settingTextFields()
     }
 
-    // MARK: - Keyboard
 
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-
-    // MARK: - Setup
 
     func settingTitle() {
         let thinFont = UIFont(name: "SF-Pro-Display-Thin", size: 33) ?? UIFont.systemFont(ofSize: 33, weight: .thin)

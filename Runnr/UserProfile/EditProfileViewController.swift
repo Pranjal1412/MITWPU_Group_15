@@ -20,7 +20,6 @@ class EditProfileViewController: UIViewController {
     @IBOutlet weak var buttonSaveChanges: UIButton!
     @IBOutlet weak var buttonCancel: UIButton!
     @IBOutlet weak var viewUsername: UIView!
-    @IBOutlet weak var viewName: UIView!
     @IBOutlet weak var viewEmail: UIView!
     @IBOutlet weak var labelEmail: UILabel!
     @IBOutlet weak var viewHeight: UIView!
@@ -60,7 +59,6 @@ class EditProfileViewController: UIViewController {
         setGlassEffect(for: self.buttonCancel, withImage: "multiply")
         setGlassEffect(for: self.buttonSaveChanges, withImage: "checkmark")
 
-        viewName.layer.cornerRadius = 10
         viewEmail.layer.cornerRadius = 10
         viewSport.layer.cornerRadius = 10
         viewBiography.layer.cornerRadius = 10
