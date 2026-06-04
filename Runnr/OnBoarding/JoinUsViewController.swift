@@ -165,7 +165,16 @@ class JoinUsViewController: UIViewController {
             } catch {
                 await MainActor.run {
                     self.buttonSignUp.isEnabled = true
-                    self.showAlert(title: String(localized: "Sign Up Failed"), message: error.localizedDescription)
+                    let message = error.localizedDescription
+
+                    if message.contains("already registered") {
+                        self.showAlert(
+                            title: "Account Exists",
+                            message: "An account with this email already exists. Please try logging in."
+                        )
+                    } else {
+                        self.showAlert(title: "Sign Up Failed", message: message)
+                    }
                 }
             }
         }
