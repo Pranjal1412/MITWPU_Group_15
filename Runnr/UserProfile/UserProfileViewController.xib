@@ -183,23 +183,35 @@
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="gvH-h2-T8q">
                             <rect key="frame" x="20" y="204.33333333333331" width="362" height="60"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1000 Km" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I27-8p-GWV">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00 Km" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I27-8p-GWV">
                                     <rect key="frame" x="0.0" y="0.0" width="362" height="18"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="18" id="5fj-m3-rca"/>
+                                    </constraints>
                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ZMn-v1-7Eg">
+                                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZMn-v1-7Eg">
                                     <rect key="frame" x="0.0" y="28" width="362" height="4"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="4" id="LXW-Ro-8QU"/>
+                                    </constraints>
                                     <color key="progressTintColor" name="AccentColor"/>
                                 </progressView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="644 Km to Achiever" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pFg-3t-d8z">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pFg-3t-d8z">
                                     <rect key="frame" x="0.0" y="42" width="362" height="18"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="18" id="YeH-zO-Jft"/>
+                                    </constraints>
                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="60" id="AId-xt-UuL"/>
+                            </constraints>
                         </stackView>
                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="17F-EF-Fpn" userLabel="ActivitySummary">
                             <rect key="frame" x="20" y="294.33333333333331" width="362" height="45"/>
