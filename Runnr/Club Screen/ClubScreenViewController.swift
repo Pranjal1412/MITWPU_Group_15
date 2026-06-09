@@ -48,7 +48,7 @@ class ClubScreenViewController: UIViewController {
     var userProfile = DataSource.shared.getUserProfile()
 
     var totalPoints: Int {
-        dataSource.getTotalRunnrPoints()
+        dataSource.getUserStats()?.totalPointsEarned ?? 0
     }
     var clubsArray: [Club] {
         DataSource.shared.getclubsArray()

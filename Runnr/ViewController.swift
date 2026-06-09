@@ -81,10 +81,10 @@ class ViewController: UIViewController {
                         let userStats = await fetchUserStats(userId: user.id) ??
                         UserStats(
                             userID: user.id,
-                            numberOfFollowers: 1,
-                            numberOfFollowing: 1,
-                            totalPointsEarned: 1,
-                            totalDistanceCovered: 1,
+                            numberOfFollowers: 0,
+                            numberOfFollowing: 0,
+                            totalPointsEarned: 100,
+                            totalDistanceCovered: 0,
                             totalActivities: 0,
                             longestStreak: 0
                         )

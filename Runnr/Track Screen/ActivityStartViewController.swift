@@ -27,7 +27,7 @@ class ActivityStartViewController: UIViewController {
     var dataSource = DataSource.shared
     var hasShownRecoveryAlert = false
     var totalPoints: Int {
-        dataSource.getTotalRunnrPoints()
+        dataSource.getUserStats()?.totalPointsEarned ?? 0
     }
 
     override func viewDidLoad() {

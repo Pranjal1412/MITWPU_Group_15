@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol updateRunrPoints {
+    func setRunrPoints(points: Int)
+}
+
 class SoloChallengeCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var viewCellBackground: UIView!
@@ -22,11 +26,11 @@ class SoloChallengeCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var buttonClaimPoints: UIButton!
 
     var challenge: AssignedChallengesProgress?
+    var delegate: updateRunrPoints?
 
     override func awakeFromNib() {
         super.awakeFromNib()
         resetCellUI()
-
     }
 
     override func prepareForReuse() {
@@ -37,7 +41,6 @@ class SoloChallengeCollectionViewCell: UICollectionViewCell {
     func configureCell(challenge: AssignedChallengesProgress) {
 
         self.challenge = challenge
-
         self.imageViewChallenge.image = UIImage(systemName: challenge.challengeDetails.SFSymbolName)
         labelChallengeHeading.text = challenge.challengeDetails.title
         labelRewardPoints.text = "+" + String(challenge.challengeDetails.rewardPoints)
@@ -75,7 +78,6 @@ class SoloChallengeCollectionViewCell: UICollectionViewCell {
         else {
             viewGradient.isHidden = true
         }
-
     }
 
     @IBAction func claimPointsPressed(_ sender: UIButton) {
@@ -83,12 +85,16 @@ class SoloChallengeCollectionViewCell: UICollectionViewCell {
         self.challenge?.assignedChallenge.rewardClaimed = true
         rewardClamiedUpdateUI()
 
-        var userStats = DataSource.shared.getUserStats()
-        userStats?.totalPointsEarned += challenge!.challengeDetails.rewardPoints
-
-        Task {
-            await updateAssignedChallengeRewards(challenge: self.challenge!.assignedChallenge)
-            await updateUserStats(userID: userStats!.userID, newStats: userStats!)
+        if var userStats = DataSource.shared.getUserStats() {
+            userStats.totalPointsEarned += challenge!.challengeDetails.rewardPoints
+            DataSource.shared.setUserStats(userStats)
+            
+            Task {
+                await updateAssignedChallengeRewards(challenge: self.challenge!.assignedChallenge)
+                await updateUserStats(userID: userStats.userID, newStats: userStats)
+            }
+            
+            self.delegate?.setRunrPoints(points: userStats.totalPointsEarned)
         }
     }
 

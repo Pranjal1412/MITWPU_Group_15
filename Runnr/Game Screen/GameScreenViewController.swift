@@ -1,8 +1,7 @@
 import UIKit
 import Kingfisher
 
-class GameScreenViewController: UIViewController {
-
+class GameScreenViewController: UIViewController, updateRunrPoints {
     // @IBOutlet weak var segmentedControlGame: UISegmentedControl!
     @IBOutlet weak var viewCurrency: UIView!
     @IBOutlet weak var labelScreenTitle: UILabel!
@@ -15,11 +14,10 @@ class GameScreenViewController: UIViewController {
     private let sideInset: CGFloat = 9
     var dataSource = DataSource.shared
     var totalPoints: Int {
-        dataSource.getTotalRunnrPoints()
+        dataSource.getUserStats()?.totalPointsEarned ?? 0
     }
 
     private var userProfile = DataSource.shared.getUserProfile()
-    // private var expandedIndexPath: IndexPath?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,7 +98,10 @@ class GameScreenViewController: UIViewController {
         destinationVC.modalPresentationStyle = .fullScreen
         self.present(destinationVC, animated: true)
     }
-
+    
+    func setRunrPoints(points: Int) {
+        self.labelTotalPoints.text = "\(points)"
+    }
 }
 
 extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -171,6 +172,7 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "soloChallengeCell", for: indexPath) as? SoloChallengeCollectionViewCell else {
                 return UICollectionViewCell()
             }
+            cell.delegate = self
             let soloChallenges = dataSource.getSoloChallenges()
             if !soloChallenges.isEmpty {
                 cell.configureCell(challenge: soloChallenges[indexPath.row])

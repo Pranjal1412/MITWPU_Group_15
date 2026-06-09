@@ -35,7 +35,7 @@ class InsightsScreenViewController: UIViewController {
     private var graphStore = GraphManager()
 
     var totalPoints: Int {
-        dataSource.getTotalRunnrPoints()
+        dataSource.getUserStats()?.totalPointsEarned ?? 0
     }
 
     // MARK: - Lifecycle
