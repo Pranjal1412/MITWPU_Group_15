@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24765" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24743"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -206,11 +206,11 @@
                                                 <constraint firstAttribute="height" constant="45" id="kdb-0P-g6b"/>
                                             </constraints>
                                         </stackView>
-                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="31" translatesAutoresizingMaskIntoConstraints="NO" id="ZN1-y6-WP4">
-                                            <rect key="frame" x="0.0" y="65" width="276.66666666666669" height="57.666666666666657"/>
+                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="ZN1-y6-WP4">
+                                            <rect key="frame" x="0.0" y="65" width="322" height="57.666666666666657"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="LPC-Fd-mRh">
-                                                    <rect key="frame" x="0.0" y="0.0" width="73.333333333333329" height="57.666666666666664"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="92.666666666666671" height="57.666666666666664"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Calories" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6AI-hd-BPb">
                                                             <rect key="frame" x="0.0" y="0.0" width="54" height="26.333333333333332"/>
@@ -227,7 +227,7 @@
                                                     </subviews>
                                                 </stackView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="n1N-tI-stQ">
-                                                    <rect key="frame" x="104.33333333333334" y="0.0" width="81.333333333333343" height="57.666666666666664"/>
+                                                    <rect key="frame" x="112.66666666666666" y="0.0" width="103" height="57.666666666666664"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Steps Taken" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DhW-Zi-N9I">
                                                             <rect key="frame" x="0.0" y="0.0" width="81.333333333333329" height="26.333333333333332"/>
@@ -244,7 +244,7 @@
                                                     </subviews>
                                                 </stackView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="2sU-as-q9F">
-                                                    <rect key="frame" x="216.66666666666669" y="0.0" width="60" height="57.666666666666664"/>
+                                                    <rect key="frame" x="235.66666666666671" y="0.0" width="86.333333333333343" height="57.666666666666657"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Elevation" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WrT-Iv-9Lo">
                                                             <rect key="frame" x="0.0" y="0.0" width="60" height="26.333333333333332"/>
@@ -268,6 +268,7 @@
                                         <constraint firstItem="4bb-gg-wIt" firstAttribute="top" secondItem="yNL-bv-dEP" secondAttribute="top" id="ZpL-jN-A9a"/>
                                         <constraint firstAttribute="trailing" secondItem="4bb-gg-wIt" secondAttribute="trailing" id="aGo-7n-VtY"/>
                                         <constraint firstAttribute="bottom" secondItem="ZN1-y6-WP4" secondAttribute="bottom" id="f5s-sq-4FC"/>
+                                        <constraint firstAttribute="trailing" secondItem="ZN1-y6-WP4" secondAttribute="trailing" id="mxr-79-aP4"/>
                                         <constraint firstItem="ZN1-y6-WP4" firstAttribute="leading" secondItem="yNL-bv-dEP" secondAttribute="leading" id="vgH-PY-fNe"/>
                                     </constraints>
                                 </stackView>
@@ -511,7 +512,7 @@
                     <exclude reference="ScL-Vn-JNs"/>
                 </mask>
             </variation>
-            <point key="canvasLocation" x="1006" y="-224"/>
+            <point key="canvasLocation" x="92.537313432835816" y="554.69107551487411"/>
         </view>
     </objects>
     <resources>
