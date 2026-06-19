@@ -324,6 +324,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = RUNR.;
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app needs camera access";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "We read Apple Watch heart rate and calorie data to show post-run insights.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We need permission to save the activity recordedon Apple Watch";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Your location is needed even when the screen is locked.";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Your location is needed even when the screen is locked.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is used to track your running path.";
@@ -372,6 +373,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = RUNR.;
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app needs camera access";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "We read Apple Watch heart rate and calorie data to show post-run insights.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We need permission to save the activity recordedon Apple Watch";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Your location is needed even when the screen is locked.";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Your location is needed even when the screen is locked.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is used to track your running path.";
