@@ -6,16 +6,23 @@
 import UIKit
 import Auth
 import Supabase
+import AuthenticationServices
 
-class JoinUsViewController: UIViewController {
+class JoinUsViewController: UIViewController, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
+    
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window!
+    }
+    
 
+    @IBOutlet weak var stackJoinButtons: UIStackView!
     @IBOutlet weak var labelScreenTitle: UILabel!
     @IBOutlet weak var viewEmailBackground: UIView!
     @IBOutlet weak var viewPasswordBackground: UIView!
     @IBOutlet weak var textFieldEmail: UITextField!
     @IBOutlet weak var textFieldPassword: UITextField!
     @IBOutlet weak var buttonGoogle: UIButton!
-    @IBOutlet weak var buttonApple: UIButton!
+    @IBOutlet weak var buttonApple: ASAuthorizationAppleIDButton!
     @IBOutlet weak var buttonSignUp: UIButton!
     @IBOutlet weak var buttonBack: UIButton!
 
@@ -34,6 +41,8 @@ class JoinUsViewController: UIViewController {
         swipeGesture.direction = .down
         view.addGestureRecognizer(swipeGesture)
 
+        buttonApple.addTarget(self, action: #selector(handleAuthorizationAppleIDButtonPress), for: .touchUpInside)
+        
         settingTitle()
         settingViews()
         settingButton()
@@ -74,8 +83,8 @@ class JoinUsViewController: UIViewController {
         buttonSignUp.layer.cornerRadius = buttonSignUp.frame.height / 2
         buttonSignUp.setTitle(String(localized: "Sign Up"), for: .normal)
         buttonApple.layer.cornerRadius = buttonApple.frame.height / 2
-        buttonApple.setTitle(String(localized: "Sign Up with Apple ID"), for: .normal)
-        buttonGoogle.layer.cornerRadius = buttonGoogle.frame.height / 2
+//        buttonApple.setTitle(String(localized: "Sign Up with Apple ID"), for: .normal)
+//        buttonGoogle.layer.cornerRadius = buttonGoogle.frame.height / 2
         buttonGoogle.isUserInteractionEnabled = true
         buttonGoogle.bringSubviewToFront(buttonGoogle.titleLabel!)
         setGlassEffect(for: self.buttonBack, withImage: "chevron.backward")
@@ -196,6 +205,17 @@ class JoinUsViewController: UIViewController {
                 print("Google sign-in error: \(error)")
             }
         }
+    }
+    
+    @objc func handleAuthorizationAppleIDButtonPress() {
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.delegate = self
+        authorizationController.presentationContextProvider = self
+        authorizationController.performRequests()
     }
 
     // MARK: - Session

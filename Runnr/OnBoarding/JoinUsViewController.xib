@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="25098" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="25073"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -19,11 +19,12 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="JoinUsViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
-                <outlet property="buttonApple" destination="mAF-D3-Q1h" id="Hpd-XV-Xro"/>
+                <outlet property="buttonApple" destination="mAF-D3-Q1h" id="bOE-Jp-bRR"/>
                 <outlet property="buttonBack" destination="dk1-Yb-J6U" id="ji8-Cj-wkG"/>
                 <outlet property="buttonGoogle" destination="jJ7-6Z-twB" id="mEq-Yy-wBM"/>
                 <outlet property="buttonSignUp" destination="d0I-ak-poB" id="g6D-DK-ReM"/>
                 <outlet property="labelScreenTitle" destination="jLJ-hG-Rtn" id="HP7-DJ-Y0K"/>
+                <outlet property="stackJoinButtons" destination="zq6-4a-WRq" id="vDb-et-ihr"/>
                 <outlet property="textFieldEmail" destination="Clm-So-LpD" id="NTs-iT-lpP"/>
                 <outlet property="textFieldPassword" destination="fPj-yi-mUB" id="amR-6w-9Z8"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -115,8 +116,22 @@
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="zq6-4a-WRq">
                     <rect key="frame" x="40" y="701" width="322" height="123"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jJ7-6Z-twB">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mAF-D3-Q1h" customClass="ASAuthorizationAppleIDButton">
                             <rect key="frame" x="0.0" y="0.0" width="322" height="54"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="54" id="a18-wk-gh6"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="16"/>
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="   Sign Up with Apple ID">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <imageReference key="image" image="apple.logo" catalog="system" symbolScale="large"/>
+                            </state>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jJ7-6Z-twB">
+                            <rect key="frame" x="0.0" y="69" width="322" height="54"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="54" id="Ddi-7c-gNs"/>
@@ -130,20 +145,6 @@
                             <connections>
                                 <action selector="buttonGooglePressed:" destination="-1" eventType="touchUpInside" id="RjV-u5-w3A"/>
                             </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mAF-D3-Q1h">
-                            <rect key="frame" x="0.0" y="69" width="322" height="54"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="54" id="a18-wk-gh6"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="16"/>
-                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                            <state key="normal" title="   Sign Up with Apple ID">
-                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <imageReference key="image" image="apple.logo" catalog="system" symbolScale="large"/>
-                            </state>
                         </button>
                     </subviews>
                 </stackView>
@@ -171,12 +172,12 @@
                 <constraint firstItem="d0I-ak-poB" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="40" id="ujI-B3-wac"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-1.4925373134328357" y="106.40732265446223"/>
+            <point key="canvasLocation" x="203" y="106"/>
         </view>
     </objects>
     <resources>
-        <image name="apple.logo" catalog="system" width="105" height="128"/>
-        <image name="chevron.left" catalog="system" width="97" height="128"/>
+        <image name="apple.logo" catalog="system" width="101" height="128"/>
+        <image name="chevron.left" catalog="system" width="93" height="128"/>
         <image name="googleLogo" width="25" height="25"/>
         <namedColor name="AccentColor">
             <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
