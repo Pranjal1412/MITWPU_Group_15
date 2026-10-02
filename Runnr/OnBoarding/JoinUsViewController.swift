@@ -8,13 +8,8 @@ import Auth
 import Supabase
 import AuthenticationServices
 
-class JoinUsViewController: UIViewController, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
+class JoinUsViewController: UIViewController {
     
-    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        return self.view.window!
-    }
-    
-
     @IBOutlet weak var stackJoinButtons: UIStackView!
     @IBOutlet weak var labelScreenTitle: UILabel!
     @IBOutlet weak var viewEmailBackground: UIView!
@@ -256,5 +251,44 @@ extension JoinUsViewController: UITextFieldDelegate {
             textField.resignFirstResponder()
         }
         return true
+    }
+}
+
+extension JoinUsViewController: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
+    
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window!
+    }
+    
+    func authorizationController(controller: ASAuthorizationController,
+                                   didCompleteWithAuthorization authorization: ASAuthorization) {
+        
+        guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential,
+              let identityTokenData = appleIDCredential.identityToken,
+              let identityToken = String(data: identityTokenData, encoding: .utf8) else {
+            return
+        }
+
+        Task {
+            do {
+                try await supabase.auth.signInWithIdToken(credentials: OpenIDConnectCredentials(
+                        provider: .apple,
+                        idToken: identityToken
+                    )
+                )
+                
+                self.checkSession()
+        
+            } catch {
+                print("Supabase sign-in failed: \(error)")
+                // TODO: show an error alert to the user
+            }
+        }
+    }
+
+    func authorizationController(controller: ASAuthorizationController,
+                                   didCompleteWithError error: Error) {
+        print("Apple sign-in failed: \(error)")
+        // TODO: show an error alert — handle ASAuthorizationError.canceled separately (user just dismissed the sheet)
     }
 }

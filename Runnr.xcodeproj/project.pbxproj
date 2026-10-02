@@ -318,7 +318,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = C5V32CXBL9;
+				DEVELOPMENT_TEAM = FS8622R56Y;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Runnr/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = RUNR.;
@@ -341,7 +341,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.pranjal.dev1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mitwpu.runrapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -367,7 +367,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = A624XAHBM7;
+				DEVELOPMENT_TEAM = FS8622R56Y;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Runnr/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = RUNR.;
@@ -390,6 +390,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mitwpu.runrapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;

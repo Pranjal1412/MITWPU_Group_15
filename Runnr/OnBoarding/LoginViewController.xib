@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="25098" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="25073"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -19,7 +19,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginViewController" customModule="Runnr" customModuleProvider="target">
             <connections>
-                <outlet property="buttonApple" destination="mAF-D3-Q1h" id="Hpd-XV-Xro"/>
+                <outlet property="buttonApple" destination="mAF-D3-Q1h" id="wSU-TP-4Tj"/>
                 <outlet property="buttonBack" destination="lkz-8i-TAf" id="Udh-aj-GHq"/>
                 <outlet property="buttonGoogle" destination="jJ7-6Z-twB" id="mEq-Yy-wBM"/>
                 <outlet property="buttonLogin" destination="d0I-ak-poB" id="R9L-SR-11r"/>
@@ -131,7 +131,7 @@
                                 <action selector="buttonGooglePressed:" destination="-1" eventType="touchUpInside" id="Ttr-Ob-8fx"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mAF-D3-Q1h">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mAF-D3-Q1h" customClass="ASAuthorizationAppleIDButton">
                             <rect key="frame" x="0.0" y="69" width="322" height="54"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
@@ -166,12 +166,12 @@
                 <constraint firstItem="KFj-25-jVf" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="40" id="wzJ-Hw-X8l"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="137.31343283582089" y="153.77574370709382"/>
+            <point key="canvasLocation" x="-418" y="234"/>
         </view>
     </objects>
     <resources>
-        <image name="apple.logo" catalog="system" width="105" height="128"/>
-        <image name="chevron.left" catalog="system" width="97" height="128"/>
+        <image name="apple.logo" catalog="system" width="101" height="128"/>
+        <image name="chevron.left" catalog="system" width="93" height="128"/>
         <image name="googleLogo" width="25" height="25"/>
         <namedColor name="AccentColor">
             <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

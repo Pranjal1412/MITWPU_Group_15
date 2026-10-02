@@ -5,6 +5,7 @@
 
 import UIKit
 import Supabase
+import AuthenticationServices
 
 class LoginViewController: UIViewController {
 
@@ -14,7 +15,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var textFieldEmail: UITextField!
     @IBOutlet weak var textFieldPassword: UITextField!
     @IBOutlet weak var buttonGoogle: UIButton!
-    @IBOutlet weak var buttonApple: UIButton!
+    @IBOutlet weak var buttonApple: ASAuthorizationAppleIDButton!
     @IBOutlet weak var buttonLogin: UIButton!
     @IBOutlet weak var buttonBack: UIButton!
 
@@ -32,6 +33,8 @@ class LoginViewController: UIViewController {
         swipeGesture.direction = .down
         view.addGestureRecognizer(swipeGesture)
 
+        buttonApple.addTarget(self, action: #selector(handleAuthorizationAppleIDButtonPress), for: .touchUpInside)
+        
         settingTitle()
         settingViews()
         settingButton()
@@ -172,6 +175,17 @@ class LoginViewController: UIViewController {
         }
     }
 
+    @objc func handleAuthorizationAppleIDButtonPress() {
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.delegate = self
+        authorizationController.presentationContextProvider = self
+        authorizationController.performRequests()
+    }
+
     // MARK: - Session
 
     func checkSession() async {
@@ -195,4 +209,43 @@ extension LoginViewController: UITextFieldDelegate {
         }
         return true
     }
+}
+
+extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window!
+    }
+    
+    func authorizationController(controller: ASAuthorizationController,
+                                   didCompleteWithAuthorization authorization: ASAuthorization) {
+        
+        guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential,
+              let identityTokenData = appleIDCredential.identityToken,
+              let identityToken = String(data: identityTokenData, encoding: .utf8) else {
+            return
+        }
+
+        Task {
+            do {
+                try await supabase.auth.signInWithIdToken(credentials: OpenIDConnectCredentials(
+                        provider: .apple,
+                        idToken: identityToken
+                    )
+                )
+            
+                await self.checkSession()
+                
+            } catch {
+                print("Supabase sign-in failed: \(error)")
+                // TODO: show an error alert to the user
+            }
+        }
+    }
+
+    func authorizationController(controller: ASAuthorizationController,
+                                   didCompleteWithError error: Error) {
+        print("Apple sign-in failed: \(error)")
+        // TODO: show an error alert — handle ASAuthorizationError.canceled separately (user just dismissed the sheet)
+    }
+
 }
