@@ -37,11 +37,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UNUserNotificationCenter.current().delegate = self
 
-//        Task {
-//            if let session = SupabaseManager.shared.client.auth.currentSession {
-//                await NotificationManager.shared.start(userId: session.user.id)
-//            }
-//        }
 
         return true
     }
@@ -50,14 +45,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
-    }
-
-    func applicationDidBecomeActive(_ application: UIApplication) {
-//        Task {
-//            if let session = SupabaseManager.shared.client.auth.currentSession {
-//                await NotificationManager.shared.fetchLatest(userId: session.user.id)
-//            }
-//        }
     }
 
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
