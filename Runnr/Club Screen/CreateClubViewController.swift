@@ -175,7 +175,7 @@ class CreateClubViewController: UIViewController, UITextFieldDelegate {
             self.collectionViewClubActivity.isHidden = true
             lastpageView.isHidden = false
 
-            registerNotifications()
+//            registerNotifications()
             hideKeyboardWhenTappedAround()
 
         default:

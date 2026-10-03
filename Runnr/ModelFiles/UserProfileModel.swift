@@ -52,6 +52,12 @@ struct Settings {
     let title: String
 }
 
+struct DeviceToken : Encodable {
+    let user_id: UUID
+    let token: String
+    let environment: String
+}
+
 let settingsArray: [Int: [Settings]] = [ 0: [/*Settings(symbol: UIImage(systemName: "person.circle"), title: "About You"),*/
                                                 Settings(symbol: UIImage(systemName: "dot.radiowaves.left.and.right"), title: "Connect a Device")],
 //                                           1: [Settings(symbol: UIImage(systemName: "checkmark.shield"), title: "App Permission"),

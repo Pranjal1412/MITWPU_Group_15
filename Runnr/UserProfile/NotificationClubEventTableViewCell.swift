@@ -74,73 +74,73 @@ class NotificationClubEventTableViewCell: UITableViewCell {
         self.labelEventDescription.adjustsFontSizeToFitWidth = false
     }
 
-    func configure(with notification: RunnrNotification) {
-
-        var cleanedBody = notification.body ?? ""
-
-        cleanedBody = cleanedBody.replacingOccurrences(
-            of: "Tap to claim your reward!",
-            with: ""
-        )
-
-        cleanedBody = cleanedBody.replacingOccurrences(
-            of: "Tap to claim your rewards!",
-            with: ""
-        )
-
-        cleanedBody = cleanedBody.trimmingCharacters(
-            in: .whitespacesAndNewlines
-        )
-
-        self.labelTimestamp.text = formatDate(with: notification.createdAt)
-
-        let config = UIImage.SymbolConfiguration(
-            pointSize: 14,
-            weight: .semibold
-        )
-
-        var symbolName = "calendar"
-
-        // CLUB EVENT
-        if notification.title.lowercased().contains("new club event:") {
-
-            let eventTitle = notification.title
-                .replacingOccurrences(
-                    of: "New Club Event:",
-                    with: ""
-                )
-                .trimmingCharacters(
-                    in: .whitespacesAndNewlines
-                )
-
-            let clubName = cleanedBody
-
-            self.labelEventHeading.text = "\(clubName)\n\(eventTitle)"
-            self.labelEventDescription.text = ""
-
-            symbolName = "calendar"
-
-        } else {
-
-            self.labelEventHeading.text = notification.title
-            self.labelEventDescription.text = cleanedBody
-
-            // SOLO CHALLENGE
-            if notification.title.lowercased().contains("challenge") {
-                symbolName = "flag.checkered"
-            }
-
-            // FOLLOW
-            if notification.type == "friend_joined" {
-                symbolName = "person.fill"
-            }
-        }
-
-        self.imageClubProfile.image = UIImage(
-            systemName: symbolName,
-            withConfiguration: config
-        )?.withRenderingMode(.alwaysTemplate)
-    }
+//    func configure(with notification: RunnrNotification) {
+//
+//        var cleanedBody = notification.body ?? ""
+//
+//        cleanedBody = cleanedBody.replacingOccurrences(
+//            of: "Tap to claim your reward!",
+//            with: ""
+//        )
+//
+//        cleanedBody = cleanedBody.replacingOccurrences(
+//            of: "Tap to claim your rewards!",
+//            with: ""
+//        )
+//
+//        cleanedBody = cleanedBody.trimmingCharacters(
+//            in: .whitespacesAndNewlines
+//        )
+//
+//        self.labelTimestamp.text = formatDate(with: notification.createdAt)
+//
+//        let config = UIImage.SymbolConfiguration(
+//            pointSize: 14,
+//            weight: .semibold
+//        )
+//
+//        var symbolName = "calendar"
+//
+//        // CLUB EVENT
+//        if notification.title.lowercased().contains("new club event:") {
+//
+//            let eventTitle = notification.title
+//                .replacingOccurrences(
+//                    of: "New Club Event:",
+//                    with: ""
+//                )
+//                .trimmingCharacters(
+//                    in: .whitespacesAndNewlines
+//                )
+//
+//            let clubName = cleanedBody
+//
+//            self.labelEventHeading.text = "\(clubName)\n\(eventTitle)"
+//            self.labelEventDescription.text = ""
+//
+//            symbolName = "calendar"
+//
+//        } else {
+//
+//            self.labelEventHeading.text = notification.title
+//            self.labelEventDescription.text = cleanedBody
+//
+//            // SOLO CHALLENGE
+//            if notification.title.lowercased().contains("challenge") {
+//                symbolName = "flag.checkered"
+//            }
+//
+//            // FOLLOW
+//            if notification.type == "friend_joined" {
+//                symbolName = "person.fill"
+//            }
+//        }
+//
+//        self.imageClubProfile.image = UIImage(
+//            systemName: symbolName,
+//            withConfiguration: config
+//        )?.withRenderingMode(.alwaysTemplate)
+//    }
 
     override func layoutSubviews() {
         super.layoutSubviews()

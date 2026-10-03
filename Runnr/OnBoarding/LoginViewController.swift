@@ -142,9 +142,9 @@ class LoginViewController: UIViewController {
 
                 await MainActor.run {
                     self.buttonLogin.isEnabled = true
-                    Task {
-                        await NotificationManager.shared.start(userId: session.user.id)
-                    }
+//                    Task {
+//                        await NotificationManager.shared.start(userId: session.user.id)
+//                    }
                     isSignUpComplete = true
                     self.navigationController?.popToRootViewController(animated: false)
                 }
@@ -190,9 +190,9 @@ class LoginViewController: UIViewController {
 
     func checkSession() async {
         if let session = supabase.auth.currentSession {
-            Task {
-                await NotificationManager.shared.start(userId: session.user.id)
-            }
+//            Task {
+//                await NotificationManager.shared.start(userId: session.user.id)
+//            }
             self.navigationController?.popToRootViewController(animated: false)
         }
     }

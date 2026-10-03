@@ -28,16 +28,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Initialize Watch Connectivity
         _ = WatchConnectivityManager.shared
 
-        UNUserNotificationCenter.current().delegate = self
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in
-            print("Permission granted: \(granted)")
-        }
-
-        Task {
-            if let session = SupabaseManager.shared.client.auth.currentSession {
-                await NotificationManager.shared.start(userId: session.user.id)
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, _ in
+            guard granted else { return }
+            DispatchQueue.main.async {
+                UIApplication.shared.registerForRemoteNotifications()
             }
         }
+        
+        UNUserNotificationCenter.current().delegate = self
+
+//        Task {
+//            if let session = SupabaseManager.shared.client.auth.currentSession {
+//                await NotificationManager.shared.start(userId: session.user.id)
+//            }
+//        }
 
         return true
     }
@@ -49,11 +53,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        Task {
-            if let session = SupabaseManager.shared.client.auth.currentSession {
-                await NotificationManager.shared.fetchLatest(userId: session.user.id)
-            }
-        }
+//        Task {
+//            if let session = SupabaseManager.shared.client.auth.currentSession {
+//                await NotificationManager.shared.fetchLatest(userId: session.user.id)
+//            }
+//        }
     }
 
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
@@ -61,9 +65,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
+    // Get the token for the device + app
+    func application(_ application: UIApplication,
+                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let token = deviceToken.map { String(format: "%02x", $0) }.joined()
+        print("Device token: \(token)")
+        
+        #if DEBUG
+        let env = "sandbox"
+        
+        #else
+        let env = "production"
+        #endif
+
+        Task {
+            do {
+                let supabase = SupabaseManager.shared.client
+                let session = try await supabase.auth.session
+                let row = DeviceToken(user_id: session.user.id, token: token, environment: env)
+                try await supabase
+                    .from("device_tokens")
+                    .upsert(row, onConflict: "user_id,token")
+                    .execute()
+            } catch {
+                print("Failed to save token: \(error)")
+            }
+        }
+        
+    }
+
+    func application(_ application: UIApplication,
+                     didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("Failed: \(error)")
+    }
+    
+    // Notification arrives while the app is OPEN
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.banner, .sound, .badge])
     }
+
 }
