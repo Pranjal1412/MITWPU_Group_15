@@ -36,15 +36,15 @@ class UserLocationManager: NSObject, CLLocationManagerDelegate {
     }
 
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == .authorizedAlways {
+        switch status {
+        case .authorizedWhenInUse, .authorizedAlways:
             locationManager.allowsBackgroundLocationUpdates = true
             locationManager.pausesLocationUpdatesAutomatically = false
-        }
-        else if status == .authorizedWhenInUse {
-            locationManager.requestAlwaysAuthorization()
-        }
-        else if status == .denied || status == .restricted {
+            locationManager.showsBackgroundLocationIndicator = true
+        case .denied, .restricted:
             print("Location Required to use this app")
+        default:
+            break
         }
     }
 

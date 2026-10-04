@@ -115,24 +115,8 @@
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="zq6-4a-WRq">
                     <rect key="frame" x="40" y="701" width="322" height="123"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jJ7-6Z-twB">
-                            <rect key="frame" x="0.0" y="0.0" width="322" height="54"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="54" id="Ddi-7c-gNs"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" name="SFPro-Medium" family="SF Pro" pointSize="16"/>
-                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                            <state key="normal" title="    Login with Google" image="googleLogo">
-                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </state>
-                            <connections>
-                                <action selector="buttonGooglePressed:" destination="-1" eventType="touchUpInside" id="Ttr-Ob-8fx"/>
-                            </connections>
-                        </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mAF-D3-Q1h" customClass="ASAuthorizationAppleIDButton">
-                            <rect key="frame" x="0.0" y="69" width="322" height="54"/>
+                            <rect key="frame" x="0.0" y="0.0" width="322" height="54"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="54" id="a18-wk-gh6"/>
@@ -144,6 +128,22 @@
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <imageReference key="image" image="apple.logo" catalog="system" symbolScale="large"/>
                             </state>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jJ7-6Z-twB">
+                            <rect key="frame" x="0.0" y="69" width="322" height="54"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="54" id="Ddi-7c-gNs"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="SFPro-Semibold" family="SF Pro" pointSize="19"/>
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="  Login with Google" image="googleLogo">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="buttonGooglePressed:" destination="-1" eventType="touchUpInside" id="Ttr-Ob-8fx"/>
+                            </connections>
                         </button>
                     </subviews>
                 </stackView>
@@ -166,7 +166,7 @@
                 <constraint firstItem="KFj-25-jVf" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="40" id="wzJ-Hw-X8l"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-418" y="234"/>
+            <point key="canvasLocation" x="63" y="120"/>
         </view>
     </objects>
     <resources>

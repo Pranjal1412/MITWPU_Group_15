@@ -78,8 +78,8 @@ class JoinUsViewController: UIViewController {
         buttonSignUp.layer.cornerRadius = buttonSignUp.frame.height / 2
         buttonSignUp.setTitle(String(localized: "Sign Up"), for: .normal)
         buttonApple.layer.cornerRadius = buttonApple.frame.height / 2
-//        buttonApple.setTitle(String(localized: "Sign Up with Apple ID"), for: .normal)
-//        buttonGoogle.layer.cornerRadius = buttonGoogle.frame.height / 2
+        buttonApple.clipsToBounds = true
+        buttonGoogle.layer.cornerRadius = buttonGoogle.frame.height / 2
         buttonGoogle.isUserInteractionEnabled = true
         buttonGoogle.bringSubviewToFront(buttonGoogle.titleLabel!)
         setGlassEffect(for: self.buttonBack, withImage: "chevron.backward")

@@ -76,6 +76,7 @@ class LoginViewController: UIViewController {
         buttonLogin.layer.cornerRadius = buttonLogin.frame.height / 2
         buttonLogin.setTitle(String(localized: "Login"), for: .normal)
         buttonApple.layer.cornerRadius = buttonApple.frame.height / 2
+        buttonApple.clipsToBounds = true
         buttonGoogle.layer.cornerRadius = buttonGoogle.frame.height / 2
         setGlassEffect(for: self.buttonBack, withImage: "chevron.backward")
     }
