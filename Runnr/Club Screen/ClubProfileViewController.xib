@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="25098" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="25073"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -86,7 +86,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="United we RUN. GROW. NETWORK &amp; HAVE FUN. " lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fQo-zo-K8z">
-                            <rect key="frame" x="17" y="409" width="368" height="17.666666666666686"/>
+                            <rect key="frame" x="17" y="409" width="368" height="18"/>
                             <constraints>
                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" id="kas-re-7yR"/>
                             </constraints>
@@ -95,7 +95,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zKw-x3-qze">
-                            <rect key="frame" x="17" y="511.66666666666674" width="368" height="35"/>
+                            <rect key="frame" x="17" y="512" width="368" height="35"/>
                             <color key="backgroundColor" name="AccentColor"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="35" id="NAF-X0-3oS"/>
@@ -116,7 +116,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="76.333333333333329" height="20"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" verticalHuggingPriority="251" image="figure.run" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="iTy-oS-msD">
-                                            <rect key="frame" x="0.0" y="0.0" width="18.333333333333332" height="20"/>
+                                            <rect key="frame" x="0.0" y="-0.33333333333333215" width="18.333333333333332" height="20.666666666666664"/>
                                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Running" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LCy-GY-3OV">
@@ -131,7 +131,7 @@
                                     <rect key="frame" x="131.33333333333334" y="0.0" width="117.33333333333334" height="20"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" verticalHuggingPriority="251" image="person.2.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="v8a-29-mWX">
-                                            <rect key="frame" x="0.0" y="1.6666666666666661" width="27" height="18"/>
+                                            <rect key="frame" x="0.0" y="1.3333333333333321" width="27" height="18.666666666666668"/>
                                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="11.3k runners" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IC5-KH-tEN">
@@ -146,7 +146,7 @@
                                     <rect key="frame" x="303.66666666666669" y="0.0" width="64.333333333333314" height="20"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="252" verticalHuggingPriority="251" image="globe.asia.australia.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="8qd-DJ-9Tp">
-                                            <rect key="frame" x="0.0" y="0.66666666666666607" width="19.666666666666668" height="18.666666666666671"/>
+                                            <rect key="frame" x="0.0" y="0.33333333333333215" width="19.666666666666668" height="19.333333333333332"/>
                                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Public" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pcR-0t-zvk">
@@ -197,7 +197,7 @@
                             </subviews>
                         </stackView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vh9-zg-kJe">
-                            <rect key="frame" x="17" y="426.66666666666669" width="368" height="70"/>
+                            <rect key="frame" x="17" y="427" width="368" height="70"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="club1" translatesAutoresizingMaskIntoConstraints="NO" id="eVd-GF-pKE">
                                     <rect key="frame" x="15" y="10" width="50" height="50"/>
@@ -216,7 +216,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Club Owner" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8IM-ME-ERK">
-                                            <rect key="frame" x="0.0" y="22.666666666666629" width="64" height="13.333333333333336"/>
+                                            <rect key="frame" x="0.0" y="22.666666666666686" width="64" height="13.333333333333336"/>
                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="11"/>
                                             <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
@@ -224,7 +224,7 @@
                                     </subviews>
                                 </stackView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SLB-0t-yTO">
-                                    <rect key="frame" x="276.66666666666669" y="22.666666666666629" width="76.333333333333314" height="25"/>
+                                    <rect key="frame" x="269" y="22.666666666666686" width="84" height="25"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="25" id="2cK-V7-vmV"/>
                                     </constraints>
@@ -251,7 +251,7 @@
                             </constraints>
                         </view>
                         <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="xfj-MJ-Ib8">
-                            <rect key="frame" x="17" y="556.66666666666663" width="368" height="30"/>
+                            <rect key="frame" x="17" y="557" width="368" height="30"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="-5" translatesAutoresizingMaskIntoConstraints="NO" id="kYH-8F-5ZQ">
                                     <rect key="frame" x="0.0" y="0.0" width="368" height="30"/>
@@ -309,11 +309,11 @@
                             </variation>
                         </stackView>
                         <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="T1Z-XT-fnx">
-                            <rect key="frame" x="10" y="601.66666666666663" width="382" height="252.33333333333337"/>
+                            <rect key="frame" x="10" y="602" width="382" height="252"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </tableView>
-                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="vhk-bF-3kY">
-                            <rect key="frame" x="5" y="601.66666666666663" width="392" height="233"/>
+                        <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="vhk-bF-3kY">
+                            <rect key="frame" x="5" y="602" width="392" height="233"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="233" id="RWG-u0-L2U"/>
@@ -325,7 +325,7 @@
                                 <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                             </collectionViewFlowLayout>
                         </collectionView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IuV-Wq-3Rt">
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IuV-Wq-3Rt">
                             <rect key="frame" x="332" y="799" width="45" height="45"/>
                             <color key="backgroundColor" name="AccentColor"/>
                             <constraints>
@@ -339,7 +339,7 @@
                             </state>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xod-6y-wwN" userLabel="Dummy Label">
-                            <rect key="frame" x="17" y="426.66666666666669" width="368" height="0.0"/>
+                            <rect key="frame" x="17" y="427" width="368" height="0.0"/>
                             <constraints>
                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" id="hJp-rF-iP2"/>
                             </constraints>
@@ -446,15 +446,15 @@
     </objects>
     <resources>
         <image name="ClubBanner" width="1125" height="2436"/>
-        <image name="chevron.left" catalog="system" width="97" height="128"/>
+        <image name="chevron.left" catalog="system" width="93" height="128"/>
         <image name="club1" width="171" height="171"/>
-        <image name="figure.run" catalog="system" width="115" height="128"/>
-        <image name="globe.asia.australia.fill" catalog="system" width="128" height="123"/>
-        <image name="person.2.fill" catalog="system" width="128" height="86"/>
-        <image name="plus" catalog="system" width="128" height="113"/>
+        <image name="figure.run" catalog="system" width="111" height="128"/>
+        <image name="globe.asia.australia.fill" catalog="system" width="128" height="128"/>
+        <image name="person.2.fill" catalog="system" width="128" height="90"/>
+        <image name="plus" catalog="system" width="128" height="118"/>
         <image name="post 6" width="390" height="258"/>
         <image name="run2" width="422" height="530"/>
-        <image name="trash" catalog="system" width="117" height="128"/>
+        <image name="trash" catalog="system" width="113" height="128"/>
         <image name="user3" width="40" height="40"/>
         <namedColor name="AccentColor">
             <color red="0.67799997329711914" green="0.97299998998641968" blue="0.27099999785423279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

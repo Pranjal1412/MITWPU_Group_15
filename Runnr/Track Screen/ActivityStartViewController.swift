@@ -35,7 +35,7 @@ class ActivityStartViewController: UIViewController {
 
         self.userLocation.locationManager.requestWhenInUseAuthorization()
         self.userLocation.locationManager.startUpdatingLocation()
-
+        
         self.setStartButton()
         self.labelScreenTitle.text = NSLocalizedString("RUNR.", comment: "")
         self.labelScreenTitle.textColor = .accent

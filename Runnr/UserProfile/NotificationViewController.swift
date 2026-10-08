@@ -39,11 +39,11 @@ class NotificationViewController: UIViewController {
         tableView.register(followNib, forCellReuseIdentifier: "NotificationFollowTableViewCell")
 
         tableView.separatorStyle = .none
-        loadNotifications()
+//        loadNotifications()
 
-        Task {
-            await loadFollowerProfiles()
-        }
+//        Task {
+//            await loadFollowerProfiles()
+//        }
     }
 
     @IBAction func buttonBackPressed(_ sender: UIButton) {
@@ -107,7 +107,7 @@ class NotificationViewController: UIViewController {
 // MARK: - TableView
 extension NotificationViewController: UITableViewDelegate, UITableViewDataSource {
 
-    func numberOfSections(in tableView: UITableView) -> Int { 2 }
+    func numberOfSections(in tableView: UITableView) -> Int { 1 }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
@@ -168,6 +168,7 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
         return cell
 
     }
+    
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         UITableView.automaticDimension

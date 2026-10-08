@@ -36,16 +36,24 @@ class UserLocationManager: NSObject, CLLocationManagerDelegate {
     }
 
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        switch status {
-        case .authorizedWhenInUse, .authorizedAlways:
+        if status == .authorizedAlways {
             locationManager.allowsBackgroundLocationUpdates = true
             locationManager.pausesLocationUpdatesAutomatically = false
-            locationManager.showsBackgroundLocationIndicator = true
-        case .denied, .restricted:
-            print("Location Required to use this app")
-        default:
-            break
         }
+        else if status == .authorizedWhenInUse {
+            locationManager.requestAlwaysAuthorization()
+        }
+        else if status == .denied || status == .restricted {
+            print("Location Required to use this app")
+        }
+        
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, _ in
+            guard granted else { return }
+            DispatchQueue.main.async {
+                UIApplication.shared.registerForRemoteNotifications()
+            }
+        }
+
     }
 
 }

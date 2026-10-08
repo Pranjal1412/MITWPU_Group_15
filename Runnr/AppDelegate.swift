@@ -28,12 +28,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Initialize Watch Connectivity
         _ = WatchConnectivityManager.shared
 
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, _ in
-            guard granted else { return }
-            DispatchQueue.main.async {
-                UIApplication.shared.registerForRemoteNotifications()
-            }
-        }
         
         UNUserNotificationCenter.current().delegate = self
 

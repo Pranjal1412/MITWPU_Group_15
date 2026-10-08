@@ -147,7 +147,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile, CreateRunE
         noEventsIconView.setContentHuggingPriority(.required, for: .vertical)
         noEventsIconView.setContentCompressionResistancePriority(.required, for: .vertical)
 
-        noEventsLabel.text = "No events yet"
+        noEventsLabel.text = "Club Events Coming Soon!"
         noEventsLabel.textColor = .secondaryLabel
         noEventsLabel.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         noEventsLabel.textAlignment = .center
