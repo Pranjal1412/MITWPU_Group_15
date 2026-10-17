@@ -114,13 +114,19 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
 
         case "Privacy Controls":
             self.present(PrivacyControlsViewController(), animated: true)
+            
+        case "Delete Account":
+            let alert = UIAlertController(title: "Delete Account", message: "Are you sure you want to delete your account, the data cannot be recovered?", preferredStyle: .alert)
 
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+            let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { (_) in }
+            alert.addAction(cancelAction)
+            alert.addAction(deleteAction)
+            present(alert, animated: true, completion: nil)
+
+        
         default:
             break
-        }
-
-        if cellSelected.title == "Logout" {
-
         }
 
     }
