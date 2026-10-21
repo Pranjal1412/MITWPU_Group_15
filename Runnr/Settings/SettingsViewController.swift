@@ -119,7 +119,9 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             let alert = UIAlertController(title: "Delete Account", message: "Are you sure you want to delete your account, the data cannot be recovered?", preferredStyle: .alert)
 
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-            let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { (_) in }
+            let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { (_) in
+                self.deleteAccount()
+            }
             alert.addAction(cancelAction)
             alert.addAction(deleteAction)
             present(alert, animated: true, completion: nil)
@@ -129,6 +131,52 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             break
         }
 
+    }
+
+    // MARK: - Delete Account
+
+    private func deleteAccount() {
+        let spinner = UIActivityIndicatorView(style: .large)
+        spinner.color = .accent
+        spinner.center = view.center
+        spinner.startAnimating()
+        view.addSubview(spinner)
+        view.isUserInteractionEnabled = false
+
+        Task {
+            do {
+                // Server-side: deletes user's rows, files and auth user
+                try await SupabaseManager.shared.client.rpc("delete_user_account").execute()
+
+                // Local cleanup
+                LocalActivityStorage.shared.clear()
+                if let bundleID = Bundle.main.bundleIdentifier {
+                    UserDefaults.standard.removePersistentDomain(forName: bundleID)
+                }
+                try? await SupabaseManager.shared.client.auth.signOut()
+
+                await MainActor.run {
+                    spinner.removeFromSuperview()
+                    self.view.isUserInteractionEnabled = true
+                    if let presenter = self.presentingViewController {
+                        self.dismiss(animated: true) {
+                            presenter.dismiss(animated: false, completion: nil)
+                        }
+                    }
+                }
+            } catch {
+                print("Delete account failed: \(error)")
+                await MainActor.run {
+                    spinner.removeFromSuperview()
+                    self.view.isUserInteractionEnabled = true
+                    let errorAlert = UIAlertController(title: "Couldn't Delete Account",
+                                                       message: "Something went wrong. Please check your connection and try again.",
+                                                       preferredStyle: .alert)
+                    errorAlert.addAction(UIAlertAction(title: "OK", style: .default))
+                    self.present(errorAlert, animated: true)
+                }
+            }
+        }
     }
 
 }

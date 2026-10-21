@@ -136,20 +136,27 @@ class LoginViewController: UIViewController {
 
         Task {
             do {
-                let session = try await supabase.auth.signIn(
+                _ = try await supabase.auth.signIn(
                     email: email,
                     password: password
                 )
 
-                await MainActor.run {
-                    self.buttonLogin.isEnabled = true
-                    isSignUpComplete = true
-                    self.navigationController?.popToRootViewController(animated: false)
-                }
+                await MainActor.run { self.buttonLogin.isEnabled = true }
+                await self.checkSession()
             } catch {
+                // Sign-in failed: find out whether the account exists at all
+                let exists = await self.accountExists(email: email)
+
                 await MainActor.run {
                     self.buttonLogin.isEnabled = true
-                    self.showAlert(title: String(localized: "Login Failed"), message: error.localizedDescription)
+                    if exists == false {
+                        self.showAccountNotFound(email: email)
+                    } else if exists == true {
+                        self.showAlert(title: String(localized: "Incorrect Password"),
+                                       message: String(localized: "The password you entered is incorrect. Please try again."))
+                    } else {
+                        self.showAlert(title: String(localized: "Login Failed"), message: error.localizedDescription)
+                    }
                 }
             }
         }
@@ -187,9 +194,71 @@ class LoginViewController: UIViewController {
     // MARK: - Session
 
     func checkSession() async {
-        if let session = supabase.auth.currentSession {
-            self.navigationController?.popToRootViewController(animated: false)
+        guard let session = supabase.auth.currentSession else { return }
+        let user = session.user
+
+        if let profile = await fetchUserProfile(userId: user.id) {
+            // Existing user → straight in
+            await MainActor.run {
+                DataSource.shared.setUserProfile(profile)
+                isSignUpComplete = true
+                self.navigationController?.popToRootViewController(animated: false)
+            }
+        } else {
+            // Signed in, but no RUNR profile yet (e.g. first time with Google/Apple)
+            await MainActor.run {
+                var newProfile = DataSource.shared.getUserProfile()
+                newProfile.userID = user.id
+                newProfile.emailAddress = user.email ?? ""
+                newProfile.userName = user.userMetadata["full_name"]?.stringValue ?? ""
+                newProfile.userProfileImageURL = user.userMetadata["avatar_url"]?.stringValue ?? ""
+                DataSource.shared.setUserProfile(newProfile)
+
+                let alert = UIAlertController(
+                    title: String(localized: "Account Not Found"),
+                    message: String(localized: "We couldn't find a RUNR profile for this account. Let's set one up."),
+                    preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: String(localized: "Continue"), style: .default) { _ in
+                    let destinationVC = SetProfileViewController()
+                    destinationVC.modalPresentationStyle = .fullScreen
+                    self.present(destinationVC, animated: true)
+                })
+                self.present(alert, animated: true)
+            }
         }
+    }
+
+    /// true = account exists, false = no account, nil = couldn't check
+    func accountExists(email: String) async -> Bool? {
+        do {
+            let exists: Bool = try await supabase
+                .rpc("email_exists", params: ["p_email": email])
+                .execute()
+                .value
+            return exists
+        } catch {
+            print("email_exists check failed: \(error)")
+            return nil
+        }
+    }
+
+    func showAccountNotFound(email: String) {
+        let alert = UIAlertController(
+            title: String(localized: "Account Not Found"),
+            message: String(localized: "There's no RUNR account for \(email). Join us to create one."),
+            preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: String(localized: "Cancel"), style: .cancel))
+        alert.addAction(UIAlertAction(title: String(localized: "Join Us"), style: .default) { _ in
+            let joinVC = JoinUsViewController()
+            joinVC.prefilledEmail = email
+            if let nav = self.navigationController {
+                var stack = nav.viewControllers
+                stack.removeLast()          // replace Login with Join Us
+                stack.append(joinVC)
+                nav.setViewControllers(stack, animated: true)
+            }
+        })
+        present(alert, animated: true)
     }
 }
 

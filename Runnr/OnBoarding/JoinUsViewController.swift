@@ -23,6 +23,7 @@ class JoinUsViewController: UIViewController {
 
     let supabase = SupabaseManager.shared.client
     var userProfile = DataSource.shared.getUserProfile()
+    var prefilledEmail: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +43,10 @@ class JoinUsViewController: UIViewController {
         settingViews()
         settingButton()
         settingTextFields()
+
+        if let prefilledEmail {
+            textFieldEmail.text = prefilledEmail
+        }
     }
 
     @objc func dismissKeyboard() {
