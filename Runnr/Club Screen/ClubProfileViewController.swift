@@ -331,7 +331,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile, CreateRunE
                 destinationVC.delegate = self
                 destinationVC.clubProfileData = myClubProfileData?.club
                 self.present(destinationVC, animated: true)
-            } else if joinNowButton.titleLabel?.text == "Join Now" {
+            } else if joinNowButton.titleLabel?.text == "Join Now" && self.userProfileData.userID != nil {
                 if let clubID = self.clubProfileData?.clubID {
                     await insertNewClubMember(newMember: ClubMemberRole(userID: self.userProfileData.userID, clubID: clubID, role: .member))
 
@@ -345,6 +345,11 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile, CreateRunE
                     self.joinNowButton.layer.borderColor = UIColor.accent.cgColor
                     self.joinNowButton.layer.borderWidth = 1
                 }
+            }
+            else{
+                let alert = showCreateAccountAlert(alertTitle: "Create an Account",
+                                                   alertMessage: "Please create an account to join clubs and connect with other runners.")
+                self.present(alert, animated: true)
             }
         }
     }

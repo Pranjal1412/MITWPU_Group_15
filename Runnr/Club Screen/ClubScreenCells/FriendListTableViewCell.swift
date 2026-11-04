@@ -15,7 +15,7 @@ class FriendListTableViewCell: UITableViewCell {
     @IBOutlet var buttonFollow: UIButton!
 
     var isFollowing = false
-    var followAction: ((Bool) -> Void)?
+    var followButtonAction: ((Bool) -> Void)?
     var followerID = DataSource.shared.getUserProfile().userID
     var followingID: UUID?
 
@@ -44,19 +44,31 @@ class FriendListTableViewCell: UITableViewCell {
     }
 
     @IBAction func followButtonTapped(_ sender: UIButton) {
-        if isFollowing == true {
-            followAction?(isFollowing)
+        if isFollowing {
+            followButtonAction?(isFollowing)
+
             buttonFollow.setTitle("Follow", for: .normal)
             buttonFollow.backgroundColor = .accent
             isFollowing = false
         }
         else {
-            Task {
-                await insertFollowedUser(followerID: followerID!, followingID: followingID!)
+            guard let followerID = self.followerID, let followingID = self.followingID else {
+                followButtonAction?(isFollowing)
+                return
             }
-            buttonFollow.setTitle("Following", for: .normal)
-            buttonFollow.backgroundColor = .lightGray
-            isFollowing = true
+
+            Task {
+                await insertFollowedUser(
+                    followerID: followerID,
+                    followingID: followingID
+                )
+
+                await MainActor.run {
+                    buttonFollow.setTitle("Following", for: .normal)
+                    buttonFollow.backgroundColor = .lightGray
+                    isFollowing = true
+                }
+            }
         }
     }
 

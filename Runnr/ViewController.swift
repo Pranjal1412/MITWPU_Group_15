@@ -63,54 +63,53 @@ class ViewController: UIViewController {
         loaderView.isHidden = true
     }
 
-        override func viewWillAppear(_ animated: Bool) {
-            super.viewWillAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
 
-            loaderView.isHidden = false
-            lottieView.play()
+        loaderView.isHidden = false
+        lottieView.play()
 
-            Task { @MainActor in
+        Task { @MainActor in
 
-                do {
-                    let session = try await SupabaseManager.shared.client.auth.session
+            do {
+                let session = try await SupabaseManager.shared.client.auth.session
+                let user = session.user
 
-                    let user = session.user
+                if let userProfile = await fetchUserProfile(userId: user.id) {
 
-                    if let userProfile = await fetchUserProfile(userId: user.id) {
+                    let userStats = await fetchUserStats(userId: user.id) ??
+                    UserStats(
+                        userID: user.id,
+                        numberOfFollowers: 0,
+                        numberOfFollowing: 0,
+                        totalPointsEarned: 100,
+                        totalDistanceCovered: 0,
+                        totalActivities: 0,
+                        longestStreak: 0
+                    )
 
-                        let userStats = await fetchUserStats(userId: user.id) ??
-                        UserStats(
-                            userID: user.id,
-                            numberOfFollowers: 0,
-                            numberOfFollowing: 0,
-                            totalPointsEarned: 100,
-                            totalDistanceCovered: 0,
-                            totalActivities: 0,
-                            longestStreak: 0
-                        )
+                    let fetched = await fetchBattleInviteNotifications(for: userProfile.userID!)
+                    DataSource.shared.setBattleInviteNotifications(fetched)
+                    DataSource.shared.setUserProfile(userProfile)
+                    DataSource.shared.setUserStats(userStats)
 
-                        let fetched = await fetchBattleInviteNotifications(for: userProfile.userID!)
-                        DataSource.shared.setBattleInviteNotifications(fetched)
-                        DataSource.shared.setUserProfile(userProfile)
-                        DataSource.shared.setUserStats(userStats)
+                    self.setUpTabBar()
+                    self.lottieView.stop()
 
-                        self.setUpTabBar()
-                        self.lottieView.stop()
-
-                    }
-                    else {
-                        self.lottieView.stop()
-                        self.loaderView.isHidden = true
-
-                    }
-
-                } catch {
+                }
+                else {
                     self.lottieView.stop()
                     self.loaderView.isHidden = true
-                    print("User has not logged in")
+
                 }
+
+            } catch {
+                self.lottieView.stop()
+                self.loaderView.isHidden = true
+                print("User has not logged in")
             }
         }
+    }
 
     @IBAction func joinUsButtonPressed(_ sender: UIButton) {
         self.newUser = true
@@ -122,6 +121,11 @@ class ViewController: UIViewController {
         self.navigationController?.pushViewController(LoginViewController(), animated: true)
     }
 
+    @IBAction func continueWithoutAccountPressed(_ sender: UIButton) {
+        DataSource.shared.setUserProfile(nil)
+        self.setUpTabBar()
+    }
+    
     func setUpTabBar() {
         let activitiesVC = ActivityScreenViewController()
         let itemOne = UINavigationController(rootViewController: activitiesVC)

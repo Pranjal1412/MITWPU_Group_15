@@ -42,8 +42,8 @@ class DataSource {
         return userProfile
     }
 
-    func setUserProfile(_ userProfile: UserProfile) {
-        self.userProfile = userProfile
+    func setUserProfile(_ userProfile: UserProfile?) {
+        self.userProfile = userProfile ?? UserProfile()
     }
 
     func setProfileImage(_ image: UIImage) {

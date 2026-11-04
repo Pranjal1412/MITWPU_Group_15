@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="T0U-Bl-FgI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="25098" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="T0U-Bl-FgI">
     <device id="retina6_3" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="25073"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -66,16 +66,31 @@
                                 <color key="textColor" name="AccentColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1l4-qV-nDn">
+                                <rect key="frame" x="25" y="811" width="352" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="Cki-fp-7Ti"/>
+                                </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Continue without account"/>
+                                <connections>
+                                    <action selector="continueWithoutAccountPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5sg-db-cQn"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="1l4-qV-nDn" firstAttribute="top" secondItem="7Ue-eb-KXY" secondAttribute="bottom" constant="20" id="3fd-R3-8wG"/>
                             <constraint firstItem="YB1-Zo-yuS" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="7qW-iN-dVf"/>
                             <constraint firstAttribute="bottom" secondItem="YB1-Zo-yuS" secondAttribute="bottom" id="DXk-75-KNV"/>
                             <constraint firstItem="zvI-Xn-6f1" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="PAc-sm-kgU"/>
                             <constraint firstItem="YB1-Zo-yuS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="QTb-xg-s23"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="YB1-Zo-yuS" secondAttribute="trailing" id="dqp-p1-ddE"/>
                             <constraint firstItem="zvI-Xn-6f1" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="ife-nx-68o"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="1l4-qV-nDn" secondAttribute="trailing" constant="25" id="k45-de-QMu"/>
+                            <constraint firstItem="1l4-qV-nDn" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="25" id="nO7-qF-Dky"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="rqc-YC-zQY"/>

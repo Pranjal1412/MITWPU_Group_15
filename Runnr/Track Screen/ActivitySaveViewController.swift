@@ -47,6 +47,8 @@ class ActivitySaveViewController: UIViewController {
     private var dataSource = DataSource.shared
     private var userStats = DataSource.shared.getUserStats()
     private var selectedImages: [UIImage] = []
+    var activityMapImage : UIImage!
+    var paceGraphData: [ActivityPaceGraphData] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,10 +59,12 @@ class ActivitySaveViewController: UIViewController {
         self.collectionViewAddPhotos.dataSource = self
         self.textViewRemark.delegate = self
 
-        if let url = URL(string: activityData.mapImageURL!) {
-            self.imageViewMap.kf.setImage(with: url)
-        }
-
+//        if let url = URL(string: activityData.mapImageURL!) {
+//            self.imageViewMap.kf.setImage(with: url)
+//        }
+        
+        self.imageViewMap.image = self.activityMapImage
+        
         setGlassEffect(for: self.buttonSaveActivity, withImage: "checkmark")
         setGlassEffect(for: self.buttonDeleteActivity, withImage: "multiply")
         scrollViewSaveActivity.contentSize.height = stackAddPhotos.frame.origin.y + stackAddPhotos.frame.size.height + 30
@@ -81,7 +85,9 @@ class ActivitySaveViewController: UIViewController {
 
         let deleteAction = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive, handler: {_ in
             Task {
-                await deleteUserActivity(activityID: self.activityData.activityID!, mapImageURL: self.activityData.mapImageURL!)
+                if let activityID = self.activityData.activityID {
+                    await deleteUserActivity(activityID: activityID, mapImageURL: self.activityData.mapImageURL!)
+                }
                 await MainActor.run {
                     self.navigationController?.dismiss(animated: true)
                 }
@@ -109,12 +115,36 @@ class ActivitySaveViewController: UIViewController {
         self.activityData.isPublic = self.switchIsActivityPublic.isOn
 
         Task {
-            await updateUserActivity(newActivity: activityData)
+            guard activityData.userID != nil else {
+                let alert = showCreateAccountAlert(alertTitle: "No Account", alertMessage: "The activity can't be saved!")
+                self.present(alert, animated: false)
+                return
+            }
+            
+            var activityDetails = await insertActivity(activityData)
+            
+            if let activityID = activityDetails?.activityID {
+
+                if let image = self.activityMapImage {
+                    let mapImageURL = await saveMapImage(activityID: activityID, with: image)
+                    activityDetails?.mapImageURL = mapImageURL
+                    await updateUserActivity(newActivity: activityDetails!)
+                }
+
+                var updatedPaceData = self.paceGraphData
+                for index in 0..<updatedPaceData.count {
+                    updatedPaceData[index].activityID = activityID
+                }
+
+                await insertActivityPaceGraphData(updatedPaceData)
+            }
+
+//            await updateUserActivity(newActivity: activityData)
             var finalImageURLs: [ActivityPhotos] = []
 
             for index in 0..<selectedImages.count {
-                let url = await saveActivityImages(activityID: activityData.activityID!, with: selectedImages[index], seq: index) ?? ""
-                finalImageURLs.append(ActivityPhotos(activityID: activityData.activityID!, photoURL: url, sequence: index))
+                let url = await saveActivityImages(activityID: (activityDetails?.activityID!)!, with: selectedImages[index], seq: index) ?? ""
+                finalImageURLs.append(ActivityPhotos(activityID: (activityDetails?.activityID!)!, photoURL: url, sequence: index))
             }
 
             await insertActivityImages(finalImageURLs)

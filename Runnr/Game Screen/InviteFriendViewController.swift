@@ -90,7 +90,7 @@ extension InviteFriendViewController: UITableViewDataSource, UITableViewDelegate
 
         // Override the follow action to send an invite instead
         cell.isFollowing = false
-        cell.followAction = nil // clear default
+        cell.followButtonAction = nil // clear default
 
         // Remove existing targets and add invite action
         cell.buttonFollow.removeTarget(nil, action: nil, for: .allEvents)

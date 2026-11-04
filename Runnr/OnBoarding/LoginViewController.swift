@@ -210,7 +210,7 @@ class LoginViewController: UIViewController {
                 var newProfile = DataSource.shared.getUserProfile()
                 newProfile.userID = user.id
                 newProfile.emailAddress = user.email ?? ""
-                newProfile.userName = user.userMetadata["full_name"]?.stringValue ?? ""
+                newProfile.userName = user.userMetadata["full_name"]?.stringValue ?? "Guest Runr"
                 newProfile.userProfileImageURL = user.userMetadata["avatar_url"]?.stringValue ?? ""
                 DataSource.shared.setUserProfile(newProfile)
 
@@ -228,7 +228,7 @@ class LoginViewController: UIViewController {
         }
     }
 
-    /// true = account exists, false = no account, nil = couldn't check
+    // true = account exists, false = no account, nil = couldn't check
     func accountExists(email: String) async -> Bool? {
         do {
             let exists: Bool = try await supabase

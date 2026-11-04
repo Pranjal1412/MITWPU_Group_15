@@ -81,11 +81,14 @@ class ActivityScreenViewController: UIViewController {
 
         Task {
             let activities = await fetchAllMyActivities(userProfile: self.userProfile)
-            let friendActivity = await fetchFollowedUsersAtivities(currentUserID: userProfile.userID!)
+            
+            if let friendUserID = userProfile.userID {
+                let friendActivity = await fetchFollowedUsersAtivities(currentUserID: friendUserID)
+                self.dataSource.setFriendsActivityData(friendActivity)
+            }
 
             await MainActor.run {
                 self.dataSource.setAllActivities(activities)
-                self.dataSource.setFriendsActivityData(friendActivity)
                 self.updateScreenElements()
                 self.labelTotalPoints.text = "\(self.totalPoints)"
                 self.loader.stopAnimating()

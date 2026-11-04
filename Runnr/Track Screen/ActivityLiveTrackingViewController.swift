@@ -346,10 +346,6 @@ class ActivityLiveTrackingViewController: UIViewController {
 
             // Use the pre-captured nav reference — no longer depends on self.navigationController
             Task {
-                guard let userID = self.userProfile.userID else {
-                    print("Missing userID — cannot save activity")
-                    return
-                }
 
                 print("Background save started")
 
@@ -358,26 +354,7 @@ class ActivityLiveTrackingViewController: UIViewController {
 
                 activityDetails.avgHeartRate = avgHR
                 activityDetails.caloriesBurnt = calories > 0 ? Int(calories) : estimatedCalories
-
-                activityDetails = await insertActivity(activityDetails) ?? activityDetails
-
-                // Only save to DB if insert succeeded and we have an activityID
-                if let activityID = activityDetails.activityID {
-
-                    if let image = mapSnapshot {
-                        let mapImageURL = await saveMapImage(activityID: activityID, with: image)
-                        activityDetails.mapImageURL = mapImageURL
-                        await updateUserActivity(newActivity: activityDetails)
-                    }
-
-                    var updatedPaceData = paceGraphData
-                    for index in 0..<updatedPaceData.count {
-                        updatedPaceData[index].activityID = activityID
-                    }
-
-                    await insertActivityPaceGraphData(updatedPaceData)
-                }
-
+                
                 await MainActor.run {
                     self.lottieView.stop()
                     self.loaderView.isHidden = true
@@ -387,6 +364,8 @@ class ActivityLiveTrackingViewController: UIViewController {
                 LocalActivityStorage.shared.clear()
                 let destinationVC = ActivitySaveViewController(nibName: "ActivitySaveViewController", bundle: nil)
                 destinationVC.activityData = activityDetails
+                destinationVC.activityMapImage = mapSnapshot
+                destinationVC.paceGraphData = paceGraphData
 
                 await MainActor.run {
                     nav.pushViewController(destinationVC, animated: true)

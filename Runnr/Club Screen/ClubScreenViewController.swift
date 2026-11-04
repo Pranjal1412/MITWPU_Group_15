@@ -115,14 +115,19 @@ class ClubScreenViewController: UIViewController {
             }
 
         Task {
-            let exploreClubs = await fetchExploreClubData(userID: self.userProfile.userID!)
+            let exploreClubs = await fetchExploreClubData(userID: self.userProfile.userID)
             self.dataSource.setclubsArray(exploreClubs)
-
-            let userClubs = await fetchMyClubsWithRoles(userID: userProfile.userID!)
-            self.dataSource.setMyClubs(userClubs)
-
-            let unFollowedUser = await fetchUnfollowedUsers(currentUserID: userProfile.userID!)
+            
+            let unFollowedUser = await fetchUnfollowedUsers(currentUserID: self.userProfile.userID)
             self.dataSource.setUnFollowedUser(unFollowedUser)
+            
+            if let userID = userProfile.userID {
+                let userClubs = await fetchMyClubsWithRoles(userID: userID)
+                self.dataSource.setMyClubs(userClubs)
+            }
+            else {
+                self.dataSource.setMyClubs([])
+            }
 
             tableViewFriends.reloadData()
 
@@ -266,11 +271,18 @@ class ClubScreenViewController: UIViewController {
     }
 
     @IBAction func createClubButtonPressed(_ sender: UIButton) {
-        let destinationVC = CreateClubViewController()
-        if self.systemOS >= "26.0" {
-            destinationVC.modalPresentationStyle = .overFullScreen
+        if self.userProfile.userID != nil {
+            let destinationVC = CreateClubViewController()
+            if self.systemOS >= "26.0" {
+                destinationVC.modalPresentationStyle = .overFullScreen
+            }
+            self.present(destinationVC, animated: true, completion: nil)
         }
-        self.present(destinationVC, animated: true, completion: nil)
+        else {
+            let alert = showCreateAccountAlert(alertTitle: "Create an Account",
+                                               alertMessage: "Please create an account to create your own club.")
+            self.present(alert, animated: true)
+        }
     }
 
     private func updateNoClubsLabelVisibility() {
@@ -402,13 +414,20 @@ extension ClubScreenViewController: UITableViewDataSource, UITableViewDelegate {
             return UITableViewCell()
         }
         cell.configureCell(with: source[indexPath.row])
-        cell.followAction = { isFollowing in
+        cell.followButtonAction = { isFollowing in
             if isFollowing {
                 let alert = UIAlertController(title: "Unfollow",
                                               message: "Are you sure you want to unfollow this user?",
                                               preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
                 alert.addAction(UIAlertAction(title: "Unfollow", style: .destructive) { _ in })
+                self.present(alert, animated: true)
+            }
+            else {
+                let alert = showCreateAccountAlert(
+                    alertTitle: "Create Account",
+                    alertMessage: "Please create an account to follow other runners.")
+
                 self.present(alert, animated: true)
             }
             tableView.reloadRows(at: [indexPath], with: .none)

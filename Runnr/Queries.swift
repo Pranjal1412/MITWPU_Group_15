@@ -379,8 +379,17 @@ func deleteImageFromStorage(imageURL: String) async {
 }
 
 // MARK: - Club Data
-func fetchExploreClubData(userID: UUID) async -> [Club] {
+func fetchExploreClubData(userID: UUID?) async -> [Club] {
     do {
+        
+        if userID == nil {
+            return try await SupabaseManager.shared.client
+                .from("Club")
+                .select("*")
+                .execute()
+                .value
+        }
+        
         async let joinedClubsTask: [ClubMemberRole] = SupabaseManager.shared.client
             .from("ClubMemberRole")
             .select()
@@ -1008,23 +1017,34 @@ func updateAssignedChallengeRewards(challenge: AssignedChallenges) async {
 // MARK: - Friends Follow/Unfollow
 
 // Returns UserProfile rows for all users the current user has NOT yet followed (excluding themselves).
-func fetchUnfollowedUsers(currentUserID: UUID) async -> [UserProfile] {
+func fetchUnfollowedUsers(currentUserID: UUID?) async -> [UserProfile] {
     do {
+        // Fetch all users for guest users
+        guard let currentUserID = currentUserID else {
+            let allUsers: [UserProfile] = try await SupabaseManager.shared.client
+                .from("UserProfile")
+                .select("*")
+                .execute()
+                .value
+
+            return allUsers
+        }
+
         // 1. Get all IDs the current user already follows
         let followed: [FollowerAndFollowing] = try await SupabaseManager.shared.client
             .from("FollowerAndFollowing")
             .select()
-            .eq("FollowerID", value: currentUserID) // users ID
+            .eq("FollowerID", value: currentUserID)
             .execute()
             .value
 
-        let followedIDs = followed.map { $0.followingID } // get IDs of friends user follows
+        let followedIDs = followed.map { $0.followingID }
 
         // 2. Fetch all user profiles
         if followedIDs.isEmpty {
             let allUsers: [UserProfile] = try await SupabaseManager.shared.client
                 .from("UserProfile")
-                .select()
+                .select("*")
                 .neq("userID", value: currentUserID)
                 .execute()
                 .value
@@ -1035,7 +1055,10 @@ func fetchUnfollowedUsers(currentUserID: UUID) async -> [UserProfile] {
         // Convert UUIDs into SQL array string
         var idsToExclude = followedIDs
         idsToExclude.append(currentUserID)
-        let formattedIDs = idsToExclude.map { "\"\($0.uuidString)\"" }.joined(separator: ",")
+
+        let formattedIDs = idsToExclude
+            .map { "\"\($0.uuidString)\"" }
+            .joined(separator: ",")
 
         let allUsers: [UserProfile] = try await SupabaseManager.shared.client
             .from("UserProfile")

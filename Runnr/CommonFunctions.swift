@@ -300,3 +300,10 @@ func getCurrentWeekStart() -> String {
 
     return formatter.string(from: startOfWeek)
 }
+
+func showCreateAccountAlert(alertTitle : String, alertMessage : String) -> UIAlertController {
+    let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
+    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+    
+    return alert
+}

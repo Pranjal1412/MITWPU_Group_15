@@ -82,7 +82,9 @@ class InsightsScreenViewController: UIViewController {
         }
 
         Task {
-            await graphStore.loadData(userID: userProfile.userID!, referenceDate: Date())
+            if let userID = userProfile.userID {
+                await graphStore.loadData(userID: userID, referenceDate: Date())
+            }
         }
 
         prepareActivities()
@@ -507,11 +509,10 @@ extension InsightsScreenViewController: UICollectionViewDelegate, UICollectionVi
 
         Task {
             //  LOAD DATA FIRST
-            await graphStore.loadData(
-                userID: DataSource.shared.getUserProfile().userID!,
-                referenceDate: Date()
-            )
+            if let userID = DataSource.shared.getUserProfile().userID {
+                await graphStore.loadData(userID: userID,referenceDate: Date())
 
+            }
             //  PUSH AFTER DATA IS READY
             DispatchQueue.main.async {
 

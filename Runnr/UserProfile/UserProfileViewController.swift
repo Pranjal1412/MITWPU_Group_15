@@ -9,7 +9,7 @@ import UIKit
 import Kingfisher
 
 class UserProfileViewController: UIViewController {
-
+    
     @IBOutlet weak var imageProfile: UIImageView!
     @IBOutlet weak var imageCategoryBadge: UIImageView!
     @IBOutlet weak var buttonEditProfile: UIButton!
@@ -18,7 +18,7 @@ class UserProfileViewController: UIViewController {
     @IBOutlet weak var labelUsername: UILabel!
     @IBOutlet weak var labelBiography: UILabel!
     @IBOutlet weak var labelSpacing: UILabel!
-
+    
     @IBOutlet weak var labelScreenTitle: UILabel!
     @IBOutlet weak var labelTotalPoints: UILabel!
     @IBOutlet weak var labelTotalPointsCount: UILabel!
@@ -30,40 +30,49 @@ class UserProfileViewController: UIViewController {
     @IBOutlet weak var labelCategoryGoal: UILabel!
     @IBOutlet weak var labelCategoryGoalLeft: UILabel!
     @IBOutlet weak var buttonNotification: UIButton!
-
+    
     @IBOutlet var labelFollowingCount: UIButton!
     @IBOutlet var labelFollowing: UIButton!
     @IBOutlet var labelFollowerCount: UIButton!
     @IBOutlet var labelFollower: UIButton!
-
+    
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var stackProgress: UIStackView!
-
+    
     private var userProfile = DataSource.shared.getUserProfile()
     private let userStats = DataSource.shared.getUserStats()
     private var dataSource = DataSource.shared
-
+    
     var isFromFriendsScreen: Bool = false
     var friendData: UserProfile?
     var isFollowButtonHidden: Bool = false
-
+    
+    private var followerList : [UserProfile] = []
+    private var followingList : [UserProfile] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         settingsElements()
         self.buttonNotification.isHidden = isFromFriendsScreen
     }
-
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         imageProfile.layer.cornerRadius = imageProfile.frame.size.width / 2
         imageProfile.clipsToBounds = true
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
-        self.loadAllData()
-    }
+        if let friend = friendData {
+            self.setCompleteData(userProfile: friend)
+        }
+        else {
+            self.setCompleteData(userProfile: self.userProfile)
+        }
 
+    }
+    
     @IBAction func editProfilePressed(_ sender: UIButton) {
         if isFromFriendsScreen {
             UIView.performWithoutAnimation {
@@ -84,11 +93,11 @@ class UserProfileViewController: UIViewController {
         destinationVC.delegate = self
         self.present(destinationVC, animated: true, completion: nil)
     }
-
+    
     @IBAction func buttonBackPressed(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
-
+    
     @IBAction func navigateToSettings(_ sender: UIButton) {
         if let presenter = self.presentingViewController {
             self.dismiss(animated: true) {
@@ -99,7 +108,7 @@ class UserProfileViewController: UIViewController {
             }
         }
     }
-
+    
     @IBAction func navigateToNotification(_ sender: UIButton) {
         let notificationVC = NotificationViewController(nibName: "NotificationViewController", bundle: nil)
         if let presenter = self.presentingViewController {
@@ -112,61 +121,51 @@ class UserProfileViewController: UIViewController {
             self.present(notificationVC, animated: true, completion: nil)
         }
     }
-
+    
     @IBAction func followersTapped(_ sender: UIButton) {
-        let currentUserId = friendData?.userID ?? userProfile.userID!
-
-        Task {
-            let followersList = await fetchFollowersList(userID: currentUserId)
-            self.dataSource.setFollowedUser(followersList)
-
-            let friendListVC = FriendListViewController()
-            friendListVC.usersList = followersList
-            friendListVC.pageTitle = String(localized: "Followers")
-            friendListVC.showFollowButton = true
-
-            self.present(friendListVC, animated: true, completion: nil)
-        }
+        self.dataSource.setFollowedUser(self.followerList)
+        
+        let friendListVC = FriendListViewController()
+        friendListVC.usersList = self.followerList
+        friendListVC.pageTitle = String(localized: "Followers")
+        friendListVC.showFollowButton = true
+        
+        self.present(friendListVC, animated: true, completion: nil)
     }
-
+    
     @IBAction func followingTapped(_ sender: UIButton) {
-        let currentUserId = friendData?.userID ?? userProfile.userID!
-
-        Task {
-            let followingList = await fetchFollowingList(userID: currentUserId)
-            self.dataSource.setFollowingUser(followingList)
-
-            let friendListVC = FriendListViewController()
-            friendListVC.usersList = followingList
-            friendListVC.pageTitle = String(localized: "Following")
-            friendListVC.showFollowButton = false
-            self.present(friendListVC, animated: true, completion: nil)
-        }
+        self.dataSource.setFollowingUser(self.followingList)
+        
+        let friendListVC = FriendListViewController()
+        friendListVC.usersList = self.followingList
+        friendListVC.pageTitle = String(localized: "Following")
+        friendListVC.showFollowButton = false
+        self.present(friendListVC, animated: true, completion: nil)
     }
-
+    
     func settingsElements() {
-
+        
         if isFollowButtonHidden {
             self.buttonEditProfile.isHidden = true
         }
         
         setGlassEffect(for: self.buttonCancel, withImage: "multiply")
-
+        
         if userProfile.userBio != nil || userProfile.userBio != "" {
             self.labelBiography.text = userProfile.userBio
             self.labelSpacing.text = "Spacing"
         }
-
+        
         self.labelScreenTitle.text = String(localized: "Profile")
-
+        
         self.labelFollower.setTitle(String(localized: "Followers"), for: .normal)
         self.labelFollowing.setTitle(String(localized: "Following"), for: .normal)
-
+        
         if isFromFriendsScreen {
             self.buttonSettings.isHidden = true
-
+            
             let isFollowing = DataSource.shared.getFollowingUser().contains(where: { $0.userID == friendData?.userID })
-
+            
             if isFollowing {
                 self.buttonEditProfile.setTitle(String(localized: "Following"), for: .normal)
                 self.buttonEditProfile.backgroundColor = .lightGray
@@ -181,103 +180,113 @@ class UserProfileViewController: UIViewController {
             self.buttonEditProfile.setTitle(String(localized: "Edit Profile"), for: .normal)
             self.buttonEditProfile.setTitleColor(.label, for: .normal)
         }
-
+        
         self.labelTotalPoints.text = String(localized: "Total Points")
         self.labelTotalDistance.text = String(localized: "Total Distance")
         self.labelTotalActivities.text = String(localized: "Total Activities")
-
+        
         buttonEditProfile.layer.cornerRadius = 10.0
     }
-
-    func loadAllData() {
-        if let friend = friendData {
-            self.labelUsername.text = friend.userName
-            if let urlString = friend.userProfileImageURL, let url = URL(string: urlString) {
-                self.imageProfile.kf.setImage(with: url)
-                self.imageProfile.layer.borderWidth = 0
-                self.imageProfile.layer.borderColor = UIColor.clear.cgColor
-            } else {
-                self.imageProfile.layer.borderWidth = 1
-                self.imageProfile.layer.borderColor = UIColor(named: "AccentColor")?.cgColor
-            }
-            self.labelFollowingCount.setTitle("-", for: .normal)
-            self.labelFollowerCount.setTitle("-", for: .normal)
-            self.labelTotalPointsCount.text = "-"
-            self.labelTotalActivitiesCount.text = "-"
-            self.labelTotalDistanceCount.text = "-"
+    
+    func setCompleteData(userProfile : UserProfile) {
+        self.labelUsername.text = userProfile.userName ?? "Guest Runr"
+        if let urlString = userProfile.userProfileImageURL, let url = URL(string: urlString) {
+            self.imageProfile.kf.setImage(with: url)
+            self.imageProfile.layer.borderWidth = 0
+            self.imageProfile.layer.borderColor = UIColor.clear.cgColor
         } else {
-            self.labelUsername.text = userProfile.userName
-            if let urlString = userProfile.userProfileImageURL, let url = URL(string: urlString) {
-                self.imageProfile.kf.setImage(with: url)
-                self.imageProfile.layer.borderWidth = 0
-                self.imageProfile.layer.borderColor = UIColor.clear.cgColor
-            } else {
-                self.imageProfile.layer.borderWidth = 1
-                self.imageProfile.layer.borderColor = UIColor(named: "AccentColor")?.cgColor
-            }
-            self.labelFollowingCount.setTitle(String(userStats?.numberOfFollowing ?? 0), for: .normal)
-            self.labelFollowerCount.setTitle(String(userStats?.numberOfFollowers ?? 0), for: .normal)
-            self.labelTotalPointsCount.text = String(userStats?.totalPointsEarned ?? 0)
-            self.labelTotalActivitiesCount.text = String(userStats?.totalActivities ?? 0)
-            self.labelTotalDistanceCount.text = String(format: "%.1f", (userStats?.totalDistanceCovered ?? 0.0))
+            self.imageProfile.layer.borderWidth = 1
+            self.imageProfile.layer.borderColor = UIColor(named: "AccentColor")?.cgColor
         }
-
-        let currentUserId = friendData?.userID ?? userProfile.userID!
-
-        Task {
-            let followers = await fetchFollowersList(userID: currentUserId)
-            let following = await fetchFollowingList(userID: currentUserId)
-            let liveStats = await fetchUserStats(userId: currentUserId) ?? userStats
-
-            await MainActor.run {
-                self.labelFollowerCount.setTitle(String(followers.count), for: .normal)
-                self.labelFollowingCount.setTitle(String(following.count), for: .normal)
-
-                guard let stats = liveStats else { return }
-
-                self.labelTotalPointsCount.text = String(stats.totalPointsEarned)
-                self.labelTotalActivitiesCount.text = String(stats.totalActivities)
-                self.labelTotalDistanceCount.text = String(format: "%.1f", stats.totalDistanceCovered)
-
-                let totalDistance = Int(stats.totalDistanceCovered)
-
-                if totalDistance <= 600 {
-                    if totalDistance == 0 && totalDistance < 50 {
-                        self.imageCategoryBadge.image = UIImage(named: runnrCategories[0].badge)
-                        self.labelCategory.text = runnrCategories[0].name.rawValue
-                        self.labelCategoryGoal.text = "\(runnrCategories[0].goal) Km"
-                        self.labelCategory.tag = 0
-                    } else if totalDistance >= 50 && totalDistance < 250 {
-                        self.imageCategoryBadge.image = UIImage(named: runnrCategories[1].badge)
-                        self.labelCategory.text = runnrCategories[1].name.rawValue
-                        self.labelCategory.tag = 1
-                        self.labelCategoryGoal.text = "\(runnrCategories[1].goal) Km"
-                    } else if totalDistance >= 250 && totalDistance < 600 {
-                        self.imageCategoryBadge.image = UIImage(named: runnrCategories[2].badge)
-                        self.labelCategory.text = runnrCategories[2].name.rawValue
-                        self.labelCategoryGoal.text = "\(runnrCategories[2].goal) Km"
-                        self.labelCategory.tag = 2
-                    }
-
+        
+        let thinFont = UIFont(name: "SFProText-Light", size: 15) ?? UIFont.systemFont(ofSize: 15, weight: .light)
+        let boldFont = UIFont(name: "SFProText-Bold", size: 17) ?? UIFont.systemFont(ofSize: 17, weight: .medium)
+        
+        if let currentUserId = userProfile.userID {
+            Task {
+                print("2. Task started")
+                self.followerList = await fetchFollowersList(userID: currentUserId)
+                self.followingList = await fetchFollowingList(userID: currentUserId)
+                let liveStats = await fetchUserStats(userId: currentUserId)
+                
+                if let stats = liveStats {
+                    self.labelFollowingCount.setTitle(String(stats.numberOfFollowing), for: .normal)
+                    self.labelFollowerCount.setTitle(String(stats.numberOfFollowers), for: .normal)
+                    self.labelTotalPointsCount.text = String(stats.totalPointsEarned)
+                    self.labelTotalActivitiesCount.text = String(stats.totalActivities)
+                    self.labelTotalDistanceCount.text = String(format: "%.1f", stats.totalDistanceCovered)
+                    
+                    let totalDistance = Int(stats.totalDistanceCovered)
                     self.progressView.progress = Float(totalDistance) / Float(runnrCategories[self.labelCategory.tag].goal)
-
-                    let thinFont = UIFont(name: "SFProText-Light", size: 15) ?? UIFont.systemFont(ofSize: 15, weight: .light)
-                    let boldFont = UIFont(name: "SFProText-Bold", size: 17) ?? UIFont.systemFont(ofSize: 17, weight: .medium)
-
+                                        
                     let text = NSMutableAttributedString(string: "\(runnrCategories[self.labelCategory.tag].goal - totalDistance) km to ", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
                     text.append(NSAttributedString(string: "\(runnrCategories[self.labelCategory.tag+1].name)", attributes: [.font: boldFont, .foregroundColor: UIColor.white]))
                     self.labelCategoryGoalLeft.attributedText = text
-                } else {
-                    self.imageCategoryBadge.image = UIImage(named: runnrCategories[3].badge)
-                    self.labelCategory.text = runnrCategories[3].name.rawValue
+                    
+                    if totalDistance <= 600 {
+                        if totalDistance == 0 && totalDistance < 50 {
+                            self.imageCategoryBadge.image = UIImage(named: runnrCategories[0].badge)
+                            self.labelCategory.text = runnrCategories[0].name.rawValue
+                            self.labelCategoryGoal.text = "\(runnrCategories[0].goal) Km"
+                            self.labelCategory.tag = 0
+                        } else if totalDistance >= 50 && totalDistance < 250 {
+                            self.imageCategoryBadge.image = UIImage(named: runnrCategories[1].badge)
+                            self.labelCategory.text = runnrCategories[1].name.rawValue
+                            self.labelCategory.tag = 1
+                            self.labelCategoryGoal.text = "\(runnrCategories[1].goal) Km"
+                        } else if totalDistance >= 250 && totalDistance < 600 {
+                            self.imageCategoryBadge.image = UIImage(named: runnrCategories[2].badge)
+                            self.labelCategory.text = runnrCategories[2].name.rawValue
+                            self.labelCategoryGoal.text = "\(runnrCategories[2].goal) Km"
+                            self.labelCategory.tag = 2
+                        }
+                    }
+                    else {
+                        let text = NSMutableAttributedString(string: "\(runnrCategories[self.labelCategory.tag].goal - totalDistance) km to ", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
+                        text.append(NSAttributedString(string: "\(runnrCategories[self.labelCategory.tag+1].name)", attributes: [.font: boldFont, .foregroundColor: UIColor.white]))
+                        self.labelCategoryGoalLeft.attributedText = text
 
-                    self.progressView.progress = 1
-                    self.labelCategoryGoalLeft.text = String(localized: "Goal Completed!")
-                    self.labelCategoryGoalLeft.sizeToFit()
-                    self.labelCategoryGoal.text = String(localized: "More to Come!!")
-                    self.labelCategoryGoal.sizeToFit()
+                        self.imageCategoryBadge.image = UIImage(named: runnrCategories[3].badge)
+                        self.labelCategory.text = runnrCategories[3].name.rawValue
+                        
+                        self.progressView.progress = 1
+                        self.labelCategoryGoalLeft.text = String(localized: "Goal Completed!")
+                        self.labelCategoryGoalLeft.sizeToFit()
+                        self.labelCategoryGoal.text = String(localized: "More to Come!!")
+                        self.labelCategoryGoal.sizeToFit()
+                    }
+                }
+                else {
+                    let text = NSMutableAttributedString(string: "\(runnrCategories[self.labelCategory.tag].goal) km to ", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
+                    text.append(NSAttributedString(string: "\(runnrCategories[self.labelCategory.tag+1].name)", attributes: [.font: boldFont, .foregroundColor: UIColor.white]))
+                    self.labelCategoryGoalLeft.attributedText = text
+
+                    self.labelFollowingCount.setTitle("0", for: .normal)
+                    self.labelFollowerCount.setTitle("0", for: .normal)
+                    self.labelTotalPointsCount.text = "0"
+                    self.labelTotalActivitiesCount.text = "0"
+                    self.labelTotalDistanceCount.text = "0.0"
+                    self.imageCategoryBadge.image = UIImage(named: runnrCategories[0].badge)
+                    self.labelCategory.text = runnrCategories[0].name.rawValue
+                    self.labelCategoryGoal.text = "\(runnrCategories[0].goal) Km"
+                    self.labelCategory.tag = 0
                 }
             }
+        }
+        else {
+            let text = NSMutableAttributedString(string: "\(runnrCategories[self.labelCategory.tag].goal) km to ", attributes: [.font: thinFont, .foregroundColor: UIColor.white])
+            text.append(NSAttributedString(string: "\(runnrCategories[self.labelCategory.tag+1].name)", attributes: [.font: boldFont, .foregroundColor: UIColor.white]))
+            self.labelCategoryGoalLeft.attributedText = text
+
+            self.labelFollowingCount.setTitle("0", for: .normal)
+            self.labelFollowerCount.setTitle("0", for: .normal)
+            self.labelTotalPointsCount.text = "0"
+            self.labelTotalActivitiesCount.text = "0"
+            self.labelTotalDistanceCount.text = "0.0"
+            self.imageCategoryBadge.image = UIImage(named: runnrCategories[0].badge)
+            self.labelCategory.text = runnrCategories[0].name.rawValue
+            self.labelCategoryGoal.text = "\(runnrCategories[0].goal) Km"
+            self.labelCategory.tag = 0
         }
     }
 }
