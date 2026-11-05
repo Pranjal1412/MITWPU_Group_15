@@ -279,7 +279,7 @@ class ClubScreenViewController: UIViewController {
             self.present(destinationVC, animated: true, completion: nil)
         }
         else {
-            let alert = showCreateAccountAlert(alertTitle: "Create an Account",
+            let alert = showCreateAccountAlert(from: self, alertTitle: "Create an Account",
                                                alertMessage: "Please create an account to create your own club.")
             self.present(alert, animated: true)
         }
@@ -425,7 +425,7 @@ extension ClubScreenViewController: UITableViewDataSource, UITableViewDelegate {
             }
             else {
                 let alert = showCreateAccountAlert(
-                    alertTitle: "Create Account",
+                    from: self, alertTitle: "Create Account",
                     alertMessage: "Please create an account to follow other runners.")
 
                 self.present(alert, animated: true)

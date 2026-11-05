@@ -85,9 +85,11 @@ class GameScreenViewController: UIViewController, updateRunrPoints {
             }
 
         Task {
-            let challenges = await getWeeklySoloChallenges(userProfile: userProfile)
-            dataSource.setSoloChallenges(challenges ?? [])
-            collectionViewChallenges.reloadData()
+            if userProfile.userID != nil {
+                let challenges = await getWeeklySoloChallenges(userProfile: userProfile)
+                dataSource.setSoloChallenges(challenges ?? [])
+                collectionViewChallenges.reloadData()
+            }
         }
 
         self.labelTotalPoints.text = "\(totalPoints)"

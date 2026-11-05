@@ -116,7 +116,7 @@ class ActivitySaveViewController: UIViewController {
 
         Task {
             guard activityData.userID != nil else {
-                let alert = showCreateAccountAlert(alertTitle: "No Account", alertMessage: "The activity can't be saved!")
+                let alert = showCreateAccountAlert(from: self, alertTitle: "No Account", alertMessage: "The activity can't be saved!")
                 self.present(alert, animated: false)
                 return
             }

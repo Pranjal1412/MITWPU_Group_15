@@ -67,13 +67,15 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1l4-qV-nDn">
-                                <rect key="frame" x="25" y="811" width="352" height="20"/>
+                                <rect key="frame" x="25" y="816" width="352" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="Cki-fp-7Ti"/>
                                 </constraints>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Continue without account"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Continue without account">
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="15"/>
+                                </buttonConfiguration>
                                 <connections>
                                     <action selector="continueWithoutAccountPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5sg-db-cQn"/>
                                 </connections>
@@ -82,7 +84,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="1l4-qV-nDn" firstAttribute="top" secondItem="7Ue-eb-KXY" secondAttribute="bottom" constant="20" id="3fd-R3-8wG"/>
+                            <constraint firstItem="1l4-qV-nDn" firstAttribute="top" secondItem="7Ue-eb-KXY" secondAttribute="bottom" constant="25" id="3fd-R3-8wG"/>
                             <constraint firstItem="YB1-Zo-yuS" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="7qW-iN-dVf"/>
                             <constraint firstAttribute="bottom" secondItem="YB1-Zo-yuS" secondAttribute="bottom" id="DXk-75-KNV"/>
                             <constraint firstItem="zvI-Xn-6f1" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="PAc-sm-kgU"/>

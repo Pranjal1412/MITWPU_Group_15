@@ -347,7 +347,7 @@ class ClubProfileViewController: UIViewController, UpdateClubProfile, CreateRunE
                 }
             }
             else{
-                let alert = showCreateAccountAlert(alertTitle: "Create an Account",
+                let alert = showCreateAccountAlert(from: self, alertTitle: "Create an Account",
                                                    alertMessage: "Please create an account to join clubs and connect with other runners.")
                 self.present(alert, animated: true)
             }

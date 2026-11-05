@@ -301,9 +301,21 @@ func getCurrentWeekStart() -> String {
     return formatter.string(from: startOfWeek)
 }
 
-func showCreateAccountAlert(alertTitle : String, alertMessage : String) -> UIAlertController {
+func showCreateAccountAlert(from viewController: UIViewController, alertTitle: String, alertMessage: String) -> UIAlertController {
+
     let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
-    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-    
+    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+    alert.addAction(UIAlertAction(title: "Sign Up", style: .default) { _ in
+        // Dismiss the presented tab bar
+        if let presentedVC = viewController.tabBarController?.presentingViewController {
+            presentedVC.dismiss(animated: true)
+        } else if let tabBar = viewController.presentingViewController as? UITabBarController {
+            // Case 2: Current screen is presented over the tab bar
+            viewController.dismiss(animated: true) {
+                tabBar.dismiss(animated: true)
+            }
+        }
+    })
+
     return alert
 }
