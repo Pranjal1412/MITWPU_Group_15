@@ -11,10 +11,11 @@ class GameSectionHeaderView: UICollectionReusableView {
 
     @IBOutlet weak var labelSectionHeading: UILabel!
     @IBOutlet weak var infoButton: UIButton!
-
+    @IBOutlet weak var tempLabel: UILabel!
+    
     var buttonTapHandler: (() -> Void)?
 
-    func configureHeader(for selectedSegment: Int, tableSection: Int = 0) {
+    func configureHeader(for selectedSegment: Int, tableSection: Int = 0, userLoggedIn: Bool) {
         let thinFont = UIFont(name: "SFProText-Thin", size: 25) ?? UIFont.systemFont(ofSize: 25, weight: .thin)
         let boldFont = UIFont(name: "SFProText-Bold", size: 25) ?? UIFont.boldSystemFont(ofSize: 25)
 
@@ -52,10 +53,17 @@ class GameSectionHeaderView: UICollectionReusableView {
         if tableSection == 0 {
             labelSectionHeading.attributedText = monthText
             infoButton.isHidden = false
+            self.tempLabel.isHidden = true
         }
         else {
             labelSectionHeading.attributedText = newText
             infoButton.isHidden = true
+            if userLoggedIn {
+                self.tempLabel.isHidden = true
+            }
+            else {
+                self.tempLabel.isHidden = false
+            }
         }
     }
 

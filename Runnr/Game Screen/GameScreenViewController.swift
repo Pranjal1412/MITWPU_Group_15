@@ -201,7 +201,12 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             return UICollectionReusableView()
         }
         // Assuming 0 = Seasonal/Battle and 1 = Solo for your header titles
-        header.configureHeader(for: 1, tableSection: indexPath.section)
+        if self.userProfile.userID != nil {
+            header.configureHeader(for: 1, tableSection: indexPath.section, userLoggedIn: true)
+        }
+        else {
+            header.configureHeader(for: 1, tableSection: indexPath.section, userLoggedIn: false)
+        }
         header.buttonTapHandler = {
             let destinationVC = GameDescriptionViewController(nibName: "GameDescriptionViewController", bundle: nil)
             self.present(destinationVC, animated: true)

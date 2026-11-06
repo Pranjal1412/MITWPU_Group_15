@@ -89,9 +89,16 @@ class UserProfileViewController: UIViewController {
             }
             return
         }
-        let destinationVC = EditProfileViewController()
-        destinationVC.delegate = self
-        self.present(destinationVC, animated: true, completion: nil)
+        if self.userProfile.userID != nil {
+            let destinationVC = EditProfileViewController()
+            destinationVC.delegate = self
+            self.present(destinationVC, animated: true, completion: nil)
+        }
+        else {
+            let alert = showCreateAccountAlert(from: self, alertTitle: "Create Account", alertMessage: "Please create an account to edit the profile.")
+            self.present(alert, animated: true)
+
+        }
     }
     
     @IBAction func buttonBackPressed(_ sender: UIButton) {
@@ -99,13 +106,19 @@ class UserProfileViewController: UIViewController {
     }
     
     @IBAction func navigateToSettings(_ sender: UIButton) {
-        if let presenter = self.presentingViewController {
-            self.dismiss(animated: true) {
-                let rootVC = SettingsViewController()
-                let navigationController = UINavigationController(rootViewController: rootVC)
-                navigationController.modalPresentationStyle = .fullScreen
-                presenter.present(navigationController, animated: true, completion: nil)
+        if self.userProfile.userID != nil {
+            if let presenter = self.presentingViewController {
+                self.dismiss(animated: true) {
+                    let rootVC = SettingsViewController()
+                    let navigationController = UINavigationController(rootViewController: rootVC)
+                    navigationController.modalPresentationStyle = .fullScreen
+                    presenter.present(navigationController, animated: true, completion: nil)
+                }
             }
+        }
+        else {
+            let alert = showCreateAccountAlert(from: self, alertTitle: "Create Account", alertMessage: "Please create an account to access the profile settings.")
+            self.present(alert, animated: true)
         }
     }
     
