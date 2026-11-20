@@ -117,7 +117,12 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
         if section == 0 {
             return 1 // The Seasonal Challenge
         } else {
-            return dataSource.getSoloChallenges().count // Dynamic list of Solo Challenges
+            if self.userProfile.userID != nil {
+                return dataSource.getSoloChallenges().count // Dynamic list of Solo Challenges
+            }
+            else {
+                return 1
+            }
         }
     }
 
@@ -128,46 +133,54 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             }
 
             cell.refreshData()
-            cell.onInviteFriendTapped = { [weak self] in
-                guard let self = self else { return }
-                let inviteVC = InviteFriendViewController()
+            if self.userProfile.userID != nil {
+                cell.onInviteFriendTapped = { [weak self] in
+                    guard let self = self else { return }
+                    let inviteVC = InviteFriendViewController()
 
-                inviteVC.modalPresentationStyle = .pageSheet
-                if let sheet = inviteVC.sheetPresentationController {
-                    sheet.detents = [.medium(), .large()]
-                    sheet.prefersGrabberVisible = true
+                    inviteVC.modalPresentationStyle = .pageSheet
+                    if let sheet = inviteVC.sheetPresentationController {
+                        sheet.detents = [.medium(), .large()]
+                        sheet.prefersGrabberVisible = true
+                    }
+
+                    inviteVC.onInviteSent = { _ in
+                        cell.buttonInviteFriend.isEnabled = false
+                        cell.buttonInviteFriend.backgroundColor = .systemGray2
+                        cell.buttonInviteFriend.setTitle("Invited", for: .normal)
+                    }
+
+                    self.present(inviteVC, animated: true)
+                }
+                
+                cell.onStartGameTapped = { [weak self] in
+                    guard let self = self else { return }
+                    let destinationVC = BattleRunViewController()
+                    destinationVC.modalPresentationStyle = .fullScreen
+                    self.present(destinationVC, animated: true)
                 }
 
-                inviteVC.onInviteSent = { _ in
-                    cell.buttonInviteFriend.isEnabled = false
-                    cell.buttonInviteFriend.backgroundColor = .systemGray2
-                    cell.buttonInviteFriend.setTitle("Invited", for: .normal)
+                cell.onGameEnded = { [weak self] isWinner in
+                    guard let self = self else { return }
+                    if isWinner {
+                        let winnerVC = WinnerViewController()
+                        winnerVC.modalPresentationStyle = .overFullScreen
+                        winnerVC.modalTransitionStyle = .crossDissolve
+                        self.present(winnerVC, animated: true)
+                    } else {
+                        let gameOverVC = GameOverViewController()
+                        gameOverVC.modalPresentationStyle = .overFullScreen
+                        gameOverVC.modalTransitionStyle = .crossDissolve
+                        self.present(gameOverVC, animated: true)
+                    }
                 }
 
-                self.present(inviteVC, animated: true)
+            }
+            else {
+                cell.buttonInviteFriend.isEnabled = true
+                cell.viewCountDownBG.isHidden = true
             }
 
-            cell.onStartGameTapped = { [weak self] in
-                guard let self = self else { return }
-                let destinationVC = BattleRunViewController()
-                destinationVC.modalPresentationStyle = .fullScreen
-                self.present(destinationVC, animated: true)
-            }
-
-            cell.onGameEnded = { [weak self] isWinner in
-                guard let self = self else { return }
-                if isWinner {
-                    let winnerVC = WinnerViewController()
-                    winnerVC.modalPresentationStyle = .overFullScreen
-                    winnerVC.modalTransitionStyle = .crossDissolve
-                    self.present(winnerVC, animated: true)
-                } else {
-                    let gameOverVC = GameOverViewController()
-                    gameOverVC.modalPresentationStyle = .overFullScreen
-                    gameOverVC.modalTransitionStyle = .crossDissolve
-                    self.present(gameOverVC, animated: true)
-                }
-            }
             return cell
 
         } else {
@@ -188,8 +201,15 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             guard let cell = collectionView.cellForItem(at: indexPath) as? SeasonalGameCollectionViewCell else { return }
 
             // Only navigate to BattleRun when button shows "Start Game" (game accepted)
-            if cell.buttonInviteFriend.title(for: .normal) == "Start Game" {
-                let destinationVC = BattleRunViewController()
+            if self.userProfile.userID != nil {
+                if cell.buttonInviteFriend.title(for: .normal) == "Start Game" {
+                    let destinationVC = BattleRunViewController()
+                    destinationVC.modalPresentationStyle = .fullScreen
+                    self.present(destinationVC, animated: true)
+                }
+            }
+            else {
+                let destinationVC = GameAnimationViewController()
                 destinationVC.modalPresentationStyle = .fullScreen
                 self.present(destinationVC, animated: true)
             }

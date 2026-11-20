@@ -24,7 +24,8 @@ class SeasonalGameCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var imageViewGameBackground: UIImageView!
     @IBOutlet weak var labelBattleRun: UILabel!
     @IBOutlet weak var viewCountDown: UIView!
-
+    @IBOutlet weak var viewCountDownBG: UIView!
+    
     private var countdownLabels: [UILabel] = []
     private var countdownTimer: Timer?
     private var overlayView: UIView?

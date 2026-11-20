@@ -33,7 +33,7 @@
                         <action selector="gameInfoButtonPressed:" destination="U6b-Vx-4bR" eventType="touchUpInside" id="xWm-vY-TUZ"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Solo Challenges will be visible after account is created." lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RFy-Fg-WiJ">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Solo Challenges will be visible after account is created." lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RFy-Fg-WiJ">
                     <rect key="frame" x="0.0" y="80" width="305" height="12"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -42,6 +42,11 @@
                 </label>
             </subviews>
             <viewLayoutGuide key="safeArea" id="VXr-Tz-HHm"/>
+            <variation key="default">
+                <mask key="subviews">
+                    <exclude reference="RFy-Fg-WiJ"/>
+                </mask>
+            </variation>
             <connections>
                 <outlet property="infoButton" destination="cIq-By-gqO" id="Hhy-cy-nwb"/>
                 <outlet property="labelSectionHeading" destination="ehp-2H-PSl" id="Amd-iK-KRD"/>
